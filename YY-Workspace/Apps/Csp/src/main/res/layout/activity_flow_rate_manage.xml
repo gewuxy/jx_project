@@ -94,12 +94,14 @@
             android:textSize="14sp"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="33dp"
+            android:layout_width="86dp"
+            android:layout_height="19dp"
+            android:gravity="center"
+            android:background="@drawable/bg_tv_rate"
+            android:layout_marginLeft="10dp"
             android:text="@string/flow_rate_payment_proportion"
             android:textColor="@color/text_888"
-            android:textSize="12sp"/>
+            android:textSize="11sp"/>
     </LinearLayout>
 
 

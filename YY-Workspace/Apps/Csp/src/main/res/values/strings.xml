@@ -230,8 +230,8 @@
     <string name="contribute_not_submit_records">- No Record -</string>
     <string name="contribute_platform_hint_text">You can contribute to any
                                                 \ninstitution accounts who
-                                                \nhave turned on "Contribution Box" in
-                                                \n"Resource Platform".</string>
+                                                have turned on "Contribution Box" in
+                                                "Resource Platform".</string>
     <string name="contribute_confirm">Complete Contribution</string>
     <string name="contribute_platform_succeed">Contributed successfully</string>
     <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>

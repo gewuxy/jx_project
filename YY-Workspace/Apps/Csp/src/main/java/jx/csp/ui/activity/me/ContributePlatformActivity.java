@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me;
 
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import jx.csp.adapter.PlatformAdapter;
 import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
 import jx.csp.contact.ContributePlatformContract;
 import jx.csp.contact.ContributePlatformContract.P;
-import jx.csp.dialog.PlatformDialog;
 import jx.csp.model.Platform;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.presenter.ContributePlatformPresenterImpl;
@@ -30,7 +30,10 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     private final int KCodePlatform = 1;
 
-    private TextView mTv;
+    private boolean isTvTipsShow = false;
+
+    private TextView mTvPlatform;
+    private TextView mTvTips;
     private ArrayList<Platform> mSelectedItem;
     private Platform mPlatform;
 
@@ -64,14 +67,16 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     @Override
     public void findViews() {
         super.findViews();
-        mTv = findView(R.id.contribute_tv_platform);
+        mTvPlatform = findView(R.id.contribute_tv_platform);
+        mTvTips = findView(R.id.contribute_tv_tips);
     }
 
     @Override
     public void setViews() {
         super.setViews();
-        mTv.setEnabled(false);
+        mTvPlatform.setEnabled(false);
         setOnClickListener(R.id.contribute_tv_platform);
+        setOnClickListener(R.id.contribute_tv_tips);
 
         getAdapter().setListener(this);
     }
@@ -82,6 +87,11 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
                 mPresenter.clickContributeNetworkReq(mSelectedItem, mPlatform);
+            }
+            break;
+            case R.id.contribute_tv_tips: {
+                mTvTips.setVisibility(View.GONE);
+                isTvTipsShow = !isTvTipsShow;
             }
             break;
         }
@@ -98,8 +108,12 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         @Override
         public void showDialog(NavBar bar) {
             bar.addViewRight(R.drawable.ic_default_hint, v -> {
-                PlatformDialog dialog = new PlatformDialog(ContributePlatformActivity.this);
-                dialog.show();
+                if (isTvTipsShow) {
+                    mTvTips.setVisibility(View.GONE);
+                } else {
+                    mTvTips.setVisibility(View.VISIBLE);
+                }
+                isTvTipsShow = !isTvTipsShow;
             });
         }
 
@@ -117,10 +131,10 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
             // 判断确认按钮
             if (mSelectedItem.isEmpty()) {
                 // 不可点
-                mTv.setEnabled(false);
+                mTvPlatform.setEnabled(false);
             } else {
                 // 可投稿
-                mTv.setEnabled(true);
+                mTvPlatform.setEnabled(true);
             }
         }
 

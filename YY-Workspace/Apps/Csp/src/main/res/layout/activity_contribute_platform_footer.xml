@@ -25,11 +25,23 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/contribute_tv_tips"
+        android:layout_width="224dp"
+        android:layout_height="91dp"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/bg_tv_tips"
+        android:text="@string/contribute_platform_hint_text"
+        android:textColor="@color/white"/>
+
+    <TextView
         android:id="@+id/contribute_tv_platform"
         style="@style/tv.common"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:text="@string/contribute_confirm"
-        android:layout_marginBottom="@dimen/margin"/>
+        android:layout_marginBottom="@dimen/margin"
+        android:text="@string/contribute_confirm"/>
 
 </RelativeLayout>

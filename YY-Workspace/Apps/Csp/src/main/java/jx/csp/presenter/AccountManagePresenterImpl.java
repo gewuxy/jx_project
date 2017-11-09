@@ -60,6 +60,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             @Override
             public void onAuthError(String message) {
                 getView().onStopRefresh();
+                App.showToast("错误 : " + message);
             }
 
             @Override

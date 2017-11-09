@@ -46,6 +46,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:text="掌握医药卫生知识，从事疾病预防"
                 android:textColor="@color/text_888"
                 android:textSize="14dp"/>
