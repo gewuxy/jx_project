@@ -23,7 +23,7 @@ import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
-import jx.csp.constant.LanguageType;
+import jx.csp.constant.LangType;
 import jx.csp.constant.MetaValue;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
@@ -227,7 +227,7 @@ public class ShareDialog extends BaseDialog {
 
     public void shareSignature(int courseId) {
         // 拼接加密字符串
-        LanguageType type = SpApp.inst().getLanguageType(); // 系统语言
+        LangType type = SpApp.inst().getLangType(); // 系统语言
         YSLog.d(TAG, "app app_type = " + type);
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
         @AppType int appType;  // 国内版 国外版
@@ -256,7 +256,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     public void judge() {
-        if (SpApp.inst().getLanguageType() != LanguageType.en) {
+        if (SpApp.inst().getLangType() != LangType.en) {
             List<Map<String, Object>> dataCn;
             SimpleAdapter adapter;
             GridView mGridView = findView(R.id.share_gridview);

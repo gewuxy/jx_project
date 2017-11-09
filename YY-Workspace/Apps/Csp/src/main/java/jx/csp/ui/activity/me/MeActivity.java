@@ -9,7 +9,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LanguageType;
+import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -140,7 +140,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                if (SpApp.inst().getLanguageType() == LanguageType.en) {
+                if (SpApp.inst().getLangType() == LangType.en) {
                     startActivity(FlowRateManageEnActivity.class);
                 } else {
                     startActivity(FlowRateManageActivity.class);
@@ -148,7 +148,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.account: {
-                if (SpApp.inst().getLanguageType() == LanguageType.en) {
+                if (SpApp.inst().getLangType() == LangType.en) {
                     startActivity(AccountManageEnActivity.class);
                 } else {
                     startActivity(AccountManageActivity.class);

@@ -6,7 +6,7 @@ import android.support.multidex.MultiDex;
 import java.util.Locale;
 
 import jx.csp.constant.Constants.PageConstants;
-import jx.csp.constant.LanguageType;
+import jx.csp.constant.LangType;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
@@ -108,16 +108,16 @@ public class App extends BaseApp {
         Platform.init(this, "21454499cef00", "da83f1b9d28a32e0d57004d58e1eb318");
 
         Locale l = Locale.getDefault();
-        LanguageType languageType = LanguageType.en;
+        LangType langType = LangType.en;
         if (l.equals(Locale.SIMPLIFIED_CHINESE)) {
             // 简体中文
-            languageType = LanguageType.cn_simplified;
+            langType = LangType.cn_simplified;
         } else if (l.equals(Locale.TRADITIONAL_CHINESE)) {
             // 繁体中文
-            languageType = LanguageType.cn;
+            langType = LangType.cn;
         }
         // 保存系统语言
-        SpApp.inst().saveSystemLanguage(languageType);
+        SpApp.inst().saveSystemLang(langType);
     }
 
     @Override

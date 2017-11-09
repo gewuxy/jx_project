@@ -6,7 +6,7 @@ import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
-import jx.csp.constant.LanguageType;
+import jx.csp.constant.LangType;
 import lib.ys.util.sp.SpBase;
 
 /**
@@ -36,7 +36,7 @@ public class SpApp extends SpBase {
         String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
-        String KSystemLanguage = "app_type";
+        String KSystemLang = "app_type";
         String KLoginVideoVersion = "version";
     }
 
@@ -127,11 +127,11 @@ public class SpApp extends SpBase {
      *
      * @param type
      */
-    public void saveSystemLanguage(LanguageType type) {
-        save(SpAppKey.KSystemLanguage, type.ordinal());
+    public void saveSystemLang(LangType type) {
+        save(SpAppKey.KSystemLang, type.ordinal());
     }
 
-    public LanguageType getLanguageType() {
-        return LanguageType.values()[getInt(SpAppKey.KSystemLanguage, LanguageType.en.ordinal())];
+    public LangType getLangType() {
+        return LangType.values()[getInt(SpAppKey.KSystemLang, LangType.en.ordinal())];
     }
 }

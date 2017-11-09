@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LanguageType;
+import jx.csp.constant.LangType;
 import jx.csp.contact.SettingsContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog2;
@@ -181,7 +181,7 @@ public class SettingsActivity extends BaseFormActivity {
             d.addBlackButton(getString(R.string.setting_exit), v -> {
                 mPresenter.startLogoutService(SettingsActivity.this);
 
-                if (SpApp.inst().getLanguageType() == LanguageType.en) {
+                if (SpApp.inst().getLangType() == LangType.en) {
                     startActivity(AuthLoginEnActivity.class);
                 } else {
                     startActivity(AuthLoginActivity.class);
