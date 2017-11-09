@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.IntDef;
+import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
@@ -41,6 +42,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -229,7 +231,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         //切换页面的时候如果在播放要停止
         mRecordPresenter.stopPlay();
         // 如果页面是视频页 要录音状态图片要变且不能点击
-        if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
+        Fragment f = getItem(position);
+        if (f instanceof RecordImgFrag && ((RecordImgFrag) f).getFragType() == FragType.img) {
             mIvRecordState.setImageResource(R.drawable.record_selector_state);
             mIvRecordState.setClickable(true);
         } else {
@@ -390,6 +393,19 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    public void onConnectChanged(TConnType type) {
+        YSLog.d(TAG, "onConnectChanged type = " + type);
+        // 没有网络时的处理
+        if (type == TConnType.disconnect) {
+            showToast(R.string.network_disabled);
+            if (mRecordState) {
+                mRecordPresenter.stopRecord();
+            }
+            finish();
         }
     }
 

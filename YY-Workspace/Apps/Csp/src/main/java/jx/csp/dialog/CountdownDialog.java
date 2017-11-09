@@ -8,6 +8,8 @@ import android.widget.TextView;
 import jx.csp.R;
 import lib.ys.view.ProgressView;
 import lib.yy.dialog.BaseDialog;
+import lib.yy.notify.LiveNotifier;
+import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -54,6 +56,7 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
+            LiveNotifier.inst().notify(LiveNotifyType.accept);
             dismiss();
         }
         mTvSecond.setText(remainCount + "s");

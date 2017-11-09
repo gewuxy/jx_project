@@ -22,6 +22,9 @@ import jx.csp.presenter.LiveRoomPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.ys.receiver.ConnectionReceiver;
+import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
+import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -40,7 +43,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/20
  */
 @Route
-public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
+public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
 
     private final int KPermissionCode = 10;
     private final int KSixty = 60;
@@ -79,6 +82,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
+    private ConnectionReceiver mConnectionReceiver;
 
     @Override
     public void initData() {
@@ -215,9 +219,19 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        mConnectionReceiver = new ConnectionReceiver(this);
+        mConnectionReceiver.setListener(this);
+        mConnectionReceiver.register();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
+        mConnectionReceiver.unRegister();
         if (mLiveState) {
             mPresenter.stopLive();
         }
@@ -268,6 +282,18 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify {
     public void onLiveNotify(int type, Object data) {
         if (type == LiveNotifyType.inquired) {
             switchLiveDevice();
+        }
+    }
+
+    @Override
+    public void onConnectChanged(TConnType type) {
+        // 没有网络时的处理
+        if (type == TConnType.disconnect) {
+            showToast(R.string.network_disabled);
+            if (mLiveState) {
+                mPresenter.stopLive();
+            }
+            finish();
         }
     }
 

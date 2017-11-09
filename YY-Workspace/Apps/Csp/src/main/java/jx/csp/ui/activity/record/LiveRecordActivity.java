@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.record;
 
+import android.support.v4.app.Fragment;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
@@ -31,6 +32,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
+import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -160,7 +162,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
         if (mLiveState) {
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
             // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
-            if (getItem(mLastPage) instanceof RecordImgFrag && ((RecordImgFrag) getItem(mLastPage)).getFragType() == FragType.img) {
+            Fragment f1 = getItem(mLastPage);
+            if (f1 instanceof RecordImgFrag && ((RecordImgFrag) f1).getFragType() == FragType.img) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 if (mFilePath != null && (new File(mFilePath)).exists()) {
                     byte[] bytes = FileUtil.fileToBytes(mFilePath);
@@ -182,7 +185,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id)).build());
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
-            if (getItem(position) instanceof RecordImgFrag && ((RecordImgFrag) getItem(position)).getFragType() == FragType.img) {
+            Fragment f2 = getItem(position);
+            if (f2 instanceof RecordImgFrag && ((RecordImgFrag) f2).getFragType() == FragType.img) {
                 String filePath = CacheUtil.getAudioPath(mCourseId, position);
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
@@ -257,7 +261,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
         CountDown countDown = new CountDown();
         countDown.start(5);
         dialog.addBlackButton(R.string.continue_host, view -> {
-            // do nothing
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
             countDown.stop();
         });
@@ -342,6 +345,23 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    public void onConnectChanged(TConnType type) {
+        YSLog.d(TAG, "onConnectChanged type = " + type);
+        // 没有网络时的处理
+        if (type == TConnType.disconnect) {
+            showToast(R.string.network_disabled);
+            // 如果在录音页面要停止录音，视频页面不要
+            Fragment f = getItem(getCurrentItem());
+            if (mLiveState) {
+                if (f instanceof RecordImgFrag && ((RecordImgFrag) f).getFragType() == FragType.img) {
+                    mLiveRecordPresenterImpl.stopLiveRecord();
+                }
+            }
+            finish();
         }
     }
 

@@ -269,6 +269,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
             mWebSocketServRouter.route(mContext);
             if (mCountdownDialog == null) {
+                // 倒计时结束没有收到websocket默认进入会议
                 mCountdownDialog = new CountdownDialog(mContext, 5);
             }
             mCountdownDialog.show();

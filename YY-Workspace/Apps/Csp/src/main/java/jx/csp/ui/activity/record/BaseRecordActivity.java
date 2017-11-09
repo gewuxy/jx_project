@@ -38,6 +38,8 @@ import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
 import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
+import lib.ys.receiver.ConnectionReceiver;
+import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.yy.notify.LiveNotifier;
@@ -52,7 +54,7 @@ import lib.yy.ui.activity.base.BaseVpActivity;
  * @since 2017/9/30
  */
 
-abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, VPEffectContract.V {
+abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, VPEffectContract.V, OnConnectListener {
 
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 20;
@@ -88,6 +90,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     private boolean mUploadState = false; // 是否在上传音频
     protected int mWsPosition = 0;  // websocket接收到的页数
     protected WebSocketServRouter mWebSocketServRouter;
+    private ConnectionReceiver mConnectionReceiver;
 
     @Arg
     String mCourseId;  // 课程id
@@ -181,6 +184,15 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+        mConnectionReceiver = new ConnectionReceiver(this);
+        mConnectionReceiver.setListener(this);
+        mConnectionReceiver.register();
+    }
+
+    @Override
     public void onClick(View v) {
         if (getCount() == 0) {
             return;
@@ -210,6 +222,14 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
     abstract protected void onClick(int id);
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // 注销服务
+        mConnectionReceiver.unRegister();
+    }
+
     protected void setNavBarMidText(String str) {
         if (mTvNavBar == null) {
             mTvNavBar = getNavBar().addTextViewMid(str);
@@ -230,6 +250,22 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         if (mWebSocketServRouter != null) {
             mWebSocketServRouter.stop(this);
             YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
+        }
+    }
+
+    @CallSuper
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id == KUploadAudioReqId) {
+            YSLog.d(TAG, "移除任务");
+            mUploadList.removeFirst();
+            if (mUploadFilePathList != null && mUploadFilePathList.size() > 0) {
+                boolean b = FileUtil.delFile(new File(mUploadFilePathList.getFirst()));
+                YSLog.d(TAG, "直播音频文件删除成功？ = " + b);
+                mUploadFilePathList.removeFirst();
+            }
+            mUploadState = false;
+            upload();
         }
     }
 
@@ -260,19 +296,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     }
 
     abstract protected void onCallOffHooK();
-
-    /**
-     * 改变view的大小  缩放
-     */
-    private void viewChange(int position, float offset) {
-        View view = getItem(position).getView();
-        if (view == null) {
-            return;
-        }
-        float scale = KOne + KVpScale * offset;
-        view.setScaleX(scale);
-        view.setScaleY(scale);
-    }
 
     /**
      * 上传音频文件
@@ -322,22 +345,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             YSLog.d(TAG, "开始上传任务");
             exeNetworkReq(KUploadAudioReqId, mUploadList.getFirst());
             mUploadState = true;
-        }
-    }
-
-    @CallSuper
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        if (id == KUploadAudioReqId) {
-            YSLog.d(TAG, "移除任务");
-            mUploadList.removeFirst();
-            if (mUploadFilePathList != null && mUploadFilePathList.size() > 0) {
-                boolean b = FileUtil.delFile(new File(mUploadFilePathList.getFirst()));
-                YSLog.d(TAG, "直播音频文件删除成功？ = " + b);
-                mUploadFilePathList.removeFirst();
-            }
-            mUploadState = false;
-            upload();
         }
     }
 
