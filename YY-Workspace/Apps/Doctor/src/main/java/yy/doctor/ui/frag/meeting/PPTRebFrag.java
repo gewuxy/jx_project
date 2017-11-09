@@ -3,6 +3,8 @@ package yy.doctor.ui.frag.meeting;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
@@ -71,6 +73,8 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private TextView mTvMedia;
     private View mLayoutL;
 
+    private Handler mHandler;
+
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
     }
@@ -97,6 +101,15 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mLastPosition = 0;
         mDispatch = false;
         mSubmits = new HashMap<>();
+
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                newVisibility(false);
+            }
+
+        };
     }
 
     @Override
@@ -256,7 +269,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     public void setCurrentItem(int offset, String content) {
         int position = getCurrentItem() + offset;
-        if (position >= 0 || position <= getCount() - 1) {
+        if (position >= 0 && position <= getCount() - 1) {
             setCurrentItem(position);
         } else {
             showToast(content);
@@ -387,7 +400,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      * 右上角最新页
      */
     public void newVisibility(boolean visibility) {
+        mHandler.removeMessages(Integer.MAX_VALUE);
         viewVisibility(mLayoutNew, visibility);
+        mHandler.sendEmptyMessageDelayed(Integer.MAX_VALUE, TimeUnit.SECONDS.toMillis(5));
     }
 
     /**
@@ -457,5 +472,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
         // 保持调用顺序
         super.onDestroy();
+
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

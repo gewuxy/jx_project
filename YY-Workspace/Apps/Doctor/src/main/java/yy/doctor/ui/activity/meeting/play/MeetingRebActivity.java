@@ -3,10 +3,10 @@ package yy.doctor.ui.activity.meeting.play;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
+import lib.ys.util.TextUtil;
 import yy.doctor.R;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptPresenterImpl;
-import yy.doctor.ui.frag.meeting.course.PicCourseFrag;
 
 /**
  * 录播界面
@@ -23,7 +23,7 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
-        if (getFragPpt().getItem(position) instanceof PicCourseFrag) {
+        if (TextUtil.isEmpty(getFragPpt().getItem(position).getUrl())) {
             mHandler.removeMessages(KWhatPass);
             mHandler.sendEmptyMessageDelayed(KWhatPass, TimeUnit.SECONDS.toMillis(3));
         }

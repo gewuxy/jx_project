@@ -5,6 +5,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import java.util.List;
 
 import inject.annotation.router.Route;
+import yy.doctor.R;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
@@ -42,6 +43,11 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
         }
     }
 
+    @Override
+    protected int getControlResId() {
+        return R.drawable.meet_play_live_select_control;
+    }
+
     private class MeetingPptLiveViewImpl extends MeetingPptViewImpl implements MeetingPptLiveContract.View {
 
         @Override
@@ -66,7 +72,7 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
                 // 添加新的界面
                 getFragPpt().addCourse(course);
                 int count = getFragPpt().getCount();
-                if (count == getFragPpt().getCurrentItem()) {
+                if (count != getFragPpt().getCurrentItem()) {
                     // 不在最新页提示新的一页完成
                     getFragPpt().setTextNew(String.valueOf(count));
                 }
