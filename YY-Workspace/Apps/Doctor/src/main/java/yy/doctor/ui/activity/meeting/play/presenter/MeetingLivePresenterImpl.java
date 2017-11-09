@@ -60,8 +60,8 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
 
     @Override
     public void starCount() {
-        mHandler.removeMessages(0);
-        mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
+//        mHandler.removeMessages(0);
+//        mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
     }
 
     @Override

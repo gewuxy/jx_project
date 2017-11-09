@@ -149,7 +149,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void starCount() {
-        mCountDown.start(KDuration);
+//         mCountDown.start(KDuration);
     }
 
     @Override

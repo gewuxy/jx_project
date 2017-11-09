@@ -69,14 +69,15 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                int position = (int) msg.obj;
-                switch (position) {
+                int what = msg.what;
+                switch (what) {
                     case KWhatPlay: {
+                        int position = (int) msg.obj;
                         mPresenter.playMedia(position);
                     }
                     break;
                     default: {
-                        handler(position);
+                        handler(what);
                     }
                     break;
                 }
