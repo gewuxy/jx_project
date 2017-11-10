@@ -271,6 +271,22 @@ public class MobProvider implements Provider {
                 shareParams.setText(param.getUrl());
             }
             break;
+            case facebook: {
+                p = ShareSDK.getPlatform(Facebook.NAME);
+            }
+            break;
+            case twitter: {
+                p = ShareSDK.getPlatform(Twitter.NAME);
+            }
+            break;
+            case whatsapp: {
+                p = ShareSDK.getPlatform(WhatsApp.NAME);
+            }
+            break;
+            case line: {
+                p = ShareSDK.getPlatform(Line.NAME);
+            }
+            break;
         }
 
         if (p == null) {

@@ -102,7 +102,7 @@
 
     <!--分享-->
     <string name="wechat">微信好友</string>
-    <string name="moment">微信朋友圈</string>
+    <string name="moment">朋友圈</string>
     <string name="QQ">QQ</string>
     <string name="linkedin">LinkedIn</string>
     <string name="weibo">微博</string>
@@ -131,7 +131,7 @@
     <string name="aim_at_the_code">Align QR Code within frame to scan</string>
     <string name="fail_to_identify">Fail to identify the QR code</string>
     <string name="ready">Ready！</string>
-    <string name="copy_success">Duplicated successfully!</string>
+    <string name="copy_success">Copy successfully!</string>
     <string name="main_record_dialog">Recording is in progress. Other clients will be broken off. Continue?</string>
     <string name="main_live_dialog">Live stream is in progress. Other clients will be broken off. Continue?</string>
     <string name="confirm_continue">Yes</string>

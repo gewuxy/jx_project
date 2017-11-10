@@ -94,12 +94,14 @@
 
     <!--分享-->
     <style name="v.share">
-        <item name="android:layout_weight">1</item>
+        <item name="android:layout_weight">0</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="tv.share">
+        <item name="android:width">59dp</item>
+        <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">11dp</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">12dp</item>

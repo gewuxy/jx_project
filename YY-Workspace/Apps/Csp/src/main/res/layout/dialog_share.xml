@@ -13,6 +13,7 @@
         android:paddingTop="25dp">
 
         <GridView
+            android:layout_weight="1"
             android:id="@+id/share_gridview"
             android:layout_width="match_parent"
             android:layout_height="207dp"

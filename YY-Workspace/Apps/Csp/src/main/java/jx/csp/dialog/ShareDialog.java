@@ -73,7 +73,7 @@ public class ShareDialog extends BaseDialog {
 
         mCourseId = courseId;
         mTitle = title;
-        mShareTitle = String.format(ResLoader.getString(R.string.share_title), title);
+        mShareTitle = title;
         mCoverUrl = coverUrl;
 
         shareSignature();
@@ -315,6 +315,7 @@ public class ShareDialog extends BaseDialog {
                             t = Type.sms;
                         } else {
                             showToast(getString(R.string.user_message_permission));
+                            return;
                         }
                     }
                     break;
