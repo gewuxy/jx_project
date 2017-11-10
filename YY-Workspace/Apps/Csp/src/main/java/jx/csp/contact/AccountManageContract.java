@@ -28,6 +28,14 @@ public interface AccountManageContract {
         void unBindDialog(int id, int thirdPartyId, String tips);
 
         /**
+         * 判断第三方的绑定状态
+         * @param type
+         * @param id
+         * @param tips
+         */
+        void judgeBindStatus(Type type, int id, String tips);
+
+        /**
          * 绑定成功
          *
          * @param data 传递的数据

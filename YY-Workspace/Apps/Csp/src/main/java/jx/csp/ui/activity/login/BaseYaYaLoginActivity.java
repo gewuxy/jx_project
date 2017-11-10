@@ -148,9 +148,9 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         UISetter.setPwdRange(et);
         cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                et.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            } else {
                 et.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            } else {
+                et.setTransformationMethod(PasswordTransformationMethod.getInstance());
             }
             // 把光标设置到当前文本末尾
             et.setSelection(et.length());

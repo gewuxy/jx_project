@@ -79,39 +79,19 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.bind_wx: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.wechat))) {
-                    refresh(RefreshWay.dialog);
-                    mPresenter.doAuth(Type.wechat, RelatedId.bind_wx);
-                } else {
-                    mView.unBindDialog(RelatedId.bind_wx, RelatedId.bind_wx, getString(R.string.account_unbind_wx));
-                }
+                mView.judgeBindStatus(Type.wechat, LoginType.wechat, getString(R.string.account_unbind_wx));
             }
             break;
             case RelatedId.bind_sina: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
-                    refresh(RefreshWay.dialog);
-                    mPresenter.doAuth(Type.sina, RelatedId.bind_sina);
-                } else {
-                    mView.unBindDialog(RelatedId.bind_sina, RelatedId.bind_sina, getString(R.string.account_unbind_sina));
-                }
+                mView.judgeBindStatus(Type.sina, LoginType.sina, getString(R.string.account_unbind_sina));
             }
             break;
             case RelatedId.bind_facebook: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.facebook))) {
-                    refresh(RefreshWay.dialog);
-                    mPresenter.doAuth(Type.facebook, RelatedId.bind_facebook);
-                } else {
-                    mView.unBindDialog(RelatedId.bind_facebook, RelatedId.bind_facebook, getString(R.string.account_unbind_facebook));
-                }
+                mView.judgeBindStatus(Type.facebook, LoginType.facebook, getString(R.string.account_unbind_facebook));
             }
             break;
             case RelatedId.bind_twitter: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.twitter))) {
-                    refresh(RefreshWay.dialog);
-                    mPresenter.doAuth(Type.twitter, RelatedId.bind_twitter);
-                } else {
-                    mView.unBindDialog(RelatedId.bind_twitter, RelatedId.bind_twitter, getString(R.string.account_unbind_twitter));
-                }
+                mView.judgeBindStatus(Type.twitter, LoginType.twitter, getString(R.string.account_unbind_twitter));
             }
             break;
             case RelatedId.bind_jingxin: {
@@ -196,6 +176,16 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                 refresh(RefreshWay.dialog);
                 mPresenter.unBindThirdPartyReq(id, thirdPartyId);
             });
+        }
+
+        @Override
+        public void judgeBindStatus(Type type, int id, String tips) {
+            if (TextUtil.isEmpty(Profile.inst().getBindNickName(id))) {
+                refresh(RefreshWay.dialog);
+                mPresenter.doAuth(type, id);
+            } else {
+                unBindDialog(id, id, tips);
+            }
         }
 
         @Override
