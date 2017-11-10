@@ -42,7 +42,6 @@ public class BindEmailActivity extends BaseSetActivity {
     @Override
     public void setViews() {
         super.setViews();
-        // TODO: 2017/10/31 这个需要放mvp？
         mEtEmail = getRelatedItem(RelatedId.bind_email).getHolder().getEt();
         mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
 

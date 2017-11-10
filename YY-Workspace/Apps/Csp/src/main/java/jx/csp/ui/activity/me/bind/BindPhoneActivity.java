@@ -101,7 +101,6 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        // TODO: 2017/10/31 暂时不放mvp，待优化
         BaseForm form = getRelatedItem(RelatedId.bind_captcha);
         if (type == NotifyType.fetch_message_captcha) {
             form.enable(true);

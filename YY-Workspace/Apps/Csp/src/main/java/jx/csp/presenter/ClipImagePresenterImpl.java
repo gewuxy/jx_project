@@ -35,8 +35,8 @@ public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result<Avatar> r = (Result<Avatar>) result;
+        getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().onStopRefresh();
             Avatar avatar = r.getData();
             //头像路径保存到本地
             Profile.inst().update(Profile.inst().put(TProfile.avatar, avatar.getString(TAvatar.url)));

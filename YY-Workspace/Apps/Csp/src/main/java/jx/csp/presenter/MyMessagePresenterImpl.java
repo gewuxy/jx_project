@@ -29,8 +29,8 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
     @Override
     public void onNetworkSuccess(int id, Object result) {
         Result r = (Result) result;
+        getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().onStopRefresh();
             getView().saveRevisedData();
         } else {
             onNetworkError(id, r.getError());

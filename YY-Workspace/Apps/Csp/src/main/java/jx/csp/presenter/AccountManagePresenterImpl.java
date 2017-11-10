@@ -144,8 +144,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void unBindEmailOrMobileSuccess(Result r, int id, TProfile key) {
+        getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().onStopRefresh();
             App.showToast(R.string.account_unbind_succeed);
             getView().unBindRefreshItem(id);
 
@@ -159,8 +159,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void unBindThirdPartySuccess(Result r, int id) {
+        getView().onStopRefresh();
         if (r.isSucceed()) {
-            getView().onStopRefresh();
             App.showToast(R.string.account_unbind_succeed);
 
             List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
@@ -198,8 +198,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
         switch (id) {
             case LoginType.wechat: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.wechat))) {
+                    getView().onStopRefresh();
                     if (r.isSucceed()) {
-                        getView().onStopRefresh();
                         setSaveThirdPartyNickName(r, id, mNickName, LoginType.wechat);
                     } else {
                         onNetworkError(id, r.getError());
@@ -211,8 +211,8 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             break;
             case LoginType.sina: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
+                    getView().onStopRefresh();
                     if (r.isSucceed()) {
-                        getView().onStopRefresh();
                         setSaveThirdPartyNickName(r, id, mNickName, LoginType.sina);
                     } else {
                         onNetworkError(id, r.getError());

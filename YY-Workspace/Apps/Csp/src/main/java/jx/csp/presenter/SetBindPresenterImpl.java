@@ -43,8 +43,8 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
         Result r = (Result) result;
         switch (id) {
             case KBindEmailCode: {
+                getView().onStopRefresh();
                 if (r.isSucceed()) {
-                    getView().onStopRefresh();
 
                     getView().setBindEmailSuccessJump();
                     getView().onFinish();
@@ -55,8 +55,8 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             }
             break;
             case KBindPhoneCode: {
+                getView().onStopRefresh();
                 if (r.isSucceed()) {
-                    getView().onStopRefresh();
                     saveBindPhone();
                     getView().onFinish();
                 } else {
@@ -65,8 +65,8 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             }
             break;
             case KChangePwdCode: {
+                getView().onStopRefresh();
                 if (r.isSucceed()) {
-                    getView().onStopRefresh();
                     getView().onFinish();
                     App.showToast(R.string.setting_change_pwd_succeed);
                 } else {
@@ -75,8 +75,8 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
             }
             break;
             case KCaptchaCode: {
+                getView().onStopRefresh();
                 if (r.isSucceed()) {
-                    getView().onStopRefresh();
                     // 获取验证码
                     getView().getCaptcha();
                     App.showToast(R.string.account_send_captcha);

@@ -135,7 +135,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        //Fixme:原来登录请求还有个packageUtil,什么鬼
         exeNetworkReq(UserAPI.login(LoginType.email).email(getEmail()).password(getUserPwd()).build());
     }
 
