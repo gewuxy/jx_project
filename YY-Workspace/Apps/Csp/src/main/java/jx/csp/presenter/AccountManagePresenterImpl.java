@@ -153,7 +153,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             Profile.inst().saveToSp();
             Notifier.inst().notify(NotifyType.profile_change);
         } else {
-            App.showToast(r.getMessage());
+            onNetworkError(id, r.getError());
         }
     }
 
@@ -182,7 +182,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             Profile.inst().put(TProfile.bindInfoList, infoList);
             Profile.inst().saveToSp();
         } else {
-            App.showToast(r.getMessage());
+            onNetworkError(id, r.getError());
         }
     }
 

@@ -28,7 +28,7 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void clickContributeNetworkReq(ArrayList<Platform> platformArrayList, Platform platform) {
+    public void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform, int courseId) {
         StringBuffer buffer = new StringBuffer();
         int size = platformArrayList.size();
         for (int i = 0; i < size; ++i) {
@@ -39,7 +39,7 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
             }
         }
         Log.d(TAG, " buffer " + buffer);
-        exeNetworkReq(DeliveryAPI.unitNum(String.valueOf(buffer), platform.getInt(TPlatformDetail.id)).build());
+        exeNetworkReq(DeliveryAPI.unitNum(String.valueOf(buffer), courseId).build());
     }
 
     @Override

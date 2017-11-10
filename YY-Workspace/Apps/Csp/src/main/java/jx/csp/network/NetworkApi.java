@@ -194,8 +194,8 @@ public class NetworkApi {
         /**
          * 投稿
          *
-         * @param acceptIds
-         * @param courseId
+         * @param acceptIds 要投稿的单位号ID数组
+         * @param courseId 被投稿的课件ID
          */
         @Post("push")
         void unitNum(String acceptIds, int courseId);

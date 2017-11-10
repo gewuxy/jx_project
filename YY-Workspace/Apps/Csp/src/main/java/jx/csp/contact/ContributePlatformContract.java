@@ -46,7 +46,7 @@ public interface ContributePlatformContract {
          * @param platformArrayList
          * @param platform
          */
-        void clickContributeNetworkReq(ArrayList<Platform> platformArrayList, Platform platform);
+        void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform, int courseId);
 
     }
 }

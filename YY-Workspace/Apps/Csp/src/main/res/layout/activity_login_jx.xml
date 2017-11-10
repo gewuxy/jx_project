@@ -81,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:checked="true"
                 android:layout_marginLeft="229dp"
                 android:button="@drawable/login_selector_visible"/>
 

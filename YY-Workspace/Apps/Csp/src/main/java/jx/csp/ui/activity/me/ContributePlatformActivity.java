@@ -91,7 +91,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
-                mPresenter.clickContributeNetworkReq(mSelectedItem, mPlatform);
+                mPresenter.clickContributeReq(mSelectedItem, mPlatform, mCourseId);
             }
             break;
             case R.id.contribute_tv_tips: {

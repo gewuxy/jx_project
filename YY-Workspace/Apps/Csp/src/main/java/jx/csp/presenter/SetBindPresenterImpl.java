@@ -50,7 +50,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
                     getView().onFinish();
                     App.showToast(R.string.setting_bind_email_succeed);
                 } else {
-                    App.showToast(r.getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
@@ -60,7 +60,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
                     saveBindPhone();
                     getView().onFinish();
                 } else {
-                    App.showToast(r.getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
@@ -70,7 +70,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
                     getView().onFinish();
                     App.showToast(R.string.setting_change_pwd_succeed);
                 } else {
-                    App.showToast(r.getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
@@ -81,7 +81,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
                     getView().getCaptcha();
                     App.showToast(R.string.account_send_captcha);
                 } else {
-                    App.showToast(r.getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
