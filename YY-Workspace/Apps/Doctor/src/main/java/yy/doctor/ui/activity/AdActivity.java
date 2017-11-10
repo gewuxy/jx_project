@@ -5,13 +5,20 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import yy.doctor.R;
+import yy.doctor.model.Ad;
+import yy.doctor.model.Ad.TAd;
 import yy.doctor.model.Profile;
+import yy.doctor.serv.CommonServ.ReqType;
+import yy.doctor.serv.CommonServRouter;
+import yy.doctor.sp.SpApp;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 
 /**
@@ -26,6 +33,7 @@ public class AdActivity extends BaseActivity {
 
     private TextView mTvPass;
     private CountDown mCountDown;
+    private String mHtmlUrl;
 
     public static void afterAd(Context context) {
         if (Profile.inst().isLogin()) {
@@ -44,8 +52,7 @@ public class AdActivity extends BaseActivity {
 
             @Override
             public void onCountDown(long remainCount) {
-                // fixme:文案内容
-                mTvPass.setText(String.format("%d", remainCount));
+                mTvPass.setText(remainCount + "跳过");
                 if (remainCount == 0) {
                     mTvPass.performClick();
                 }
@@ -79,17 +86,24 @@ public class AdActivity extends BaseActivity {
     public void setViews() {
         setOnClickListener(mTvPass);
 
-        // fixme:从配置中获取
+        CommonServRouter.create().type(ReqType.advert).route(this);
         int count = 0;
+        String url = ConstantsEx.KEmpty;
+        Ad advert = SpApp.inst().getAdvert();
+        if (advert != null) {
+            url = advert.getString(TAd.imageUrl);
+            count = advert.getInt(TAd.skipTime);
+            mHtmlUrl = advert.getString(TAd.pageUrl);
+        }
         if (count <= 0) {
             mTvPass.performClick();
         } else {
             mCountDown.start(count);
 
-            String url = "http://www.qingdaonews.com/images/attachement/gif/site1/20170516/0026c77e6d1a1a850db50c.gif";
             mIvAd.url(url).load();
             setOnClickListener(mIvAd);
         }
+
     }
 
     @Override
@@ -97,10 +111,11 @@ public class AdActivity extends BaseActivity {
         mCountDown.stop();
         switch (v.getId()) {
             case R.id.ad_iv_ad: {
-                // fixme:从配置中获取
-                String htmlUrl = "http://59.111.90.245:8083/file/data/17051816413005881649/17082511344000160770/17082511344008521117.html";
                 String title = "";
-                AdWebViewActivityRouter.create(title, htmlUrl).route(this);
+                if (TextUtil.isEmpty(mHtmlUrl)) {
+                    return;
+                }
+                AdWebViewActivityRouter.create(title, mHtmlUrl).route(this);
             }
             break;
             case R.id.ad_tv_pass: {
@@ -113,6 +128,7 @@ public class AdActivity extends BaseActivity {
 
     @Override
     protected void startInAnim() {
+        // 取消转场动画
     }
 
     @Override

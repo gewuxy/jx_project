@@ -654,5 +654,11 @@ public class NetworkApi {
         @DownloadFile
         @Url
         void download();
+
+        /**
+         * 启动页广告
+         */
+        @Get("advert")
+        void advert();
     }
 }

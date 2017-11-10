@@ -12,8 +12,8 @@ import yy.doctor.model.Ad.TAd;
 public class Ad extends EVal<TAd> {
 
     public enum TAd {
-
-        id,
+        imageUrl,
+        skipTime,
         pageUrl,
     }
 }

@@ -17,11 +17,14 @@ import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
+import yy.doctor.model.Ad;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
+import yy.doctor.network.NetworkApiDescriptor.CommonAPI;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.network.NetworkApiDescriptor.UserAPI;
+import yy.doctor.sp.SpApp;
 
 /**
  * 常驻服务
@@ -52,6 +55,7 @@ public class CommonServ extends ServiceEx {
             ReqType.video,
             ReqType.course,
             ReqType.meet,
+            ReqType.advert,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -60,6 +64,7 @@ public class CommonServ extends ServiceEx {
         int video = 3;
         int course = 4;
         int meet = 5;
+        int advert = 6;
     }
 
     @Override
@@ -101,13 +106,21 @@ public class CommonServ extends ServiceEx {
                 exeNetworkReq(mType, MeetAPI.submitMeet(mMeetId, mMeetTime).build());
             }
             break;
+            case ReqType.advert: {
+                exeNetworkReq(mType, CommonAPI.advert().build());
+            }
+            break;
         }
 
     }
 
     @Override
     public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-        return JsonParser.error(r.getText());
+        if (id == ReqType.advert) {
+            return JsonParser.ev(r.getText(), Ad.class);
+        } else {
+            return JsonParser.error(r.getText());
+        }
     }
 
     @Override
@@ -148,6 +161,17 @@ public class CommonServ extends ServiceEx {
                 } else {
                     retryNetworkRequest(id);
                     YSLog.d(TAG, "onNetworkSuccess:记录失败");
+                }
+            }
+            break;
+
+            case ReqType.advert: {
+                Result<Ad> ad = r;
+                if (r.isSucceed()) {
+                    Ad data = ad.getData();
+                    SpApp.inst().saveAdvert(data);
+                } else {
+
                 }
             }
             break;

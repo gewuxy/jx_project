@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import lib.ys.util.sp.SpBase;
 import yy.doctor.App;
+import yy.doctor.model.Ad;
 
 /**
  * @author CaiXiang
@@ -35,6 +36,7 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KFirstEnterExam = "first_enter_exam";
         String KFirstEnterQue = "first_enter_que";
+        String KAdvert = "advert";
     }
 
     @Override
@@ -102,6 +104,14 @@ public class SpApp extends SpBase {
 
     public void noFirstQue() {
         save(SpAppKey.KFirstEnterQue, false);
+    }
+
+    public void saveAdvert(Ad ad) {
+        save(SpAppKey.KAdvert, ad);
+    }
+
+    public Ad getAdvert() {
+        return getEV(SpAppKey.KAdvert, Ad.class);
     }
 
 }
