@@ -15,9 +15,7 @@ import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.util.CacheUtil;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
@@ -57,14 +55,12 @@ public class CommonServ extends ServiceEx {
             ReqType.logout,
             ReqType.j_push,
             ReqType.exit_record,
-            ReqType.login_video,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
         int logout = 1;
         int j_push = 2;
         int exit_record = 3;
-        int login_video = 4;
     }
 
     @Override
@@ -80,10 +76,6 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.exit_record: {
                 exeNetworkReq(MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
-            }
-            break;
-            case ReqType.login_video: {
-                exeNetworkReq(mType, UserAPI.downLoad(CacheUtil.getAudioCacheDir(), mFileName, mUrl).build());
             }
             break;
         }
@@ -125,13 +117,6 @@ public class CommonServ extends ServiceEx {
                 }
             }
             break;
-            case ReqType.login_video: {
-                if (r.isSucceed()) {
-                    SpApp.inst().saveLoginVideoVersion(mNewVersion);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
         }
     }
 }

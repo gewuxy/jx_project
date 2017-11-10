@@ -2,6 +2,7 @@ package jx.csp.ui.activity.login;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
@@ -73,7 +74,14 @@ public class RegisterActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
-                .drawable(R.drawable.login_ic_nickname));
+                .drawable(R.drawable.login_ic_nickname)
+                .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
+                    if (source.equals(" ")) {
+                        return "";
+                    }
+                    return null;
+                })
+                .limit(18));
         addItem(Form.create(FormType.divider_margin));
     }
 

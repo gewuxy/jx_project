@@ -5,6 +5,9 @@ import android.support.annotation.CallSuper;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+import com.pili.pldroid.player.widget.PLVideoTextureView;
+import com.pili.pldroid.player.widget.PLVideoView;
+
 import java.io.File;
 
 import jx.csp.R;
@@ -14,10 +17,11 @@ import jx.csp.model.login.LoginVideo.TLoginVideo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
+import jx.csp.serv.DownloadServ.DownReqType;
+import jx.csp.serv.DownloadServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
-import jx.csp.view.CustomVideoView;
 import lib.network.model.NetworkResp;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -34,22 +38,14 @@ import lib.yy.ui.activity.base.BaseActivity;
 abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     private final int KLoginVideo = 1;
-    private final int KDownLoadVideo = 2;
 
     private final int KInitVersion = 0; // 首次访问此接口，version = 0
 
-    private CustomVideoView mCustomVideoView;
+    private PLVideoTextureView mVideo;
 
     private String mUrl;
     private String mFilePath;
     private String mFileName;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        UIUtil.setFlatBar(getWindow());
-    }
 
     @Override
     public void initData() {
@@ -59,24 +55,27 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
+        // no nav bar
     }
 
     @CallSuper
     @Override
     public void findViews() {
-        mCustomVideoView = findView(getVideoViewId());
+        mVideo = findView(getVideoViewId());
     }
 
     @CallSuper
     @Override
     public void setViews() {
+        UIUtil.setFlatBar(getWindow());
+
         setOnClickListener(R.id.login_mail);
 
         setOnClickListener(R.id.login_protocol);
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());
-        int loginVideoVersion = SpApp.inst().getLoginVideoVersion();
-        YSLog.d(TAG, "loginVideoVersion" + loginVideoVersion);
+        // fixme:暂时使用铺满 link{@https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk#6}
+        mVideo.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
@@ -120,14 +119,12 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             Result<LoginVideo> r = (Result<LoginVideo>) result;
             if (r.isSucceed()) {
                 LoginVideo data = r.getData();
+                int oldVersion = SpApp.inst().getLoginVideoVersion(); // 读取本地
                 int newVersion = data.getInt(TLoginVideo.version);
-                int oldVersion = SpApp.inst().getLoginVideoVersion(); // 保存本地
                 mUrl = data.getString(TLoginVideo.videoUrl);
-
+                YSLog.d(TAG, "onNetworkSuccess : newVersion = " + newVersion + " , oldVersion = " + oldVersion);
                 if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
-                    // fixme:在服务下载
-                    exeNetworkReq(KDownLoadVideo, UserAPI.downLoad(CacheUtil.getVideoCacheDir(), mFileName, mUrl).build());
-//                    CommonServRouter.create().fileName(mFileName).newVersion(newVersion).url(mUrl).route(this);
+                    DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(newVersion)).newVersion(newVersion).route(this);
                 }
             } else {
                 onNetworkError(id, r.getError());
@@ -148,12 +145,12 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
-        if (mCustomVideoView.isPlaying()) {
-            mCustomVideoView.stopPlayback();
+        if (mVideo.isPlaying()) {
+            mVideo.stopPlayback();
         }
     }
 
-    public void startPlay() {
+    private void startPlay() {
         if (TextUtil.isEmpty(mFilePath)) {
             return;
         }
@@ -164,23 +161,17 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             return;
         }
 
-        if (mCustomVideoView == null) {
+        if (mVideo == null) {
             return;
         }
 
-        mCustomVideoView.setVideoPath(mFilePath);
-        mCustomVideoView.setOnErrorListener((mediaPlayer, i, i1) -> false);
-        mCustomVideoView.setOnPreparedListener(mediaPlayer -> mCustomVideoView.start());
-        mCustomVideoView.setOnCompletionListener(mp -> mCustomVideoView.start());
+        prepared(mFilePath);
+        mVideo.setOnCompletionListener(mp -> prepared(mFilePath));
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mCustomVideoView != null) {
-            mCustomVideoView.suspend();
-            mCustomVideoView.stopPlayback();
-        }
+    private void prepared(String path) {
+        mVideo.setVideoPath(path);
+        mVideo.setVolume(0, 0);
     }
 
     abstract protected int getVideoViewId();
