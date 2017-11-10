@@ -37,5 +37,6 @@ public class Scan extends EVal<TScan> {
         startTime, // 开始时间
         endTime, // 结束时间
         title, // 会议标题
+        coverUrl, // 封面地址
     }
 }

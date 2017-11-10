@@ -70,10 +70,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.black);
-        bar.addViewLeft(R.drawable.scan_ic_back, v -> {
-            finish();
-        });
+        bar.setBackgroundResource(R.color.white_diaphaneity_thirty);
+        bar.addViewLeft(R.drawable.scan_ic_back, v -> finish());
         bar.addTextViewMid(getString(R.string.scan), R.color.white);
     }
 
@@ -220,10 +218,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     protected void joinRecord() {
         if (mScan.getInt(TScan.playType) == PlayType.reb) {
             //录播
-            CommonRecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
+            CommonRecordActivityRouter.create(mScan.getString(TScan.courseId),
+                    mScan.getString(TScan.coverUrl),
+                    mScan.getString(TScan.title))
+                    .route(this);
         } else {
-            LiveRecordActivityRouter.create(mScan.getString(TScan.courseId))
-                    .title(mScan.getString(TScan.title))
+            LiveRecordActivityRouter.create(mScan.getString(TScan.courseId),
+                    mScan.getString(TScan.coverUrl),
+                    mScan.getString(TScan.title))
                     .startTime(mScan.getLong(TScan.startTime))
                     .stopTime(mScan.getLong(TScan.endTime))
                     .route(this);

@@ -3,8 +3,6 @@ package jx.csp.presenter;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,14 +12,11 @@ import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
 import jx.csp.dialog.BigButtonDialog;
-import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Copy;
-import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.DuplicateType;
@@ -38,8 +33,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * @auther yuansui
@@ -50,15 +43,12 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     private final int KJoinRecordCheckRedId = 1;
     private final int KJoinLiveRoomCheckRedId = 2;
-    private final int KDeleteReqId = 3;
-    private final int KCopyReqId = 4;
     private boolean mJoinLiveRoom = false; // 是否进入直播间 为了区分PlayType.video的时候进入的是直播视频还是音频
 
     private Context mContext;
     private Meet mMeet;
     private WebSocketServRouter mWebSocketServRouter;
     private CountdownDialog mCountdownDialog;
-    private int mId;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
 
     @IntDef({
@@ -126,28 +116,12 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onShareClick(Meet item) {
-        mId = item.getInt(TMeet.id);
         mMeet = item;
         ShareDialog shareDialog = new ShareDialog(mContext,
                 item.getInt(TMeet.id),
                 String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
                 item.getString(TMeet.coverUrl));
-        shareDialog.setDeleteListener(() -> {
-            deleteDialog(KDeleteReqId,mId);
-        });
-        shareDialog.setCopyListener(() -> exeNetworkReq(KCopyReqId, MeetingAPI.copy(mId, item.getString(TMeet.title)).build()));
         shareDialog.show();
-    }
-
-    public void deleteDialog(int kId,int courseId) {
-        CommonDialog dialog = new CommonDialog(mContext);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
-        dialog.addHintView(view);
-        dialog.addBlueButton(R.string.confirm, v1 -> {
-            exeNetworkReq(kId, MeetingAPI.delete(courseId).build());
-        });
-        dialog.addGrayButton(R.string.cancel);
-        dialog.show();
     }
 
     @Override
@@ -183,9 +157,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KJoinRecordCheckRedId || id == KJoinLiveRoomCheckRedId) {
             return JsonParser.ev(r.getText(), Scan.class);
-        } else if (id == KCopyReqId) {
-            return JsonParser.ev(r.getText(), Copy.class);
-        }else {
+        } else {
             return JsonParser.error(r.getText());
         }
     }
@@ -242,32 +214,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 }
             }
             break;
-            case KDeleteReqId: {
-                Result r = (Result) result;
-                if (r.isSucceed()) {
-                    showToast(R.string.delete_success);
-                    Notifier.inst().notify(NotifyType.delete_meeting, mId);
-                    YSLog.d(TAG, mId + "发送删除通知");
-                } else {
-                    onNetworkError(id, r.getError());
-                    YSLog.d(TAG, mId + "失败");
-                }
-            }
-            break;
-            case KCopyReqId: {
-                Result<Copy> r = (Result<Copy>) result;
-                if (r.isSucceed()) {
-                    showToast(R.string.copy_duplicate_success);
-                    Copy data = r.getData();
-                    int copyId = data.getInt(TCopy.id);
-
-                    Meet m = (Meet) mMeet.clone();
-                    m.put(TMeet.id,copyId);
-                    Notifier.inst().notify(NotifyType.copy_duplicate, mId);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
         }
     }
 
@@ -279,7 +225,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             mWebSocketServRouter.route(mContext);
             if (mCountdownDialog == null) {
                 // 倒计时结束没有收到websocket默认进入会议
-                mCountdownDialog = new CountdownDialog(mContext, 5);
+                mCountdownDialog = new CountdownDialog(mContext, 15);
             }
             mCountdownDialog.show();
         });
@@ -293,12 +239,16 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         }
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
-                CommonRecordActivityRouter.create(mMeet.getString(TMeet.id)).route(mContext);
+                CommonRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                        mMeet.getString(TMeet.coverUrl),
+                        mMeet.getString(TMeet.title))
+                        .route(mContext);
             }
             break;
             case PlayType.live: {
-                LiveRecordActivityRouter.create(mMeet.getString(TMeet.id))
-                        .title(mMeet.getString(TMeet.title))
+                LiveRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                        mMeet.getString(TMeet.coverUrl),
+                        mMeet.getString(TMeet.title))
                         .startTime(mMeet.getLong(TMeet.startTime))
                         .stopTime(mMeet.getLong(TMeet.endTime))
                         .route(mContext);
@@ -315,8 +265,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                             .wsUrl(mLiveRoomWsUrl)
                             .route(mContext);
                 } else {
-                    LiveRecordActivityRouter.create(mMeet.getString(TMeet.id))
-                            .title(mMeet.getString(TMeet.title))
+                    LiveRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                            mMeet.getString(TMeet.coverUrl),
+                            mMeet.getString(TMeet.title))
                             .startTime(mMeet.getLong(TMeet.startTime))
                             .stopTime(mMeet.getLong(TMeet.endTime))
                             .route(mContext);
@@ -329,5 +280,4 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void showToast(@StringRes int... ids) {
         App.showToast(ids);
     }
-
 }

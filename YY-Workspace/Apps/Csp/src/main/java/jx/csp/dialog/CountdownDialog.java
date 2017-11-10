@@ -56,10 +56,12 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
+            // 倒计时结束前没有收到指令，默认同意进入会议
             LiveNotifier.inst().notify(LiveNotifyType.accept);
             dismiss();
         }
-        mTvSecond.setText(remainCount + "s");
+        // 不需要显示倒计时
+        // mTvSecond.setText(remainCount + "s");
     }
 
     @Override

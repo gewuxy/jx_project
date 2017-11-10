@@ -143,7 +143,7 @@
     <string name="live_not_start">直播还没开始，请稍等</string>
     <string name="live_have_end">直播已结束</string>
     <string name="on_solive">On Air</string>
-    <string name="on_record">RecordingRecording</string>
+    <string name="on_record">Recording</string>
     <string name="delete_success">删除成功</string>
     <string name="copy_duplicate_success">复制副本成功</string>
     <string name="service_agreement">CSPmeeting Terms of Service</string>

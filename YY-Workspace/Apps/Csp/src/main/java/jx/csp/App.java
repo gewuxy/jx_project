@@ -40,7 +40,7 @@ public class App extends BaseApp {
      */
     public interface NavBarVal {
         int KHeightDp = 48;
-        int KIconSizeDp = 18;
+        int KIconSizeDp = 20;
         int KIconPaddingHorizontalDp = 12;
         int KTextMarginHorizontalDp = 12;
         int KLeftTextSizeDp = 14;

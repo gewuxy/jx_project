@@ -17,8 +17,7 @@
         android:listSelector="@drawable/transparent"
         android:scrollingCache="false"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginRight="16dp"/>
 
     <RelativeLayout
         android:id="@+id/list_empty_view"

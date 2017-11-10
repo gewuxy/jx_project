@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 
@@ -24,20 +25,33 @@ import jx.csp.constant.MetaValue;
 import jx.csp.constant.ShareType;
 import jx.csp.model.main.Share;
 import jx.csp.model.main.Share.TShare;
+import jx.csp.model.meeting.Copy;
+import jx.csp.model.meeting.Copy.TCopy;
+import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApi;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.OnNetworkListener;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
+import lib.yy.network.Result;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static lib.ys.util.res.ResLoader.getString;
@@ -47,33 +61,44 @@ import static lib.ys.util.res.ResLoader.getString;
  * @since 2017/10/12
  */
 
-public class ShareDialog extends BaseDialog {
+public class ShareDialog extends BaseDialog implements OnNetworkListener {
+
+    private NetworkOpt mNetworkImpl;
+
+    public void exeNetworkReq(NetworkReq req) {
+        exeNetworkReq(INetworkOpt.KDefaultId, req);
+    }
+
+    public void exeNetworkReq(int id, NetworkReq req) {
+        if (mNetworkImpl == null) {
+            mNetworkImpl = new NetworkOpt(this, this);
+        }
+        mNetworkImpl.exeNetworkReq(id, req, this);
+    }
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
+    private final int KDeleteReqId = 1;
+    private final int KCopyReqId = 2;
+    private OnDeleteSuccessListener mDeleteSuccessListener;
 
+    private Context mContext;
     private String mShareUrl; // 分享的Url
-    private String mShareTitle; // 分享的标题
+    private String mShareTitle; // 分享的标题要拼接
+    private int mCourseId;  // 会议id
+    private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
-    private int mId;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    private OnDeleteListener mDeleteListener;
-    private OnCopyDuplicateListener mCopyListener;
-
-    public ShareDialog(Context context, String shareTitle, int courseId) {
-        this(context, courseId, shareTitle, "");
-        mId = courseId;
-    }
-
-    public ShareDialog(Context context, int courseId, String shareTitle, String coverUrl) {
+    public ShareDialog(Context context, int courseId, String title, String coverUrl) {
         super(context);
-
+        mContext = context;
         shareSignature(courseId);
-        mShareTitle = shareTitle;
+        mCourseId = courseId;
+        mTitle = title;
+        mShareTitle = String.format(ResLoader.getString(R.string.share_title), title);
         mCoverUrl = coverUrl;
-        mId = courseId;
     }
 
     @Override
@@ -96,7 +121,6 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void setViews() {
 
-//        setOnClickListener(R.id.dialog_share_iv_copy_link);
         setOnClickListener(R.id.dialog_share_tv_contribute);
         setOnClickListener(R.id.dialog_share_tv_copy_replica);
         setOnClickListener(R.id.dialog_share_tv_delete);
@@ -109,46 +133,75 @@ public class ShareDialog extends BaseDialog {
     public void onClick(View v) {
 
         switch (v.getId()) {
-            /*case R.id.dialog_share_iv_copy_link: {
-                //创建一个新的文本clip对象
-                ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
-                //把clip对象放在剪切板中
-                mClipboardManager.setPrimaryClip(clipData);
-                showToast(R.string.copy_success);
-            }
-            break;*/
             case R.id.dialog_share_tv_contribute: {
-//                startActivity(ContributePlatformActivity.class);
-                ContributePlatformActivityRouter.create(mId).route(getContext());
+                ContributePlatformActivityRouter.create(mCourseId).route(getContext());
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
-                if (mCopyListener != null) {
-                    mCopyListener.copy();
-                }
+                exeNetworkReq(KCopyReqId, MeetingAPI.copy(mCourseId, mTitle).build());
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                if (mDeleteListener != null) {
-                    mDeleteListener.delete();
-                }
+                CommonDialog dialog = new CommonDialog(mContext);
+                View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
+                dialog.addHintView(view);
+                dialog.addBlueButton(R.string.confirm, v1 -> {
+                    exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mCourseId).build());
+                });
+                dialog.addGrayButton(R.string.cancel);
+                dialog.show();
             }
             break;
             case R.id.dialog_share_tv_cancel: {
-                //不做处理
+                // 不做处理
             }
             break;
         }
         dismiss();
     }
 
-    public interface OnDeleteListener {
-        void delete();
+    @Override
+    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+        if (id == KDeleteReqId) {
+            return JsonParser.error(r.getText());
+        } else {
+            return JsonParser.ev(r.getText(), Copy.class);
+        }
     }
 
-    public interface OnCopyDuplicateListener {
-        void copy();
+    @Override
+    public void onNetworkSuccess(int id, Object result) {
+        if (id == KDeleteReqId) {
+            Result r = (Result) result;
+            if (r.isSucceed()) {
+                showToast(R.string.delete_success);
+                Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
+                YSLog.d(TAG, "发送删除通知");
+                if (mDeleteSuccessListener != null) {
+                    mDeleteSuccessListener.deleteSuccess();
+                }
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        } else {
+            Result<Copy> r = (Result<Copy>) result;
+            if (r.isSucceed()) {
+                showToast(R.string.copy_duplicate_success);
+                Copy copy = r.getData();
+                copy.put(TCopy.oldId, mCourseId);
+                Notifier.inst().notify(NotifyType.copy_duplicate, copy);
+                YSLog.d(TAG, mCourseId + "发送复制通知");
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        }
     }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {}
+
+    @Override
+    public void onNetworkProgress(int id, float progress, long totalSize) {}
 
     private void shareSignature(int courseId) {
         // 拼接加密字符串
@@ -352,12 +405,12 @@ public class ShareDialog extends BaseDialog {
         return list;
     }
 
-    public void setDeleteListener(OnDeleteListener listener) {
-        mDeleteListener = listener;
+    public interface OnDeleteSuccessListener {
+        void deleteSuccess();
     }
 
-    public void setCopyListener(OnCopyDuplicateListener l) {
-        mCopyListener = l;
+    public void setDeleteSuccessListener(OnDeleteSuccessListener l) {
+        mDeleteSuccessListener = l;
     }
 }
 

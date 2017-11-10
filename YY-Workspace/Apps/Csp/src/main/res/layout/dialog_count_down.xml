@@ -24,7 +24,6 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
             android:src="@drawable/ic_default_loading"/>
 
         <TextView
@@ -36,7 +35,8 @@
             android:layout_marginBottom="12dp"
             android:text="5s"
             android:textColor="@color/white"
-            android:textSize="18dp"/>
+            android:textSize="18dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

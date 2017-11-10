@@ -18,19 +18,19 @@
 
         <RelativeLayout
             android:id="@+id/frag_record_audio_layout"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/bg_record_audio"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/frag_record_iv_audio"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/animation_record_audio"/>
 

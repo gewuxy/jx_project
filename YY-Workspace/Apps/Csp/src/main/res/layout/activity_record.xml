@@ -51,7 +51,7 @@
             android:layout_width="31dp"
             android:layout_height="31dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="103dp"
+            android:layout_marginLeft="107dp"
             android:padding="5dp"
             android:src="@drawable/record_ic_arrow_left"/>
 
@@ -90,7 +90,7 @@
             android:layout_height="31dp"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="21dp"
-            android:layout_marginRight="103dp"
+            android:layout_marginRight="107dp"
             android:padding="5dp"
             android:src="@drawable/record_ic_arrow_right"/>
 
@@ -135,7 +135,7 @@
                 android:id="@+id/record_tv_online_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="1"
                 android:textColor="@color/text_888"
                 android:textSize="20dp"/>
 

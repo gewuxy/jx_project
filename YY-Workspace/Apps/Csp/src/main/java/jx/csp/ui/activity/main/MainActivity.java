@@ -11,6 +11,8 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.Copy;
+import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.login.AuthLoginActivity;
@@ -84,7 +86,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
             boolean flag = getCurrentItem() == KPageGrid;
-            mIvShift.setSelected(!flag);
+            mIvShift.setSelected(!mIvShift.isSelected());
             if (!flag) {
                 // 网格
                 setCurrentItem(KPageGrid, false);
@@ -96,7 +98,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
-        mIvShift.setSelected(true);
+        mIvShift.setSelected(false);
     }
 
     @Override
@@ -179,11 +181,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
             }
         } else if (type == NotifyType.copy_duplicate) {
-            Integer id = (Integer) data;
+            Copy copy = (Copy) data;
             for (Meet meet : mGridFrag.getData()) {
-                if (id == meet.getInt(TMeet.id)) {
+                if (copy.getInt(TCopy.oldId) == meet.getInt(TMeet.id)) {
                     Meet m = (Meet) meet.clone();
                     m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
+                    m.put(TMeet.id, copy.getInt(TCopy.id));
                     mGridFrag.addItem(m);
                     mGridFrag.invalidate();
                     break;

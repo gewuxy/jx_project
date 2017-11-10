@@ -12,6 +12,8 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
 import lib.ys.YSLog;
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
 
@@ -24,11 +26,13 @@ public class RecordVideoFrag extends BaseFrag {
 
     private PLVideoTextureView mTextureView;
     private ImageView mIvPlay;
-    private ImageView mIvBg;
+    private NetworkImageView mIvBg;
     private View mVideoStop;
 
-    @Arg(opt = true)
+    @Arg
     String mVideoUrl;   // http://139.199.170.178/course/14078/video/17062416023914941915.mp4
+    @Arg
+    String mImgUrl; // 视频第一针图片地址
 
     @Override
     public void initData() {
@@ -56,6 +60,10 @@ public class RecordVideoFrag extends BaseFrag {
     public void setViews() {
         setOnClickListener(R.id.frag_record_video_iv_play);
         setOnClickListener(R.id.frag_record_video_stop);
+        mIvBg.placeHolder(R.drawable.ic_default_record)
+                .renderer(new CornerRenderer(fitDp(5)))
+                .url(mImgUrl)
+                .load();
     }
 
     @Override

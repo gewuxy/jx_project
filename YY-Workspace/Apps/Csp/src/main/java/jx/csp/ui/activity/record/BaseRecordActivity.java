@@ -31,7 +31,10 @@ import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.VPEffectPresenterImpl;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
+import jx.csp.ui.activity.record.CommonRecordActivity.OverType;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
@@ -94,6 +97,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
     @Arg
     String mCourseId;  // 课程id
+    @Arg
+    String mCoverUrl;  // 分享封面地址
+    @Arg
     String mTitle;
 
     @Override
@@ -125,10 +131,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-            ShareDialog dialog = new ShareDialog(this, mTitle, Integer.valueOf(mCourseId));
-            dialog.setDeleteListener(()->{
-
-            });
+            ShareDialog dialog = new ShareDialog(this, Integer.valueOf(mCourseId), mTitle, mCoverUrl);
+            dialog.setDeleteSuccessListener(() -> finish());
             dialog.show();
         });
     }
@@ -206,7 +210,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
                     showToast(R.string.first_page);
                     return;
                 }
-                setCurrentItem(getCurrentItem() - KOne);
+                skipToLast();
             }
             break;
             case R.id.record_iv_next: {
@@ -214,7 +218,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
                     showToast(R.string.last_page);
                     return;
                 }
-                setCurrentItem(getCurrentItem() + KOne);
+                skipToNext();
             }
             break;
             default:
@@ -224,6 +228,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     }
 
     abstract protected void onClick(int id);
+    abstract protected void skipToLast();
+    abstract protected void skipToNext();
 
     @Override
     protected void onPause() {
@@ -254,6 +260,16 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             mWebSocketServRouter.stop(this);
             YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
         }
+        int overType = OverType.no;
+        if (mCourseDetailList != null && getCurrentItem() == (mCourseDetailList.size() - KOne)) {
+            overType = OverType.over;
+        }
+        CommonServRouter.create()
+                .type(ReqType.exit_record)
+                .courseId(mCourseId)
+                .pageNum(getCurrentItem())
+                .overType(overType)
+                .route(this);
     }
 
     @CallSuper

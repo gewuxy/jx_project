@@ -144,8 +144,6 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
         }
 
         @Override
-        public void onUserUpdate(int number) {
-            getView().setOnlineNumTv(number);
-        }
+        public void onUserUpdate(int number) {}
     }
 }

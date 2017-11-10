@@ -234,6 +234,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         mConnectionReceiver.unRegister();
         if (mLiveState) {
             mPresenter.stopLive();
+            mLiveState = false;
         }
     }
 
@@ -280,8 +281,16 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
 
     @Override
     public void onLiveNotify(int type, Object data) {
-        if (type == LiveNotifyType.inquired) {
-            switchLiveDevice();
+        switch (type) {
+            case LiveNotifyType.inquired: {
+                switchLiveDevice();
+            }
+            break;
+            case LiveNotifyType.online_num: {
+                int num = (int) data;
+                mTvOnlineNum.setText(String.valueOf(num));
+            }
+            break;
         }
     }
 
@@ -386,11 +395,6 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         }
 
         @Override
-        public void setOnlineNumTv(int i) {
-            mTvOnlineNum.setText(i + "");
-        }
-
-        @Override
         public void startLiveState() {
             mLiveState = true;
             hideView(mTvStart);
@@ -443,8 +447,6 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         }
 
         @Override
-        public void setViewState(int state) {
-
-        }
+        public void setViewState(int state) {}
     }
 }

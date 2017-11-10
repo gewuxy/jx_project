@@ -9,7 +9,9 @@ import lib.ys.model.EVal;
  */
 
 public class Copy extends EVal<TCopy> {
+
     public enum TCopy {
-        id,
+        oldId, // 原来会议的id
+        id,  // 复制成功后返回的会议id
     }
 }

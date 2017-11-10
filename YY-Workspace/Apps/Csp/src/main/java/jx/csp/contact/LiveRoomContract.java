@@ -18,8 +18,6 @@ public interface LiveRoomContract {
 
         void setCountDownRemindTv(boolean show, int i);
 
-        void setOnlineNumTv(int i);
-
         void startLiveState();
 
         void stopLiveState();

@@ -2,6 +2,8 @@ package jx.csp.model.main;
 
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.model.meeting.Record.PlayState;
 import lib.ys.model.EVal;
 
 /**
@@ -16,7 +18,12 @@ public class Meet extends EVal<TMeet> {
         coverUrl, // 封面地址
         id, // 会议id
         livePage, // 直播，当前ppt页码
+
+        /**
+         * {@link LiveState}
+         */
         liveState, // 直播状态
+
         pageCount, // ppt总页数
         playTime, // 播放时长
 
@@ -29,6 +36,10 @@ public class Meet extends EVal<TMeet> {
         endTime, // 结束时间
         title, // 会议标题
         playPage, // 录播，当前ppt页码
+
+        /**
+         * {@link PlayState}
+         */
         playState, // 录播状态
     }
 

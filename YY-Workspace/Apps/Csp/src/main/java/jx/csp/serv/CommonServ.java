@@ -75,7 +75,7 @@ public class CommonServ extends ServiceEx {
             }
             break;
             case ReqType.exit_record: {
-                exeNetworkReq(MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
+                exeNetworkReq(mType, MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
             }
             break;
         }
@@ -114,6 +114,14 @@ public class CommonServ extends ServiceEx {
                     YSLog.d(TAG, "极光推送绑定失败");
                     retryNetworkRequest(id);
                     SpJPush.inst().jPushIsRegister(false);
+                }
+            }
+            break;
+            case ReqType.exit_record: {
+                if (r.isSucceed()) {
+                    YSLog.d(TAG, "退出录音成功");
+                } else {
+                    YSLog.d(TAG, "退出录音失败");
                 }
             }
             break;

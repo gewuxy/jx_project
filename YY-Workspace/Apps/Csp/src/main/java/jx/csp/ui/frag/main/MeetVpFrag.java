@@ -14,6 +14,8 @@ import jx.csp.contact.VPEffectContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.VPEffectPresenterImpl;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
@@ -95,13 +97,17 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
                     }
                     switch (mMeet.getInt(TMeet.playType)) {
                         case PlayType.reb: {
-                            showView(mLayout);
-                            mTvReminder.setText(R.string.playing);
+                            if (mMeet.getInt(TMeet.playState) == PlayState.record) {
+                                showView(mLayout);
+                                mTvReminder.setText(R.string.playing);
+                            } else {
+                                goneView(mLayout);
+                            }
                         }
                         break;
                         case PlayType.live:
                         case PlayType.video: {
-                            if (mMeet.getLong(TMeet.startTime) < System.currentTimeMillis() && mMeet.getLong(TMeet.endTime) > System.currentTimeMillis()) {
+                            if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayout);
                                 mTvReminder.setText(R.string.living);

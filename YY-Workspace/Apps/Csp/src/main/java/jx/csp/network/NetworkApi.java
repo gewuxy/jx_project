@@ -263,7 +263,7 @@ public class NetworkApi {
         void downloadAudio();
 
         /**
-         * 退出录播页面
+         * 退出录播/直播页面
          *
          * @param courseId
          * @param pageNum

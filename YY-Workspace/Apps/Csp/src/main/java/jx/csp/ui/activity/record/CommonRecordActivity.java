@@ -30,8 +30,6 @@ import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.CommonRecordPresenterImpl;
-import jx.csp.serv.CommonServ.ReqType;
-import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.frag.record.RecordImgFrag;
@@ -152,6 +150,16 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     @Override
+    protected void skipToLast() {
+        moveLast();
+    }
+
+    @Override
+    protected void skipToNext() {
+        moveNext();
+    }
+
+    @Override
     public void moveLast() {
         if (mRecordState) {
             if (getCurrentItem() == 0) {
@@ -202,24 +210,14 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
 
         if (mRecordState) {
             mRecordPresenter.stopRecord();
+            mRecordState = false;
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        int overType;
-        if (mCourseDetailList != null && getCurrentItem() == (mCourseDetailList.size() - KOne)) {
-            overType = OverType.over;
-        } else {
-            overType = OverType.no;
-        }
-        CommonServRouter.create()
-                .type(ReqType.exit_record)
-                .courseId(mCourseId)
-                .pageNum(getCurrentItem())
-                .overType(overType)
-                .route(this);
+
         mRecordPresenter.onDestroy();
         if (mAnimationRecord.isRunning()) {
             mAnimationRecord.stop();
@@ -285,8 +283,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                         }
                     } else {
                         add(RecordVideoFragRouter
-                                .create()
-                                .videoUrl(courseDetail.getString(TCourseDetail.videoUrl))
+                                .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
                                 .route());
                     }
                 }

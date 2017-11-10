@@ -61,8 +61,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private int mLastPage = 0; // 上一页的位置
 
     @Arg(opt = true)
-    String mTitle;
-    @Arg(opt = true)
     long mStartTime;
     @Arg(opt = true)
     long mStopTime;
@@ -142,11 +140,22 @@ public class LiveRecordActivity extends BaseRecordActivity {
     }
 
     @Override
+    protected void skipToLast() {
+        setCurrentItem(getCurrentItem() - KOne);
+    }
+
+    @Override
+    protected void skipToNext() {
+        setCurrentItem(getCurrentItem() + KOne);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 
         if (mLiveState) {
             mLiveRecordPresenterImpl.stopLiveRecord();
+            mLiveState = false;
         }
     }
 
@@ -224,8 +233,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                                 .route());
                     } else {
                         add(RecordVideoFragRouter
-                                .create()
-                                .videoUrl(courseDetail.getString(TCourseDetail.videoUrl))
+                                .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
                                 .route());
                     }
                 }
