@@ -77,13 +77,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        mGridFrag = restoreFragment(0);
-        mVpFrag = restoreFragment(1);
-
-        mVpFrag.setData(mGridFrag.getData());
-        mVpFrag.nativeInvalidate();
+        mGridFrag = restoreFragment(KPageGrid);
+        mVpFrag = restoreFragment(KPageVp);
+        mGridFrag.setListener(data -> {
+            mVpFrag.setData(data);
+            mVpFrag.nativeInvalidate();
+        });
 
         invalidate();
+        mGridFrag.invalidate();
     }
 
     @Override
