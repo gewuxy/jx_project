@@ -54,8 +54,8 @@ public class SurveyTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         notify(NotifyType.study_start);
     }
@@ -69,8 +69,8 @@ public class SurveyTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Intro.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Intro.class);
     }
 
     @Override

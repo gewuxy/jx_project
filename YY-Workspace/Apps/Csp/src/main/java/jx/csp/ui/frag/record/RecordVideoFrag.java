@@ -1,5 +1,6 @@
 package jx.csp.ui.frag.record;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,7 +36,7 @@ public class RecordVideoFrag extends BaseFrag {
     String mImgUrl; // 视频第一针图片地址
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

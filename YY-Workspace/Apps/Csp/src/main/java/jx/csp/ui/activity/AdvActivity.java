@@ -1,6 +1,7 @@
 package jx.csp.ui.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,11 +19,11 @@ import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginEnActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
@@ -43,7 +44,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
 
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }
@@ -97,15 +98,14 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Advert.class);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Advert.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Advert> r = (Result<Advert>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            Advert adv = r.getData();
+            Advert adv = (Advert) r.getData();
             mIv.url(adv.getString(TAdvert.imgUrl)).load();
             mPageUrl = adv.getString(TAdvert.pageUrl);
         } else {

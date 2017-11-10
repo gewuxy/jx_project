@@ -51,7 +51,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     private List<Title> mTitleGrade;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mGrade = getString(R.string.high_grade);
     }
 
@@ -84,13 +84,13 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         switch (id) {
             case KIdGet: {
-                return JsonParser.evs(r.getText(), Title.class);
+                return JsonParser.evs(resp.getText(), Title.class);
             }
             case KIdCommit: {
-                return JsonParser.error(r.getText());
+                return JsonParser.error(resp.getText());
             }
         }
         return null;

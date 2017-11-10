@@ -28,7 +28,7 @@ public class EpnActivity extends BaseActivity {
     private TextView mTvEpn;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

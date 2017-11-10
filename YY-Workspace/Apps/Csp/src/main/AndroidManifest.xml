@@ -46,9 +46,11 @@
         <!-- 登录 -->
         <activity
             android:name=".ui.activity.login.AuthLoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.login.AuthLoginEnActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.login.EmailLoginActivity"
@@ -84,6 +86,7 @@
         <!-- 首页 -->
         <activity
             android:name=".ui.activity.main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.main.ScanActivity"

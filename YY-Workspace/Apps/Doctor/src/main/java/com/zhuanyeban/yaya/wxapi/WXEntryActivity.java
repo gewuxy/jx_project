@@ -41,7 +41,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private IWXAPI mApi;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {
@@ -129,8 +129,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     @Override

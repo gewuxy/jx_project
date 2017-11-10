@@ -16,7 +16,7 @@ import yy.doctor.util.Util;
 public class StatsMeetActivity extends BaseActivity {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

@@ -35,7 +35,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
     int mType;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jx.csp.ui.frag.main;
 
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -37,7 +38,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 
@@ -65,6 +66,11 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     @Override
     public void getDataFromNet() {
         exeNetworkReq(MeetingAPI.meetingList().pageNum(getOffset()).pageSize(getLimit()).build());
+    }
+
+    @Override
+    public boolean enableInitRefresh() {
+        return isEmpty();
     }
 
     @Override

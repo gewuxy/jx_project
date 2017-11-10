@@ -1,5 +1,9 @@
 package jx.csp.ui.activity;
 
+import android.os.Bundle;
+
+import java.util.HashMap;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -22,8 +26,11 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     @Arg
     String mUrl;
 
+    @Arg(opt = true)
+    HashMap<String, String> mHeaders;
+
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -31,12 +38,11 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
         bar.addBackIcon(R.drawable.nav_bar_ic_back, this);
 
         UISetter.setNavBarMidText(bar, mName, this);
-
     }
 
     @Override
     protected void onLoadStart() {
-        loadUrl(mUrl);
+        loadUrl(mUrl, mHeaders);
     }
 
 }

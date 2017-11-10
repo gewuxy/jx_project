@@ -51,8 +51,8 @@ public class GlConfigServ extends ServiceEx {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-        return JsonParser.ev(r.getText(), GlConfigInfo.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws JSONException {
+        return JsonParser.ev(resp.getText(), GlConfigInfo.class);
     }
 
     @Override

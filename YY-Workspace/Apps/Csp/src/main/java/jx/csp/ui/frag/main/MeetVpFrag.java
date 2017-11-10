@@ -1,5 +1,6 @@
 package jx.csp.ui.frag.main;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -42,8 +43,10 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     private VPEffectContract.P mEffectPresenter;
     private Meet mMeet;
 
+    private List<Meet> mMeets;
+
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mEffectPresenter = new VPEffectPresenterImpl(this, KVpScale);
     }
 
@@ -125,6 +128,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        nativeInvalidate();
     }
 
     @Override
@@ -133,28 +138,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     }
 
     public void setData(List<Meet> data) {
-        // 记录当前index
-        int index = getCurrentItem();
-
-        removeAll();
-        if (data == null) {
-            goneView(mSlideDataLayout);
-            add(new EmptyFrag());
-            invalidate();
-        } else {
-            int size = data.size();
-            for (int i = 0; i < size; ++i) {
-                add(MeetSingleFragRouter.create(data.get(i)).route());
-            }
-
-            if (index > size) {
-                index = 0;
-            }
-            invalidate();
-            setCurrentItem(index);
-
-            mTvTotalPage.setText(String.valueOf(data.size()));
-        }
+        mMeets = data;
     }
 
     public Fragment getItem() {
@@ -171,9 +155,29 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
         return getCurrentItem();
     }
 
-    @Override
-    public void invalidate() {
-        super.invalidate();
+    public void nativeInvalidate() {
+        // 记录当前index
+        int index = getCurrentItem();
+
+        removeAll();
+        if (mMeets == null || mMeets.isEmpty()) {
+            goneView(mSlideDataLayout);
+            add(new EmptyFrag());
+            invalidate();
+        } else {
+            int size = mMeets.size();
+            for (int i = 0; i < size; ++i) {
+                add(MeetSingleFragRouter.create(mMeets.get(i)).route());
+            }
+
+            if (index > size) {
+                index = 0;
+            }
+            invalidate();
+            setCurrentItem(index);
+
+            mTvTotalPage.setText(String.valueOf(mMeets.size()));
+        }
     }
 
     @Override

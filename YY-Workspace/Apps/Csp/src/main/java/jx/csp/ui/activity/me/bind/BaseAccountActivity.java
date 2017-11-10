@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -8,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
-import jx.csp.constant.LoginType;
+import jx.csp.constant.BindId;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
@@ -59,8 +60,8 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mView = new AccountManageViewImpl();
         mPresenter = new AccountManagePresenterImpl(mView);
@@ -71,34 +72,34 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.bind_phone: {
-                mView.judgeBindStatus(RelatedId.bind_phone, getString(R.string.account_unbind_phone), TProfile.mobile);
+                mView.judgeBindStatus(BindId.phone, getString(R.string.account_unbind_phone), TProfile.mobile);
             }
             break;
             case RelatedId.bind_email: {
-                mView.judgeBindStatus(RelatedId.bind_email, getString(R.string.account_unbind_email), TProfile.email);
+                mView.judgeBindStatus(BindId.email, getString(R.string.account_unbind_email), TProfile.email);
             }
             break;
             case RelatedId.bind_wx: {
-                mView.judgeBindStatus(Type.wechat, LoginType.wechat, getString(R.string.account_unbind_wx));
+                mView.judgeBindStatus(BindId.wechat, Type.wechat, getString(R.string.account_unbind_wx));
             }
             break;
             case RelatedId.bind_sina: {
-                mView.judgeBindStatus(Type.sina, LoginType.sina, getString(R.string.account_unbind_sina));
+                mView.judgeBindStatus(BindId.sina, Type.sina, getString(R.string.account_unbind_sina));
             }
             break;
             case RelatedId.bind_facebook: {
-                mView.judgeBindStatus(Type.facebook, LoginType.facebook, getString(R.string.account_unbind_facebook));
+                mView.judgeBindStatus(BindId.facebook, Type.facebook, getString(R.string.account_unbind_facebook));
             }
             break;
             case RelatedId.bind_twitter: {
-                mView.judgeBindStatus(Type.twitter, LoginType.twitter, getString(R.string.account_unbind_twitter));
+                mView.judgeBindStatus(BindId.twitter, Type.twitter, getString(R.string.account_unbind_twitter));
             }
             break;
             case RelatedId.bind_jingxin: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.yaya))) {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.yaya))) {
                     startActivity(YaYaAuthorizeBindActivity.class);
                 } else {
-                    mView.unBindDialog(RelatedId.bind_jingxin, RelatedId.bind_jingxin, getString(R.string.account_unbind_yaya));
+                    mView.showUnBindDialog(BindId.yaya, getString(R.string.account_unbind_yaya));
                 }
             }
             break;
@@ -108,101 +109,107 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
+        if (type < NotifyType.bind_wx || type > NotifyType.bind_twitter) {
+            // 不接收bind以外的消息
+            return;
+        }
+
         switch (type) {
             case NotifyType.bind_phone: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_phone);
+                mView.refreshItem(RelatedId.bind_phone, (String) data);
             }
             break;
             case NotifyType.bind_wx: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_wx);
+                mView.refreshItem(RelatedId.bind_wx, (String) data);
             }
             break;
             case NotifyType.bind_sina: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_sina);
+                mView.refreshItem(RelatedId.bind_sina, (String) data);
             }
             break;
             case NotifyType.bind_fackbook: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_facebook);
+                mView.refreshItem(RelatedId.bind_facebook, (String) data);
             }
             break;
             case NotifyType.bind_twitter: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_twitter);
+                mView.refreshItem(RelatedId.bind_twitter, (String) data);
             }
             break;
             case NotifyType.bind_email: {
-                mView.bindRefreshItem(Profile.inst().getString(TProfile.email), RelatedId.bind_email);
+                mView.refreshItem(RelatedId.bind_email, Profile.inst().getString(TProfile.email));
             }
             break;
             case NotifyType.bind_yaya: {
-                mView.bindRefreshItem((String) data, RelatedId.bind_jingxin);
+                mView.refreshItem(RelatedId.bind_jingxin, (String) data);
             }
             break;
         }
+
+        showToast(R.string.account_bind_succeed);
     }
 
     private class AccountManageViewImpl implements AccountManageContract.V {
 
         @Override
-        public void judgeBindStatus(int id, String tips, TProfile key) {
+        public void judgeBindStatus(int bindId, String tips, TProfile key) {
             if (TextUtil.isEmpty(Profile.inst().getString(key))) {
-                switch (id) {
-                    case RelatedId.bind_phone: {
+                switch (bindId) {
+                    case BindId.phone: {
                         startActivity(BindPhoneActivity.class);
                     }
                     break;
-                    case RelatedId.bind_email: {
+                    case BindId.email: {
                         startActivity(BindEmailActivity.class);
                     }
                     break;
                 }
             } else {
                 // 已绑定
-                confirmUnBindDialog(tips, v -> {
+                showConfirmUnBindDialog(tips, v -> {
                     if (Util.noNetwork()) {
                         return;
                     }
                     refresh(RefreshWay.dialog);
-                    mPresenter.unBindMobileOrEmailReq(id, id);
+                    mPresenter.unBind(bindId);
                 });
             }
         }
 
         @Override
-        public void unBindDialog(int id, int thirdPartyId, String tips) {
-            confirmUnBindDialog(tips, v -> {
+        public void showUnBindDialog(int bindId, String tips) {
+            showConfirmUnBindDialog(tips, v -> {
                 if (Util.noNetwork()) {
                     return;
                 }
                 refresh(RefreshWay.dialog);
-                mPresenter.unBindThirdPartyReq(id, thirdPartyId);
+                mPresenter.unBind(bindId);
             });
         }
 
         @Override
-        public void judgeBindStatus(Type type, int id, String tips) {
-            if (TextUtil.isEmpty(Profile.inst().getBindNickName(id))) {
+        public void judgeBindStatus(int bindId, Type type, String tips) {
+            if (TextUtil.isEmpty(Profile.inst().getBindNickName(bindId))) {
                 refresh(RefreshWay.dialog);
-                mPresenter.doAuth(type, id);
+                mPresenter.auth(bindId, type);
             } else {
-                unBindDialog(id, id, tips);
+                showUnBindDialog(bindId, tips);
             }
         }
 
         @Override
-        public void bindRefreshItem(String data, int id) {
+        public void refreshItem(@RelatedId int id, String data) {
             getRelatedItem(id).save(data, data);
             refreshRelatedItem(id);
-            showToast(R.string.account_bind_succeed);
         }
 
         @Override
-        public void unBindRefreshItem(int id) {
+        public void refreshItem(@RelatedId int id) {
             getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);
             refreshRelatedItem(id);
         }
 
         @Override
-        public void confirmUnBindDialog(CharSequence hint, OnClickListener l) {
+        public void showConfirmUnBindDialog(CharSequence hint, OnClickListener l) {
             CommonDialog2 d = new CommonDialog2(BaseAccountActivity.this);
             d.setHint(hint);
             d.addButton(R.string.confirm, R.color.text_333, l);

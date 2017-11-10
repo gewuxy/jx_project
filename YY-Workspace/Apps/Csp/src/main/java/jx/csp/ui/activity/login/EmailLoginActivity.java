@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
@@ -9,12 +10,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.BindId;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LoginType;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
@@ -23,12 +23,11 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
 //import jx.csp.model.login.login;
@@ -59,8 +58,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
     private int mCount = 0;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
@@ -135,21 +134,16 @@ public class EmailLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.login(LoginType.email).email(getEmail()).password(getUserPwd()).build());
+        exeNetworkReq(UserAPI.login(BindId.email).email(getEmail()).password(getUserPwd()).build());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
+            // FIXME: 怎么使用的getEmail??
             SpApp.inst().saveUserEmail(getEmail());
-            Profile.inst().update(r.getData());
+            Profile.inst().update((Profile) r.getData());
             SpUser.inst().updateProfileRefreshTime();
 
             notify(NotifyType.login);

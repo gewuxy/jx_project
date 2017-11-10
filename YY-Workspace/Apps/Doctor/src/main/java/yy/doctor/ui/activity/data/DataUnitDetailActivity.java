@@ -48,7 +48,7 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     private ICollectionView mCollectionView;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -69,11 +69,11 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == ICollectionView.KIdDetail) {
-            return super.onNetworkResponse(id, r);
+            return super.onNetworkResponse(id, resp);
         } else {
-            return mCollectionView.onNetworkResponse(id, r);
+            return mCollectionView.onNetworkResponse(id, resp);
         }
     }
 

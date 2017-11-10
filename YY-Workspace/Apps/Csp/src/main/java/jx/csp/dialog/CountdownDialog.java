@@ -1,6 +1,7 @@
 package jx.csp.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

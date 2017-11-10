@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
+import jx.csp.constant.AppType;
 import jx.csp.constant.LangType;
 import lib.ys.util.sp.SpBase;
 
@@ -36,7 +37,8 @@ public class SpApp extends SpBase {
         String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
-        String KSystemLang = "app_type";
+        String KSystemLang = "sys_lang";
+        String KAppType = "app_type";
         String KLoginVideoVersion = "version";
     }
 
@@ -133,5 +135,15 @@ public class SpApp extends SpBase {
 
     public LangType getLangType() {
         return LangType.values()[getInt(SpAppKey.KSystemLang, LangType.en.ordinal())];
+    }
+
+    // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
+    public void setAppType(@AppType int type) {
+        save(SpAppKey.KAppType, type);
+    }
+
+    @AppType
+    public int getAppType() {
+        return getInt(SpAppKey.KAppType, AppType.inland);
     }
 }

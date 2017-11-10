@@ -1,6 +1,7 @@
 package jx.csp.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,7 +39,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

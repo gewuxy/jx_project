@@ -50,7 +50,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     //private String mFileNameHashCode;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         YSLog.d(TAG, "FileNameEncryption = " + mFileNameEncryption);
         // 恢复文件名
 //        StringBuffer sb = new StringBuffer();

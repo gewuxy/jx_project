@@ -63,8 +63,8 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mHandler = new Handler() {
             @Override

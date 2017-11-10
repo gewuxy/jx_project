@@ -58,7 +58,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         notify(NotifyType.study_start);
 
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KData);
@@ -99,12 +99,12 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         ListResult<Detail> listResult = null;
         List<Detail> details = null;
         if (id == KIdToVideo) {
             // 筛选需要的数据类型
-            Result<Intro> result = JsonParser.ev(r.getText(), Intro.class);
+            Result<Intro> result = JsonParser.ev(resp.getText(), Intro.class);
             listResult = new ListResult<>();
             if (result.isSucceed()) {
                 Intro intro = result.getData();
@@ -114,7 +114,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
                 listResult.setData(details);
             }
         } else if (id == KIdVideo) {
-            listResult = JsonParser.evs(r.getText(), Detail.class);
+            listResult = JsonParser.evs(resp.getText(), Detail.class);
             details = listResult.getData();
         }
         mStudyTime = 0;

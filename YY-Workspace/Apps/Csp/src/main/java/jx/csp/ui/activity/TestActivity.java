@@ -1,6 +1,7 @@
 package jx.csp.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginActivity;
@@ -17,7 +18,7 @@ import lib.yy.test.BaseTestActivity;
 public class TestActivity extends BaseTestActivity {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         add("首页", new Intent(this, MainActivity.class));
         add("个人中心", new Intent(this, MeActivity.class));

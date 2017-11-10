@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.profile;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,8 +29,8 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private TextWatcher mWatcher;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
     }
 

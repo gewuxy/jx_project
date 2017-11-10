@@ -41,7 +41,7 @@ abstract public class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @CallSuper

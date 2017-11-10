@@ -1,6 +1,6 @@
 package yy.doctor.model.config;
 
-import lib.network.model.param.BasePair;
+import lib.network.model.pair.BasePair;
 
 /**
  * @author CaiXiang

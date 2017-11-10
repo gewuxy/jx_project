@@ -53,7 +53,7 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

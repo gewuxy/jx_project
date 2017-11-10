@@ -117,8 +117,8 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mStatus = new HashSet<>();
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);

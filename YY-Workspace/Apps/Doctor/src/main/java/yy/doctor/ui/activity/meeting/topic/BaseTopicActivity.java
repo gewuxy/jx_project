@@ -77,7 +77,7 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCount = 0;
         mIsAnimating = false;
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);

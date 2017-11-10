@@ -18,9 +18,9 @@ import lib.network.Network;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.yy.network.BaseJsonParser;
-import lib.yy.network.Result;
 
 /**
  * PayPal
@@ -106,17 +106,17 @@ public class PayPalPay {
                                 .param("orderId", data.getStringExtra(KExtraOrderId))
                                 .build(),
                         new OnNetworkListener() {
+
                             @Override
-                            public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-                                return BaseJsonParser.error(r.getText());
+                            public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+                                return BaseJsonParser.error(resp.getText());
                             }
 
                             @Override
-                            public void onNetworkSuccess(int id, Object result) {
-                                Result r = (Result) result;
+                            public void onNetworkSuccess(int id, IResult r) {
                                 if (r.isSucceed()) {
                                     listener.onPaySuccess();
-                                }else {
+                                } else {
                                     onNetworkError(id, r.getError());
                                 }
                             }

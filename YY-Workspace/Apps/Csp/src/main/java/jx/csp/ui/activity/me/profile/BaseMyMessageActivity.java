@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.me.profile;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,7 +50,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     public MyMessageContract.V mView;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mView = new MyMessageViewImpl();
         mPresenter = new MyMessagePresenterImpl(mView);
     }

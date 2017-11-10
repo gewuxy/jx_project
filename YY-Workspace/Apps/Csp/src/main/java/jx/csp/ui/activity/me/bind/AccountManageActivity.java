@@ -1,8 +1,10 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
+
 import jx.csp.R;
+import jx.csp.constant.BindId;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LoginType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -16,8 +18,8 @@ import jx.csp.model.form.Form;
 public class AccountManageActivity extends BaseAccountActivity {
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
@@ -32,7 +34,7 @@ public class AccountManageActivity extends BaseAccountActivity {
                 .related(RelatedId.bind_wx)
                 .name(R.string.account_wx)
                 .drawable(R.drawable.form_ic_account_wx)
-                .text(Profile.inst().getBindNickName(LoginType.wechat))
+                .text(Profile.inst().getBindNickName(BindId.wechat))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -40,7 +42,7 @@ public class AccountManageActivity extends BaseAccountActivity {
                 .related(RelatedId.bind_sina)
                 .name(R.string.account_sina)
                 .drawable(R.drawable.form_ic_account_sina)
-                .text(Profile.inst().getBindNickName(LoginType.sina))
+                .text(Profile.inst().getBindNickName(BindId.sina))
                 .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
@@ -56,7 +58,7 @@ public class AccountManageActivity extends BaseAccountActivity {
                 .related(RelatedId.bind_jingxin)
                 .name(R.string.account_jingxin)
                 .drawable(R.drawable.form_ic_account_jingxin)
-                .text(Profile.inst().getBindNickName(LoginType.yaya))
+                .text(Profile.inst().getBindNickName(BindId.yaya))
                 .hint(R.string.account_not_bind));
     }
 

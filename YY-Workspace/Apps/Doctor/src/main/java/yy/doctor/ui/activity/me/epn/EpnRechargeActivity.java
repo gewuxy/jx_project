@@ -83,7 +83,7 @@ public class EpnRechargeActivity extends BaseActivity {
     };
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -170,9 +170,9 @@ public class EpnRechargeActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         EpnRecharge epnRecharge = new EpnRecharge();
-        JSONObject object = new JSONObject(r.getText());
+        JSONObject object = new JSONObject(resp.getText());
         epnRecharge.put(TEpnRecharge.data, object.getString("data"));
         epnRecharge.put(TEpnRecharge.code, object.getInt("code"));
         return epnRecharge;

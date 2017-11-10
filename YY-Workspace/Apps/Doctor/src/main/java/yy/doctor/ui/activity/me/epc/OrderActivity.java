@@ -23,7 +23,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     private TextView mTv;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

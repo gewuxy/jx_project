@@ -54,7 +54,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private CountDown mCountDown; // 倒计时
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -170,8 +170,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Scan.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Scan.class);
     }
 
     @Override

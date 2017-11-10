@@ -9,6 +9,7 @@ import inject.annotation.network.method.DownloadFile;
 import inject.annotation.network.method.Get;
 import inject.annotation.network.method.Post;
 import inject.annotation.network.method.Upload;
+import jx.csp.constant.BindId;
 
 /**
  * @auther yuansui
@@ -83,20 +84,20 @@ public class NetworkApi {
          * @param type 6代表手机, 7代表邮箱
          */
         @Post("unbind")
-        void unBind(int type);
+        void unBind(@BindId int type);
 
         /**
          * 绑定或解绑第三方账号
          *
          * @param uniqueId     需要绑定的第三方账号唯一标识,,解绑时无此参数
-         * @param thirdPartyId 1代表微信，2代表微博，3代表facebook,4代表twitter,5代表YaYa医师,解绑操作只需传递此字段
+         * @param thirdPartyId {@link BindId}
          * @param nickName     第三方账号的昵称,解绑时无此参数
          * @param gender       性别,解绑时无此参数
          * @param avatar       头像,解绑时无此参数
          */
         @Post("changeBindStatus")
         void bindAccountStatus(@Query(opt = true) String uniqueId,
-                               @Query(opt = true) int thirdPartyId,
+                               @Query(opt = true) @BindId int thirdPartyId,
                                @Query(opt = true) String nickName,
                                @Query(opt = true) String gender,
                                @Query(opt = true) String avatar);
@@ -195,10 +196,10 @@ public class NetworkApi {
          * 投稿
          *
          * @param acceptIds 要投稿的单位号ID数组
-         * @param courseId 被投稿的课件ID
+         * @param courseId  被投稿的课件ID
          */
         @Post("push")
-        void unitNum(String acceptIds, int courseId);
+        void unitNum(String acceptIds, String courseId);
 
         /**
          * 可投稿的单位号
@@ -300,10 +301,10 @@ public class NetworkApi {
         void scan(String courseId);
 
         @Post("delete")
-        void delete(int id);
+        void delete(String id);
 
         @Post("share/copy")
-        void copy(int courseId, String title);
+        void copy(String courseId, String title);
 
         /***
          * 进入会议检测

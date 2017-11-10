@@ -56,7 +56,7 @@ abstract public class BaseLoginActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -180,8 +180,8 @@ abstract public class BaseLoginActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     abstract protected CharSequence getBtnText();

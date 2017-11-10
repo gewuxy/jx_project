@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.widget.EditText;
@@ -12,9 +13,9 @@ import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.util.Util;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
-import lib.yy.network.Result;
 
 /**
  * 忘记密码
@@ -36,8 +37,8 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     private EditText mEtEmail;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
@@ -71,8 +72,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             startActivity(ForgetPwdSkipActivity.class);
             finish();

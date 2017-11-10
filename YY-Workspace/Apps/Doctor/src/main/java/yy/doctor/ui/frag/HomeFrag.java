@@ -72,7 +72,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private BannerView mBannerView;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -134,7 +134,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
 
         if (id == KReqIdAttention) {
             return true;
@@ -142,17 +142,17 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         ListResult result = null;
         if (id == KReqIdBanner) {
-            result = JsonParser.evs(r.getText(), Banner.class);
+            result = JsonParser.evs(resp.getText(), Banner.class);
             if (result.isSucceed()) {
                 mBanners = result.getData();
             }
         } else if (id == KReqIdUnitNum) {
-            result = JsonParser.evs(r.getText(), RecUnitNum.class);
+            result = JsonParser.evs(resp.getText(), RecUnitNum.class);
             if (result.isSucceed()) {
                 mRecUnitNums = result.getData();
             }
         } else if (id == KReqIdMeeting) {
-            result = JsonParser.evs(r.getText(), RecMeeting.class);
+            result = JsonParser.evs(resp.getText(), RecMeeting.class);
             if (result.isSucceed()) {
                 mRecMeetings = result.getData();
             }

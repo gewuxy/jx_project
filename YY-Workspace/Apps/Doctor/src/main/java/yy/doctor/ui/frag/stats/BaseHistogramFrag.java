@@ -49,7 +49,7 @@ abstract public class BaseHistogramFrag extends BaseFrag {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         Bundle b = getArguments();
         if (b != null) {
             mIndex = b.getInt(Extra.KId);
@@ -89,8 +89,8 @@ abstract public class BaseHistogramFrag extends BaseFrag {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Stats.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Stats.class);
     }
 
     @Override

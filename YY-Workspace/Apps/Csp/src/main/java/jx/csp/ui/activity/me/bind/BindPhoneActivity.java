@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
@@ -25,8 +26,8 @@ public class BindPhoneActivity extends BaseSetActivity {
     private static EditText mEtPhone;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et_phone_number)

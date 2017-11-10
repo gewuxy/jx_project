@@ -63,7 +63,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mSuccess = false; // 没连接默认失败
     }
 
@@ -110,8 +110,8 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), CommentHistories.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), CommentHistories.class);
     }
 
     @Override

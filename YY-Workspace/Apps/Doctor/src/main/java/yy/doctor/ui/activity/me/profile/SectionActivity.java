@@ -51,7 +51,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     private String mCategoryName;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCategory = "内科系统";
     }
 
@@ -82,13 +82,13 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdGet) {
-            return JsonParser.evs(r.getText(), Section.class);
+            return JsonParser.evs(resp.getText(), Section.class);
         } else if (id == KIdCommit)  {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         } else {
-            return super.onNetworkResponse(id, r);
+            return super.onNetworkResponse(id, resp);
         }
     }
 

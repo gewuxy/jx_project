@@ -19,7 +19,7 @@ public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter
     private OnCategoryListener mListener;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

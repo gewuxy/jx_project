@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
@@ -11,9 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
+import jx.csp.constant.BindId;
 import jx.csp.constant.CaptchaType;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LoginType;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
@@ -27,11 +28,11 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
 
@@ -69,8 +70,9 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+
         mCount = 0;
 
         addItem(Form.create(FormType.et_phone_number)
@@ -183,24 +185,22 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(KIdLogin, UserAPI.login(LoginType.phone).mobile(getPhone()).captcha(getCaptcha()).build());
+        exeNetworkReq(KIdLogin, UserAPI.login(BindId.phone).mobile(getPhone()).captcha(getCaptcha()).build());
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         if (id == KIdLogin) {
-            Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
+                Profile data = (Profile) r.getData();
+                Profile.inst().update(data);
                 SpUser.inst().updateProfileRefreshTime();
-
-                Profile data = r.getData();
 
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
@@ -214,7 +214,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 onNetworkError(id, r.getError());
             }
         } else if (id == KIdCaptcha) {
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                 showToast(R.string.send_captcha);

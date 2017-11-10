@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.epc;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -77,8 +78,8 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;
@@ -188,8 +189,8 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override

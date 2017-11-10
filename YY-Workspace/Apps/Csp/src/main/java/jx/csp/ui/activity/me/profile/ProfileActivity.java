@@ -2,6 +2,7 @@ package jx.csp.ui.activity.me.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -73,8 +74,8 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mView = new ProfileViewImpl();
         mPresenter = new ProfilePresenterImpl(mView);

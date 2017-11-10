@@ -20,7 +20,7 @@ public class SectionNameFrag extends BaseListFrag<String, SectionNameAdapter> {
     private OnSectionListener mListener;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

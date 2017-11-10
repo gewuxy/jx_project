@@ -1,6 +1,6 @@
 package jx.csp.contact;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jx.csp.model.Platform;
 import lib.ys.ui.other.NavBar;
@@ -46,7 +46,7 @@ public interface ContributePlatformContract {
          * @param platformArrayList
          * @param platform
          */
-        void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform, int courseId);
+        void clickContributeReq(List<Platform> platformArrayList, Platform platform, String courseId);
 
     }
 }

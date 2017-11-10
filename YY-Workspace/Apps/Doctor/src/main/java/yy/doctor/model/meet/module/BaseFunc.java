@@ -266,9 +266,9 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdModule) {
-            return onNetworkResponse(r);
+            return onNetworkResponse(resp);
         }
         return null;
     }

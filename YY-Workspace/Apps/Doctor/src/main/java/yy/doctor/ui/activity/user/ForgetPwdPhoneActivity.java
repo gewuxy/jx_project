@@ -72,8 +72,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     private Set<Integer> mStatus;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mCount = 0;
 
@@ -216,11 +216,11 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdLogin) {
-            return JsonParser.ev(r.getText(), Profile.class);
+            return JsonParser.ev(resp.getText(), Profile.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 

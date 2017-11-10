@@ -144,8 +144,8 @@ public class RegisterActivity extends BaseFormActivity implements
     private Set<Integer> mStatus; // 记录要完成的内容
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mCount = 0;
 
@@ -402,11 +402,11 @@ public class RegisterActivity extends BaseFormActivity implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdLogin) {
-            return JsonParser.ev(r.getText(), Profile.class);
+            return JsonParser.ev(resp.getText(), Profile.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 

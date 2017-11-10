@@ -1,6 +1,7 @@
 package jx.csp.ui.frag.record;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -15,6 +16,7 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -58,7 +60,7 @@ public class RecordImgFrag extends BaseFrag {
     String mAudioUrl;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -129,9 +131,9 @@ public class RecordImgFrag extends BaseFrag {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         showLayoutAudio();
-        super.onNetworkSuccess(id, result);
+        super.onNetworkSuccess(id, r);
     }
 
     @Override

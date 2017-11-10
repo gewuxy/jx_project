@@ -14,17 +14,15 @@ import inject.annotation.router.Route;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.network.Result;
-import yy.doctor.model.Ad;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkApiDescriptor.CommonAPI;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.network.NetworkApiDescriptor.UserAPI;
-import yy.doctor.sp.SpApp;
 
 /**
  * 常驻服务
@@ -55,7 +53,6 @@ public class CommonServ extends ServiceEx {
             ReqType.video,
             ReqType.course,
             ReqType.meet,
-            ReqType.advert,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -64,7 +61,6 @@ public class CommonServ extends ServiceEx {
         int video = 3;
         int course = 4;
         int meet = 5;
-        int advert = 6;
     }
 
     @Override
@@ -115,16 +111,12 @@ public class CommonServ extends ServiceEx {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-        if (id == ReqType.advert) {
-            return JsonParser.ev(r.getText(), Ad.class);
-        } else {
-            return JsonParser.error(r.getText());
-        }
+    public IResult onNetworkResponse(int id, NetworkResp r) throws JSONException {
+        return JsonParser.error(r.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult result) {
         Result r = (Result) result;
 
         //通过id判断 执行的网络请求

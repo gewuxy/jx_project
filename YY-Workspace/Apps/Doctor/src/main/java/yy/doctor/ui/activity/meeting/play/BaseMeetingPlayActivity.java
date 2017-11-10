@@ -50,7 +50,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     @CallSuper
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         notify(NotifyType.study_start);
     }
 

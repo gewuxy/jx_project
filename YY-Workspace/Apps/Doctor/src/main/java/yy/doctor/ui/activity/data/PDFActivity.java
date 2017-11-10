@@ -52,7 +52,7 @@ public class PDFActivity extends BaseActivity {
     private ICollectionView mCollectionView;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -87,11 +87,11 @@ public class PDFActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == ICollectionView.KIdDetail) {
-            return JsonParser.ev(r.getText(), DataUnitDetails.class);
+            return JsonParser.ev(resp.getText(), DataUnitDetails.class);
         } else {
-            return mCollectionView.onNetworkResponse(id, r);
+            return mCollectionView.onNetworkResponse(id, resp);
         }
     }
 

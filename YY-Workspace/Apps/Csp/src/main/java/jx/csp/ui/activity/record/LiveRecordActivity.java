@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.record;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
@@ -38,7 +40,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -70,8 +71,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private String mFilePath; // 正在录制的音频文件名字
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         mRealStopTime = mStopTime + 15 * 60 * 1000;
         mView = new View();
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView, mCourseId);
@@ -208,20 +209,19 @@ public class LiveRecordActivity extends BaseRecordActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KJoinMeetingReqId) {
-            return JsonParser.ev(r.getText(), JoinMeeting.class);
+            return JsonParser.ev(resp.getText(), JoinMeeting.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KJoinMeetingReqId) {
-            Result<JoinMeeting> r = (Result<JoinMeeting>) result;
             if (r.isSucceed()) {
-                mJoinMeeting = r.getData();
+                mJoinMeeting = (JoinMeeting) r.getData();
                 String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
@@ -258,7 +258,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 }
             }
         } else {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, r);
         }
     }
 

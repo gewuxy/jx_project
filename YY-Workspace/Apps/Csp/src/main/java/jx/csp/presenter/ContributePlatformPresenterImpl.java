@@ -1,8 +1,6 @@
 package jx.csp.presenter;
 
-import android.util.Log;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import jx.csp.App;
 import jx.csp.R;
@@ -12,8 +10,8 @@ import jx.csp.model.Platform.TPlatformDetail;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 
 /**
  * @auther Huoxuyu
@@ -28,7 +26,23 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void clickContributeReq(ArrayList<Platform> platformArrayList, Platform platform, int courseId) {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        getView().onStopRefresh();
+        if (r.isSucceed()) {
+            getView().onFinish();
+            App.showToast(R.string.contribute_platform_succeed);
+        } else {
+            onNetworkError(id, r.getError());
+        }
+    }
+
+    @Override
+    public void clickContributeReq(List<Platform> platformArrayList, Platform platform, String courseId) {
         StringBuffer buffer = new StringBuffer();
         int size = platformArrayList.size();
         for (int i = 0; i < size; ++i) {
@@ -38,24 +52,6 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
                 buffer.append(",");
             }
         }
-        Log.d(TAG, " buffer " + buffer);
         exeNetworkReq(DeliveryAPI.unitNum(String.valueOf(buffer), courseId).build());
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
-        getView().onStopRefresh();
-        if (r.isSucceed()) {
-            getView().onFinish();
-            App.showToast(R.string.contribute_platform_succeed);
-        } else {
-            onNetworkError(id, r.getError());
-        }
     }
 }

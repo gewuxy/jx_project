@@ -2,6 +2,7 @@ package jx.csp.ui.activity.main;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
@@ -24,11 +25,11 @@ import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -58,7 +59,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private WebSocketServRouter mWebSocketServRouter;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         LiveNotifier.inst().add(this);
     }
 
@@ -177,15 +178,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Scan.class);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Scan.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Scan> r = (Result<Scan>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            mScan = r.getData();
+            mScan = (Scan) r.getData();
             // 先判断是否有其他人已经进入会议
             if (mScan.getInt(TScan.duplicate) == DuplicateType.no) {
                 joinRecord();

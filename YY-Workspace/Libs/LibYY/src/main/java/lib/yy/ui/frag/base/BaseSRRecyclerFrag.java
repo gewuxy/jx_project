@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.list.SRRecyclerFragEx;
 import lib.ys.util.GenericUtil;
@@ -52,7 +52,7 @@ abstract public class BaseSRRecyclerFrag<T, A extends IAdapter<T>> extends SRRec
     }
 
     @Override
-    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IResult parseNetworkResponse(int what, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 

@@ -4,11 +4,12 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import jx.csp.R;
-import jx.csp.constant.LoginType;
+import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
+import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
@@ -58,11 +59,11 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
         switch (v.getId()) {
             case R.id.layout_login_wechat: {
-                Platform.auth(Type.wechat, newListener(KIdWechatLogin, LoginType.wechat));
+                Platform.auth(Type.wechat, newListener(KIdWechatLogin, BindId.wechat));
             }
             break;
             case R.id.layout_login_sina: {
-                Platform.auth(Type.sina, newListener(KIdSinaLogin, LoginType.sina));
+                Platform.auth(Type.sina, newListener(KIdSinaLogin, BindId.sina));
             }
             break;
             case R.id.login_mobile: {
@@ -81,7 +82,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         }
     }
 
-    private OnAuthListener newListener(int id, @LoginType int type) {
+    private OnAuthListener newListener(int id, @BindId int type) {
         return new OnAuthListener() {
 
             @Override
@@ -112,7 +113,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult result) {
         super.onNetworkSuccess(id, result);
         if (id == KIdWechatLogin || id == KIdSinaLogin) {
             Result<Profile> r = (Result<Profile>) result;

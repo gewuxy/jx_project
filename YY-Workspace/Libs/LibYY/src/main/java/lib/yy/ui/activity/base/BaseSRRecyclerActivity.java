@@ -1,12 +1,12 @@
 package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.activity.list.SRRecyclerActivityEx;
 import lib.ys.util.GenericUtil;
@@ -43,9 +43,10 @@ abstract public class BaseSRRecyclerActivity<T, A extends IAdapter<T>> extends S
         Notifier.inst().remove(this);
     }
 
+    @CallSuper
     @Override
-    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
-        return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return BaseJsonParser.evs(resp.getText(), GenericUtil.getClassType(getClass()));
     }
 
     @Override

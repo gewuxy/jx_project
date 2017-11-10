@@ -1,6 +1,7 @@
 package jx.csp.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -37,7 +38,7 @@ public class CommonDialog extends BaseDialog {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

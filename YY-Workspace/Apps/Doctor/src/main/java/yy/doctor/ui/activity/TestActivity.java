@@ -17,7 +17,7 @@ import yy.doctor.ui.activity.user.login.LoginActivity;
 public class TestActivity extends BaseTestActivity {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
 
         add("主页", MainActivityRouter.newIntent(this, MainActivity.KTabHome));
         add("会议", MainActivityRouter.newIntent(this, MainActivity.KTabMeeting));

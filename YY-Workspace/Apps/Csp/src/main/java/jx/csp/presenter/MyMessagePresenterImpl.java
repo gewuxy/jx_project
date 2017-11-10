@@ -1,11 +1,9 @@
 package jx.csp.presenter;
 
 import jx.csp.contact.MyMessageContract;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 
 /**
  * @auther Huoxuyu
@@ -22,13 +20,7 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         getView().onStopRefresh();
         if (r.isSucceed()) {
             getView().saveRevisedData();

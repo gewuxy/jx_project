@@ -64,7 +64,7 @@ public class MainActivity extends BaseVpActivity {
     int mCurrPage;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         add(new HomeFrag());
         add(new MeetingFrag());
         add(new DataCenterFrag());
@@ -192,11 +192,11 @@ public class MainActivity extends BaseVpActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KReqIdProfile) {
-            return JsonParser.ev(r.getText(), Profile.class);
+            return JsonParser.ev(resp.getText(), Profile.class);
         } else {
-            return JsonParser.ev(r.getText(), CheckAppVersion.class);
+            return JsonParser.ev(resp.getText(), CheckAppVersion.class);
         }
     }
 

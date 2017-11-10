@@ -3,11 +3,13 @@ package lib.yy.contract;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.YSLog;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.ui.interfaces.opt.INetworkOpt;
+import lib.yy.network.BaseJsonParser;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
@@ -56,12 +58,13 @@ abstract public class BasePresenterImpl<V extends IContract.View> implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return null;
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        // 只解析错误信息
+        return BaseJsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
     }
 
     @Override

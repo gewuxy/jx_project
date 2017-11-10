@@ -56,18 +56,18 @@ public class SearchResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         ListResult result = null;
         if (id == KMeeting) {
             // 会议
-            result = JsonParser.evs(r.getText(), Meeting.class);
+            result = JsonParser.evs(resp.getText(), Meeting.class);
             // onNetworkSuccess接数据可能为空 ,因为这不在主线程
             if (result.isSucceed()) {
                 mMeets = result.getData();
             }
         } else {
             // 单位号
-            result = JsonParser.evs(r.getText(), UnitNum.class);
+            result = JsonParser.evs(resp.getText(), UnitNum.class);
             if (result.isSucceed()) {
                 mUnitNums = result.getData();
             }

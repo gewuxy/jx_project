@@ -78,8 +78,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.update_log)

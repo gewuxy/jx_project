@@ -28,11 +28,11 @@ import jx.csp.ui.activity.liveroom.LiveRoomActivityRouter;
 import jx.csp.ui.activity.record.CommonRecordActivityRouter;
 import jx.csp.ui.activity.record.LiveRecordActivityRouter;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 
 /**
  * @auther yuansui
@@ -118,7 +118,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     public void onShareClick(Meet item) {
         mMeet = item;
         ShareDialog shareDialog = new ShareDialog(mContext,
-                item.getInt(TMeet.id),
+                item.getString(TMeet.id),
                 String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
                 item.getString(TMeet.coverUrl));
         shareDialog.show();
@@ -154,7 +154,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KJoinRecordCheckRedId || id == KJoinLiveRoomCheckRedId) {
             return JsonParser.ev(r.getText(), Scan.class);
         } else {
@@ -163,12 +163,11 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         switch (id) {
             case KJoinRecordCheckRedId: {
-                Result<Scan> r = (Result<Scan>) result;
                 if (r.isSucceed()) {
-                    Scan scan = r.getData();
+                    Scan scan = (Scan) r.getData();
                     if (scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(scan.getString(TScan.wsUrl))) {
                         // 有人情况下要弹dialog 确定后连websocket
                         switch (mMeet.getInt(TMeet.playType)) {
@@ -193,9 +192,8 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             }
             break;
             case KJoinLiveRoomCheckRedId: {
-                Result<Scan> r = (Result<Scan>) result;
                 if (r.isSucceed()) {
-                    Scan scan = r.getData();
+                    Scan scan = (Scan) r.getData();
                     mLiveRoomWsUrl = scan.getString(TScan.wsUrl);
                     if (scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(mLiveRoomWsUrl)) {
                         // 有人情况下要弹dialog 确定后连websocket

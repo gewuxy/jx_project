@@ -39,8 +39,8 @@ public class ChangePwdActivity extends BaseSetActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd_old)

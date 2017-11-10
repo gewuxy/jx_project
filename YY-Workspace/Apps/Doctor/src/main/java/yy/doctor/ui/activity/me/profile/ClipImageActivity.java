@@ -40,7 +40,7 @@ public class ClipImageActivity extends BaseActivity {
     String mPath;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -94,8 +94,8 @@ public class ClipImageActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), UpHeadImage.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), UpHeadImage.class);
     }
 
     @Override

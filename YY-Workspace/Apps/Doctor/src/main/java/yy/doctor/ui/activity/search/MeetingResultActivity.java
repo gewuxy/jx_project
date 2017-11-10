@@ -67,8 +67,8 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.evs(r.getText(), Meeting.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.evs(resp.getText(), Meeting.class);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
     private CountDown mCountDown;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
         mCountDown.start(KCountDownTime);

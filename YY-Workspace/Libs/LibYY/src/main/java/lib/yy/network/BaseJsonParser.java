@@ -72,8 +72,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static Result<String> error(String text) throws JSONException {
-        Result<String> r = new Result<>();
+    public static Result error(String text) throws JSONException {
+        Result r = new Result();
         error(text, r);
         return r;
     }
@@ -119,8 +119,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static <T extends EVal> Result<T> ev(String text, Class<T> clz) throws JSONException {
-        Result<T> r = new Result<>();
+    public static <T extends EVal> Result ev(String text, Class<T> clz) throws JSONException {
+        Result r = new Result();
         setEV(clz, r, getGlobalJsonObject(text, r));
         return r;
     }
@@ -134,8 +134,8 @@ public class BaseJsonParser extends JsonParserEx {
      * @return
      * @throws JSONException
      */
-    public static <T extends EVal> ListResult<T> evs(String text, Class<T> clz) throws JSONException {
-        ListResult<T> r = new ListResult<>();
+    public static <T extends EVal> Result<T> evs(String text, Class<T> clz) throws JSONException {
+        Result<T> r = new Result<>();
         setEVs(clz, r, getGlobalJsonArray(text, r));
         return r;
     }

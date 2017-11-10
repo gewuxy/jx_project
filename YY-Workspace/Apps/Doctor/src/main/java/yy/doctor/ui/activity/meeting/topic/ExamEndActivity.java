@@ -59,7 +59,7 @@ public class ExamEndActivity extends BaseActivity {
     private View mLayout;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -104,8 +104,8 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), TopicResult.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), TopicResult.class);
     }
 
     @Override

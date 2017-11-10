@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.widget.EditText;
 
@@ -23,8 +24,8 @@ public class BindEmailActivity extends BaseSetActivity {
     private EditText mEtPwd;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et)

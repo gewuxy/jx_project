@@ -40,7 +40,7 @@ public class LevelDialog extends BaseDialog {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mLevels = GlConfig.inst().getHospitalLevels();
     }
 

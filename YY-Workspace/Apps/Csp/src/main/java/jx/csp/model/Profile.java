@@ -3,8 +3,8 @@ package jx.csp.model;
 import java.util.List;
 import java.util.Observable;
 
-import jx.csp.constant.LoginType;
-import jx.csp.model.BindInfoList.TBindInfo;
+import jx.csp.constant.BindId;
+import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.sp.SpUser;
 import lib.ys.ConstantsEx;
@@ -39,7 +39,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         @Init(asInt = 0)
         flux,       //流量 保存单位是M 显示单位是G
 
-        @Bind(asList = BindInfoList.class)
+        @Bind(asList = BindInfo.class)
         bindInfoList,
     }
 
@@ -79,12 +79,12 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         mInst = null;
     }
 
-    public String getBindNickName(@LoginType int id) {
-        List<BindInfoList> list = getList(TProfile.bindInfoList);
+    public String getBindNickName(@BindId int id) {
+        List<BindInfo> list = getList(TProfile.bindInfoList);
         if (list != null) {
-            for (BindInfoList bindInfo : list) {
-                if (bindInfo.getInt(TBindInfo.thirdPartyId) == id) {
-                    return bindInfo.getString(TBindInfo.nickName);
+            for (BindInfo info : list) {
+                if (info.getInt(TBindInfo.thirdPartyId) == id) {
+                    return info.getString(TBindInfo.nickName);
                 }
             }
         }

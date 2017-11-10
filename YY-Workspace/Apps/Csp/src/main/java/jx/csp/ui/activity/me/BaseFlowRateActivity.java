@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.me;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -65,7 +66,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     protected TextView mTvPay;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         PayAction.startPayPalService(this);
 
         mChannelViews = new MapList<>();

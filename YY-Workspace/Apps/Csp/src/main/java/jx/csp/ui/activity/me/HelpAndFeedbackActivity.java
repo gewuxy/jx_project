@@ -1,16 +1,20 @@
 package jx.csp.ui.activity.me;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.HashMap;
 
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
+import jx.csp.network.NetFactory.CommonParam;
 import jx.csp.network.UrlUtil;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.ys.action.IntentAction;
@@ -59,8 +63,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         mVersion = PackageUtil.getAppVersionName();
 
         addItem(Form.create(FormType.text)
@@ -109,24 +113,30 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
 
     @Override
     protected void onFormItemClick(View v, int position) {
-        super.onFormItemClick(v, position);
         @RelatedId int relatedId = getItem(position).getRelated();
+
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put(CommonParam.KLocal, SpApp.inst().getLangType().define());
+
         switch (relatedId) {
             case RelatedId.update_log: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlUpdateLog())
                         .name(getString(R.string.help_and_feedback_update_log))
+                        .headers(headers)
                         .route(this);
             }
             break;
             case RelatedId.service_agreement: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer())
                         .name(getString(R.string.help_and_feedback_service_agreement))
+                        .headers(headers)
                         .route(this);
             }
             break;
             case RelatedId.help: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlHelp())
                         .name(getString(R.string.help_and_feedback_help))
+                        .headers(headers)
                         .route(this);
             }
             break;
@@ -141,6 +151,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
             case RelatedId.about_us: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlAboutUs())
                         .name(getString(R.string.help_and_feedback_about_us))
+                        .headers(headers)
                         .route(this);
             }
             break;

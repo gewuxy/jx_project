@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.R;
-import jx.csp.constant.LoginType;
-import jx.csp.model.BindInfoList;
-import jx.csp.model.BindInfoList.TBindInfo;
+import jx.csp.constant.BindId;
+import jx.csp.model.BindInfo;
+import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
@@ -27,11 +28,11 @@ import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 
@@ -57,7 +58,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     private String mNickName;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -178,29 +179,28 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result<Profile> r = (Result<Profile>) result;
-        Profile profile = r.getData();
+        Profile profile = (Profile) r.getData();
         if (id == KIdAuthorizeLogin) {
             if (r.isSucceed()) {
                 mNickName = profile.getString(TProfile.nickName);
                 SpApp.inst().saveUserName(getUserName());
                 if (Profile.inst().isLogin()) {
                     exeNetworkReq(KIdBind, UserAPI.bindAccountStatus()
-                            .thirdPartyId(LoginType.yaya)
+                            .thirdPartyId(BindId.yaya)
                             .uniqueId(profile.getString(TProfile.uid))
                             .nickName(mNickName)
                             .gender(profile.getString(TProfile.gender))
                             .avatar(profile.getString(TProfile.avatar))
                             .build());
                 } else {
-                    exeNetworkReq(KIdLogin, UserAPI.login(LoginType.yaya)
+                    exeNetworkReq(KIdLogin, UserAPI.login(BindId.yaya)
                             .uniqueId(profile.getString(TProfile.uid))
                             .email(profile.getString(TProfile.email))
                             .mobile(profile.getString(TProfile.mobile))
@@ -236,26 +236,26 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     }
 
     private void getBindNickName(String nickName) {
-        List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+        List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
         if (infoList == null) {
             infoList = new ArrayList<>();
         }
         boolean flag = true;
-        for (BindInfoList list : infoList) {
-            if (list.getInt(TBindInfo.thirdPartyId) == LoginType.yaya) {
+        for (BindInfo list : infoList) {
+            if (list.getInt(TBindInfo.thirdPartyId) == BindId.yaya) {
                 list.put(TBindInfo.nickName, nickName);
                 flag = false;
             }
         }
         if (flag) {
-            BindInfoList bindInfoList = new BindInfoList();
-            bindInfoList.put(TBindInfo.thirdPartyId, LoginType.yaya);
+            BindInfo bindInfoList = new BindInfo();
+            bindInfoList.put(TBindInfo.thirdPartyId, BindId.yaya);
             bindInfoList.put(TBindInfo.nickName, nickName);
             infoList.add(bindInfoList);
         }
         Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
-        notify(NotifyType.bind_yaya, Profile.inst().getBindNickName(LoginType.yaya));
+        notify(NotifyType.bind_yaya, Profile.inst().getBindNickName(BindId.yaya));
     }
 
     public String getUserName() {

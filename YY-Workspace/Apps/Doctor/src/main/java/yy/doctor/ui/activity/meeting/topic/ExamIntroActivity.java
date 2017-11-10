@@ -76,7 +76,7 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         notify(NotifyType.study_start);
     }
 
@@ -117,8 +117,8 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Intro.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Intro.class);
     }
 
     @Override

@@ -84,7 +84,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private String mUnitNumName;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -246,16 +246,16 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
 
         if (id == KReqIdUnitNumDetail) {
             if (getOffset() != getInitOffset()) {
-                return JsonParser.evs(r.getText(), Meeting.class);
+                return JsonParser.evs(resp.getText(), Meeting.class);
             } else {
-                return JsonParser.ev(r.getText(), UnitNumDetail.class);
+                return JsonParser.ev(resp.getText(), UnitNumDetail.class);
             }
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 

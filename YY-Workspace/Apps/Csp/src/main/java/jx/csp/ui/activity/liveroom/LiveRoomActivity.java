@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.liveroom;
 
 import android.app.Service;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -85,7 +86,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     private ConnectionReceiver mConnectionReceiver;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         LiveNotifier.inst().add(this);
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

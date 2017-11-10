@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me;
 
+import android.os.Bundle;
 import android.view.View;
 
 import jx.csp.R;
@@ -22,7 +23,7 @@ public class ContributeHistoryActivity extends BaseSRListActivity<History, Histo
     private final int KLimit = 16; // 每页展示的数据
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

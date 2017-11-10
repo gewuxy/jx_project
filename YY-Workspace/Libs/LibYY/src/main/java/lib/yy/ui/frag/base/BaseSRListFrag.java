@@ -1,11 +1,11 @@
 package lib.yy.ui.frag.base;
 
+import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.TextView;
 
-import org.json.JSONException;
-
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.interfaces.IAdapter;
 import lib.ys.ui.frag.list.SRListFragEx;
 import lib.ys.util.GenericUtil;
@@ -52,9 +52,10 @@ abstract public class BaseSRListFrag<T, A extends IAdapter<T>> extends SRListFra
     public void onNotify(@NotifyType int type, Object data) {
     }
 
+    @CallSuper
     @Override
-    public IListResult<T> parseNetworkResponse(int id, String text) throws JSONException {
-        return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return BaseJsonParser.evs(resp.getText(), GenericUtil.getClassType(getClass()));
     }
 
     @Override

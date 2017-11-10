@@ -69,8 +69,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     private boolean mPlay; // 是否在播放声音
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mView = new MeetingLiveViewImpl();
         mPresenter = new MeetingLivePresenterImpl(mView);

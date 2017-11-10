@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 
@@ -58,8 +59,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mView = new SettingsViewImpl();
         mPresenter = new SettingsPresenterImpl(mView);

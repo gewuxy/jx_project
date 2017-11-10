@@ -8,8 +8,8 @@ import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.PayAPI;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 
 /**
  * @auther yuansui
@@ -34,21 +34,20 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KPayPalPayCode) {
-            return JsonParser.ev(r.getText(), PayPalPayRecharge.class);
+            return JsonParser.ev(resp.getText(), PayPalPayRecharge.class);
         } else {
-            return JsonParser.ev(r.getText(), PingPayRecharge.class);
+            return JsonParser.ev(resp.getText(), PingPayRecharge.class);
         }
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KPayPalPayCode) {
-            Result<PayPalPayRecharge> r = (Result<PayPalPayRecharge>) result;
             getView().onStopRefresh();
             if (r.isSucceed()) {
-                PayPalPayRecharge recharge = r.getData();
+                PayPalPayRecharge recharge = (PayPalPayRecharge) r.getData();
                 String orderId = recharge.getString(TPayPalPayRecharge.orderId);
 
                 getView().setPayPalPay(orderId);
@@ -56,10 +55,9 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
                 onNetworkError(id, r.getError());
             }
         } else {
-            Result<PingPayRecharge> r = (Result<PingPayRecharge>) result;
             getView().onStopRefresh();
             if (r.isSucceed()) {
-                PingPayRecharge recharge = r.getData();
+                PingPayRecharge recharge = (PingPayRecharge) r.getData();
                 String charge = recharge.getString(TPingPayRecharge.charge);
 
                 getView().setPingPay(charge);

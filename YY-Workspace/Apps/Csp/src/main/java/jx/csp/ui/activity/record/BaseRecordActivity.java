@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.record;
 
 import android.app.Service;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -40,6 +41,7 @@ import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
 import lib.network.model.NetworkReq;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
@@ -118,7 +120,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
     @CallSuper
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //创建文件夹存放音频
@@ -131,7 +133,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-            ShareDialog dialog = new ShareDialog(this, Integer.valueOf(mCourseId), mTitle, mCoverUrl);
+            ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl);
             dialog.setDeleteSuccessListener(() -> finish());
             dialog.show();
         });
@@ -266,8 +268,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         if (mCourseDetailList != null && getCurrentItem() == (mCourseDetailList.size() - KOne)) {
             overType = OverType.over;
         }
-        CommonServRouter.create()
-                .type(ReqType.exit_record)
+        CommonServRouter.create(ReqType.exit_record)
                 .courseId(mCourseId)
                 .pageNum(getCurrentItem())
                 .overType(overType)
@@ -276,7 +277,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
     @CallSuper
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KUploadAudioReqId) {
             YSLog.d(TAG, "移除任务");
             mUploadList.removeFirst();

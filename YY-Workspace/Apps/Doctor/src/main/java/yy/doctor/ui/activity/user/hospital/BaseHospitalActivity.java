@@ -93,7 +93,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     @CallSuper
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mFromType = getIntent().getIntExtra(Extra.KData, FromType.register);
         mFirstAction = true;
         mSearch = PoiSearch.newInstance();
@@ -221,11 +221,11 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (KIdSave == id) {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         } else {
-            return super.onNetworkResponse(id, r);
+            return super.onNetworkResponse(id, resp);
         }
     }
 

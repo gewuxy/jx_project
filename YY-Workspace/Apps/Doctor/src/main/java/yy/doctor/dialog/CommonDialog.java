@@ -27,7 +27,7 @@ public class CommonDialog extends BaseDialog {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

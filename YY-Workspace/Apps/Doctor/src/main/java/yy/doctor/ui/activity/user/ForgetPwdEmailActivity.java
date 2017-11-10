@@ -34,7 +34,7 @@ public class ForgetPwdEmailActivity extends BaseActivity {
     private TextView mTvSendEmail;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -121,8 +121,8 @@ public class ForgetPwdEmailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.text.TextWatcher;
@@ -64,8 +65,9 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
+
         mCount = 0;
 
         mView = new baseSetBindViewImpl();

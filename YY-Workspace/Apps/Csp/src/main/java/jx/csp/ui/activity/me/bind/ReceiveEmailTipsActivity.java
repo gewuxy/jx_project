@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.bind;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -18,7 +19,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 public class ReceiveEmailTipsActivity extends BaseActivity {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

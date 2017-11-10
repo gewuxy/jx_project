@@ -107,8 +107,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
@@ -269,11 +269,11 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KVersion) {
-            return JsonParser.ev(r.getText(), CheckAppVersion.class);
+            return JsonParser.ev(resp.getText(), CheckAppVersion.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 

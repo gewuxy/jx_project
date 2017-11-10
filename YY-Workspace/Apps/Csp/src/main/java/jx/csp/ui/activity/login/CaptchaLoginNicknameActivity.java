@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
@@ -14,16 +15,14 @@ import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
 /**
@@ -48,8 +47,8 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     private View mLayout;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
@@ -107,17 +106,11 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Profile.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Profile> r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             stopRefresh();
             //保存到本地
-            Profile.inst().update(r.getData());
+            Profile.inst().update((Profile) r.getData());
             notify(NotifyType.login);
             startActivity(MainActivity.class);
             finish();

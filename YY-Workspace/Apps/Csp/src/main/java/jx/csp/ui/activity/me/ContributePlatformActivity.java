@@ -1,9 +1,11 @@
 package jx.csp.ui.activity.me;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -36,17 +38,17 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     private TextView mTvPlatform;
     private TextView mTvTips;
-    private ArrayList<Platform> mSelectedItem;
+    private List<Platform> mSelectedItem;
     private Platform mPlatform;
 
     private P mPresenter;
     private ContributePlatformContract.V mView;
 
     @Arg
-    int mCourseId;
+    String mCourseId;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mSelectedItem = new ArrayList<>();
 
         mView = new ContributePlatformViewImpl();

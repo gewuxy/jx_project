@@ -5,7 +5,7 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
-import lib.network.model.param.CommonPair;
+import lib.network.model.pair.CommonPair;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 import yy.doctor.model.Profile;

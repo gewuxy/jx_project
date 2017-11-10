@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.profile;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,8 +23,8 @@ public class IntroActivity extends BaseMyMessageActivity {
     private TextView mTv;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
     }
 
     @NonNull

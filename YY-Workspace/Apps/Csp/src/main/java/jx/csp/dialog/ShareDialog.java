@@ -3,6 +3,7 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,33 +26,22 @@ import jx.csp.constant.MetaValue;
 import jx.csp.constant.ShareType;
 import jx.csp.model.main.Share;
 import jx.csp.model.main.Share.TShare;
-import jx.csp.model.meeting.Copy;
-import jx.csp.model.meeting.Copy.TCopy;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApi;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkReq;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.OnNetworkListener;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
-import lib.ys.ui.interfaces.impl.NetworkOpt;
-import lib.ys.ui.interfaces.opt.INetworkOpt;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
 import lib.yy.dialog.BaseDialog;
-import lib.yy.network.Result;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static lib.ys.util.res.ResLoader.getString;
@@ -61,51 +51,38 @@ import static lib.ys.util.res.ResLoader.getString;
  * @since 2017/10/12
  */
 
-public class ShareDialog extends BaseDialog implements OnNetworkListener {
-
-    private NetworkOpt mNetworkImpl;
-
-    public void exeNetworkReq(NetworkReq req) {
-        exeNetworkReq(INetworkOpt.KDefaultId, req);
-    }
-
-    public void exeNetworkReq(int id, NetworkReq req) {
-        if (mNetworkImpl == null) {
-            mNetworkImpl = new NetworkOpt(this, this);
-        }
-        mNetworkImpl.exeNetworkReq(id, req, this);
-    }
+public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
     private final int KDeleteReqId = 1;
     private final int KCopyReqId = 2;
+
     private OnDeleteSuccessListener mDeleteSuccessListener;
 
-    private Context mContext;
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题要拼接
-    private int mCourseId;  // 会议id
+    private String mCourseId;  // 会议id
     private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    public ShareDialog(Context context, int courseId, String title, String coverUrl) {
+    public ShareDialog(Context context, String courseId, String title, String coverUrl) {
         super(context);
-        mContext = context;
-        shareSignature(courseId);
+
         mCourseId = courseId;
         mTitle = title;
         mShareTitle = String.format(ResLoader.getString(R.string.share_title), title);
         mCoverUrl = coverUrl;
+
+        shareSignature();
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
-
 
     @NonNull
     @Override
@@ -138,15 +115,15 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
-                exeNetworkReq(KCopyReqId, MeetingAPI.copy(mCourseId, mTitle).build());
+                CommonServRouter.create(ReqType.share_copy).courseId(mCourseId).title(mTitle).route(getContext());
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                CommonDialog dialog = new CommonDialog(mContext);
-                View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_delete, null);
+                CommonDialog dialog = new CommonDialog(getContext());
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_delete, null);
                 dialog.addHintView(view);
                 dialog.addBlueButton(R.string.confirm, v1 -> {
-                    exeNetworkReq(KDeleteReqId, MeetingAPI.delete(mCourseId).build());
+                    CommonServRouter.create(ReqType.share_delete_meet).courseId(mCourseId).route(getContext());
                 });
                 dialog.addGrayButton(R.string.cancel);
                 dialog.show();
@@ -160,50 +137,7 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
         dismiss();
     }
 
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KDeleteReqId) {
-            return JsonParser.error(r.getText());
-        } else {
-            return JsonParser.ev(r.getText(), Copy.class);
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        if (id == KDeleteReqId) {
-            Result r = (Result) result;
-            if (r.isSucceed()) {
-                showToast(R.string.delete_success);
-                Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
-                YSLog.d(TAG, "发送删除通知");
-                if (mDeleteSuccessListener != null) {
-                    mDeleteSuccessListener.deleteSuccess();
-                }
-            } else {
-                onNetworkError(id, r.getError());
-            }
-        } else {
-            Result<Copy> r = (Result<Copy>) result;
-            if (r.isSucceed()) {
-                showToast(R.string.copy_duplicate_success);
-                Copy copy = r.getData();
-                copy.put(TCopy.oldId, mCourseId);
-                Notifier.inst().notify(NotifyType.copy_duplicate, copy);
-                YSLog.d(TAG, mCourseId + "发送复制通知");
-            } else {
-                onNetworkError(id, r.getError());
-            }
-        }
-    }
-
-    @Override
-    public void onNetworkError(int id, NetworkError error) {}
-
-    @Override
-    public void onNetworkProgress(int id, float progress, long totalSize) {}
-
-    private void shareSignature(int courseId) {
+    private void shareSignature() {
         // 拼接加密字符串
         LangType type = SpApp.inst().getLangType(); // 系统语言
         YSLog.d(TAG, "app app_type = " + type);
@@ -217,7 +151,7 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
 
         StringBuffer paramBuffer = new StringBuffer();
         paramBuffer.append("id=")
-                .append(courseId)
+                .append(mCourseId)
                 .append("&_local=")
                 .append(type.define())
                 .append("&abroad=")

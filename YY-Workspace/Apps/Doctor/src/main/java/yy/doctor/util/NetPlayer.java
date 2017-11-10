@@ -471,7 +471,7 @@ public class NetPlayer implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return null;
     }
 

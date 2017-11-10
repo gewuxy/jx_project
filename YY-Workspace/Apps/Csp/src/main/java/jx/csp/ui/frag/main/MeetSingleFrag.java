@@ -1,5 +1,6 @@
 package jx.csp.ui.frag.main;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,7 +52,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private MeetContract.P mPresenter;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 

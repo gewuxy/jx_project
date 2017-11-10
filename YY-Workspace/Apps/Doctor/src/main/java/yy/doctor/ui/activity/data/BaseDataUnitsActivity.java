@@ -37,7 +37,7 @@ abstract public class BaseDataUnitsActivity extends BaseVpActivity {
 
     @CallSuper
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         add(createFrag());
     }
 

@@ -17,7 +17,7 @@ import yy.doctor.util.Util;
 public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

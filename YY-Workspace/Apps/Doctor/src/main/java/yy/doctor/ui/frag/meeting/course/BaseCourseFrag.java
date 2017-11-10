@@ -54,7 +54,7 @@ abstract public class BaseCourseFrag extends BaseFrag {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

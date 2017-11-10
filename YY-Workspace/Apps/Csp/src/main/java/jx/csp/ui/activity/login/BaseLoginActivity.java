@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
@@ -46,11 +48,6 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);
-    }
-
-    @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
     }
 
     @Override
@@ -100,5 +97,10 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
      * 点击按钮的操作
      */
     abstract protected void toSet();
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
+    }
 
 }

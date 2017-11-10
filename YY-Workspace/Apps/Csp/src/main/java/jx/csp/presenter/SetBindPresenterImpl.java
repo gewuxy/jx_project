@@ -7,13 +7,11 @@ import jx.csp.R;
 import jx.csp.contact.SetBindContract;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.me.bind.BindPhoneActivity;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 
@@ -34,13 +32,7 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         switch (id) {
             case KBindEmailCode: {
                 getView().onStopRefresh();

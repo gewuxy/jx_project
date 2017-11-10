@@ -61,7 +61,7 @@ public class PPTLiveFrag extends BaseFrag {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mZegoCallbackImpl = new LiveCallbackImpl();
     }
 

@@ -37,7 +37,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     private String[] mSideBarLetters;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mLetterSize = fitDp(10);
         mSingleLetterHight = fitDp(15);
     }
@@ -85,8 +85,8 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp nr) throws Exception {
-        ListResult<GROUP> r = (ListResult<GROUP>) super.onNetworkResponse(id, nr);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        ListResult<GROUP> r = (ListResult<GROUP>) super.onNetworkResponse(id, resp);
 
         if (r.isSucceed()) {
             List<GROUP> data = r.getData();

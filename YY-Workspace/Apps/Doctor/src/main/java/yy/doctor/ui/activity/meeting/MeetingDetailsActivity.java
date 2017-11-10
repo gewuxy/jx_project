@@ -132,7 +132,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         Intent i = getIntent();
         if (i != null) {
             Uri uri = i.getData();
@@ -256,11 +256,11 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdMeetDetail) {
-            return JsonParser.ev(r.getText(), MeetDetail.class);
+            return JsonParser.ev(resp.getText(), MeetDetail.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 

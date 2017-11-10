@@ -1,5 +1,7 @@
 package jx.csp.ui.activity.me;
 
+import android.os.Bundle;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.adapter.me.HistoryDetailAdapter;
@@ -25,7 +27,7 @@ public class ContributeHistoryDetailActivity extends BaseSRListActivity<HistoryD
     public String mTitle;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

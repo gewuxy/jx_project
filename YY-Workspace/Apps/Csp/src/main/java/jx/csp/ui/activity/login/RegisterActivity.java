@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -21,10 +22,10 @@ import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 
 /**
  * 注册
@@ -55,8 +56,8 @@ public class RegisterActivity extends BaseLoginActivity {
     private View mLayout;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
@@ -141,15 +142,14 @@ public class RegisterActivity extends BaseLoginActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         //注册
-        Result r = (Result) result;
         if (r.getCode() == KReturnCode) {
             CommonDialog2 d = new CommonDialog2(this);
             d.setHint(getString(R.string.email_have_been_register));

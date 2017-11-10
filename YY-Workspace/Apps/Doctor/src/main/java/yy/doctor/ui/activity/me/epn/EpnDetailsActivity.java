@@ -17,7 +17,7 @@ import yy.doctor.util.Util;
 public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetailsAdapter> {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

@@ -33,8 +33,8 @@ public class BindEmailActivity extends BaseSetActivity {
     private EditText mEtEmail;
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)

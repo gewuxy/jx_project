@@ -1,7 +1,7 @@
 package jx.csp.model;
 
-import jx.csp.constant.LoginType;
-import jx.csp.model.BindInfoList.TBindInfo;
+import jx.csp.constant.BindId;
+import jx.csp.model.BindInfo.TBindInfo;
 import lib.ys.model.EVal;
 
 /**
@@ -9,11 +9,12 @@ import lib.ys.model.EVal;
  * @since 2017/10/31
  */
 
-public class BindInfoList extends EVal<TBindInfo> {
+public class BindInfo extends EVal<TBindInfo> {
 
     public enum TBindInfo {
-
-        @LoginType
+        /**
+         * {@link BindId}
+         */
         thirdPartyId,
 
         nickName,

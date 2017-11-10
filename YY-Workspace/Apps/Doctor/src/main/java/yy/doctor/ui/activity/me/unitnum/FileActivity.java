@@ -31,7 +31,7 @@ public class FileActivity extends BaseSRRecyclerActivity<File, FileAdapter> {
     int mType;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override

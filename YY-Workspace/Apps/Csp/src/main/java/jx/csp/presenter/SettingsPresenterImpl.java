@@ -45,9 +45,6 @@ public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
 
     @Override
     public void startLogoutService(Context context) {
-        CommonServRouter.create()
-                .type(ReqType.logout)
-                .route(context);
-
+        CommonServRouter.create(ReqType.logout).route(context);
     }
 }

@@ -97,7 +97,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mLastPosition = 0;
         mDispatch = false;
         mSubmits = new HashMap<>();

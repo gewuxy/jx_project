@@ -50,8 +50,8 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), PPT.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), PPT.class);
     }
 
     @CallSuper

@@ -10,11 +10,11 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.util.bmp.BmpUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.model.Avatar;
 import lib.yy.model.Avatar.TAvatar;
-import lib.yy.network.Result;
 
 /**
  * @auther Huoxuyu
@@ -28,16 +28,15 @@ public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), Avatar.class);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Avatar.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Avatar> r = (Result<Avatar>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         getView().onStopRefresh();
         if (r.isSucceed()) {
-            Avatar avatar = r.getData();
+            Avatar avatar = (Avatar) r.getData();
             //头像路径保存到本地
             Profile.inst().update(Profile.inst().put(TProfile.avatar, avatar.getString(TAvatar.url)));
             Profile.inst().saveToSp();

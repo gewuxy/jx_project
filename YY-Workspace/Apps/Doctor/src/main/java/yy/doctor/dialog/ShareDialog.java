@@ -48,7 +48,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mPlatFormActionListener = new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {

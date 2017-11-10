@@ -49,7 +49,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         setTouchOutsideDismissEnabled(true);
         setDimEnabled(true);
     }
@@ -95,8 +95,8 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws JSONException {
-        return JsonParser.evs(r.getText(), MeetingDepartment.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws JSONException {
+        return JsonParser.evs(resp.getText(), MeetingDepartment.class);
     }
 
     @Override

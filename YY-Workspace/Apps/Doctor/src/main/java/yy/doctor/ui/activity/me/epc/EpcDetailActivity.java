@@ -43,7 +43,7 @@ public class EpcDetailActivity extends BaseActivity {
     private int mEpn;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull
@@ -78,8 +78,8 @@ public class EpcDetailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.ev(r.getText(), EpcDetail.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), EpcDetail.class);
     }
 
     @Override

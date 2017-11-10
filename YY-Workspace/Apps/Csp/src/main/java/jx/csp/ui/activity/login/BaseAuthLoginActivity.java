@@ -23,11 +23,11 @@ import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
@@ -48,7 +48,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private String mFileName;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mFileName = CacheUtil.getVideoLoginFileName(SpApp.inst().getLoginVideoVersion());
         mFilePath = CacheUtil.getVideoCacheDir() + mFileName;
     }
@@ -104,7 +104,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp r) throws Exception {
         if (id == KLoginVideo) {
             return JsonParser.ev(r.getText(), LoginVideo.class);
         }
@@ -113,18 +113,20 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KLoginVideo) {
             stopRefresh();
-            Result<LoginVideo> r = (Result<LoginVideo>) result;
             if (r.isSucceed()) {
-                LoginVideo data = r.getData();
+                LoginVideo data = (LoginVideo) r.getData();
                 int oldVersion = SpApp.inst().getLoginVideoVersion(); // 读取本地
                 int newVersion = data.getInt(TLoginVideo.version);
                 mUrl = data.getString(TLoginVideo.videoUrl);
                 YSLog.d(TAG, "onNetworkSuccess : newVersion = " + newVersion + " , oldVersion = " + oldVersion);
                 if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
-                    DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(newVersion)).newVersion(newVersion).route(this);
+                    DownloadServRouter.create(DownReqType.login_video,
+                            mUrl,
+                            CacheUtil.getVideoLoginFileName(newVersion))
+                            .newVersion(newVersion).route(this);
                 }
             } else {
                 onNetworkError(id, r.getError());

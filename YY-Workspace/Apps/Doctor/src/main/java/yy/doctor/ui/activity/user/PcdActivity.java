@@ -68,7 +68,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private Place mRetPlace;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @Override
@@ -160,11 +160,11 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (KIdCommit == id) {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         } else {
-            return JsonParser.evs(r.getText(), Pcd.class);
+            return JsonParser.evs(resp.getText(), Pcd.class);
         }
     }
 

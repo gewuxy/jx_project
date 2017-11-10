@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -39,6 +40,7 @@ import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
@@ -46,7 +48,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -88,8 +89,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void initData(Bundle savedInstanceState) {
+        super.initData(savedInstanceState);
 
         mRecordPresenter = new CommonRecordPresenterImpl(new View());
     }
@@ -244,20 +245,19 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KJoinMeetingReqId) {
-            return JsonParser.ev(r.getText(), JoinMeeting.class);
+            return JsonParser.ev(resp.getText(), JoinMeeting.class);
         } else {
-            return JsonParser.error(r.getText());
+            return JsonParser.error(resp.getText());
         }
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KJoinMeetingReqId) {
-            Result<JoinMeeting> r = (Result<JoinMeeting>) result;
             if (r.isSucceed()) {
-                mJoinMeeting = r.getData();
+                mJoinMeeting = (JoinMeeting) r.getData();
                 SparseArray<Integer> recordTimeArray = new SparseArray<>();  // 存放录制过的的ppt对应的时长
                 String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
                 mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
@@ -314,7 +314,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 }
             }
         } else {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, r);
         }
     }
 

@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.me.profile;
 
+import android.os.Bundle;
 import android.widget.TextView;
 
 import inject.annotation.router.Route;
@@ -25,7 +26,7 @@ public class ClipImageActivity extends BaseClipImageActivity {
     private ClipImageContract.V mView;
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mView = new ClipImageViewImpl();
         mPresenter = new ClipImagePresenterImpl(mView);
     }

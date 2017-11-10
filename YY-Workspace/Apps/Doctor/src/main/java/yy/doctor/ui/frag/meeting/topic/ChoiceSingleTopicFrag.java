@@ -20,7 +20,7 @@ public class ChoiceSingleTopicFrag extends BaseChoiceTopicFrag {
     private int mLastPosition; // 记录单选的上一个选择
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mLastPosition = ConstantsEx.KInvalidValue;
     }
 

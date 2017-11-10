@@ -6,19 +6,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * 登录的type
+ * 第三方绑定的type id
  */
 @IntDef({
-        LoginType.wechat,
-        LoginType.sina,
-        LoginType.facebook,
-        LoginType.twitter,
-        LoginType.yaya,
-        LoginType.phone,
-        LoginType.email,
+        BindId.wechat,
+        BindId.sina,
+        BindId.facebook,
+        BindId.twitter,
+        BindId.yaya,
+        BindId.phone,
+        BindId.email,
 })
 @Retention(RetentionPolicy.SOURCE)
-public @interface LoginType {
+public @interface BindId {
     int wechat = 1;
     int sina = 2;
     int facebook = 3;

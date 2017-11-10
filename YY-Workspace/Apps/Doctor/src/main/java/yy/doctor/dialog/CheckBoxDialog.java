@@ -28,7 +28,7 @@ public class CheckBoxDialog extends BaseDialog {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

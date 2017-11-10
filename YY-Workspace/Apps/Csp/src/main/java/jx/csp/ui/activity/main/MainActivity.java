@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.main;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,19 +57,33 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private MeetGridFrag mGridFrag;
 
     @Override
-    public void initData() {
-        LiveNotifier.inst().add(this);
-        // 列表(空)
+    public void initData(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            return;
+        }
+
         mVpFrag = new MeetVpFrag();
-        // 网格
         mGridFrag = new MeetGridFrag();
 
         mGridFrag.setListener(data -> {
             mVpFrag.setData(data);
-            mVpFrag.invalidate();
+            mVpFrag.nativeInvalidate();
         });
         add(mGridFrag);
         add(mVpFrag);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mGridFrag = restoreFragment(0);
+        mVpFrag = restoreFragment(1);
+
+        mVpFrag.setData(mGridFrag.getData());
+        mVpFrag.nativeInvalidate();
+
+        invalidate();
     }
 
     @Override
@@ -117,12 +132,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
         YSLog.d(TAG, " 保存的RegistrationId = " + SpJPush.inst().registerId());
         if (SpJPush.inst().needRegisterJP() && !TextUtil.isEmpty(SpJPush.inst().registerId())) {
-            CommonServRouter.create()
-                    .type(ReqType.j_push)
+            CommonServRouter.create(ReqType.j_push)
                     .jPushRegisterId(SpJPush.inst().registerId())
                     .route(this);
             YSLog.d(TAG, "启动绑定极光服务");
         }
+
+        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -162,6 +178,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+//        outState.putSerializable("test_list", (Serializable) mGridFrag.getData());
+        outState.putInt("test_list111", 11111);
+    }
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
@@ -169,13 +191,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
             Intent intent;
-            //清除栈里的activity
+            //清除栈里的activity2
             if (SpApp.inst().getLangType() != LangType.en) {
                 intent = new Intent(this, AuthLoginActivity.class);
-            }else {
+            } else {
                 intent = new Intent(this, AuthLoginEnActivity.class);
             }
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         } else if (type == NotifyType.delete_meeting) {

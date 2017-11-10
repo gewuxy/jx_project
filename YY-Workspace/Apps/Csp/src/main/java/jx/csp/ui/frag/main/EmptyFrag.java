@@ -1,5 +1,6 @@
 package jx.csp.ui.frag.main;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import jx.csp.R;
@@ -16,7 +17,7 @@ import lib.yy.ui.frag.base.BaseFrag;
 public class EmptyFrag extends BaseFrag {
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
     }
 
     @NonNull

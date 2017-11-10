@@ -5,16 +5,17 @@ import java.util.List;
 
 import jx.csp.App;
 import jx.csp.R;
-import jx.csp.constant.LoginType;
+import jx.csp.constant.BindId;
 import jx.csp.contact.AccountManageContract;
-import jx.csp.model.BindInfoList;
-import jx.csp.model.BindInfoList.TBindInfo;
+import jx.csp.model.BindInfo;
+import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
@@ -23,7 +24,6 @@ import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 
@@ -42,7 +42,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void doAuth(Type type, int id) {
+    public void auth(int bindId, Type type) {
         Platform.auth(type, new OnAuthListener() {
 
             @Override
@@ -52,7 +52,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 String userId = params.getId();
                 mNickName = params.getName();
 
-                bindThirdParty(id, id, userId, mNickName, userGender, icon);
+                bind(bindId, userId, mNickName, userGender, icon);
 
                 App.showToast(R.string.account_authorization_success);
             }
@@ -71,83 +71,88 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void bindThirdParty(int id, int thirdPartyId, String uniqueId, String nickName, String gender, String avatar) {
+    public void bind(int bindId, String uniqueId, String nickName, String gender, String avatar) {
         //未绑定状态
         if (Util.noNetwork()) {
             return;
         }
         //绑定请求
-        exeNetworkReq(id, UserAPI.bindAccountStatus()
-                .thirdPartyId(thirdPartyId)
+        exeNetworkReq(bindId, UserAPI.bindAccountStatus()
+                .thirdPartyId(bindId)
                 .uniqueId(uniqueId)
                 .nickName(nickName)
                 .gender(gender)
                 .avatar(avatar)
                 .build());
-        YSLog.d(TAG, "www = " + nickName);
+        YSLog.d(TAG, "nickName = " + nickName);
     }
 
     @Override
-    public void setSaveThirdPartyNickName(Result r, int id, String nickName, int bindType) {
-        List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
-        if (infoList == null) {
-            infoList = new ArrayList<>();
+    public void saveNickName(@BindId int bindId, String nickName) {
+        List<BindInfo> infos = Profile.inst().getList(TProfile.bindInfoList);
+        if (infos == null) {
+            infos = new ArrayList<>();
         }
 
         boolean flag = true;
-        for (BindInfoList list : infoList) {
-            if (list.getInt(TBindInfo.thirdPartyId) == bindType) {
-                list.put(TBindInfo.nickName, nickName);
+        for (BindInfo info : infos) {
+            if (info.getInt(TBindInfo.thirdPartyId) == bindId) {
+                info.put(TBindInfo.nickName, nickName);
                 flag = false;
             }
         }
 
         if (flag) {
-            BindInfoList bindInfoList = new BindInfoList();
-            bindInfoList.put(TBindInfo.thirdPartyId, bindType);
-            bindInfoList.put(TBindInfo.nickName, nickName);
-            infoList.add(bindInfoList);
+            BindInfo bindInfo = new BindInfo();
+            bindInfo.put(TBindInfo.thirdPartyId, bindId);
+            bindInfo.put(TBindInfo.nickName, nickName);
+            infos.add(bindInfo);
         }
 
-        Profile.inst().put(TProfile.bindInfoList, infoList);
+        Profile.inst().put(TProfile.bindInfoList, infos);
         Profile.inst().saveToSp();
 
-        switch (bindType) {
-            case LoginType.wechat: {
-                Notifier.inst().notify(NotifyType.bind_wx, Profile.inst().getBindNickName(LoginType.wechat));
+        switch (bindId) {
+            case BindId.wechat: {
+                Notifier.inst().notify(NotifyType.bind_wx, Profile.inst().getBindNickName(BindId.wechat));
             }
             break;
-            case LoginType.sina: {
-                Notifier.inst().notify(NotifyType.bind_sina, Profile.inst().getBindNickName(LoginType.sina));
+            case BindId.sina: {
+                Notifier.inst().notify(NotifyType.bind_sina, Profile.inst().getBindNickName(BindId.sina));
             }
             break;
-            case LoginType.facebook: {
-                Notifier.inst().notify(NotifyType.bind_fackbook, Profile.inst().getBindNickName(LoginType.facebook));
+            case BindId.facebook: {
+                Notifier.inst().notify(NotifyType.bind_fackbook, Profile.inst().getBindNickName(BindId.facebook));
             }
             break;
-            case LoginType.twitter: {
-                Notifier.inst().notify(NotifyType.bind_twitter, Profile.inst().getBindNickName(LoginType.twitter));
+            case BindId.twitter: {
+                Notifier.inst().notify(NotifyType.bind_twitter, Profile.inst().getBindNickName(BindId.twitter));
             }
             break;
         }
     }
 
     @Override
-    public void unBindMobileOrEmailReq(int id, int type) {
-        exeNetworkReq(id, UserAPI.unBind(type).build());
+    public void unBind(int bindId) {
+        switch (bindId) {
+            case BindId.email:
+            case BindId.phone: {
+                exeNetworkReq(bindId, UserAPI.unBind(bindId).build());
+            }
+            break;
+            default: {
+                exeNetworkReq(bindId, UserAPI.bindAccountStatus().thirdPartyId(bindId).build());
+            }
+            break;
+        }
     }
 
     @Override
-    public void unBindThirdPartyReq(int id, int thirdPartyId) {
-        exeNetworkReq(id, UserAPI.bindAccountStatus().thirdPartyId(thirdPartyId).build());
-    }
-
-    @Override
-    public void unBindEmailOrMobileSuccess(Result r, int id, TProfile key) {
+    public void onUnBindSuccess(IResult r, int id, TProfile key) {
         getView().onStopRefresh();
         if (r.isSucceed()) {
             App.showToast(R.string.account_unbind_succeed);
-            getView().unBindRefreshItem(id);
+            getView().refreshItem(id);
 
             Profile.inst().put(key, ConstantsEx.KEmpty);
             Profile.inst().saveToSp();
@@ -158,27 +163,27 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void unBindThirdPartySuccess(Result r, int id) {
+    public void onUnBindSuccess(IResult r, int id) {
         getView().onStopRefresh();
         if (r.isSucceed()) {
             App.showToast(R.string.account_unbind_succeed);
 
-            List<BindInfoList> infoList = Profile.inst().getList(TProfile.bindInfoList);
+            List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
             boolean flag = true;
-            for (BindInfoList list : infoList) {
+            for (BindInfo list : infoList) {
                 if (list.getInt(TBindInfo.thirdPartyId) == id) {
                     list.clear();
                     flag = false;
                 }
             }
             if (flag) {
-                BindInfoList bindInfoList = new BindInfoList();
-                bindInfoList.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
-                bindInfoList.put(TBindInfo.nickName, ConstantsEx.KEmpty);
-                infoList.add(bindInfoList);
+                BindInfo info = new BindInfo();
+                info.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
+                info.put(TBindInfo.nickName, ConstantsEx.KEmpty);
+                infoList.add(info);
             }
 
-            getView().unBindRefreshItem(id);
+            getView().refreshItem(id);
             Profile.inst().put(TProfile.bindInfoList, infoList);
             Profile.inst().saveToSp();
         } else {
@@ -187,51 +192,46 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        // 绑定的
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
+        if (!r.isSucceed()) {
+            onNetworkError(id, r.getError());
+            return;
+        }
+
         switch (id) {
-            case LoginType.wechat: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.wechat))) {
+            case BindId.wechat: {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.wechat))) {
                     getView().onStopRefresh();
-                    if (r.isSucceed()) {
-                        setSaveThirdPartyNickName(r, id, mNickName, LoginType.wechat);
-                    } else {
-                        onNetworkError(id, r.getError());
-                    }
+                    saveNickName(id, mNickName);
                 } else {
-                    unBindThirdPartySuccess(r, id);
+                    onUnBindSuccess(r, id);
                 }
             }
             break;
-            case LoginType.sina: {
-                if (TextUtil.isEmpty(Profile.inst().getBindNickName(LoginType.sina))) {
+            case BindId.sina: {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.sina))) {
                     getView().onStopRefresh();
-                    if (r.isSucceed()) {
-                        setSaveThirdPartyNickName(r, id, mNickName, LoginType.sina);
-                    } else {
-                        onNetworkError(id, r.getError());
-                    }
+                    saveNickName(id, mNickName);
                 } else {
-                    unBindThirdPartySuccess(r, id);
+                    onUnBindSuccess(r, id);
                 }
             }
             break;
-            case LoginType.yaya: {
-                unBindThirdPartySuccess(r, id);
+            case BindId.yaya: {
+                onUnBindSuccess(r, id);
             }
             break;
-            case LoginType.phone: {
-                unBindEmailOrMobileSuccess(r, id, TProfile.mobile);
+            case BindId.phone: {
+                onUnBindSuccess(r, id, TProfile.mobile);
             }
             break;
-            case LoginType.email: {
-                unBindEmailOrMobileSuccess(r, id, TProfile.email);
+            case BindId.email: {
+                onUnBindSuccess(r, id, TProfile.email);
             }
             break;
         }

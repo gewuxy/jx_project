@@ -48,7 +48,7 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
 
     @CallSuper
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }
@@ -70,8 +70,8 @@ public abstract class BaseResultActivity extends BaseActivity implements OnCount
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override

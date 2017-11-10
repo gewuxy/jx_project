@@ -75,7 +75,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         add(MeetsFragRouter.create(MeetState.under_way).route());
         add(MeetsFragRouter.create(MeetState.not_started).route());
         add(MeetsFragRouter.create(MeetState.retrospect).route());

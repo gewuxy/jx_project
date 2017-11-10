@@ -37,8 +37,8 @@ public class UnitNumResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        ListResult result = JsonParser.evs(r.getText(), UnitNum.class);
+    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        ListResult result = JsonParser.evs(resp.getText(), UnitNum.class);
 
         if (result.isSucceed()) {
             List<IRec> unitNums = result.getData();

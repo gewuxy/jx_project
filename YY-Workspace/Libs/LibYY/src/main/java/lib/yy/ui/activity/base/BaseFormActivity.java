@@ -2,9 +2,12 @@ package lib.yy.ui.activity.base;
 
 import android.os.Bundle;
 
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.activity.form.FormActivityEx;
 import lib.yy.adapter.VH.FormVH;
 import lib.yy.model.form.BaseForm;
+import lib.yy.network.BaseJsonParser;
 import lib.yy.notify.Notifier;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.notify.Notifier.OnNotify;
@@ -25,6 +28,11 @@ abstract public class BaseFormActivity extends FormActivityEx<BaseForm, FormVH> 
     protected void onDestroy() {
         super.onDestroy();
         Notifier.inst().remove(this);
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return BaseJsonParser.error(resp.getText());
     }
 
     protected void notify(@NotifyType int type, Object data) {

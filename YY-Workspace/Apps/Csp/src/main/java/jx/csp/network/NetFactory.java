@@ -1,13 +1,11 @@
 package jx.csp.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.sp.SpApp;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkReq.Builder;
-import lib.network.model.param.CommonPair;
+import lib.network.model.pair.Pairs;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 
@@ -29,10 +27,6 @@ public class NetFactory {
                 .header(getBaseHeader());
     }
 
-    private static CommonPair newPair(String key, Object value) {
-        return new CommonPair(key, value);
-    }
-
     public interface CommonParam {
         String KOSVersion = "os_version";
         String KDevice = "os_type";
@@ -42,16 +36,17 @@ public class NetFactory {
         String KAbroad = "abroad"; //接口中， 如果是海外版需在header中传递 abroad=1 标识
     }
 
-    public static List<CommonPair> getBaseHeader() {
-        List<CommonPair> ps = new ArrayList<>();
+    public static Pairs getBaseHeader() {
+        Pairs ps = new Pairs();
 
-        ps.add(newPair(CommonParam.KDevice, "android"));
-        ps.add(newPair(CommonParam.KOSVersion, DeviceUtil.getSystemVersion()));
-        ps.add(newPair(CommonParam.KAppVersion, PackageUtil.getAppVersionCode()));
-//        ps.add(newPair(CommonParam.KLocal, SpApp.inst().getLangType()));
+        ps.add(CommonParam.KDevice, "android");
+        ps.add(CommonParam.KOSVersion, DeviceUtil.getSystemVersion());
+        ps.add(CommonParam.KAppVersion, PackageUtil.getAppVersionCode());
+        ps.add(CommonParam.KLocal, SpApp.inst().getLangType().define());
+        ps.add(CommonParam.KAbroad, SpApp.inst().getAppType());
 
         if (Profile.inst().isLogin()) {
-            ps.add(newPair(CommonParam.KToken, Profile.inst().getString(TProfile.token)));
+            ps.add(CommonParam.KToken, Profile.inst().getString(TProfile.token));
         }
         return ps;
     }

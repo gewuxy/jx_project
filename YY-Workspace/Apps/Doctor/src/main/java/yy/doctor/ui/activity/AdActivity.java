@@ -46,7 +46,7 @@ public class AdActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
+    public void initData(Bundle savedInstanceState) {
         mCountDown = new CountDown();
         mCountDown.setListener(new CountDown.OnCountDownListener() {
 

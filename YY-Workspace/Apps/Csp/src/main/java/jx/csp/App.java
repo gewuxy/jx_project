@@ -7,8 +7,11 @@ import android.support.multidex.MultiDex;
 
 import java.util.Locale;
 
+import jx.csp.constant.AppType;
+import jx.csp.constant.Constants;
 import jx.csp.constant.Constants.PageConstants;
 import jx.csp.constant.LangType;
+import jx.csp.constant.MetaValue;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
@@ -26,6 +29,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.util.PackageUtil;
 import lib.yy.BaseApp;
 
 /**
@@ -126,6 +130,14 @@ public class App extends BaseApp {
         }
         // 保存系统语言
         SpApp.inst().saveSystemLang(langType);
+
+        @AppType int appType;  // 国内版 国外版
+        if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+            appType = AppType.inland;
+        } else {
+            appType = AppType.overseas;
+        }
+        SpApp.inst().setAppType(appType);
     }
 
     @Override
