@@ -95,12 +95,10 @@
     <string name="username">用戶名</string>
     <string name="pwd">密碼</string>
     <string name="authorization_login">授權並登錄</string>
-    <string name="yaya_authorization_login">敬信數字平台授權登錄</string>
     <string name="Login_with_Facebook">Login with Facebook</string>
     <string name="Login_with_Twitter">Login with Twitter</string>
     <string name="auth_success">授權成功</string>
     <string name="auth_fail">授權失敗</string>
-    <string name="auth_cancel">授權取消</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>
@@ -147,7 +145,7 @@
     <string name="delete_success">刪除成功</string>
     <string name="copy_duplicate_success">复制副本成功</string>
     <string name="service_agreement">CSPmeeting服务协议</string>
-    <string name="click_again_exit">再按一次退出</string>
+    <string name="click_again_exit">繼續點擊返回將關閉App</string>
     <string name="duplicate">-副本</string>
 
     <!-- 个人中心 -->

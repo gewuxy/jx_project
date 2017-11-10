@@ -2,15 +2,15 @@
     <string name="app_name">Csp</string>
 
     <!-- 通用 -->
-    <string name="connect_timeout">超时，请检查当前网络</string>
-    <string name="network_disabled">当前网络不可用，请检查网络配置</string>
-    <string name="user_photo_permission">请开启拍照权限</string>
-    <string name="user_album_permission">请开启查看相册权限</string>
-    <string name="user_message_permission">请开启短信及存储权限</string>
+    <string name="connect_timeout">Overtime. Please check the connection.</string>
+    <string name="network_disabled">Network disabled. Please check the connection.</string>
+    <string name="user_photo_permission">Please re-check the authorization of camera.</string>
+    <string name="user_album_permission">Please re-check the authorization of photo.</string>
+    <string name="user_message_permission">Please re-check the authorization of SMS and storage.</string>
     <string name="confirm">Yes</string>
     <string name="cancel">No</string>
-    <string name="well">好</string>
-    <string name="affirm">确认</string>
+    <string name="well">OK</string>
+    <string name="affirm">Yes</string>
 
     <!-- 直播间 -->
     <string name="online">Audience(s)</string>
@@ -30,10 +30,10 @@
     <string name="first_page">No more pages ahead</string>
     <string name="last_page">No more pages behind</string>
     <string name="record_live_start">Start Live Stream</string>
-    <string name="record_live_stop">结束直播</string>
+    <string name="record_live_stop">End Live Stream</string>
     <string name="meeting_no_start_remain">Please proceed your live stream within the time set</string>
     <string name="meeting_start_click_start_live">The meeting has begun. Please start your live.</string>
-    <string name="no_record_permission">请检查是否开启语音权限</string>
+    <string name="no_record_permission">Please re-check the authorization of microphone.</string>
     <string name="skip_to_next_page">Move to next page and continue to record?</string>
     <string name="skip_to_last_page">Move to last page and continue to record?</string>
     <string name="record_again">Re-recording will replace the existing audio.</string>
@@ -41,7 +41,7 @@
     <string name="play_fail">play failed</string>
     <string name="record_fail">record failed</string>
     <string name="switch_live_record_device">Another device is trying to preside at your meeting!</string>
-    <string name="switch_common_record_device">有另一台设备尝试主持录播!</string>
+    <string name="switch_common_record_device">Another device is trying to preside at your recording!</string>
     <string name="continue_host">Retain Presidence</string>
     <string name="continue_record">继续录播</string>
     <string name="affirm_exit">Exit Now (%ds)</string>
@@ -56,12 +56,12 @@
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信授权登录</string>
     <string name="login_sina">微博授权登录</string>
-    <string name="login_jx">YaYa数字平台授权登录</string>
+    <string name="login_jx">Login with Jingxin Digital Platform</string>
     <string name="have_agree_to">By tapping "Login" you are agreeing to the</string>
     <string name="protocol">CSPmeeting Terms of Service</string>
     <string name="other_login_type">or</string>
     <string name="mobilephone">手机</string>
-    <string name="email">邮箱</string>
+    <string name="email">E-mail</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="email_login">Login by E-mail</string>
@@ -71,7 +71,7 @@
     <string name="input_pwd">Password</string>
     <string name="input_phone_number">输入手机号</string>
     <string name="input_captcha">输入验证码</string>
-    <string name="input_nickname">输入昵称</string>
+    <string name="input_nickname">Your Name</string>
     <string name="confirm_login">Login</string>
     <string name="get_captcha">获取验证码</string>
     <string name="captcha_login">验证码登录</string>
@@ -84,23 +84,21 @@
     <string name="get_captcha_frequently">Applying for verification code too frequently,please wait!</string>
     <string name="send_captcha">已发送验证码</string>
     <string name="phone_have_been_register">该手机已注册，是否立即登录？</string>
-    <string name="email_have_been_register">该邮箱已注册，是否立即登录？</string>
-    <string name="immediately_login">立即登录</string>
+    <string name="email_have_been_register">The e-mail is registered. Login now?</string>
+    <string name="immediately_login">Login now</string>
     <string name="input_special_symbol">Illegal character not allowed.</string>
     <string name="input_right_pwd_num">Please enter a password with 6-24 digits</string>
     <string name="reset_pwd_to_email">Password-reset link has been sent to your e-mail address.Please reset your password and log in again.</string>
     <string name="active_email">Activation e-mail has been sent to your mail box. Please proceed activation in e-mail and complete your registration.</string>
     <string name="back_to_login">%dsReturn to login in</string>
     <string name="visit_csp">Login with Jingxin Digital Platform</string>
-    <string name="username">用户名</string>
-    <string name="pwd">密码</string>
+    <string name="username">User Name</string>
+    <string name="pwd">Password</string>
     <string name="authorization_login">Authorize &amp; Login</string>
-    <string name="yaya_authorization_login">敬信数字平台授权登陆</string>
     <string name="Login_with_Facebook">Login with Facebook</string>
     <string name="Login_with_Twitter">Login with Twitter</string>
-    <string name="auth_success">授权成功</string>
-    <string name="auth_fail">授权失败</string>
-    <string name="auth_cancel">授权取消</string>
+    <string name="auth_success">Authorized successfully</string>
+    <string name="auth_fail">Fail to authorize</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>
@@ -108,7 +106,7 @@
     <string name="QQ">QQ</string>
     <string name="linkedin">LinkedIn</string>
     <string name="weibo">微博</string>
-    <string name="message">短信</string>
+    <string name="message">SMS</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="Line">Line</string>
     <string name="LinkedIn">LinkedIn</string>
@@ -117,38 +115,38 @@
     <string name="contribute">Contribute</string>
     <string name="copy_replica">Duplicate</string>
     <string name="delete_speech">Delete</string>
-    <string name="share_success">分享成功</string>
-    <string name="share_fail">分享失败</string>
-    <string name="share_cancel">分享取消</string>
-    <string name="share_title">我正在用CSPmeeting讲《%s》</string>
-    <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
+    <string name="share_success">Shared successfully</string>
+    <string name="share_fail">Fail to share</string>
+    <string name="share_cancel">Sharing canceled</string>
+    <string name="share_title">I\'m using CSPmeeting to present 《%s》</string>
+    <string name="share_text">Presentation with mobile. Presenting with recording and sharing - a bigger stage for your insights!</string>
     <string name="ensure_delete">Delete?</string>
 
     <!--首页-->
     <string name="living">Live stream is proceeding...</string>
-    <string name="playing">录播会议正在进行中...</string>
+    <string name="playing">Recording is proceeding...</string>
     <string name="click_continue">Continue</string>
     <string name="CSPmeeting">CSPmeeting</string>
     <string name="scan">Scan</string>
     <string name="aim_at_the_code">Align QR Code within frame to scan</string>
-    <string name="fail_to_identify">无法识别此二维码</string>
+    <string name="fail_to_identify">Fail to identify the QR code</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">Duplicated successfully!</string>
-    <string name="main_record_dialog">会议正在录播中，确定继续将中断其他客户端的进度</string>
+    <string name="main_record_dialog">Recording is in progress. Other clients will be broken off. Continue?</string>
     <string name="main_live_dialog">Live stream is in progress. Other clients will be broken off. Continue?</string>
     <string name="confirm_continue">Yes</string>
     <string name="choice_contents">I would like to...</string>
     <string name="explain_meeting">Deliver my lecture</string>
     <string name="live_video">Shoot for live stream</string>
-    <string name="live_not_start">直播还没开始，请稍等</string>
-    <string name="live_have_end">直播已结束</string>
+    <string name="live_not_start">Live stream has not started. Please wait.</string>
+    <string name="live_have_end">Live stream is over</string>
     <string name="on_solive">On Air</string>
     <string name="on_record">Recording</string>
-    <string name="delete_success">删除成功</string>
-    <string name="copy_duplicate_success">复制副本成功</string>
+    <string name="delete_success">Deleted successfully</string>
+    <string name="copy_duplicate_success">Duplicated successfully!</string>
     <string name="service_agreement">CSPmeeting Terms of Service</string>
-    <string name="click_again_exit">再按一次退出</string>
-    <string name="duplicate">-副本</string>
+    <string name="click_again_exit">App will be shutdown by tapping "return"</string>
+    <string name="duplicate">_copy</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>
@@ -168,8 +166,8 @@
     <string name="my_message_input_nick_name">Your Name</string>
     <string name="my_message_save">Save</string>
     <string name="my_message_save_success">Save Success</string>
-    <string name="my_message_take_photo">Take Photos</string>
-    <string name="my_message_from_album_select">Album</string>
+    <string name="my_message_take_photo">Take a Photos</string>
+    <string name="my_message_from_album_select">Select from Album</string>
 
     <!-- 设置 -->
     <string name="setting">Settings</string>
@@ -179,8 +177,8 @@
     <string name="setting_exit_current_account">Log out?</string>
     <string name="setting_exit_account">Log Out</string>
     <string name="setting_exit">Yes</string>
-    <string name="setting_clear_succeed">Clear Successfully</string>
-    <string name="setting_clear_error">Clear Error</string>
+    <string name="setting_clear_succeed">Cleared Successfully</string>
+    <string name="setting_clear_error">Fail to clear</string>
     <!-- 设置 修改密码-->
     <string name="setting_change_pwd">Change Password</string>
     <string name="setting_confirm_change">Confirm New Password</string>
@@ -200,8 +198,8 @@
     <!-- 账号管理 -->
     <string name="account_manage">Account</string>
     <string name="account_not_bind">Not Bound</string>
-    <string name="account_confirm_bind">Confirm Bind</string>
-    <string name="account_authorization_success">授权成功</string>
+    <string name="account_confirm_bind">Confirm Binding</string>
+    <string name="account_authorization_success">Authorized successfully</string>
 
     <string name="account_phone">手机</string>
     <string name="account_email">E-mail</string>
@@ -211,9 +209,9 @@
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">Jingxin Digital Platform</string>
 
-    <string name="account_bind_succeed">Bind Successfully</string>
-    <string name="account_bind_error">Bind Error</string>
-    <string name="account_unbind_succeed">Unbind Successfully</string>
+    <string name="account_bind_succeed">Bound successfully</string>
+    <string name="account_bind_error">Fail to bind</string>
+    <string name="account_unbind_succeed">Unbound Successfully</string>
     <string name="account_bind_phone">绑定手机</string>
     <string name="account_is_bind">该手机号已绑定</string>
     <string name="account_send_captcha">已发送验证码</string>
@@ -235,14 +233,14 @@
                                                 "Resource Platform".</string>
     <string name="contribute_confirm">Complete Contribution</string>
     <string name="contribute_platform_succeed">Contributed successfully</string>
-    <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>
-    <string name="page_num">%s页</string>
+    <string name="contribute_not_submit_records_footer">- No Record -</string>
+    <string name="page_num">%s Page</string>
     <string name="record">Recorded</string>
     <string name="solive">Live</string>
 
     <!-- 流量支付 -->
     <string name="flow_rate_manage">Network Flow</string>
-    <string name="flow_rate_pay">Confirm</string>
+    <string name="flow_rate_pay">Confirm Payment</string>
     <string name="flow_rate_pay_success">Payoff</string>
     <string name="flow_rate_pay_fail">Payment Failure</string>
     <string name="flow_rate_payment_proportion">1 GB = 1 USD</string>
@@ -251,7 +249,7 @@
     <string name="flow_rate_actual_pay">Payment: </string>
     <string name="flow_rate_amount">%d</string>
     <string name="flow_rate_unit">USD</string>
-    <string name="flow_rate_input_top_up">Input Recharge Network Flow</string>
+    <string name="flow_rate_input_top_up">Please enter the amount to recharge</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">Update Log</string>
