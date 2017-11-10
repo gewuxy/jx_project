@@ -93,7 +93,7 @@ public class MobProvider implements Provider {
                 id = "5";
                 hashMap.put("ApiKey", key);
                 hashMap.put("SecretKey", secret);
-                hashMap.put("RedirectUrl", "http://sharesdk.cn");
+                hashMap.put("RedirectUrl", "http://medcn.synology.me:8889/mgr/oauth/callback");
                 hashMap.put("ShareByAppClient", "true");
             }
             break;
