@@ -97,7 +97,7 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
         shareSignature(courseId);
         mCourseId = courseId;
         mTitle = title;
-        mShareTitle = String.format(ResLoader.getString(R.string.share_title), title);
+        mShareTitle = title;
         mCoverUrl = coverUrl;
     }
 
@@ -381,6 +381,7 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
                             t = Type.sms;
                         } else {
                             showToast(getString(R.string.user_message_permission));
+                            return;
                         }
                     }
                     break;
