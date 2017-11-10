@@ -54,4 +54,9 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        style="@style/divider"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"/>
+
 </LinearLayout>
