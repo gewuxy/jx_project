@@ -1,7 +1,6 @@
 package jx.csp.contact;
 
-import android.support.v4.app.FragmentPagerAdapter;
-
+import lib.ys.adapter.FragPagerAdapterEx;
 import lib.yy.contract.IContract;
 
 /**
@@ -15,6 +14,6 @@ public interface VPEffectContract {
     }
 
     interface P extends IContract.Presenter<V> {
-        void onPageScrolled(FragmentPagerAdapter adapter, int position, float positionOffset, int itemCount);
+        void onPageScrolled(FragPagerAdapterEx adapter, int position, float positionOffset, int itemCount);
     }
 }

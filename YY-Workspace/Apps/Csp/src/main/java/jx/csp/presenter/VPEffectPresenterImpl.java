@@ -1,10 +1,10 @@
 package jx.csp.presenter;
 
-import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
 import jx.csp.contact.VPEffectContract;
 import jx.csp.contact.VPEffectContract.V;
+import lib.ys.adapter.FragPagerAdapterEx;
 import lib.yy.contract.BasePresenterImpl;
 
 /**
@@ -25,7 +25,7 @@ public class VPEffectPresenterImpl extends BasePresenterImpl<VPEffectContract.V>
     }
 
     @Override
-    public void onPageScrolled(FragmentPagerAdapter adapter, int position, float positionOffset, int itemCount) {
+    public void onPageScrolled(FragPagerAdapterEx adapter, int position, float positionOffset, int itemCount) {
         int realPosition;
         float realOffset;
         int nextPosition;

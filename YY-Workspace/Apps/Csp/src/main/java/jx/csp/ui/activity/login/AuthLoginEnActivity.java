@@ -4,17 +4,16 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import jx.csp.R;
-import jx.csp.constant.LoginType;
+import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
+import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
-import lib.yy.network.Result;
 
 /**
  * @auther WangLan
@@ -55,11 +54,11 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
 
         switch (v.getId()) {
             case R.id.login_facebook: {
-                Platform.auth(Type.facebook, newListener(KIdFaceBook, LoginType.facebook));
+                Platform.auth(Type.facebook, newListener(KIdFaceBook, BindId.facebook));
             }
             break;
             case R.id.login_twitter: {
-                Platform.auth(Type.twitter, newListener(KIdTwitter, LoginType.twitter));
+                Platform.auth(Type.twitter, newListener(KIdTwitter, BindId.twitter));
             }
             break;
             case R.id.login_jx: {
@@ -74,7 +73,7 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
         }
     }
 
-    private OnAuthListener newListener(int id, @LoginType int type) {
+    private OnAuthListener newListener(int id, @BindId int type) {
         return new OnAuthListener() {
 
             @Override
@@ -110,7 +109,7 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
         super.onNetworkSuccess(id, r);
         if (id == KIdFaceBook || id == KIdTwitter) {
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
+                Profile.inst().update((Profile) r.getData());
                 SpUser.inst().updateProfileRefreshTime();
                 startActivity(MainActivity.class);
                 finish();

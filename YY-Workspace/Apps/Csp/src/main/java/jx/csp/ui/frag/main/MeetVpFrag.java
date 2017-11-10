@@ -38,7 +38,6 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     private TextView mTvTotalPage;
     private TextView mTvReminder;
     private View mLayout;
-    private View mSlideDataLayout;
 
     private VPEffectContract.P mEffectPresenter;
     private Meet mMeet;
@@ -67,7 +66,6 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
         mTvCurrentPage = findView(R.id.frag_current_page);
         mTvTotalPage = findView(R.id.frag_total_page);
         mLayout = findView(R.id.live_reminder);
-        mSlideDataLayout = findView(R.id.main_slide_data_layout);
         mTvReminder = findView(R.id.tv_reminder);
     }
 
@@ -75,7 +73,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     public void setViews() {
         super.setViews();
 
-        setOffscreenPageLimit(3);
+        // fixme: 临时使用大数量保存, 供测试使用
+        setOffscreenPageLimit(20);
         setScrollDuration(300);
         getViewPager().setPageMargin(fitDp(27));
         setOnClickListener(R.id.click_continue);
@@ -161,7 +160,6 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
         removeAll();
         if (mMeets == null || mMeets.isEmpty()) {
-            goneView(mSlideDataLayout);
             add(new EmptyFrag());
             invalidate();
         } else {
