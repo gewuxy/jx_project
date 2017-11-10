@@ -13,7 +13,7 @@
     <lib.ys.view.CornerView
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
-        android:layout_height="192dp"
+        android:layout_height="wrap_content"
         app:corner_radius="6dp"
         app:corner_useStroke="false">
 
@@ -32,7 +32,7 @@
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="140dp"
-                android:layout_height="20dp"
+                android:layout_height="16dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="7dp"
                 android:ellipsize="end"
@@ -42,7 +42,8 @@
                 android:textSize="14dp"/>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -50,8 +51,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="00'00"
                     android:layout_marginTop="4dp"
+                    android:text="00'00"
                     android:textColor="@color/text_7b7a80"
                     android:textSize="12dp"/>
 
@@ -62,7 +63,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="30dp"
                     android:text="0"
-                    android:layout_marginTop="1dp"
                     android:textColor="@color/text_167afe"
                     android:textSize="16dp"/>
 
@@ -70,20 +70,19 @@
                     android:id="@+id/square_divider"
                     android:layout_width="1dp"
                     android:layout_height="9dp"
+                    android:layout_marginTop="8dp"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
-                    android:layout_marginTop="18dp"
                     android:background="@color/color_db"/>
 
                 <TextView
                     android:id="@+id/total_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="6dp"
                     android:text="21"
-                    android:layout_marginTop="5dp"
                     android:textColor="@color/text_b3"
                     android:textSize="12dp"/>
 
@@ -94,31 +93,31 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:layout_centerVertical="true"
                     android:id="@+id/current_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:text="录播中"
                     android:textColor="@color/text_167afe"
                     android:textSize="10dp"/>
 
                 <ImageView
-                    android:padding="5dp"
                     android:id="@+id/main_meet_iv_live"
                     android:layout_width="28dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="29dp"
+                    android:layout_marginRight="32dp"
+                    android:padding="5dp"
                     android:src="@drawable/main_ic_live"/>
 
                 <ImageView
-                    android:padding="5dp"
                     android:id="@+id/main_meet_iv_share"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="6dp"
+                    android:padding="5dp"
                     android:src="@drawable/main_ic_share"/>
 
             </RelativeLayout>
