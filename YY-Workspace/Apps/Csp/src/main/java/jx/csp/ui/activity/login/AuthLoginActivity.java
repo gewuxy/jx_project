@@ -108,7 +108,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
             @Override
             public void onAuthCancel() {
-                showToast(R.string.auth_cancel);
             }
         };
     }
