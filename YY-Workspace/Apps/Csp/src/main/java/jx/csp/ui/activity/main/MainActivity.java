@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import jx.csp.R;
+import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
@@ -15,7 +16,9 @@ import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginEnActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetSingleFrag;
@@ -165,8 +168,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         if (type == NotifyType.logout) {
             finish();
         } else if (type == NotifyType.token_out_of_date) {
+            Intent intent;
             //清除栈里的activity
-            Intent intent = new Intent(this, AuthLoginActivity.class);
+            if (SpApp.inst().getLangType() != LangType.en) {
+                intent = new Intent(this, AuthLoginActivity.class);
+            }else {
+                intent = new Intent(this, AuthLoginEnActivity.class);
+            }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

@@ -184,7 +184,11 @@ public class SettingsActivity extends BaseFormActivity {
                 if (SpApp.inst().getLangType() == LangType.en) {
                     startActivity(AuthLoginEnActivity.class);
                 } else {
-                    startActivity(AuthLoginActivity.class);
+                    if (SpApp.inst().getLangType() != LangType.en) {
+                        startActivity(AuthLoginActivity.class);
+                    }else {
+                        startActivity(AuthLoginEnActivity.class);
+                    }
                 }
                 finish();
             });

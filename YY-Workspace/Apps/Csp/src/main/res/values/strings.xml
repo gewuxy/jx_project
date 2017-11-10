@@ -51,7 +51,7 @@
     <string name="adv_skip">跳过</string>
 
     <!--登录-->
-    <string name="language_transform">EN</string>
+    <string name="language_transform">中文</string>
     <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信授权登录</string>
@@ -194,7 +194,7 @@
     <string name="setting_bind_email_succeed">Send Successfully</string>
     <string name="setting_bind_text">Please bind your e-mail address before changing the password.</string>
     <string name="setting_certification_text">Verification link has been sent. \nPlease check your e-mail.</string>
-    
+
     <!-- 账号管理 -->
     <string name="account_manage">Account</string>
     <string name="account_not_bind">Not Bound</string>

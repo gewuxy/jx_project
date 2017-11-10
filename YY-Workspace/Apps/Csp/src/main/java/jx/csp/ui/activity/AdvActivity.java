@@ -7,12 +7,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import jx.csp.R;
+import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
 import jx.csp.model.login.Advert;
 import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginEnActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.NetworkResp;
 import lib.ys.network.image.NetworkImageView;
@@ -135,7 +138,11 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
             LaunchUtil.startActivity(context, MainActivity.class);
         } else {
             // 未登录,退出登录
-            LaunchUtil.startActivity(context, AuthLoginActivity.class);
+            if (SpApp.inst().getLangType() != LangType.en) {
+                LaunchUtil.startActivity(context, AuthLoginActivity.class);
+            }else {
+                LaunchUtil.startActivity(context, AuthLoginEnActivity.class);
+            }
         }
     }
 }
