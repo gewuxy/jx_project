@@ -3,7 +3,6 @@ package jx.csp.ui.activity.login;
 import android.support.annotation.CallSuper;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import jx.csp.R;
@@ -20,7 +19,6 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 abstract public class BaseLoginActivity extends BaseFormActivity implements TextWatcher {
 
     private TextView mTvSet;
-    private LinearLayout mLinerLayout;
 
     @Override
     public final int getContentViewId() {
@@ -38,10 +36,6 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         super.findViews();
 
         mTvSet = findView(R.id.base_set_tv_set);
-        mLinerLayout = findView(R.id.linear_layout_login);
-        if (getFooterResId() != 0) {
-            mLinerLayout.addView(inflate(getFooterResId()));
-        }
     }
 
     @CallSuper
@@ -67,10 +61,6 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
             }
             break;
         }
-    }
-
-    public int getFooterResId() {
-        return 0;
     }
 
     @Deprecated

@@ -7,7 +7,6 @@ import jx.csp.R;
 import jx.csp.constant.LoginType;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.platform.Platform;
@@ -118,7 +117,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         if (id == KIdWechatLogin || id == KIdSinaLogin) {
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                SpApp.inst().saveUserName(mUserName);
                 Profile.inst().update(r.getData());
                 SpUser.inst().updateProfileRefreshTime();
                 startActivity(MainActivity.class);

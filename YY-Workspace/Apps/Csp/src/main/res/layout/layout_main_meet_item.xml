@@ -13,7 +13,7 @@
     <lib.ys.view.CornerView
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
-        android:layout_height="188dp"
+        android:layout_height="192dp"
         app:corner_radius="6dp"
         app:corner_useStroke="false">
 
@@ -84,7 +84,7 @@
                     android:layout_marginRight="8dp"
                     android:text="21"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/text_7b7a80"
+                    android:textColor="@color/text_b3"
                     android:textSize="12dp"/>
 
             </RelativeLayout>

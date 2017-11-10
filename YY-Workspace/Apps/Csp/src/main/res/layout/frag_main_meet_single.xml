@@ -44,7 +44,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="41dp"
+                android:layout_marginRight="36dp"
                 android:src="@drawable/main_ic_live"/>
 
             <ImageView
@@ -54,7 +54,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="10dp"
                 android:src="@drawable/main_ic_share"/>
 
         </RelativeLayout>
@@ -62,7 +62,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="17dp"
-            android:layout_marginTop="4dp">
+            android:layout_marginTop="3dp">
 
             <TextView
                 android:id="@+id/tv_total_time"
@@ -78,7 +78,7 @@
                 android:id="@+id/tv_current_page"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="34dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/tv_total_time"
                 android:layout_centerVertical="true"
                 android:includeFontPadding="false"
@@ -126,7 +126,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:background="@color/short_divider"/>
 
     </LinearLayout>

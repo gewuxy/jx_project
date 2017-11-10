@@ -322,13 +322,14 @@ public class ShareDialog extends BaseDialog implements OnNetworkListener {
                 showToast(R.string.share_cancel);
             }
         };
-        ShareParams param = ShareParams.newBuilder()
-                .title(mShareTitle)
-                .text(ResLoader.getString(R.string.share_text))
-                .url(mShareUrl)
-                .imageUrl(mCoverUrl)
-                .build();
+
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
+            ShareParams param = ShareParams.newBuilder()
+                    .title(mShareTitle)
+                    .text(ResLoader.getString(R.string.share_text))
+                    .url(mShareUrl)
+                    .imageUrl(mCoverUrl)
+                    .build();
             int type = adapter.getItemViewType(position);
             if (type == ShareType.copy) {
                 //创建一个新的文本clip对象
