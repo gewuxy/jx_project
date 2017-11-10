@@ -236,7 +236,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         super.onPause();
 
         // 注销服务
-        mConnectionReceiver.unRegister();
+        if (mConnectionReceiver != null) {
+            mConnectionReceiver.unRegister();
+        }
     }
 
     protected void setNavBarMidText(String str) {

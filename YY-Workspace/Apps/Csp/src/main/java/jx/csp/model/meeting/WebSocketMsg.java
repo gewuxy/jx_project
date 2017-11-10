@@ -35,7 +35,9 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
             WsOrderType.reject,
             WsOrderType.accept,
             WsOrderType.repeat_login,
-            WsOrderType.onlineNum,
+            WsOrderType.online_num,
+            WsOrderType.flow_insufficient,
+            WsOrderType.flow_run_out_of,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface WsOrderType {
@@ -45,7 +47,9 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
         int reject = 3;
         int accept = 4;
         int repeat_login = 5;
-        int onlineNum = 6;
+        int online_num = 6;
+        int flow_insufficient = 7;
+        int flow_run_out_of = 8;
     }
 
     public enum TWebSocketMsg {
@@ -53,7 +57,7 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
         /**
          * {@link WsOrderType}
          */
-        order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录 6直播间人数
+        order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录 6直播间人数 7流量不足预警 8流量耗尽通知
         orderFrom,  // app  web
         pageNum,  // 页面下标 0开始
         sid, // 会话ID

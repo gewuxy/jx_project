@@ -175,6 +175,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             case R.id.live_iv_back: {
                 if (mLiveState) {
                     mPresenter.stopLive();
+                    mLiveState = false;
                 }
                 finish();
             }
@@ -207,6 +208,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                 if (mBeginCountDown) {
                     if (mLiveState) {
                         mPresenter.stopLive();
+                        mLiveState = false;
                     } else {
                         mPresenter.startLive(mStreamId, mTitle);
                     }
@@ -236,6 +238,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             mPresenter.stopLive();
             mLiveState = false;
         }
+        mView.stopLiveState();
     }
 
     protected void startCountDownAndLive() {
@@ -335,6 +338,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             // 如果在直播要先暂停，再退出页面
             if (mLiveState) {
                 mPresenter.stopLive();
+                mLiveState = false;
             }
             sendWsMsg(WsOrderType.accept);
             finish();
@@ -346,6 +350,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                 if (remainCount == 0) {
                     if (mLiveState) {
                         mPresenter.stopLive();
+                        mLiveState = false;
                     }
                     sendWsMsg(WsOrderType.accept);
                     dialog.dismiss();

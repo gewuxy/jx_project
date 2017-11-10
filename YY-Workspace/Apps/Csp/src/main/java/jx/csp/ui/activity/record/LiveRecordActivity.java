@@ -157,6 +157,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             mLiveRecordPresenterImpl.stopLiveRecord();
             mLiveState = false;
         }
+        mIvRecordState.setSelected(false);
     }
 
     @Override
@@ -276,6 +277,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
             if (mLiveState) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
+                mLiveState = false;
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
@@ -289,6 +291,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     if (mLiveState) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+                        mLiveState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
                     dialog.dismiss();

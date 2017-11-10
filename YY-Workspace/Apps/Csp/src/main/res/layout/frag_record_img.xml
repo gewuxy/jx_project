@@ -25,7 +25,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/bg_record_audio"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/frag_record_iv_audio"

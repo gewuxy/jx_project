@@ -212,6 +212,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mRecordPresenter.stopRecord();
             mRecordState = false;
         }
+        mIvRecordState.setSelected(false);
     }
 
     @Override
@@ -332,6 +333,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
             if (mRecordState) {
                 mRecordPresenter.stopRecord();
+                mRecordState = false;
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
             countDown.stop();
@@ -344,6 +346,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 if (remainCount == 0) {
                     if (mRecordState) {
                         mRecordPresenter.stopRecord();
+                        mRecordState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
                     dialog.dismiss();
@@ -401,6 +404,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             showToast(R.string.network_disabled);
             if (mRecordState) {
                 mRecordPresenter.stopRecord();
+                mRecordState = false;
             }
             finish();
         }
