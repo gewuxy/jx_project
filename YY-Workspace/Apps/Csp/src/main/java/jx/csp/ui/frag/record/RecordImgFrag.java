@@ -15,7 +15,6 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
@@ -165,10 +164,6 @@ public class RecordImgFrag extends BaseFrag {
     public void stopAnimation() {
         mAnimationState = false;
         mAnimation.stop();
-    }
-
-    public int getFragType() {
-        return FragType.img;
     }
 
     public interface onMediaPlayerListener {

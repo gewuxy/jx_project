@@ -67,6 +67,8 @@ public class CommonServ extends ServiceEx {
             ReqType.logout,
             ReqType.j_push,
             ReqType.exit_record,
+            ReqType.share_delete_meet,
+            ReqType.share_copy,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -152,12 +154,8 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.share_delete_meet: {
                 if (r.isSucceed()) {
-//                    showToast(R.string.delete_success);
                     YSLog.d(TAG, "发送删除通知");
                     Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
-//                    if (mDeleteSuccessListener != null) {
-//                        mDeleteSuccessListener.deleteSuccess();
-//                    }
                 } else {
                     onNetworkError(id, r.getError());
                 }
@@ -165,7 +163,6 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.share_copy: {
                 if (r.isSucceed()) {
-//                showToast(R.string.copy_duplicate_success);
                     Copy copy = (Copy) r.getData();
                     copy.put(TCopy.oldId, mCourseId);
                     Notifier.inst().notify(NotifyType.copy_duplicate, copy);

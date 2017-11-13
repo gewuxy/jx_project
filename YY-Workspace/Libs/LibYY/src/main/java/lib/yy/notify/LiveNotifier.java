@@ -34,8 +34,8 @@ public class LiveNotifier extends NotifierEx<OnLiveNotify> {
         int inquired = 4;  // 当前客户端收到被被踢的询问   直播、录播页面接收
         int send_msg = 5;  // 客户端发送websocket的指令
         int online_num = 6;  // 直播间在线人数 用于语音直播间
-        int flow_insufficient = 7; // 流量不足预警  视频直播中接收
-        int flow_run_out_of = 8; // 流量耗尽通知  视频直播中接收
+        int flow_insufficient = 7; // 流量不足预警  语音直播页面中接收 视频直播中接收到显示红色警告
+        int flow_run_out_of = 8; // 流量耗尽通知  视频直播中接收 收到直接关闭视频
     }
 
     @Override

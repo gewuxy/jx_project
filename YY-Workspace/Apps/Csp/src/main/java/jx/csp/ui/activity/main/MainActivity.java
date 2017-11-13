@@ -202,15 +202,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             startActivity(intent);
             finish();
         } else if (type == NotifyType.delete_meeting) {
-            Integer id = (Integer) data;
-            YSLog.d(TAG, id + "删除接收通知");
+            String str = (String) data;
+            YSLog.d(TAG, str + "删除接收通知");
             for (Meet meet : mGridFrag.getData()) {
-                if (id == meet.getInt(TMeet.id)) {
+                if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
                     mGridFrag.getData().remove(meet);
                     mGridFrag.invalidate();
                     break;
                 }
             }
+            showToast(R.string.delete_success);
         } else if (type == NotifyType.copy_duplicate) {
             Copy copy = (Copy) data;
             for (Meet meet : mGridFrag.getData()) {
@@ -223,6 +224,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     break;
                 }
             }
+            showToast(R.string.copy_duplicate_success);
         }
     }
 

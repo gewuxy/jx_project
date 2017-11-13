@@ -292,7 +292,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             break;
             case LiveNotifyType.online_num: {
                 int num = (int) data;
-                mTvOnlineNum.setText(String.valueOf(num));
+                if (num >= 1) {
+                    mTvOnlineNum.setText(String.valueOf(num - 1));
+                }
             }
             break;
         }

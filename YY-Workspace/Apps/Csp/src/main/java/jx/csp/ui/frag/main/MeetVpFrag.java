@@ -109,7 +109,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
                         break;
                         case PlayType.live:
                         case PlayType.video: {
-                            if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
+                            if (mMeet.getInt(TMeet.liveState) == LiveState.live && mMeet.getLong(TMeet.endTime) < System.currentTimeMillis()) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayout);
                                 mTvReminder.setText(R.string.living);

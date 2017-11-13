@@ -22,6 +22,7 @@
     <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
     <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
     <string name="live_stream_insufficient">流量不足，即将关闭视频直播！</string>
+    <string name="record_live_insufficient">流量不足，即将关闭视频直播\n请登录网站充值</string>
     <string name="recharge">充值</string>
     <string name="OK">知道了</string>
     <string name="live_exit_success">退出成功</string>

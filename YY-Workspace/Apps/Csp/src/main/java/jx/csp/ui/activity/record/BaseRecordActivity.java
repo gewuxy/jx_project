@@ -50,6 +50,7 @@ import lib.ys.util.FileUtil;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVpActivity;
 
 /**
@@ -134,7 +135,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         Util.addBackIcon(bar, this);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl);
-            dialog.setDeleteSuccessListener(() -> finish());
             dialog.show();
         });
     }
@@ -291,6 +291,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         }
     }
 
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.delete_meeting) {
+            finish();
+        }
+    }
+
     abstract protected void pageSelected(int position);
 
     public void initPhoneCallingListener() {
@@ -394,5 +401,4 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
     }
-
 }

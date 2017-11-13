@@ -54,10 +54,6 @@ import static lib.ys.util.res.ResLoader.getString;
 public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
-    private final int KDeleteReqId = 1;
-    private final int KCopyReqId = 2;
-
-    private OnDeleteSuccessListener mDeleteSuccessListener;
 
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题要拼接
@@ -339,14 +335,6 @@ public class ShareDialog extends BaseDialog {
             list.add(share);
         }
         return list;
-    }
-
-    public interface OnDeleteSuccessListener {
-        void deleteSuccess();
-    }
-
-    public void setDeleteSuccessListener(OnDeleteSuccessListener l) {
-        mDeleteSuccessListener = l;
     }
 }
 

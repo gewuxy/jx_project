@@ -22,6 +22,7 @@
     <string name="live_stop_remind_minute">Live stream will be over in %d minutes</string>
     <string name="live_stop_remind_second">Live stream will be over in %d seconds</string>
     <string name="live_stream_insufficient">Video live stream is closing due to network flow insufficiency</string>
+    <string name="record_live_insufficient">Please recharge the network flow in time to ensure a smooth broadcast.</string>
     <string name="recharge">Recharge</string>
     <string name="OK">OK</string>
     <string name="live_exit_success">Exit Successfully</string>

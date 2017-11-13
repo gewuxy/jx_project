@@ -11,7 +11,6 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.ui.activity.record.BaseRecordActivity.FragType;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
@@ -116,9 +115,5 @@ public class RecordVideoFrag extends BaseFrag {
             goneView(mTextureView);
             goneView(mVideoStop);
         }
-    }
-
-    public int getFragType() {
-        return FragType.video;
     }
 }
