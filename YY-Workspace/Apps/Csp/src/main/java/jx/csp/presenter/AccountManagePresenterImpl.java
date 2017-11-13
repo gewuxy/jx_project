@@ -60,7 +60,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             @Override
             public void onAuthError(String message) {
                 getView().onStopRefresh();
-                App.showToast("错误 : " + message);
+                App.showToast(R.string.auth_fail + message);
             }
 
             @Override
@@ -149,7 +149,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void onUnBindSuccess(IResult r, int id, TProfile key) {
-        getView().onStopRefresh();
         if (r.isSucceed()) {
             App.showToast(R.string.account_unbind_succeed);
             getView().refreshItem(id);
@@ -164,7 +163,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void onUnBindSuccess(IResult r, int id) {
-        getView().onStopRefresh();
         if (r.isSucceed()) {
             App.showToast(R.string.account_unbind_succeed);
 
@@ -198,6 +196,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
+        getView().onStopRefresh();
         if (!r.isSucceed()) {
             onNetworkError(id, r.getError());
             return;
@@ -206,7 +205,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
         switch (id) {
             case BindId.wechat: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.wechat))) {
-                    getView().onStopRefresh();
                     saveNickName(id, mNickName);
                 } else {
                     onUnBindSuccess(r, id);
@@ -215,7 +213,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             break;
             case BindId.sina: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.sina))) {
-                    getView().onStopRefresh();
                     saveNickName(id, mNickName);
                 } else {
                     onUnBindSuccess(r, id);

@@ -60,6 +60,11 @@ public interface AccountManageContract {
          */
         void showConfirmUnBindDialog(CharSequence hint, OnClickListener l);
 
+        /**
+         * 检查是否安装微信
+         */
+        void showCheckWXAppDialog();
+
     }
 
     interface P extends IContract.Presenter<V> {

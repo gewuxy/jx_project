@@ -12,6 +12,7 @@ import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.contact.AccountManageContract;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.CommonDialog3;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.AccountManagePresenterImpl;
@@ -214,6 +215,15 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
             d.setHint(hint);
             d.addButton(R.string.confirm, R.color.text_333, l);
             d.addBlueButton(R.string.cancel);
+            d.show();
+        }
+
+        @Override
+        public void showCheckWXAppDialog() {
+            CommonDialog3 d = new CommonDialog3(BaseAccountActivity.this);
+            d.setMainHint(R.string.account_wx_accredit_error);
+            d.setSecHint(R.string.account_wx_check_normal);
+            d.addBlueButton(R.string.affirm);
             d.show();
         }
 
