@@ -8,20 +8,10 @@
 
 package jx.csp.app.wxapi;
 
-import cn.sharesdk.wechat.utils.WXMediaMessage;
 import lib.platform.BaseWXEntryActivity;
 
 /**
  * 微信客户端回调activity示例
  */
 public class WXEntryActivity extends BaseWXEntryActivity {
-    @Override
-    public void onGetMessageFromWXReq(WXMediaMessage msg) {
-        super.onGetMessageFromWXReq(msg);
-    }
-
-    @Override
-    public void onShowMessageFromWXReq(WXMediaMessage msg) {
-        super.onShowMessageFromWXReq(msg);
-    }
 }
