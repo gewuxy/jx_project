@@ -14,6 +14,7 @@ import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 
@@ -59,10 +60,12 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
         switch (v.getId()) {
             case R.id.layout_login_wechat: {
+                refresh(RefreshWay.dialog);
                 Platform.auth(Type.wechat, newListener(KIdWechatLogin, BindId.wechat));
             }
             break;
             case R.id.layout_login_sina: {
+                refresh(RefreshWay.dialog);
                 Platform.auth(Type.sina, newListener(KIdSinaLogin, BindId.sina));
             }
             break;
