@@ -20,7 +20,7 @@ public class ShareVH extends ViewHolderEx {
     }
 
     public View getItemLayout() {
-        return getView(R.layout.activty_dialog_share_pltatform_item);
+        return getView(R.layout.layout_dialog_share_pltatform_item);
     }
 
     public ImageView getIvIcon() {

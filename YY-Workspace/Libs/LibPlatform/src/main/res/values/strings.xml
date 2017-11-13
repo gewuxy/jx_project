@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LibShare</string>
+    <string name="account_wx_check_app">您尚未安装微信客户端</string>
 </resources>

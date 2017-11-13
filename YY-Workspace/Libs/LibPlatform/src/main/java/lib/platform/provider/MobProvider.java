@@ -21,10 +21,12 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 import cn.sharesdk.whatsapp.WhatsApp;
 import lib.platform.Platform.Type;
+import lib.platform.R;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.AuthParams;
 import lib.platform.model.ShareParams;
+import lib.ys.AppEx;
 import lib.ys.util.PackageUtil;
 
 /**
@@ -155,6 +157,10 @@ public class MobProvider implements Provider {
             break;
             case wechat: {
                 p = ShareSDK.getPlatform(Wechat.NAME);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.account_wx_check_app);
+                    return;
+                }
             }
             break;
             case wechat_friend: {

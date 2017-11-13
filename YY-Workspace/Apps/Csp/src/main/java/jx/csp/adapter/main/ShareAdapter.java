@@ -23,7 +23,7 @@ public class ShareAdapter extends MultiAdapterEx<Share, ShareVH> {
 
     @Override
     public int getConvertViewResId(int itemType) {
-        return R.layout.activty_dialog_share_pltatform_item;
+        return R.layout.layout_dialog_share_pltatform_item;
     }
 
     @Override

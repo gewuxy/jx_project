@@ -62,6 +62,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             case R.id.layout_login_wechat: {
                 refresh(RefreshWay.dialog);
                 Platform.auth(Type.wechat, newListener(KIdWechatLogin, BindId.wechat));
+                stopRefresh();
             }
             break;
             case R.id.layout_login_sina: {
@@ -119,6 +120,7 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     public void onNetworkSuccess(int id, IResult result) {
         super.onNetworkSuccess(id, result);
         if (id == KIdWechatLogin || id == KIdSinaLogin) {
+            stopRefresh();
             Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
                 Profile.inst().update(r.getData());
