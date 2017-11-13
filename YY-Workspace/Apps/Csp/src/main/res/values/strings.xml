@@ -24,7 +24,7 @@
     <string name="live_stream_insufficient">Video live stream is closing due to network flow insufficiency</string>
     <string name="record_live_insufficient">Please recharge the network flow in time to ensure a smooth broadcast.</string>
     <string name="recharge">Recharge</string>
-    <string name="OK">OK</string>
+    <string name="ok">OK</string>
     <string name="live_exit_success">Exit Successfully</string>
 
     <!-- 录音 -->
@@ -44,12 +44,11 @@
     <string name="switch_live_record_device">Another device is trying to preside at your meeting!</string>
     <string name="switch_common_record_device">Another device is trying to preside at your recording!</string>
     <string name="continue_host">Retain Presidence</string>
-    <string name="continue_record">继续录播</string>
     <string name="affirm_exit">Exit Now (%ds)</string>
     <string name="join_fail">Fail to enter</string>
 
     <!-- 广告页 -->
-    <string name="adv_skip">跳过</string>
+    <string name="adv_skip">Skip</string>
 
     <!--登录-->
     <string name="language_transform">中文</string>

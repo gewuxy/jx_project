@@ -163,16 +163,16 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             YSLog.d(TAG, "onFailure:");
-            if (Util.noNetwork()) {
-                return;
-            }
+
             // 1秒后重连
             // 没退出继续发任务
             runOnUIThread(() -> {
+                if (Util.noNetwork()) {
+                    return;
+                }
                 // 没退出继续重连
                 mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWsUrl).build(), new WebSocketLink());
             }, TimeUnit.SECONDS.toMillis(1));
         }
     }
-
 }

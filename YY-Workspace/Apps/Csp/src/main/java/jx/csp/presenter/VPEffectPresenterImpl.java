@@ -15,7 +15,7 @@ import lib.yy.contract.BasePresenterImpl;
 public class VPEffectPresenterImpl extends BasePresenterImpl<VPEffectContract.V> implements VPEffectContract.P {
 
     private final int KOne = 1;
-    private float mLastOffset;
+    private float mLastOffset = 0;
     private float mScale;
 
     public VPEffectPresenterImpl(V v, float scale) {
@@ -43,12 +43,11 @@ public class VPEffectPresenterImpl extends BasePresenterImpl<VPEffectContract.V>
             return;
         }
 
-        changeView(adapter.getItem(realPosition).getView(), KOne - realOffset);
-        changeView(adapter.getItem(nextPosition).getView(), realOffset);
+        changeView(adapter.getItem(realPosition).getView(), realOffset);
+        changeView(adapter.getItem(nextPosition).getView(), KOne - realOffset);
 
         mLastOffset = positionOffset;
     }
-
 
     /**
      * 改变view的大小  缩放
@@ -57,7 +56,7 @@ public class VPEffectPresenterImpl extends BasePresenterImpl<VPEffectContract.V>
         if (v == null) {
             return;
         }
-        float scale = KOne + mScale * offset;
+        float scale = KOne - mScale * offset;
         v.setScaleX(scale);
         v.setScaleY(scale);
     }

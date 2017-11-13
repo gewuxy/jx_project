@@ -1,6 +1,7 @@
 package jx.csp.ui.frag.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -20,6 +21,7 @@ import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.VPEffectPresenterImpl;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.view.pager.transformer.ScaleTransformer;
 import lib.yy.ui.frag.base.BaseVPFrag;
 
 /**
@@ -52,7 +54,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_main_slide;
+        return R.layout.frag_main_vp;
     }
 
     @Override
@@ -73,17 +75,17 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     public void setViews() {
         super.setViews();
 
-        // fixme: 临时使用大数量保存, 供测试使用
-        setOffscreenPageLimit(20);
+        setOffscreenPageLimit(3);
         setScrollDuration(300);
-        getViewPager().setPageMargin(fitDp(27));
+        //getViewPager().setPageMargin(fitDp(21));
         setOnClickListener(R.id.click_continue);
 
+        setPageTransformer(false, new ScaleTransformer(KVpScale));
         setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
+                //mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
             }
 
             @Override
@@ -146,7 +148,14 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
     @Override
     public void setPosition(int position) {
-        setCurrentItem(position);
+        if (position == 0 && getCount() >= 2) {
+            // FIXME: 2017/11/13 缩放初有时第一个没有效果， 暂时先这样处理
+            // 延时执行
+            setCurrentItem(1);
+            new Handler().postDelayed(() -> setCurrentItem(0), 50);
+        } else {
+            setCurrentItem(position);
+        }
     }
 
     @Override
@@ -172,8 +181,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
                 index = 0;
             }
             invalidate();
-            setCurrentItem(index);
 
+            setCurrentItem(index);
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
     }

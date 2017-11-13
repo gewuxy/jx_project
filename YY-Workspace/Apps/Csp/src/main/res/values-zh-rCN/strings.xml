@@ -24,7 +24,7 @@
     <string name="live_stream_insufficient">流量不足，即将关闭视频直播！</string>
     <string name="record_live_insufficient">流量不足，即将关闭视频直播\n请登录网站充值</string>
     <string name="recharge">充值</string>
-    <string name="OK">知道了</string>
+    <string name="ok">知道了</string>
     <string name="live_exit_success">退出成功</string>
 
     <!-- 录音 -->
@@ -44,7 +44,6 @@
     <string name="switch_live_record_device">有另一台设备尝试主持直播!</string>
     <string name="switch_common_record_device">有另一台设备尝试主持录播!</string>
     <string name="continue_host">继续主持</string>
-    <string name="continue_record">继续录播</string>
     <string name="affirm_exit">确认退出(%ds)</string>
     <string name="join_fail">进入失败</string>
 

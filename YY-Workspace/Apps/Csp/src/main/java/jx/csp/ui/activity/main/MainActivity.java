@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 
 import jx.csp.R;
@@ -18,6 +19,7 @@ import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
+import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginEnActivity;
 import jx.csp.ui.activity.me.MeActivity;
@@ -58,6 +60,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        LiveNotifier.inst().add(this);
         if (savedInstanceState != null) {
             return;
         }
@@ -68,6 +71,18 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         mGridFrag.setListener(data -> {
             mVpFrag.setData(data);
             mVpFrag.nativeInvalidate();
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int page = SpUser.inst().getMainAcVpPage();
+                    if (page != 0) {
+                        setCurrentItem(page);
+                        mVpFrag.setPosition(0);
+                    }
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
         });
         add(mGridFrag);
         add(mVpFrag);
@@ -82,6 +97,18 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         mGridFrag.setListener(data -> {
             mVpFrag.setData(data);
             mVpFrag.nativeInvalidate();
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int page = SpUser.inst().getMainAcVpPage();
+                    if (page != 0) {
+                        setCurrentItem(page);
+                        mVpFrag.setPosition(0);
+                    }
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
         });
 
         invalidate();
@@ -137,16 +164,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             CommonServRouter.create(ReqType.j_push)
                     .jPushRegisterId(SpJPush.inst().registerId())
                     .route(this);
-            YSLog.d(TAG, "启动绑定极光服务");
         }
-
-        LiveNotifier.inst().add(this);
     }
 
     @Override
     public void onClick(View v) {
         if (checkPermission(0, Permission.camera)) {
-            startActivityForResult(ScanActivity.class, 0);
+            startActivity(ScanActivity.class);
         }
     }
 
@@ -183,8 +207,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-//        outState.putSerializable("test_list", (Serializable) mGridFrag.getData());
-        outState.putInt("test_list111", 11111);
     }
 
     @Override
@@ -241,6 +263,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     protected void onDestroy() {
         super.onDestroy();
 
+        SpUser.inst().saveMainAcPage(getCurrentItem());
         LiveNotifier.inst().remove(this);
         SingletonImpl.inst().freeAll();
     }
@@ -249,7 +272,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                startActivityForResult(ScanActivity.class, 0);
+                startActivity(ScanActivity.class);
             }
             break;
             case PermissionResult.denied:

@@ -16,7 +16,7 @@ public interface LiveRoomContract {
 
         void setLiveTimeTv(String s);
 
-        void setCountDownRemindTv(boolean show, int i);
+        void setCountDownRemindTv(int i);
 
         void startLiveState();
 

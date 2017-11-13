@@ -324,7 +324,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         dialog.setTextHint(ResLoader.getString(R.string.switch_common_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
-        dialog.addBlackButton(R.string.continue_record, view -> {
+        dialog.addBlackButton(R.string.continue_host, view -> {
             // do nothing
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
             countDown.stop();

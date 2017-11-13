@@ -3,7 +3,6 @@ package jx.csp.ui.activity.record;
 import android.app.Service;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -13,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -47,6 +44,7 @@ import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.view.pager.transformer.ScaleTransformer;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -109,16 +107,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     public void onStopRefresh() {
     }
 
-    @IntDef({
-            FragType.img,
-            FragType.video,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface FragType {
-        int img = 1;  // 图片
-        int video = 2;  // 视频
-    }
-
     @CallSuper
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -168,16 +156,18 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
-        getViewPager().setPageMargin(fitDp(27));
+        // getViewPager().setPageMargin(fitDp(8));
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
         mUploadFilePathList = new LinkedList<>();
+        setPageTransformer(false, new ScaleTransformer(KVpScale));
+
         setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
+                //mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
             }
 
             @Override

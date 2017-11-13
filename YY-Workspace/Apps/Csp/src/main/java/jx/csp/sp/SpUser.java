@@ -7,6 +7,8 @@ import java.util.Observable;
 import jx.csp.App;
 import lib.ys.util.sp.SpBase;
 
+import static jx.csp.sp.SpUser.SpUserKey.KMainAcVpPage;
+
 /**
  * @auther yuansui
  * @since 2017/5/4
@@ -22,6 +24,7 @@ public class SpUser extends SpBase {
         String KProfileUpdateTime = "update_time";
         String KIsShowSkipToNextPageDialog = "show_skip_to_next_page_dialog";
         String KIsShowRecordAgainDialog = "show_record_again_dialog";
+        String KMainAcVpPage = "main_ac_vp_page";
     }
 
     private SpUser(Context context, String fileName) {
@@ -69,14 +72,29 @@ public class SpUser extends SpBase {
      * @return
      */
     public boolean showRecordAgainDialog() {
-        return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
+        return getBoolean(SpUserKey.KIsShowRecordAgainDialog, true);
     }
 
     /**
      * 保存状态
      */
     public void neverShowRecordAgainDialog() {
-        save(SpUserKey.KIsShowSkipToNextPageDialog, false);
+        save(SpUserKey.KIsShowRecordAgainDialog, false);
+    }
+
+    /**
+     * 获得离开首页vp的页面
+     */
+    public int getMainAcVpPage() {
+        return getInt(KMainAcVpPage, 0);
+    }
+
+    /**
+     * 保存离开首页时，vp的页面
+     * @param page
+     */
+    public void saveMainAcPage(int page) {
+        save(SpUserKey.KMainAcVpPage, page);
     }
 
 }

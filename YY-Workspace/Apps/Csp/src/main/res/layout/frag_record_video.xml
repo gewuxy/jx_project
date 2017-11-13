@@ -7,8 +7,8 @@
     android:background="@color/white">
 
     <RelativeLayout
-        android:layout_width="294dp"
-        android:layout_height="226dp"
+        android:layout_width="328dp"
+        android:layout_height="252dp"
         android:layout_centerInParent="true">
 
         <com.pili.pldroid.player.widget.PLVideoTextureView

@@ -82,6 +82,8 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
 
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
+    private boolean mIsFlowInsufficient = false; // 流量是否不足 同时出现时间不足和流量不足的情况优先显示流量不足的提示；但在时间耗尽，流量还有的情况依旧结束直播
+    private boolean mIsShowRemainingTimeTv = false; // 倒计时或者流量不足提示是否显示
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
 
@@ -297,6 +299,21 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                 }
             }
             break;
+            case LiveNotifyType.flow_insufficient: {
+                // 流量不足警告
+                mIsFlowInsufficient = true;
+                mIsShowRemainingTimeTv = true;
+                showView(mTvRemainingTime);
+                mTvRemainingTime.setText(R.string.live_stream_insufficient);
+            }
+            break;
+            case LiveNotifyType.flow_run_out_of: {
+                if (mLiveState) {
+                    mPresenter.stopLive();
+                }
+                finish();
+            }
+            break;
         }
     }
 
@@ -391,14 +408,17 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         }
 
         @Override
-        public void setCountDownRemindTv(boolean show, int i) {
-            if (show) {
-                showView(mTvRemainingTime);
-            }
-            if (i >= KSixty) {
-                mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_minute), i / KSixty));
-            } else {
-                mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_second), i));
+        public void setCountDownRemindTv(int i) {
+            if (!mIsFlowInsufficient) {
+                if (!mIsShowRemainingTimeTv) {
+                    mIsShowRemainingTimeTv = true;
+                    showView(mTvRemainingTime);
+                }
+                if (i >= KSixty) {
+                    mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_minute), i / KSixty));
+                } else {
+                    mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_second), i));
+                }
             }
         }
 
@@ -455,6 +475,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         }
 
         @Override
-        public void setViewState(int state) {}
+        public void setViewState(int state) {
+        }
     }
 }

@@ -13,6 +13,7 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
 import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -348,6 +349,14 @@ public class LiveRecordActivity extends BaseRecordActivity {
                 if (num >= 1) {
                     mTvOnlineNum.setText(String.valueOf(num - 1));
                 }
+            }
+            break;
+            case LiveNotifyType.flow_insufficient: {
+                // 接收到流量不足警告
+                CommonDialog2 dialog = new CommonDialog2(this);
+                dialog.setHint(R.string.record_live_insufficient);
+                dialog.addBlueButton(R.string.ok);
+                dialog.show();
             }
             break;
         }

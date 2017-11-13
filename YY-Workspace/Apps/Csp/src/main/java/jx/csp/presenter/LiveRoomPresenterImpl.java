@@ -109,10 +109,10 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
         getView().setLiveTimeTv(Util.getSpecialTimeFormat(time, "'", "''"));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
             if (!mShowCountDownRemainTv) {
-                mShowCountDownRemainTv = !mShowCountDownRemainTv;
+                mShowCountDownRemainTv = true;
                 getView().changeLiveIvRes();
             }
-            getView().setCountDownRemindTv(mShowCountDownRemainTv, (int) remainCount);
+            getView().setCountDownRemindTv((int) remainCount);
         }
     }
 
