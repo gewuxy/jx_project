@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
@@ -107,8 +106,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     @Override
     public void setViews() {
         super.setViews();
-
-        set();
 
         refresh(RefreshWay.embed);
         mPresenter.exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
@@ -220,11 +217,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         mHandler.removeCallbacksAndMessages(null);
         mPresenter.onDestroy();
     }
-
-    /**
-     * 设置
-     */
-    abstract protected void set();
 
     abstract protected V createView();
 
