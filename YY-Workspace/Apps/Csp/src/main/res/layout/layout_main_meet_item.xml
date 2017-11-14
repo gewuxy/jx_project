@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="12dp"/>
+    android:gravity="center">
 
     <lib.ys.view.CornerView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         app:corner_radius="6dp"
         app:corner_useStroke="false">
 
@@ -42,9 +39,9 @@
                 android:textSize="14dp"/>
 
             <RelativeLayout
-                android:layout_marginTop="3dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp">
 
                 <TextView
                     android:id="@+id/main_play_time"
@@ -70,18 +67,18 @@
                     android:id="@+id/square_divider"
                     android:layout_width="1dp"
                     android:layout_height="9dp"
-                    android:layout_marginTop="8dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="25dp"
+                    android:layout_marginTop="8dp"
                     android:background="@color/color_db"/>
 
                 <TextView
                     android:id="@+id/total_page"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="6dp"
+                    android:layout_marginTop="4dp"
                     android:text="21"
                     android:textColor="@color/text_b3"
                     android:textSize="12dp"/>
@@ -119,11 +116,8 @@
                     android:layout_marginRight="6dp"
                     android:padding="5dp"
                     android:src="@drawable/main_ic_share"/>
-
             </RelativeLayout>
-
         </LinearLayout>
-
     </lib.ys.view.CornerView>
 
 </LinearLayout>
