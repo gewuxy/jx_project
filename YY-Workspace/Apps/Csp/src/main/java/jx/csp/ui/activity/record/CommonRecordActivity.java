@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -295,17 +296,22 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                     mIvRecordState.setClickable(false);
                 }
                 // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
-                Record record = (Record) mJoinMeeting.getObject(TJoinMeeting.record);
-                if (record.getInt(TRecord.playPage) != 0) {
-                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                        @Override
-                        public void onGlobalLayout() {
-                            setCurrentItem(record.getInt(TRecord.playPage));
-                            removeOnGlobalLayoutListener(this);
+                    @Override
+                    public void onGlobalLayout() {
+                        Record record = (Record) mJoinMeeting.getObject(TJoinMeeting.record);
+                        int page = record.getInt(TRecord.playPage);
+                        if (page != 0) {
+                            setCurrentItem(page);
+                        } else if (record.getInt(TRecord.playPage) == 0 && mCourseDetailList.size() >= 2) {
+                            setCurrentItem(1);
+                            new Handler().postDelayed(() -> setCurrentItem(0), 50);
                         }
-                    });
-                }
+                        removeOnGlobalLayoutListener(this);
+                    }
+                });
+
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {

@@ -1,12 +1,14 @@
 package jx.csp.ui.activity.record;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -54,7 +56,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 @Route
 public class LiveRecordActivity extends BaseRecordActivity {
 
-    private final int KSixty = 60;
+    private final int KSixty = (int) TimeUnit.MINUTES.toSeconds(1);
 
     private LiveRecordPresenterImpl mLiveRecordPresenterImpl;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
@@ -74,7 +76,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        mRealStopTime = mStopTime + 15 * 60 * 1000;
+        mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mView = new View();
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView, mCourseId);
     }
@@ -248,17 +250,21 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     }
                 }
                 // 先判断以前是否直播过，直播过的话要跳到对应的页面
-                Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
-                if (live.getInt(TLive.livePage) != 0) {
-                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                        @Override
-                        public void onGlobalLayout() {
-                            setCurrentItem(live.getInt(TLive.livePage));
-                            removeOnGlobalLayoutListener(this);
+                    @Override
+                    public void onGlobalLayout() {
+                        Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
+                        int page = live.getInt(TLive.livePage);
+                        if (page != 0) {
+                            setCurrentItem(page);
+                        } else if (live.getInt(TLive.livePage) == 0 && mCourseDetailList.size() >= 2) {
+                            setCurrentItem(1);
+                            new Handler().postDelayed(() -> setCurrentItem(0), 50);
                         }
-                    });
-                }
+                        removeOnGlobalLayoutListener(this);
+                    }
+                });
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {

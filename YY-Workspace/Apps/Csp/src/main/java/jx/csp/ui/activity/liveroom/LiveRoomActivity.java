@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -47,7 +49,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
 
     private final int KPermissionCode = 10;
-    private final int KSixty = 60;
+    private final int KSixty = (int) TimeUnit.MINUTES.toSeconds(1);
 
     private TextureView mTextureView;
     private TextView mTvLiveTime;
@@ -94,7 +96,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mView = new View();
         mPresenter = new LiveRoomPresenterImpl(mView);
-        mRealStopTime = mStopTime + 15 * 60 * 1000;
+        mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
     }
 
     @NonNull

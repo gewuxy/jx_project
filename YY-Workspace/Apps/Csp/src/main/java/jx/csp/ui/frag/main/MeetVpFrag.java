@@ -149,7 +149,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     @Override
     public void setPosition(int position) {
         if (position == 0 && getCount() >= 2) {
-            // FIXME: 2017/11/13 缩放初有时第一个没有效果， 暂时先这样处理
+            // FIXME: 2017/11/13 缩放有时第一个没有效果， 暂时先这样处理
             // 延时执行
             setCurrentItem(1);
             new Handler().postDelayed(() -> setCurrentItem(0), 50);
