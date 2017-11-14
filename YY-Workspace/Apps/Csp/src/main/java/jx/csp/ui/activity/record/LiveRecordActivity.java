@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -54,7 +55,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 @Route
 public class LiveRecordActivity extends BaseRecordActivity {
 
-    private final int KSixty = 60;
+    private final int KSixty = (int) TimeUnit.MINUTES.toSeconds(1);
 
     private LiveRecordPresenterImpl mLiveRecordPresenterImpl;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
@@ -74,7 +75,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        mRealStopTime = mStopTime + 15 * 60 * 1000;
+        mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mView = new View();
         mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView, mCourseId);
     }

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import jx.csp.R;
 import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
@@ -68,22 +70,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         mVpFrag = new MeetVpFrag();
         mGridFrag = new MeetGridFrag();
 
-        mGridFrag.setListener(data -> {
-            mVpFrag.setData(data);
-            mVpFrag.nativeInvalidate();
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    int page = SpUser.inst().getMainAcVpPage();
-                    if (page != 0) {
-                        setCurrentItem(page);
-                        mVpFrag.setPosition(0);
-                    }
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
-        });
+        mGridFrag.setListener(data -> gridFragListener(data));
         add(mGridFrag);
         add(mVpFrag);
     }
@@ -94,25 +81,28 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         mGridFrag = restoreFragment(KPageGrid);
         mVpFrag = restoreFragment(KPageVp);
-        mGridFrag.setListener(data -> {
-            mVpFrag.setData(data);
-            mVpFrag.nativeInvalidate();
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    int page = SpUser.inst().getMainAcVpPage();
-                    if (page != 0) {
-                        setCurrentItem(page);
-                        mVpFrag.setPosition(0);
-                    }
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
-        });
+        mGridFrag.setListener(data -> gridFragListener(data));
 
         invalidate();
         mGridFrag.invalidate();
+    }
+
+    private void gridFragListener(List<Meet> data) {
+        mVpFrag.setData(data);
+        mVpFrag.nativeInvalidate();
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                int page = SpUser.inst().getMainAcVpPage();
+                if (page != 0) {
+                    setCurrentItem(page);
+                    mVpFrag.setPosition(0);
+                    mIvShift.setSelected(true);
+                }
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
