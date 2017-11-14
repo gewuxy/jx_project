@@ -217,9 +217,9 @@
     <string name="account_is_bind">该手机号已绑定</string>
     <string name="account_send_captcha">已发送验证码</string>
     <string name="account_unbind_email">Unbind E-mail?</string>
-    <string name="account_unbind_phone">是否解除手机号码</string>
-    <string name="account_unbind_wx">是否解除绑定微信号</string>
-    <string name="account_unbind_sina">是否解除绑定新浪微博</string>
+    <string name="account_unbind_phone">是否解除手机号码?</string>
+    <string name="account_unbind_wx">是否解除绑定微信号?</string>
+    <string name="account_unbind_sina">是否解除绑定新浪微博?</string>
     <string name="account_unbind_facebook">Unbind Facebook?</string>
     <string name="account_unbind_twitter">Unbind Twitter?</string>
     <string name="account_unbind_yaya">Unbind Jingxin Digital Platform?</string>
