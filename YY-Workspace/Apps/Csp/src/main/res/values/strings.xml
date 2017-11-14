@@ -54,13 +54,13 @@
     <string name="language_transform">中文</string>
     <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
-    <string name="login_wechat">微信授权登录</string>
-    <string name="login_sina">微博授权登录</string>
+    <string name="login_wechat">Login with Wechat</string>
+    <string name="login_sina">"Login with Weibo</string>
     <string name="login_jx">Login with Jingxin Digital Platform</string>
     <string name="have_agree_to">By tapping "Login" you are agreeing to the</string>
     <string name="protocol">CSPmeeting Terms of Service</string>
     <string name="other_login_type">or</string>
-    <string name="mobilephone">手机</string>
+    <string name="mobilephone">Mobile</string>
     <string name="email">E-mail</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -101,11 +101,11 @@
     <string name="auth_fail">Fail to authorize</string>
 
     <!--分享-->
-    <string name="wechat">微信好友</string>
-    <string name="moment">朋友圈</string>
+    <string name="wechat">WeChat</string>
+    <string name="moment">Moments</string>
     <string name="QQ">QQ</string>
     <string name="linkedin">LinkedIn</string>
-    <string name="weibo">微博</string>
+    <string name="weibo">weibo</string>
     <string name="message">SMS</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="Line">Line</string>
@@ -201,10 +201,10 @@
     <string name="account_confirm_bind">Confirm Binding</string>
     <string name="account_authorization_success">Authorized successfully</string>
 
-    <string name="account_phone">手机</string>
+    <string name="account_phone">Mobile</string>
     <string name="account_email">E-mail</string>
-    <string name="account_wx">微信</string>
-    <string name="account_sina">新浪微博</string>
+    <string name="account_wx">WeChat</string>
+    <string name="account_sina">Weibo</string>
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">Jingxin Digital Platform</string>
