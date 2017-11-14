@@ -1,5 +1,7 @@
 package yy.doctor.util;
 
+import android.app.Service;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.annotation.IntDef;
 
@@ -24,6 +26,7 @@ import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
+import yy.doctor.App;
 import yy.doctor.network.NetworkApiDescriptor.CommonAPI;
 
 /**
@@ -40,7 +43,7 @@ public class NetPlayer implements
         PLMediaPlayer.OnPreparedListener,
         PLMediaPlayer.OnCompletionListener {
 
-    private final String TAG = getClass().getSimpleName().toString();
+    private final String TAG = getClass().getSimpleName();
 
     private final String KTemp = ".temp";
     private final int KTime = 3; // 默认数三秒
@@ -54,7 +57,7 @@ public class NetPlayer implements
             PlayType.video,
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface PlayType {
+    private @interface PlayType {
         int audio = 0;
         int video = 1;
     }
@@ -73,6 +76,8 @@ public class NetPlayer implements
 
     private String mMeetId;
     private int mProgress; // 进度
+
+    private float mVolume;
 
     public interface OnPlayerListener {
 
@@ -124,6 +129,9 @@ public class NetPlayer implements
     public void setVideo(PLVideoTextureView textureView) {
         mType = PlayType.video;
         mVideoPlay = textureView;
+        if (mVolume == 0) {
+            mVideoPlay.setVolume(mVolume, mVolume);
+        }
         mVideoPlay.setOnPreparedListener(this);
         mVideoPlay.setOnCompletionListener(this);
     }
@@ -152,6 +160,7 @@ public class NetPlayer implements
         mAudioPlay.setOnPreparedListener(this);
         mAudioPlay.setOnCompletionListener(this);
         mProgress = ConstantsEx.KInvalidValue;
+        mVolume = ConstantsEx.KInvalidValue;
     }
 
     @Override
@@ -304,7 +313,6 @@ public class NetPlayer implements
                 YSLog.e(TAG, "preparePlay:", e);
             }
         } else {
-            mVideoPlay.releaseSurfactexture();
             AVOptions options = new AVOptions();
             options.setInteger(AVOptions.KEY_START_ON_PREPARED, 0);
             mVideoPlay.setAVOptions(options);
@@ -423,6 +431,47 @@ public class NetPlayer implements
     }
 
     /**
+     * 关闭音频输出
+     *
+     * @return false 静音
+     */
+    public boolean closeVolume() {
+        mVolume = 0;
+        setVolume(mVolume);
+        return false;
+    }
+
+    /**
+     * 打开音频输出
+     *
+     * @return true 有声音
+     */
+    public boolean openVolume() {
+        mVolume = getVolume();
+        setVolume(mVolume);
+        return true;
+    }
+
+    private float getVolume() {
+        AudioManager audioManager = (AudioManager) App.getContext().getSystemService(Service.AUDIO_SERVICE);
+        int streamVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        return Float.valueOf(streamVolume) / maxVolume;
+    }
+
+    private void setVolume(float volume) {
+        if (mType == PlayType.audio) {
+            if (mAudioPlay != null) {
+                mAudioPlay.setVolume(volume, volume);
+            }
+        } else {
+            if (mVideoPlay != null) {
+                mVideoPlay.setVolume(volume, volume);
+            }
+        }
+    }
+
+    /**
      * 取消监听
      */
     public void removeListener() {
@@ -477,7 +526,7 @@ public class NetPlayer implements
     }
 
     @Override
-    public void onNetworkSuccess(int id, IResult r) {
+    public void onNetworkSuccess(int id, IResult result) {
         YSLog.d(TAG, "onNetworkSuccess:" + id);
         String path = mPaths.getByKey(id);
         File fileTemp = new File(path.concat(KTemp));

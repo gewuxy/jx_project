@@ -10,18 +10,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseFrag;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
-import yy.doctor.ui.activity.meeting.play.BaseMeetingPlayActivity.OnLiveListener;
 
 /**
  * 直播部分
@@ -46,30 +45,25 @@ public class PPTLiveFrag extends BaseFrag {
         int live_break = 3; // 断开直播
     }
 
-    private View mLayoutDefault;
-    private TextureView mViewLive;
-    private View mLayoutLoading;
-    private View mLayoutBreak;
+    private View mLayoutDefault; // 无直播界面
+    private View mLayoutLoading; // 加载中界面
+    private View mLayoutBreak; // 直播断开界面
 
-    private LiveCallbackImpl mZegoCallbackImpl;
+    private TextureView mViewLive; // 直播画面的载体
 
-    private OnLiveListener mListener;
+    private LiveCallbackImpl mLiveCallbackImpl;
 
-    private String mStream;
-
-    public void setListener(OnLiveListener listener) {
-        mListener = listener;
-    }
+    private String mStream; // 直播的流
 
     @Override
-    public void initData(Bundle state) {
-        mZegoCallbackImpl = new LiveCallbackImpl();
+    public void initData(Bundle savedInstanceState) {
+        mLiveCallbackImpl = new LiveCallbackImpl();
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_ppt_live;
+        return R.layout.frag_ppt_live;
     }
 
     @Override
@@ -94,18 +88,9 @@ public class PPTLiveFrag extends BaseFrag {
         LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
         if (BuildConfig.TEST) {
             LiveApi.getInst().setTest(true);
-//            roomId = "789";
         }
         LiveApi.getInst().setTest(true);
-        LiveApi.getInst().setCallback(roomId, UserType.audience, mZegoCallbackImpl);
-    }
-
-    public void startAudio() {
-        LiveApi.getInst().audio(true);
-    }
-
-    public void stopAudio() {
-        LiveApi.getInst().audio(false);
+        LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 
     public void startPullStream() {
@@ -122,11 +107,12 @@ public class PPTLiveFrag extends BaseFrag {
         LiveApi.getInst().stopPullStream(mStream);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void startAudio() {
+        LiveApi.getInst().audio(true);
+    }
 
-        LiveApi.getInst().logoutRoom();
+    public void closeAudio() {
+        LiveApi.getInst().audio(false);
     }
 
     private void setLiveState(@LiveType int state) {
@@ -163,6 +149,13 @@ public class PPTLiveFrag extends BaseFrag {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        LiveApi.getInst().logoutRoom();
+    }
+
     private class LiveCallbackImpl extends ILiveCallback {
 
         @Override
@@ -173,7 +166,9 @@ public class PPTLiveFrag extends BaseFrag {
                     // 直播未开始
                     setLiveState(LiveType.no_live);
                 } else {
-                    if (LiveApi.getInst().startPullStream(stream, mViewLive)) {
+                    boolean state = LiveApi.getInst().startPullStream(stream, mViewLive);
+                    if (state) {
+                        // 拉流成功
                         setLiveState(LiveType.living);
                         mStream = stream;
                     }
@@ -186,9 +181,6 @@ public class PPTLiveFrag extends BaseFrag {
 
         @Override
         public void onUserUpdate(int number) {
-            if (mListener != null) {
-                mListener.online(number);
-            }
         }
 
         @Override

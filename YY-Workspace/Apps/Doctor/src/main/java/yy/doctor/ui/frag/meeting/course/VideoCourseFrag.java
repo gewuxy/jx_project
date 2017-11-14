@@ -30,7 +30,7 @@ public class VideoCourseFrag extends BaseCourseFrag {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_meeting_course_video;
+        return R.layout.frag_ppt_course_video;
     }
 
     @Override

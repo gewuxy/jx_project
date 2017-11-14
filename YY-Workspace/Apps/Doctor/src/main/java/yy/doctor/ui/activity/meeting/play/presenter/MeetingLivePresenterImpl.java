@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -59,8 +60,8 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
 
     @Override
     public void starCount() {
-//        mHandler.removeMessages(0);
-//        mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
     }
 
     @Override
@@ -138,9 +139,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
     public void onDestroy() {
         super.onDestroy();
 
-        if (mWebSocket != null) {
-            mWebSocket.close(1000, "close");
-        }
+        MeetWebSocketListener.close(mWebSocket);
         mHandler.removeCallbacksAndMessages(null);
         NetPlayer.inst().recycle();
 

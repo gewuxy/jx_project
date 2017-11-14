@@ -115,7 +115,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     @Override
     public int getContentViewId() {
-        return R.layout.layout_ppt_viewpager;
+        return R.layout.frag_ppt_reb;
     }
 
     @Override
@@ -302,6 +302,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
         String url = frag.getUrl();
         if (TextUtil.isEmpty(url)) {
+            // FIXME: 什么时候显示录音中
             setTextMedia("录音中");
         } else {
             NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), url);
@@ -313,6 +314,14 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      */
     public void stopPlay() {
         NetPlayer.inst().stop();
+    }
+
+    public boolean startVolume() {
+        return NetPlayer.inst().openVolume();
+    }
+
+    public boolean closeVolume() {
+        return NetPlayer.inst().closeVolume();
     }
 
     /**

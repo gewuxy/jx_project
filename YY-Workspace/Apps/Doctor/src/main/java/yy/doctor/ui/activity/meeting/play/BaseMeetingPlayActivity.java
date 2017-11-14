@@ -9,6 +9,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,20 +33,18 @@ import yy.doctor.util.Util;
 
 abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
-    public interface OnLiveListener {
-        void online(int num);
-    }
-
     @Arg
     String mMeetId; // 会议ID
 
     @Arg
     String mModuleId; // 模块ID
 
+    private ImageView mIvControlL; // nav bar 右上角的按钮
+
+    // 底部按钮
     private TextView mTvComment;
     private TextView mTvOnlineNum;
     private ImageView mIvControlP;
-    private ImageView mIvControlL;
     private TextView mTvAll;
     private TextView mTvCur;
 
@@ -120,9 +119,6 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
                 toggle();
             }
             break;
-            case R.id.meet_play_nav_tv_online_num: {
-            }
-            break;
             case R.id.meet_play_nav_iv_landscape: {
                 // 切换横屏
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -143,7 +139,6 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
             }
             break;
         }
-
     }
 
     private void nativePortrait() {
@@ -159,6 +154,14 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (orientationLandscape()) {
+            showLandscapeView();
+        }
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override
@@ -237,6 +240,8 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     @DrawableRes
     abstract protected int getControlResId();
+
+    protected abstract void showLandscapeView();
 
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)

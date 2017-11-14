@@ -17,7 +17,7 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptPresenterImpl;
 @Route
 public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContract.View, MeetingPptContract.Presenter> {
 
-    private final int KWhatPass = 1;
+    private final int KWhatPass = 1; // 下一页
 
     @Override
     public void onPageSelected(int position) {

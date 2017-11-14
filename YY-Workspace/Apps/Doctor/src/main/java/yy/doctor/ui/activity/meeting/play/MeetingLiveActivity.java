@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
@@ -121,8 +120,6 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
         mFragPpt.setFragClickListener(() -> playPpt());
 
-        mFragLive.setListener(num -> setTextOnline(num));
-
         mFragPpt.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -169,7 +166,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         }
         mPlayType = PlayType.ppt;
         // 停掉直播
-        mFragLive.stopAudio();
+        mFragLive.closeAudio();
         // 播放ppt
         mFragPpt.startPlay();
     }
@@ -261,14 +258,14 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     protected void toggle() {
         if (mPlay) {
             // 播放中(全部停掉)
-            mFragPpt.stopPlay();
-            mFragLive.stopAudio();
+            mFragPpt.closeVolume();
+            mFragLive.closeAudio();
         } else {
             // 没有播放中
             if (mPlayType == PlayType.live) {
                 mFragLive.startAudio();
             } else {
-                mFragPpt.startPlay();
+                mFragPpt.startVolume();
             }
         }
         mPlay = !mPlay;
@@ -281,14 +278,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (orientationLandscape()) {
-            showLandscapeView();
-        }
-        return super.onInterceptTouchEvent(ev);
-    }
-
-    private void showLandscapeView() {
+    protected void showLandscapeView() {
         mPresenter.starCount();
         showView(getNavBar());
         if (mPlayType == PlayType.ppt) {

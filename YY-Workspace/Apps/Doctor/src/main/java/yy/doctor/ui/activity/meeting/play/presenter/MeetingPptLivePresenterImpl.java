@@ -10,6 +10,7 @@ import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.meeting.play.MeetWebSocketListener;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
+import yy.doctor.util.NetPlayer;
 
 /**
  * @auther : GuoXuan
@@ -18,11 +19,14 @@ import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
 
 public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl implements MeetingPptLiveContract.Presenter {
 
-    private final int KCloseNormal = 1000; //  1000表示正常关闭,意思是建议的连接已经完成了
     private WebSocket mWebSocket;
+
+    private boolean mPlay; // 播放声音
 
     public MeetingPptLivePresenterImpl(MeetingPptLiveContract.View view) {
         super(view);
+
+        mPlay = true;
     }
 
     @Override
@@ -45,13 +49,32 @@ public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl impleme
         mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
     }
 
+
+    @Override
+    public void onPlayState(boolean state) {
+        // 直播显示的时候禁音与有声音的状态
+        // do nothing
+    }
+
+    @Override
+    protected void pptToggle(String url) {
+        if (mPlay) {
+            mPlay = NetPlayer.inst().closeVolume();
+        } else {
+            mPlay = NetPlayer.inst().openVolume();
+        }
+        getView().onPlayState(mPlay);
+    }
+
+    @Override
+    protected void pptCompletion() {
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (mWebSocket != null) {
-            mWebSocket.close(KCloseNormal, "close");
-        }
+        MeetWebSocketListener.close(mWebSocket);
     }
 
     public class WebSocketImpl extends MeetWebSocketListener {

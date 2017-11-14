@@ -142,18 +142,18 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         } else {
             mCourses.get(mPosition).put(TCourse.play, true);
         }
-        NetPlayer.inst().toggle(url);
+        pptToggle(url);
         getView().invalidate(mPosition);
     }
 
     @Override
     public void starCount() {
-//         mCountDown.start(KDuration);
+         mCountDown.start(KDuration);
     }
 
     @Override
     public void onDownProgress(int progress) {
-
+        // 下载中
     }
 
     @CallSuper
@@ -180,7 +180,6 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         getView().invalidate(mPosition);
     }
 
-    @CallSuper
     @Override
     public void onPlayState(boolean state) {
         getView().onPlayState(state);
@@ -192,6 +191,15 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         mCourses.get(mPosition).put(TCourse.play, false);
         getView().invalidate(mPosition);
         getView().setNextItem();
+        pptCompletion();
+    }
+
+    protected void pptToggle(String url) {
+        // 区别于ppt直播
+        NetPlayer.inst().toggle(url);
+    }
+
+    protected void pptCompletion() {
         getView().onPlayState(false);
     }
 

@@ -27,7 +27,7 @@ import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
-import yy.doctor.network.NetworkApiDescriptor;
+import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
@@ -45,6 +45,8 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         extends BaseMeetingPlayActivity
         implements ViewPager.OnPageChangeListener {
 
+    private final int KWhatPlay = 0; // 播放
+
     private View mLayoutFrag;
     private PPTRebFrag mFragReb;
 
@@ -57,7 +59,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     private LayoutParams mParamL;
 
     protected Handler mHandler;
-    private final int KWhatPlay = 0;
 
     public PPTRebFrag getFragPpt() {
         return mFragReb;
@@ -88,10 +89,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         mPresenter = createPresenter(mView);
     }
 
-    protected void handler(int what) {
-
-    }
-
     @Override
     public int getContentViewId() {
         return R.layout.activity_meeting_ppt;
@@ -111,13 +108,10 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.meet_play_iv_left);
-        setOnClickListener(R.id.meet_play_iv_right);
-
         set();
 
         refresh(RefreshWay.embed);
-        mPresenter.exeNetworkReq(NetworkApiDescriptor.MeetAPI.toCourse(mMeetId, mModuleId).build());
+        mPresenter.exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
 
         mFragReb.addOnPageChangeListener(this);
     }
@@ -135,13 +129,20 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
         Message message = Message.obtain();
         message.obj = position;
         message.what = KWhatPlay;
-        mHandler.sendMessageDelayed(message, 500);
+        mHandler.sendMessageDelayed(message, 300);
         setTextCur(position + 1);
         mRvP.smoothScrollToPosition(position);
     }
 
     @Override
     public void onPageScrollStateChanged(int state) {
+        // do nothing
+    }
+
+    /**
+     * 子类处理的消息
+     */
+    protected void handler(int what) {
         // do nothing
     }
 
@@ -190,20 +191,19 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     }
 
     @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            refresh(RefreshWay.embed);
-            mPresenter.exeNetworkReq(NetworkApiDescriptor.MeetAPI.toCourse(mMeetId, mModuleId).build());
-        }
-        return true;
+    protected void showLandscapeView() {
+        mPresenter.starCount();
+        showView(getNavBar());
+        mFragReb.landscapeVisibility(true);
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (orientationLandscape()) {
-            showLandscapeView();
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            mPresenter.exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
         }
-        return super.onInterceptTouchEvent(ev);
+        return true;
     }
 
     @Override
@@ -219,12 +219,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
         mHandler.removeCallbacksAndMessages(null);
         mPresenter.onDestroy();
-    }
-
-    private void showLandscapeView() {
-        mPresenter.starCount();
-        showView(getNavBar());
-        mFragReb.landscapeVisibility(true);
     }
 
     /**

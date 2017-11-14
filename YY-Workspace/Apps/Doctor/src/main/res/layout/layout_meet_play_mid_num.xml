@@ -51,6 +51,7 @@
             android:layout_width="19dp"
             android:layout_height="25dp"
             android:layout_marginRight="66dp"
+            android:background="@drawable/item_selector_app_bg"
             android:padding="5dp"
             android:src="@drawable/meet_play_ic_left_p"/>
 
@@ -68,6 +69,7 @@
             android:layout_width="19dp"
             android:layout_height="25dp"
             android:layout_marginLeft="66dp"
+            android:background="@drawable/item_selector_app_bg"
             android:padding="5dp"
             android:src="@drawable/meet_play_ic_right_p"/>
     </LinearLayout>

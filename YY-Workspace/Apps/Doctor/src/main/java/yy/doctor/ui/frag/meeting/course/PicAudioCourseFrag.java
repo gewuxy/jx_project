@@ -39,7 +39,7 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchLis
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_meeting_course_pic;
+        return R.layout.frag_ppt_course_pic;
     }
 
     @Override

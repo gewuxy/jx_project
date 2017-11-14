@@ -51,7 +51,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
 
     @Override
     public int getContentViewId() {
-        return R.layout.layout_statistics;
+        return R.layout.frag_statistics;
     }
 
     @Override
