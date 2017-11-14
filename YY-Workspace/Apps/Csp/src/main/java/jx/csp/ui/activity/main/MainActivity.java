@@ -119,6 +119,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         //不能左右滑动
         setScrollable(false);
+        setOffscreenPageLimit(getCount());
 
         // 判断是否已经绑定极光推送
         YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());

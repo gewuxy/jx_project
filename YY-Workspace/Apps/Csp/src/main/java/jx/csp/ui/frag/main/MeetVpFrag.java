@@ -78,14 +78,12 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
         setOffscreenPageLimit(3);
         setScrollDuration(300);
-//        getViewPager().setPageMargin(fitDp(21));
         setOnClickListener(R.id.click_continue);
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //mEffectPresenter.onPageScrolled(getAdapter(), position, positionOffset, getCount());
             }
 
             @Override
@@ -187,6 +185,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             setPageTransformer(false, mTransformer);
 
             setCurrentItem(index);
+
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
 
