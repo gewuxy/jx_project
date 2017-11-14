@@ -48,7 +48,6 @@ import yy.doctor.util.Util;
 @Route
 public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
-    private static final int KCloseNormal = 1000; //  1000表示正常关闭,意思是建议的连接已经完成了
     private static final String KSender = "sender"; // 发送人名称
     private static final String KMessage = "message"; // 发送内容
     private static final String KSendTime = "sendTime"; // 发送时间
@@ -265,9 +264,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     protected void onDestroy() {
         super.onDestroy();
 
-        if (mWebSocket != null) {
-            mWebSocket.close(KCloseNormal, "close");
-        }
+        MeetWebSocketListener.close(mWebSocket);
     }
 
 }
