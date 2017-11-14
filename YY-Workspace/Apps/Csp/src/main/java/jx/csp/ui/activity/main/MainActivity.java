@@ -168,10 +168,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
-        int position = getCurrentItem();
-        Fragment f = getItem(position);
         switch (type) {
             case LiveNotifyType.accept: {
+                Fragment f = getItem(getCurrentItem());
+                YSLog.d(TAG, "接收到同意进入指令");
                 if (f instanceof MeetGridFrag) {
                     MeetGridFrag frag = (MeetGridFrag) f;
                     frag.enter();
@@ -183,6 +183,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case LiveNotifyType.reject: {
+                Fragment f = getItem(getCurrentItem());
+                YSLog.d(TAG, "接收到拒绝进入指令");
                 if (f instanceof MeetGridFrag) {
                     MeetGridFrag frag = (MeetGridFrag) f;
                     frag.noEnter();

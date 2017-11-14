@@ -12,15 +12,13 @@ import java.util.Date;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.constant.MeetState;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
-import jx.csp.model.meeting.Live.LiveState;
-import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
 import lib.ys.ConstantsEx;
+import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
@@ -124,16 +122,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         }
     }
 
-    public int getType() {
-        if (mMeet.getInt(TMeet.liveState) == LiveState.live) {
-            return MeetState.living;
-        } else if (mMeet.getInt(TMeet.playState) == PlayState.record) {
-            return MeetState.playing;
-        } else {
-            return MeetState.other;
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -159,6 +147,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
     public void enter() {
         if (mPresenter == null) {
+            YSLog.d(TAG, "vp enter p = null");
             return;
         }
         mPresenter.allowJoin();
@@ -166,6 +155,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
     public void noEnter() {
         if (mPresenter == null) {
+            YSLog.d(TAG, "vp enter p = null");
             return;
         }
         mPresenter.disagreeJoin();

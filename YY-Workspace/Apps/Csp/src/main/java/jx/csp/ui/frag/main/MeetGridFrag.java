@@ -14,6 +14,7 @@ import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
@@ -137,6 +138,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     public void enter() {
         if (mPresenter == null) {
+            YSLog.d(TAG, "grid enter p = null");
             return;
         }
         mPresenter.allowJoin();
@@ -144,6 +146,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     public void noEnter() {
         if (mPresenter == null) {
+            YSLog.d(TAG, "grid noEnter p = null");
             return;
         }
         mPresenter.disagreeJoin();

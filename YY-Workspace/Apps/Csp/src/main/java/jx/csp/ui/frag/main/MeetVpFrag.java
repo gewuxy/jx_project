@@ -143,6 +143,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     }
 
     public Fragment getItem() {
+        YSLog.d(TAG, "vp getItem getCurrentItem = " + getCurrentItem());
         return super.getItem(getCurrentItem());
     }
 
