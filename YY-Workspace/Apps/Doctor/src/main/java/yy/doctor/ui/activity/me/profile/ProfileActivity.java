@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -117,8 +118,8 @@ public class ProfileActivity extends BaseFormActivity implements OnFormObserver 
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mStatus = new HashSet<>();
         mAvatarUrl = Profile.inst().getString(TProfile.headimg);

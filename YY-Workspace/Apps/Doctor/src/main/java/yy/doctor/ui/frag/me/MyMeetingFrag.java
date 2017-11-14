@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.me;
 
+import android.os.Bundle;
 import android.view.View;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     private int mType = DataType.meeting;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

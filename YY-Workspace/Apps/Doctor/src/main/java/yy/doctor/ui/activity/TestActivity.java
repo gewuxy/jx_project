@@ -1,9 +1,9 @@
 package yy.doctor.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import lib.yy.test.BaseTestActivity;
-import yy.doctor.ui.activity.meeting.play.MeetingLiveActivity;
 import yy.doctor.ui.activity.meeting.play.MeetingLiveActivityRouter;
 import yy.doctor.ui.activity.meeting.play.MeetingPptLiveActivityRouter;
 import yy.doctor.ui.activity.meeting.play.MeetingRebActivityRouter;
@@ -17,7 +17,7 @@ import yy.doctor.ui.activity.user.login.LoginActivity;
 public class TestActivity extends BaseTestActivity {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
 
         add("主页", MainActivityRouter.newIntent(this, MainActivity.KTabHome));
         add("会议", MainActivityRouter.newIntent(this, MainActivity.KTabMeeting));

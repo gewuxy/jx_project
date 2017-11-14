@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.epc;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,7 +24,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     private TextView mTv;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

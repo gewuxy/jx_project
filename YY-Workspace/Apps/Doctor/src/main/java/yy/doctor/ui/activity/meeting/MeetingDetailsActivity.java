@@ -2,6 +2,7 @@ package yy.doctor.ui.activity.meeting;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.text.Html;
@@ -17,6 +18,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
@@ -26,7 +28,6 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeFormatter;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra.FileFrom;
@@ -132,7 +133,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         Intent i = getIntent();
         if (i != null) {
             Uri uri = i.getData();
@@ -256,7 +257,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdMeetDetail) {
             return JsonParser.ev(resp.getText(), MeetDetail.class);
         } else {
@@ -265,11 +266,10 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KIdMeetDetail) {
-            Result<MeetDetail> r = (Result<MeetDetail>) result;
             if (r.isSucceed()) {
-                mMeetDetail = r.getData();
+                mMeetDetail = (MeetDetail) r.getData();
                 refreshViews(mMeetDetail);
                 setViewState(ViewState.normal);
             } else {

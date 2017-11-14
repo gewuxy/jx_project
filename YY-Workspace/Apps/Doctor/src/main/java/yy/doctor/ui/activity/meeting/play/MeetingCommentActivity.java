@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,13 +16,13 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseListActivity;
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -63,7 +64,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mSuccess = false; // 没连接默认失败
     }
 
@@ -110,16 +111,15 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), CommentHistories.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<CommentHistories> r = (Result<CommentHistories>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            CommentHistories history = r.getData();
+            CommentHistories history = (CommentHistories) r.getData();
             if (history == null) {
                 return;
             }

@@ -48,7 +48,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private String mFileName;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mFileName = CacheUtil.getVideoLoginFileName(SpApp.inst().getLoginVideoVersion());
         mFilePath = CacheUtil.getVideoCacheDir() + mFileName;
     }

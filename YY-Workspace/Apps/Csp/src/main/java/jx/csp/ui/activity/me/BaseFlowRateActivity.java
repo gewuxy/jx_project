@@ -66,7 +66,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     protected TextView mTvPay;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         PayAction.startPayPalService(this);
 
         mChannelViews = new MapList<>();

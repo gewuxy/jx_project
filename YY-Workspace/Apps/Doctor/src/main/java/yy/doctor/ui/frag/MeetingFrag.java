@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -75,7 +76,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         add(MeetsFragRouter.create(MeetState.under_way).route());
         add(MeetsFragRouter.create(MeetState.not_started).route());
         add(MeetsFragRouter.create(MeetState.retrospect).route());

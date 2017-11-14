@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -69,8 +70,8 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     private boolean mPlay; // 是否在播放声音
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mView = new MeetingLiveViewImpl();
         mPresenter = new MeetingLivePresenterImpl(mView);

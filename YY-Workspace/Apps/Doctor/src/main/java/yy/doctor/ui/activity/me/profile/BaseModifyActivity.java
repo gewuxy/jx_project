@@ -110,13 +110,12 @@ abstract public class BaseModifyActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        IResult r = (IResult) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             stopRefresh();
             onModifySuccess();

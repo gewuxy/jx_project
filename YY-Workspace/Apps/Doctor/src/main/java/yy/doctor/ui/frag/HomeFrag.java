@@ -1,16 +1,19 @@
 package yy.doctor.ui.frag;
 
+import android.os.Bundle;
 import android.view.View;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.ListResult;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.frag.base.BaseSRListFrag;
 import yy.doctor.R;
@@ -72,7 +75,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private BannerView mBannerView;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override
@@ -134,39 +137,36 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
+        Result result = new Result<>();
         if (id == KReqIdAttention) {
-            return true;
+            return result;
         }
 
-        ListResult result = null;
         if (id == KReqIdBanner) {
-            result = JsonParser.evs(resp.getText(), Banner.class);
+            result = JsonParser.evs(text, Banner.class);
             if (result.isSucceed()) {
-                mBanners = result.getData();
+                mBanners = result.getList();
             }
         } else if (id == KReqIdUnitNum) {
-            result = JsonParser.evs(resp.getText(), RecUnitNum.class);
+            result = JsonParser.evs(text, RecUnitNum.class);
             if (result.isSucceed()) {
-                mRecUnitNums = result.getData();
+                mRecUnitNums = result.getList();
             }
         } else if (id == KReqIdMeeting) {
-            result = JsonParser.evs(resp.getText(), RecMeeting.class);
+            result = JsonParser.evs(text, RecMeeting.class);
             if (result.isSucceed()) {
-                mRecMeetings = result.getData();
+                mRecMeetings = result.getList();
             }
         }
         return result;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KReqIdAttention) {
             return;
         }
-
-        ListResult r = (ListResult) result;
 
         if (!r.isSucceed()) {
 
@@ -202,7 +202,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
                 mBannerView.initCurrentItem(mBanners.size() * 50);
             }
 
-            ListResult<IHome> ret = new ListResult();
+            Result<IHome> ret = new Result();
             List<IHome> homes = new ArrayList<>();
 
             // 第一次和下拉刷新加载需要拼接数据， 分页加载时不需要

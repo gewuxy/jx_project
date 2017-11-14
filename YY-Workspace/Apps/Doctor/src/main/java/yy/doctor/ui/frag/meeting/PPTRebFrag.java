@@ -3,6 +3,7 @@ package yy.doctor.ui.frag.meeting;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -24,14 +25,14 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseVPFrag;
 import yy.doctor.R;
+import yy.doctor.model.meet.Submit;
+import yy.doctor.model.meet.Submit.TSubmit;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.CourseType;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
-import yy.doctor.model.meet.ppt.Course;
-import yy.doctor.model.meet.ppt.Course.CourseType;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
-import yy.doctor.model.meet.Submit;
-import yy.doctor.model.meet.Submit.TSubmit;
 import yy.doctor.serv.CommonServ;
 import yy.doctor.serv.CommonServRouter;
 import yy.doctor.ui.frag.meeting.course.AudioCourseFragRouter;
@@ -97,7 +98,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mLastPosition = 0;
         mDispatch = false;
         mSubmits = new HashMap<>();

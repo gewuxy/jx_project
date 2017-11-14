@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.topic;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -28,8 +29,8 @@ import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
 import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TopicType;
 import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.model.meet.exam.Topic.TopicType;
 import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag;
 import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag.OnTopicListener;
 import yy.doctor.ui.frag.meeting.topic.ChoiceMultipleTopicFragRouter;
@@ -77,7 +78,7 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mCount = 0;
         mIsAnimating = false;
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);

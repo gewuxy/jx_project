@@ -1,6 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -48,7 +49,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mPlatFormActionListener = new PlatformActionListener() {
             @Override
             public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {

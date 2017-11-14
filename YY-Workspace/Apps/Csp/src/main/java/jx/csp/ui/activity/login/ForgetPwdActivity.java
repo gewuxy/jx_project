@@ -37,8 +37,8 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     private EditText mEtEmail;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)

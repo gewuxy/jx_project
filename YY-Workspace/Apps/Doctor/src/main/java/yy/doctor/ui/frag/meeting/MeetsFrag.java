@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.meeting;
 
+import android.os.Bundle;
 import android.view.View;
 
 import inject.annotation.router.Arg;
@@ -32,7 +33,7 @@ public class MeetsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     private String mDepart;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

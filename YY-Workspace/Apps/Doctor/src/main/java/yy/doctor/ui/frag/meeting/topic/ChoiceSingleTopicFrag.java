@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.meeting.topic;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -20,7 +21,7 @@ public class ChoiceSingleTopicFrag extends BaseChoiceTopicFrag {
     private int mLastPosition; // 记录单选的上一个选择
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mLastPosition = ConstantsEx.KInvalidValue;
     }
 

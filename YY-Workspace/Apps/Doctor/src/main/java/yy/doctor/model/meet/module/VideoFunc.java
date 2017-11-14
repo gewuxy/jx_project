@@ -4,6 +4,7 @@ import android.content.Context;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import yy.doctor.R;
 import yy.doctor.model.meet.MeetDetail;
 import yy.doctor.model.meet.Submit;
@@ -44,7 +45,7 @@ public class VideoFunc extends BaseFunc {
     }
 
     @Override
-    public Object onNetworkResponse(NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(NetworkResp r) throws Exception {
         return null;
     }
 

@@ -3,10 +3,8 @@ package yy.doctor.model.form.text;
 import android.graphics.Color;
 import android.view.View;
 
-import java.util.List;
-
 import yy.doctor.dialog.BottomDialog;
-import yy.doctor.model.config.Config;
+import yy.doctor.model.config.Configs;
 
 /**
  * @author CaiXiang
@@ -18,10 +16,9 @@ public class TextDialogForm extends TextForm {
 
     @Override
     public boolean onItemClick(Object host, View v) {
-        List<Config> data = getData();
+        Configs data = getData();
         BottomDialog dialog = new BottomDialog(v.getContext(), position -> {
-            Config item = data.get(position);
-            save(item.getName(), item.getVal());
+            save(data.get(position).getName(), data.get(position).getVal());
             refresh();
         });
 

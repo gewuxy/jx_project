@@ -44,7 +44,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }

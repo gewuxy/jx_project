@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.data;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
@@ -69,7 +70,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
 
     @CallSuper
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

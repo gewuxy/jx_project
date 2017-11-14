@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.user;
 
+import android.os.Bundle;
 import android.view.View;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class SectionNameFrag extends BaseListFrag<String, SectionNameAdapter> {
     private OnSectionListener mListener;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

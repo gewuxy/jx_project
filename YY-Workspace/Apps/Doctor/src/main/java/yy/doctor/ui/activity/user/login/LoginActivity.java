@@ -1,14 +1,15 @@
 package yy.doctor.ui.activity.user.login;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import lib.network.model.NetworkError;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Constants;
 import yy.doctor.Extra;
@@ -21,7 +22,6 @@ import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
 import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.user.register.RegisterActivity;
-import yy.doctor.util.Util;
 
 //import lib.wx.WXLoginApi;
 
@@ -39,7 +39,7 @@ public class LoginActivity extends BaseLoginActivity {
     private int mCount = 0;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mRequest = getIntent().getStringExtra(Extra.KData);
     }
 
@@ -111,12 +111,11 @@ public class LoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Profile> r = (Result<Profile>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             //保存用户名
             SpApp.inst().saveUserName(getUserName());
-            Profile.inst().update(r.getData());
+            Profile.inst().update((Profile) r.getData());
             SpUser.inst().updateProfileRefreshTime();
             //判断跳转到哪里
             if (TextUtil.isEmpty(mRequest)) {

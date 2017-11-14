@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.user.hospital;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -16,7 +17,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.ListResult;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialog;
@@ -35,8 +36,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     private OnClickListener mSearchListener;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mSearchListener = v -> {
             if (TextUtil.isEmpty(Util.getEtString(mEtSearch))) {
@@ -115,7 +116,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
-    protected void searchSuccess(List<PoiInfo> info, ListResult<IHospital> r) {
+    protected void searchSuccess(List<PoiInfo> info, Result<IHospital> r) {
         r.setCode(ErrorCode.KOk);
         for (PoiInfo i : info) {
             r.add(convertToHospital(i));
@@ -123,7 +124,7 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
-    protected void searchError(ListResult<IHospital> r) {
+    protected void searchError(Result<IHospital> r) {
         //找不到医院，弹出对话框变为默认医院
         HintDialog dialog = new HintDialog(this);
         dialog.addHintView(inflate(R.layout.dialog_find_hospital_fail));

@@ -47,8 +47,8 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     private View mLayout;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)

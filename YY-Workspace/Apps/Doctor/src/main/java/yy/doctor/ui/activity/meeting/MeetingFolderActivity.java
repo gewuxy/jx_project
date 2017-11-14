@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -53,7 +54,7 @@ public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAd
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

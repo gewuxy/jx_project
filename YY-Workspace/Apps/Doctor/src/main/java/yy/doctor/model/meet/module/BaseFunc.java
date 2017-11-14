@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
@@ -259,14 +260,14 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
 
     abstract protected void onNetworkSuccess(Object result);
 
-    abstract protected Object onNetworkResponse(NetworkResp r) throws Exception;
+    abstract protected IResult onNetworkResponse(NetworkResp r) throws Exception;
 
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdModule) {
             return onNetworkResponse(resp);
         }
@@ -274,12 +275,12 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (getListener() != null) {
             getListener().onFuncNormal();
         }
         if (id == KIdModule) {
-            onNetworkSuccess(result);
+            onNetworkSuccess(r);
         }
     }
 

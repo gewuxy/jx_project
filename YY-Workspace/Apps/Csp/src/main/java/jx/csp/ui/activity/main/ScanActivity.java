@@ -59,7 +59,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private WebSocketServRouter mWebSocketServRouter;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         LiveNotifier.inst().add(this);
     }
 

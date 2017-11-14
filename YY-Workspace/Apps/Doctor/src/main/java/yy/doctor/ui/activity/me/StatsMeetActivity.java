@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import lib.ys.ui.other.NavBar;
@@ -16,7 +17,7 @@ import yy.doctor.util.Util;
 public class StatsMeetActivity extends BaseActivity {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

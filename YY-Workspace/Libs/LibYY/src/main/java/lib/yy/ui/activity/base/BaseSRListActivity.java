@@ -56,7 +56,7 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
     }
 
     @Override
-    public IResult<T> parseNetworkResponse(int id, String text) throws JSONException {
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 

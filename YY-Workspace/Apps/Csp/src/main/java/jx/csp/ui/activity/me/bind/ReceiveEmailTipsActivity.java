@@ -19,7 +19,7 @@ import lib.yy.ui.activity.base.BaseActivity;
 public class ReceiveEmailTipsActivity extends BaseActivity {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

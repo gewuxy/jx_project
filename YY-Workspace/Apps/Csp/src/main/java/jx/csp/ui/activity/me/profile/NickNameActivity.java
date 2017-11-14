@@ -29,8 +29,8 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private TextWatcher mWatcher;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
     }
 

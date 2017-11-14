@@ -14,6 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
@@ -471,12 +472,12 @@ public class NetPlayer implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return null;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         YSLog.d(TAG, "onNetworkSuccess:" + id);
         String path = mPaths.getByKey(id);
         File fileTemp = new File(path.concat(KTemp));

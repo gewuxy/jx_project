@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.unitnum;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,7 +51,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     //private String mFileNameHashCode;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         YSLog.d(TAG, "FileNameEncryption = " + mFileNameEncryption);
         // 恢复文件名
 //        StringBuffer sb = new StringBuffer();

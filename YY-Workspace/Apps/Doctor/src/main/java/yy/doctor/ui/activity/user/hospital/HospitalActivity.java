@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.user.hospital;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import com.baidu.mapapi.search.core.PoiInfo;
@@ -13,7 +14,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.ListResult;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -33,8 +34,8 @@ public class HospitalActivity extends BaseHospitalActivity {
     private boolean mIsFromSet;  // 是否从设置页面返回的
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mIsFirstLoad = true;
         mIsFromSet = false;
@@ -136,7 +137,7 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
-    protected void searchSuccess(List<PoiInfo> info, ListResult<IHospital> r) {
+    protected void searchSuccess(List<PoiInfo> info, Result<IHospital> r) {
         List<IHospital> data = new ArrayList<>();
         r.setCode(ErrorCode.KOk);
         if (mIsFirstLoad) {
@@ -165,7 +166,7 @@ public class HospitalActivity extends BaseHospitalActivity {
     }
 
     @Override
-    protected void searchError(ListResult<IHospital> r) {
+    protected void searchError(Result<IHospital> r) {
         r.setCode(ErrorCode.KUnknown);
         r.setMessage("搜索不到你需要的信息");
     }

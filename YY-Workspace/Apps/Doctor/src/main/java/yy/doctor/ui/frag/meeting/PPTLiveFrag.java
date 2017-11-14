@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.meeting;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.view.TextureView;
@@ -9,13 +10,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseFrag;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
 import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -61,7 +62,7 @@ public class PPTLiveFrag extends BaseFrag {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mZegoCallbackImpl = new LiveCallbackImpl();
     }
 

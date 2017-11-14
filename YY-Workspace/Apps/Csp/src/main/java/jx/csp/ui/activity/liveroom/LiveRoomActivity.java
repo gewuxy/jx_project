@@ -90,7 +90,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     private ConnectionReceiver mConnectionReceiver;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         LiveNotifier.inst().add(this);
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);

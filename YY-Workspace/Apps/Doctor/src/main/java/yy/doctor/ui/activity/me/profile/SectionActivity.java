@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.me.profile;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -8,11 +9,11 @@ import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.MapList;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
@@ -51,7 +52,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     private String mCategoryName;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mCategory = "内科系统";
     }
 
@@ -82,7 +83,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdGet) {
             return JsonParser.evs(resp.getText(), Section.class);
         } else if (id == KIdCommit)  {
@@ -93,16 +94,15 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         if (id == KIdGet) {
             //全部数据
-            ListResult<Section> r = (ListResult<Section>) result;
             if (r.isSucceed()) {
                 //把相同的过滤掉
-                ListResult<Section> showSection = new ListResult<>();
+                Result<Section> showSection = new Result<>();
                 //隶属列表(一级)
-                List<Section> categories = r.getData();
+                List<Section> categories = r.getList();
                 mSections = new MapList<>();
                 String category;//科室隶属
                 String name;//科室名称
@@ -129,7 +129,6 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
                 onNetworkError(id, r.getError());
             }
         } else if (id == KIdCommit) {
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 Profile.inst().put(TProfile.category, mCategory);
                 Profile.inst().put(TProfile.name, mCategoryName);

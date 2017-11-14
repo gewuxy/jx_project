@@ -50,7 +50,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     public MyMessageContract.V mView;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mView = new MyMessageViewImpl();
         mPresenter = new MyMessagePresenterImpl(mView);
     }

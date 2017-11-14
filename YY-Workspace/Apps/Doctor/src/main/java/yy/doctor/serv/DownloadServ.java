@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.yy.notify.DownloadNotifier;
@@ -63,7 +64,7 @@ public class DownloadServ extends ServiceEx implements OnDownloadNotify {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         notify(DownloadNotifyType.complete, null);
     }
 

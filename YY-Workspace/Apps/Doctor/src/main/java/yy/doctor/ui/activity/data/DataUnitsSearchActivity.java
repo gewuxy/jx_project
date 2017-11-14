@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.data;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
@@ -35,7 +36,7 @@ public class DataUnitsSearchActivity extends BaseSRListActivity<DataUnit, DataUn
     int mType;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

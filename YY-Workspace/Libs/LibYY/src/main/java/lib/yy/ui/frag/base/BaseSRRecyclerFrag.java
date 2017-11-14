@@ -52,7 +52,7 @@ abstract public class BaseSRRecyclerFrag<T, A extends IAdapter<T>> extends SRRec
     }
 
     @Override
-    public IResult parseNetworkResponse(int what, String text) throws JSONException {
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
         return BaseJsonParser.evs(text, GenericUtil.getClassType(getClass()));
     }
 

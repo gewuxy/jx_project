@@ -3,6 +3,7 @@ package yy.doctor.ui.activity.user.register;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout;
@@ -18,10 +19,10 @@ import com.mylhyl.zxing.scanner.common.Scanner;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -54,7 +55,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private CountDown mCountDown; // 倒计时
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -170,16 +171,15 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Scan.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KScanId) {
-            Result<Scan> r = (Result<Scan>) result;
             if (r.isSucceed()) {
-                Scan data = r.getData();
+                Scan data = (Scan) r.getData();
 
                 List<Integer> masterId = data.getList(TScan.masterId);
                 StringBuilder sbId = new StringBuilder();
@@ -203,7 +203,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
                 showToast(r.getMessage());
             }
         } else if (id == KScan) {
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 setResult(RESULT_FIRST_USER);
             } else {

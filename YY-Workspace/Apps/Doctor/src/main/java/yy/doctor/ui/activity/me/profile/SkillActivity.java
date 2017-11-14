@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.profile;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +26,7 @@ public class SkillActivity extends BaseModifyActivity {
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

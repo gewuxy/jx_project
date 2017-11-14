@@ -1,14 +1,15 @@
 package yy.doctor.ui.frag.meeting.course;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseFrag;
-import yy.doctor.model.meet.ppt.Course;
-import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.Submit;
 import yy.doctor.model.meet.Submit.TSubmit;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 
 /**
  * @auther : GuoXuan
@@ -54,7 +55,7 @@ abstract public class BaseCourseFrag extends BaseFrag {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

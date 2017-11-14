@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -13,13 +14,13 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseVpActivity;
 import yy.doctor.R;
@@ -40,8 +41,8 @@ import yy.doctor.ui.activity.me.SettingsActivity;
 import yy.doctor.ui.activity.user.login.LoginActivity;
 import yy.doctor.ui.frag.DataCenterFrag;
 import yy.doctor.ui.frag.HomeFrag;
-import yy.doctor.ui.frag.MeetingFrag;
 import yy.doctor.ui.frag.MeFrag;
+import yy.doctor.ui.frag.MeetingFrag;
 
 
 @Route
@@ -64,7 +65,7 @@ public class MainActivity extends BaseVpActivity {
     int mCurrPage;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         add(new HomeFrag());
         add(new MeetingFrag());
         add(new DataCenterFrag());
@@ -192,36 +193,34 @@ public class MainActivity extends BaseVpActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        if (id == KReqIdProfile) {
-            return JsonParser.ev(resp.getText(), Profile.class);
-        } else {
-            return JsonParser.ev(resp.getText(), CheckAppVersion.class);
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
 
         if (id == KReqIdProfile) {
-            Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
+                Profile.inst().update((Profile) r.getData());
                 SpUser.inst().updateProfileRefreshTime();
 
                 notify(NotifyType.profile_change);
             }
         } else if (id == KReqIdApp) {
-            Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
             if (r.isSucceed()) {
                 //保存更新时间
                 SpApp.inst().updateAppRefreshTime();
-                CheckAppVersion data = r.getData();
+                CheckAppVersion data = (CheckAppVersion) r.getData();
                 if (data != null) {
                     //  判断版本是否需要更新
                     new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
                 }
             }
+        }
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        if (id == KReqIdProfile) {
+            return JsonParser.ev(resp.getText(), Profile.class);
+        } else {
+            return JsonParser.ev(resp.getText(), CheckAppVersion.class);
         }
     }
 

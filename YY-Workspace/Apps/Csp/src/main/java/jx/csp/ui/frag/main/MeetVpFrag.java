@@ -47,7 +47,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
     private List<Meet> mMeets;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mEffectPresenter = new VPEffectPresenterImpl(this, KVpScale);
     }
 

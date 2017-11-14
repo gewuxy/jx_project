@@ -6,10 +6,10 @@ import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
-import lib.yy.network.Result;
 import lib.yy.util.CountDown;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.Course.CourseType;
@@ -50,17 +50,16 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), PPT.class);
     }
 
     @CallSuper
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         getView().onStopRefresh();
-        Result<PPT> r = (Result<PPT>) result;
         if (r.isSucceed()) {
-            mPpt = r.getData();
+            mPpt = (PPT) r.getData();
             if (mPpt == null) {
                 return;
             }

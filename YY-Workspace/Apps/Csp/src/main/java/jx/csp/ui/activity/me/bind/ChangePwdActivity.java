@@ -26,8 +26,8 @@ public class ChangePwdActivity extends BaseSetActivity {
     private EditText mEtPwdNew;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et_pwd)

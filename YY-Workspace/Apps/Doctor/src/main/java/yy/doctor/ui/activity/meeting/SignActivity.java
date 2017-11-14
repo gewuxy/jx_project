@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting;
 
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import inject.annotation.router.Arg;
@@ -35,8 +36,8 @@ public class SignActivity extends BaseResultActivity {
     private ImageView mIvResult;//结果图标
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         notify(NotifyType.study_start);
     }

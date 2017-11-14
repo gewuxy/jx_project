@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.user.register;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.SpannableString;
@@ -28,6 +29,7 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
@@ -40,7 +42,6 @@ import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.model.form.BaseForm;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants.CaptchaType;
@@ -65,8 +66,8 @@ import yy.doctor.network.NetworkApiDescriptor.UserAPI;
 import yy.doctor.network.UrlUtil;
 import yy.doctor.sp.SpApp;
 import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.CommonWebViewActivityRouter;
+import yy.doctor.ui.activity.MainActivity;
 import yy.doctor.ui.activity.me.profile.SectionActivity;
 import yy.doctor.ui.activity.me.profile.TitleActivity;
 import yy.doctor.ui.activity.user.PcdActivity;
@@ -144,8 +145,8 @@ public class RegisterActivity extends BaseFormActivity implements
     private Set<Integer> mStatus; // 记录要完成的内容
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mCount = 0;
 
@@ -402,7 +403,7 @@ public class RegisterActivity extends BaseFormActivity implements
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdLogin) {
             return JsonParser.ev(resp.getText(), Profile.class);
         } else {
@@ -411,14 +412,13 @@ public class RegisterActivity extends BaseFormActivity implements
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KIdLogin) {
             //登录
             stopRefresh();
 
-            Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
+                Profile.inst().update((Profile) r.getData());
                 SpUser.inst().updateProfileRefreshTime();
                 notify(NotifyType.login);
                 startActivity(MainActivity.class);
@@ -428,7 +428,6 @@ public class RegisterActivity extends BaseFormActivity implements
                 finish();
             }
         } else if (id == KIdCaptcha) {
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                 showToast(R.string.send_captcha);
@@ -437,7 +436,6 @@ public class RegisterActivity extends BaseFormActivity implements
             }
         } else {
             //注册
-            Result r = (Result) result;
             if (r.getCode() == KReturnCode || r.getCode() == KReturnCode2) {
                 stopRefresh();
                 HintDialogMain d = new HintDialogMain(this);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -14,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
 import lib.yy.contract.IContract;
@@ -50,7 +51,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     @CallSuper
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         notify(NotifyType.study_start);
     }
 

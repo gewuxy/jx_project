@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.me;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -54,7 +55,7 @@ public class MyCollectionActivity extends BaseVpActivity {
     private OnClickListener mTabListener;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         add(new MyMeetingFrag());
         add(CollectionFragRouter.create(DataType.thomson).route());
         add(CollectionFragRouter.create(DataType.drug).route());

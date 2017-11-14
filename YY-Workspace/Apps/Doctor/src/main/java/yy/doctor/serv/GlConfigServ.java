@@ -7,10 +7,10 @@ import org.json.JSONException;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.config.GlConfig;
 import yy.doctor.model.config.GlConfigInfo;
@@ -51,15 +51,14 @@ public class GlConfigServ extends ServiceEx {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws JSONException {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
         return JsonParser.ev(resp.getText(), GlConfigInfo.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<GlConfigInfo> r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            GlConfigInfo info = r.getData();
+            GlConfigInfo info = (GlConfigInfo) r.getData();
             if (info == null) {
                 stopSelf();
                 return;
@@ -73,6 +72,8 @@ public class GlConfigServ extends ServiceEx {
                 GlConfig.inst().setHospitalLevels(info.getList(TGlConfigInfo.propList));
                 YSLog.d(TAG, "onNetworkSuccess:update");
             }
+        } else {
+            onNetworkError(id, r.getError());
         }
 
         stopSelf();
@@ -80,7 +81,6 @@ public class GlConfigServ extends ServiceEx {
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
-        super.onNetworkError(id, error);
         stopSelf();
     }
 }

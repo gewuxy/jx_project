@@ -48,7 +48,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     String mCourseId;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mSelectedItem = new ArrayList<>();
 
         mView = new ContributePlatformViewImpl();

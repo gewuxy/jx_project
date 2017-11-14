@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.user;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,10 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogMain;
@@ -34,7 +35,7 @@ public class ForgetPwdEmailActivity extends BaseActivity {
     private TextView mTvSendEmail;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -121,14 +122,12 @@ public class ForgetPwdEmailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             HintDialogMain d = new HintDialogMain(ForgetPwdEmailActivity.this);
             d.setHint(getString(R.string.forget_pwd_success));

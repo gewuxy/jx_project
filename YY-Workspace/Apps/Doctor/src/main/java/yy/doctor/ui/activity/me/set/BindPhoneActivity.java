@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.set;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -9,10 +10,10 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Constants.CaptchaType;
 import yy.doctor.R;
@@ -48,8 +49,8 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
@@ -129,9 +130,8 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result r = (Result) result;
         if (r.isSucceed()) {
             if (id == KCaptcha) {
                 // 获取验证码

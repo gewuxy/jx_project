@@ -61,9 +61,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private MeetGridFrag mGridFrag;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         LiveNotifier.inst().add(this);
-        if (savedInstanceState != null) {
+        if (state != null) {
             return;
         }
 

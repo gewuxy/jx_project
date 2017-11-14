@@ -26,7 +26,7 @@ public class ClipImageActivity extends BaseClipImageActivity {
     private ClipImageContract.V mView;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mView = new ClipImageViewImpl();
         mPresenter = new ClipImagePresenterImpl(mView);
     }

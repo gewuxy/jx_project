@@ -1,6 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -36,7 +37,7 @@ public class SignErrDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

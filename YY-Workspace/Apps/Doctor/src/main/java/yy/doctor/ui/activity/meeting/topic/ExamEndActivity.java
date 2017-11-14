@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.topic;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -11,10 +12,10 @@ import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -59,7 +60,7 @@ public class ExamEndActivity extends BaseActivity {
     private View mLayout;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -104,17 +105,16 @@ public class ExamEndActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), TopicResult.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<TopicResult> response = (Result<TopicResult>) result;
-        if (response.isSucceed()) {
+    public void onNetworkSuccess(int id, IResult r) {
+        if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            TopicResult r = response.getData();
-            int score = r.getInt(TTopicResult.score);
+            TopicResult topic = (TopicResult) r.getData();
+            int score = topic.getInt(TTopicResult.score);
             if (score >= mPass) {
                 // 及格隐藏
                 hideView(mLayout);

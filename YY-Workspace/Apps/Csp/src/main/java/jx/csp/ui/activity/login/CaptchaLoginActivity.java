@@ -70,8 +70,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mCount = 0;
 

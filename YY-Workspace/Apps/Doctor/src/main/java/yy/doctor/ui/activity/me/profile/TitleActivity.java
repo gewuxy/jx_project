@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.me.profile;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -8,12 +9,11 @@ import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.ListResult;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -51,7 +51,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     private List<Title> mTitleGrade;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mGrade = getString(R.string.high_grade);
     }
 
@@ -84,7 +84,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
 
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         switch (id) {
             case KIdGet: {
                 return JsonParser.evs(resp.getText(), Title.class);
@@ -97,13 +97,12 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         switch (id) {
             case KIdGet: {
-                ListResult<Title> r = (ListResult<Title>) result;
                 if (r.isSucceed()) {
-                    mTitleGrade = r.getData();
+                    mTitleGrade = r.getList();
                     List<String> titles = new ArrayList<>();
 
                     for (Title title : mTitleGrade) {
@@ -123,7 +122,6 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
             }
             break;
             case KIdCommit: {
-                Result r = (Result) result;
                 if (r.isSucceed()) {
                     Profile.inst().put(TProfile.title, mTitle);
                     Profile.inst().saveToSp();

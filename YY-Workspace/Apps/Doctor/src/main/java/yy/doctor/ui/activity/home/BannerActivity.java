@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.home;
 
+import android.os.Bundle;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
@@ -23,7 +25,7 @@ public class BannerActivity extends BaseWebViewActivity {
     private ShareDialog mShareDialog;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

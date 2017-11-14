@@ -9,6 +9,7 @@ import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.interfaces.impl.PermissionOpt;
 import lib.ys.util.UtilEx;
 import lib.ys.util.permission.OnPermissionListener;
@@ -62,7 +63,7 @@ public class SignFunc extends BaseFunc implements OnPermissionListener, OnLocati
     }
 
     @Override
-    public Object onNetworkResponse(NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), Sign.class);
     }
 

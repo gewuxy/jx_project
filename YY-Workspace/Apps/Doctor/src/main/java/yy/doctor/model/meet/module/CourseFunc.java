@@ -8,6 +8,7 @@ import java.util.List;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.yy.network.Result;
 import yy.doctor.App;
 import yy.doctor.BuildConfig;
@@ -64,7 +65,7 @@ public class CourseFunc extends BaseFunc {
     }
 
     @Override
-    public Object onNetworkResponse(NetworkResp r) throws Exception {
+    protected IResult onNetworkResponse(NetworkResp r) throws Exception {
         return JsonParser.ev(r.getText(), PPT.class);
     }
 

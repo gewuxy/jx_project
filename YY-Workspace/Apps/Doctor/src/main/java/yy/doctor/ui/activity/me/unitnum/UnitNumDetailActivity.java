@@ -3,16 +3,20 @@ package yy.doctor.ui.activity.me.unitnum;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
 import android.widget.TextView;
+
+import org.json.JSONException;
 
 import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.BlurInterceptor;
@@ -23,7 +27,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
@@ -84,7 +87,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private String mUnitNumName;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override
@@ -246,8 +249,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KReqIdUnitNumDetail) {
             if (getOffset() != getInitOffset()) {
                 return JsonParser.evs(resp.getText(), Meeting.class);
@@ -255,12 +257,17 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                 return JsonParser.ev(resp.getText(), UnitNumDetail.class);
             }
         } else {
-            return JsonParser.error(resp.getText());
+            return super.onNetworkResponse(id, resp);
         }
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public IResult<Meeting> parseNetworkResponse(int id, String text) throws JSONException {
+        return JsonParser.error(text);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult result) {
 
         if (id == KReqIdUnitNumDetail) {
             if (getOffset() != getInitOffset()) {
@@ -330,9 +337,9 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
                     .setNum(fileNum)
                     .load();
 
-            ListResult<Meeting> meetingResult = new ListResult<>();
+            Result<Meeting> meetingResult = new Result<>();
             meetingResult.setCode(ErrorCode.KOk);
-            meetingResult.setData(mUnitNumDetail.getList(TUnitNumDetail.meetFolderList));
+            meetingResult.setData((List<Meeting>) mUnitNumDetail.getList(TUnitNumDetail.meetFolderList));
             super.onNetworkSuccess(id, meetingResult);
 
         } else if (id == KReqIdAttention) {  //关注

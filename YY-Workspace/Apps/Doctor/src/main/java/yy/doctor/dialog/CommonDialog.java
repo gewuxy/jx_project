@@ -1,6 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +28,7 @@ public class CommonDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

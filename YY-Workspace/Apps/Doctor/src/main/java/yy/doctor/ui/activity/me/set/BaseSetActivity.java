@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -49,7 +50,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.error(resp.getText());
     }
 

@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.set;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.widget.EditText;
@@ -7,9 +8,9 @@ import android.widget.EditText;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
-import lib.yy.network.Result;
 import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
@@ -33,8 +34,8 @@ public class BindEmailActivity extends BaseSetActivity {
     private EditText mEtEmail;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
@@ -69,9 +70,8 @@ public class BindEmailActivity extends BaseSetActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result r = (Result) result;
         if (r.isSucceed()) {
             showToast("成功发送");
             finish();

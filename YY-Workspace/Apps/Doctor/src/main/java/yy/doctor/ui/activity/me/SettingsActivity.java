@@ -2,6 +2,7 @@ package yy.doctor.ui.activity.me;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -16,6 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -23,7 +25,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants;
@@ -107,8 +108,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
@@ -269,7 +270,7 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KVersion) {
             return JsonParser.ev(resp.getText(), CheckAppVersion.class);
         } else {
@@ -278,15 +279,14 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         if (id == KVersion) {
 
-            Result<CheckAppVersion> r = (Result<CheckAppVersion>) result;
             if (r.isSucceed()) {
                 //保存更新时间
                 SpApp.inst().updateAppRefreshTime();
-                CheckAppVersion data = r.getData();
+                CheckAppVersion data = (CheckAppVersion) r.getData();
                 //  判断版本是否需要更新
                 if (data != null) {
                     new UpdateNoticeDialog(this, data.getString(TCheckAppVersion.downLoadUrl)).show();
@@ -296,7 +296,6 @@ public class SettingsActivity extends BaseFormActivity {
             }
         } else {
             // 绑定的
-            Result r = (Result) result;
             if (id == KUnBindWX) {
                 unBindUpdate(r, RelatedId.bind_wx, TProfile.wxNickname);
             } else {
@@ -331,7 +330,7 @@ public class SettingsActivity extends BaseFormActivity {
     /**
      * 解绑成功
      */
-    private void unBindUpdate(Result r, @RelatedId int id, TProfile key) {
+    private void unBindUpdate(IResult r, @RelatedId int id, TProfile key) {
         if (r.isSucceed()) {
             showToast("解绑成功");
             getRelatedItem(id).save(ConstantsEx.KEmpty, ConstantsEx.KEmpty);

@@ -1,11 +1,13 @@
 package yy.doctor.ui.activity.search;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import inject.annotation.router.Route;
-import lib.network.model.NetworkResp;
-import lib.yy.network.ListResult;
+import lib.network.model.interfaces.IResult;
+import lib.yy.network.Result;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.search.Margin;
@@ -56,29 +58,28 @@ public class SearchResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        ListResult result = null;
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
+        Result result = null;
         if (id == KMeeting) {
             // 会议
-            result = JsonParser.evs(resp.getText(), Meeting.class);
+            result = JsonParser.evs(text, Meeting.class);
             // onNetworkSuccess接数据可能为空 ,因为这不在主线程
             if (result.isSucceed()) {
-                mMeets = result.getData();
+                mMeets = result.getList();
             }
         } else {
             // 单位号
-            result = JsonParser.evs(resp.getText(), UnitNum.class);
+            result = JsonParser.evs(text, UnitNum.class);
             if (result.isSucceed()) {
-                mUnitNums = result.getData();
+                mUnitNums = result.getList();
             }
         }
         return result;
+
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        ListResult r = (ListResult) result;
-
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KMeeting) {
             // 会议
             mMeetReqIsOK = r.isSucceed();
@@ -91,7 +92,7 @@ public class SearchResultActivity extends BaseSearchResultActivity {
             boolean haveUnitNum = mUnitNums != null && mUnitNums.size() > 0;  // 单位号有数据
             boolean haveMeet = mMeets != null && mMeets.size() > 0; // 会议有数据
 
-            ListResult<IRec> listResult = new ListResult<>();
+            Result<IRec> Result = new Result<>();
             List<IRec> data = new ArrayList<>();
 
             // 先添加单位号
@@ -109,8 +110,8 @@ public class SearchResultActivity extends BaseSearchResultActivity {
                 toggleResult(data, mMeets, KMeetingNum);
             }
 
-            listResult.setData(data);
-            super.onNetworkSuccess(id, listResult);
+            Result.setData(data);
+            super.onNetworkSuccess(id, Result);
         }
     }
 

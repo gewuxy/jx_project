@@ -17,7 +17,7 @@ import lib.yy.ui.frag.base.BaseFrag;
 public class EmptyFrag extends BaseFrag {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

@@ -1,6 +1,7 @@
 package yy.doctor.popup;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -27,7 +28,7 @@ public class TopicPopup extends PopupWindowEx {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

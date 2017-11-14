@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.epn;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -28,7 +29,7 @@ public class EpnActivity extends BaseActivity {
     private TextView mTvEpn;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

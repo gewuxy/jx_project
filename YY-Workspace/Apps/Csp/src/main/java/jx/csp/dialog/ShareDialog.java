@@ -76,7 +76,7 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
 

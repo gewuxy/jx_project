@@ -18,7 +18,7 @@ import lib.yy.test.BaseTestActivity;
 public class TestActivity extends BaseTestActivity {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
 
         add("首页", new Intent(this, MainActivity.class));
         add("个人中心", new Intent(this, MeActivity.class));

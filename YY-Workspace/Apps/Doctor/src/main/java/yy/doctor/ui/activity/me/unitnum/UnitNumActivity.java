@@ -5,7 +5,7 @@ import android.widget.ExpandableListView;
 
 import org.json.JSONException;
 
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
@@ -50,7 +50,7 @@ public class UnitNumActivity extends BaseGroupIndexActivity<GroupUnitNum, UnitNu
     }
 
     @Override
-    public IListResult<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
+    public IResult<GroupUnitNum> parseNetworkResponse(int id, String text) throws JSONException {
         return JsonParser.groupIndex(text, GroupUnitNum.class, TUnitNum.alpha);
     }
 

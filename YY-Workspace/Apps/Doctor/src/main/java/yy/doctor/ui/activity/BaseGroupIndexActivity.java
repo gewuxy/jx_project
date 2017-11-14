@@ -1,6 +1,8 @@
 package yy.doctor.ui.activity;
 
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -9,9 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
-import lib.yy.network.ListResult;
 import lib.yy.ui.activity.base.BaseSRGroupListActivity;
 import yy.doctor.R;
 import yy.doctor.model.BaseGroup;
@@ -37,7 +39,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     private String[] mSideBarLetters;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mLetterSize = fitDp(10);
         mSingleLetterHight = fitDp(15);
     }
@@ -53,8 +55,6 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
 
         mSideBar = findView(R.id.group_index_layout_side_bar);
         mTvLetter = findView(R.id.group_index_tv_letter);
-
-
     }
 
     @Override
@@ -84,12 +84,13 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
         });
     }
 
+    @CallSuper
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        ListResult<GROUP> r = (ListResult<GROUP>) super.onNetworkResponse(id, resp);
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        IResult<GROUP> r = super.onNetworkResponse(id, resp);
 
         if (r.isSucceed()) {
-            List<GROUP> data = r.getData();
+            List<GROUP> data = r.getList();
             if (data == null) {
                 return r;
             }
@@ -105,9 +106,8 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
+    public void onNetRefreshSuccess() {
+        super.onNetRefreshSuccess();
         mSideBar.setData(mSideBarLetters);
     }
 

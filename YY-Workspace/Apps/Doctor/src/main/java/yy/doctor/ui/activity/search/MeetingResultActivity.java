@@ -3,13 +3,12 @@ package yy.doctor.ui.activity.search;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
-import java.util.List;
+import org.json.JSONException;
 
 import inject.annotation.router.Route;
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.JsonParser;
@@ -67,23 +66,19 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.evs(resp.getText(), Meeting.class);
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
+        return JsonParser.evs(text, Meeting.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
+    public void onNetRefreshSuccess() {
+        super.onNetRefreshSuccess();
 
-        ListResult<Meeting> r = (ListResult<Meeting>) result;
-        if (r.isSucceed()) {
-            List meets = r.getData();
-            // 单独管理空界面
-            if (meets != null && meets.size() > 0) {
-                goneView(mLayoutEmpty);
-            } else {
-                showView(mLayoutEmpty);
-            }
+        // 单独管理空界面
+        if (isEmpty()) {
+            goneView(mLayoutEmpty);
+        } else {
+            showView(mLayoutEmpty);
         }
     }
 

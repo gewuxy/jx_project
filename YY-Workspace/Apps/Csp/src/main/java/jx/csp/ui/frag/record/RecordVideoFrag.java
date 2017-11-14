@@ -35,7 +35,7 @@ public class RecordVideoFrag extends BaseFrag {
     String mImgUrl; // 视频第一针图片地址
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

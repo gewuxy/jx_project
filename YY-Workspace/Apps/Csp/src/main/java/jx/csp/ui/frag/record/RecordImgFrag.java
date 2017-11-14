@@ -59,7 +59,7 @@ public class RecordImgFrag extends BaseFrag {
     String mAudioUrl;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

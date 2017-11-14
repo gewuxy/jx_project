@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.search;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.EditText;
@@ -41,7 +42,7 @@ abstract public class BaseSearchResultActivity extends BaseSRListActivity<IRec, 
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @CallSuper

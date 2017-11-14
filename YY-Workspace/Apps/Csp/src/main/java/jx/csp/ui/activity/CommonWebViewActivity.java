@@ -30,7 +30,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     HashMap<String, String> mHeaders;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

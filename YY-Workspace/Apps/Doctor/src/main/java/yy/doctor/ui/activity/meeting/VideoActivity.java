@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
@@ -91,7 +92,7 @@ public class VideoActivity extends BaseActivity implements
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
         mUriString = Util.convertUrl(mDetail.getString(TDetail.url));

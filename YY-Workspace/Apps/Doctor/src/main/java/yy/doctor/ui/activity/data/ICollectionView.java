@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.data;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import yy.doctor.model.data.DataUnitDetails;
 
 /**
@@ -21,7 +22,7 @@ public interface ICollectionView {
 
     void changeCollectionState();
 
-    Object onNetworkResponse(int id, NetworkResp r) throws Exception;
+    IResult onNetworkResponse(int id, NetworkResp resp) throws Exception;
 
-    void onNetworkSuccess(int id, Object result);
+    void onNetworkSuccess(int id, IResult r);
 }

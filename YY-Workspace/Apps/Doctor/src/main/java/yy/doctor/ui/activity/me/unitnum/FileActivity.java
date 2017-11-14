@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.unitnum;
 
+import android.os.Bundle;
 import android.view.View;
 
 import inject.annotation.router.Arg;
@@ -31,7 +32,7 @@ public class FileActivity extends BaseSRRecyclerActivity<File, FileAdapter> {
     int mType;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

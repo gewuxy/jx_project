@@ -58,7 +58,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     private String mNickName;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull

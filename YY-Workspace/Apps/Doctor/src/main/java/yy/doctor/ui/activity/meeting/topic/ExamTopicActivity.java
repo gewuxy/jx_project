@@ -2,6 +2,7 @@ package yy.doctor.ui.activity.meeting.topic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
@@ -51,8 +52,8 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mShouldHint = true;
         mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);

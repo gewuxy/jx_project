@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.epc;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -7,10 +8,10 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.me.EpcDetail;
@@ -43,7 +44,7 @@ public class EpcDetailActivity extends BaseActivity {
     private int mEpn;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -78,18 +79,15 @@ public class EpcDetailActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), EpcDetail.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
-
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result<EpcDetail> r = (Result<EpcDetail>) result;
         if (r.isSucceed()) {
-            EpcDetail epcDetail = r.getData();
+            EpcDetail epcDetail = (EpcDetail) r.getData();
             mTvName.setText(epcDetail.getString(TEpcDetail.name));
             mEpn = epcDetail.getInt(TEpcDetail.price);
             mTvEpn.setText(epcDetail.getString(TEpcDetail.price));

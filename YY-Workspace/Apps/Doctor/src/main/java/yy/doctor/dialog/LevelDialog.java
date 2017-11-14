@@ -1,6 +1,7 @@
 package yy.doctor.dialog;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -40,7 +41,7 @@ public class LevelDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mLevels = GlConfig.inst().getHospitalLevels();
     }
 

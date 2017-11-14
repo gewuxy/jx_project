@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class AdActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mCountDown = new CountDown();
         mCountDown.setListener(new CountDown.OnCountDownListener() {
 

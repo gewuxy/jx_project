@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.data;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -72,7 +73,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     private String mFileNameHashCode;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         DownloadNotifier.inst().add(this);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;

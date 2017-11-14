@@ -14,12 +14,12 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
@@ -78,8 +78,8 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;
@@ -189,13 +189,12 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result r = (Result) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             stopRefresh();
 

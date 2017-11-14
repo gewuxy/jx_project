@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.home;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
     private TextView mTvEmpty;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         //读取通知数据库的数据
         mNotices = NoticeManager.inst().queryAll();
     }

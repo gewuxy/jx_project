@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me;
 
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -78,8 +79,8 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.update_log)

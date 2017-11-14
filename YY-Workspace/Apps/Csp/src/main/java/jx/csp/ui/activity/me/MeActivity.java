@@ -56,8 +56,8 @@ public class MeActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)

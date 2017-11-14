@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.topic;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -14,11 +15,11 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -76,7 +77,7 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         notify(NotifyType.study_start);
     }
 
@@ -117,16 +118,15 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Intro.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Intro> r = (Result<Intro>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            mIntro = r.getData();
+            mIntro = (Intro) r.getData();
 
             // 获取起始结束时间
             mStartTime = mIntro.getLong(TIntro.startTime);

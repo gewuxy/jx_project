@@ -1,5 +1,6 @@
 package yy.doctor.ui.frag.user;
 
+import android.os.Bundle;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
@@ -20,7 +21,7 @@ public class SectionCategoryFrag extends BaseListFrag<Section, SectionCategoryAd
     private OnCategoryListener mListener;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.user;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -10,12 +11,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PackageUtil;
 import lib.yy.model.form.BaseForm;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.Constants.CaptchaType;
@@ -72,8 +73,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     private Set<Integer> mStatus;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mCount = 0;
 
@@ -216,7 +217,7 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KIdLogin) {
             return JsonParser.ev(resp.getText(), Profile.class);
         } else {
@@ -225,12 +226,11 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KIdLogin) { //登陆
             stopRefresh();
-            Result<Profile> r = (Result<Profile>) result;
             if (r.isSucceed()) {
-                Profile.inst().update(r.getData());
+                Profile.inst().update((Profile) r.getData());
                 notify(NotifyType.login);
                 startActivity(MainActivity.class);
                 finish();
@@ -239,7 +239,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 showToast(r.getMessage());
             }
         } else if (id == KIdCaptcha) {//验证码
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 ((EditCaptchaForm) getRelatedItem(RelatedId.captcha)).start();
                 showToast(R.string.send_captcha);
@@ -247,7 +246,6 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
                 showToast(r.getMessage());
             }
         } else if (id == KIdModify) {//修改并设置新密码
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 showToast(R.string.pwd_change_success);
                 //注册成功后登录,登录有结果才stopRefresh

@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.play;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
@@ -63,8 +64,8 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mHandler = new Handler() {
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.AppEx;
 import lib.yy.network.Result;
 import yy.doctor.R;
@@ -46,7 +47,7 @@ public class SurveyFunc extends BaseFunc {
     }
 
     @Override
-    public Object onNetworkResponse(NetworkResp r) throws Exception {
+    public IResult onNetworkResponse(NetworkResp r) throws Exception {
         return JsonParser.error(r.getText());
     }
 

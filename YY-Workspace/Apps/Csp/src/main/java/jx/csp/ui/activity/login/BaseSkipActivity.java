@@ -26,7 +26,7 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
     private CountDown mCountDown;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
         mCountDown.start(KCountDownTime);

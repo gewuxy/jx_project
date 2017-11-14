@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.user.hospital;
 
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -27,13 +28,13 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.Extra;
@@ -93,7 +94,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     @CallSuper
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mFromType = getIntent().getIntExtra(Extra.KData, FromType.register);
         mFirstAction = true;
         mSearch = PoiSearch.newInstance();
@@ -167,7 +168,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     @Override
     public void onGetPoiResult(PoiResult poiResult) {
-        ListResult<IHospital> r = new ListResult<>();
+        Result<IHospital> r = new Result<>();
 
         if (poiResult != null && poiResult.error == PoiResult.ERRORNO.NO_ERROR) {
             //如果搜索到的结果不为空，并且没有错误
@@ -221,7 +222,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (KIdSave == id) {
             return JsonParser.error(resp.getText());
         } else {
@@ -230,10 +231,9 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KIdSave) {
             stopDialogRefresh();
-            Result r = (Result) result;
             if (r.isSucceed()) {
 
                 Profile.inst().put(TProfile.hospital, mHospitalName.getString(THospitalName.name));
@@ -247,7 +247,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
                 onNetworkError(id, r.getError());
             }
         } else {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, r);
         }
     }
 
@@ -298,7 +298,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
      * 模拟网络成功, 显示empty footer view
      */
     protected void simulateSuccess() {
-        ListResult<IHospital> r = new ListResult<>();
+        Result<IHospital> r = new Result<>();
         r.setCode(ErrorCode.KOk);
         List<IHospital> hospitals = new ArrayList<>();
         r.setData(hospitals);
@@ -366,12 +366,12 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
     /**
      * 搜索到结果
      */
-    abstract protected void searchSuccess(List<PoiInfo> info, ListResult<IHospital> r);
+    abstract protected void searchSuccess(List<PoiInfo> info, Result<IHospital> r);
 
     /**
      * 没搜索到结果
      */
-    abstract protected  void searchError(ListResult<IHospital> r);
+    abstract protected  void searchError(Result<IHospital> r);
 
     /**
      * 选择医院返回结果

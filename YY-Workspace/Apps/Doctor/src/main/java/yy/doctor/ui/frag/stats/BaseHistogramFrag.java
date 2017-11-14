@@ -11,9 +11,9 @@ import java.util.List;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.ui.frag.base.BaseFrag;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -49,7 +49,7 @@ abstract public class BaseHistogramFrag extends BaseFrag {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         Bundle b = getArguments();
         if (b != null) {
             mIndex = b.getInt(Extra.KId);
@@ -89,15 +89,14 @@ abstract public class BaseHistogramFrag extends BaseFrag {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Stats.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Stats> r = (Result<Stats>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            Stats stats = r.getData();
+            Stats stats = (Stats) r.getData();
             List<StatsPerDay> week = stats.getList(TStatistics.detailList);
             mStats.set(mIndex, stats);
             mLayoutHistogram.setStats(week);

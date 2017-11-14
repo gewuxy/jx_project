@@ -2,11 +2,12 @@ package yy.doctor.ui.activity.user.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -31,7 +32,7 @@ public class WXLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mOpenId = getIntent().getStringExtra(Extra.KData);
     }
 
@@ -58,11 +59,10 @@ public class WXLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Result<Profile> r = (Result<Profile>) result;
         if (r.isSucceed()) {
-            Profile.inst().update(r.getData());
+            Profile.inst().update((Profile) r.getData());
             SpUser.inst().updateProfileRefreshTime();
             notify(NotifyType.login);
             startActivity(MainActivity.class);

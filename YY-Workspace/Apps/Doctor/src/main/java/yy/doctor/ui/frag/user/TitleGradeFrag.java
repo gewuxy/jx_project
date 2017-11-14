@@ -1,6 +1,7 @@
 package yy.doctor.ui.frag.user;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
@@ -19,7 +20,7 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     private OnGradeListener mListener;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

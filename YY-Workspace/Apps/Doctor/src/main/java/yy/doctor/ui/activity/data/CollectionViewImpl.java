@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier;
@@ -125,12 +126,11 @@ public class CollectionViewImpl implements ICollectionView {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp r) throws Exception {
-        return JsonParser.error(r.getText());
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-
+    public void onNetworkSuccess(int id, IResult r) {
     }
 }

@@ -2,17 +2,19 @@ package yy.doctor.ui.activity.meeting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.List;
 
-import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
@@ -58,7 +60,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         notify(NotifyType.study_start);
 
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KData);
@@ -99,23 +101,24 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        ListResult<Detail> listResult = null;
+    public IResult<Detail> parseNetworkResponse(int id, String text) throws JSONException {
+        // FIXME: 起名
+        Result<Detail> Result = null;
         List<Detail> details = null;
         if (id == KIdToVideo) {
             // 筛选需要的数据类型
-            Result<Intro> result = JsonParser.ev(resp.getText(), Intro.class);
-            listResult = new ListResult<>();
+            Result<Intro> result = JsonParser.ev(text, Intro.class);
+            Result = new Result<>();
             if (result.isSucceed()) {
                 Intro intro = result.getData();
                 Course course = intro.get(TIntro.course);
                 mSubmit.put(TSubmit.courseId, course.getString(TCourse.id));
                 details = course.getList(TCourse.details);
-                listResult.setData(details);
+                Result.setData(details);
             }
         } else if (id == KIdVideo) {
-            listResult = JsonParser.evs(resp.getText(), Detail.class);
-            details = listResult.getData();
+            Result = JsonParser.evs(text, Detail.class);
+            details = Result.getList();
         }
         mStudyTime = 0;
         for (Detail detail : details) {
@@ -133,7 +136,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
                 mBarTvRight.setText(getString(R.string.video_add_up_all) + Time.secondFormat(mStudyTime));
             }
         });
-        return listResult;
+        return Result;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.me.epn;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -18,9 +19,11 @@ import java.util.regex.Pattern;
 import alipay.Pay;
 import alipay.PayResult;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
@@ -83,7 +86,7 @@ public class EpnRechargeActivity extends BaseActivity {
     };
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -170,21 +173,24 @@ public class EpnRechargeActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        EpnRecharge epnRecharge = new EpnRecharge();
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        Result<EpnRecharge> r = new Result<>();
+
+        EpnRecharge val = new EpnRecharge();
         JSONObject object = new JSONObject(resp.getText());
-        epnRecharge.put(TEpnRecharge.data, object.getString("data"));
-        epnRecharge.put(TEpnRecharge.code, object.getInt("code"));
-        return epnRecharge;
+        val.put(TEpnRecharge.data, object.getString("data"));
+        val.put(TEpnRecharge.code, object.getInt("code"));
+
+        r.setData(val);
+        return r;
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
+    public void onNetworkSuccess(int id, IResult r) {
 
-        EpnRecharge r = (EpnRecharge) result;
-        if (r.getInt(TEpnRecharge.code) == 0) {
-            String info = r.getString(TEpnRecharge.data);
+        EpnRecharge val = (EpnRecharge) r.getData();
+        if (val.getInt(TEpnRecharge.code) == 0) {
+            String info = val.getString(TEpnRecharge.data);
             YSLog.d(TAG, "OrderInfo = " + info);
             Pay.aliPay(EpnRechargeActivity.this, info, mHandler);
         } else {

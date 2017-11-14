@@ -90,8 +90,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         mRecordPresenter = new CommonRecordPresenterImpl(new View());
     }

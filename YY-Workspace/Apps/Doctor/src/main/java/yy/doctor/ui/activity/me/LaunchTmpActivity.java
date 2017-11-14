@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.me;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import lib.ys.YSLog;
@@ -25,7 +26,7 @@ public class LaunchTmpActivity extends BaseActivity {
     private int mUnitNumId;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mUnitNumId = getIntent().getIntExtra(Extra.KUnitNumId, 100);
         YSLog.d(TAG, " UnitNumId = " + mUnitNumId);
     }

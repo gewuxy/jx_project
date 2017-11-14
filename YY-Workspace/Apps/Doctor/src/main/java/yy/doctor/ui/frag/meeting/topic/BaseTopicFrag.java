@@ -1,6 +1,7 @@
 package yy.doctor.ui.frag.meeting.topic;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -60,7 +61,7 @@ abstract public class BaseTopicFrag extends BaseFrag {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         // do nothing
     }
 

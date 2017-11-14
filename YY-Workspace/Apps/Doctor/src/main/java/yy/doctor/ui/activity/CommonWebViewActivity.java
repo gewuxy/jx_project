@@ -1,11 +1,13 @@
 package yy.doctor.ui.activity;
 
+import android.os.Bundle;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
@@ -42,7 +44,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     private DataUnitDetails mData;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override
@@ -67,7 +69,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == ICollectionView.KIdDetail) {
             return JsonParser.ev(resp.getText(), DataUnitDetails.class);
         } else {
@@ -76,19 +78,18 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == ICollectionView.KIdDetail) {
-            Result<DataUnitDetails> r = (Result) result;
             stopRefresh();
             if (r.isSucceed()) {
-                mData = r.getData();
+                mData = (DataUnitDetails) r.getData();
                 mCollectionView.setData(mData);
                 boolean state = mData.getBoolean(TDataUnitDetails.favorite);
                 YSLog.d(TAG, "StoredState = " + state);
                 mCollectionView.setState(state);
             }
         } else {
-            mCollectionView.onNetworkSuccess(id, result);
+            mCollectionView.onNetworkSuccess(id, r);
         }
     }
 

@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.search;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
@@ -29,7 +30,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

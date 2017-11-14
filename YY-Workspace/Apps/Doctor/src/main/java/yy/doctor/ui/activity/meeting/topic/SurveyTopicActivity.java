@@ -2,16 +2,17 @@ package yy.doctor.ui.activity.meeting.topic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -54,8 +55,8 @@ public class SurveyTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
 
         notify(NotifyType.study_start);
     }
@@ -69,16 +70,15 @@ public class SurveyTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Intro.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Intro> r = (Result<Intro>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            mIntro = r.getData();
+            mIntro = (Intro) r.getData();
 
             if (mIntro != null) {
                 initFrag();

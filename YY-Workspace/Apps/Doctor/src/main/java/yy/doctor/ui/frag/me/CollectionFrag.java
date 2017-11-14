@@ -1,5 +1,7 @@
 package yy.doctor.ui.frag.me;
 
+import android.os.Bundle;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
@@ -24,7 +26,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
     int mType;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         if (mType == DataType.un_know) {
             throw new IllegalStateException("收藏类型未知");
         }

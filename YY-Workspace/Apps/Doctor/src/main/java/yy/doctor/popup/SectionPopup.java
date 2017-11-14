@@ -1,6 +1,7 @@
 package yy.doctor.popup;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -14,12 +15,12 @@ import java.util.List;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.fitter.DpFitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.other.PopupWindowEx;
-import lib.yy.network.ListResult;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingSectionAdapter;
 import yy.doctor.model.meet.MeetingDepartment;
@@ -49,7 +50,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     }
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         setTouchOutsideDismissEnabled(true);
         setDimEnabled(true);
     }
@@ -95,15 +96,14 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws JSONException {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
         return JsonParser.evs(resp.getText(), MeetingDepartment.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        ListResult r = (ListResult) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            List<MeetingDepartment> data = r.getData();
+            List<MeetingDepartment> data = r.getList();
             mAdapter.setData(data);
             mListView.setAdapter(mAdapter);
             mListView.setOnItemClickListener(this);

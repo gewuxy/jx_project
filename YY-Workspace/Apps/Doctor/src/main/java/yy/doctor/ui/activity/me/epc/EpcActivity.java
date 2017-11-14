@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.me.epc;
 
+import android.os.Bundle;
+
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
@@ -17,7 +19,7 @@ import yy.doctor.util.Util;
 public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.zhuanyeban.yaya.wxapi;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -11,10 +12,10 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.Constants;
@@ -41,7 +42,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private IWXAPI mApi;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
         mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {
@@ -129,23 +130,22 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<Profile> r = (Result<Profile>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KLogin) {
             if (r.isSucceed()) {
-                Profile login = r.getData();
+                Profile login = (Profile) r.getData();
                 String openid = login.getString(TProfile.openid);
                 if (TextUtil.isNotEmpty(openid)) {
                     // 没有绑定过微信, 绑定
                     WXLoginActivity.nav(WXEntryActivity.this, openid);
                 } else {
                     // 绑定过微信, 登录
-                    Profile.inst().update(r.getData());
+                    Profile.inst().update((Profile) r.getData());
                     SpUser.inst().updateProfileRefreshTime();
                     notify(NotifyType.login);
                     startActivity(MainActivity.class);
@@ -155,7 +155,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         } else {
             if (r.isSucceed()) {
-                Profile profile = r.getData();
+                Profile profile = (Profile) r.getData();
                 if (profile == null) {
                     showToast("绑定失败");
                 } else {
@@ -168,5 +168,4 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         }
         finish();
     }
-
 }

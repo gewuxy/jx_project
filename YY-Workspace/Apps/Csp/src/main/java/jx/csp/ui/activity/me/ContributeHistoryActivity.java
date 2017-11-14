@@ -23,7 +23,7 @@ public class ContributeHistoryActivity extends BaseSRListActivity<History, Histo
     private final int KLimit = 16; // 每页展示的数据
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override

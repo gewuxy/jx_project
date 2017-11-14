@@ -1,5 +1,7 @@
 package yy.doctor.ui.activity.data;
 
+import android.os.Bundle;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -8,9 +10,8 @@ import java.util.List;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
-import lib.yy.network.ListResult;
 import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseSRGroupListActivity;
 import yy.doctor.adapter.data.DataUnitDetailAdapter;
@@ -48,7 +49,7 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     private ICollectionView mCollectionView;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override
@@ -69,7 +70,7 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == ICollectionView.KIdDetail) {
             return super.onNetworkResponse(id, resp);
         } else {
@@ -78,18 +79,18 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == ICollectionView.KIdDetail) {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, r);
         } else {
-            mCollectionView.onNetworkSuccess(id, result);
+            mCollectionView.onNetworkSuccess(id, r);
         }
     }
 
     @Override
-    public IListResult<GroupDataUnitDetail> parseNetworkResponse(int id, String text) throws JSONException {
+    public Result<GroupDataUnitDetail> parseNetworkResponse(int id, String text) throws JSONException {
         Result<DataUnitDetails> dataResult = JsonParser.ev(text, DataUnitDetails.class);
-        ListResult<GroupDataUnitDetail> result = new ListResult<>();
+        Result<GroupDataUnitDetail> result = new Result<>();
         result.setCode(dataResult.getCode());
 
         if (dataResult.isSucceed()) {

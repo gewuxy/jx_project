@@ -1,6 +1,7 @@
 package yy.doctor.ui.activity.user;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -14,13 +15,13 @@ import lib.bd.location.Location;
 import lib.bd.location.LocationNotifier;
 import lib.bd.location.OnLocationNotify;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.action.IntentAction;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.view.ProgressView;
-import lib.yy.network.Result;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseSRListActivity;
 import yy.doctor.R;
@@ -68,7 +69,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private Place mRetPlace;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @Override
@@ -160,11 +161,11 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (KIdCommit == id) {
             return JsonParser.error(resp.getText());
         } else {
-            return JsonParser.evs(resp.getText(), Pcd.class);
+            return super.onNetworkResponse(id, resp);
         }
     }
 
@@ -190,9 +191,8 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         if (id == KIdCommit) {
-            Result r = (Result) result;
             if (r.isSucceed()) {
                 Profile.inst().put(mRetPlace);
                 Profile.inst().saveToSp();
@@ -208,7 +208,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
                 onNetworkError(id, r.getError());
             }
         } else {
-            super.onNetworkSuccess(id, result);
+            super.onNetworkSuccess(id, r);
         }
     }
 

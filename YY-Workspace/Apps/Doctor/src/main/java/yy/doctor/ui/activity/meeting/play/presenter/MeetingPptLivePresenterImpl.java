@@ -1,5 +1,6 @@
 package yy.doctor.ui.activity.meeting.play.presenter;
 
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import okhttp3.WebSocket;
@@ -30,8 +31,8 @@ public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl impleme
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        super.onNetworkSuccess(id, result);
+    public void onNetworkSuccess(int id, IResult r) {
+        super.onNetworkSuccess(id, r);
 
         if (mPpt == null) {
             return;

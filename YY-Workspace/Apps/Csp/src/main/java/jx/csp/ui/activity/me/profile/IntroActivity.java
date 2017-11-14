@@ -23,8 +23,8 @@ public class IntroActivity extends BaseMyMessageActivity {
     private TextView mTv;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData(Bundle state) {
+        super.initData(state);
     }
 
     @NonNull

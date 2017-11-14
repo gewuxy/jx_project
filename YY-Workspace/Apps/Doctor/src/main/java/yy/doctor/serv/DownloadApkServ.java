@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat.Builder;
 import java.io.File;
 
 import lib.network.model.NetworkError;
+import lib.network.model.interfaces.IResult;
 import lib.ys.service.ServiceEx;
 import yy.doctor.Extra;
 import yy.doctor.R;
@@ -68,7 +69,7 @@ public class DownloadApkServ extends ServiceEx {
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
+    public void onNetworkSuccess(int id, IResult r) {
         mBuilder.setContentText("点击安装");
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
         //设置进度为不确定，用于模拟安装

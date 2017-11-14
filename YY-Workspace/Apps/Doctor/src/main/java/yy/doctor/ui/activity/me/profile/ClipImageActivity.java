@@ -2,16 +2,17 @@ package yy.doctor.ui.activity.me.profile;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.network.Result;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
@@ -40,7 +41,7 @@ public class ClipImageActivity extends BaseActivity {
     String mPath;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData(Bundle state) {
     }
 
     @NonNull
@@ -94,17 +95,16 @@ public class ClipImageActivity extends BaseActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), UpHeadImage.class);
     }
 
     @Override
-    public void onNetworkSuccess(int id, Object result) {
-        Result<UpHeadImage> r = (Result<UpHeadImage>) result;
+    public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             stopRefresh();
 
-            UpHeadImage upHeadImage = r.getData();
+            UpHeadImage upHeadImage = (UpHeadImage) r.getData();
             //头像路径保存到本地
             Profile.inst().update(Profile.inst().put(TProfile.headimg, upHeadImage.getString(TUpHeadImage.url)));
             Profile.inst().saveToSp();

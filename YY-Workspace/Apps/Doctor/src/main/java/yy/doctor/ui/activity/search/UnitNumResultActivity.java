@@ -1,14 +1,15 @@
 package yy.doctor.ui.activity.search;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import inject.annotation.router.Route;
 import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IListResult;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
-import lib.yy.network.ListResult;
+import lib.yy.network.Result;
 import yy.doctor.model.search.Hot;
 import yy.doctor.model.search.IRec;
 import yy.doctor.model.unitnum.UnitNum;
@@ -37,15 +38,15 @@ public class UnitNumResultActivity extends BaseSearchResultActivity {
     }
 
     @Override
-    public Object onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        ListResult result = JsonParser.evs(resp.getText(), UnitNum.class);
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
+        Result result = JsonParser.evs(text, UnitNum.class);
 
         if (result.isSucceed()) {
-            List<IRec> unitNums = result.getData();
+            List<IRec> unitNums = result.getList();
             if (id == KRecUnitNum && unitNums != null && unitNums.size() > 0) {
                 // 推荐的单位号要显示热门单位号, 有才显示
                 unitNums.add(0, new Hot());
-                IListResult<IRec> ret = new ListResult<>();
+                IResult<IRec> ret = new Result<>();
                 ret.setCode(result.getCode());
                 ret.setData(unitNums);
                 return ret;
