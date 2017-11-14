@@ -51,15 +51,21 @@
     <string name="adv_skip">跳过</string>
 
     <!--登录-->
-    <string name="language_transform">中文</string>
-    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登录</string>
     <string name="login_sina">微博登录</string>
     <string name="login_jx">敬信数字平台登录</string>
+    <!--中英文不相同的-->
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《CSPmeeting服务协议》</string>
+    <!--总的登录界面中英文都相同-->
+    <string name="have_agree_to_same">登录即表示您已同意</string>
+    <string name="protocol_same">《CSPmeeting服务协议》</string>
+    <!--中英文不相同的-->
     <string name="other_login_type">其他登录方式</string>
+    <!--中英文都相同-->
+    <string name="other_login_type_same">其他登录方式</string>
+    <string name="Register_indicate_have_read">注册表示您已阅读，并同意</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>
     <string name="facebook">Facebook</string>
@@ -95,8 +101,8 @@
     <string name="username">用户名</string>
     <string name="pwd">密码</string>
     <string name="authorization_login">授权并登录</string>
-    <string name="Login_with_Facebook">Login with Facebook</string>
-    <string name="Login_with_Twitter">Login with Twitter</string>
+    <string name="Login_with_Facebook">Facebook登录</string>
+    <string name="Login_with_Twitter">Twitter登录</string>
     <string name="auth_success">授权成功</string>
     <string name="auth_fail">授权失败</string>
 

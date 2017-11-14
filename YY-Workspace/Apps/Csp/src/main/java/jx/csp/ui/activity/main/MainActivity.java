@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import java.util.List;
 
 import jx.csp.R;
-import jx.csp.constant.LangType;
+import jx.csp.constant.Constants;
+import jx.csp.constant.MetaValue;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
@@ -20,10 +21,9 @@ import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.AuthLoginActivity;
-import jx.csp.ui.activity.login.AuthLoginEnActivity;
+import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetSingleFrag;
@@ -34,6 +34,7 @@ import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -210,10 +211,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         } else if (type == NotifyType.token_out_of_date) {
             Intent intent;
             //清除栈里的activity2
-            if (SpApp.inst().getLangType() != LangType.en) {
+            if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
                 intent = new Intent(this, AuthLoginActivity.class);
             } else {
-                intent = new Intent(this, AuthLoginEnActivity.class);
+                intent = new Intent(this, AuthLoginOverseaActivity.class);
             }
             startActivity(intent);
             finish();

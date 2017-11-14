@@ -93,7 +93,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     @Override
     public void findViews() {
         super.findViews();
-        mLayout = findView(R.id.linea_layout_protocol);
+        mLayout = findView(R.id.layout_email_login);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         }
         refreshItem(getRelatedItem(RelatedId.captcha));
 
-        setOnClickListener(R.id.service_agreement);
+        setOnClickListener(R.id.protocol);
         showView(mLayout);
     }
 
@@ -137,7 +137,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.service_agreement: {
+            case R.id.protocol: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }

@@ -55,6 +55,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
     private EditText mEtEmail;
     private EditText mEtPwd;
     private View mLayout;
+    private View mLayoutRegister;
+
     private int mCount = 0;
 
     @Override
@@ -79,6 +81,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
     public void findViews() {
         super.findViews();
         mLayout = findView(R.id.layout_email_login);
+        mLayoutRegister = findView(R.id.layout_register);
     }
 
     @Override
@@ -99,6 +102,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
         mEtEmail.setText(SpApp.inst().getUserEmail());
         mEtEmail.setSelection(getEmail().length());
         showView(mLayout);
+        showView(mLayoutRegister);
     }
 
     @Override

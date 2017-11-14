@@ -20,18 +20,6 @@
             android:layout_height="match_parent"
             android:background="@color/video_3b3a34_eighty">
 
-            <TextView
-                android:id="@+id/language_transform_en"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/bg_third_part_login_cn"
-                android:gravity="center"
-                android:text="@string/language_transform_en"
-                android:textColor="@color/white"
-                android:textSize="10dp"/>
-
             <ImageView
                 android:layout_width="180dp"
                 android:layout_height="42dp"
@@ -108,7 +96,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="By tapping “Login” you are agreeing to the"
+            android:text="@string/have_agree_to"
             android:textColor="@color/text_7a8b9f"
             android:textSize="10dp"/>
 
