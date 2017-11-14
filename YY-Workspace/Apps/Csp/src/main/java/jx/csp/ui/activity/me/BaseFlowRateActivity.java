@@ -212,11 +212,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         public void setPayPalPay(String orderId) {
             mReqCode = KPayPalPayCode;
             mOrderId = orderId;
-            if (SpApp.inst().getLangType() == LangType.en) {
-                PayAction.payPalPay(BaseFlowRateActivity.this, String.valueOf(mRechargeSum));
-            } else {
-                PayAction.payPalPay(BaseFlowRateActivity.this, String.valueOf(mRechargeSum * 2));
-            }
+            PayAction.payPalPay(BaseFlowRateActivity.this, String.valueOf(mRechargeSum));
         }
 
         @Override

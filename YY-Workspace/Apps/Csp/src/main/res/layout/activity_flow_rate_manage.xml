@@ -132,6 +132,7 @@
         <ImageView
             android:id="@+id/flow_rate_iv_paypal"
             android:layout_marginTop="15dp"
+            android:visibility="invisible"
             style="@style/iv.flow"
             android:src="@drawable/flow_rate_ic_paypal"
             app:layout_columnWeight="1"/>

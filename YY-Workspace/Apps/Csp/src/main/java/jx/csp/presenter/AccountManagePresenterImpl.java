@@ -43,6 +43,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void auth(int bindId, Type type) {
+        getView().onStopRefresh();
         Platform.auth(type, new OnAuthListener() {
 
             @Override

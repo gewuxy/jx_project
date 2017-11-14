@@ -37,7 +37,6 @@ public class FlowRateManageActivity extends BaseFlowRateActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.flow_rate_iv_unionpay:
-            case R.id.flow_rate_iv_paypal:
             case R.id.flow_rate_iv_wechat:
             case R.id.flow_rate_iv_alipay: {
                 mView.setHighlight(v.getId());
@@ -62,10 +61,6 @@ public class FlowRateManageActivity extends BaseFlowRateActivity {
                     break;
                     case R.id.flow_rate_iv_unionpay: {
                         mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
-                    }
-                    break;
-                    case R.id.flow_rate_iv_paypal: {
-                        mPresenter.confirmPay(KPayPalPayCode, mRechargeSum, null);
                     }
                     break;
                 }
