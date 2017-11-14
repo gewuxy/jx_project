@@ -20,13 +20,13 @@ public class AccountManageEnActivity extends BaseAccountActivity {
     public void initData(Bundle state) {
         super.initData(state);
 
-        addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_intent_bind)
-                .related(RelatedId.bind_facebook)
-                .name(R.string.account_facebook)
-                .drawable(R.drawable.form_ic_account_facebook)
-                .text(Profile.inst().getBindNickName(BindId.facebook))
-                .hint(R.string.account_not_bind));
+//        addItem(Form.create(FormType.divider_margin));
+//        addItem(Form.create(FormType.text_intent_bind)
+//                .related(RelatedId.bind_facebook)
+//                .name(R.string.account_facebook)
+//                .drawable(R.drawable.form_ic_account_facebook)
+//                .text(Profile.inst().getBindNickName(BindId.facebook))
+//                .hint(R.string.account_not_bind));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)
