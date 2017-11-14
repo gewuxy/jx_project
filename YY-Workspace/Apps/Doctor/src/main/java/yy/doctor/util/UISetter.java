@@ -26,6 +26,7 @@ import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
+import yy.doctor.model.meet.Meeting.LiveState;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
@@ -163,7 +164,11 @@ public class UISetter {
 
         viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null, holder.getTvUnitNum());
 
-        holder.getTvTitle().setText(meeting.getString(TMeeting.meetName));
+        String title = meeting.getString(TMeeting.meetName);
+        if (meeting.getInt(TMeeting.liveState) == LiveState.under_way) {
+            title = "【直播中】".concat(title);
+        }
+        holder.getTvTitle().setText(title);
 
         if (meeting.getInt(TMeeting.type) == MeetType.meet) {
 
