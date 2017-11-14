@@ -47,11 +47,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     }
 
     @Override
-    public int getContentViewId() {
-        return R.layout.frag_main_grid;
-    }
-
-    @Override
     public void setViews() {
         super.setViews();
 
@@ -124,11 +119,8 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     @Override
     public int getPosition() {
         RecyclerView rv = getScrollableView();
-        if (rv != null && rv.getLayoutManager() instanceof GridLayoutManager) {
-            GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
-            return l.findFirstVisibleItemPosition();
-        }
-        return 0;
+        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
+        return l.findFirstVisibleItemPosition();
     }
 
     @Override

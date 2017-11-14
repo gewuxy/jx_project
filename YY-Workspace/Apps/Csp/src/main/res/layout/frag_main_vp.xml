@@ -8,12 +8,12 @@
     <lib.ys.view.pager.ViewPagerEx
         android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="474dp"
+        android:layout_height="match_parent"
         android:layout_marginTop="43dp"
-        android:overScrollMode="never"
         android:clipToPadding="false"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"/>
+        android:overScrollMode="never"
+        android:paddingLeft="@dimen/main_vp_padding_horizontal"
+        android:paddingRight="@dimen/main_vp_padding_horizontal"/>
 
     <RelativeLayout
         android:id="@+id/layout_main_slide"

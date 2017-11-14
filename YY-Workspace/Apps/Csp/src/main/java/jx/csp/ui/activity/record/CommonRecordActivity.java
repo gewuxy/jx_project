@@ -2,7 +2,6 @@ package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -304,10 +303,8 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                         int page = record.getInt(TRecord.playPage);
                         if (page != 0) {
                             setCurrentItem(page);
-                        } else if (record.getInt(TRecord.playPage) == 0 && mCourseDetailList.size() >= 2) {
-                            setCurrentItem(1);
-                            new Handler().postDelayed(() -> setCurrentItem(0), 50);
                         }
+
                         removeOnGlobalLayoutListener(this);
                     }
                 });

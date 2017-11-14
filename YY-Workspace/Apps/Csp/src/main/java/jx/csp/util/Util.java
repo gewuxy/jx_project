@@ -183,4 +183,10 @@ public class Util extends BaseUtil {
         return keyFactory.generateSecret(dks);
     }
 
+
+    public static float calcVpOffset(int padding, int width) {
+        float vpWidth = width - padding * 2;
+        //padding部分所占百分比
+        return -padding / vpWidth;
+    }
 }

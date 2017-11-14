@@ -12,12 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import inject.annotation.router.Arg;
 import jx.csp.R;
-import jx.csp.contact.VPEffectContract;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
@@ -28,12 +27,12 @@ import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.presenter.VPEffectPresenterImpl;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.CommonRecordActivity.OverType;
 import jx.csp.util.CacheUtil;
+import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
@@ -44,7 +43,6 @@ import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
-import lib.ys.view.pager.transformer.ScaleTransformer;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -58,7 +56,7 @@ import lib.yy.ui.activity.base.BaseVpActivity;
  * @since 2017/9/30
  */
 
-abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, VPEffectContract.V, OnConnectListener {
+abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, OnConnectListener {
 
     protected final int KMicroPermissionCode = 10;
     protected final int KJoinMeetingReqId = 20;
@@ -83,11 +81,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     protected View mLayoutOnline;
     protected GestureView mGestureView;
 
-    private VPEffectContract.P mEffectPresenter;
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
     protected JoinMeeting mJoinMeeting; // 全部数据
-    protected ArrayList<CourseDetail> mCourseDetailList;
+    protected List<CourseDetail> mCourseDetailList;
 
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
     private LinkedList<String> mUploadFilePathList; // 直播时上传音频地址列表，上传完删除
@@ -96,6 +93,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     protected WebSocketServRouter mWebSocketServRouter;
     private ConnectionReceiver mConnectionReceiver;
 
+    private ScaleTransformer mTransformer;
+
     @Arg
     String mCourseId;  // 课程id
     @Arg
@@ -103,9 +102,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     @Arg
     String mTitle;
 
-    @Override
-    public void onStopRefresh() {
-    }
 
     @CallSuper
     @Override
@@ -115,7 +111,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         //创建文件夹存放音频
         FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
         LiveNotifier.inst().add(this);
-        mEffectPresenter = new VPEffectPresenterImpl(this, KVpScale);
+
+        mTransformer = new ScaleTransformer(KVpScale, 0);
     }
 
     @Override
@@ -161,13 +158,12 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
         mUploadFilePathList = new LinkedList<>();
-        setPageTransformer(false, new ScaleTransformer(KVpScale));
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
+                //mEffectPresenter.onPageScrolled(getAdapter(), position, positionOffset, getCount());
             }
 
             @Override
@@ -220,7 +216,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     }
 
     abstract protected void onClick(int id);
+
     abstract protected void skipToLast();
+
     abstract protected void skipToNext();
 
     @Override
@@ -390,5 +388,14 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         msg.put(TWebSocketMsg.imgUrl, mCourseDetailList.get(position).getString(TCourseDetail.imgUrl));
         msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
+    }
+
+    @Override
+    protected void invalidate() {
+        super.invalidate();
+
+        if (!isEmpty()) {
+            setPageTransformer(false, mTransformer);
+        }
     }
 }

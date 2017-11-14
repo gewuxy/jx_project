@@ -57,8 +57,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private ImageView mIvShift;
 
-    private MeetVpFrag mVpFrag;
     private MeetGridFrag mGridFrag;
+    private MeetVpFrag mVpFrag;
 
     @Override
     public void initData(Bundle state) {
@@ -67,42 +67,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             return;
         }
 
-        mVpFrag = new MeetVpFrag();
         mGridFrag = new MeetGridFrag();
+        mVpFrag = new MeetVpFrag();
 
         mGridFrag.setListener(data -> gridFragListener(data));
         add(mGridFrag);
         add(mVpFrag);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mGridFrag = restoreFragment(KPageGrid);
-        mVpFrag = restoreFragment(KPageVp);
-        mGridFrag.setListener(data -> gridFragListener(data));
-
-        invalidate();
-        mGridFrag.invalidate();
-    }
-
-    private void gridFragListener(List<Meet> data) {
-        mVpFrag.setData(data);
-        mVpFrag.nativeInvalidate();
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                int page = SpUser.inst().getMainAcVpPage();
-                if (page != 0) {
-                    setCurrentItem(page);
-                    mVpFrag.setPosition(0);
-                    mIvShift.setSelected(true);
-                }
-                removeOnGlobalLayoutListener(this);
-            }
-        });
     }
 
     @Override
@@ -272,5 +242,36 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
         }
+    }
+
+    private void gridFragListener(List<Meet> data) {
+        mVpFrag.setData(data);
+        mVpFrag.nativeInvalidate();
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                int page = SpUser.inst().getMainAcVpPage();
+                if (page != 0) {
+                    setCurrentItem(page, false);
+                    mVpFrag.setPosition(0);
+                    mIvShift.setSelected(true);
+                }
+
+                removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mGridFrag = restoreFragment(KPageGrid);
+        mVpFrag = restoreFragment(KPageVp);
+        mGridFrag.setListener(data -> gridFragListener(data));
+
+        invalidate();
+        mGridFrag.invalidate();
     }
 }

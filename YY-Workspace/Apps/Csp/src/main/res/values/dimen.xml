@@ -13,4 +13,6 @@
     <dimen name="radius">33dp</dimen>
     <dimen name="radius_small">3dp</dimen>
 
+    <dimen name="main_vp_padding_horizontal">30dp</dimen>
+
 </resources>

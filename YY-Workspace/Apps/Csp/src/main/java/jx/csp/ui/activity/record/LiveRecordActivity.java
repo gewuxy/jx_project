@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.record;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
@@ -258,10 +257,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                         int page = live.getInt(TLive.livePage);
                         if (page != 0) {
                             setCurrentItem(page);
-                        } else if (live.getInt(TLive.livePage) == 0 && mCourseDetailList.size() >= 2) {
-                            setCurrentItem(1);
-                            new Handler().postDelayed(() -> setCurrentItem(0), 50);
                         }
+
                         removeOnGlobalLayoutListener(this);
                     }
                 });

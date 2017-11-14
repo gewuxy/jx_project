@@ -1,27 +1,26 @@
 package jx.csp.ui.frag.main;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.util.List;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.VPEffectContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
-import jx.csp.presenter.VPEffectPresenterImpl;
+import jx.csp.util.ScaleTransformer;
+import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.ys.view.pager.transformer.ScaleTransformer;
 import lib.yy.ui.frag.base.BaseVPFrag;
 
 /**
@@ -31,24 +30,24 @@ import lib.yy.ui.frag.base.BaseVPFrag;
  * @since 2017/10/17
  */
 @Route
-public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract.V {
+public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     private final int KOne = 1;
-    private final float KVpScale = 0.2f; // vp的缩放比例
+    private final float KVpScale = 0.1f; // vp的缩放比例
 
     private TextView mTvCurrentPage;
     private TextView mTvTotalPage;
     private TextView mTvReminder;
     private View mLayout;
 
-    private VPEffectContract.P mEffectPresenter;
     private Meet mMeet;
 
     private List<Meet> mMeets;
+    private ScaleTransformer mTransformer;
+
 
     @Override
     public void initData(Bundle state) {
-        mEffectPresenter = new VPEffectPresenterImpl(this, KVpScale);
     }
 
     @NonNull
@@ -77,15 +76,14 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
         setOffscreenPageLimit(3);
         setScrollDuration(300);
-        //getViewPager().setPageMargin(fitDp(21));
+//        getViewPager().setPageMargin(fitDp(21));
         setOnClickListener(R.id.click_continue);
 
-        setPageTransformer(false, new ScaleTransformer(KVpScale));
         setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //mEffectPresenter.onPageScrolled(getPagerAdapter(), position, positionOffset, getCount());
+                //mEffectPresenter.onPageScrolled(getAdapter(), position, positionOffset, getCount());
             }
 
             @Override
@@ -131,6 +129,14 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
         });
 
         nativeInvalidate();
+
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mTransformer = new ScaleTransformer(KVpScale, Util.calcVpOffset(getViewPager().getPaddingLeft(), getViewPager().getWidth()));
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
@@ -148,14 +154,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
 
     @Override
     public void setPosition(int position) {
-        if (position == 0 && getCount() >= 2) {
-            // FIXME: 2017/11/13 缩放有时第一个没有效果， 暂时先这样处理
-            // 延时执行
-            setCurrentItem(1);
-            new Handler().postDelayed(() -> setCurrentItem(0), 50);
-        } else {
-            setCurrentItem(position);
-        }
+        setCurrentItem(position);
     }
 
     @Override
@@ -181,14 +180,11 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt, VPEffectContract
                 index = 0;
             }
             invalidate();
+            setPageTransformer(false, mTransformer);
 
             setCurrentItem(index);
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
-    }
-
-    @Override
-    public void onStopRefresh() {
 
     }
 }

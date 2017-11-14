@@ -45,10 +45,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     @Arg
     Meet mMeet;
 
-    public Meet getMeet() {
-        return mMeet;
-    }
-
     private MeetContract.P mPresenter;
 
     @Override
@@ -162,6 +158,10 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
             return;
         }
         mPresenter.allowJoin();
+    }
+
+    public Meet getMeet() {
+        return mMeet;
     }
 
     public void noEnter() {
