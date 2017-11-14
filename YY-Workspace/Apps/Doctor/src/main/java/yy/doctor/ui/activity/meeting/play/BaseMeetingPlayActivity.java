@@ -88,7 +88,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     @Override
     public void setViews() {
         setOnClickListener(R.id.meet_play_nav_iv_back);
-        setOnClickListener(R.id.meet_play_nav_tv_comment);
+        setOnClickListener(R.id.meet_play_nav_iv_comment);
         setOnClickListener(R.id.meet_play_nav_iv_control);
         setOnClickListener(R.id.meet_play_nav_tv_online_num);
         setOnClickListener(R.id.meet_play_nav_iv_landscape);
@@ -111,7 +111,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
                 finish();
             }
             break;
-            case R.id.meet_play_nav_tv_comment: {
+            case R.id.meet_play_nav_iv_comment: {
                 MeetingCommentActivityRouter.create(mMeetId).route(this);
             }
             break;
