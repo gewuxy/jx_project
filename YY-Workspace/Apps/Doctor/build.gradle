@@ -10,8 +10,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 7153
-        versionName "7.1.53"
+        versionCode 7154
+        versionName "7.1.54"
 
         multiDexEnabled true
 
