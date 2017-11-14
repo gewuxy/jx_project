@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.record;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
@@ -249,17 +250,21 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     }
                 }
                 // 先判断以前是否直播过，直播过的话要跳到对应的页面
-                Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
-                if (live.getInt(TLive.livePage) != 0) {
-                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                        @Override
-                        public void onGlobalLayout() {
-                            setCurrentItem(live.getInt(TLive.livePage));
-                            removeOnGlobalLayoutListener(this);
+                    @Override
+                    public void onGlobalLayout() {
+                        Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
+                        int page = live.getInt(TLive.livePage);
+                        if (page != 0) {
+                            setCurrentItem(page);
+                        } else if (live.getInt(TLive.livePage) == 0 && mCourseDetailList.size() >= 2) {
+                            setCurrentItem(1);
+                            new Handler().postDelayed(() -> setCurrentItem(0), 50);
                         }
-                    });
-                }
+                        removeOnGlobalLayoutListener(this);
+                    }
+                });
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {

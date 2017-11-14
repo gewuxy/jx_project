@@ -128,10 +128,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 // 网格
                 setCurrentItem(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
+                SpUser.inst().saveMainAcPage(KPageGrid);
             } else {
                 // 列表
                 setCurrentItem(KPageVp, false);
                 mVpFrag.setPosition(mGridFrag.getPosition());
+                SpUser.inst().saveMainAcPage(KPageVp);
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -253,7 +255,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     protected void onDestroy() {
         super.onDestroy();
 
-        SpUser.inst().saveMainAcPage(getCurrentItem());
         LiveNotifier.inst().remove(this);
         SingletonImpl.inst().freeAll();
     }
