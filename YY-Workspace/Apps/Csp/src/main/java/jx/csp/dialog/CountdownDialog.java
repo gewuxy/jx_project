@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.widget.TextView;
 
 import jx.csp.R;
+import lib.ys.YSLog;
 import lib.ys.view.ProgressView;
 import lib.yy.dialog.BaseDialog;
 import lib.yy.notify.LiveNotifier;
@@ -57,6 +58,7 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
+            YSLog.d(TAG, "15秒倒计时结束, 发同意进入指令");
             // 倒计时结束前没有收到指令，默认同意进入会议
             LiveNotifier.inst().notify(LiveNotifyType.accept);
             dismiss();

@@ -48,11 +48,14 @@
 
         <ImageView
             android:id="@+id/meet_play_iv_left"
-            android:layout_width="19dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginRight="66dp"
-            android:background="@drawable/item_selector_app_bg"
-            android:padding="5dp"
+            android:background="@drawable/btn_selector_oval"
+            android:paddingBottom="10dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="10dp"
             android:src="@drawable/meet_play_ic_left_p"/>
 
         <TextView
@@ -66,11 +69,14 @@
 
         <ImageView
             android:id="@+id/meet_play_iv_right"
-            android:layout_width="19dp"
-            android:layout_height="25dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginLeft="66dp"
-            android:background="@drawable/item_selector_app_bg"
-            android:padding="5dp"
+            android:background="@drawable/btn_selector_oval"
+            android:paddingBottom="10dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="10dp"
             android:src="@drawable/meet_play_ic_right_p"/>
     </LinearLayout>
 </RelativeLayout>

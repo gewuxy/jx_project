@@ -75,7 +75,6 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
             getView().portraitInit(mPpt, mCourses);
         } else {
             onNetworkError(id, r.getError());
-            getView().showToast(r.getMessage());
         }
     }
 

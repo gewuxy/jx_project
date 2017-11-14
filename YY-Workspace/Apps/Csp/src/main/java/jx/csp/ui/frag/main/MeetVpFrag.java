@@ -39,6 +39,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     private TextView mTvTotalPage;
     private TextView mTvReminder;
     private View mLayout;
+    private View mLayoutSlideData;
 
     private Meet mMeet;
 
@@ -68,6 +69,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
         mTvTotalPage = findView(R.id.frag_total_page);
         mLayout = findView(R.id.live_reminder);
         mTvReminder = findView(R.id.tv_reminder);
+        mLayoutSlideData = findView(R.id.main_slide_data_layout);
     }
 
     @Override
@@ -149,6 +151,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     }
 
     public Fragment getItem() {
+        YSLog.d(TAG, "vp getItem getCurrentItem = " + getCurrentItem());
         return super.getItem(getCurrentItem());
     }
 
@@ -168,6 +171,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
         removeAll();
         if (mMeets == null || mMeets.isEmpty()) {
+            goneView(mLayoutSlideData);
             add(new EmptyFrag());
             invalidate();
         } else {

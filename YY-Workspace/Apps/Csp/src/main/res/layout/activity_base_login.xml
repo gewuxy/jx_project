@@ -29,7 +29,7 @@
             android:textSize="15dp"/>
     </LinearLayout>
 
-    <!-- 协议 -->
+    <!-- 注册协议 -->
     <LinearLayout
         android:id="@+id/linea_layout_protocol"
         android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
         <TextView
             android:id="@+id/have_agree_to"
             style="@style/tv.agree.protocol"
-            android:text="注册表示您已阅读，并同意"/>
+            android:text="@string/Register_indicate_have_read"/>
 
         <TextView
             android:id="@+id/service_agreement"
@@ -65,11 +65,13 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/layout_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="38dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/login_tv_register"

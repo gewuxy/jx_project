@@ -5,8 +5,6 @@ import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,8 +41,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     }
 
     private EditText mEtNickName;
-    private LinearLayout mLinearLayoutProtocol;
-    private View mLayout;
 
     @Override
     public void initData(Bundle state) {
@@ -59,8 +55,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     @Override
     public void findViews() {
         super.findViews();
-        mLinearLayoutProtocol = findView(R.id.linea_layout_protocol);
-        mLayout = findView(R.id.linea_layout_protocol);
     }
 
     @Override
@@ -69,12 +63,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         mEtNickName = getRelatedItem(RelatedId.nickname).getHolder().getEt();
         mEtNickName.addTextChangedListener(this);
 
-        setOnClickListener(R.id.service_agreement);
-        //Fixme:没见到效果，什么鬼
-        LinearLayout.LayoutParams lp = (LayoutParams) mLinearLayoutProtocol.getLayoutParams();
-        lp.setMargins(75, 331, 75, 27);
-        mLinearLayoutProtocol.setLayoutParams(lp);
-        showView(mLayout);
+        setOnClickListener(R.id.protocol);
     }
 
     @Override
@@ -91,7 +80,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.service_agreement: {
+            case R.id.protocol: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
             }

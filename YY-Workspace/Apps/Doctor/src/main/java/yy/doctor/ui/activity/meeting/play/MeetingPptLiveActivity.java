@@ -21,10 +21,6 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
 public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiveContract.View, MeetingPptLiveContract.Presenter> {
 
     @Override
-    protected void set() {
-    }
-
-    @Override
     protected MeetingPptLiveViewImpl createView() {
         return new MeetingPptLiveViewImpl();
     }

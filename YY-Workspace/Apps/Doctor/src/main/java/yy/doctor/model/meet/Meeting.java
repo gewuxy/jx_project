@@ -34,6 +34,21 @@ public class Meeting extends EVal<TMeeting> implements IRec {
     }
 
     /**
+     * 会议直播状态
+     */
+    @IntDef({
+            LiveState.not_started,
+            LiveState.under_way,
+            LiveState.end,
+    })
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface LiveState {
+        int not_started = 1; // 未开始
+        int under_way = 2; // 进行中
+        int end = 3; // 已结束
+    }
+
+    /**
      * 会议类型
      */
     @IntDef({
@@ -89,6 +104,11 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         lecturerTitle, //  ,  职称
 
         completeProgress, // 学习进度
+
+        /**
+         * {@link LiveState}
+         */
+        liveState, // 直播状态
 
         userId, //  287564, 无用
     }

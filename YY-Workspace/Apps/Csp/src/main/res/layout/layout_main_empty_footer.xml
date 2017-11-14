@@ -7,16 +7,16 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="99dp"
-        android:layout_height="101dp"
-        android:layout_marginTop="117dp"
+        android:layout_width="116dp"
+        android:layout_height="102dp"
+        android:layout_marginTop="136dp"
         android:src="@drawable/main_ic_empty"/>
 
     <TextView
         android:id="@+id/empty_footer_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="24dp"
         android:text="@string/ready"
         android:textColor="@color/text_7a8b9f"
         android:textSize="18dp"/>

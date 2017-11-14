@@ -90,10 +90,6 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                if (BuildConfig.TEST) {
-                    MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
-                    return;
-                }
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
                         MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());

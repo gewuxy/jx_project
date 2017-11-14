@@ -20,6 +20,13 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
     private final int KWhatPass = 1; // 下一页
 
     @Override
+    public void setViews() {
+        super.setViews();
+
+        goneView(R.id.meet_play_layout_online);
+    }
+
+    @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
@@ -37,11 +44,6 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
             }
             break;
         }
-    }
-
-    @Override
-    protected void set() {
-        goneView(R.id.meet_play_layout_online);
     }
 
     @Override

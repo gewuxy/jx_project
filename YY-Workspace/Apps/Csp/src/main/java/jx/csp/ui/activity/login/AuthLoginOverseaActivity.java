@@ -19,7 +19,7 @@ import lib.platform.model.AuthParams;
  * @auther WangLan
  * @since 2017/11/6
  */
-public class AuthLoginEnActivity extends BaseAuthLoginActivity {
+public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
 
     private final int KIdFaceBook = 3;
     private final int KIdTwitter = 4;
@@ -40,7 +40,6 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.login_twitter);
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_jx);
-        setOnClickListener(R.id.language_transform_en);
     }
 
     @Override
@@ -63,11 +62,6 @@ public class AuthLoginEnActivity extends BaseAuthLoginActivity {
             break;
             case R.id.login_jx: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
-            }
-            break;
-            case R.id.language_transform_en: {
-                startActivity(AuthLoginActivity.class);
-                finish();
             }
             break;
         }

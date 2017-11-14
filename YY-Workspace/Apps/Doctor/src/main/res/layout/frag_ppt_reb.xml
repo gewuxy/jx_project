@@ -100,7 +100,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/item_selector_app_bg"
+            android:background="@drawable/btn_selector_oval"
             android:padding="5dp"
             android:src="@drawable/meet_play_ic_left_l"/>
 
@@ -111,7 +111,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/item_selector_app_bg"
+            android:background="@drawable/btn_selector_oval"
             android:padding="5dp"
             android:src="@drawable/meet_play_ic_right_l"/>
 

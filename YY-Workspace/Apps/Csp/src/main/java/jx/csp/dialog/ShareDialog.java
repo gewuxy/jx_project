@@ -170,7 +170,7 @@ public class ShareDialog extends BaseDialog {
         int[] icons;
         String[] names;
         int[] types;
-        if (SpApp.inst().getLangType() != LangType.en) {
+        if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
             icons = new int[]{
                     R.drawable.share_ic_wechat,
                     R.drawable.share_ic_moment,

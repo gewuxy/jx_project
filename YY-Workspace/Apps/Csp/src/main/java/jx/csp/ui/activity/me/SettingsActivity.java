@@ -8,8 +8,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LangType;
+import jx.csp.constant.MetaValue;
 import jx.csp.contact.SettingsContract;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog2;
@@ -17,15 +18,15 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
-import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
-import jx.csp.ui.activity.login.AuthLoginEnActivity;
+import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -182,14 +183,10 @@ public class SettingsActivity extends BaseFormActivity {
             d.addBlackButton(getString(R.string.setting_exit), v -> {
                 mPresenter.startLogoutService(SettingsActivity.this);
 
-                if (SpApp.inst().getLangType() == LangType.en) {
-                    startActivity(AuthLoginEnActivity.class);
+                if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+                    startActivity(AuthLoginActivity.class);
                 } else {
-                    if (SpApp.inst().getLangType() != LangType.en) {
-                        startActivity(AuthLoginActivity.class);
-                    }else {
-                        startActivity(AuthLoginEnActivity.class);
-                    }
+                    startActivity(AuthLoginOverseaActivity.class);
                 }
                 finish();
             });

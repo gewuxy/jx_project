@@ -51,16 +51,22 @@
     <string name="adv_skip">Skip</string>
 
     <!--登录-->
-    <string name="language_transform">中文</string>
-    <string name="language_transform_en">EN</string>
     <string name="login_title">CSP</string>
-    <string name="login_wechat">微信授权登录</string>
-    <string name="login_sina">微博授权登录</string>
-    <string name="login_jx">Login with Jingxin Digital Platform</string>
+    <string name="login_wechat">Login with Wechat</string>
+    <string name="login_sina">Login with Weibo</string>
+    <string name="login_jx">Login with Jingxin Platform</string>
+    <!--中英文不相同的-->
     <string name="have_agree_to">By tapping "Login" you are agreeing to the</string>
     <string name="protocol">CSPmeeting Terms of Service</string>
+    <!--总的登录界面中英文都相同-->
+    <string name="have_agree_to_same">登录即表示您已同意</string>
+    <string name="protocol_same">《CSPmeeting服务协议》</string>
+    <!--中英文不相同的-->
     <string name="other_login_type">or</string>
-    <string name="mobilephone">手机</string>
+    <!--中英文都相同-->
+    <string name="other_login_type_same">其他登录方式</string>
+    <string name="Register_indicate_have_read">By tapping "Register Now", you agree to the</string>
+    <string name="mobilephone">Mobile</string>
     <string name="email">E-mail</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -69,12 +75,12 @@
     <string name="forget_pwd">Forgot Password</string>
     <string name="email_address">E-mail Address</string>
     <string name="input_pwd">Password</string>
-    <string name="input_phone_number">输入手机号</string>
-    <string name="input_captcha">输入验证码</string>
+    <string name="input_phone_number">Phone number</string>
+    <string name="input_captcha">Verification code</string>
     <string name="input_nickname">Your Name</string>
     <string name="confirm_login">Login</string>
-    <string name="get_captcha">获取验证码</string>
-    <string name="captcha_login">验证码登录</string>
+    <string name="get_captcha">Security code</string>
+    <string name="captcha_login">Login with Security Code</string>
     <string name="find_pwd">Forgot Password</string>
     <string name="send_email">Send Verification E-mail</string>
     <string name="input_register_email">Your Registered E-mail Address</string>
@@ -101,11 +107,11 @@
     <string name="auth_fail">Fail to authorize</string>
 
     <!--分享-->
-    <string name="wechat">微信好友</string>
-    <string name="moment">朋友圈</string>
+    <string name="wechat">Wechat</string>
+    <string name="moment">Moment</string>
     <string name="QQ">QQ</string>
     <string name="linkedin">LinkedIn</string>
-    <string name="weibo">微博</string>
+    <string name="weibo">Weibo</string>
     <string name="message">SMS</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="Line">Line</string>
@@ -201,10 +207,10 @@
     <string name="account_confirm_bind">Confirm Binding</string>
     <string name="account_authorization_success">Authorized successfully</string>
 
-    <string name="account_phone">手机</string>
+    <string name="account_phone">Mobile</string>
     <string name="account_email">E-mail</string>
-    <string name="account_wx">微信</string>
-    <string name="account_sina">新浪微博</string>
+    <string name="account_wx">WeChat</string>
+    <string name="account_sina">Weibo</string>
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">Jingxin Digital Platform</string>
@@ -217,9 +223,9 @@
     <string name="account_is_bind">该手机号已绑定</string>
     <string name="account_send_captcha">已发送验证码</string>
     <string name="account_unbind_email">Unbind E-mail?</string>
-    <string name="account_unbind_phone">是否解除手机号码</string>
-    <string name="account_unbind_wx">是否解除绑定微信号</string>
-    <string name="account_unbind_sina">是否解除绑定新浪微博</string>
+    <string name="account_unbind_phone">是否解除手机号码?</string>
+    <string name="account_unbind_wx">是否解除绑定微信号?</string>
+    <string name="account_unbind_sina">是否解除绑定新浪微博?</string>
     <string name="account_unbind_facebook">Unbind Facebook?</string>
     <string name="account_unbind_twitter">Unbind Twitter?</string>
     <string name="account_unbind_yaya">Unbind Jingxin Digital Platform?</string>
