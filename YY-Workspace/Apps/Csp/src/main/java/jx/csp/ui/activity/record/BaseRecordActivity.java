@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -65,7 +66,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
-    private final float KVpScale = 0.11f; // vp的缩放比例
+    private final float KVpScale = 0.044f; // vp的缩放比例
 
     protected TextView mTvNavBar;
     protected TextView mTvTimeRemain;
@@ -111,8 +112,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         //创建文件夹存放音频
         FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
         LiveNotifier.inst().add(this);
-
-        mTransformer = new ScaleTransformer(KVpScale, 0);
     }
 
     @Override
@@ -153,7 +152,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
-        // getViewPager().setPageMargin(fitDp(8));
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
@@ -163,7 +161,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //mEffectPresenter.onPageScrolled(getAdapter(), position, positionOffset, getCount());
             }
 
             @Override
@@ -174,6 +171,15 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
             @Override
             public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                mTransformer = new ScaleTransformer(KVpScale, Util.calcVpOffset(getViewPager().getPaddingLeft(), getViewPager().getWidth()));
+                removeOnGlobalLayoutListener(this);
             }
         });
     }

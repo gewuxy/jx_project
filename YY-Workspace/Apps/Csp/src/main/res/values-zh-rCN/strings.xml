@@ -55,16 +55,9 @@
     <string name="login_wechat">微信登录</string>
     <string name="login_sina">微博登录</string>
     <string name="login_jx">敬信数字平台登录</string>
-    <!--中英文不相同的-->
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《CSPmeeting服务协议》</string>
-    <!--总的登录界面中英文都相同-->
-    <string name="have_agree_to_same">登录即表示您已同意</string>
-    <string name="protocol_same">《CSPmeeting服务协议》</string>
-    <!--中英文不相同的-->
     <string name="other_login_type">其他登录方式</string>
-    <!--中英文都相同-->
-    <string name="other_login_type_same">其他登录方式</string>
     <string name="Register_indicate_have_read">注册表示您已阅读，并同意</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>

@@ -57,6 +57,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KPageVp = 1;
 
     private ImageView mIvShift;
+    private NetworkImageView mIvAvatar;
 
     private MeetGridFrag mGridFrag;
     private MeetVpFrag mVpFrag;
@@ -84,8 +85,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @Override
     public void initNavBar(NavBar bar) {
         View view = inflate(R.layout.layout_main_user);
-        NetworkImageView iv = view.findViewById(R.id.main_ic_user);
-        iv.placeHolder(R.drawable.ic_default_user_header)
+        mIvAvatar = view.findViewById(R.id.main_ic_user);
+        mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .url(Profile.inst().getString(TProfile.avatar))
                 .load();
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));
@@ -213,6 +214,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
             }
             showToast(R.string.copy_duplicate_success);
+        } else if (type == NotifyType.profile_change) {
+            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
+                    .url(Profile.inst().getString(TProfile.avatar))
+                    .load();
         }
     }
 
