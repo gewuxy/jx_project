@@ -13,6 +13,7 @@ import jx.csp.util.Util;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;
+import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
@@ -40,7 +41,11 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
     public LiveRoomPresenterImpl(LiveRoomContract.View view) {
         super(view);
 
-        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.uid), Profile.inst().getString(TProfile.userName));
+        String name = TextUtil.isNotEmpty(Profile.inst().getString(TProfile.nickName)) ? Profile.inst().getString(TProfile.nickName) : Profile.inst().getString(TProfile.userName);
+        if (TextUtil.isEmpty(name)) {
+            name = Profile.inst().getString(TProfile.uid);
+        }
+        LiveApi.getInst().init(App.getContext(), Profile.inst().getString(TProfile.uid), name);
         mZegoCallbackImpl = new LiveCallbackImpl();
     }
 

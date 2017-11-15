@@ -188,6 +188,5 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
-
     }
 }
