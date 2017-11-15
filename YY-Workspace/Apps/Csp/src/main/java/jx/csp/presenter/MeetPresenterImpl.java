@@ -47,7 +47,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     private Context mContext;
     private Meet mMeet;
-    private WebSocketServRouter mWebSocketServRouter;
     private CountdownDialog mCountdownDialog;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
 
@@ -134,19 +133,15 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void allowEnter() {
-        if (mWebSocketServRouter != null) {
-            YSLog.d(TAG, "enter WebSocketServRouter.stop");
-            mWebSocketServRouter.stop(mContext);
-        }
+        YSLog.d(TAG, "enter WebSocketServRouter.stop");
+        WebSocketServRouter.stop(mContext);
         join();
     }
 
     @Override
     public void notAllowEnter() {
-        if (mWebSocketServRouter != null) {
-            YSLog.d(TAG, "noEnter WebSocketServRouter.stop");
-            mWebSocketServRouter.stop(mContext);
-        }
+        YSLog.d(TAG, "noEnter WebSocketServRouter.stop");
+        WebSocketServRouter.stop(mContext);
         if (mCountdownDialog != null) {
             mCountdownDialog.dismiss();
         }
@@ -219,8 +214,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         CommonDialog2 d = new CommonDialog2(mContext);
         d.setHint(hint);
         d.addGrayButton(R.string.confirm_continue, view -> {
-            mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
-            mWebSocketServRouter.route(mContext);
+            WebSocketServRouter.create(wsUrl).route(mContext);
             if (mCountdownDialog == null) {
                 // 倒计时结束没有收到websocket默认进入会议
                 mCountdownDialog = new CountdownDialog(mContext, 15);

@@ -91,7 +91,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     private LinkedList<String> mUploadFilePathList; // 直播时上传音频地址列表，上传完删除
     private boolean mUploadState = false; // 是否在上传音频
     protected int mWsPosition = 0;  // websocket接收到的页数
-    protected WebSocketServRouter mWebSocketServRouter;
     private ConnectionReceiver mConnectionReceiver;
 
     private ScaleTransformer mTransformer;
@@ -111,7 +110,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //创建文件夹存放音频
         FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
-        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -184,6 +182,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
                 removeOnGlobalLayoutListener(this);
             }
         });
+        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -256,10 +255,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         mPhoneStateListener = null;
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         LiveNotifier.inst().remove(this);
-        if (mWebSocketServRouter != null) {
-            mWebSocketServRouter.stop(this);
-            YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
-        }
+        WebSocketServRouter.stop(this);
+        YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
         int overType = OverType.no;
         if (mCourseDetailList != null && getCurrPosition() == (mCourseDetailList.size() - KOne)) {
             overType = OverType.over;
