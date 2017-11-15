@@ -128,10 +128,4 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         }
     }
 
-    @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.login) {
-            finish();
-        }
-    }
 }

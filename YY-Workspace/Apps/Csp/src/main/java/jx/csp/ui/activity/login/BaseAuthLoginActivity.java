@@ -28,6 +28,7 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
+import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 
 /**
@@ -174,6 +175,13 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private void prepared(String path) {
         mVideo.setVideoPath(path);
         mVideo.setVolume(0, 0);
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.login) {
+            finish();
+        }
     }
 
     abstract protected int getVideoViewId();
