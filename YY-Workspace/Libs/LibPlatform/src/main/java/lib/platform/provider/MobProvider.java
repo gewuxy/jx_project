@@ -158,7 +158,7 @@ public class MobProvider implements Provider {
             case wechat: {
                 p = ShareSDK.getPlatform(Wechat.NAME);
                 if (!p.isClientValid()) {
-                    AppEx.showToast(R.string.account_wx_check_app);
+                    AppEx.showToast(R.string.wx_check_app);
                     return;
                 }
             }
@@ -245,11 +245,19 @@ public class MobProvider implements Provider {
             case wechat_friend: {
                 p = ShareSDK.getPlatform(WechatMoments.NAME);
                 shareParams.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.wx_check_app);
+                    return;
+                }
             }
             break;
             case wechat: {
                 p = ShareSDK.getPlatform(Wechat.NAME);
                 shareParams.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.wx_check_app);
+                    return;
+                }
             }
             break;
             case sina: {
@@ -287,10 +295,18 @@ public class MobProvider implements Provider {
             break;
             case whatsapp: {
                 p = ShareSDK.getPlatform(WhatsApp.NAME);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.whatsapp_check_app);
+                    return;
+                }
             }
             break;
             case line: {
                 p = ShareSDK.getPlatform(Line.NAME);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.line_check_app);
+                    return;
+                }
             }
             break;
         }

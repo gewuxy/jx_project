@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">LibShare</string>
+    <string name="wx_check_app">您尚未安裝微信客戶端</string>
+    <string name="whatsapp_check_app">您尚未安裝whatsapp客戶端</string>
+    <string name="line_check_app">您尚未安裝line客戶端</string>
+</resources>
