@@ -128,20 +128,22 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     public void onStopRefresh() {
     }
 
-    public void enter() {
+    @Override
+    public void allowEnter() {
         if (mPresenter == null) {
             YSLog.d(TAG, "grid enter p = null");
             return;
         }
-        mPresenter.allowJoin();
+        mPresenter.allowEnter();
     }
 
-    public void noEnter() {
+    @Override
+    public void notAllowEnter() {
         if (mPresenter == null) {
             YSLog.d(TAG, "grid noEnter p = null");
             return;
         }
-        mPresenter.disagreeJoin();
+        mPresenter.notAllowEnter();
     }
 
     @Override

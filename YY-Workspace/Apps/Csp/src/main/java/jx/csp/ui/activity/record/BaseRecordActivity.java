@@ -152,6 +152,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
+
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
         mUploadList = new LinkedList<>();
@@ -165,7 +166,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
             @Override
             public void onPageSelected(int position) {
-                mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
+                mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 pageSelected(position);
             }
 
@@ -179,6 +180,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             @Override
             public void onGlobalLayout() {
                 mTransformer = new ScaleTransformer(KVpScale, Util.calcVpOffset(getViewPager().getPaddingLeft(), getViewPager().getWidth()));
+                setPageTransformer(false, mTransformer);
                 removeOnGlobalLayoutListener(this);
             }
         });
@@ -200,7 +202,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         }
         switch (v.getId()) {
             case R.id.record_iv_last: {
-                if (getCurrentItem() < KOne) {
+                if (getCurrPosition() < KOne) {
                     showToast(R.string.first_page);
                     return;
                 }
@@ -208,7 +210,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             }
             break;
             case R.id.record_iv_next: {
-                if (getCurrentItem() >= (mCourseDetailList.size() - KOne)) {
+                if (getCurrPosition() >= (mCourseDetailList.size() - KOne)) {
                     showToast(R.string.last_page);
                     return;
                 }
@@ -259,12 +261,12 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
             YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
         }
         int overType = OverType.no;
-        if (mCourseDetailList != null && getCurrentItem() == (mCourseDetailList.size() - KOne)) {
+        if (mCourseDetailList != null && getCurrPosition() == (mCourseDetailList.size() - KOne)) {
             overType = OverType.over;
         }
         CommonServRouter.create(ReqType.exit_record)
                 .courseId(mCourseId)
-                .pageNum(getCurrentItem())
+                .pageNum(getCurrPosition())
                 .overType(overType)
                 .route(this);
     }
@@ -394,14 +396,5 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         msg.put(TWebSocketMsg.imgUrl, mCourseDetailList.get(position).getString(TCourseDetail.imgUrl));
         msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
-    }
-
-    @Override
-    protected void invalidate() {
-        super.invalidate();
-
-        if (!isEmpty()) {
-            setPageTransformer(false, mTransformer);
-        }
     }
 }

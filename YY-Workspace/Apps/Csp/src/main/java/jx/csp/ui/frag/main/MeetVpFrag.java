@@ -2,7 +2,6 @@ package jx.csp.ui.frag.main;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -88,7 +87,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
             @Override
             public void onPageSelected(int position) {
-                mTvCurrentPage.setText(String.valueOf(getCurrentItem() + KOne));
+                mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 YSLog.d("position", "position");
                 if (getItem(position) instanceof MeetSingleFrag) {
                     // 在进行中要有提示 通过时间判断
@@ -142,16 +141,11 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     @Override
     public void onClick(View v) {
-        ((MeetSingleFrag) (getItem(getCurrentItem()))).onMeetClick();
+        ((MeetSingleFrag) (getItem(getCurrPosition()))).onMeetClick();
     }
 
     public void setData(List<Meet> data) {
         mMeets = data;
-    }
-
-    public Fragment getItem() {
-        YSLog.d(TAG, "vp getItem getCurrentItem = " + getCurrentItem());
-        return super.getItem(getCurrentItem());
     }
 
     @Override
@@ -161,12 +155,12 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     @Override
     public int getPosition() {
-        return getCurrentItem();
+        return getCurrPosition();
     }
 
     public void nativeInvalidate() {
         // 记录当前index
-        int index = getCurrentItem();
+        int index = getCurrPosition();
 
         removeAll();
         if (mMeets == null || mMeets.isEmpty()) {
@@ -189,5 +183,20 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             showView(mLayoutSlideData);
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
+    }
+
+    @Override
+    public void allowEnter() {
+        getCurrItem().allowEnter();
+    }
+
+    @Override
+    public void notAllowEnter() {
+        getCurrItem().notAllowEnter();
+    }
+
+    @Override
+    protected MeetSingleFrag getCurrItem() {
+        return (MeetSingleFrag) super.getCurrItem();
     }
 }

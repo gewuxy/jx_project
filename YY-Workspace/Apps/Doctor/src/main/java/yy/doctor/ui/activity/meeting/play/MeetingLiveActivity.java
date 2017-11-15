@@ -361,7 +361,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                 mFragPpt.addCourse(course);
                 int count = getPptFrag().getCount();
                 setTextAll(count);
-                if (count != getPptFrag().getCurrentItem()) {
+                if (count != getPptFrag().getCurrPosition()) {
                     // 不在最新页提示新的一页完成
                     getPptFrag().setTextNew(String.valueOf(count));
                     if (mPlayType == PlayType.live) {

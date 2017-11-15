@@ -9,4 +9,8 @@ public interface IMeetOpt {
     void setPosition(int position);
 
     int getPosition();
+
+    void allowEnter();
+
+    void notAllowEnter();
 }

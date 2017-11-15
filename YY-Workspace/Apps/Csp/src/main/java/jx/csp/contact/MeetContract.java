@@ -20,8 +20,8 @@ public interface MeetContract {
 
         void onLiveClick(Meet item);
 
-        void allowJoin();
+        void allowEnter();
 
-        void disagreeJoin();
+        void notAllowEnter();
     }
 }

@@ -99,11 +99,11 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
 
     @Override
     public void onChange(int index, String weekCount, String allCount) {
-        if (getCurrentItem() == index) {
+        if (getCurrPosition() == index) {
             // 当前页
             mTvWeek.setText(weekCount);
         }
-        if (getCurrentItem() == KSize - 1) {
+        if (getCurrPosition() == KSize - 1) {
             // 不会再变, 不多次设置
             mTvAll.setText(allCount);
         }

@@ -133,7 +133,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     }
 
     @Override
-    public void allowJoin() {
+    public void allowEnter() {
         if (mWebSocketServRouter != null) {
             YSLog.d(TAG, "enter WebSocketServRouter.stop");
             mWebSocketServRouter.stop(mContext);
@@ -142,7 +142,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     }
 
     @Override
-    public void disagreeJoin() {
+    public void notAllowEnter() {
         if (mWebSocketServRouter != null) {
             YSLog.d(TAG, "noEnter WebSocketServRouter.stop");
             mWebSocketServRouter.stop(mContext);

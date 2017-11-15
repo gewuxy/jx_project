@@ -68,7 +68,7 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
                 // 添加新的界面
                 getFragPpt().addCourse(course);
                 int count = getFragPpt().getCount();
-                if (count != getFragPpt().getCurrentItem()) {
+                if (count != getFragPpt().getCurrPosition()) {
                     // 不在最新页提示新的一页完成
                     getFragPpt().setTextNew(String.valueOf(count));
                 }

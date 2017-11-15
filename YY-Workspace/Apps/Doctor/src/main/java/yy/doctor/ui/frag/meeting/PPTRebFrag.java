@@ -243,8 +243,8 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     @Override
-    public int getCurrentItem() {
-        return super.getCurrentItem();
+    public int getCurrPosition() {
+        return super.getCurrPosition();
     }
 
     @Override
@@ -269,7 +269,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     public void setCurrentItem(int offset, String content) {
-        int position = getCurrentItem() + offset;
+        int position = getCurrPosition() + offset;
         if (position >= 0 && position <= getCount() - 1) {
             setCurrentItem(position);
         } else {
@@ -281,7 +281,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      * 当前ppt缩放至原来
      */
     public void refreshCurrentItem() {
-        BaseCourseFrag item = getItem(getCurrentItem());
+        BaseCourseFrag item = getItem(getCurrPosition());
         if (item instanceof PicAudioCourseFrag) {
             PicAudioCourseFrag f = (PicAudioCourseFrag) item;
             f.setScale();
@@ -293,7 +293,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      */
     public void startPlay() {
         NetPlayer.inst().stop();
-        BaseCourseFrag frag = getItem(getCurrentItem());
+        BaseCourseFrag frag = getItem(getCurrPosition());
         if (frag instanceof VideoCourseFrag) {
             VideoCourseFrag f = (VideoCourseFrag) frag;
             NetPlayer.inst().setVideo(f.getTextureView());

@@ -272,7 +272,7 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
         @Override
         public PLVideoTextureView getTextureView() {
-            BaseCourseFrag f = mFragReb.getItem(mFragReb.getCurrentItem());
+            BaseCourseFrag f = mFragReb.getItem(mFragReb.getCurrPosition());
             if (f instanceof VideoCourseFrag) {
                 VideoCourseFrag item = (VideoCourseFrag) f;
                 return item.getTextureView();

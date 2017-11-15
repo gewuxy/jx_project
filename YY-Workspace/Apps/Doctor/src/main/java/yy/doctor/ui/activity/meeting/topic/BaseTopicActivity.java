@@ -210,10 +210,10 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
 
     @Override
     public void toNext() {
-        if (getCurrentItem() == mTopics.size() - 1) {
+        if (getCurrPosition() == mTopics.size() - 1) {
             toSubmit(mTopics.size() - mCount);
         } else {
-            setCurrentItem(getCurrentItem() + 1);
+            setCurrentItem(getCurrPosition() + 1);
         }
     }
 

@@ -113,10 +113,10 @@ public class LiveRecordActivity extends BaseRecordActivity {
             return;
         }
         if (id == R.id.record_iv_state) {
-            String filePath = CacheUtil.getAudioPath(mCourseId, getCurrentItem());
+            String filePath = CacheUtil.getAudioPath(mCourseId, getCurrPosition());
             // 判断直播时间是否已经到了
             if (mBeginCountDown) {
-                Fragment f = getItem(getCurrentItem());
+                Fragment f = getItem(getCurrPosition());
                 if (mLiveState) {
                     // 如果当前页是视频页面，则不调stopLiveRecord()这个方法,显示停止状态
                     // 如果停止的时候是在音频页面要上传音频
@@ -134,8 +134,8 @@ public class LiveRecordActivity extends BaseRecordActivity {
                         mView.startRecordState();
                     }
                     // 点击开始直播的时候要发同步指令
-                    notifyServ(LiveNotifyType.send_msg, getCurrentItem(), WsOrderType.sync);
-                    YSLog.d(TAG, "点击开始直播,发同步指令 pos = " + getCurrentItem());
+                    notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
+                    YSLog.d(TAG, "点击开始直播,发同步指令 pos = " + getCurrPosition());
                 }
             } else {
                 startCountDownAndLive(filePath);
@@ -145,12 +145,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
     @Override
     protected void skipToLast() {
-        setCurrentItem(getCurrentItem() - KOne);
+        setCurrentItem(getCurrPosition() - KOne);
     }
 
     @Override
     protected void skipToNext() {
-        setCurrentItem(getCurrentItem() + KOne);
+        setCurrentItem(getCurrPosition() + KOne);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
         if (mLiveState) {
             // 判断当前页面是视频还是ppt
-            Fragment f = getItem(getCurrentItem());
+            Fragment f = getItem(getCurrPosition());
             if (f instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
@@ -324,7 +324,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     protected void onCallOffHooK() {
         if (mLiveState) {
             // 判断当前页是不是视频
-            if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
+            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             } else {
@@ -388,7 +388,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         if (type == TConnType.disconnect) {
             showToast(R.string.network_disabled);
             // 如果在录音页面要停止录音，视频页面不要
-            Fragment f = getItem(getCurrentItem());
+            Fragment f = getItem(getCurrPosition());
             if (mLiveState) {
                 if (f instanceof RecordImgFrag) {
                     mLiveRecordPresenterImpl.stopLiveRecord();
@@ -417,7 +417,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             mBeginCountDown = true;
             mLiveRecordPresenterImpl.startCountDown(mStartTime, mStopTime);
             // 如果点击开始直播是在视频页，不需要录音，在直播状态
-            if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
+            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
                 mView.startRecordState();
@@ -468,7 +468,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
         @Override
         public void upload(int type, String audioFilePath) {
-            uploadAudioFile(mCourseId, getCurrentItem(), PlayType.live, audioFilePath);
+            uploadAudioFile(mCourseId, getCurrPosition(), PlayType.live, audioFilePath);
         }
 
         @Override

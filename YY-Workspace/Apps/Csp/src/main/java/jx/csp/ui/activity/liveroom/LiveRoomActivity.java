@@ -75,7 +75,6 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     @Arg(opt = true)
     String mWsUrl;
 
-    private WebSocketServRouter mWebSocketServRouter;
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
 
@@ -91,12 +90,14 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
 
     @Override
     public void initData(Bundle state) {
-        LiveNotifier.inst().add(this);
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mView = new View();
         mPresenter = new LiveRoomPresenterImpl(mView);
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
+
+        mConnectionReceiver = new ConnectionReceiver(this);
+        mConnectionReceiver.setListener(this);
     }
 
     @NonNull
@@ -143,8 +144,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             mPresenter.startCountDown(mStartTime, mRealStopTime);
         }
         // 连接websocket
-        mWebSocketServRouter = WebSocketServRouter.create(mWsUrl);
-        mWebSocketServRouter.route(this);
+        WebSocketServRouter.create(mWsUrl).route(this);
+
+        LiveNotifier.inst().add(this);
     }
 
     public void initPhoneCallingListener() {
@@ -226,11 +228,9 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
 
-        mConnectionReceiver = new ConnectionReceiver(this);
-        mConnectionReceiver.setListener(this);
         mConnectionReceiver.register();
     }
 
@@ -243,7 +243,6 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             mPresenter.stopLive();
             mLiveState = false;
         }
-        mView.stopLiveState();
     }
 
     protected void startCountDownAndLive() {
@@ -260,15 +259,16 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     protected void onDestroy() {
         super.onDestroy();
         LiveNotifier.inst().remove(this);
+
         // 注销电话监听
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
+        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         mPhoneStateListener = null;
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+
         mPresenter.onDestroy();
-        if (mWebSocketServRouter != null) {
-            YSLog.d(TAG, "liveroomactivity WebSocketServRouter.stop");
-            mWebSocketServRouter.stop(this);
-        }
+
+        YSLog.d(TAG, "liveroomactivity WebSocketServRouter.stop");
+        WebSocketServRouter.stop(this);
     }
 
     @Override

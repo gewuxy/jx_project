@@ -2,13 +2,10 @@ package jx.csp.ui.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
-
-import java.util.List;
 
 import jx.csp.R;
 import jx.csp.constant.Constants;
@@ -25,8 +22,8 @@ import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.frag.main.IMeetOpt;
 import jx.csp.ui.frag.main.MeetGridFrag;
-import jx.csp.ui.frag.main.MeetSingleFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
@@ -64,15 +61,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void initData(Bundle state) {
-        LiveNotifier.inst().add(this);
-        if (state != null) {
-            return;
-        }
-
         mGridFrag = new MeetGridFrag();
         mVpFrag = new MeetVpFrag();
 
-        mGridFrag.setListener(data -> gridFragListener(data));
         add(mGridFrag);
         add(mVpFrag);
     }
@@ -94,18 +85,19 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         bar.addTextViewMid(getString(R.string.CSPmeeting));
 
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
-            boolean flag = getCurrentItem() == KPageGrid;
-            mIvShift.setSelected(!mIvShift.isSelected());
+            boolean flag = getCurrPosition() == KPageGrid;
             if (!flag) {
                 // 网格
+                mIvShift.setSelected(false);
                 setCurrentItem(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
-                SpUser.inst().saveMainAcPage(KPageGrid);
+                SpUser.inst().saveMainPage(KPageGrid);
             } else {
                 // 列表
+                mIvShift.setSelected(true);
                 setCurrentItem(KPageVp, false);
                 mVpFrag.setPosition(mGridFrag.getPosition());
-                SpUser.inst().saveMainAcPage(KPageVp);
+                SpUser.inst().saveMainPage(KPageVp);
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -130,6 +122,27 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     .jPushRegisterId(SpJPush.inst().registerId())
                     .route(this);
         }
+
+        mGridFrag.setListener(data -> {
+            mVpFrag.setData(data);
+            mVpFrag.nativeInvalidate();
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int page = SpUser.inst().getMainAcVpPage();
+                    if (page != 0) {
+                        setCurrentItem(page, false);
+                        mVpFrag.setPosition(0);
+                        mIvShift.setSelected(true);
+                    }
+
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
+        });
+
+        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -143,37 +156,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
         switch (type) {
             case LiveNotifyType.accept: {
-                Fragment f = getItem(getCurrentItem());
                 YSLog.d(TAG, "接收到同意进入指令");
-                if (f instanceof MeetGridFrag) {
-                    MeetGridFrag frag = (MeetGridFrag) f;
-                    frag.enter();
-                } else if (f instanceof MeetVpFrag) {
-                    MeetVpFrag frag = (MeetVpFrag) f;
-                    MeetSingleFrag item = (MeetSingleFrag) frag.getItem();
-                    item.enter();
-                }
+                ((IMeetOpt) getCurrItem()).allowEnter();
             }
             break;
             case LiveNotifyType.reject: {
-                Fragment f = getItem(getCurrentItem());
                 YSLog.d(TAG, "接收到拒绝进入指令");
-                if (f instanceof MeetGridFrag) {
-                    MeetGridFrag frag = (MeetGridFrag) f;
-                    frag.noEnter();
-                } else if (f instanceof MeetVpFrag) {
-                    MeetVpFrag frag = (MeetVpFrag) f;
-                    MeetSingleFrag item = (MeetSingleFrag) frag.getItem();
-                    item.noEnter();
-                }
+                ((IMeetOpt) getCurrItem()).notAllowEnter();
             }
             break;
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -251,36 +243,5 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
         }
-    }
-
-    private void gridFragListener(List<Meet> data) {
-        mVpFrag.setData(data);
-        mVpFrag.nativeInvalidate();
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                int page = SpUser.inst().getMainAcVpPage();
-                if (page != 0) {
-                    setCurrentItem(page, false);
-                    mVpFrag.setPosition(0);
-                    mIvShift.setSelected(true);
-                }
-
-                removeOnGlobalLayoutListener(this);
-            }
-        });
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        mGridFrag = restoreFragment(KPageGrid);
-        mVpFrag = restoreFragment(KPageVp);
-        mGridFrag.setListener(data -> gridFragListener(data));
-
-        invalidate();
-        mGridFrag.invalidate();
     }
 }

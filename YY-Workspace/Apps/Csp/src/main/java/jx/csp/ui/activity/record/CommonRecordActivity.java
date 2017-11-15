@@ -128,11 +128,11 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 // 在播放的时候点击录制，要先停止播放
                 if (mShowVoiceLine) {
                     mRecordPresenter.stopPlay();
-                    if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
-                        ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
+                    if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                        ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
                     }
                 }
-                String filePath = CacheUtil.getAudioPath(mCourseId, getCurrentItem());
+                String filePath = CacheUtil.getAudioPath(mCourseId, getCurrPosition());
                 // 判断这页是否已经录制过 有可能是mp3文件
                 File f = new File(filePath);
                 String mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
@@ -140,9 +140,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 if ((f.exists() || f3.exists()) && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(filePath, mp3FilePath);
                 } else {
-                    mRecordPresenter.startRecord(filePath, getCurrentItem());
+                    mRecordPresenter.startRecord(filePath, getCurrPosition());
                     // 隐藏播放按钮
-                    ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
+                    ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
                     goneView(mVoiceLine);
                     changeRecordState(true);
                 }
@@ -163,7 +163,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     @Override
     public void moveLast() {
         if (mRecordState) {
-            if (getCurrentItem() == 0) {
+            if (getCurrPosition() == 0) {
                 return;
             }
             if (SpUser.inst().showSkipPageDialog() && !mShowSkipPageDialog) {
@@ -172,17 +172,17 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(getCurrentItem() - 1);
+                setCurrentItem(getCurrPosition() - 1);
             }
         } else {
-            setCurrentItem(getCurrentItem() - 1);
+            setCurrentItem(getCurrPosition() - 1);
         }
     }
 
     @Override
     public void moveNext() {
         if (mRecordState) {
-            if (getCurrentItem() == (mCourseDetailList.size()) - KOne) {
+            if (getCurrPosition() == (mCourseDetailList.size()) - KOne) {
                 return;
             }
             if (SpUser.inst().showSkipPageDialog() && !mShowSkipPageDialog) {
@@ -191,10 +191,10 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(getCurrentItem() + 1);
+                setCurrentItem(getCurrPosition() + 1);
             }
         } else {
-            setCurrentItem(getCurrentItem() + 1);
+            setCurrentItem(getCurrPosition() + 1);
         }
     }
 
@@ -448,9 +448,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mShowSkipPageDialog = false;
             mRecordPresenter.stopRecord();
             if (scrollType == ScrollType.last) {
-                setCurrentItem(getCurrentItem() - 1);
+                setCurrentItem(getCurrPosition() - 1);
             } else {
-                setCurrentItem(getCurrentItem() + 1);
+                setCurrentItem(getCurrPosition() + 1);
             }
         });
         dialog.addBlueButton(R.string.cancel, v -> {
@@ -473,16 +473,16 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             if (checkBox.isChecked()) {
                 SpUser.inst().neverShowRecordAgainDialog();
             }
-            mRecordPresenter.startRecord(filePath, getCurrentItem());
+            mRecordPresenter.startRecord(filePath, getCurrPosition());
             // 隐藏播放按钮
-            ((RecordImgFrag) getItem(getCurrentItem())).goneLayoutAudio();
+            ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
             goneView(mVoiceLine);
             changeRecordState(true);
             // 如果存在MP3文件，重新录制要改变播放文件  要删除MP3文件
             if ((new File(mp3FilePath)).exists()) {
                 YSLog.d(TAG, "showRecordAgainDialog mp3 file path " + mp3FilePath);
-                if (getItem(getCurrentItem()) instanceof RecordImgFrag) {
-                    ((RecordImgFrag) getItem(getCurrentItem())).setAudioFilePath(filePath);
+                if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                    ((RecordImgFrag) getItem(getCurrPosition())).setAudioFilePath(filePath);
                 }
                 FileUtil.delFile(new File(mp3FilePath));
             }
@@ -519,13 +519,13 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mAnimationRecord.stop();
             goneView(mIvVoiceState);
             //对应frag显示播放图标
-            RecordImgFrag frag = (RecordImgFrag) getItem(getCurrentItem());
+            RecordImgFrag frag = (RecordImgFrag) getItem(getCurrPosition());
             frag.showLayoutAudio();
             mTvRecordState.setText("");
             getViewPager().setScrollable(true);
             goneView(mGestureView);
             // 停止录音的时候上传音频文件
-            uploadAudioFile(mCourseId, getCurrentItem(), PlayType.reb);
+            uploadAudioFile(mCourseId, getCurrPosition(), PlayType.reb);
         }
 
         @Override
@@ -539,7 +539,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 stopRecordState();
             } else {
                 mRecordPresenter.stopPlay();
-                ((RecordImgFrag) getItem(getCurrentItem())).stopAnimation();
+                ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
             }
             CommonRecordActivity.this.showToast(id);
         }
