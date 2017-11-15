@@ -279,6 +279,7 @@ dependencies {
     implementation deps.support.dex
 
     implementation deps.support.gridlayout
+    implementation deps.support.cardview
     /**
      * processor
      */

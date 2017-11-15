@@ -10,7 +10,7 @@
     <dimen name="form_margin_left">38dp</dimen>
     <dimen name="form_margin_right">38dp</dimen>
 
-    <dimen name="radius">33dp</dimen>
+    <dimen name="radius">6dp</dimen>
     <dimen name="radius_small">3dp</dimen>
 
     <dimen name="main_vp_padding_horizontal">30dp</dimen>

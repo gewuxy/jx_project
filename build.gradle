@@ -38,6 +38,7 @@ buildscript {
                     v4          : "com.android.support:support-v4:${versions.supportLibrary}",
                     recyclerview: "com.android.support:recyclerview-v7:${versions.supportLibrary}",
                     gridlayout  : "com.android.support:gridlayout-v7:${versions.supportLibrary}",
+                    cardview    : "com.android.support:cardview-v7:${versions.supportLibrary}",
                     test        : [
                             runner: 'com.android.support.test:runner:1.0.0',
                     ],

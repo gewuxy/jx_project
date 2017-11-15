@@ -3,14 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!--不能使用margin top属性, 会导致CornerView底部圆角无法绘制-->
+    <View
+        style="@style/divider"
+        android:layout_height="12dp"
+        android:background="@color/transparent"/>
 
     <lib.ys.view.CornerView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         app:corner_radius="6dp"
         app:corner_useStroke="false">
 
