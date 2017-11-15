@@ -1,0 +1,7 @@
+{
+  "code": "0",
+  "data": {
+    "duplicate": "1",
+    "wsUrl": "ws://10.0.0.250:8081/live/order?courseId=14379&token=123123asdfadf"
+  }
+}

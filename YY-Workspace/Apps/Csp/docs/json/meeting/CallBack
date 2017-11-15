@@ -1,0 +1,14 @@
+{
+  "code": "0",
+  //示例一
+  "data": {
+    "courseId": 1,
+    "playType": 0,
+    "duplicate": 0
+  },
+  //示例二
+  "data": {
+    "duplicate": 1,
+    "wsUrl": "ws://10.0.0.250:8081/live/order?courseId=14379&token=123lkasdfasf"
+  }
+}

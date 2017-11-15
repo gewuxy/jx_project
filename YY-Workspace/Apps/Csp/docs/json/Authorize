@@ -1,0 +1,33 @@
+{
+  //测试的返回
+  "data": {
+    "uid": "1200530",
+    "province": "广东省",
+    "gender": 0,
+    "avatar": "http:\/\/139.199.170.178\/null",
+    "nickName": "敬信药草园测试",
+    "email": "jxtest@126.com",
+    "city": "广州市"
+  },
+  //接口文档的返回
+  "data": {
+    "avatar": null,
+    "city": null,
+    "country": null,
+    "district": null,
+    "email": "357488564@qq.com",
+    "id": "17091416275683119696",
+    "info": "123",
+    "lastLoginIp": "10.0.0.252",
+    "lastLoginTime": "2017-09-21",
+    "major": null,
+    "mobile": "15889978092",
+    "nickName": "Leon",
+    "password": "e10adc3949ba59abbe56e057f20f883e",
+    "province": null,
+    "registerTime": null,
+    "token": "23e8ca52523c4b55b5688acc2e8dd4da",
+    "userName": "abc"
+  },
+  "code": "0"
+}
