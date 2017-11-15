@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -86,28 +86,14 @@
             android:src="@drawable/third_party_login_jx"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/layout_login_protocol_en"
+        layout="@layout/layout_login_en_protocol_footer"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/have_agree_to"
-            android:textColor="@color/text_7a8b9f"
-            android:textSize="10dp"/>
+    <include
+        android:id="@+id/layout_login_protocol_cn"
+        layout="@layout/layout_login_cn_protocol_footer"
+        android:visibility="gone"/>
 
-        <TextView
-            android:id="@+id/login_en_protocol"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/protocol"
-            android:textColor="@color/text_167afe"
-            android:textSize="10dp"/>
-    </LinearLayout>
 
 </LinearLayout>
