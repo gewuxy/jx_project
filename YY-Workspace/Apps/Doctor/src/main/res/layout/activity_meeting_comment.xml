@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <include layout="@layout/layout_list_no_divider"/>
+        <include layout="@layout/layout_scrollable_list_no_divider"/>
     </RelativeLayout>
 
     <View

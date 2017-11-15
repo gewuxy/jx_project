@@ -7,6 +7,6 @@
 
     <include layout="@layout/activity_hospital_header"/>
 
-    <include layout="@layout/layout_sr_list"/>
+    <include layout="@layout/layout_sr_scrollable_list"/>
 
 </LinearLayout>

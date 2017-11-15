@@ -134,6 +134,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             @Override
             public void onGlobalLayout() {
                 mTransformer = new ScaleTransformer(KVpScale, Util.calcVpOffset(getViewPager().getPaddingLeft(), getViewPager().getWidth()));
+                setPageTransformer(false, mTransformer);
                 removeOnGlobalLayoutListener(this);
             }
         });
@@ -169,7 +170,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
         removeAll();
         if (mMeets == null || mMeets.isEmpty()) {
-            goneView(mLayoutSlideData);
+            hideView(mLayoutSlideData);
             add(new EmptyFrag());
             invalidate();
         } else {
@@ -182,10 +183,10 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                 index = 0;
             }
             invalidate();
-            setPageTransformer(false, mTransformer);
 
             setCurrentItem(index);
 
+            showView(mLayoutSlideData);
             mTvTotalPage.setText(String.valueOf(mMeets.size()));
         }
     }
