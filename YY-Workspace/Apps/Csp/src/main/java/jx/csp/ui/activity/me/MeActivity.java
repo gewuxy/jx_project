@@ -9,9 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
-import jx.csp.constant.Constants;
 import jx.csp.constant.FormType;
-import jx.csp.constant.MetaValue;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
@@ -22,7 +20,6 @@ import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -142,7 +139,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+                if (Util.checkAppCn()) {
                     startActivity(FlowRateManageActivity.class);
                 } else {
                     startActivity(FlowRateManageEnActivity.class);
@@ -150,7 +147,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.account: {
-                if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+                if (Util.checkAppCn()) {
                     startActivity(AccountManageActivity.class);
                 } else {
                     startActivity(AccountManageEnActivity.class);

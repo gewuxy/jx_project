@@ -8,8 +8,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 
 import jx.csp.R;
-import jx.csp.constant.Constants;
-import jx.csp.constant.MetaValue;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.main.Meet;
@@ -31,7 +29,6 @@ import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -175,7 +172,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         } else if (type == NotifyType.token_out_of_date) {
             Intent intent;
             //清除栈里的activity2
-            if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+            if (Util.checkAppCn()) {
                 intent = new Intent(this, AuthLoginActivity.class);
             } else {
                 intent = new Intent(this, AuthLoginOverseaActivity.class);

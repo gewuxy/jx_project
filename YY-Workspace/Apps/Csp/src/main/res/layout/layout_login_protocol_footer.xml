@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    style="@style/v.login.foot"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_marginBottom="27dp"
     android:layout_marginTop="30dp"
-    android:orientation="vertical">
+    android:gravity="center">
 
     <TextView
+        style="@style/tv.login.foot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/have_agree_to"
-        android:textColor="@color/text_7a8b9f"
         android:textSize="10dp"/>
 
     <TextView
-        android:id="@+id/login_en_protocol"
+        android:id="@+id/login_protocol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:text="@string/protocol"
         android:textColor="@color/text_167afe"
         android:textSize="10dp"/>

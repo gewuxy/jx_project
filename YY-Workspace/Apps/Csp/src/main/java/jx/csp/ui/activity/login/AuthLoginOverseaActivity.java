@@ -5,13 +5,9 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
-import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.network.UrlUtil;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
@@ -29,20 +25,11 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
     private final int KIdTwitter = 4;
 
     private String mUserName;
-    private View mLayoutCn;
-    private View mLayoutEn;
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_login_en;
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-        mLayoutCn = findView(R.id.layout_login_protocol_cn);
-        mLayoutEn = findView(R.id.layout_login_protocol_en);
+        return R.layout.activity_login_oversea;
     }
 
     @Override
@@ -53,11 +40,6 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.login_twitter);
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_jx);
-        setOnClickListener(R.id.login_en_protocol);
-        if (SpApp.inst().getLangType() != LangType.en) {
-            goneView(mLayoutEn);
-            showView(mLayoutCn);
-        }
     }
 
     @Override
@@ -80,11 +62,6 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
             break;
             case R.id.login_jx: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
-            }
-            break;
-            case R.id.login_en_protocol: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
-                        .route(this);
             }
             break;
         }

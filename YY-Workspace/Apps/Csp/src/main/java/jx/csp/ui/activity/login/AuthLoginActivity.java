@@ -5,13 +5,9 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
-import jx.csp.constant.LangType;
 import jx.csp.model.Profile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.network.UrlUtil;
-import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
@@ -36,20 +32,10 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
 
     private String mUserName;
 
-    private View mLayoutCn;
-    private View mLayoutEn;
-
     @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_login;
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-        mLayoutCn = findView(R.id.layout_login_protocol_cn);
-        mLayoutEn = findView(R.id.layout_login_protocol_en);
     }
 
     @Override
@@ -60,11 +46,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         setOnClickListener(R.id.layout_login_sina);
         setOnClickListener(R.id.login_mobile);
         setOnClickListener(R.id.layout_login_jx);
-        if (SpApp.inst().getLangType() == LangType.en) {
-            goneView(mLayoutCn);
-            showView(mLayoutEn);
-            setOnClickListener(R.id.login_en_protocol);
-        }
     }
 
     @Override
@@ -95,11 +76,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             break;
             case R.id.layout_login_jx: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
-            }
-            break;
-            case R.id.login_en_protocol: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
-                        .route(this);
             }
             break;
         }

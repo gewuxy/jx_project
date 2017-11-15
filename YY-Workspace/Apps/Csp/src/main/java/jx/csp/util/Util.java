@@ -16,9 +16,12 @@ import javax.crypto.spec.IvParameterSpec;
 
 import jx.csp.App;
 import jx.csp.R;
+import jx.csp.constant.Constants;
+import jx.csp.constant.MetaValue;
 import lib.network.Network;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
 import lib.yy.util.BaseUtil;
@@ -188,5 +191,12 @@ public class Util extends BaseUtil {
         float vpWidth = width - padding * 2;
         //padding部分所占百分比
         return -padding / vpWidth;
+    }
+
+    /**
+     * 国内
+     */
+    public static boolean checkAppCn() {
+        return Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type));
     }
 }

@@ -22,7 +22,6 @@ import jx.csp.adapter.main.ShareAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
-import jx.csp.constant.MetaValue;
 import jx.csp.constant.ShareType;
 import jx.csp.model.main.Share;
 import jx.csp.model.main.Share.TShare;
@@ -37,7 +36,6 @@ import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
-import lib.ys.util.PackageUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
@@ -139,7 +137,7 @@ public class ShareDialog extends BaseDialog {
         YSLog.d(TAG, "app app_type = " + type);
         // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
         @AppType int appType;  // 国内版 国外版
-        if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+        if (Util.checkAppCn()) {
             appType = AppType.inland;
         } else {
             appType = AppType.overseas;
@@ -166,11 +164,10 @@ public class ShareDialog extends BaseDialog {
     private void judge() {
         GridView gridView = findView(R.id.share_gridview);
         ShareAdapter adapter = new ShareAdapter();
-        List<Share> shareList = new ArrayList<>();
         int[] icons;
         String[] names;
         int[] types;
-        if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
+        if (Util.checkAppCn()) {
             icons = new int[]{
                     R.drawable.share_ic_wechat,
                     R.drawable.share_ic_moment,
@@ -231,7 +228,7 @@ public class ShareDialog extends BaseDialog {
                     ShareType.copy,
             };
         }
-        shareList = toShare(icons, names, types);
+        List<Share> shareList = toShare(icons, names, types);
         adapter.setData(shareList);
         gridView.setAdapter(adapter);
 

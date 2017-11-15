@@ -32,14 +32,14 @@ public class MeetDetail extends EVal<TMeetDetail> {
 
     @IntDef({
             BroadcastType.reb,
-            BroadcastType.live,
             BroadcastType.live_ppt,
+            BroadcastType.live,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface BroadcastType {
         int reb = 0; // 录播
-        int live = 1; // ppt直播
-        int live_ppt = 2; // ppt直播 + 视频
+        int live_ppt = 1; // ppt直播
+        int live = 2; // ppt直播 + 视频
     }
 
     public enum TMeetDetail {
