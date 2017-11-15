@@ -125,7 +125,7 @@ public class SwipeZoomListView extends BaseSwipeZoom<SRListLayout> {
     @Override
     protected SRListLayout createRootView(Context context, AttributeSet attrs) {
         SRListLayout layout = new SRListLayout(context, attrs);
-        layout.setId(R.id.sr_list_layout);
+        layout.setId(R.id.layout_scrollable);
         return layout;
     }
 
