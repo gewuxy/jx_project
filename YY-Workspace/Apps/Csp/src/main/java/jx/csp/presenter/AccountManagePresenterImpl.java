@@ -11,10 +11,8 @@ import jx.csp.model.BindInfo;
 import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
@@ -188,11 +186,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
         } else {
             onNetworkError(id, r.getError());
         }
-    }
-
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
     }
 
     @Override
