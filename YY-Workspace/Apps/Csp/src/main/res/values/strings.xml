@@ -55,16 +55,9 @@
     <string name="login_wechat">Login with Wechat</string>
     <string name="login_sina">Login with Weibo</string>
     <string name="login_jx">Login with Jingxin Platform</string>
-    <!--中英文不相同的-->
     <string name="have_agree_to">By tapping "Login" you are agreeing to the</string>
     <string name="protocol">CSPmeeting Terms of Service</string>
-    <!--总的登录界面中英文都相同-->
-    <string name="have_agree_to_same">登录即表示您已同意</string>
-    <string name="protocol_same">《CSPmeeting服务协议》</string>
-    <!--中英文不相同的-->
     <string name="other_login_type">or</string>
-    <!--中英文都相同-->
-    <string name="other_login_type_same">其他登录方式</string>
     <string name="Register_indicate_have_read">By tapping "Register Now", you agree to the</string>
     <string name="mobilephone">Mobile</string>
     <string name="email">E-mail</string>
