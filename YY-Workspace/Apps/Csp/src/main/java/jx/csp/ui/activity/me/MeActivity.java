@@ -9,12 +9,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.constant.FormType;
-import jx.csp.constant.LangType;
+import jx.csp.constant.MetaValue;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
-import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
@@ -22,6 +22,7 @@ import jx.csp.util.Util;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseFormActivity;
@@ -141,18 +142,18 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                if (SpApp.inst().getLangType() == LangType.en) {
-                    startActivity(FlowRateManageEnActivity.class);
-                } else {
+                if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
                     startActivity(FlowRateManageActivity.class);
+                } else {
+                    startActivity(FlowRateManageEnActivity.class);
                 }
             }
             break;
             case RelatedId.account: {
-                if (SpApp.inst().getLangType() == LangType.en) {
-                    startActivity(AccountManageEnActivity.class);
-                } else {
+                if (Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type))) {
                     startActivity(AccountManageActivity.class);
+                } else {
+                    startActivity(AccountManageEnActivity.class);
                 }
             }
             break;

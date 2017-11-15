@@ -1,0 +1,9 @@
+{
+  "data": {
+    "imgUrl": "http://10.0.0.252:8084/upload/advert/page-1.png",
+    "id": "17092010054642748385",
+    "countDown": 3,
+    "pageUrl": "http://10.0.0.252:8084/front/advert/view?id=17092010054642748385"
+  },
+  "code": "0"
+}

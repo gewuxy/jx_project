@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "acceptId": 9,
+      "acceptCount": 4,
+      "headimg": "http:\/\/59.111.90.245:8083\/file\/headimg\/1497095597006.png",
+      "acceptName": "demo"
+    },
+    {
+      "acceptId": 10,
+      "acceptCount": 3,
+      "headimg": "http:\/\/59.111.90.245:8083\/file\/headimg\/1497095935030.PNG",
+      "acceptName": "阿里巴巴推荐1"
+    },
+    {
+      "acceptId": 11,
+      "acceptCount": 2,
+      "acceptName": "安徽推荐2"
+    },
+    {
+      "sign": "我是一所集医疗、教学、科研、保健、康复、院前急救于一体的大型三级甲等医院，也是广州呼吸疾病研究所、广州 骨科研究所、广州医科大学泌尿外科研究所所在医院。",
+      "acceptId": 14,
+      "acceptCount": 4,
+      "headimg": "http:\/\/59.111.90.245:8083\/file\/\/headimg\/1495870906404.png",
+      "acceptName": "敬信单位号"
+    },
+    {
+      "sign": "YaYa测试单位号，提供测试数据\nhhah\n甘啊\n123",
+      "acceptId": 1200007,
+      "acceptCount": 10,
+      "headimg": "http:\/\/59.111.90.245:8083\/file\/headimg\/1503557646365.jpg",
+      "acceptName": "YaYa测试"
+    }
+  ],
+  "code": "0"
+}

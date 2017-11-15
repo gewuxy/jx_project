@@ -1,0 +1,94 @@
+{
+  "data": [
+    {
+      "startTime": 1509556440000,
+      "id": 14478,
+      "pageCount": 39,
+      "title": "14440",
+      "duration": 1438739,
+      "publishState": false,
+      "playTime": "23978′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 1,
+      "endTime": 1510995179000,
+      "viewState": false
+    },
+    {
+      "startTime": 1509506040000,
+      "id": 14479,
+      "pageCount": 78,
+      "title": "14435",
+      "duration": 1489139,
+      "publishState": false,
+      "playTime": "24818′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 1,
+      "endTime": 1510995179000,
+      "viewState": false
+    },
+    {
+      "startTime": 1509640440000,
+      "id": 14480,
+      "pageCount": 42,
+      "title": "14434",
+      "duration": 1354739,
+      "publishState": false,
+      "playTime": "22578′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 2,
+      "endTime": 1510995179000,
+      "viewState": false
+    },
+    {
+      "startTime": 1509556440000,
+      "id": 14486,
+      "pageCount": 39,
+      "title": "14437",
+      "duration": 1438739,
+      "publishState": false,
+      "playTime": "23978′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 1,
+      "endTime": 1510995179000,
+      "viewState": false
+    },
+    {
+      "startTime": 1509556440000,
+      "id": 14528,
+      "pageCount": 39,
+      "title": "直播会议2",
+      "duration": 1438739,
+      "publishState": false,
+      "playTime": "23978′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 1,
+      "endTime": 1510995179000,
+      "viewState": false
+    },
+    {
+      "id": 14530,
+      "pageCount": 48,
+      "title": "录播会议",
+      "duration": 111,
+      "publishState": false,
+      "playTime": "1′51″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14383\/ppt\/17101910254556635054.jpg",
+      "playType": 0,
+      "viewState": false
+    },
+    {
+      "startTime": 1509556440000,
+      "id": 14531,
+      "pageCount": 39,
+      "title": "直播会议123",
+      "duration": 1438739,
+      "publishState": false,
+      "playTime": "23978′59″",
+      "coverUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+      "playType": 1,
+      "endTime": 1510995179000,
+      "viewState": false
+    }
+  ],
+  "code": "0"
+}

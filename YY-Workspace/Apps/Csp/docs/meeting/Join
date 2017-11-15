@@ -1,0 +1,78 @@
+{
+  "data": {
+    "course": {
+      "shared": false,
+      "sourceType": 1,
+      "createTime": 1510647010000,
+      "cspUserId": "17102012224952997952",
+      "credits": 0,
+      "primitiveId": 14528,
+      "playType": 1,
+      "deleted": false,
+      "info": "测试直播会议简介 哈哈哈。。。含有测试字眼的字符串都会被屏蔽，哈哈哈。。。。。。。。。。空格也算，标点符号也算，最多只能输入600个字符。为了凑字数 ",
+      "id": 14531,
+      "title": "直播会议123",
+      "category": "医学美容科",
+      "details": [
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534808774158.jpg",
+          "id": 388709,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14424\/audio\/17110310175819749069.mp3",
+          "duration": 13,
+          "sort": 1,
+          "courseId": 14531,
+          "videoUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101115534806252570.mp4"
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101116001272528042.jpg",
+          "id": 388710,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14424\/audio\/17110309455590973248.mp3",
+          "duration": 10,
+          "sort": 2,
+          "courseId": 14531,
+          "videoUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/video\/17101116001267616246.mp4"
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/ppt\/17101113392751435358.jpg",
+          "id": 388711,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14531\/audio\/17111416310437059356.mp3",
+          "duration": 6,
+          "sort": 3,
+          "courseId": 14531
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/ppt\/17101113392783925837.jpg",
+          "id": 388712,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14531\/audio\/17111416310873353942.mp3",
+          "duration": 4,
+          "sort": 4,
+          "courseId": 14531
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/ppt\/17101113392803729031.jpg",
+          "id": 388713,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14531\/audio\/17111416334883199710.mp3",
+          "duration": 4,
+          "sort": 5,
+          "courseId": 14531
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/ppt\/17101113392824312019.jpg",
+          "id": 388714,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14437\/audio\/17110917082285788293.mp3",
+          "duration": 4,
+          "sort": 6,
+          "courseId": 14531
+        },
+        {
+          "imgUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14379\/ppt\/17101113392836136564.jpg",
+          "id": 388715,
+          "audioUrl": "http:\/\/59.111.90.245:8083\/file\/course\/14424\/audio\/17110712065895488693.mp3",
+          "duration": 0,
+          "sort": 7,
+          "courseId": 14531
+        }
+      ]
+    }
+  }
+}v

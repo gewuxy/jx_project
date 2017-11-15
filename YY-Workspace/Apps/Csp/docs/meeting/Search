@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "coverUrl": "http://10.0.0.252:8084/upload/aaa.jpg",
+      "currentPage": 2,
+      "id": "11111",
+      "endTime": "2017-09-30 15:11:29",
+      "meetingType": 1,
+      "pageCount": 10,
+      "startTime": "2017-09-30 13:11:29",
+      "state": 1,
+      "title": "测试会议讲稿"
+    },
+    {
+      "cover_url": "http://10.0.0.252:8084/upload/aaa.jpg",
+      "currentPage": 21,
+      "id": "22222",
+      "endTime": "2017-09-30 15:11:29",
+      "meetingType": 1,
+      "pageCount": 30,
+      "startTime": "2017-09-21 13:11:29",
+      "state": 1,
+      "title": "测试会议直播中"
+    }
+  ],
+  "code": "0"
+}
