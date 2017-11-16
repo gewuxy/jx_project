@@ -32,8 +32,6 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 public class ContributePlatformActivity extends BaseSRListActivity<Platform, PlatformAdapter>
         implements OnPlatformCheckedListener {
 
-    private final int KCodePlatform = 1;
-
     private boolean isTvTipsShow = false;
 
     private TextView mTvPlatform;

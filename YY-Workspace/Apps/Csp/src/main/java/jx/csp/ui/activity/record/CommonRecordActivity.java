@@ -312,8 +312,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 invalidate();
                 // 链接websocket
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                    mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
-                    mWebSocketServRouter.route(this);
+                    WebSocketServRouter.create(wsUrl).route(this);
                 }
             }
         } else {

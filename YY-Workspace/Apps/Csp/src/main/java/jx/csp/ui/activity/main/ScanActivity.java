@@ -56,11 +56,9 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private boolean mFlag;//图片更换
     private CountDown mCountDown; // 倒计时
     private Scan mScan;
-    private WebSocketServRouter mWebSocketServRouter;
 
     @Override
     public void initData(Bundle state) {
-        LiveNotifier.inst().add(this);
     }
 
     @NonNull
@@ -109,6 +107,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             mBtn.setSelected(mFlag);
             mScannerView.toggleLight(isChecked);
         });
+        LiveNotifier.inst().add(this);
     }
 
     @Override
@@ -146,10 +145,10 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     protected void onDestroy() {
         super.onDestroy();
         LiveNotifier.inst().remove(this);
-        if (mWebSocketServRouter != null) {
-            mWebSocketServRouter.stop(this);
-            YSLog.d(TAG, "scan activity WebSocketServRouter.stop");
-        }
+
+        WebSocketServRouter.stop(this);
+        YSLog.d(TAG, "scan activity WebSocketServRouter.stop");
+
     }
 
     /**
@@ -192,8 +191,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             } else {
                 String wsUrl = mScan.getString(TScan.wsUrl);
                 if (TextUtil.isNotEmpty(wsUrl)) {
-                    mWebSocketServRouter = WebSocketServRouter.create(wsUrl);
-                    mWebSocketServRouter.route(this);
+                    WebSocketServRouter.create(wsUrl).route(this);
                 }
             }
         } else {

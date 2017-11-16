@@ -203,7 +203,7 @@
     <string name="account_phone">手機</string>
     <string name="account_email">郵箱</string>
     <string name="account_wx">微信</string>
-    <string name="account_sina">新浪微博</string>
+    <string name="account_sina">微博</string>
     <string name="account_facebook">Facebook</string>
     <string name="account_twitter">Twitter</string>
     <string name="account_jingxin">敬信數字平台</string>
@@ -217,8 +217,8 @@
     <string name="account_send_captcha">已發送驗證碼</string>
     <string name="account_unbind_email">是否解綁郵箱?</string>
     <string name="account_unbind_phone">是否解綁手機號?</string>
-    <string name="account_unbind_wx">是否解綁微信號?</string>
-    <string name="account_unbind_sina">是否解綁新浪微博?</string>
+    <string name="account_unbind_wx">是否解綁微信?</string>
+    <string name="account_unbind_sina">是否解綁微博?</string>
     <string name="account_unbind_facebook">是否解綁Facebook?</string>
     <string name="account_unbind_twitter">是否解綁Twitter?</string>
     <string name="account_unbind_yaya">是否解綁YaYa醫師?</string>

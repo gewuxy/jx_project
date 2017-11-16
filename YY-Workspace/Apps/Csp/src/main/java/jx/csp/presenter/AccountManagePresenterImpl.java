@@ -11,10 +11,8 @@ import jx.csp.model.BindInfo;
 import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
@@ -150,49 +148,36 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void onUnBindSuccess(IResult r, int id, TProfile key) {
-        if (r.isSucceed()) {
-            App.showToast(R.string.account_unbind_succeed);
-            getView().refreshItem(id);
+        App.showToast(R.string.account_unbind_succeed);
+        getView().refreshItem(id);
 
-            Profile.inst().put(key, ConstantsEx.KEmpty);
-            Profile.inst().saveToSp();
-            Notifier.inst().notify(NotifyType.profile_change);
-        } else {
-            onNetworkError(id, r.getError());
-        }
+        Profile.inst().put(key, ConstantsEx.KEmpty);
+        Profile.inst().saveToSp();
+        Notifier.inst().notify(NotifyType.profile_change);
     }
 
     @Override
     public void onUnBindSuccess(IResult r, int id) {
-        if (r.isSucceed()) {
-            App.showToast(R.string.account_unbind_succeed);
+        App.showToast(R.string.account_unbind_succeed);
 
-            List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
-            boolean flag = true;
-            for (BindInfo list : infoList) {
-                if (list.getInt(TBindInfo.thirdPartyId) == id) {
-                    list.clear();
-                    flag = false;
-                }
+        List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
+        boolean flag = true;
+        for (BindInfo list : infoList) {
+            if (list.getInt(TBindInfo.thirdPartyId) == id) {
+                list.clear();
+                flag = false;
             }
-            if (flag) {
-                BindInfo info = new BindInfo();
-                info.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
-                info.put(TBindInfo.nickName, ConstantsEx.KEmpty);
-                infoList.add(info);
-            }
-
-            getView().refreshItem(id);
-            Profile.inst().put(TProfile.bindInfoList, infoList);
-            Profile.inst().saveToSp();
-        } else {
-            onNetworkError(id, r.getError());
         }
-    }
+        if (flag) {
+            BindInfo info = new BindInfo();
+            info.put(TBindInfo.thirdPartyId, ConstantsEx.KEmpty);
+            info.put(TBindInfo.nickName, ConstantsEx.KEmpty);
+            infoList.add(info);
+        }
 
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
+        getView().refreshItem(id);
+        Profile.inst().put(TProfile.bindInfoList, infoList);
+        Profile.inst().saveToSp();
     }
 
     @Override
