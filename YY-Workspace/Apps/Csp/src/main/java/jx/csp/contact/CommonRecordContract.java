@@ -39,7 +39,7 @@ public interface CommonRecordContract {
 
     interface Presenter extends IContract.Presenter<View> {
 
-        void getDataFromNet(String courseId);
+        void getData(String courseId);
 
         void startRecord(String filePath, int pos);
 

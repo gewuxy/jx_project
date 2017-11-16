@@ -13,11 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 
 import inject.annotation.router.Arg;
 import jx.csp.R;
+import jx.csp.contact.AudioUploadContract;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
@@ -26,7 +26,7 @@ import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.presenter.AudioUploadPresenterImpl;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
@@ -36,8 +36,6 @@ import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
-import lib.network.model.NetworkReq;
-import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
@@ -56,11 +54,12 @@ import lib.yy.ui.activity.base.BaseVpActivity;
  * @since 2017/9/30
  */
 
-abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, OnConnectListener {
+abstract public class BaseRecordActivity extends BaseVpActivity implements
+        OnLiveNotify,
+        OnConnectListener,
+        AudioUploadContract.V {
 
     protected final int KMicroPermissionCode = 10;
-    protected final int KUploadAudioReqId = 30;
-    protected final int KUploadVideoPage = 40;  // 视频页翻页时调用的
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
@@ -81,11 +80,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     protected GestureView mGestureView;
 
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
-
     protected List<CourseDetail> mCourseDetailList;
-    private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
-    private LinkedList<String> mUploadFilePathList; // 直播时上传音频地址列表，上传完删除
-    private boolean mUploadState = false; // 是否在上传音频
+    protected AudioUploadPresenterImpl mAudioUploadPresenter;
     protected int mWsPosition = 0;  // websocket接收到的页数
     private ConnectionReceiver mConnectionReceiver;
 
@@ -98,7 +94,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     @Arg
     String mTitle;
 
-
     @CallSuper
     @Override
     public void initData(Bundle state) {
@@ -108,6 +103,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
         FileUtil.ensureFileExist(CacheUtil.getAudioCacheDir() + File.separator + mCourseId);
         mConnectionReceiver = new ConnectionReceiver(this);
         mConnectionReceiver.setListener(this);
+        mAudioUploadPresenter = new AudioUploadPresenterImpl(this);
     }
 
     @Override
@@ -151,8 +147,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
         setOnClickListener(R.id.record_iv_last);
         setOnClickListener(R.id.record_iv_next);
-        mUploadList = new LinkedList<>();
-        mUploadFilePathList = new LinkedList<>();
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -264,20 +258,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
                 .route(this);
     }
 
-    @CallSuper
     @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        if (id == KUploadAudioReqId) {
-            YSLog.d(TAG, "移除任务");
-            mUploadList.removeFirst();
-            if (mUploadFilePathList != null && mUploadFilePathList.size() > 0) {
-                boolean b = FileUtil.delFile(new File(mUploadFilePathList.getFirst()));
-                YSLog.d(TAG, "直播音频文件删除成功？ = " + b);
-                mUploadFilePathList.removeFirst();
-            }
-            mUploadState = false;
-            upload();
-        }
+    public void onStopRefresh() {
     }
 
     @Override
@@ -328,42 +310,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
     }
 
     protected void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath) {
-        File file = new File(audioFilePath);
-        if (file.exists()) {
-            byte[] bytes = FileUtil.fileToBytes(audioFilePath);
-            YSLog.d(TAG, "upload audioFilePath = " + audioFilePath);
-            YSLog.d(TAG, "bytes = " + bytes.length);
-            // 直播时小于三秒的音频不上传并且删除文件 1s差不多1500 byte
-            if (type == PlayType.live && bytes.length < 4500) {
-                YSLog.d(TAG, "直播时小于三秒的音频不上传");
-                FileUtil.delFile(file);
-                return;
-            }
-            NetworkReq req = MeetingAPI.uploadAudio()
-                    .courseId(courseId)
-                    .detailId(mCourseDetailList.get(page).getString(TCourseDetail.id))
-                    .pageNum(page)
-                    .playType(type)
-                    .file(bytes)
-                    .build();
-            mUploadList.addLast(req);
-            if (type == PlayType.live || type == PlayType.video) {
-                mUploadFilePathList.addLast(audioFilePath);
-            }
-            upload();
-        }
-    }
-
-    private void upload() {
-        if (mUploadList.isEmpty()) {
-            YSLog.d(TAG, "上传列表为空");
-            return;
-        }
-        if (!mUploadState) {
-            YSLog.d(TAG, "开始上传任务");
-            exeNetworkReq(KUploadAudioReqId, mUploadList.getFirst());
-            mUploadState = true;
-        }
+        mAudioUploadPresenter.uploadAudioFile(courseId, page, type, audioFilePath);
     }
 
     abstract protected void switchDevice();
