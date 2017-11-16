@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 
+import jx.csp.App;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
@@ -32,6 +33,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.view.LayoutUtil;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -73,7 +75,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @Override
     public void initNavBar(NavBar bar) {
         View view = inflate(R.layout.layout_main_user);
-        mIvAvatar = view.findViewById(R.id.main_ic_user);
+        View layout = view.findViewById(R.id.main_layout_user);
+        ViewGroup.LayoutParams params = LayoutUtil.getLinearParams(fitDp(App.NavBarVal.KHeightDp), fitDp(App.NavBarVal.KHeightDp));
+        layout.setLayoutParams(params);
+        mIvAvatar = view.findViewById(R.id.main_iv_user);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .url(Profile.inst().getString(TProfile.avatar))
                 .load();

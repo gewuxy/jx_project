@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:background="@drawable/item_selector"
         android:id="@+id/dialog_bottom_tv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/form_height"
