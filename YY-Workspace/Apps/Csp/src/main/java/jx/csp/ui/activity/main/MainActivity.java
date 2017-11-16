@@ -91,13 +91,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             if (!flag) {
                 // 网格
                 mIvShift.setSelected(false);
-                setCurrentItem(KPageGrid, false);
+                setCurrPosition(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
                 SpUser.inst().saveMainPage(KPageGrid);
             } else {
                 // 列表
                 mIvShift.setSelected(true);
-                setCurrentItem(KPageVp, false);
+                setCurrPosition(KPageVp, false);
                 mVpFrag.setPosition(mGridFrag.getPosition());
                 SpUser.inst().saveMainPage(KPageVp);
             }
@@ -134,7 +134,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 public void onGlobalLayout() {
                     int page = SpUser.inst().getMainAcVpPage();
                     if (page != 0) {
-                        setCurrentItem(page, false);
+                        setCurrPosition(page, false);
                         mVpFrag.setPosition(0);
                         mIvShift.setSelected(true);
                     }

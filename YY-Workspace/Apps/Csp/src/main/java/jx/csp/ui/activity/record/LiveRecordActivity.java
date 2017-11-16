@@ -142,12 +142,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
     @Override
     protected void skipToLast() {
-        setCurrentItem(getCurrPosition() - KOne);
+        setCurrPosition(getCurrPosition() - KOne);
     }
 
     @Override
     protected void skipToNext() {
-        setCurrentItem(getCurrPosition() + KOne);
+        setCurrPosition(getCurrPosition() + KOne);
     }
 
     @Override
@@ -281,7 +281,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             case LiveNotifyType.sync: {
                 int page = (int) data;
                 mWsPosition = page;
-                setCurrentItem(page);
+                setCurrPosition(page);
             }
             break;
             case LiveNotifyType.inquired: {
@@ -399,7 +399,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
                     int page = live.getInt(TLive.livePage);
                     if (page != 0) {
-                        setCurrentItem(page);
+                        setCurrPosition(page);
                     }
 
                     removeOnGlobalLayoutListener(this);
