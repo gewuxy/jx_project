@@ -7,9 +7,7 @@ import jx.csp.R;
 import jx.csp.contact.ContributePlatformContract;
 import jx.csp.model.Platform;
 import jx.csp.model.Platform.TPlatformDetail;
-import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
-import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.yy.contract.BasePresenterImpl;
 
@@ -23,11 +21,6 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
 
     public ContributePlatformPresenterImpl(ContributePlatformContract.V v) {
         super(v);
-    }
-
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
     }
 
     @Override

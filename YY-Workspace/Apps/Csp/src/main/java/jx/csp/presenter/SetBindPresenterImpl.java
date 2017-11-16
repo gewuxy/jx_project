@@ -33,48 +33,32 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
+        getView().onStopRefresh();
+        if (!r.isSucceed()) {
+            onNetworkError(id, r.getError());
+            return;
+        }
         switch (id) {
             case KBindEmailCode: {
-                getView().onStopRefresh();
-                if (r.isSucceed()) {
-
-                    getView().setBindEmailSuccessJump();
-                    getView().onFinish();
-                    App.showToast(R.string.setting_bind_email_succeed);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
+                getView().setBindEmailSuccessJump();
+                getView().onFinish();
+                App.showToast(R.string.setting_bind_email_succeed);
             }
             break;
             case KBindPhoneCode: {
-                getView().onStopRefresh();
-                if (r.isSucceed()) {
-                    saveBindPhone();
-                    getView().onFinish();
-                } else {
-                    onNetworkError(id, r.getError());
-                }
+                saveBindPhone();
+                getView().onFinish();
             }
             break;
             case KChangePwdCode: {
-                getView().onStopRefresh();
-                if (r.isSucceed()) {
-                    getView().onFinish();
-                    App.showToast(R.string.setting_change_pwd_succeed);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
+                getView().onFinish();
+                App.showToast(R.string.setting_change_pwd_succeed);
             }
             break;
             case KCaptchaCode: {
-                getView().onStopRefresh();
-                if (r.isSucceed()) {
-                    // 获取验证码
-                    getView().getCaptcha();
-                    App.showToast(R.string.account_send_captcha);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
+                // 获取验证码
+                getView().getCaptcha();
+                App.showToast(R.string.account_send_captcha);
             }
             break;
         }
