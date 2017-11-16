@@ -8,6 +8,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseWebViewActivity;
 import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
@@ -56,7 +57,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     public void setViews() {
         super.setViews();
 
-        if (mFileId != null) {
+        if (TextUtil.isNotEmpty(mFileId)) {
             mCollectionView = new CollectionViewImpl(getNavBar(), mFileId, mType, this);
             exeNetworkReq(ICollectionView.KIdDetail, DataAPI.collectionDetail(mFileId).build());
         }

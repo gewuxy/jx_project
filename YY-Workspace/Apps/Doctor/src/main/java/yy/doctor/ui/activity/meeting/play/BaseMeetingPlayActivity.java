@@ -64,9 +64,11 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     public final void initNavBar(NavBar bar) {
         bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> nativePortrait());
 
-        ViewGroup view = bar.addViewRight(R.drawable.meet_play_audio_selector, v -> mIvControlP.performClick());
+        if (getNavBarLandscape()) {
+            ViewGroup view = bar.addViewRight(R.drawable.meet_play_audio_selector, v -> mIvControlP.performClick());
 
-        mIvControlL = Util.getBarView(view, ImageView.class);
+            mIvControlL = Util.getBarView(view, ImageView.class);
+        }
 
         bar.setBackgroundColor(Color.BLACK);
         bar.setBackgroundAlpha(127);
@@ -185,7 +187,10 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
 
     protected void setPlayState(boolean state) {
         mIvControlP.setSelected(state);
-        mIvControlL.setSelected(state);
+        if (mIvControlL != null) {
+            // 录播横屏没有按钮
+            mIvControlL.setSelected(state);
+        }
     }
 
     protected void setTextComment(int num) {
@@ -236,12 +241,26 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
      */
     abstract protected void landscape();
 
+    /**
+     * 点击控制按钮
+     */
     abstract protected void toggle();
 
+    /**
+     * 控制按钮的选择器
+     */
     @DrawableRes
     abstract protected int getControlResId();
 
+    /**
+     * 横屏时操作
+     */
     protected abstract void showLandscapeView();
+
+    /**
+     * 横屏右上角按钮
+     */
+    abstract protected boolean getNavBarLandscape();
 
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)

@@ -27,6 +27,16 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
     }
 
     @Override
+    protected boolean getNavBarLandscape() {
+        return false;
+    }
+
+    @Override
+    protected int getControlResId() {
+        return R.drawable.meet_play_reb_select_control;
+    }
+
+    @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 

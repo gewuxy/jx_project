@@ -185,7 +185,6 @@ public class Util extends BaseUtil {
                     .route(App.getContext());
         } else {
             CommonWebViewActivityRouter.create(file.getString(TFile.materialName), htmlUrl)
-                    .fileId(id)
                     .type(fromType)
                     .route(App.getContext());
         }

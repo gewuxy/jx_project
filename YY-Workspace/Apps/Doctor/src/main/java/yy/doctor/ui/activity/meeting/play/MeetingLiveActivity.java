@@ -216,6 +216,11 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     }
 
     @Override
+    protected boolean getNavBarLandscape() {
+        return true;
+    }
+
+    @Override
     protected void portrait() {
         mViewPpt.setLayoutParams(mParamPpt);
         mViewLive.setLayoutParams(mParamLive);
