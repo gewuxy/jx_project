@@ -37,6 +37,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
 
     private final String TAG = getClass().getSimpleName();
     private final int KJoinMeetingReqId = 10;
+    private final int KUploadVideoPage = 20;  // 视频页翻页时调用的
     private final int KFifteen = 15; // 开始倒计时的分钟数
     private final int KMsgWhat = 10;
     private MediaRecorder mMediaRecorder;
@@ -46,7 +47,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private boolean mShowCountDownRemainTv = false; // 倒计时的Tv是否显示
     private boolean mOverFifteen = false;  // 是否在录制超过15分钟的音频
     private int mNum = 0;
-
     private String mFilePath;
 
     @SuppressLint("HandlerLeak")
@@ -85,7 +85,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     }
 
     @Override
-    public void getDataFromNet(String courseId) {
+    public void getData(String courseId) {
         exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(courseId).build());
     }
 
@@ -142,6 +142,11 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     }
 
     @Override
+    public void uploadVideoPage(String courseId, String courseDetailId) {
+        exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(courseId, courseDetailId).build());
+    }
+
+    @Override
     public void onDestroy() {
         mMediaRecorder = null;
         if (mCountDown != null) {
@@ -184,9 +189,11 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         if (id == KJoinMeetingReqId) {
             if (r.isSucceed()) {
                 getView().setData((JoinMeeting) r.getData());
+            } else {
+                onNetworkError(id, r.getError());
             }
         } else {
-            onNetworkError(id, r.getError());
+            super.onNetworkSuccess(id, r);
         }
     }
 }

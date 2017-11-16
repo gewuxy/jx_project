@@ -2,6 +2,7 @@ package jx.csp.ui.activity.record;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
@@ -24,8 +25,6 @@ import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Live;
 import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.LiveRecordPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
@@ -33,8 +32,6 @@ import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
@@ -104,7 +101,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
 
         //请求网络
-        mLiveRecordPresenterImpl.getDataFromNet(mCourseId);
+        mLiveRecordPresenterImpl.getData(mCourseId);
     }
 
     @Override
@@ -203,7 +200,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             } else {
                 YSLog.d(TAG, "上一页是视频  发同步指令 pos = " + position);
                 notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
-                exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id)).build());
+                mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id));
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
             Fragment f2 = getItem(position);
@@ -216,16 +213,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
         // 记录位置
         mLastPage = position;
-    }
-
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        super.onNetworkSuccess(id, r);
     }
 
     @Override
@@ -387,9 +374,11 @@ public class LiveRecordActivity extends BaseRecordActivity {
         public void setData(JoinMeeting joinMeeting) {
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
             mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
                 CourseDetail courseDetail = mCourseDetailList.get(i);
+                courseDetailIdArray.put(i, courseDetail.getString(TCourseDetail.id));
                 // 判断是视频还是图片
                 if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                     add(RecordImgFragRouter
@@ -401,6 +390,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
                             .route());
                 }
             }
+            mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
             // 先判断以前是否直播过，直播过的话要跳到对应的页面
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 

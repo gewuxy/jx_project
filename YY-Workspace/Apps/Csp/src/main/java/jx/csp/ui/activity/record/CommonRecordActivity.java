@@ -4,6 +4,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
+import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -27,7 +28,6 @@ import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Record;
 import jx.csp.model.meeting.Record.TRecord;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.network.JsonParser;
 import jx.csp.presenter.CommonRecordPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
@@ -37,8 +37,6 @@ import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
@@ -64,7 +62,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
-    private int mBeforeRecordTime = 0; // 录制总时间
 
     @IntDef({
             ScrollType.last,
@@ -113,7 +110,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mGestureView.setGestureViewListener(this);
 
         //请求网络
-        mRecordPresenter.getDataFromNet(mCourseId);
+        mRecordPresenter.getData(mCourseId);
     }
 
     @Override
@@ -240,16 +237,6 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         if (position != mWsPosition) {
             notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
         }
-    }
-
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        super.onNetworkSuccess(id, r);
     }
 
     @Override
@@ -435,11 +422,13 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         public void setData(JoinMeeting joinMeeting) {
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
             mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTitle = joinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
 
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
                 CourseDetail courseDetail = mCourseDetailList.get(i);
+                courseDetailIdArray.put(i, courseDetail.getString(TCourseDetail.id));
                 // 判断是视频还是图片 如果是图片的话看有没有以前的录制时间
                 if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                     RecordImgFrag frag = RecordImgFragRouter
@@ -455,6 +444,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                             .route());
                 }
             }
+            mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
             // 判断第一页是不是视频
             if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
                 mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);

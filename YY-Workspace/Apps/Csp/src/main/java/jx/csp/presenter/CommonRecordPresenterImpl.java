@@ -61,7 +61,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
     }
 
     @Override
-    public void getDataFromNet(String courseId) {
+    public void getData(String courseId) {
         exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(courseId).build());
     }
 

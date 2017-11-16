@@ -52,13 +52,15 @@ public interface LiveRecordContract {
 
     interface P extends IContract.Presenter<V> {
 
-        void getDataFromNet(String courseId);
+        void getData(String courseId);
 
         void startCountDown(long startTime, long stopTime);
 
         void startLiveRecord(String filePath);
 
         void stopLiveRecord();
+
+        void uploadVideoPage(String courseId, String courseDetailId);
     }
 
 }
