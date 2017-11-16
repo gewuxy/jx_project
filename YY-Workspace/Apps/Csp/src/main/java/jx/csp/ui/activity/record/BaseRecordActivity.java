@@ -22,7 +22,6 @@ import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
-import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
@@ -60,7 +59,6 @@ import lib.yy.ui.activity.base.BaseVpActivity;
 abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiveNotify, OnConnectListener {
 
     protected final int KMicroPermissionCode = 10;
-    protected final int KJoinMeetingReqId = 20;
     protected final int KUploadAudioReqId = 30;
     protected final int KUploadVideoPage = 40;  // 视频页翻页时调用的
     protected final int KOne = 1;
@@ -84,9 +82,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements OnLiv
 
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
-    protected JoinMeeting mJoinMeeting; // 全部数据
     protected List<CourseDetail> mCourseDetailList;
-
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
     private LinkedList<String> mUploadFilePathList; // 直播时上传音频地址列表，上传完删除
     private boolean mUploadState = false; // 是否在上传音频

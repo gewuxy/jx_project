@@ -8,13 +8,25 @@ import android.util.SparseArray;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
 import jx.csp.contact.CommonRecordContract;
+import jx.csp.model.meeting.Course.TCourse;
+import jx.csp.model.meeting.CourseDetail;
+import jx.csp.model.meeting.CourseDetail.TCourseDetail;
+import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
+import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 
@@ -28,7 +40,8 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
         RecordImgFrag.onMediaPlayerListener,
         CountDown.OnCountDownListener {
 
-    private final int KSixtySecond = 60;
+    private final int KSixtySecond = (int) TimeUnit.MINUTES.toSeconds(1);
+    private final int KJoinMeetingReqId = 10;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
 
@@ -44,13 +57,12 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
 
         mMediaRecorder = new MediaRecorder();
         mMediaPlayer = new MediaPlayer();
+        mRecordTimeArray = new SparseArray<>();
     }
 
     @Override
-    public void setBeforeRecordTime(int t, SparseArray<Integer> recordTimeArray) {
-        mTotalTime = t;
-        mRecordTimeArray = recordTimeArray;
-        getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
+    public void getDataFromNet(String courseId) {
+        exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(courseId).build());
     }
 
     @Override
@@ -167,5 +179,38 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<CommonRecordCon
 
     @Override
     public void onCountDownErr() {
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        if (id == KJoinMeetingReqId) {
+            return JsonParser.ev(resp.getText(), JoinMeeting.class);
+        } else {
+            return JsonParser.error(resp.getText());
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        if (id == KJoinMeetingReqId) {
+            if (r.isSucceed()) {
+                JoinMeeting joinMeeting = (JoinMeeting) r.getData();
+                List<CourseDetail> courseDetailList = (List<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+                for (int i = 0; i < courseDetailList.size(); ++i) {
+                    CourseDetail courseDetail = courseDetailList.get(i);
+                    if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
+                        int duration = courseDetail.getInt(TCourseDetail.duration);
+                        mTotalTime += duration;
+                        mRecordTimeArray.put(i, duration);
+                    } else {
+                        mRecordTimeArray.put(i, 0);
+                    }
+                }
+                getView().setData(joinMeeting);
+                getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
+            } else {
+                onNetworkError(id, r.getError());
+            }
+        }
     }
 }
