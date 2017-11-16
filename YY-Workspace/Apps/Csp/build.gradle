@@ -124,7 +124,7 @@ android {
 
         flavors_debug_en {
             manifestPlaceholders = [
-                    app_name          : "CSP(A_EN)",
+                    app_name          : "CSP(B_EN)",
                     app_type          : "en",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "c156b445984c689c292a8f8b5705e1b7",

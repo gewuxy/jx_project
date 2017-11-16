@@ -173,11 +173,6 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
     }
 
     @Override
-    protected int getControlResId() {
-        return R.drawable.meet_play_reb_select_control;
-    }
-
-    @Override
     protected void toLeft() {
         mFragReb.setCurrentItem(-1, getString(R.string.course_first));
     }

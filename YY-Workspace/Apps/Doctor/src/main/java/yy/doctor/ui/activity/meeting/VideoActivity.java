@@ -294,6 +294,7 @@ public class VideoActivity extends BaseActivity implements
             mTvTime.setText(Time.secondFormat(start, DateUnit.minute));
             mVideo.seekTo(start * TimeUnit.SECONDS.toMillis(1));
             mVideo.start();
+            mIvControl.setSelected(true);
             // 开始倒计时
             mVideo.prepared(residue);
         }

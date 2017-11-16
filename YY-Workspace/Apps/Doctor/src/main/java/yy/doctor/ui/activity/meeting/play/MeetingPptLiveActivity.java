@@ -40,6 +40,11 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
     }
 
     @Override
+    protected boolean getNavBarLandscape() {
+        return true;
+    }
+
+    @Override
     protected int getControlResId() {
         return R.drawable.meet_play_live_select_control;
     }

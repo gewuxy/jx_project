@@ -232,7 +232,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
                 if (data != null) {
                     data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
                 } else {
-                    showToast("取消支付");
+                    showToast(R.string.flow_rate_pay_fail);
                     return;
                 }
             }

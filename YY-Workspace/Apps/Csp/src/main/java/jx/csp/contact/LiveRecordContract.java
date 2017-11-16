@@ -3,6 +3,7 @@ package jx.csp.contact;
 import android.support.annotation.StringRes;
 
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.JoinMeeting;
 import lib.yy.contract.IContract;
 
 /**
@@ -13,6 +14,8 @@ import lib.yy.contract.IContract;
 public interface LiveRecordContract {
 
     interface V extends IContract.View {
+
+        void setData(JoinMeeting joinMeeting);
 
         /**
          * 直播的时间
@@ -48,6 +51,8 @@ public interface LiveRecordContract {
     }
 
     interface P extends IContract.Presenter<V> {
+
+        void getDataFromNet(String courseId);
 
         void startCountDown(long startTime, long stopTime);
 
