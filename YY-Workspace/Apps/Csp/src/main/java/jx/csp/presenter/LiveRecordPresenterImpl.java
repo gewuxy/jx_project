@@ -14,8 +14,13 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.JoinMeeting;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
@@ -26,9 +31,12 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/10/11
  */
 
-public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.V> implements LiveRecordContract.P, OnCountDownListener {
+public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.V> implements
+        LiveRecordContract.P,
+        OnCountDownListener {
 
     private final String TAG = getClass().getSimpleName();
+    private final int KJoinMeetingReqId = 10;
     private final int KFifteen = 15; // 开始倒计时的分钟数
     private final int KMsgWhat = 10;
     private MediaRecorder mMediaRecorder;
@@ -74,6 +82,11 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         super(view);
 
         mMediaRecorder = new MediaRecorder();
+    }
+
+    @Override
+    public void getDataFromNet(String courseId) {
+        exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(courseId).build());
     }
 
     @Override
@@ -157,4 +170,23 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     public void onCountDownErr() {
     }
 
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        if (id == KJoinMeetingReqId) {
+            return JsonParser.ev(resp.getText(), JoinMeeting.class);
+        } else {
+            return JsonParser.error(resp.getText());
+        }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        if (id == KJoinMeetingReqId) {
+            if (r.isSucceed()) {
+                getView().setData((JoinMeeting) r.getData());
+            }
+        } else {
+            onNetworkError(id, r.getError());
+        }
+    }
 }

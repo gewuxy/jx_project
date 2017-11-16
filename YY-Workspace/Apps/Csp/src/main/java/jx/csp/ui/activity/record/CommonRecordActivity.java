@@ -4,7 +4,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
-import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import jx.csp.model.meeting.Record;
 import jx.csp.model.meeting.Record.TRecord;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.CommonRecordPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
@@ -115,7 +113,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mGestureView.setGestureViewListener(this);
 
         //请求网络
-        exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(mCourseId).build());
+        mRecordPresenter.getDataFromNet(mCourseId);
     }
 
     @Override
@@ -246,78 +244,12 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        if (id == KJoinMeetingReqId) {
-            return JsonParser.ev(resp.getText(), JoinMeeting.class);
-        } else {
-            return JsonParser.error(resp.getText());
-        }
+        return JsonParser.error(resp.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        if (id == KJoinMeetingReqId) {
-            if (r.isSucceed()) {
-                mJoinMeeting = (JoinMeeting) r.getData();
-                SparseArray<Integer> recordTimeArray = new SparseArray<>();  // 存放录制过的的ppt对应的时长
-                String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
-                mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
-                mTitle = mJoinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
-                mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
-
-                for (int i = 0; i < mCourseDetailList.size(); ++i) {
-                    CourseDetail courseDetail = mCourseDetailList.get(i);
-                    // 判断是视频还是图片 如果是图片的话看有没有以前的录制时间
-                    if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
-                        RecordImgFrag frag = RecordImgFragRouter
-                                .create(courseDetail.getString(TCourseDetail.imgUrl))
-                                .audioFilePath(CacheUtil.getAudioPath(mCourseId, i))
-                                .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
-                                .route();
-                        frag.setPlayerListener(mRecordPresenter);
-                        add(frag);
-                        if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
-                            int duration = courseDetail.getInt(TCourseDetail.duration);
-                            mBeforeRecordTime += duration;
-                            recordTimeArray.put(i, duration);
-                        } else {
-                            recordTimeArray.put(i, 0);
-                        }
-                    } else {
-                        add(RecordVideoFragRouter
-                                .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
-                                .route());
-                    }
-                }
-                mRecordPresenter.setBeforeRecordTime(mBeforeRecordTime, recordTimeArray);
-                // 判断第一页是不是视频
-                if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
-                    mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
-                    mIvRecordState.setClickable(false);
-                }
-                // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        Record record = (Record) mJoinMeeting.getObject(TJoinMeeting.record);
-                        int page = record.getInt(TRecord.playPage);
-                        if (page != 0) {
-                            setCurrentItem(page);
-                        }
-
-                        removeOnGlobalLayoutListener(this);
-                    }
-                });
-
-                invalidate();
-                // 链接websocket
-                if (TextUtil.isNotEmpty(wsUrl)) {
-                    WebSocketServRouter.create(wsUrl).route(this);
-                }
-            }
-        } else {
-            super.onNetworkSuccess(id, r);
-        }
+        super.onNetworkSuccess(id, r);
     }
 
     @Override
@@ -498,6 +430,56 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     }
 
     private class View implements CommonRecordContract.View {
+
+        @Override
+        public void setData(JoinMeeting joinMeeting) {
+            String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
+            mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            mTitle = joinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
+            mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
+
+            for (int i = 0; i < mCourseDetailList.size(); ++i) {
+                CourseDetail courseDetail = mCourseDetailList.get(i);
+                // 判断是视频还是图片 如果是图片的话看有没有以前的录制时间
+                if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
+                    RecordImgFrag frag = RecordImgFragRouter
+                            .create(courseDetail.getString(TCourseDetail.imgUrl))
+                            .audioFilePath(CacheUtil.getAudioPath(mCourseId, i))
+                            .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
+                            .route();
+                    frag.setPlayerListener(mRecordPresenter);
+                    add(frag);
+                } else {
+                    add(RecordVideoFragRouter
+                            .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
+                            .route());
+                }
+            }
+            // 判断第一页是不是视频
+            if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
+                mIvRecordState.setClickable(false);
+            }
+            // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
+                    int page = record.getInt(TRecord.playPage);
+                    if (page != 0) {
+                        setCurrentItem(page);
+                    }
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
+
+            invalidate();
+            // 链接websocket
+            if (TextUtil.isNotEmpty(wsUrl)) {
+                WebSocketServRouter.create(wsUrl).route(CommonRecordActivity.this);
+            }
+        }
 
         @Override
         public void setTotalRecordTimeTv(String str) {

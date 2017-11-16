@@ -1,8 +1,8 @@
 package jx.csp.contact;
 
 import android.support.annotation.StringRes;
-import android.util.SparseArray;
 
+import jx.csp.model.meeting.JoinMeeting;
 import lib.yy.contract.IContract;
 
 /**
@@ -13,6 +13,8 @@ import lib.yy.contract.IContract;
 public interface CommonRecordContract {
 
     interface View extends IContract.View {
+
+        void setData(JoinMeeting joinMeeting);
 
         /**
          * 录制的总时间
@@ -37,7 +39,7 @@ public interface CommonRecordContract {
 
     interface Presenter extends IContract.Presenter<View> {
 
-        void setBeforeRecordTime(int t, SparseArray<Integer> recordTimeArray);
+        void getDataFromNet(String courseId);
 
         void startRecord(String filePath, int pos);
 

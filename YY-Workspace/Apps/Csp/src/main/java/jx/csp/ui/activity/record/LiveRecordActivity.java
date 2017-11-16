@@ -104,7 +104,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
 
         //请求网络
-        exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(mCourseId).build());
+        mLiveRecordPresenterImpl.getDataFromNet(mCourseId);
     }
 
     @Override
@@ -220,57 +220,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        if (id == KJoinMeetingReqId) {
-            return JsonParser.ev(resp.getText(), JoinMeeting.class);
-        } else {
-            return JsonParser.error(resp.getText());
-        }
+        return JsonParser.error(resp.getText());
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        if (id == KJoinMeetingReqId) {
-            if (r.isSucceed()) {
-                mJoinMeeting = (JoinMeeting) r.getData();
-                String wsUrl = mJoinMeeting.getString(TJoinMeeting.wsUrl);
-                mCourseDetailList = (ArrayList<CourseDetail>) mJoinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
-                mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
-                for (int i = 0; i < mCourseDetailList.size(); ++i) {
-                    CourseDetail courseDetail = mCourseDetailList.get(i);
-                    // 判断是视频还是图片
-                    if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
-                        add(RecordImgFragRouter
-                                .create(courseDetail.getString(TCourseDetail.imgUrl))
-                                .route());
-                    } else {
-                        add(RecordVideoFragRouter
-                                .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
-                                .route());
-                    }
-                }
-                // 先判断以前是否直播过，直播过的话要跳到对应的页面
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        Live live = (Live) mJoinMeeting.getObject(TJoinMeeting.live);
-                        int page = live.getInt(TLive.livePage);
-                        if (page != 0) {
-                            setCurrentItem(page);
-                        }
-
-                        removeOnGlobalLayoutListener(this);
-                    }
-                });
-                invalidate();
-                // 链接websocket
-                if (TextUtil.isNotEmpty(wsUrl)) {
-                    WebSocketServRouter.create(wsUrl).route(this);
-                }
-            }
-        } else {
-            super.onNetworkSuccess(id, r);
-        }
+        super.onNetworkSuccess(id, r);
     }
 
     @Override
@@ -427,6 +382,45 @@ public class LiveRecordActivity extends BaseRecordActivity {
     }
 
     private class View implements LiveRecordContract.V {
+
+        @Override
+        public void setData(JoinMeeting joinMeeting) {
+            String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
+            mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
+            for (int i = 0; i < mCourseDetailList.size(); ++i) {
+                CourseDetail courseDetail = mCourseDetailList.get(i);
+                // 判断是视频还是图片
+                if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
+                    add(RecordImgFragRouter
+                            .create(courseDetail.getString(TCourseDetail.imgUrl))
+                            .route());
+                } else {
+                    add(RecordVideoFragRouter
+                            .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
+                            .route());
+                }
+            }
+            // 先判断以前是否直播过，直播过的话要跳到对应的页面
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
+                    int page = live.getInt(TLive.livePage);
+                    if (page != 0) {
+                        setCurrentItem(page);
+                    }
+
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
+            invalidate();
+            // 链接websocket
+            if (TextUtil.isNotEmpty(wsUrl)) {
+                WebSocketServRouter.create(wsUrl).route(LiveRecordActivity.this);
+            }
+        }
 
         @Override
         public void setLiveTimeTv(String str) {

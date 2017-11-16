@@ -1,0 +1,31 @@
+{
+  "code": "0",
+  "data": {
+    "course": {
+      "id": 1,
+      "title": "测试标题",
+      "playType": 1,
+      "details": [
+        {
+          "id": 123,
+          "sort": 1,
+          "audioUrl": "http://10.0.0.250/course/audio/1.mp3",
+          "imgUrl": "http://10.0.0.250/course/ppt/1.jpg",
+          "videoUrl": "http://10.0.0.250/course/video/1.mp4"
+        }
+      ]
+    },
+    "live": {
+      "courseId": 1,
+      "startTime": "2017-09-20 00:00:00",
+      "endTime": "2017-09-20 01:00:00",
+      "liveState": 0
+    },
+    "record": {
+      "courseId": 1,
+      "playPage": 3,
+      "playState": 1
+    },
+    "wsUrl": "ws://10.0.0.250:8081/live/order"
+  }
+}
