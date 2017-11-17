@@ -10,8 +10,7 @@
     <lib.ys.view.CornerView
         android:layout_width="300dp"
         android:layout_height="146dp"
-        app:corner_radius="3dp"
-        app:corner_useStroke="false">
+        app:corner_radius="3dp">
 
         <LinearLayout
             android:id="@+id/dialog_layout_hint"
@@ -25,9 +24,9 @@
                 android:id="@+id/dialog_sec_tv_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
+                android:gravity="center_horizontal"
                 android:text="获取地理位置失败"
                 android:textColor="@color/text_333"
                 android:textSize="19dp"/>
@@ -36,10 +35,10 @@
                 android:id="@+id/dialog_sec_tv_sec"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/margin"
                 android:layout_marginRight="@dimen/margin"
                 android:layout_marginTop="12dp"
+                android:gravity="center_horizontal"
                 android:text="并检查地理位置权限是否已打开"
                 android:textColor="@color/text_666"
                 android:textSize="15dp"/>
@@ -54,8 +53,8 @@
             android:id="@id/dialog_layout_button"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:background="@color/white"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
             android:orientation="horizontal"/>
 
     </lib.ys.view.CornerView>

@@ -10,8 +10,7 @@
     <lib.ys.view.CornerView
         android:layout_width="300dp"
         android:layout_height="146dp"
-        app:corner_radius="3dp"
-        app:corner_useStroke="false">
+        app:corner_radius="6dp">
 
         <LinearLayout
             android:id="@+id/dialog_layout_hint"
@@ -29,8 +28,8 @@
             android:id="@id/dialog_layout_button"
             android:layout_width="match_parent"
             android:layout_height="46dp"
-            android:background="@color/white"
             android:layout_alignParentBottom="true"
+            android:background="@color/white"
             android:orientation="horizontal"/>
 
     </lib.ys.view.CornerView>

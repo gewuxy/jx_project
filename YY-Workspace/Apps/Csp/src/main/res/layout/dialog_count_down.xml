@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center">
 
     <lib.ys.view.CornerView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:corner_radius="5dp"
-        app:corner_useStroke="false"
-        android:background="@color/white_diaphaneity_fifty">
+        android:background="@color/white_diaphaneity_fifty"
+        app:corner_radius="5dp">
 
-    <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <lib.ys.view.ProgressView
-            android:id="@+id/dialog_count_down_progress_bar"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_default_loading"/>
+            <lib.ys.view.ProgressView
+                android:id="@+id/dialog_count_down_progress_bar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_default_loading"/>
 
-        <TextView
-            android:id="@+id/dialog_count_down_tv_second"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="12dp"
-            android:text="5s"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:visibility="gone"/>
+            <TextView
+                android:id="@+id/dialog_count_down_tv_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"
+                android:layout_marginTop="5dp"
+                android:text="5s"
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                android:visibility="gone"/>
 
-    </LinearLayout>
+        </LinearLayout>
 
     </lib.ys.view.CornerView>
 

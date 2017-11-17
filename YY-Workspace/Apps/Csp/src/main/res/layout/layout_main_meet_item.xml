@@ -17,8 +17,7 @@
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        app:corner_radius="6dp"
-        app:corner_useStroke="false">
+        app:corner_radius="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
