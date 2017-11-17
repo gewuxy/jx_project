@@ -14,12 +14,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jx.csp.R;
-import jx.csp.constant.LangType;
 import jx.csp.contact.FlowRateContract;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.FlowRatePresenterImpl;
-import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
@@ -146,10 +144,10 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         public void setActualPaymentMoney() {
             mFlowRate = mEtFlowRate.getText().toString().trim();
             String num = null;
-            if (SpApp.inst().getLangType() == LangType.en) {
-                num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate));
-            } else {
+            if (Util.checkAppCn()) {
                 num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate) * 2);
+            } else {
+                num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate));
             }
             mTvMoney.setText(num);
         }
