@@ -197,9 +197,9 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
         if (mBannerReqIsOK && mUnitNumReqIsOK && mMeetingReqIsOK) {
 
             if (mBanners != null && mBanners.size() > 0) {
-                mBannerView.setData(mBanners);
                 // 设置当前第一页的位置偏移, 支持初始化后直接手势右滑
                 mBannerView.initCurrentItem(mBanners.size() * 50);
+                mBannerView.setData(mBanners);
             }
 
             Result<IHome> ret = new Result();

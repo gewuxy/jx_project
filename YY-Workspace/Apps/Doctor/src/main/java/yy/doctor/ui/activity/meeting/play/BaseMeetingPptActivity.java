@@ -174,12 +174,12 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
     @Override
     protected void toLeft() {
-        mFragReb.setCurrentItem(-1, getString(R.string.course_first));
+        mFragReb.offsetPosition(-1, getString(R.string.course_first));
     }
 
     @Override
     protected void toRight() {
-        mFragReb.setCurrentItem(1, getString(R.string.course_last));
+        mFragReb.offsetPosition(1, getString(R.string.course_last));
     }
 
     @Override
@@ -236,7 +236,7 @@ abstract public class BaseMeetingPptActivity<V extends MeetingPptContract.View, 
 
                 @Override
                 public void onItemClick(View v, int position) {
-                    mFragReb.setCurrentItem(position);
+                    mFragReb.setCurrPosition(position);
                 }
 
             });

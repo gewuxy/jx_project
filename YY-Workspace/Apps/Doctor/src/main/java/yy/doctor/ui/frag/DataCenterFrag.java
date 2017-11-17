@@ -129,7 +129,7 @@ public class DataCenterFrag extends BaseVPFrag {
         if (mTabListener == null) {
             mTabListener = v1 -> {
                 setPreTab(v1);
-                setCurrentItem((Integer) v1.getTag());
+                setCurrPosition((Integer) v1.getTag());
             };
         }
 

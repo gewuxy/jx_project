@@ -100,7 +100,7 @@ public class MainActivity extends BaseVpActivity {
         setOffscreenPageLimit(getCount());
         setScrollable(false);
 
-        setCurrentItem(mCurrPage);
+        setCurrPosition(mCurrPage);
 
         // 判断是否已经绑定极光推送
         YSLog.d(TAG, " 是否重新绑定极光推送 " + SpJPush.inst().needRegisterJP());
@@ -168,13 +168,13 @@ public class MainActivity extends BaseVpActivity {
     private void addIndicator(final int index, @DrawableRes int drawableId, CharSequence text) {
         View v = inflate(R.layout.layout_main_tab);
 
-        ImageView iv = (ImageView) v.findViewById(R.id.main_tab_iv);
+        ImageView iv = v.findViewById(R.id.main_tab_iv);
         iv.setImageResource(drawableId);
 
-        TextView tv = (TextView) v.findViewById(R.id.main_tab_tv);
+        TextView tv = v.findViewById(R.id.main_tab_tv);
         tv.setText(text);
 
-        v.setOnClickListener(v1 -> setCurrentItem(index, false));
+        v.setOnClickListener(v1 -> setCurrPosition(index, false));
 
         if (index == KTabHome) {
             v.setSelected(true);

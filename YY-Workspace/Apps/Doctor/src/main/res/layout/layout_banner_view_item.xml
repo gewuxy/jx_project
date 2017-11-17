@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/banner_view_layout_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -8,11 +9,7 @@
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/banner_view_iv"
         android:layout_width="match_parent"
-        android:layout_height="138dp"/>
-
-    <View
-        android:layout_width="match_parent"
         android:layout_height="138dp"
-        android:background="@drawable/banner_selector"/>
+        app:niv_foreground="@drawable/banner_selector"/>
 
 </RelativeLayout>

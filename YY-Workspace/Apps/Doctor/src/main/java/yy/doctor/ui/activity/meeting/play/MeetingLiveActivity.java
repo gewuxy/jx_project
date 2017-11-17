@@ -201,12 +201,12 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
     @Override
     protected void toLeft() {
-        mFragPpt.setCurrentItem(-1, getString(R.string.course_first));
+        mFragPpt.offsetPosition(-1, getString(R.string.course_first));
     }
 
     @Override
     protected void toRight() {
-        mFragPpt.setCurrentItem(1, getString(R.string.course_last));
+        mFragPpt.offsetPosition(1, getString(R.string.course_last));
     }
 
     @NonNull
@@ -354,7 +354,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    mFragPpt.setCurrentItem(size - 1);
+                    mFragPpt.setCurrPosition(size - 1);
                     removeOnGlobalLayoutListener(this);
                 }
             });
@@ -374,7 +374,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
                             @Override
                             public void onGlobalLayout() {
-                                mFragPpt.setCurrentItem();
+                                mFragPpt.setToLastPosition();
                                 mPlayType = PlayType.live;
                                 removeOnGlobalLayoutListener(this);
                             }

@@ -50,7 +50,7 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
     protected void handler(int what) {
         switch (what) {
             case KWhatPass: {
-                getFragPpt().setCurrentItem(1, getString(R.string.course_last));
+                getFragPpt().offsetPosition(1, getString(R.string.course_last));
             }
             break;
         }

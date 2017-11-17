@@ -58,7 +58,7 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    getFragPpt().setCurrentItem();
+                    getFragPpt().setToLastPosition();
                     removeOnGlobalLayoutListener(this);
                 }
             });

@@ -183,16 +183,16 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ppt_layout: {
-                setCurrentItem();
+                setToLastPosition();
                 newVisibility(false);
             }
             break;
             case R.id.ppt_iv_left_landscape: {
-                setCurrentItem(-1, getString(R.string.course_first));
+                offsetPosition(-1, getString(R.string.course_first));
             }
             break;
             case R.id.ppt_iv_right_landscape: {
-                setCurrentItem(1, getString(R.string.course_last));
+                offsetPosition(1, getString(R.string.course_last));
             }
             break;
         }
@@ -257,21 +257,16 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         return (BaseCourseFrag) super.getItem(position);
     }
 
-    public void setCurrentItem() {
+    public void setToLastPosition() {
         if (mCourses != null) {
-            setCurrentItem(mCourses.size());
+            setCurrPosition(mCourses.size());
         }
     }
 
-    @Override
-    public void setCurrentItem(int position) {
-        super.setCurrentItem(position);
-    }
-
-    public void setCurrentItem(int offset, String content) {
+    public void offsetPosition(int offset, String content) {
         int position = getCurrPosition() + offset;
         if (position >= 0 && position <= getCount() - 1) {
-            setCurrentItem(position);
+            setCurrPosition(position);
         } else {
             showToast(content);
         }

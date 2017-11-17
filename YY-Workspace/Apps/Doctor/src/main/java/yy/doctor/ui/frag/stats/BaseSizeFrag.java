@@ -74,7 +74,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
         mTvTitle.setText(getTitle());
         mTvWeek.setTextColor(ResLoader.getColor(getTextColor()));
         mTvAll.setTextColor(ResLoader.getColor(getTextColor()));
-        setCurrentItem(KSize);
+        setCurrPosition(KSize);
         setOffscreenPageLimit(3);
         setOnPageChangeListener(this);
     }

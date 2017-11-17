@@ -181,7 +181,7 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         topicCaseVisibility(false);
-        setCurrentItem(position);
+        setCurrPosition(position);
     }
 
     @Override
@@ -213,7 +213,7 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
         if (getCurrPosition() == mTopics.size() - 1) {
             toSubmit(mTopics.size() - mCount);
         } else {
-            setCurrentItem(getCurrPosition() + 1);
+            setCurrPosition(getCurrPosition() + 1);
         }
     }
 

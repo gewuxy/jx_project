@@ -27,7 +27,6 @@ public class BannerAdapter extends PagerAdapterEx<Banner, BannerVH> {
 
     @Override
     protected void refreshView(int position, BannerVH holder) {
-
         Banner item = getItem(position);
         holder.getIv().placeHolder(R.drawable.ic_default_banner)
                 .url(item.getString(TBanner.pageUrl))

@@ -9,7 +9,8 @@
     <lib.ys.network.image.NetworkImageView
         android:id="@+id/meeting_detail_iv_play"
         android:layout_width="match_parent"
-        android:layout_height="226dp"/>
+        android:layout_height="226dp"
+        view:niv_foreground="@drawable/banner_selector"/>
 
     <RelativeLayout
         android:id="@+id/meeting_detail_layout_progress"
@@ -19,8 +20,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="42dp"
         android:layout_marginRight="@dimen/margin"
-        android:visibility="gone"
-        android:background="@drawable/meeting_detail_progress_bg">
+        android:background="@drawable/meeting_detail_progress_bg"
+        android:visibility="gone">
 
         <yy.doctor.view.CircleProgressView
             android:id="@+id/meeting_detail_v_progress"
@@ -64,10 +65,5 @@
             android:layout_marginRight="@dimen/margin"
             android:text="@string/default_time"/>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="226dp"
-        android:background="@drawable/banner_selector"/>
 
 </RelativeLayout>
