@@ -62,6 +62,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private CommonRecordPresenterImpl mRecordPresenter;
+    private int mWsPosition = 0;  // websocket接收到的页数
 
     @IntDef({
             ScrollType.last,

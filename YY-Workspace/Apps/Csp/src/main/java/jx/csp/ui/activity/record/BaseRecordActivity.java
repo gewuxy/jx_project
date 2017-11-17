@@ -79,11 +79,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     protected View mLayoutOnline;
     protected GestureView mGestureView;
 
-    protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
     protected List<CourseDetail> mCourseDetailList;
     protected AudioUploadPresenterImpl mAudioUploadPresenter;
-    protected int mWsPosition = 0;  // websocket接收到的页数
     private ConnectionReceiver mConnectionReceiver;
+    protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
 
     private ScaleTransformer mTransformer;
 
