@@ -1,12 +1,14 @@
 package jx.csp.ui.activity.record;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +36,6 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
-import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -69,6 +70,20 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private View mView;
     private String mFilePath; // 正在录制的音频文件名字
 
+    private final int KSendSyncMsgWhat = 1; // 发送同步指令
+    // 直播的时候翻页，在页面停留时间小于等于3秒不发同步指令，超过3秒才发同步指令
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == KSendSyncMsgWhat) {
+                YSLog.d(TAG, "收到延时3秒发同步指令 pos = " + msg.arg1);
+                notifyServ(LiveNotifyType.send_msg, msg.arg1, WsOrderType.sync);
+            }
+        }
+    };
+
     @Override
     public void initData(Bundle savedInstanceState) {
         super.initData(savedInstanceState);
@@ -93,7 +108,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         // 判断直播是否已经开始
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mLiveRecordPresenterImpl.startCountDown(mStartTime, mStopTime);
+            mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime);
             mTvStartRemain.setText(R.string.meeting_start_click_start_live);
         } else {
             setNavBarMidText(mTitle);
@@ -172,34 +187,28 @@ public class LiveRecordActivity extends BaseRecordActivity {
     protected void onDestroy() {
         super.onDestroy();
         mLiveRecordPresenterImpl.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void pageSelected(int position) {
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
+            // 先去除mHandler消息，再延时发送消息
+            mHandler.removeMessages(KSendSyncMsgWhat);
+            Message msg = new Message();
+            msg.what = KSendSyncMsgWhat;
+            msg.arg1 = position;
+            mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(3));
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
             // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
             Fragment f1 = getItem(mLastPage);
             if (f1 instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
-                if (mFilePath != null && (new File(mFilePath)).exists()) {
-                    byte[] bytes = FileUtil.fileToBytes(mFilePath);
-                    // 音频小于三秒的不发同步指令 1s差不多1500 byte
-                    if (bytes.length < 4500) {
-                        YSLog.d(TAG, "翻页时时间间隔小于3秒，不发同步指令");
-                    } else {
-                        if (position != mWsPosition) {
-                            YSLog.d(TAG, "上一页是录音  发同步指令 pos = " + position);
-                            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
-                        }
-                    }
-                }
                 // 上传上一页的音频 确保存在
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             } else {
-                YSLog.d(TAG, "上一页是视频  发同步指令 pos = " + position);
-                notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+                YSLog.d(TAG, "上一页是视频 调用接口 视频 pos = " + mLastPage);
                 mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id));
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
@@ -356,7 +365,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private void startCountDownAndLive(String filePath) {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mLiveRecordPresenterImpl.startCountDown(mStartTime, mStopTime);
+            mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime);
             // 如果点击开始直播是在视频页，不需要录音，在直播状态
             if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);

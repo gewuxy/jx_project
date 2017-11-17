@@ -6,17 +6,13 @@ import android.view.View;
 import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
-import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
-import lib.platform.listener.OnAuthListener;
-import lib.platform.model.AuthParams;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.yy.network.Result;
-import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 第三方登录
@@ -30,7 +26,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     private final int KIdWechatLogin = 3;
     private final int KIdSinaLogin = 4;
 
-    private String mUserName;
 
     @NonNull
     @Override
@@ -79,36 +74,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
             }
             break;
         }
-    }
-
-    private OnAuthListener newListener(int id, @BindId int type) {
-        return new OnAuthListener() {
-
-            @Override
-            public void onAuthSuccess(AuthParams params) {
-                String userGender = params.getGender();
-                String icon = params.getIcon();
-                String userId = params.getId();
-                mUserName = params.getName();
-
-                exeNetworkReq(id, UserAPI.login(type)
-                        .uniqueId(userId)
-                        .nickName(mUserName)
-                        .gender(userGender)
-                        .avatar(icon)
-                        .build());
-                showToast(R.string.auth_success);
-            }
-
-            @Override
-            public void onAuthError(String message) {
-                showToast(R.string.auth_fail + message);
-            }
-
-            @Override
-            public void onAuthCancel() {
-            }
-        };
     }
 
     @Override

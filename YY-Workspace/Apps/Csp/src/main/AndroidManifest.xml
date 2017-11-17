@@ -249,6 +249,12 @@
         <meta-data
             android:name="LINE_SECRET"
             android:value="${line_secret}"/>
+        <meta-data
+            android:name="FACEBOOK_KEY"
+            android:value="${facebook_key}"/>
+        <meta-data
+            android:name="FACEBOOK_SECRET"
+            android:value="${facebook_secret}"/>
 
     </application>
 
