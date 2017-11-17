@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">Csp</string>
+    <string name="app_name">CSPmeeting</string>
 
     <!-- 通用 -->
+    <string name="server_error">服务器错误</string>
+    <string name="sr_list_header_hint_normal">下拉刷新</string>
+    <string name="sr_list_header_hint_ready">松开刷新</string>
+    <string name="sr_list_header_hint_loading">加载中…</string>
+    <string name="network_click_retry">网络加载出错, 点击屏幕重试</string>
+    <string name="toast_network_abort">加载失败</string>
     <string name="connect_timeout">Overtime. Please check the connection.</string>
     <string name="network_disabled">Network disabled. Please check the connection.</string>
     <string name="user_photo_permission">Please re-check the authorization of camera.</string>
@@ -11,6 +17,9 @@
     <string name="cancel">No</string>
     <string name="well">OK</string>
     <string name="affirm">Yes</string>
+    <string name="toast_hint_input">请输入</string>
+    <string name="toast_hint_select">请选择</string>
+    <string name="toast_hint_upload">请上传</string>
 
     <!-- 直播间 -->
     <string name="online">Audience(s)</string>

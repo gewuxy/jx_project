@@ -32,6 +32,9 @@ public class NetworkApi {
         @Post("bindJPush")
         void bindJPush(String registrationId);
 
+        @Get("info")
+        void uploadProfileInfo();
+
         /**
          * 头像上传
          *

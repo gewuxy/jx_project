@@ -3,6 +3,7 @@ package jx.csp.sp;
 import android.content.Context;
 
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
 import lib.ys.util.sp.SpBase;
@@ -48,6 +49,21 @@ public class SpUser extends SpBase {
      */
     public void updateProfileRefreshTime() {
         save(SpUserKey.KProfileUpdateTime, System.currentTimeMillis());
+    }
+
+    /**
+     * 是否需要刷新个人数据, 暂定间隔为2小时
+     *
+     * @return
+     */
+    public boolean needUpdateProfile() {
+        long time = System.currentTimeMillis();
+        long diff = time - getLong(SpUserKey.KProfileUpdateTime);
+        if (diff >= TimeUnit.HOURS.toMillis(2)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -12,7 +12,7 @@ import lib.yy.contract.IContract;
 
 public interface CommonRecordContract {
 
-    interface View extends IContract.View {
+    interface V extends IContract.View {
 
         void setData(JoinMeeting joinMeeting);
 
@@ -37,7 +37,7 @@ public interface CommonRecordContract {
         void goneViceLine();
     }
 
-    interface Presenter extends IContract.Presenter<View> {
+    interface P extends IContract.Presenter<V> {
 
         void getData(String courseId);
 

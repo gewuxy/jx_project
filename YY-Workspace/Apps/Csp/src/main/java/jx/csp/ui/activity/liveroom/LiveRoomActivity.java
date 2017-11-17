@@ -78,8 +78,8 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
 
-    private LiveRoomContract.Presenter mPresenter;
-    private LiveRoomContract.View mView;
+    private LiveRoomContract.P mP;
+    private LiveRoomContract.V mV;
 
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
@@ -92,8 +92,8 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     public void initData(Bundle state) {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mView = new View();
-        mPresenter = new LiveRoomPresenterImpl(mView);
+        mV = new View();
+        mP = new LiveRoomPresenterImpl(mV);
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
 
         mConnectionReceiver = new ConnectionReceiver(this);
@@ -141,7 +141,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         //判断是否需要开始倒计时
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mPresenter.startCountDown(mStartTime, mRealStopTime);
+            mP.startCountDown(mStartTime, mRealStopTime);
         }
         // 连接websocket
         WebSocketServRouter.create(mWsUrl).route(this);
@@ -165,7 +165,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                     case TelephonyManager.CALL_STATE_OFFHOOK:
                         YSLog.d(TAG, "call state off hook " + state);
                         if (mLiveState) {
-                            mPresenter.stopLive();
+                            mP.stopLive();
                         }
                         break;
                 }
@@ -181,18 +181,18 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         switch (id) {
             case R.id.live_iv_back: {
                 if (mLiveState) {
-                    mPresenter.stopLive();
+                    mP.stopLive();
                     mLiveState = false;
                 }
                 finish();
             }
             break;
             case R.id.live_iv_silence: {
-                mPresenter.useMic();
+                mP.useMic();
             }
             break;
             case R.id.live_iv_switch_camera: {
-                mPresenter.switchCamera();
+                mP.switchCamera();
             }
             break;
             case R.id.live_tv_start: {
@@ -201,7 +201,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                 }
                 //判断直播时间是否到
                 if (mBeginCountDown) {
-                    mPresenter.startLive(mStreamId, mTitle);
+                    mP.startLive(mStreamId, mTitle);
                 } else {
                     startCountDownAndLive();
                 }
@@ -214,10 +214,10 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
                 //判断直播时间是否到 mTvStart是否已经隐藏
                 if (mBeginCountDown) {
                     if (mLiveState) {
-                        mPresenter.stopLive();
+                        mP.stopLive();
                         mLiveState = false;
                     } else {
-                        mPresenter.startLive(mStreamId, mTitle);
+                        mP.startLive(mStreamId, mTitle);
                     }
                 } else {
                     startCountDownAndLive();
@@ -240,7 +240,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
 
         mConnectionReceiver.unRegister();
         if (mLiveState) {
-            mPresenter.stopLive();
+            mP.stopLive();
             mLiveState = false;
         }
     }
@@ -248,8 +248,8 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     protected void startCountDownAndLive() {
         if (System.currentTimeMillis() >= mStartTime) {
             mBeginCountDown = true;
-            mPresenter.startCountDown(mStartTime, mRealStopTime);
-            mPresenter.startLive(mStreamId, mTitle);
+            mP.startCountDown(mStartTime, mRealStopTime);
+            mP.startLive(mStreamId, mTitle);
         } else {
             showToast(R.string.meeting_no_start_remain);
         }
@@ -265,7 +265,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
         mPhoneStateListener = null;
 
-        mPresenter.onDestroy();
+        mP.onDestroy();
 
         YSLog.d(TAG, "liveroomactivity WebSocketServRouter.stop");
         WebSocketServRouter.stop(this);
@@ -303,17 +303,32 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             break;
             case LiveNotifyType.flow_insufficient: {
                 // 流量不足警告
-                mIsFlowInsufficient = true;
-                mIsShowRemainingTimeTv = true;
-                showView(mTvRemainingTime);
-                mTvRemainingTime.setText(R.string.live_stream_insufficient);
+                if (!mIsFlowInsufficient) {
+                    YSLog.d(TAG, "收到流量不足警告");
+                    mIsFlowInsufficient = true;
+                    mIsShowRemainingTimeTv = true;
+                    showView(mTvRemainingTime);
+                    mTvRemainingTime.setText(R.string.live_stream_insufficient);
+                }
             }
             break;
             case LiveNotifyType.flow_run_out_of: {
+                YSLog.d(TAG, "收到流量耗尽通知");
+                // 流量耗尽
                 if (mLiveState) {
-                    mPresenter.stopLive();
+                    mP.stopLive();
                 }
                 finish();
+            }
+            break;
+            case LiveNotifyType.flow_sufficient: {
+                // 流量充足
+                if (mIsShowRemainingTimeTv) {
+                    YSLog.d(TAG, "收到流量充足消息");
+                    goneView(mTvRemainingTime);
+                    mIsShowRemainingTimeTv = false;
+                    mIsFlowInsufficient = false;
+                }
             }
             break;
         }
@@ -325,14 +340,14 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         if (type == TConnType.disconnect) {
             showToast(R.string.network_disabled);
             if (mLiveState) {
-                mPresenter.stopLive();
+                mP.stopLive();
             }
             finish();
         }
     }
 
     private void havePermissionState() {
-        mPresenter.initLiveRoom(mCourseId);
+        mP.initLiveRoom(mCourseId);
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);
@@ -359,7 +374,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
             // 如果在直播要先暂停，再退出页面
             if (mLiveState) {
-                mPresenter.stopLive();
+                mP.stopLive();
                 mLiveState = false;
             }
             sendWsMsg(WsOrderType.accept);
@@ -371,7 +386,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             public void onCountDown(long remainCount) {
                 if (remainCount == 0) {
                     if (mLiveState) {
-                        mPresenter.stopLive();
+                        mP.stopLive();
                         mLiveState = false;
                     }
                     sendWsMsg(WsOrderType.accept);
@@ -397,7 +412,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         LiveNotifier.inst().notify(LiveNotifyType.send_msg, msg.toJson());
     }
 
-    private class View implements LiveRoomContract.View {
+    private class View implements LiveRoomContract.V {
 
         @Override
         public TextureView getTextureView() {
@@ -466,7 +481,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         @Override
         public void onFinish() {
             if (mLiveState) {
-                mPresenter.stopLive();
+                mP.stopLive();
             }
             finish();
         }

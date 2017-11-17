@@ -86,7 +86,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        judge();
+        getPlatform();
     }
 
     @Override
@@ -131,6 +131,9 @@ public class ShareDialog extends BaseDialog {
         dismiss();
     }
 
+    /**
+     * 分享的url加密处理
+     */
     private void shareSignature() {
         // 拼接加密字符串
         LangType type = SpApp.inst().getLangType(); // 系统语言
@@ -151,17 +154,20 @@ public class ShareDialog extends BaseDialog {
                 .append("&abroad=")
                 .append(appType);
         Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
-        String http = BuildConfig.TEST ? des.hostDebuggable() : des.host();
+        String http = BuildConfig.DEBUG_NETWORK ? des.hostDebuggable() : des.host();
         try {
             mShareUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, paramBuffer.toString()), Constants.KEncoding_utf8);
             YSLog.d(TAG, "ShareUrl = " + mShareUrl);
         } catch (UnsupportedEncodingException e) {
             YSLog.e(TAG, "shareSignature", e);
-            // TODO: url= 官网??
+            mShareUrl = http + "meeting/share?signature=";
         }
     }
 
-    private void judge() {
+    /**
+     * 根据海内外不同平台动态添加
+     */
+    private void getPlatform() {
         GridView gridView = findView(R.id.share_gridview);
         ShareAdapter adapter = new ShareAdapter();
         int[] icons;

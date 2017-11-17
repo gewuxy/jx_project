@@ -25,6 +25,7 @@ public class LiveNotifier extends NotifierEx<OnLiveNotify> {
             LiveNotifyType.online_num,
             LiveNotifyType.flow_insufficient,
             LiveNotifyType.flow_run_out_of,
+            LiveNotifyType.flow_sufficient
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface LiveNotifyType {
@@ -36,6 +37,7 @@ public class LiveNotifier extends NotifierEx<OnLiveNotify> {
         int online_num = 6;  // 直播间在线人数 用于语音直播间
         int flow_insufficient = 7; // 流量不足预警  语音直播页面中接收 视频直播中接收到显示红色警告
         int flow_run_out_of = 8; // 流量耗尽通知  视频直播中接收 收到直接关闭视频
+        int flow_sufficient = 9; // 流量足够通知  视频直播接收 去除红色警告
     }
 
     @Override

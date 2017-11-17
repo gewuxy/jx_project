@@ -138,6 +138,11 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
                             WebSocketServ.this.notify(LiveNotifyType.flow_run_out_of);
                         }
                         break;
+                        case WsOrderType.flow_sufficient: {
+                            // 流量充足通知
+                            WebSocketServ.this.notify(LiveNotifyType.flow_sufficient);
+                        }
+                        break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

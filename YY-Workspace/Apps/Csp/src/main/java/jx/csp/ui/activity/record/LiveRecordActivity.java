@@ -56,6 +56,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private boolean mStopCountDown = false; // 是否开始进行结束倒计时
+    private boolean mIsReceiveFlowInsufficient = false; // 是否已经收到过流量不足警告
     private int mLastPage = 0; // 上一页的位置
 
     @Arg(opt = true)
@@ -284,10 +285,13 @@ public class LiveRecordActivity extends BaseRecordActivity {
             break;
             case LiveNotifyType.flow_insufficient: {
                 // 接收到流量不足警告
-                CommonDialog2 dialog = new CommonDialog2(this);
-                dialog.setHint(R.string.record_live_insufficient);
-                dialog.addBlueButton(R.string.ok);
-                dialog.show();
+                if (!mIsReceiveFlowInsufficient) {
+                    CommonDialog2 dialog = new CommonDialog2(this);
+                    dialog.setHint(R.string.record_live_insufficient);
+                    dialog.addBlueButton(R.string.ok);
+                    dialog.show();
+                    mIsReceiveFlowInsufficient = true;
+                }
             }
             break;
         }
