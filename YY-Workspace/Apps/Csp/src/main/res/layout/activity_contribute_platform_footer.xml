@@ -4,37 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <lib.ys.view.swipeRefresh.SRListLayout
-        android:id="@+id/sr_list_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/transparent"
-        android:divider="@drawable/divider"
-        android:dividerHeight="@dimen/divider_height_1px"
-        android:fadingEdge="none"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:listSelector="@drawable/transparent"
-        android:scrollingCache="false"/>
-
-    <RelativeLayout
-        android:id="@+id/list_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-    </RelativeLayout>
+    <include layout="@layout/layout_sr_scrollable_list"/>
 
     <TextView
         android:id="@+id/contribute_tv_tips"
         android:layout_width="224dp"
         android:layout_height="91dp"
-        android:layout_marginRight="@dimen/margin"
         android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:visibility="gone"
+        android:layout_marginRight="@dimen/margin"
         android:background="@drawable/bg_tv_tips"
+        android:gravity="center"
         android:text="@string/contribute_platform_hint_text"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/contribute_tv_platform"

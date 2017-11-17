@@ -4,24 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <lib.ys.view.swipeRefresh.SRListLayout
-        android:id="@+id/sr_list_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/transparent"
-        android:divider="@drawable/transparent"
-        android:dividerHeight="@dimen/divider_height_1px"
-        android:fadingEdge="none"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:listSelector="@drawable/transparent"
-        android:scrollingCache="false"/>
-
-    <RelativeLayout
-        android:id="@+id/list_empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
+    <include layout="@layout/layout_sr_scrollable_list"/>
 
     <TextView
         android:id="@+id/order_tv"
