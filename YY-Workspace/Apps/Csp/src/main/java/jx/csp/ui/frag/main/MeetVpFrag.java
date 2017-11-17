@@ -150,7 +150,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     @Override
     public void setPosition(int position) {
-        setCurrentItem(position);
+        setCurrPosition(position);
     }
 
     @Override
@@ -178,7 +178,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             }
             invalidate();
 
-            setCurrentItem(index);
+            setCurrPosition(index);
 
             showView(mLayoutSlideData);
             mTvTotalPage.setText(String.valueOf(mMeets.size()));

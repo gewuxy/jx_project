@@ -144,11 +144,8 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         LiveNotifier.inst().remove(this);
-
-        WebSocketServRouter.stop(this);
-        YSLog.d(TAG, "scan activity WebSocketServRouter.stop");
-
     }
 
     /**
@@ -203,10 +200,14 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void onLiveNotify(int type, Object data) {
         switch (type) {
             case LiveNotifyType.accept: {
+                WebSocketServRouter.stop(this);
+                YSLog.d(TAG, "scan activity accept WebSocketServRouter.stop");
                 joinRecord();
             }
             break;
             case LiveNotifyType.reject: {
+                WebSocketServRouter.stop(this);
+                YSLog.d(TAG, "scan activity reject WebSocketServRouter.stop");
                 showToast(R.string.join_fail);
             }
             break;

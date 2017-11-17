@@ -167,10 +167,10 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(getCurrPosition() - 1);
+                setCurrPosition(getCurrPosition() - 1);
             }
         } else {
-            setCurrentItem(getCurrPosition() - 1);
+            setCurrPosition(getCurrPosition() - 1);
         }
     }
 
@@ -186,10 +186,10 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             } else {
                 mRecordPresenter.stopRecord();
                 changeRecordState(false);
-                setCurrentItem(getCurrPosition() + 1);
+                setCurrPosition(getCurrPosition() + 1);
             }
         } else {
-            setCurrentItem(getCurrPosition() + 1);
+            setCurrPosition(getCurrPosition() + 1);
         }
     }
 
@@ -291,7 +291,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             case LiveNotifyType.sync: {
                 int page = (int) data;
                 mWsPosition = page;
-                setCurrentItem(page);
+                setCurrPosition(page);
             }
             break;
             case LiveNotifyType.inquired: {
@@ -366,9 +366,9 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             mShowSkipPageDialog = false;
             mRecordPresenter.stopRecord();
             if (scrollType == ScrollType.last) {
-                setCurrentItem(getCurrPosition() - 1);
+                setCurrPosition(getCurrPosition() - 1);
             } else {
-                setCurrentItem(getCurrPosition() + 1);
+                setCurrPosition(getCurrPosition() + 1);
             }
         });
         dialog.addBlueButton(R.string.cancel, v -> {
@@ -458,7 +458,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                     Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
                     int page = record.getInt(TRecord.playPage);
                     if (page != 0) {
-                        setCurrentItem(page);
+                        setCurrPosition(page);
                     }
                     removeOnGlobalLayoutListener(this);
                 }
