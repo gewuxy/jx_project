@@ -108,7 +108,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
             mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
                 if (mFlag == false) {
                     if (TextUtil.isEmpty(getEt().getText())) {
-                        showToast("不可保存为空");
+                        showToast(R.string.my_message_save_as_blank);
                     } else {
                         refresh(RefreshWay.dialog);
                         doSet();
