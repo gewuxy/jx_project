@@ -10,8 +10,7 @@
     <lib.ys.view.CornerView
         android:layout_width="266dp"
         android:layout_height="wrap_content"
-        app:corner_radius="@dimen/radius"
-        app:corner_useStroke="false">
+        app:corner_radius="@dimen/radius">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -10,6 +10,7 @@
 
     <color name="item_focus">#e8e8e8</color>
     <drawable name="item_focus">#e8e8e8</drawable>
+    <drawable name="item_foreground_focus">#64e8e8e8</drawable>
 
     <color name="divider">#f1f2f6</color>
 

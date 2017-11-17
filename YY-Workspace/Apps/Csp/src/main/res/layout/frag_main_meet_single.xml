@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal">
 
-    <!--使用CornerView会导致viewpager在使用transformer以后圆角绘制有问题-->
     <lib.ys.view.CornerView
         android:id="@+id/main_meet_single_layout"
         android:layout_width="match_parent"
         android:layout_height="474dp"
+        app:corner_foreground="@drawable/item_foreground_selector"
         app:corner_radius="6dp">
 
         <LinearLayout
@@ -138,4 +138,4 @@
 
     </lib.ys.view.CornerView>
 
-</LinearLayout>
+</FrameLayout>

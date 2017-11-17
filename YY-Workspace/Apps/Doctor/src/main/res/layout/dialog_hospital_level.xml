@@ -10,8 +10,7 @@
     <lib.ys.view.CornerView
         android:layout_width="300dp"
         android:layout_height="375dp"
-        app:corner_radius="@dimen/radius"
-        app:corner_useStroke="false">
+        app:corner_radius="@dimen/radius">
 
         <LinearLayout
             android:id="@+id/dialog_hospital_layout_levels"

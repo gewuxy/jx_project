@@ -17,13 +17,14 @@
         android:id="@+id/main_meet_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
+        app:corner_foreground="@drawable/item_foreground_selector"
         app:corner_radius="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="188dp"
             android:layout_gravity="center"
-            android:background="@drawable/item_selector"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <lib.ys.network.image.NetworkImageView
