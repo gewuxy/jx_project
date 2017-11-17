@@ -77,7 +77,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         setOnClickListener(R.id.main_meet_single_layout);
         setOnClickListener(R.id.main_meet_single_iv_live);
 
-        mIvCover.placeHolder(R.drawable.main_vp_ic_default)
+        mIvCover.placeHolder(R.drawable.ic_default_main_vp)
                 .url(mMeet.getString(TMeet.coverUrl))
                 .load();
 

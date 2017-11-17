@@ -25,7 +25,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
     protected void refreshView(int position, MeetGridVH holder) {
         Meet item = getItem(position);
         holder.getIvHead()
-                .placeHolder(R.drawable.main_grid_ic_default)
+                .placeHolder(R.drawable.ic_default_main_grid)
                 .url(item.getString(TMeet.coverUrl))
                 .load();
         holder.getTvTotalPage().setText(item.getString(TMeet.pageCount));
