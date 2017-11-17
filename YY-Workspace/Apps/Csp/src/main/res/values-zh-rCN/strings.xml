@@ -165,6 +165,7 @@
     <string name="my_message_input_nick_name">输入昵称</string>
     <string name="my_message_save">保存</string>
     <string name="my_message_save_success">保存成功</string>
+    <string name="my_message_save_as_blank">不可保存为空</string>
     <string name="my_message_take_photo">拍照</string>
     <string name="my_message_from_album_select">从相册选择</string>
 

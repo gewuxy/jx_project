@@ -165,6 +165,7 @@
     <string name="my_message_input_nick_name">Your Name</string>
     <string name="my_message_save">Save</string>
     <string name="my_message_save_success">Save Success</string>
+    <string name="my_message_save_as_blank">Can not be saved as blank</string>
     <string name="my_message_take_photo">Take a Photos</string>
     <string name="my_message_from_album_select">Select from Album</string>
 

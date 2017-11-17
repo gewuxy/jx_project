@@ -1,9 +1,6 @@
 package jx.csp.ui.activity.record;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -69,20 +66,6 @@ public class LiveRecordActivity extends BaseRecordActivity {
 
     private View mView;
     private String mFilePath; // 正在录制的音频文件名字
-
-    private final int KSendSyncMsgWhat = 1; // 发送同步指令
-    // 直播的时候翻页，在页面停留时间小于等于3秒不发同步指令，超过3秒才发同步指令
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == KSendSyncMsgWhat) {
-                YSLog.d(TAG, "收到延时3秒发同步指令 pos = " + msg.arg1);
-                notifyServ(LiveNotifyType.send_msg, msg.arg1, WsOrderType.sync);
-            }
-        }
-    };
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -186,20 +169,15 @@ public class LiveRecordActivity extends BaseRecordActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         mLiveRecordPresenterImpl.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
     }
 
     @Override
     protected void pageSelected(int position) {
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
-            // 先去除mHandler消息，再延时发送消息
-            mHandler.removeMessages(KSendSyncMsgWhat);
-            Message msg = new Message();
-            msg.what = KSendSyncMsgWhat;
-            msg.arg1 = position;
-            mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(3));
+            mLiveRecordPresenterImpl.pageChange(position);
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
             // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
             Fragment f1 = getItem(mLastPage);
@@ -289,7 +267,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         switch (type) {
             case LiveNotifyType.sync: {
                 int page = (int) data;
-                mWsPosition = page;
+                mLiveRecordPresenterImpl.setWsPos(page);
                 setCurrPosition(page);
             }
             break;
@@ -419,6 +397,11 @@ public class LiveRecordActivity extends BaseRecordActivity {
             if (TextUtil.isNotEmpty(wsUrl)) {
                 WebSocketServRouter.create(wsUrl).route(LiveRecordActivity.this);
             }
+        }
+
+        @Override
+        public void sendSyncInstructions(int pos) {
+            notifyServ(LiveNotifyType.send_msg, pos, WsOrderType.sync);
         }
 
         @Override

@@ -17,6 +17,8 @@ public interface LiveRecordContract {
 
         void setData(JoinMeeting joinMeeting);
 
+        void sendSyncInstructions(int pos);
+
         /**
          * 直播的时间
          */
@@ -53,6 +55,10 @@ public interface LiveRecordContract {
     interface P extends IContract.Presenter<V> {
 
         void getData(String courseId);
+
+        void pageChange(int pos);
+
+        void setWsPos(int pos);
 
         void startCountDown(long startTime, long stopTime);
 

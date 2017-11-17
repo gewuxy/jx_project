@@ -39,7 +39,8 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private final int KJoinMeetingReqId = 10;
     private final int KUploadVideoPage = 20;  // 视频页翻页时调用的
     private final int KFifteen = 15; // 开始倒计时的分钟数
-    private final int KMsgWhat = 10;
+    private final int KRecordMsgWhat = 1;
+    private final int KSendSyncMsgWhat = 2; // 发送同步指令
     private MediaRecorder mMediaRecorder;
     private CountDown mCountDown;
     private long mStartTime;
@@ -48,13 +49,14 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private boolean mOverFifteen = false;  // 是否在录制超过15分钟的音频
     private int mNum = 0;
     private String mFilePath;
+    private int mWsPosition = 0;  // websocket接收到的页数
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == KMsgWhat) {
+            if (msg.what == KRecordMsgWhat) {
                 YSLog.d(TAG, "收到15m倒计时结束指令");
                 // 先暂停录音，然后再开始录音，上传这15m的音频
                 mOverFifteen = true;
@@ -73,7 +75,18 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
                 String newFilePath = str + "-" + mNum + "." + AudioType.amr;
                 YSLog.d(TAG, "newFilePath = " + newFilePath);
                 startLiveRecord(newFilePath);
-                mHandler.sendEmptyMessageDelayed(KMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
+                mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
+            } else if (msg.what == KSendSyncMsgWhat) {
+                // 直播的时候翻页，在页面停留时间小于3秒不发同步指令，超过3秒才发同步指令
+                // 如果当前页跟网页段发来的是同一页。则不发同步指令
+                int pos = msg.arg1;
+                YSLog.d(TAG, "收到延时3秒指令 pos = " + pos);
+                if (mWsPosition != pos) {
+                    YSLog.d(TAG, "跟网页端的页数不一样，发同步指令");
+                    getView().sendSyncInstructions(pos);
+                } else {
+                    YSLog.d(TAG, "跟网页端的页数一样，不发同步指令");
+                }
             }
         }
     };
@@ -90,6 +103,21 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     }
 
     @Override
+    public void pageChange(int pos) {
+        // 先去除mHandler的对应消息，再延时发送消息
+        mHandler.removeMessages(KSendSyncMsgWhat);
+        Message msg = new Message();
+        msg.what = KSendSyncMsgWhat;
+        msg.arg1 = pos;
+        mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(3));
+    }
+
+    @Override
+    public void setWsPos(int pos) {
+        mWsPosition = pos;
+    }
+
+    @Override
     public void startCountDown(long startTime, long stopTime) {
         mStartTime = startTime;
         mStopTime = stopTime;
@@ -100,6 +128,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
 
     @Override
     public void startLiveRecord(String filePath) {
+        mHandler.removeMessages(KRecordMsgWhat);
         if (!filePath.contains("-")) {
             YSLog.d(TAG, "不包含-");
             mOverFifteen = false;
@@ -119,7 +148,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
             getView().setAudioFilePath(mFilePath);
             getView().startRecordState();
             // 直播的时候每页只能录音15分钟，到15分钟的时候要要先上传这15分钟的音频
-            mHandler.sendEmptyMessageDelayed(KMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
+            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
             getView().startRecordState();
         } catch (IOException e) {
             getView().showToast(R.string.record_fail);
@@ -134,7 +163,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
             YSLog.d(TAG, "stopLiveRecord time = " + System.currentTimeMillis());
         }
         getView().stopRecordState();
-        mHandler.removeMessages(KMsgWhat);
+        mHandler.removeMessages(KRecordMsgWhat);
         if (!mOverFifteen) {
             mNum = 0;
         }
