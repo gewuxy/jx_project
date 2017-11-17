@@ -122,7 +122,6 @@ public class MobProvider implements Provider {
             case facebook:{
                 name = Facebook.NAME;
                 id = "9";
-                // FIXME: 2017/11/7 得到的字段有出入，facebook账号被封了，没法查证，也没写到build里面
                 hashMap.put("ConsumerKey",key);
                 hashMap.put("ConsumerSecret",secret);
                 hashMap.put("RedirectUrl", "https://www.baidu.com");
@@ -164,32 +163,8 @@ public class MobProvider implements Provider {
                 }
             }
             break;
-            case wechat_friend: {
-                p = ShareSDK.getPlatform(WechatMoments.NAME);
-            }
-            break;
-            case line: {
-                p = ShareSDK.getPlatform(Line.NAME);
-            }
-            break;
-            case linkedin: {
-                p = ShareSDK.getPlatform(LinkedIn.NAME);
-            }
-            break;
-            case qq: {
-                p = ShareSDK.getPlatform(QQ.NAME);
-            }
-            break;
-            case qzone: {
-                p = ShareSDK.getPlatform(QZone.NAME);
-            }
-            break;
             case twitter: {
                 p = ShareSDK.getPlatform(Twitter.NAME);
-            }
-            break;
-            case sms: {
-                p = ShareSDK.getPlatform(ShortMessage.NAME);
             }
             break;
         }

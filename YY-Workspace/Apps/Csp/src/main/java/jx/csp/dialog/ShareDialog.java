@@ -86,7 +86,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        judge();
+        getPlatform();
     }
 
     @Override
@@ -131,6 +131,9 @@ public class ShareDialog extends BaseDialog {
         dismiss();
     }
 
+    /**
+     * 分享的url加密处理
+     */
     private void shareSignature() {
         // 拼接加密字符串
         LangType type = SpApp.inst().getLangType(); // 系统语言
@@ -161,7 +164,10 @@ public class ShareDialog extends BaseDialog {
         }
     }
 
-    private void judge() {
+    /**
+     * 根据海内外不同平台动态添加
+     */
+    private void getPlatform() {
         GridView gridView = findView(R.id.share_gridview);
         ShareAdapter adapter = new ShareAdapter();
         int[] icons;
