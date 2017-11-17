@@ -11,6 +11,7 @@ import com.pili.pldroid.player.widget.PLVideoView;
 import java.io.File;
 
 import jx.csp.R;
+import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.model.login.LoginVideo;
 import jx.csp.model.login.LoginVideo.TLoginVideo;
@@ -24,6 +25,8 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.platform.listener.OnAuthListener;
+import lib.platform.model.AuthParams;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
@@ -38,9 +41,8 @@ import lib.yy.ui.activity.base.BaseActivity;
 
 abstract public class BaseAuthLoginActivity extends BaseActivity {
 
-    private final int KLoginVideo = 1;
-
     private final int KInitVersion = 0; // 首次访问此接口，version = 0
+    private final int KLoginVideo = 1;
 
     private PLVideoTextureView mVideo;
 
@@ -102,6 +104,36 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             }
             break;
         }
+    }
+
+    public OnAuthListener newListener(int id, @BindId int type) {
+        return new OnAuthListener() {
+
+            @Override
+            public void onAuthSuccess(AuthParams params) {
+                String userGender = params.getGender();
+                String icon = params.getIcon();
+                String userId = params.getId();
+                String userName = params.getName();
+
+                exeNetworkReq(id, UserAPI.login(type)
+                        .uniqueId(userId)
+                        .nickName(userName)
+                        .gender(userGender)
+                        .avatar(icon)
+                        .build());
+                showToast(R.string.auth_success);
+            }
+
+            @Override
+            public void onAuthError(String message) {
+                showToast(R.string.auth_fail + message);
+            }
+
+            @Override
+            public void onAuthCancel() {
+            }
+        };
     }
 
     @Override

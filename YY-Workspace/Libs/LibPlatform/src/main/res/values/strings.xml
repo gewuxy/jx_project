@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LibShare</string>
+    <string name="name">LibShare</string>
     <string name="wx_check_app">You have not installed the WeChat client</string>
     <string name="whatsapp_check_app">You have not installed the whatsapp client</string>
     <string name="line_check_app">You have not installed the line client</string>

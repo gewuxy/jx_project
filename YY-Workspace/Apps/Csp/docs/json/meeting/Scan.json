@@ -1,0 +1,12 @@
+ // 接口文档返回
+ // 示例一
+{
+    "code":"0",
+    "data":{
+        "courseId":1,
+        "playType":0,
+        "duplicate":0,
+        "coverUrl":"http://10.0.0.250/course/1/1.jpg",
+        "title":"测试会议"
+    }
+}

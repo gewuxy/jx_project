@@ -44,6 +44,7 @@ public class MobProvider implements Provider {
         init(Type.twitter, getVal("TWITTER_KEY"), getVal("TWITTER_SECRET"));
         init(Type.linkedin, getVal("LINKIN_APIKEY"), getVal("LINKIN_SECRETKEY"));
         init(Type.line, getVal("LINE_ID"), getVal("LINE_SECRET"));
+        init(Type.facebook, getVal("FACEBOOK_KEY"), getVal("FACEBOOK_SECRET"));
     }
 
     private String getVal(String key) {
@@ -62,7 +63,7 @@ public class MobProvider implements Provider {
                 id = "1";
                 hashMap.put("AppKey", key);
                 hashMap.put("AppSecret", secret);
-                hashMap.put("RedirectUrl", "http://medcn.synology.me:8889/mgr/oauth/callback?thirdPartyId=2");
+                hashMap.put("RedirectUrl", "http://www.cspmeeting.cn/mgr/oauth/callback?thirdPartyId=2");
                 hashMap.put("ShareByAppClient", "true");
                 hashMap.put("ShareByWebApi", "false");
             }
@@ -124,7 +125,7 @@ public class MobProvider implements Provider {
                 // FIXME: 2017/11/7 得到的字段有出入，facebook账号被封了，没法查证，也没写到build里面
                 hashMap.put("ConsumerKey",key);
                 hashMap.put("ConsumerSecret",secret);
-                hashMap.put("RedirectUrl", "https://mob.com");
+                hashMap.put("RedirectUrl", "https://www.baidu.com");
                 hashMap.put("ShareByAppClient", "true");
             }
             break;

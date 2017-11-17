@@ -119,6 +119,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
         }
 
@@ -138,6 +140,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
             applicationIdSuffix ".en"
         }
@@ -158,6 +162,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
         }
 
@@ -177,6 +183,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
             applicationIdSuffix ".en"
         }
@@ -197,6 +205,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
         }
 
@@ -216,6 +226,8 @@ android {
                     linkedin_secretkey: "Xs3H202AB9tyJpu5",
                     line_id           : "\\1541221136",
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
+                    facebook_key       : "\\263615967498316",
+                    facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
             applicationIdSuffix ".en"
         }
