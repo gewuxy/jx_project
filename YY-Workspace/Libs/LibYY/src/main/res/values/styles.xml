@@ -10,7 +10,7 @@
     <style name="divider.vertical">
         <item name="android:layout_width">@dimen/divider_height_1px</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/text_sr_list_header</item>
+        <item name="android:background">@drawable/divider</item>
     </style>
 
 </resources>
