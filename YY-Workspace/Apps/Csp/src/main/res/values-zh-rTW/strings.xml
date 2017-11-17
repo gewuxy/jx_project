@@ -65,7 +65,7 @@
     <string name="login_sina">微博登錄</string>
     <string name="login_jx">敬信數字平台登錄</string>
     <string name="have_agree_to">登錄即表示您已同意</string>
-    <string name="protocol">《CSPmeeting服務協議》</string>
+    <string name="protocol">《會講服務協議》</string>
     <string name="other_login_type">其他登錄方式</string>
     <string name="Register_indicate_have_read">註冊表示您已閱讀，並同意</string>
     <string name="mobilephone">手機</string>
