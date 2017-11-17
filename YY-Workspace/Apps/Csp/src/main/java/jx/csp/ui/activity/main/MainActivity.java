@@ -15,6 +15,8 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpUser;
@@ -26,6 +28,8 @@ import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
 import lib.ys.network.image.NetworkImageView;
@@ -138,12 +142,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         mVpFrag.setPosition(0);
                         mIvShift.setSelected(true);
                     }
-
                     removeOnGlobalLayoutListener(this);
                 }
             });
         });
-
+        // 静默更新用户数据
+        if (SpUser.inst().needUpdateProfile()) {
+            YSLog.d(TAG, "更新个人数据");
+            exeNetworkReq(UserAPI.uploadProfileInfo().build());
+        }
         LiveNotifier.inst().add(this);
     }
 
@@ -151,6 +158,21 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public void onClick(View v) {
         if (checkPermission(0, Permission.camera)) {
             startActivity(ScanActivity.class);
+        }
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        if (r.isSucceed()) {
+            YSLog.d(TAG, "个人数据更新成功");
+            SpUser.inst().updateProfileRefreshTime();
+            Profile.inst().update((Profile) r.getData());
+            notify(NotifyType.profile_change);
         }
     }
 

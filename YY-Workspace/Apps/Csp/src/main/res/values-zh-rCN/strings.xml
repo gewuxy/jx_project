@@ -1,7 +1,13 @@
 <resources>
-    <string name="app_name">Csp</string>
+    <string name="app_name">会讲</string>
 
     <!-- 通用 -->
+    <string name="server_error">服务器错误</string>
+    <string name="sr_list_header_hint_normal">下拉刷新</string>
+    <string name="sr_list_header_hint_ready">松开刷新</string>
+    <string name="sr_list_header_hint_loading">加载中…</string>
+    <string name="network_click_retry">网络加载出错, 点击屏幕重试</string>
+    <string name="toast_network_abort">加载失败</string>
     <string name="connect_timeout">超时，请检查当前网络</string>
     <string name="network_disabled">当前网络不可用，请检查网络配置</string>
     <string name="user_photo_permission">请开启拍照权限</string>
@@ -11,6 +17,9 @@
     <string name="cancel">取消</string>
     <string name="well">好</string>
     <string name="affirm">确认</string>
+    <string name="toast_hint_input">请输入</string>
+    <string name="toast_hint_select">请选择</string>
+    <string name="toast_hint_upload">请上传</string>
 
     <!-- 直播间 -->
     <string name="online">在线</string>

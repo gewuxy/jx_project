@@ -10,7 +10,7 @@ import lib.yy.contract.IContract;
  */
 public interface LiveRoomContract {
 
-    interface View extends IContract.View {
+    interface V extends IContract.View {
 
         TextureView getTextureView();
 
@@ -31,7 +31,7 @@ public interface LiveRoomContract {
         void onFinish();
     }
 
-    interface Presenter extends IContract.Presenter<View> {
+    interface P extends IContract.Presenter<V> {
 
         void initLiveRoom(String roomId);
 

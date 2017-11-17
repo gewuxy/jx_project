@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.App;
 import jx.csp.BuildConfig;
 import jx.csp.contact.LiveRoomContract;
+import jx.csp.contact.LiveRoomContract.V;
 import jx.csp.model.Profile;
 import jx.csp.util.Util;
 import lib.live.ILiveCallback;
@@ -21,7 +22,9 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/22
  */
 
-public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.View> implements LiveRoomContract.Presenter, OnCountDownListener {
+public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
+        LiveRoomContract.P,
+        OnCountDownListener {
 
     private static final String TAG = "LiveRoomPresenterImpl";
     private final int KFifteen = 15;  // 开始倒计时的分钟数
@@ -36,8 +39,8 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<LiveRoomContract.Vi
 
     private LiveCallbackImpl mZegoCallbackImpl;
 
-    public LiveRoomPresenterImpl(LiveRoomContract.View view) {
-        super(view);
+    public LiveRoomPresenterImpl(V v) {
+        super(v);
 
         LiveApi.getInst().init(App.getContext(), Profile.inst().getUserId(), Profile.inst().getUserName());
         mZegoCallbackImpl = new LiveCallbackImpl();

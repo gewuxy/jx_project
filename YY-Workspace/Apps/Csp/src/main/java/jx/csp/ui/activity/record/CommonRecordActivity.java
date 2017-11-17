@@ -417,7 +417,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mIvRecordState.setSelected(mRecordState);
     }
 
-    private class View implements CommonRecordContract.View {
+    private class View implements CommonRecordContract.V {
 
         @Override
         public void setData(JoinMeeting joinMeeting) {

@@ -30,8 +30,6 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 .load();
         holder.getTvTotalPage().setText(item.getString(TMeet.pageCount));
         holder.getTvTitle().setText(item.getString(TMeet.title));
-        long startTime = item.getLong(TMeet.startTime);
-        long stopTime = item.getLong(TMeet.endTime);
         switch (item.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 holder.getTvTime().setText(item.getString(TMeet.playTime));
@@ -40,34 +38,39 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 goneView(holder.getIvLive());
             }
             break;
-            case PlayType.live:
+            case PlayType.live: {
+                goneView(holder.getIvLive());
+                liveState(holder, item);
+            }
+            break;
             case PlayType.video: {
-                if (item.getInt(TMeet.playType) == PlayType.live) {
-                    goneView(holder.getIvLive());
-                }
-                holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
-                if (startTime > System.currentTimeMillis()) {
-                    holder.getTvPlayState().setText(R.string.solive);
-                    //直播未开始状态的开始时间转换
-                   /* Date d = new Date(Long.parseLong(item.getString(TMeet.startTime)));
-                    SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
-                    holder.getTvTime().setText(data.format(d));*/
-                    holder.getTvTime().setText(TimeFormatter.milli(item.getString(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
-                    holder.getTvPlayState().setText(R.string.live);
-                    holder.getTvTime().setText(item.getString(TMeet.playTime));
-                } else {
-                    goneView(holder.getTvCurrentPage());
-                    goneView(holder.getVDivider());
-                    goneView(holder.getTvPlayState());
-                    goneView(holder.getIvLive());
-                    holder.getTvTime().setText(item.getString(TMeet.playTime));
-                }
+                showView(holder.getIvLive());
+                liveState(holder, item);
             }
             break;
         }
         setOnViewClickListener(position, holder.getItemLayout());
         setOnViewClickListener(position, holder.getIvShare());
         setOnViewClickListener(position, holder.getIvLive());
+    }
+
+    private void liveState(MeetGridVH holder, Meet item) {
+        holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
+        long startTime = item.getLong(TMeet.startTime);
+        long stopTime = item.getLong(TMeet.endTime);
+        if (startTime > System.currentTimeMillis()) {
+            holder.getTvPlayState().setText(R.string.solive);
+            //直播未开始状态的开始时间转换
+            holder.getTvTime().setText(TimeFormatter.milli(item.getString(TMeet.startTime), TimeFormat.form_MM_dd_24));
+        } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
+            holder.getTvPlayState().setText(R.string.live);
+            holder.getTvTime().setText(item.getString(TMeet.playTime));
+        } else {
+            goneView(holder.getTvCurrentPage());
+            goneView(holder.getVDivider());
+            goneView(holder.getTvPlayState());
+            goneView(holder.getIvLive());
+            holder.getTvTime().setText(item.getString(TMeet.playTime));
+        }
     }
 }
