@@ -68,7 +68,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
     private List<RecUnitNum> mRecUnitNums;
     private List<IHome> mRecMeetings;
-    private List<String> mBanners;
+    private List<Banner> mBanners;
 
     private View mViewNotice;
     private BadgeView mBadgeView;
@@ -198,8 +198,8 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
             if (mBanners != null && mBanners.size() > 0) {
                 // 设置当前第一页的位置偏移, 支持初始化后直接手势右滑
-                mBannerView.initCurrentItem(mBanners.size() * 50);
                 mBannerView.setData(mBanners);
+                mBannerView.initCurrentItem(mBanners.size() * 50);
             }
 
             Result<IHome> ret = new Result();
