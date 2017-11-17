@@ -120,6 +120,9 @@
     <string name="share_title">我正在用CSPmeeting講《%s》</string>
     <string name="share_text">用手機講PPT,隨講隨錄隨分享,你的智慧將被更多人看的見!</string>
     <string name="ensure_delete">確認刪除？</string>
+    <string name="wx_check_app">您尚未安裝微信客戶端</string>
+    <string name="whatsapp_check_app">您尚未安裝whatsapp客戶端</string>
+    <string name="line_check_app">您尚未安裝line客戶端</string>
 
     <!--首页-->
     <string name="living">直播會議正在進行中...</string>

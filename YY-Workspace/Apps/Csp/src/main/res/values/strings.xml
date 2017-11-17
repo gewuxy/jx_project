@@ -120,6 +120,9 @@
     <string name="share_title">I\'m using CSPmeeting to present 《%s》</string>
     <string name="share_text">Presentation with mobile. Presenting with recording and sharing - a bigger stage for your insights!</string>
     <string name="ensure_delete">Delete?</string>
+    <string name="wx_check_app">You have not installed the WeChat client</string>
+    <string name="whatsapp_check_app">You have not installed the whatsapp client</string>
+    <string name="line_check_app">You have not installed the line client</string>
 
     <!--首页-->
     <string name="living">Live stream is proceeding...</string>
