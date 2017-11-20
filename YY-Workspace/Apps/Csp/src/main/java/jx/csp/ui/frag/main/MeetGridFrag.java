@@ -103,11 +103,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         return inflate(R.layout.layout_main_empty_footer);
     }
 
-    @Override
-    protected String getEmptyText() {
-        return getString(R.string.ready);
-    }
-
     public void setListener(OnMeetGridListener listener) {
         mListener = listener;
     }

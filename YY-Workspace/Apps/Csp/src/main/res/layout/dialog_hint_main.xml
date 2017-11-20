@@ -10,41 +10,48 @@
     <lib.ys.view.CornerView
         android:layout_width="300dp"
         android:layout_height="146dp"
-        app:corner_radius="3dp">
+        android:background="@color/white"
+        app:corner_radius="6dp">
 
         <LinearLayout
-            android:id="@+id/dialog_layout_hint"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="@color/white"
-            android:gravity="center"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/dialog_main_tv_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
+            <LinearLayout
+                android:id="@+id/dialog_layout_hint"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/white"
                 android:gravity="center"
-                android:lineSpacingExtra="@dimen/margin"
-                android:text="确定退出当前账号"
-                android:textColor="@color/text_333"
-                android:textSize="19dp"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dialog_main_tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin"
+                    android:text="确定退出当前账号"
+                    android:textColor="@color/text_333"
+                    android:textSize="19dp"/>
+
+            </LinearLayout>
+
+            <View
+                style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@id/dialog_layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"/>
 
         </LinearLayout>
 
-        <View
-            style="@style/divider"
-            android:layout_above="@+id/dialog_layout_button"/>
-
-        <LinearLayout
-            android:id="@id/dialog_layout_button"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white"
-            android:orientation="horizontal"/>
-
     </lib.ys.view.CornerView>
+
 </LinearLayout>
