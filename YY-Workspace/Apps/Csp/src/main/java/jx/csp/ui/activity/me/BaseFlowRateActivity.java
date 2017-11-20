@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -203,9 +202,8 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
         @Override
         public void setSurplusFlowRate() {
-            BigDecimal bd = new BigDecimal(Profile.inst().getInt(TProfile.flux) / KFlowConversion);
-            double flux = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            mTvSurplus.setText(flux + KSurplusFlowUnit);
+            double flux = Profile.inst().getInt(TProfile.flux) / KFlowConversion;
+            mTvSurplus.setText(String.format("%.2f", flux) + KSurplusFlowUnit);
             mEtFlowRate.setText("");
         }
 
