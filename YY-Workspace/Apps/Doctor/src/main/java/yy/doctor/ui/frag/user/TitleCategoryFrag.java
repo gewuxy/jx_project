@@ -30,7 +30,7 @@ public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter
     @Override
     public void setViews() {
         super.setViews();
-        setDividerHeight(fitDp(0));
+        setDividerHeight(fit(0));
         setBackgroundColor(Color.parseColor("#f0f0f0"));
     }
 

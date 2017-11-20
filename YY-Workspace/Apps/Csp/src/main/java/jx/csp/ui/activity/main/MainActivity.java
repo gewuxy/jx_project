@@ -80,7 +80,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public void initNavBar(NavBar bar) {
         View view = inflate(R.layout.layout_main_user);
         View layout = view.findViewById(R.id.main_layout_user);
-        ViewGroup.LayoutParams params = LayoutUtil.getLinearParams(fitDp(App.NavBarVal.KHeightDp), fitDp(App.NavBarVal.KHeightDp));
+        ViewGroup.LayoutParams params = LayoutUtil.getLinearParams(fit(App.NavBarVal.KHeightDp), fit(App.NavBarVal.KHeightDp));
         layout.setLayoutParams(params);
         mIvAvatar = view.findViewById(R.id.main_iv_user);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)

@@ -30,7 +30,7 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     @Override
     public void setViews() {
         super.setViews();
-        setDividerHeight(fitDp(0));
+        setDividerHeight(fit(0));
         setBackgroundColor(Color.parseColor("#eaeaea"));
     }
 

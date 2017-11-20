@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.ys.fitter.LayoutFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
 import lib.ys.util.view.ViewUtil;
@@ -24,6 +24,7 @@ import yy.doctor.util.Util;
 
 /**
  * 资料View
+ *
  * @auther : GuoXuan
  * @since : 2017/9/21
  */
@@ -117,11 +118,11 @@ public class MaterialView extends LinearLayout {
         if (TextUtil.isEmpty(name)) {
             name = f.getString(TFile.name);
         }
-        TextView tv = (TextView) view.findViewById(R.id.unit_num_detail_file_item_tv_name);
+        TextView tv = view.findViewById(R.id.unit_num_detail_file_item_tv_name);
         tv.setText(name);
 
         view.setOnClickListener(v -> Util.openFile(f, mFileType, String.valueOf(mFileId)));
-        LayoutFitter.fit(view);
+        Fitter.view(view);
         return view;
     }
 

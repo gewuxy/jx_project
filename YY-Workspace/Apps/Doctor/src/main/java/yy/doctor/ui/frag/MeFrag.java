@@ -68,8 +68,8 @@ public class MeFrag extends BaseFormFrag {
     public void initData(Bundle state) {
         super.initData(state);
 
-        int paddingLeft = fitDp(58);
-        int paddingRight = fitDp(12);
+        int paddingLeft = fit(58);
+        int paddingRight = fit(12);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text_intent_me)
@@ -223,7 +223,7 @@ public class MeFrag extends BaseFormFrag {
             mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                     .renderer(new CircleRenderer())
                     .url(Profile.inst().getString(TProfile.headimg))
-                    //.renderer(new CornerRenderer(fitDp(15)))  圆角
+                    //.renderer(new CornerRenderer(fit(15)))  圆角
                     .load();
 
             mTvName.setText(Profile.inst().getString(TProfile.linkman));

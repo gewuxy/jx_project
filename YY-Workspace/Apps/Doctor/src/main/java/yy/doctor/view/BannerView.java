@@ -3,7 +3,7 @@ package yy.doctor.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.view.BannerViewEx;
 import yy.doctor.adapter.home.BannerAdapter;
 import yy.doctor.model.home.Banner;
@@ -20,6 +20,6 @@ public class BannerView extends BannerViewEx<Banner, BannerAdapter> {
 
     @Override
     protected int getIndicatorSpace() {
-        return DpFitter.dp(3);
+        return Fitter.dp(3);
     }
 }

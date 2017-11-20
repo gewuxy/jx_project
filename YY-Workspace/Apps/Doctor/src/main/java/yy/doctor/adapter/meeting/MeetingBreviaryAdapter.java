@@ -4,7 +4,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.network.image.NetworkImageView;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.CourseVH;
@@ -31,7 +31,7 @@ public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> 
             case CourseType.video: {
                 ivPPT.res(R.drawable.ic_default_breviary_video)
                         .url(getItem(position).getString(TCourse.imgUrl))
-                        .resize(DpFitter.dp(KW), DpFitter.dp(KH))
+                        .resize(Fitter.dp(KW), Fitter.dp(KH))
                         .load();
             }
             break;
@@ -43,7 +43,7 @@ public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> 
             case CourseType.pic: {
                 ivPPT.res(R.drawable.ic_default_breviary_image)
                         .url(getItem(position).getString(TCourse.imgUrl))
-                        .resize(DpFitter.dp(KW), DpFitter.dp(KH))
+                        .resize(Fitter.dp(KW), Fitter.dp(KH))
                         .load();
             }
             break;

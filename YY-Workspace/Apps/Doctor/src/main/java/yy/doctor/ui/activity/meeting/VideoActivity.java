@@ -171,7 +171,7 @@ public class VideoActivity extends BaseActivity implements
                     countDown();
 
                     mIsPortrait = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
-                    int videoH = mIsPortrait ? fitDp(KVideoHDp) : LayoutUtil.MATCH_PARENT; // 区分横竖屏高度
+                    int videoH = mIsPortrait ? fit(KVideoHDp) : LayoutUtil.MATCH_PARENT; // 区分横竖屏高度
                     mLayoutVideo.addView(mVideo, 0, LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, videoH));
                 }, 300);
 
@@ -261,7 +261,7 @@ public class VideoActivity extends BaseActivity implements
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             // 竖屏
             mIsPortrait = true;
-            mVideo.rotatePortrait(fitDp(KVideoHDp));
+            mVideo.rotatePortrait(fit(KVideoHDp));
 
             showView(mViewNavBar);
             showView(getNavBar());

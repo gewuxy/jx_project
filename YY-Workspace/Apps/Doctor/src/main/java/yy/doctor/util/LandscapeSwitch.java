@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.AnimateUtil;
 import lib.ys.util.view.LayoutUtil;
 
@@ -131,7 +131,7 @@ public class LandscapeSwitch implements View.OnTouchListener {
         mDispatch = false;
         mPoint = new Point();
         mParamB = LayoutUtil.getRelativeParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        mParamS = LayoutUtil.getRelativeParams(DpFitter.dp(KSmallW), DpFitter.dp((KSmallH)));
+        mParamS = LayoutUtil.getRelativeParams(Fitter.dp(KSmallW), Fitter.dp((KSmallH)));
     }
 
     @Override

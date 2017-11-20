@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import lib.ys.YSLog;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.DrawUtil;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.res.ResLoader;
@@ -41,12 +41,12 @@ public class HistogramView extends View {
     private final String KMonth = "MM月dd日";
     private final String KDay = "dd日";
 
-    private final int KLineWidth = DpFitter.dp(4); // 线宽
-    private final int KLineMarginTop = DpFitter.dp(40); // 柱状的上边距(相对应父控件)
-    private final int KLineMarginBottom = DpFitter.dp(33); // 柱状的底边距(相对应父控件)
-    private final int KDividerMargin = DpFitter.dp(12); // 分割线上下的外边距
-    private final int KTextMarginBottom = DpFitter.dp(16); // 文本的底边距(显示数量的)
-    private final int KTextSize = DpFitter.dp(9); // 字体大小
+    private final int KLineWidth = Fitter.dp(4); // 线宽
+    private final int KLineMarginTop = Fitter.dp(40); // 柱状的上边距(相对应父控件)
+    private final int KLineMarginBottom = Fitter.dp(33); // 柱状的底边距(相对应父控件)
+    private final int KDividerMargin = Fitter.dp(12); // 分割线上下的外边距
+    private final int KTextMarginBottom = Fitter.dp(16); // 文本的底边距(显示数量的)
+    private final int KTextSize = Fitter.dp(9); // 字体大小
 
     private final int KRecColor = R.color.text_0882e7;
     private final int KDividerColor = R.color.divider;
@@ -203,7 +203,7 @@ public class HistogramView extends View {
     private void drawText(Canvas canvas) {
         StatsPerDay statsPerDay;
         Point p;
-        int posY = mLayoutHeight - KTextSize - DpFitter.dp(2); // 高度不是字体大少
+        int posY = mLayoutHeight - KTextSize - Fitter.dp(2); // 高度不是字体大少
         for (int i = 0; i < mPerDays.size(); i++) {
             statsPerDay = mPerDays.get(i);
             p = mMids.get(i);

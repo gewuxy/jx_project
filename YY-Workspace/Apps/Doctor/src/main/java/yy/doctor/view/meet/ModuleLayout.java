@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import lib.ys.fitter.DpFitter;
-import lib.ys.fitter.LayoutFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.model.MapList;
+import lib.ys.util.UIUtil;
 import lib.ys.util.view.LayoutUtil;
 import yy.doctor.R;
 import yy.doctor.model.meet.MeetDetail;
@@ -58,7 +58,7 @@ public class ModuleLayout extends LinearLayout {
     private void initLayout() {
         LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         params.weight = 1;
-        LayoutParams dividerParams = LayoutUtil.getLinearParams(1, DpFitter.dp(16));
+        LayoutParams dividerParams = LayoutUtil.getLinearParams(1, UIUtil.dpToPx(16));
         dividerParams.gravity = Gravity.CENTER_VERTICAL;
         View divider;
 
@@ -80,7 +80,7 @@ public class ModuleLayout extends LinearLayout {
 
         addView(mFuncs.getByKey(ModuleType.ppt).getLayout(), params);
 
-        LayoutFitter.fit(this);
+        Fitter.view(this);
     }
 
     public void load() {

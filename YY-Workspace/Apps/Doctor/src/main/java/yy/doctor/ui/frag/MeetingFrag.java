@@ -155,7 +155,7 @@ public class MeetingFrag extends BaseVPFrag implements OnPageChangeListener, OnS
     @Override
     protected PageIndicator initPageIndicator() {
         mIndicator.setFades(false);
-        mIndicator.setLineWidth(fitDp(KIndicatorWidth));
+        mIndicator.setLineWidth(fit(KIndicatorWidth));
         mIndicator.setSelectedColor(ResLoader.getColor(KIndicatorColor));
         return mIndicator;
     }

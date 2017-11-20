@@ -14,7 +14,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import lib.ys.fitter.LayoutFitter;
+import lib.ys.fitter.Fitter;
 import lib.yy.R;
 
 public abstract class BaseSwipeZoom<T extends View> extends LinearLayout implements ISwipeZoom<T> {
@@ -72,13 +72,13 @@ public abstract class BaseSwipeZoom<T extends View> extends LinearLayout impleme
             int zoomViewResId = a.getResourceId(R.styleable.PullToZoomView_zoomView, 0);
             if (zoomViewResId > 0) {
                 mZoomView = mLayoutInflater.inflate(zoomViewResId, null, false);
-                LayoutFitter.fit(mZoomView);
+                Fitter.view(mZoomView);
             }
 
             int headerViewResId = a.getResourceId(R.styleable.PullToZoomView_headerView, 0);
             if (headerViewResId > 0) {
                 mHeaderView = mLayoutInflater.inflate(headerViewResId, null, false);
-                LayoutFitter.fit(mHeaderView);
+                Fitter.view(mHeaderView);
             }
 
             isParallax = a.getBoolean(R.styleable.PullToZoomView_isHeaderParallax, true);

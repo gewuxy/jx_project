@@ -104,7 +104,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     public void initNavBar(NavBar bar) {
 
         Util.addBackIcon(bar, this);
-        changeAlphaByScroll(fitDp(219), bar);
+        changeAlphaByScroll(fit(219), bar);
         bar.addViewRight(R.drawable.nav_bar_ic_search, v -> startActivity(SearchActivity.class));
         bar.addViewRight(R.drawable.nav_bar_ic_more, v -> showDialogCancelAttention());
     }
@@ -133,7 +133,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
         super.setViews();
 
         getAdapter().hideUnitNum();
-        setDividerHeight(fitDp(1));
+        setDividerHeight(fit(1));
         setRefreshEnabled(false);
         mZoomView.setZoomEnabled(true);
 

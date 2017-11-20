@@ -31,7 +31,7 @@ public class SectionNameFrag extends BaseListFrag<String, SectionNameAdapter> {
     @Override
     public void setViews() {
         super.setViews();
-        setDividerHeight(fitDp(0));
+        setDividerHeight(fit(0));
     }
 
     @Override

@@ -14,8 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
-import lib.ys.fitter.DpFitter;
-import lib.ys.fitter.LayoutFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import lib.yy.dialog.BaseDialog;
@@ -65,7 +64,7 @@ public class HintDialog extends BaseDialog {
     public void addHintView(View hintView) {
         LayoutParams params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
         params.gravity = Gravity.CENTER;
-        LayoutFitter.fit(hintView);
+        Fitter.view(hintView);
         mLayoutHint.addView(hintView, params);
     }
 
@@ -76,7 +75,7 @@ public class HintDialog extends BaseDialog {
      */
     public void addButtons(View... view) {
         LayoutParams params = LayoutUtil.getLinearParams(0, LayoutUtil.MATCH_PARENT);
-        LayoutParams dividerParams = LayoutUtil.getLinearParams(DpFitter.dp(1), LayoutUtil.MATCH_PARENT);
+        LayoutParams dividerParams = LayoutUtil.getLinearParams(Fitter.dp(1), LayoutUtil.MATCH_PARENT);
         params.weight = 1;
         params.gravity = Gravity.CENTER;
         View divider;
@@ -85,7 +84,7 @@ public class HintDialog extends BaseDialog {
         if (mLayoutButton.getChildCount() > 0) {
             divider = new View(getContext());
             divider.setBackgroundResource(R.color.divider);
-            LayoutFitter.fit(divider);
+            Fitter.view(divider);
             mLayoutButton.addView(divider, dividerParams);
         }
 
@@ -94,11 +93,11 @@ public class HintDialog extends BaseDialog {
             if (i != 0) {
                 divider = new View(getContext());
                 divider.setBackgroundResource(R.color.divider);
-                LayoutFitter.fit(divider);
+                Fitter.view(divider);
                 mLayoutButton.addView(divider, dividerParams);
             }
 
-            LayoutFitter.fit(view[i]);
+            Fitter.view(view[i]);
             mLayoutButton.addView(view[i], params);
         }
     }
@@ -113,9 +112,9 @@ public class HintDialog extends BaseDialog {
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
         tv.setTextColor(ResLoader.getColor(resId));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(16));
         tv.setOnClickListener(v -> {
-            if (l != null){
+            if (l != null) {
                 l.onClick(v);
             }
             dismiss();

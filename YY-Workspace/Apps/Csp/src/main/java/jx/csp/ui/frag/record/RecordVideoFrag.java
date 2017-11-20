@@ -61,7 +61,7 @@ public class RecordVideoFrag extends BaseFrag {
         setOnClickListener(R.id.frag_record_video_iv_play);
         setOnClickListener(R.id.frag_record_video_stop);
         mIvBg.placeHolder(R.drawable.ic_default_record)
-                .renderer(new CornerRenderer(fitDp(5)))
+                .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
                 .load();
     }

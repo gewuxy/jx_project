@@ -5,7 +5,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 
 import inject.annotation.router.Arg;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
 import lib.yy.R;
@@ -19,7 +19,7 @@ import lib.yy.ui.activity.base.BaseActivity;
  */
 abstract public class BaseClipImageActivity extends BaseActivity {
 
-    private static final int KBmpSize = DpFitter.dp(280);
+    private static final int KBmpSize = Fitter.dp(280);
 
     public static Bitmap mBmp;
     private NetworkPhotoView mPv;

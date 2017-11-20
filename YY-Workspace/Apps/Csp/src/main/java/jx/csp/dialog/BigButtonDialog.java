@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import jx.csp.R;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 
@@ -38,7 +38,7 @@ public class BigButtonDialog extends CommonDialog {
         if (mLayoutButton.getOrientation() == LinearLayout.HORIZONTAL) {
             params = super.getDividerParams();
         } else {
-            params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, DpFitter.dp(1));
+            params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, Fitter.dp(1));
         }
         return params;
     }
@@ -49,7 +49,7 @@ public class BigButtonDialog extends CommonDialog {
         if (mLayoutButton.getOrientation() == LinearLayout.HORIZONTAL) {
             params = super.getButtonParams();
         } else {
-            params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, DpFitter.dp(46));
+            params = LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, Fitter.dp(46));
         }
         return params;
     }
@@ -59,7 +59,7 @@ public class BigButtonDialog extends CommonDialog {
         tv.setGravity(Gravity.CENTER);
         tv.setText(c);
         tv.setTextColor(ResLoader.getColor(R.color.text_333));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, DpFitter.dp(16));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(16));
         addHintView(tv);
     }
 

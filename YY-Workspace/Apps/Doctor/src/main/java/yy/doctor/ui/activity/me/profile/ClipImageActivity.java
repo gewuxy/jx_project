@@ -33,7 +33,7 @@ import yy.doctor.util.Util;
 public class ClipImageActivity extends BaseActivity {
 
     public static Bitmap mBmp;
-    private final int KBmpSize = fitDp(280);
+    private final int KBmpSize = fit(280);
 
     private NetworkPhotoView mPv;
 

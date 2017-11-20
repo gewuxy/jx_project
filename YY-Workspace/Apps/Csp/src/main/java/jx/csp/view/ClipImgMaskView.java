@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import jx.csp.R;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
 
@@ -25,8 +25,8 @@ public class ClipImgMaskView extends View {
     /**
      * 截取框的边框宽度
      */
-    private final int KBorderWidth = DpFitter.dp(3);
-    private final int KRadius = DpFitter.dp(140);
+    private final int KBorderWidth = Fitter.dp(3);
+    private final int KRadius = Fitter.dp(140);
 
     private Paint mPaint;
     private Bitmap mMaskBmp;

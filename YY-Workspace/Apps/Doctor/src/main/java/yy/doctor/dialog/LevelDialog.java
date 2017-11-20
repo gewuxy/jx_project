@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import lib.ys.fitter.LayoutFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.network.image.NetworkImageView;
 import lib.yy.dialog.BaseDialog;
 import yy.doctor.R;
@@ -63,14 +63,14 @@ public class LevelDialog extends BaseDialog {
         NetworkImageView ivLevel;
         for (HospitalLevel level : mLevels) {
             v = View.inflate(getContext(), R.layout.layout_hospital_level, null);
-            tvLevel = (TextView) v.findViewById(R.id.layout_hospital_tv_level);
+            tvLevel = v.findViewById(R.id.layout_hospital_tv_level);
             tvLevel.setText(level.getString(THospitalLevel.propValue));
 
-            ivLevel = (NetworkImageView) v.findViewById(R.id.layout_hospital_iv_level);
+            ivLevel = v.findViewById(R.id.layout_hospital_iv_level);
             ivLevel.url(level.getString(THospitalLevel.picture)).load();
 
             v.setTag(level);
-            LayoutFitter.fit(v);
+            Fitter.view(v);
             setOnClickListener(v);
             mLayout.addView(v);
         }

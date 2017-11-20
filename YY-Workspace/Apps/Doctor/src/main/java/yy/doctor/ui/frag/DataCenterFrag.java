@@ -107,7 +107,7 @@ public class DataCenterFrag extends BaseVPFrag {
     @Override
     protected PageIndicator initPageIndicator() {
         mIndicator.setFades(false);
-        mIndicator.setLineWidth(fitDp(KIndicatorWidth));
+        mIndicator.setLineWidth(fit(KIndicatorWidth));
         mIndicator.setSelectedColor(KIndicatorColor);
         return mIndicator;
     }

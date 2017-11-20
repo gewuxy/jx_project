@@ -32,7 +32,7 @@ public class SectionCategoryFrag extends BaseListFrag<Section, SectionCategoryAd
     public void setViews() {
         super.setViews();
 
-        setDividerHeight(fitDp(0));
+        setDividerHeight(fit(0));
     }
 
     @Override

@@ -17,7 +17,7 @@ import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.other.PopupWindowEx;
@@ -84,7 +84,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
 
     @Override
     public int getWindowHeight() {
-        return DpFitter.dp(484);
+        return Fitter.dp(484);
     }
 
     @Override

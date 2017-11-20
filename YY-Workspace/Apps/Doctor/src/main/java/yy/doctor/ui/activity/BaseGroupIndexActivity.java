@@ -40,8 +40,8 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
 
     @Override
     public void initData(Bundle state) {
-        mLetterSize = fitDp(10);
-        mSingleLetterHight = fitDp(15);
+        mLetterSize = fit(10);
+        mSingleLetterHight = fit(15);
     }
 
     @Override

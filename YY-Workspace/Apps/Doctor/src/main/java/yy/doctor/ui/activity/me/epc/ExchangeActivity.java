@@ -143,7 +143,7 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
         mTvPayEpn.setText(mEpn + getString(R.string.epn));
 
         mIvGoods.placeHolder(R.drawable.ic_default_epc)
-                .renderer(new CornerRenderer(fitDp(3)))
+                .renderer(new CornerRenderer(fit(3)))
                 .url(mUrl)
                 .load();
 

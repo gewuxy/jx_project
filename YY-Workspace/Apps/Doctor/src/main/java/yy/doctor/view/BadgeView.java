@@ -16,7 +16,7 @@ import android.widget.FrameLayout.LayoutParams;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import lib.ys.fitter.DpFitter;
+import lib.ys.fitter.Fitter;
 import lib.ys.util.view.ViewUtil;
 
 
@@ -44,7 +44,7 @@ public class BadgeView extends TextView {
                     new LayoutParams(
 //                            android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
 //                            android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                            DpFitter.dp(5), DpFitter.dp(5),
+                            Fitter.dp(5), Fitter.dp(5),
                             Gravity.RIGHT | Gravity.TOP);
             setLayoutParams(layoutParams);
         }
@@ -220,7 +220,7 @@ public class BadgeView extends TextView {
      * converts dip to px
      */
     private int dip2Px(float dip) {
-        return DpFitter.dp(dip);
+        return Fitter.dp(dip);
     }
 
 }

@@ -83,7 +83,7 @@ public class RecordImgFrag extends BaseFrag {
     public void setViews() {
         setOnClickListener(R.id.frag_record_audio_layout);
         mIv.placeHolder(R.drawable.ic_default_record)
-                .renderer(new CornerRenderer(fitDp(5)))
+                .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
                 .load();
         mAnimation = (AnimationDrawable) mIvAudio.getBackground();
