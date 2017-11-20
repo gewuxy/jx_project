@@ -13,23 +13,30 @@
         app:corner_radius="@dimen/radius">
 
         <LinearLayout
-            android:id="@+id/dialog_layout_hint"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:background="@color/white"
-            android:gravity="center"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
 
-        <View
-            style="@style/divider"
-            android:layout_above="@+id/dialog_layout_button"/>
+            <LinearLayout
+                android:id="@+id/dialog_layout_hint"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="vertical"/>
 
-        <LinearLayout
-            android:id="@id/dialog_layout_button"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"/>
+            <View
+                style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@id/dialog_layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"/>
+
+        </LinearLayout>
 
     </lib.ys.view.CornerView>
+
 </LinearLayout>
