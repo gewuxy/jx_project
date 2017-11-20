@@ -137,7 +137,6 @@
     <string name="living">直播會議正在進行中...</string>
     <string name="playing">錄播會議正在進行中...</string>
     <string name="click_continue">點擊繼續</string>
-    <string name="CSPmeeting">CSPmeeting</string>
     <string name="scan">掃一掃</string>
     <string name="aim_at_the_code">請對準二維碼，耐心等待</string>
     <string name="fail_to_identify">無法識別此二維碼</string>

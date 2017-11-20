@@ -9,8 +9,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 85
-        versionName "0.85"
+        versionCode 90
+        versionName "0.9"
 
         multiDexEnabled true
 
@@ -143,7 +143,7 @@ android {
                     facebook_key       : "\\263615967498316",
                     facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
-            applicationIdSuffix ".en"
+            //applicationIdSuffix ".en"
         }
 
         flavors_alpha {
@@ -186,7 +186,7 @@ android {
                     facebook_key       : "\\263615967498316",
                     facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
-            applicationIdSuffix ".en"
+            //applicationIdSuffix ".en"
         }
 
         flavors_release {
@@ -229,7 +229,7 @@ android {
                     facebook_key       : "\\263615967498316",
                     facebook_secret    : "acaa41b6d8020e78320bd92f6f0abd80",
             ]
-            applicationIdSuffix ".en"
+            //applicationIdSuffix ".en"
         }
     }
 

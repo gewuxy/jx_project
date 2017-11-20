@@ -107,7 +107,7 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
     @Override
     public void setViews() {
         super.setViews();
-        mTvAppName.setText(PackageUtil.getMetaValue("APP_NAME"));
+        mTvAppName.setText(R.string.app_name);
         mTvVersion.setText("V" + mVersion);
     }
 

@@ -88,7 +88,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 .load();
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));
 
-        bar.addTextViewMid(getString(R.string.CSPmeeting));
+        bar.addTextViewMid(getString(R.string.app_name));
 
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
             boolean flag = getCurrPosition() == KPageGrid;

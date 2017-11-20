@@ -137,7 +137,6 @@
     <string name="living">Live stream is proceeding...</string>
     <string name="playing">Recording is proceeding...</string>
     <string name="click_continue">Continue</string>
-    <string name="CSPmeeting">CSPmeeting</string>
     <string name="scan">Scan</string>
     <string name="aim_at_the_code">Align QR Code within frame to scan</string>
     <string name="fail_to_identify">Fail to identify the QR code</string>
