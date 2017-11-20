@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -202,7 +203,8 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
         @Override
         public void setSurplusFlowRate() {
-            mTvSurplus.setText(Profile.inst().getInt(TProfile.flux) / KFlowConversion + KSurplusFlowUnit);
+            BigDecimal flux = new BigDecimal(Profile.inst().getInt(TProfile.flux) / KFlowConversion).setScale(0, BigDecimal.ROUND_HALF_UP);
+            mTvSurplus.setText(flux + KSurplusFlowUnit);
             mEtFlowRate.setText("");
         }
 
@@ -245,7 +247,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
                     Profile.inst().increase(TProfile.flux, mRechargeSum * KFlowConversion);
                     Profile.inst().saveToSp();
 
-                    mView.setSurplusFlowRate();
+                    setSurplusFlowRate();
                     showToast(R.string.flow_rate_pay_success);
                 }
 
