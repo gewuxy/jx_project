@@ -105,7 +105,7 @@ android {
     productFlavors {
         flavors_debug {
             manifestPlaceholders = [
-                    app_name          : "CSP(B)",
+                    app_name          : "CSP(Bebug)",
                     app_type          : "cn",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "c156b445984c689c292a8f8b5705e1b7",
@@ -126,7 +126,7 @@ android {
 
         flavors_debug_en {
             manifestPlaceholders = [
-                    app_name          : "CSP(B_EN)",
+                    app_name          : "CSP(Bebug_EN)",
                     app_type          : "en",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "c156b445984c689c292a8f8b5705e1b7",
@@ -148,7 +148,7 @@ android {
 
         flavors_alpha {
             manifestPlaceholders = [
-                    app_name          : "CSP(A)",
+                    app_name          : "CSP(Alpha)",
                     app_type          : "cn",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "c156b445984c689c292a8f8b5705e1b7",
@@ -169,7 +169,7 @@ android {
 
         flavors_alpha_en {
             manifestPlaceholders = [
-                    app_name          : "CSP(A_EN)",
+                    app_name          : "CSP(Alpha_EN)",
                     app_type          : "en",
                     wx_id             : "wx142cb3956210ccd3",
                     wx_secret         : "c156b445984c689c292a8f8b5705e1b7",

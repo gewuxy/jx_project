@@ -165,7 +165,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
         removeAll();
         if (mMeets == null || mMeets.isEmpty()) {
             hideView(mLayoutSlideData);
-            add(new EmptyFrag());
+            add(new MeetVpEmptyFrag());
             invalidate();
         } else {
             int size = mMeets.size();

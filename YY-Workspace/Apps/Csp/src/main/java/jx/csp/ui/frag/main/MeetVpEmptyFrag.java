@@ -14,27 +14,23 @@ import lib.yy.ui.frag.base.BaseFrag;
  * @since 2017/10/25
  */
 
-public class EmptyFrag extends BaseFrag {
+public class MeetVpEmptyFrag extends BaseFrag {
 
     @Override
-    public void initData(Bundle state) {
-    }
+    public void initData(Bundle state) {}
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.frag_main_empty_data;
+        return R.layout.frag_main_vp_empty;
     }
 
     @Override
-    public void initNavBar(NavBar bar) {
-    }
+    public void initNavBar(NavBar bar) {}
 
     @Override
-    public void findViews() {
-    }
+    public void findViews() {}
 
     @Override
-    public void setViews() {
-    }
+    public void setViews() {}
 }

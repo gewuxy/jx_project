@@ -13,37 +13,44 @@
         app:corner_radius="@dimen/radius">
 
         <LinearLayout
-            android:id="@+id/dialog_layout_hint"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:background="@color/white"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/dialog_main_tv_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
-                android:text="获取地理位置失败"
+            <LinearLayout
+                android:id="@+id/dialog_layout_hint"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 android:gravity="center"
-                android:lineSpacingExtra="@dimen/margin"
-                android:textColor="@color/text_333"
-                android:textSize="19dp"/>
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dialog_main_tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:text="获取地理位置失败"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/margin"
+                    android:textColor="@color/text_333"
+                    android:textSize="19dp"/>
+
+            </LinearLayout>
+
+            <View
+                style="@style/divider"/>
+
+            <LinearLayout
+                android:id="@id/dialog_layout_button"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"/>
 
         </LinearLayout>
 
-        <View
-            style="@style/divider"
-            android:layout_above="@+id/dialog_layout_button"/>
-
-        <LinearLayout
-            android:id="@id/dialog_layout_button"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal"/>
-
     </lib.ys.view.CornerView>
+
 </LinearLayout>
