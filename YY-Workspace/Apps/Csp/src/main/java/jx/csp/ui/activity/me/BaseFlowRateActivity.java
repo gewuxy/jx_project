@@ -202,8 +202,9 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
         @Override
         public void setSurplusFlowRate() {
-            double flux = Profile.inst().getInt(TProfile.flux) / KFlowConversion;
-            mTvSurplus.setText(String.format("%.2f", flux) + KSurplusFlowUnit);
+            double f = Profile.inst().getDouble(TProfile.flux) / KFlowConversion;
+            String flux = String.format("%.2f", f);
+            mTvSurplus.setText(flux + KSurplusFlowUnit);
             mEtFlowRate.setText("");
         }
 
