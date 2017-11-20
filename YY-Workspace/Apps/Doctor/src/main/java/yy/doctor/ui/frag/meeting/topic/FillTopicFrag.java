@@ -2,14 +2,14 @@ package yy.doctor.ui.frag.meeting.topic;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.view.View.OnFocusChangeListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.EditText;
 
 import inject.annotation.router.Route;
 import lib.ys.util.KeyboardUtil;
-import yy.doctor.R;
-import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.adapter.VH.meeting.SubjectVH;
+import yy.doctor.model.meet.exam.ISubject;
+import yy.doctor.model.meet.exam.TopicFill;
 
 /**
  * 填空题
@@ -18,43 +18,23 @@ import yy.doctor.model.meet.exam.Topic.TTopic;
  * @since : 2017/9/12
  */
 @Route
-public class FillTopicFrag extends BaseTopicFrag implements TextWatcher, OnFocusChangeListener {
+public class FillTopicFrag extends BaseTopicFrag implements TextWatcher {
 
-    private EditText mEtAnswer;
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mEtAnswer = findView(R.id.answer_et);
-    }
+    private EditText mEtFill;
 
     @Override
     public void setViews() {
         super.setViews();
 
-        mEtAnswer.addTextChangedListener(this);
-        mEtAnswer.setOnFocusChangeListener(this);
-    }
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-    @Override
-    protected int getContentId() {
-        return R.layout.layout_topic_fill;
-    }
+            @Override
+            public void onGlobalLayout() {
+                setEditTextListener();
+                removeOnGlobalLayoutListener(this);
+            }
 
-    @Override
-    protected CharSequence getTitleType() {
-        return "填空";
-    }
-
-    @Override
-    protected void setContent() {
-        mEtAnswer.setText(mTopic.getString(TTopic.choice));
-    }
-
-    @Override
-    protected boolean getButtonVisible() {
-        return true;
+        });
     }
 
     @Override
@@ -72,10 +52,32 @@ public class FillTopicFrag extends BaseTopicFrag implements TextWatcher, OnFocus
         topicFinish(s.toString());
     }
 
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus && KeyboardUtil.isActive()) {
-            KeyboardUtil.hideFromView(v);
+    private void setEditTextListener() {
+        for (int i = 0; i < getData().size(); i++) {
+            ISubject subject = getItem(i);
+            if (subject instanceof TopicFill) {
+                SubjectVH holder = getAdapter().getCacheVH(i);
+                if (holder != null) {
+                    mEtFill = holder.getEtFill();
+                    mEtFill.addTextChangedListener(this);
+                }
+                break;
+            }
         }
+    }
+
+    @Override
+    protected void onInvisible() {
+        // fixme：点击输入框以外的地方也要隐藏键盘
+        if (KeyboardUtil.isActive() && mEtFill != null) {
+            KeyboardUtil.hideFromView(mEtFill);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        onInvisible();
     }
 }

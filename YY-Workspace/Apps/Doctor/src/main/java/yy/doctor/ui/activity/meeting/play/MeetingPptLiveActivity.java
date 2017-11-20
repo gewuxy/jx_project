@@ -18,22 +18,32 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
  * @since : 2017/10/27
  */
 @Route
-public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiveContract.View, MeetingPptLiveContract.Presenter> {
+public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContract.View,MeetingPptLiveContract.Presenter> {
+
+    private MeetingPptLiveContract.View mView;
+    private MeetingPptLiveContract.Presenter mPresenter;
 
     @Override
-    protected MeetingPptLiveViewImpl createView() {
-        return new MeetingPptLiveViewImpl();
+    protected MeetingPptLiveContract.View createView() {
+        if (mView == null) {
+            mView = new MeetingPptLiveViewImpl();
+        }
+        return mView;
     }
 
     @Override
     protected MeetingPptLiveContract.Presenter createPresenter(MeetingPptLiveContract.View view) {
-        return new MeetingPptLivePresenterImpl(view);
+        if (mPresenter == null) {
+            mPresenter = new MeetingPptLivePresenterImpl(view);
+        }
+        return mPresenter;
     }
 
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
+        mPresenter.playMedia(position);
         if (position == getFragPpt().getCount() - 1) {
             getFragPpt().newVisibility(false);
         }
@@ -49,7 +59,7 @@ public class MeetingPptLiveActivity extends BaseMeetingPptActivity<MeetingPptLiv
         return R.drawable.meet_play_live_select_control;
     }
 
-    private class MeetingPptLiveViewImpl extends MeetingPptViewImpl implements MeetingPptLiveContract.View {
+    private class MeetingPptLiveViewImpl extends BasePptViewImpl implements MeetingPptLiveContract.View {
 
         @Override
         public void portraitInit(PPT ppt, List<Course> courses) {

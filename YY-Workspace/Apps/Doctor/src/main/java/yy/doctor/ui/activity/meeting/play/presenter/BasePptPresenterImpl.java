@@ -1,14 +1,16 @@
 package yy.doctor.ui.activity.meeting.play.presenter;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.CallSuper;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.util.TextUtil;
 import lib.yy.contract.BasePresenterImpl;
 import lib.yy.util.CountDown;
 import yy.doctor.model.meet.ppt.Course;
@@ -19,7 +21,7 @@ import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.JsonParser;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
+import yy.doctor.ui.activity.meeting.play.contract.BasePptContract;
 import yy.doctor.util.NetPlayer;
 import yy.doctor.util.Time;
 
@@ -28,12 +30,15 @@ import yy.doctor.util.Time;
  * @since : 2017/9/26
  */
 
-public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContract.View> implements
-        MeetingPptContract.Presenter,
+public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePresenterImpl<V> implements
+        BasePptContract.Presenter<V>,
         NetPlayer.OnPlayerListener,
         CountDown.OnCountDownListener {
 
     private final int KDuration = 3;
+
+    private final int KWhatPlay = 0;
+    private final int KWhatNext = 1;
 
     private int mPosition; // 上一个position
     protected PPT mPpt;
@@ -41,12 +46,33 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     private CountDown mCountDown;
 
     private long mAllMillisecond;
+    private Handler mHandler;
 
-    public MeetingPptPresenterImpl(MeetingPptContract.View view) {
+    public BasePptPresenterImpl(V view) {
         super(view);
+
         mCountDown = new CountDown();
         mCountDown.setListener(this);
         NetPlayer.inst().setListener(this);
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                int what = msg.what;
+                switch (what) {
+                    case KWhatPlay: {
+                        int position = (int) msg.obj;
+                        nativePlay(position);
+                    }
+                    break;
+                    case KWhatNext: {
+                        getView().setNextItem();
+                    }
+                    break;
+                }
+            }
+
+        };
     }
 
     @Override
@@ -88,6 +114,14 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void playMedia(int position) {
+        removeMessages();
+        Message message = Message.obtain();
+        message.obj = position;
+        message.what = KWhatPlay;
+        mHandler.sendMessageDelayed(message, 300);
+    }
+
+    private void nativePlay(int position) {
         Course c = mCourses.get(mPosition);
         c.put(TCourse.time, "音频"); // 清空时间
         c.put(TCourse.select, false); // 上一个取消选择
@@ -106,6 +140,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
             }
             break;
             case CourseType.pic: {
+                imgNext();
             }
             break;
             case CourseType.video: {
@@ -120,9 +155,14 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         getView().invalidate(mPosition);
     }
 
+    protected void removeMessages() {
+        mHandler.removeCallbacksAndMessages(null);
+    }
+
     @Override
     public void stopMedia() {
-        NetPlayer.inst().pause();
+        removeMessages();
+        NetPlayer.inst().stop();
         if (mCourses != null) {
             mCourses.get(mPosition).put(TCourse.play, false);
             getView().invalidate(mPosition);
@@ -130,29 +170,30 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
     }
 
     @Override
-    public void toggle() {
-        Course course = mCourses.get(mPosition);
-        String url = course.getString(TCourse.videoUrl);
-        if (TextUtil.isEmpty(url)) {
-            url = course.getString(TCourse.audioUrl);
-        }
+    public void toggle(int index) {
+        Course course = mCourses.get(index);
         if (NetPlayer.inst().isPlaying()) {
-            mCourses.get(mPosition).put(TCourse.play, false);
+            course.put(TCourse.play, false);
         } else {
-            mCourses.get(mPosition).put(TCourse.play, true);
+            course.put(TCourse.play, true);
         }
-        pptToggle(url);
-        getView().invalidate(mPosition);
+        getView().invalidate(index);
     }
 
     @Override
     public void starCount() {
-         mCountDown.start(KDuration);
+        mCountDown.start(KDuration);
+    }
+
+    @Override
+    public void imgNext() {
+        removeMessages();
+        mHandler.sendEmptyMessageDelayed(KWhatNext, TimeUnit.SECONDS.toMillis(3));
     }
 
     @Override
     public void onDownProgress(int progress) {
-        // 下载中
+        // do nothing
     }
 
     @CallSuper
@@ -168,7 +209,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void onPreparedError() {
-
+        // do nothing
     }
 
     @CallSuper
@@ -181,7 +222,7 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void onPlayState(boolean state) {
-        getView().onPlayState(state);
+        // do nothing
     }
 
     @CallSuper
@@ -190,16 +231,6 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
         mCourses.get(mPosition).put(TCourse.play, false);
         getView().invalidate(mPosition);
         getView().setNextItem();
-        pptCompletion();
-    }
-
-    protected void pptToggle(String url) {
-        // 区别于ppt直播
-        NetPlayer.inst().toggle(url);
-    }
-
-    protected void pptCompletion() {
-        getView().onPlayState(false);
     }
 
     @Override
@@ -211,13 +242,14 @@ public class MeetingPptPresenterImpl extends BasePresenterImpl<MeetingPptContrac
 
     @Override
     public void onCountDownErr() {
-
+        // do nothing
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
+        removeMessages();
         mCountDown.recycle();
         NetPlayer.inst().recycle();
     }

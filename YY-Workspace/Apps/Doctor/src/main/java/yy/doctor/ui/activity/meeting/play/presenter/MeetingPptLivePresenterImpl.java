@@ -17,7 +17,7 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/26
  */
 
-public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl implements MeetingPptLiveContract.Presenter {
+public class MeetingPptLivePresenterImpl extends BasePptPresenterImpl<MeetingPptLiveContract.View> implements MeetingPptLiveContract.Presenter {
 
     private WebSocket mWebSocket;
 
@@ -27,11 +27,6 @@ public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl impleme
         super(view);
 
         mPlay = true;
-    }
-
-    @Override
-    public MeetingPptLiveContract.View getView() {
-        return (MeetingPptLiveContract.View) super.getView();
     }
 
     @Override
@@ -49,25 +44,16 @@ public class MeetingPptLivePresenterImpl extends MeetingPptPresenterImpl impleme
         mWebSocket = exeWebSocketReq(NetFactory.webLive(url), new WebSocketImpl());
     }
 
-
     @Override
-    public void onPlayState(boolean state) {
-        // 直播显示的时候禁音与有声音的状态
-        // do nothing
-    }
+    public void toggle(int index) {
+        super.toggle(index);
 
-    @Override
-    protected void pptToggle(String url) {
         if (mPlay) {
             mPlay = NetPlayer.inst().closeVolume();
         } else {
             mPlay = NetPlayer.inst().openVolume();
         }
         getView().onPlayState(mPlay);
-    }
-
-    @Override
-    protected void pptCompletion() {
     }
 
     @Override

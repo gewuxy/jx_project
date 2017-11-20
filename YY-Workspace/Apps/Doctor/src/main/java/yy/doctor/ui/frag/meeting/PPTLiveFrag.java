@@ -17,7 +17,6 @@ import lib.yy.ui.frag.base.BaseFrag;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -86,10 +85,6 @@ public class PPTLiveFrag extends BaseFrag {
 
     public void loginRoom(String roomId) {
         LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
-        if (BuildConfig.TEST) {
-            LiveApi.getInst().setTest(true);
-        }
-        LiveApi.getInst().setTest(true);
         LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 

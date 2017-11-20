@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topic_layout_choose"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/item_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/answer_iv"
+        android:id="@+id/topic_iv_choose"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_marginBottom="16dp"
@@ -19,10 +20,11 @@
         android:button="@color/transparent"/>
 
     <TextView
-        android:id="@+id/answer_tv"
+        android:id="@+id/topic_tv_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="16dp"
         android:text="可是打发手机壳的"
         android:textColor="@color/text_333"

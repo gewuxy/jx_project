@@ -263,6 +263,11 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
     }
 
+    @Override
+    public void setCurrPosition(int position) {
+        super.setCurrPosition(position);
+    }
+
     public void offsetPosition(int offset, String content) {
         int position = getCurrPosition() + offset;
         if (position >= 0 && position <= getCount() - 1) {

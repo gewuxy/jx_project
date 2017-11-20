@@ -41,7 +41,7 @@ public class Topic extends EVal<TTopic> {
         rightKey, // 正确答案
         sort, // 试题序号
 
-        @Bind(asList = Choice.class)
+        @Bind(asList = TopicChoice.class)
         options, // 考试 / 问卷选项
 
         /**
@@ -50,5 +50,22 @@ public class Topic extends EVal<TTopic> {
         finish, // 已作答
 
         choice, // 作答答案
+
+        subject, // 本地展示的数据
+    }
+
+    public CharSequence getType() {
+        switch (getInt(TTopic.qtype)) {
+            case TopicType.choice_single: {
+                return "单选";
+            }
+            case TopicType.choice_multiple: {
+                return "多选";
+            }
+            case TopicType.fill: {
+                return "填空";
+            }
+        }
+        return "单选";
     }
 }

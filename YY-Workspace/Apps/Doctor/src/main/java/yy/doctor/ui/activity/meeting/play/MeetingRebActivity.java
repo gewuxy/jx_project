@@ -1,12 +1,15 @@
 package yy.doctor.ui.activity.meeting.play;
 
-import java.util.concurrent.TimeUnit;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+
+import java.util.List;
 
 import inject.annotation.router.Route;
-import lib.ys.util.TextUtil;
 import yy.doctor.R;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingPptContract;
-import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptPresenterImpl;
+import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.PPT;
+import yy.doctor.ui.activity.meeting.play.contract.MeetingRebContact;
+import yy.doctor.ui.activity.meeting.play.presenter.MeetingRebPresenterImpl;
 
 /**
  * 录播界面
@@ -15,15 +18,39 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptPresenterImpl;
  * @since : 2017/10/30
  */
 @Route
-public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContract.View, MeetingPptContract.Presenter> {
+public class MeetingRebActivity extends BasePptActivity<MeetingRebContact.View, MeetingRebContact.Presenter> {
 
-    private final int KWhatPass = 1; // 下一页
+    private MeetingRebContact.View mView;
+    private MeetingRebContact.Presenter mPresenter;
 
     @Override
     public void setViews() {
         super.setViews();
 
         goneView(R.id.meet_play_layout_online);
+    }
+
+    @Override
+    protected MeetingRebContact.View createView() {
+        if (mView == null) {
+            mView = new MeetingRebViewImpl();
+        }
+        return mView;
+    }
+
+    @Override
+    protected MeetingRebContact.Presenter createPresenter(MeetingRebContact.View view) {
+        if (mPresenter == null) {
+            mPresenter = new MeetingRebPresenterImpl(view);
+        }
+        return mPresenter;
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        super.onPageSelected(position);
+
+        mPresenter.start(position);
     }
 
     @Override
@@ -37,33 +64,28 @@ public class MeetingRebActivity extends BaseMeetingPptActivity<MeetingPptContrac
     }
 
     @Override
-    public void onPageSelected(int position) {
-        super.onPageSelected(position);
+    protected void onPause() {
+        super.onPause();
 
-        if (TextUtil.isEmpty(getFragPpt().getItem(position).getUrl())) {
-            mHandler.removeMessages(KWhatPass);
-            mHandler.sendEmptyMessageDelayed(KWhatPass, TimeUnit.SECONDS.toMillis(3));
+        mPresenter.stop();
+    }
+
+    private class MeetingRebViewImpl extends BasePptViewImpl implements MeetingRebContact.View {
+
+        @Override
+        public void portraitInit(PPT ppt, List<Course> courses) {
+            super.portraitInit(ppt, courses);
+
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    mPresenter.start(0);
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
         }
-    }
-
-    @Override
-    protected void handler(int what) {
-        switch (what) {
-            case KWhatPass: {
-                getFragPpt().offsetPosition(1, getString(R.string.course_last));
-            }
-            break;
-        }
-    }
-
-    @Override
-    public MeetingPptContract.View createView() {
-        return new MeetingPptViewImpl();
-    }
-
-    @Override
-    public MeetingPptContract.Presenter createPresenter(MeetingPptContract.View view) {
-        return new MeetingPptPresenterImpl(view);
     }
 
 }

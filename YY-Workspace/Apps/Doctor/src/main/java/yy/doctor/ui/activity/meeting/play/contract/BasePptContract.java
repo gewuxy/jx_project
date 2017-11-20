@@ -13,7 +13,7 @@ import yy.doctor.model.meet.ppt.PPT;
  * @auther : GuoXuan
  * @since : 2017/9/26
  */
-public interface MeetingPptContract {
+public interface BasePptContract {
 
     interface View extends IContract.View,ICommonOpt {
         /**
@@ -42,14 +42,17 @@ public interface MeetingPptContract {
         void setNextItem();
 
         /**
-         * 计时结束
+         * 计时结束(横屏)
          */
         void finishCount();
 
+        /**
+         * 更新在线人数
+         */
         void setTextOnline(int onlineNum);
     }
 
-    interface Presenter extends IContract.Presenter<View> {
+    interface Presenter<V extends View> extends IContract.Presenter<V> {
 
         /**
          * 播放
@@ -64,11 +67,16 @@ public interface MeetingPptContract {
         /**
          * 状态转换
          */
-        void toggle();
+        void toggle(int index);
 
         /**
          * 开始计时
          */
         void starCount();
+
+        /**
+         * 图片3秒下一页
+         */
+        void imgNext();
     }
 }

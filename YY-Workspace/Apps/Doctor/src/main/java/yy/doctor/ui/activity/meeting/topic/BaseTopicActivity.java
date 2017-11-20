@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lib.ys.ui.other.NavBar;
 import lib.yy.notify.Notifier.NotifyType;
@@ -24,6 +25,7 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.dialog.HintDialogMain;
+import yy.doctor.model.meet.exam.ISubject;
 import yy.doctor.model.meet.exam.Intro;
 import yy.doctor.model.meet.exam.Intro.TIntro;
 import yy.doctor.model.meet.exam.Paper;
@@ -31,8 +33,12 @@ import yy.doctor.model.meet.exam.Paper.TPaper;
 import yy.doctor.model.meet.exam.Topic;
 import yy.doctor.model.meet.exam.Topic.TTopic;
 import yy.doctor.model.meet.exam.Topic.TopicType;
+import yy.doctor.model.meet.exam.TopicButton;
+import yy.doctor.model.meet.exam.TopicButton.TTopicButton;
+import yy.doctor.model.meet.exam.TopicFill;
+import yy.doctor.model.meet.exam.TopicTitle;
+import yy.doctor.model.meet.exam.TopicTitle.TTopicTitle;
 import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag;
-import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag.OnTopicListener;
 import yy.doctor.ui.frag.meeting.topic.ChoiceMultipleTopicFragRouter;
 import yy.doctor.ui.frag.meeting.topic.ChoiceSingleTopicFragRouter;
 import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
@@ -43,7 +49,7 @@ import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopicListener, OnPageChangeListener, OnItemClickListener {
+public abstract class BaseTopicActivity extends BaseVpActivity implements OnPageChangeListener, OnItemClickListener, BaseTopicFrag.OnTopicListener {
 
     private final int KVpSize = 3;
     private final int KDuration = 300; // 动画时长
@@ -185,8 +191,8 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
     }
 
     @Override
-    public void toFinish(int listId, int titleId, String answer) {
-        Topic checkTopic = mTopics.get(listId);
+    public void toFinish(int id, String answer) {
+        Topic checkTopic = mTopics.get(id);
         if (answer.length() > 0) {
             // 选择了答案
             if (!checkTopic.getBoolean(TTopic.finish)) {
@@ -286,29 +292,59 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnTopi
         mPaper = mIntro.get(TIntro.paper);
         mTopics = mPaper.getList(TPaper.questions);
 
+        Topic topic;
+        List<ISubject> l;
+        TopicTitle title;
         int size = mTopics.size();
         for (int i = 0; i < size; i++) {
-            // 是否为最后一题
-            boolean isLast = i == size - 1;
             BaseTopicFrag frag = null;
-            Topic topic = mTopics.get(i);
-            switch (topic.getInt(TTopic.qtype)) {
+            topic = mTopics.get(i);
+            l = new ArrayList<>();
+            // 添加标题
+            title = new TopicTitle();
+            title.put(TTopicTitle.name, String.format("%d. (%s)%s", i + 1, topic.getType(), topic.getString(TTopic.title)));
+            l.add(title);
+            // 内容
+            int type = topic.getInt(TTopic.qtype);
+            boolean v = false; // 是否显示按钮(不考虑最后一题的情况)
+            switch (type) {
                 case TopicType.choice_single: {
-                    frag = ChoiceSingleTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                    v = false;
+                    l.addAll(topic.getList(TTopic.options));
+                    frag = ChoiceSingleTopicFragRouter.create(i).route();
                 }
                 break;
                 case TopicType.choice_multiple: {
-                    frag = ChoiceMultipleTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                    v = true;
+                    l.addAll(topic.getList(TTopic.options));
+                    frag = ChoiceMultipleTopicFragRouter.create(i).route();
                 }
                 break;
                 case TopicType.fill: {
-                    frag = FillTopicFragRouter.create(topic).lastTopic(isLast).sort(i).route();
+                    v = true;
+                    TopicFill fill = new TopicFill();
+                    l.add(fill);
+                    frag = FillTopicFragRouter.create(i).route();
                 }
                 break;
             }
+            // 按钮
+            TopicButton b = new TopicButton();
+            boolean last = i == mTopics.size() - 1; // 是否是最后一题
+            if (last) {
+                b.put(TTopicButton.text, "提交");
+            } else {
+                b.put(TTopicButton.text, "确认");
+            }
+            if (v || last) {
+                // 最后一题或多选或填空
+                l.add(b);
+            }
+            topic.put(TTopic.subject, l);
 
             if (frag != null) {
                 frag.setTopicListener(this);
+                frag.setData(l);
                 add(frag);
             }
         }

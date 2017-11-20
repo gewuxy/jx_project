@@ -1,38 +1,37 @@
 package yy.doctor.ui.frag.meeting.topic;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import inject.annotation.router.Arg;
+import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.view.LayoutUtil;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.R;
-import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.adapter.meeting.SubjectAdapter;
+import yy.doctor.model.constants.SubjectType;
+import yy.doctor.model.meet.exam.ISubject;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/9/12
  */
-abstract public class BaseTopicFrag extends BaseFrag {
+abstract public class BaseTopicFrag extends BaseListFrag<ISubject, SubjectAdapter> implements MultiAdapterEx.OnAdapterClickListener {
+
+    @Arg
+    int mSort; // 题号
+
+    private OnTopicListener mListener;
 
     public interface OnTopicListener {
 
         /**
          * 完成题目
          *
-         * @param listId  题号
-         * @param titleId 题目Id
-         * @param answer  该题选择的答案
+         * @param id     题目Id
+         * @param answer 该题选择的答案
          */
-        void toFinish(int listId, int titleId, String answer);
+        void toFinish(int id, String answer);
 
         /**
          * 下一题
@@ -40,21 +39,6 @@ abstract public class BaseTopicFrag extends BaseFrag {
         void toNext();
 
     }
-
-    private OnTopicListener mListener;
-
-    @Arg
-    Topic mTopic; // 该题目的信息
-
-    @Arg(opt = true)
-    int mSort; // 题号
-
-    @Arg(opt = true)
-    boolean mLastTopic; // 最后一题
-
-    private TextView mTvTitle; // 题目
-    private LinearLayout mLayout; // 答题
-    private TextView mTvNext; // 下一题(提交)按钮
 
     public void setTopicListener(OnTopicListener listener) {
         mListener = listener;
@@ -71,77 +55,59 @@ abstract public class BaseTopicFrag extends BaseFrag {
         // no navBar
     }
 
-    @CallSuper
-    @Override
-    public void findViews() {
-        mTvTitle = findView(R.id.topic_tv_title);
-        mLayout = findView(R.id.topic_layout);
-        mTvNext = findView(R.id.topic_tv_btn);
-
-        LayoutParams params = LayoutUtil.getLinearParams(MATCH_PARENT, WRAP_CONTENT);
-        mLayout.addView(inflate(getContentId()), params);
-    }
-
-    @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_topic;
+        return R.layout.frag_topic;
     }
 
-    @CallSuper
     @Override
     public void setViews() {
-        setBackgroundColor(Color.WHITE);
-        mTvTitle.setText(String.format("%d. (%s)%s", mSort + 1, getTitleType(), mTopic.getString(TTopic.title))); // 设置题目
+        super.setViews();
 
-        setContent(); // 设置内容
-
-        if (getButtonVisible()) {
-            showView(mTvNext);
-        } else {
-            goneView(mTvNext);
-        }
-
-        // 最后一题的时候
-        if (mLastTopic) {
-            showView(mTvNext);
-            mTvNext.setText(R.string.submit);
-        }
-        setOnClickListener(mTvNext);
+        setOnAdapterClickListener(this);
     }
 
     @Override
-    public final void onClick(View v) {
-        nextTopic();
+    public void onAdapterClick(int position, View v) {
+        int type = getAdapter().getItemViewType(position);
+        switch (type) {
+            case SubjectType.choose: {
+                select(position);
+            }
+            break;
+            case SubjectType.button: {
+                nextTopic();
+            }
+            break;
+        }
+
     }
 
+    /**
+     * 选择题的选择
+     *
+     * @param position 选项位置
+     */
+    protected void select(int position) {
+    }
+
+    /**
+     * 下一题
+     */
     protected void nextTopic() {
         if (mListener != null) {
             mListener.toNext();
         }
     }
 
+    /**
+     * 完成作答
+     *
+     * @param answer 该题作答答案
+     */
     protected void topicFinish(String answer) {
         if (mListener != null) {
-            mListener.toFinish(mSort, mTopic.getInt(TTopic.id), answer);
+            mListener.toFinish(mSort, answer);
         }
     }
-
-    abstract protected int getContentId();
-
-    /**
-     * 题目
-     */
-    abstract protected CharSequence getTitleType();
-
-    /**
-     * 内容
-     */
-    abstract protected void setContent();
-
-    /**
-     * 确定按钮是否显示
-     */
-    abstract protected boolean getButtonVisible();
-
 }

@@ -1,12 +1,9 @@
 package yy.doctor.ui.frag.meeting.topic;
 
-import android.view.View;
-import android.widget.AdapterView;
-
 import inject.annotation.router.Route;
 import io.reactivex.Flowable;
-import yy.doctor.model.meet.exam.Choice;
-import yy.doctor.model.meet.exam.Choice.TChoice;
+import yy.doctor.model.meet.exam.TopicChoice;
+import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
 
 /**
  * 多选题
@@ -15,30 +12,21 @@ import yy.doctor.model.meet.exam.Choice.TChoice;
  * @since : 2017/9/12
  */
 @Route
-public class ChoiceMultipleTopicFrag extends BaseChoiceTopicFrag {
+public class ChoiceMultipleTopicFrag extends BaseTopicFrag {
 
     @Override
-    protected CharSequence getTitleType() {
-        return "多选";
-    }
-
-    @Override
-    protected boolean getButtonVisible() {
-        return true;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    protected void select(int position) {
         // 取反刷新
-        Choice item = getItem(position);
-        boolean selected = !item.getBoolean(TChoice.check);
-        item.put(TChoice.check, selected);
+        TopicChoice item = (TopicChoice) getItem(position);
+        boolean selected = !item.getBoolean(TTopicChoice.check);
+        item.put(TTopicChoice.check, selected);
         invalidate(position);
         // 更新答案
         StringBuffer sb = new StringBuffer();
         Flowable.fromIterable(getData())
-                .filter(choice -> (choice.getBoolean(TChoice.check)))
-                .subscribe(choice -> sb.append(choice.getString(TChoice.key)));
+                .filter(iSubject -> iSubject instanceof TopicChoice)
+                .filter(choice -> ((TopicChoice)choice).getBoolean(TTopicChoice.check))
+                .subscribe(choice -> sb.append(((TopicChoice)choice).getString(TTopicChoice.key)));
 
         topicFinish(sb.toString());
     }

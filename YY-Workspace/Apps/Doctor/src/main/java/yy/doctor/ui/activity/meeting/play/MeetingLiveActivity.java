@@ -39,11 +39,13 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     @IntDef({
             PlayType.ppt,
             PlayType.live,
+            PlayType.reset,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PlayType {
         int ppt = 0; // ppt
         int live = 1; // 直播
+        int reset = 2;
     }
 
     private LayoutParams mParamPpt;
@@ -296,6 +298,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         super.onResume();
 
         mFragLive.startPullStream();
+        mPlayType = PlayType.reset;
     }
 
     @Override
@@ -363,26 +366,29 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         @Override
         public void addCourse(Course course, int index) {
             if (course != null) {
+                // 同步
                 mFragPpt.addCourse(course);
                 int count = getPptFrag().getCount();
                 setTextAll(count);
                 if (count != getPptFrag().getCurrPosition()) {
-                    // 不在最新页提示新的一页完成
-                    getPptFrag().setTextNew(String.valueOf(count));
+                    // 不在最新页提示新的一页
                     if (mPlayType == PlayType.live) {
                         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                             @Override
                             public void onGlobalLayout() {
                                 mFragPpt.setToLastPosition();
-                                mPlayType = PlayType.live;
                                 removeOnGlobalLayoutListener(this);
                             }
 
                         });
+                    } else {
+                        getPptFrag().setTextNew(String.valueOf(count));
                     }
-
-                } else {
+                }
+            } else {
+                // 推了音频过来
+                if (mPlayType == PlayType.ppt) {
                     getPptFrag().startPlay();
                 }
             }
