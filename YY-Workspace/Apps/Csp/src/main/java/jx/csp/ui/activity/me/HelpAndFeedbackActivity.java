@@ -12,6 +12,7 @@ import java.util.HashMap;
 import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.constant.FormType;
+import jx.csp.constant.MetaValue;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetFactory.CommonParam;
 import jx.csp.network.UrlUtil;
@@ -110,15 +111,11 @@ public class HelpAndFeedbackActivity extends BaseFormActivity {
         super.setViews();
         mTvAppName.setText(R.string.app_name);
         mTvVersion.setText("V" + mVersion);
-        if (BuildConfig.DEBUG_NETWORK) {
-            mTvAppName.setOnClickListener(this);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.help_and_feedback_tv_app_name) {
-            showToast(PackageUtil.getMetaValue("APP_NAME"));
+        if (BuildConfig.DEBUG) {
+            mTvAppName.setOnLongClickListener(v -> {
+                showToast(PackageUtil.getMetaValue(MetaValue.app_name));
+                return true;
+            });
         }
     }
 

@@ -65,11 +65,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     }
 
     @Override
-    public boolean enableInitRefresh() {
-        return isEmpty();
-    }
-
-    @Override
     public void onNetRefreshSuccess() {
         super.onNetRefreshSuccess();
 
