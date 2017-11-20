@@ -203,7 +203,8 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
         @Override
         public void setSurplusFlowRate() {
-            BigDecimal flux = new BigDecimal(Profile.inst().getInt(TProfile.flux) / KFlowConversion).setScale(0, BigDecimal.ROUND_HALF_UP);
+            BigDecimal bd = new BigDecimal(Profile.inst().getInt(TProfile.flux) / KFlowConversion);
+            double flux = bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             mTvSurplus.setText(flux + KSurplusFlowUnit);
             mEtFlowRate.setText("");
         }
