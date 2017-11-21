@@ -11,6 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  */
 @StringDef({
         MetaValue.app_type,
+        MetaValue.app_name,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface MetaValue {

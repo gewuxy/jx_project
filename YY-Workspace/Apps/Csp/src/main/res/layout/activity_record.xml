@@ -52,7 +52,10 @@
             android:layout_height="31dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="107dp"
-            android:padding="5dp"
+            android:paddingRight="11dp"
+            android:paddingLeft="11dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:src="@drawable/record_ic_arrow_left"/>
 
         <TextView
@@ -91,7 +94,10 @@
             android:layout_alignParentRight="true"
             android:layout_marginLeft="21dp"
             android:layout_marginRight="107dp"
-            android:padding="5dp"
+            android:paddingRight="11dp"
+            android:paddingLeft="11dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:src="@drawable/record_ic_arrow_right"/>
 
     </RelativeLayout>

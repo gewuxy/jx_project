@@ -94,7 +94,7 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
 
         @Override
         public void onMessage(WebSocket webSocket, String text) {
-            YSLog.d(TAG, "WebSocket onMessage String = " + text);
+            YSLog.d(TAG, "WebSocket onMessage receiver String = " + text);
             runOnUIThread(() -> {
                 try {
                     JSONObject ob = new JSONObject(text);
@@ -168,7 +168,7 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
             YSLog.d(TAG, "onFailure:");
-
+            mWsSuccess = false;
             // 1秒后重连
             // 没退出继续发任务
             runOnUIThread(() -> {

@@ -58,6 +58,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     private boolean mStopCountDown = false; // 是否开始进行结束倒计时
     private boolean mIsReceiveFlowInsufficient = false; // 是否已经收到过流量不足警告
     private int mLastPage = 0; // 上一页的位置
+    private int mFirstClickStart = 1; // 是否第一次点击开始直播  0表示不是 1表示是
 
     @Arg(opt = true)
     long mStartTime;
@@ -73,7 +74,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         super.initData(savedInstanceState);
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mView = new View();
-        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView, mCourseId);
+        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
     }
 
     @Override
@@ -129,8 +130,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
                     } else {
                         mView.startRecordState();
                     }
-                    // 点击开始直播的时候要发同步指令
-                    notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
+                    // 点击开始直播告诉服务器开始直播，自己不发同步指令
+                    mLiveRecordPresenterImpl.startLive(mCourseId,
+                            mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.videoUrl),
+                            mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.imgUrl),
+                            mFirstClickStart);
+                    mFirstClickStart = 0;
                     YSLog.d(TAG, "点击开始直播,发同步指令 pos = " + getCurrPosition());
                 }
             } else {

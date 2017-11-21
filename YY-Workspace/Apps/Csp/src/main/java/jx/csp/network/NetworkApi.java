@@ -232,6 +232,16 @@ public class NetworkApi {
         void join(String courseId);
 
         /**
+         * 直播语音点击开始直播时调用
+         *
+         * @param courseId
+         * @param imgUrl
+         * @param firstClk  是否是第一次点击开始按钮 0表示不是 1表示是
+         */
+        @Get("live/start")
+        void start(String courseId, String videoUrl, String imgUrl, int firstClk);
+
+        /**
          * 同步指令
          *
          * @param courseId

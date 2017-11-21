@@ -125,22 +125,31 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onLiveClick(Meet item) {
-        // 先判断是否有人在直播视频
-        mJoinLiveRoom = true;
+        // 先判断会议是否已经开始，再判断是否有人在直播视频
         mMeet = item;
-        exeNetworkReq(KJoinLiveRoomCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
+        long startTime = item.getLong(TMeet.startTime);
+        long endTime = item.getLong(TMeet.endTime);
+        long currentTime = System.currentTimeMillis();
+        if (startTime > currentTime) {
+            showToast(R.string.live_not_start);
+        } else if (startTime < currentTime && endTime > currentTime) {
+            mJoinLiveRoom = true;
+            exeNetworkReq(KJoinLiveRoomCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
+        } else {
+            showToast(R.string.live_have_end);
+        }
     }
 
     @Override
     public void allowEnter() {
-        YSLog.d(TAG, "enter WebSocketServRouter.stop");
+        YSLog.d(TAG, "MeetPresenterImpl enter WebSocketServRouter.stop");
         WebSocketServRouter.stop(mContext);
         join();
     }
 
     @Override
     public void notAllowEnter() {
-        YSLog.d(TAG, "noEnter WebSocketServRouter.stop");
+        YSLog.d(TAG, "MeetPresenterImpl noEnter WebSocketServRouter.stop");
         WebSocketServRouter.stop(mContext);
         if (mCountdownDialog != null) {
             mCountdownDialog.dismiss();

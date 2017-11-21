@@ -56,6 +56,8 @@ public interface LiveRecordContract {
 
         void getData(String courseId);
 
+        void startLive(String courseId, String videoUrl, String imgUrl, int firstClk);
+
         void pageChange(int pos);
 
         void setWsPos(int pos);

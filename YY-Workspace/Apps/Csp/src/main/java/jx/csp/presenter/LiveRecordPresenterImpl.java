@@ -36,8 +36,9 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         OnCountDownListener {
 
     private final String TAG = getClass().getSimpleName();
-    private final int KJoinMeetingReqId = 10;
-    private final int KUploadVideoPage = 20;  // 视频页翻页时调用的
+    private final int KJoinMeetingReqId = 1;
+    private final int KStartLiveReqId = 2;  // 开始直播
+    private final int KUploadVideoPage = 3;  // 视频页翻页时调用的
     private final int KFifteen = 15; // 开始倒计时的分钟数
     private final int KRecordMsgWhat = 1;
     private final int KSendSyncMsgWhat = 2; // 发送同步指令
@@ -91,7 +92,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         }
     };
 
-    public LiveRecordPresenterImpl(LiveRecordContract.V view, String roomId) {
+    public LiveRecordPresenterImpl(LiveRecordContract.V view) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();
@@ -100,6 +101,11 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     @Override
     public void getData(String courseId) {
         exeNetworkReq(KJoinMeetingReqId, MeetingAPI.join(courseId).build());
+    }
+
+    @Override
+    public void startLive(String courseId, String videoUrl, String imgUrl, int firstClk) {
+        exeNetworkReq(KStartLiveReqId, MeetingAPI.start(courseId, videoUrl, imgUrl, firstClk).build());
     }
 
     @Override
