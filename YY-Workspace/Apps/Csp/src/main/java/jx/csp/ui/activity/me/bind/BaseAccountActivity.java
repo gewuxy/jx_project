@@ -164,14 +164,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                     break;
                 }
             } else {
-                // 已绑定
-                showConfirmUnBindDialog(tips, v -> {
-                    if (Util.noNetwork()) {
-                        return;
-                    }
-                    refresh(RefreshWay.dialog);
-                    mPresenter.unBind(bindId);
-                });
+                showUnBindDialog(bindId, tips);
             }
         }
 
