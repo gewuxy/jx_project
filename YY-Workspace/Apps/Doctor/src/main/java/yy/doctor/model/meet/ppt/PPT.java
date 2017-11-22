@@ -1,6 +1,7 @@
 package yy.doctor.model.meet.ppt;
 
 import lib.ys.model.EVal;
+import yy.doctor.model.meet.Meeting.LiveState;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 
 /**
@@ -23,6 +24,11 @@ public class PPT extends EVal<TPPT> {
         count, // 会议评论人数
 
         socketUrl,
+
+        /**
+         * {@link LiveState}
+         */
+        liveSate,
 
     }
 }

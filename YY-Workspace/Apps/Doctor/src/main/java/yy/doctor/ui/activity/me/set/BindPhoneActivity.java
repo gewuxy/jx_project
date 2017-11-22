@@ -5,7 +5,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -28,15 +27,13 @@ import yy.doctor.util.Util;
 
 /**
  * 绑定手机号
+ *
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
     private final int KCaptcha = 0;
-
-    private EditText mEtCaptcha;
-    private EditText mEtPhone;
 
     @IntDef({
             RelatedId.phone_number,
@@ -55,6 +52,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .layout(R.layout.form_edit_bind_phone_number)
+                .textWatcher(this)
                 .hint("输入手机号码"));
 
         addItem(Form.create(FormType.divider));
@@ -63,21 +61,11 @@ public class BindPhoneActivity extends BaseSetActivity {
                 .related(RelatedId.captcha)
                 .layout(R.layout.form_edit_bind_captcha)
                 .textColorRes(R.color.register_captcha_text_selector)
+                .textWatcher(this)
                 .hint(R.string.captcha)
                 .enable(false));
 
         addItem(Form.create(FormType.divider));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        mEtPhone = getRelatedItem(RelatedId.phone_number).getHolder().getEt();
-        mEtCaptcha = getRelatedItem(RelatedId.captcha).getHolder().getEt();
-
-        mEtPhone.addTextChangedListener(this);
-        mEtCaptcha.addTextChangedListener(this);
     }
 
     @Override
@@ -92,12 +80,12 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @NonNull
     private String getPhone() {
-        return Util.getEtString(mEtPhone).replace(" ", "");
+        return getRelatedItem(RelatedId.phone_number).getVal().trim().replace(" ", "");
     }
 
     @NonNull
     private String getCaptcha() {
-        return Util.getEtString(mEtCaptcha);
+        return getRelatedItem(RelatedId.captcha).getVal().trim();
     }
 
     @Override

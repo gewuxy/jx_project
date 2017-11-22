@@ -5,6 +5,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ abstract public class BaseForm extends FormEx<BaseForm, FormVH> {
     private InputFilter[] mInputFilter;
 
     private ColorStateList mHintTextColor;
+
+    private TextWatcher mTextWatcher;
 
     private boolean mIllegality = false; // 是否能输入非法字符(注册可以输入)
 
@@ -77,6 +80,11 @@ abstract public class BaseForm extends FormEx<BaseForm, FormVH> {
         return (T) this;
     }
 
+    public <T extends BaseForm> T textWatcher(TextWatcher textWatcher) {
+        mTextWatcher = textWatcher;
+        return (T) this;
+    }
+
     public int getPaddingLeft() {
         return mPaddingLeft;
     }
@@ -103,6 +111,10 @@ abstract public class BaseForm extends FormEx<BaseForm, FormVH> {
 
     public boolean getIllegality() {
         return mIllegality;
+    }
+
+    public TextWatcher getTextWatcher() {
+        return mTextWatcher;
     }
 
     @Override

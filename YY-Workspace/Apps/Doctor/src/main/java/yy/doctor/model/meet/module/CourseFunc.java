@@ -11,8 +11,8 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.yy.network.Result;
 import yy.doctor.App;
-import yy.doctor.BuildConfig;
 import yy.doctor.R;
+import yy.doctor.model.meet.Meeting.LiveState;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.MeetDetail;
@@ -90,17 +90,26 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
+                @LiveState int state = ppt.getInt(TPPT.liveSate);
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
                         MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                     case BroadcastType.live_ppt: {
-                        MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        if (state == LiveState.end) {
+                            MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        } else {
+                            MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        }
                     }
                     break;
                     case BroadcastType.live: {
-                        MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        if (state == LiveState.end) {
+                            MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        } else {
+                            MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        }
                     }
                     break;
                 }

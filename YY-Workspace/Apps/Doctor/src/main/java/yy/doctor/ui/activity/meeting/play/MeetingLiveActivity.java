@@ -368,24 +368,24 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             if (course != null) {
                 // 同步
                 mFragPpt.addCourse(course);
-                int count = getPptFrag().getCount();
-                setTextAll(count);
-                if (count != getPptFrag().getCurrPosition()) {
-                    // 不在最新页提示新的一页
-                    if (mPlayType == PlayType.live) {
-                        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                            @Override
-                            public void onGlobalLayout() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int count = getPptFrag().getCount();
+                        setTextAll(count);
+                        if (count != getPptFrag().getCurrPosition()) {
+                            // 不在最新页提示新的一页
+                            if (mPlayType == PlayType.live) {
                                 mFragPpt.setToLastPosition();
-                                removeOnGlobalLayoutListener(this);
                             }
-
-                        });
-                    } else {
-                        getPptFrag().setTextNew(String.valueOf(count));
+                        } else {
+                            getPptFrag().setTextNew(String.valueOf(count));
+                        }
+                        removeOnGlobalLayoutListener(this);
                     }
-                }
+
+                });
             } else {
                 // 推了音频过来
                 if (mPlayType == PlayType.ppt) {

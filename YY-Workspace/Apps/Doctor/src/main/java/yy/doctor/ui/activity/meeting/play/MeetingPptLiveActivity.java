@@ -82,12 +82,20 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
             } else {
                 // 添加新的界面
                 getFragPpt().addCourse(course);
-                int count = getFragPpt().getCount();
-                if (count != getFragPpt().getCurrPosition()) {
-                    // 不在最新页提示新的一页完成
-                    getFragPpt().setTextNew(String.valueOf(count));
-                }
-                setTextAll(count);
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+                        int count = getFragPpt().getCount();
+                        if (count != getFragPpt().getCurrPosition()) {
+                            // 不在最新页提示新的一页完成
+                            getFragPpt().setTextNew(String.valueOf(count));
+                        }
+                        setTextAll(count);
+                        removeOnGlobalLayoutListener(this);
+                    }
+
+                });
             }
         }
     }

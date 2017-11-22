@@ -3,7 +3,6 @@ package yy.doctor.ui.activity.me.set;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +14,6 @@ import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.NetworkApiDescriptor.UserAPI;
-import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -25,9 +23,6 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     private final int KLengthMax = 24; // 密码最大长度
     private final int KLengthMin = 6; // 密码最少长度
-
-    private EditText mEtPwdOld;
-    private EditText mEtPwdNew;
 
     @IntDef({
             RelatedId.pwd_old,
@@ -47,6 +42,7 @@ public class ChangePwdActivity extends BaseSetActivity {
                 .related(RelatedId.pwd_old)
                 .hint("旧密码")
                 .limit(KLengthMax)
+                .textWatcher(this)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider));
@@ -55,20 +51,10 @@ public class ChangePwdActivity extends BaseSetActivity {
                 .related(RelatedId.pwd_new)
                 .hint(R.string.pwd)
                 .limit(KLengthMax)
+                .textWatcher(this)
                 .drawable(R.drawable.register_pwd_selector));
 
         addItem(Form.create(FormType.divider));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        mEtPwdOld = getRelatedItem(RelatedId.pwd_old).getHolder().getEt();
-        mEtPwdNew = getRelatedItem(RelatedId.pwd_new).getHolder().getEt();
-
-        mEtPwdOld.addTextChangedListener(this);
-        mEtPwdNew.addTextChangedListener(this);
     }
 
     @Override
@@ -94,25 +80,26 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     protected void toSet() {
-        String oldPwd = Util.getEtString(mEtPwdOld);
-        String newPwd = Util.getEtString(mEtPwdNew);
+        String oldPwd = getRelatedItem(RelatedId.pwd_old).getVal();
+        String newPwd = getRelatedItem(RelatedId.pwd_new).getVal();
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.changePwd(oldPwd, newPwd).build());
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(checkPwd(mEtPwdOld) && checkPwd(mEtPwdNew));
+        String oldPwd = getRelatedItem(RelatedId.pwd_old).getVal();
+        String newPwd = getRelatedItem(RelatedId.pwd_new).getVal();
+        setChanged(checkPwd(oldPwd) && checkPwd(newPwd));
     }
 
     /**
      * 检查密码
      *
-     * @param et 密码输入框
+     * @param pwd 密码
      * @return true 密码符合规则; false 密码不符合规则
      */
-    private boolean checkPwd(EditText et) {
-        String pwd = Util.getEtString(et);
+    private boolean checkPwd(String pwd) {
         return TextUtil.isNotEmpty(pwd) && pwd.length() >= KLengthMin;
     }
 }

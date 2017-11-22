@@ -255,7 +255,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             form.enable(false);
             refreshItem(form);
         }
-        refreshItem(form);
     }
 
 }

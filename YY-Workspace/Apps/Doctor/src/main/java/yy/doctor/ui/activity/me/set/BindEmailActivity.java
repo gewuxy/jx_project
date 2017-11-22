@@ -3,7 +3,6 @@ package yy.doctor.ui.activity.me.set;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +14,6 @@ import yy.doctor.R;
 import yy.doctor.model.form.Form;
 import yy.doctor.model.form.FormType;
 import yy.doctor.network.NetworkApiDescriptor.UserAPI;
-import yy.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -31,8 +29,6 @@ public class BindEmailActivity extends BaseSetActivity {
         int email = 0;
     }
 
-    private EditText mEtEmail;
-
     @Override
     public void initData(Bundle state) {
         super.initData(state);
@@ -40,17 +36,10 @@ public class BindEmailActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
                 .hint("输入邮箱地址")
+                .textWatcher(this)
                 .layout(R.layout.form_edit_bind_email));
 
         addItem(Form.create(FormType.divider));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtEmail.addTextChangedListener(this);
     }
 
     @Override
@@ -66,7 +55,8 @@ public class BindEmailActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        exeNetworkReq(UserAPI.bindEmail(Util.getEtString(mEtEmail)).build());
+        String email = getRelatedItem(RelatedId.email).getVal();
+        exeNetworkReq(UserAPI.bindEmail(email.trim()).build());
     }
 
     @Override
@@ -82,6 +72,6 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)));
+        setChanged(RegexUtil.isEmail(getRelatedItem(RelatedId.email).getVal().trim()));
     }
 }

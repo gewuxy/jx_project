@@ -85,6 +85,8 @@ public class PPTLiveFrag extends BaseFrag {
 
     public void loginRoom(String roomId) {
         LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
+        // FIXME:
+        LiveApi.getInst().setTest(true);
         LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 
