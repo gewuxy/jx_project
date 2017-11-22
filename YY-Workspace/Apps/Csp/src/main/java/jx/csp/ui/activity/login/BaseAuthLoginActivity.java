@@ -117,13 +117,23 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
                 String icon = params.getIcon();
                 String userId = params.getId();
                 String userName = params.getName();
-
-                exeNetworkReq(id, UserAPI.login(type)
-                        .uniqueId(userId)
-                        .nickName(userName)
-                        .gender(userGender)
-                        .avatar(icon)
-                        .build());
+                // 微信专用，其他不变
+                String uniqueId = params.getUnionId();
+                if (type == BindId.wechat) {
+                    exeNetworkReq(id, UserAPI.login(type)
+                            .uniqueId(uniqueId)
+                            .nickName(userName)
+                            .gender(userGender)
+                            .avatar(icon)
+                            .build());
+                }else {
+                    exeNetworkReq(id, UserAPI.login(type)
+                            .uniqueId(userId)
+                            .nickName(userName)
+                            .gender(userGender)
+                            .avatar(icon)
+                            .build());
+                }
                 showToast(R.string.auth_success);
             }
 

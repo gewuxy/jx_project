@@ -188,6 +188,8 @@ public class MobProvider implements Provider {
                             .gender(db.getUserGender())
                             .icon(db.getUserIcon())
                             .id(db.getUserId())
+                            //微信专用的id，其他不变
+                            .unionId(db.get("unionid"))
                             .name(db.getUserName())
                             .build());
                 }
