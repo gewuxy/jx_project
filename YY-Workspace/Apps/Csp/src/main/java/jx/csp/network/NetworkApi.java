@@ -263,6 +263,7 @@ public class NetworkApi {
          * @param file
          */
         @Upload("upload")
+        @Retry(count = 5, delay = 1000)
         void uploadAudio(@Query(opt = true) String courseId,
                          @Query(opt = true) String detailId,
                          @Query(opt = true) int playType,

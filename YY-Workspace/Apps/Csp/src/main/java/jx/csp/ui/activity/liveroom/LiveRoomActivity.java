@@ -49,7 +49,6 @@ import lib.yy.util.CountDown.OnCountDownListener;
 public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
 
     private final int KPermissionCode = 10;
-    private final int KSixty = (int) TimeUnit.MINUTES.toSeconds(1);
 
     private TextureView mTextureView;
     private TextView mTvLiveTime;
@@ -347,7 +346,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     }
 
     private void havePermissionState() {
-        mP.initLiveRoom(mCourseId);
+        mP.initLiveRoom(mCourseId, mTextureView);
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);
@@ -415,24 +414,19 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     private class View implements LiveRoomContract.V {
 
         @Override
-        public TextureView getTextureView() {
-            return mTextureView;
-        }
-
-        @Override
-        public void setLiveTimeTv(String s) {
+        public void setLiveTime(String s) {
             mTvLiveTime.setText(s);
         }
 
         @Override
-        public void setCountDownRemindTv(int i) {
+        public void setCountDownRemind(int i) {
             if (!mIsFlowInsufficient) {
                 if (!mIsShowRemainingTimeTv) {
                     mIsShowRemainingTimeTv = true;
                     showView(mTvRemainingTime);
                 }
-                if (i >= KSixty) {
-                    mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_minute), i / KSixty));
+                if (i >= 60) {
+                    mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_minute), i / 60));
                 } else {
                     mTvRemainingTime.setText(String.format(getString(R.string.live_stop_remind_second), i));
                 }
@@ -479,7 +473,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         }
 
         @Override
-        public void onFinish() {
+        public void finishLive() {
             if (mLiveState) {
                 mP.stopLive();
             }

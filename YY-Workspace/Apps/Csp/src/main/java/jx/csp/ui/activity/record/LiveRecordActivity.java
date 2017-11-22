@@ -6,7 +6,6 @@ import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
@@ -49,8 +48,6 @@ import lib.yy.util.CountDown.OnCountDownListener;
  */
 @Route
 public class LiveRecordActivity extends BaseRecordActivity {
-
-    private final int KSixty = (int) TimeUnit.MINUTES.toSeconds(1);
 
     private LiveRecordPresenterImpl mLiveRecordPresenterImpl;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
@@ -183,7 +180,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
     protected void pageSelected(int position) {
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
-            mLiveRecordPresenterImpl.pageChange(position);
+            mLiveRecordPresenterImpl.changePage(position);
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
             // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
             Fragment f1 = getItem(mLastPage);
@@ -369,7 +366,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         @Override
         public void setData(JoinMeeting joinMeeting) {
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
-            mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
@@ -409,12 +406,12 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
 
         @Override
-        public void sendSyncInstructions(int pos) {
+        public void sendSyncInstruction(int pos) {
             notifyServ(LiveNotifyType.send_msg, pos, WsOrderType.sync);
         }
 
         @Override
-        public void setLiveTimeTv(String str) {
+        public void setLiveTime(String str) {
             setNavBarMidText(str);
         }
 
@@ -439,19 +436,19 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
 
         @Override
-        public void setCountDownRemainTv(boolean show, long l) {
+        public void setCountDownRemain(boolean show, long l) {
             if (show) {
                 showView(mTvTimeRemain);
             }
-            if (l >= KSixty) {
-                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_minute), l / KSixty));
+            if (l >= 60) {
+                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_minute), l / 60));
             } else {
                 mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_second), l));
             }
         }
 
         @Override
-        public void upload(int type, String audioFilePath) {
+        public void joinUploadRank(String audioFilePath) {
             uploadAudioFile(mCourseId, getCurrPosition(), PlayType.live, audioFilePath);
         }
 
@@ -478,7 +475,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
 
         @Override
-        public void onFinish() {
+        public void finishLive() {
             finish();
         }
 

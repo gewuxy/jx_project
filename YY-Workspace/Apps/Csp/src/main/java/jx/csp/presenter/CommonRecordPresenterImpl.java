@@ -41,7 +41,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
         RecordImgFrag.onMediaPlayerListener,
         CountDown.OnCountDownListener {
 
-    private final int KSixtySecond = (int) TimeUnit.MINUTES.toSeconds(1);
+    private final int KCountDownTime = (int) TimeUnit.MINUTES.toSeconds(1);
     private final int KJoinMeetingReqId = 10;
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
@@ -88,7 +88,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
-            mCountDown.start(KSixtySecond);
+            mCountDown.start(KCountDownTime);
             getView().startRecordState();
         } catch (IOException e) {
             getView().showToast(R.string.record_fail);
@@ -137,7 +137,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
             //同步准备
             mMediaPlayer.prepare();
             mMediaPlayer.start();
-            mCountDown.start(KSixtySecond);
+            mCountDown.start(KCountDownTime);
             mMediaPlayer.setOnCompletionListener(mp -> {
                 frag.stopAnimation();
                 stopPlay();
@@ -166,7 +166,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            mCountDown.start(KSixtySecond);
+            mCountDown.start(KCountDownTime);
         }
         // 录制跟播放有不同的操作
         if (mPlayState) {
@@ -196,7 +196,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
         if (id == KJoinMeetingReqId) {
             if (r.isSucceed()) {
                 JoinMeeting joinMeeting = (JoinMeeting) r.getData();
-                List<CourseDetail> courseDetailList = (List<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+                List<CourseDetail> courseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
                 for (int i = 0; i < courseDetailList.size(); ++i) {
                     CourseDetail courseDetail = courseDetailList.get(i);
                     if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -422,7 +421,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         @Override
         public void setData(JoinMeeting joinMeeting) {
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
-            mCourseDetailList = (ArrayList<CourseDetail>) joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTitle = joinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));

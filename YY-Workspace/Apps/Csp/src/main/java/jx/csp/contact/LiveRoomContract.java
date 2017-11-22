@@ -12,11 +12,9 @@ public interface LiveRoomContract {
 
     interface V extends IContract.View {
 
-        TextureView getTextureView();
+        void setLiveTime(String s);
 
-        void setLiveTimeTv(String s);
-
-        void setCountDownRemindTv(int i);
+        void setCountDownRemind(int i);
 
         void startLiveState();
 
@@ -28,12 +26,12 @@ public interface LiveRoomContract {
 
         void setSilenceIvSelected(boolean b);
 
-        void onFinish();
+        void finishLive();
     }
 
     interface P extends IContract.Presenter<V> {
 
-        void initLiveRoom(String roomId);
+        void initLiveRoom(String roomId, TextureView textureView);
 
         void startCountDown(long startTime, long stopTime);
 

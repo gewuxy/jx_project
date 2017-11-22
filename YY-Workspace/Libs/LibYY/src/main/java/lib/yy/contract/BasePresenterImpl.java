@@ -85,6 +85,13 @@ abstract public class BasePresenterImpl<V extends IContract.View> implements
     public void onNetworkProgress(int id, float progress, long totalSize) {
     }
 
+    public boolean retryNetworkRequest(int id) {
+        if (mNetworkImpl != null) {
+            return mNetworkImpl.retryNetworkRequest(id);
+        }
+        return false;
+    }
+
     @Override
     public void onDestroy() {
         mNetworkImpl.onDestroy();

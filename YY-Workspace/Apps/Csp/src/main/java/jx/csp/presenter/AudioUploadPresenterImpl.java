@@ -69,8 +69,7 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<AudioUploadContr
         }
     }
 
-    @Override
-    public void upload() {
+    private void upload() {
         if (mUploadList.isEmpty()) {
             YSLog.d(TAG, "上传列表为空");
             return;
@@ -99,6 +98,9 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<AudioUploadContr
             }
             mUploadState = false;
             upload();
+        } else {
+            // 上传失败就重试
+            retryNetworkRequest(id);
         }
     }
 }

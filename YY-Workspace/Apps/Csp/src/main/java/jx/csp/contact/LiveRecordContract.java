@@ -2,7 +2,6 @@ package jx.csp.contact;
 
 import android.support.annotation.StringRes;
 
-import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.JoinMeeting;
 import lib.yy.contract.IContract;
 
@@ -17,12 +16,12 @@ public interface LiveRecordContract {
 
         void setData(JoinMeeting joinMeeting);
 
-        void sendSyncInstructions(int pos);
+        void sendSyncInstruction(int pos);
 
         /**
          * 直播的时间
          */
-        void setLiveTimeTv(String str);
+        void setLiveTime(String str);
 
         void startRecordState();
 
@@ -31,12 +30,12 @@ public interface LiveRecordContract {
         /**
          * 直播倒计时
          */
-        void setCountDownRemainTv(boolean show, long l);
+        void setCountDownRemain(boolean show, long l);
 
         /**
-         * 一页录音的时间超过15分钟时，先上传15分钟的音频
+         * 一页录音的时间超过15分钟时，先上传15分钟的音频 加入上传音频列队
          */
-        void upload(@PlayType int type, String audioFilePath);
+        void joinUploadRank(String audioFilePath);
 
         /**
          * 设置正在录制音频文件的路径
@@ -49,7 +48,7 @@ public interface LiveRecordContract {
 
         void showToast(@StringRes int id);
 
-        void onFinish();
+        void finishLive();
     }
 
     interface P extends IContract.Presenter<V> {
@@ -58,7 +57,7 @@ public interface LiveRecordContract {
 
         void startLive(String courseId, String videoUrl, String imgUrl, int firstClk);
 
-        void pageChange(int pos);
+        void changePage(int pos);
 
         void setWsPos(int pos);
 

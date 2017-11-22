@@ -1,11 +1,10 @@
 package jx.csp.serv;
 
 import android.content.Intent;
+import android.os.SystemClock;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -22,8 +21,6 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
-
-import static lib.ys.util.UtilEx.runOnUIThread;
 
 /**
  * 直播、录播WebSocket的服务
@@ -95,59 +92,57 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
         @Override
         public void onMessage(WebSocket webSocket, String text) {
             YSLog.d(TAG, "WebSocket onMessage receiver String = " + text);
-            runOnUIThread(() -> {
-                try {
-                    JSONObject ob = new JSONObject(text);
-                    int order = ob.optInt("order");
-                    switch (order) {
-                        case WsOrderType.sync: {
-                            String from = ob.getString("orderFrom");
-                            if (from.equals(WsOrderFrom.web)) {
-                                // 接收到同步指令
-                                WebSocketServ.this.notify(LiveNotifyType.sync, ob.getInt("pageNum"));
-                            }
+            try {
+                JSONObject ob = new JSONObject(text);
+                int order = ob.optInt("order");
+                switch (order) {
+                    case WsOrderType.sync: {
+                        String from = ob.getString("orderFrom");
+                        if (from.equals(WsOrderFrom.web)) {
+                            // 接收到同步指令
+                            WebSocketServ.this.notify(LiveNotifyType.sync, ob.getInt("pageNum"));
                         }
-                        break;
-                        case WsOrderType.inquire: {
-                            // 接收到被踢的询问
-                            WebSocketServ.this.notify(LiveNotifyType.inquired);
-                        }
-                        break;
-                        case WsOrderType.accept: {
-                            // 接收到同意被踢指令
-                            WebSocketServ.this.notify(LiveNotifyType.accept);
-                        }
-                        break;
-                        case WsOrderType.reject: {
-                            // 接收到拒绝被踢指令
-                            WebSocketServ.this.notify(LiveNotifyType.reject);
-                        }
-                        break;
-                        case WsOrderType.online_num: {
-                            // 接收到直播间人数指令
-                            WebSocketServ.this.notify(LiveNotifyType.online_num, ob.getInt("onLines"));
-                        }
-                        break;
-                        case WsOrderType.flow_insufficient: {
-                            // 流量不足预警
-                            WebSocketServ.this.notify(LiveNotifyType.flow_insufficient);
-                        }
-                        break;
-                        case WsOrderType.flow_run_out_of: {
-                            // 流量耗尽通知
-                            WebSocketServ.this.notify(LiveNotifyType.flow_run_out_of);
-                        }
-                        break;
-                        case WsOrderType.flow_sufficient: {
-                            // 流量充足通知
-                            WebSocketServ.this.notify(LiveNotifyType.flow_sufficient);
-                        }
-                        break;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    break;
+                    case WsOrderType.inquire: {
+                        // 接收到被踢的询问
+                        WebSocketServ.this.notify(LiveNotifyType.inquired);
+                    }
+                    break;
+                    case WsOrderType.accept: {
+                        // 接收到同意被踢指令
+                        WebSocketServ.this.notify(LiveNotifyType.accept);
+                    }
+                    break;
+                    case WsOrderType.reject: {
+                        // 接收到拒绝被踢指令
+                        WebSocketServ.this.notify(LiveNotifyType.reject);
+                    }
+                    break;
+                    case WsOrderType.online_num: {
+                        // 接收到直播间人数指令
+                        WebSocketServ.this.notify(LiveNotifyType.online_num, ob.getInt("onLines"));
+                    }
+                    break;
+                    case WsOrderType.flow_insufficient: {
+                        // 流量不足预警
+                        WebSocketServ.this.notify(LiveNotifyType.flow_insufficient);
+                    }
+                    break;
+                    case WsOrderType.flow_run_out_of: {
+                        // 流量耗尽通知
+                        WebSocketServ.this.notify(LiveNotifyType.flow_run_out_of);
+                    }
+                    break;
+                    case WsOrderType.flow_sufficient: {
+                        // 流量充足通知
+                        WebSocketServ.this.notify(LiveNotifyType.flow_sufficient);
+                    }
+                    break;
                 }
-            });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -171,13 +166,15 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
             mWsSuccess = false;
             // 1秒后重连
             // 没退出继续发任务
-            runOnUIThread(() -> {
+            new Thread(() -> {
                 if (Util.noNetwork()) {
                     return;
                 }
+                YSLog.d(TAG, "webSocket 失败重连");
+                SystemClock.sleep(1000);
                 // 没退出继续重连
                 mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWsUrl).build(), new WebSocketLink());
-            }, TimeUnit.SECONDS.toMillis(1));
+            }).start();
         }
     }
 }

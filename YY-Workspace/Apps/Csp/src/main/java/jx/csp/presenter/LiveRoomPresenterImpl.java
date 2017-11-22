@@ -1,6 +1,7 @@
 package jx.csp.presenter;
 
 import android.view.Surface;
+import android.view.TextureView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,7 +28,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
         OnCountDownListener {
 
     private static final String TAG = "LiveRoomPresenterImpl";
-    private final int KFifteen = 15;  // 开始倒计时的分钟数
+    private final int KCountDownTime = 15;  // 开始倒计时的分钟数
 
     private boolean mUseFrontCamera = false;
     private boolean mUseMic = true;
@@ -47,7 +48,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void initLiveRoom(String roomId) {
+    public void initLiveRoom(String roomId, TextureView textureView) {
         LiveApi.getInst()
                 .setTest(BuildConfig.TEST)  // 测试
                 .toggleAVConfig()
@@ -58,7 +59,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
                 .setPreviewViewMode(ILiveCallback.Constants.KAspectFill)
                 .setAppOrientation(Surface.ROTATION_90)
                 .setRoomConfig(true, true)
-                .setPreviewView(getView().getTextureView())
+                .setPreviewView(textureView)
                 .setCallback(roomId, UserType.anchor, mZegoCallbackImpl);
     }
 
@@ -105,16 +106,16 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            getView().onFinish();
+            getView().finishLive();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        getView().setLiveTimeTv(Util.getSpecialTimeFormat(time, "'", "''"));
-        if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
+        getView().setLiveTime(Util.getSpecialTimeFormat(time, "'", "''"));
+        if (remainCount <= TimeUnit.MINUTES.toSeconds(KCountDownTime)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = true;
                 getView().changeLiveIvRes();
             }
-            getView().setCountDownRemindTv((int) remainCount);
+            getView().setCountDownRemind((int) remainCount);
         }
     }
 
@@ -142,7 +143,7 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
 
         @Override
         public void onKickOut() {
-            getView().onFinish();
+            getView().finishLive();
         }
 
         @Override

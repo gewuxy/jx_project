@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
 import jx.csp.contact.LiveRecordContract;
-import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
@@ -39,7 +38,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private final int KJoinMeetingReqId = 1;
     private final int KStartLiveReqId = 2;  // 开始直播
     private final int KUploadVideoPage = 3;  // 视频页翻页时调用的
-    private final int KFifteen = 15; // 开始倒计时的分钟数
+    private final int KCountDownTime = 15; // 开始倒计时的分钟数
     private final int KRecordMsgWhat = 1;
     private final int KSendSyncMsgWhat = 2; // 发送同步指令
     private MediaRecorder mMediaRecorder;
@@ -62,7 +61,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
                 // 先暂停录音，然后再开始录音，上传这15m的音频
                 mOverFifteen = true;
                 stopLiveRecord();
-                getView().upload(PlayType.live, mFilePath);
+                getView().joinUploadRank(mFilePath);
                 // 截取文件路径不包括后缀
                 String str;
                 if (mNum > 0) {
@@ -76,7 +75,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
                 String newFilePath = str + "-" + mNum + "." + AudioType.amr;
                 YSLog.d(TAG, "newFilePath = " + newFilePath);
                 startLiveRecord(newFilePath);
-                mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
+                mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KCountDownTime));
             } else if (msg.what == KSendSyncMsgWhat) {
                 // 直播的时候翻页，在页面停留时间小于3秒不发同步指令，超过3秒才发同步指令
                 // 如果当前页跟网页段发来的是同一页。则不发同步指令
@@ -84,7 +83,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
                 YSLog.d(TAG, "收到延时3秒指令 pos = " + pos);
                 if (mWsPosition != pos) {
                     YSLog.d(TAG, "跟网页端的页数不一样，发同步指令");
-                    getView().sendSyncInstructions(pos);
+                    getView().sendSyncInstruction(pos);
                 } else {
                     YSLog.d(TAG, "跟网页端的页数一样，不发同步指令");
                 }
@@ -109,7 +108,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     }
 
     @Override
-    public void pageChange(int pos) {
+    public void changePage(int pos) {
         // 先去除mHandler的对应消息，再延时发送消息
         mHandler.removeMessages(KSendSyncMsgWhat);
         Message msg = new Message();
@@ -154,7 +153,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
             getView().setAudioFilePath(mFilePath);
             getView().startRecordState();
             // 直播的时候每页只能录音15分钟，到15分钟的时候要要先上传这15分钟的音频
-            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KFifteen));
+            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, TimeUnit.MINUTES.toMillis(KCountDownTime));
             getView().startRecordState();
         } catch (IOException e) {
             getView().showToast(R.string.record_fail);
@@ -193,16 +192,16 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     @Override
     public void onCountDown(long remainCount) {
         if (remainCount == 0) {
-            getView().onFinish();
+            getView().finishLive();
         }
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
-        getView().setLiveTimeTv(Util.getSpecialTimeFormat(time, "'", "''"));
-        if (remainCount <= TimeUnit.MINUTES.toSeconds(KFifteen)) {
+        getView().setLiveTime(Util.getSpecialTimeFormat(time, "'", "''"));
+        if (remainCount <= TimeUnit.MINUTES.toSeconds(KCountDownTime)) {
             if (!mShowCountDownRemainTv) {
                 mShowCountDownRemainTv = !mShowCountDownRemainTv;
                 getView().changeRecordIvRes();
             }
-            getView().setCountDownRemainTv(mShowCountDownRemainTv, remainCount);
+            getView().setCountDownRemain(mShowCountDownRemainTv, remainCount);
         }
     }
 
