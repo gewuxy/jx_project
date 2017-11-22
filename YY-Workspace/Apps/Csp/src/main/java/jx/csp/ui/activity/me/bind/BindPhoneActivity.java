@@ -5,10 +5,14 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import jx.csp.R;
 import jx.csp.constant.FormType;
+import jx.csp.contact.BindPhoneContract;
 import jx.csp.model.form.Form;
+import jx.csp.model.form.edit.EditCaptchaForm;
+import jx.csp.presenter.BindPhonePresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.util.TextUtil;
 import lib.yy.model.form.BaseForm;
@@ -22,12 +26,20 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
+    private View mDialog;
+
     private EditText mEtCaptcha;
-    private static EditText mEtPhone;
+    private EditText mEtPhone;
+
+    private BindPhoneContract.V mPhoneView;
+    private BindPhoneContract.P mPhonePresenter;
 
     @Override
     public void initData(Bundle state) {
         super.initData(state);
+
+        mPhoneView = new BindPhoneViewImpl();
+        mPhonePresenter = new BindPhonePresenterImpl(mPhoneView);
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et_phone_number)
@@ -65,7 +77,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     @NonNull
-    public static String getPhone() {
+    private String getPhone() {
         return Util.getEtString(mEtPhone).replace(" ", "");
     }
 
@@ -76,7 +88,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     protected void doSet() {
-        mPresenter.confirmBindAccount(RelatedId.bind_phone_number, getPhone(), getCaptcha());
+        mPhonePresenter.confirmBindAccount(RelatedId.bind_phone_number, getPhone(), getCaptcha(), null);
     }
 
     @Override
@@ -90,10 +102,9 @@ public class BindPhoneActivity extends BaseSetActivity {
         switch ((int) related) {
             case RelatedId.bind_captcha: {
                 if (v.getId() == R.id.form_tv_text) {
-                    mPresenter.equalsMobile();
-                    mView.addItemCaptchaView();
-
-                    mView.showCaptchaDialog();
+                    mPhonePresenter.checkMobile(getPhone());
+                    mPhoneView.addItemCaptchaView();
+                    mPhonePresenter.showCaptchaDialog(this, mDialog);
                 }
             }
             break;
@@ -109,5 +120,38 @@ public class BindPhoneActivity extends BaseSetActivity {
             form.enable(false);
         }
         refreshItem(form);
+    }
+
+    private class BindPhoneViewImpl extends BaseSetBindViewImpl implements BindPhoneContract.V {
+
+        @Override
+        public void addItemCaptchaView() {
+            mDialog = inflate(R.layout.dialog_captcha);
+            TextView tv = mDialog.findViewById(R.id.captcha_tv_phone_number);
+            String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
+            tv.setText(phone);
+        }
+
+
+        @Override
+        public void getCaptcha() {
+            EditCaptchaForm item = (EditCaptchaForm) getRelatedItem(RelatedId.bind_captcha);
+            item.start();
+        }
+
+        @Override
+        public void closePage() {
+            finish();
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
+        }
+
+        @Override
+        public void setViewState(int state) {
+
+        }
     }
 }

@@ -33,14 +33,10 @@ public class ClipImageActivity extends BaseClipImageActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        mView.setNavBar(bar);
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-
-        mView.setNavBarTextColor();
+        bar.setBackgroundResource(R.color.white);
+        Util.addBackIcon(bar, R.string.person_center_avatar, this);
+        TextView tv = bar.addTextViewRight(R.string.confirm, v -> clip());
+        tv.setTextColor(ResLoader.getColor(R.color.text_167afe));
     }
 
     @Override
@@ -51,22 +47,8 @@ public class ClipImageActivity extends BaseClipImageActivity {
 
     private class ClipImageViewImpl implements ClipImageContract.V {
 
-        private TextView mTv;
-
         @Override
-        public void setNavBar(NavBar bar) {
-            bar.setBackgroundResource(R.color.white);
-            Util.addBackIcon(bar, R.string.person_center_avatar, ClipImageActivity.this);
-            mTv = bar.addTextViewRight(R.string.confirm, v -> clip());
-        }
-
-        @Override
-        public void setNavBarTextColor() {
-            mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
-        }
-
-        @Override
-        public void setSuccessProcessed() {
+        public void setProcessResult() {
             setResult(RESULT_OK, getIntent());
             finish();
         }

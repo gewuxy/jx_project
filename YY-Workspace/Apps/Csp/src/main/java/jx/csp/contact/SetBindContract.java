@@ -2,6 +2,7 @@ package jx.csp.contact;
 
 import android.widget.EditText;
 
+import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import lib.yy.contract.IContract;
 
 /**
@@ -26,35 +27,11 @@ public interface SetBindContract {
         void initButtonStatus();
 
         /**
-         * 绑定邮箱成功后跳转
-         */
-        void setBindEmailSuccessJump();
-
-        /**
-         * 添加item里的view
-         */
-        void addItemCaptchaView();
-
-        /**
-         * 展示验证码dialog
-         */
-        void showCaptchaDialog();
-
-        /**
-         * 获取item文本
-         *
-         * @param relatedId
-         */
-        String getItemText(int relatedId);
-
-        void getCaptcha();
-
-        /**
          * 关闭页面
          */
         void onFinish();
-    }
 
+    }
     interface P extends IContract.Presenter<V> {
 
         /**
@@ -71,16 +48,7 @@ public interface SetBindContract {
          * @param userName
          * @param num
          */
-        void confirmBindAccount(int id, String userName, String num);
-
-        /**
-         * 获取验证码
-         *
-         * @param id
-         * @param userName
-         * @param type
-         */
-        void getCaptcha(int id, String userName, String type);
+        void confirmBindAccount(@RelatedId int id, String userName, String num);
 
         /**
          * 修改密码
@@ -89,17 +57,6 @@ public interface SetBindContract {
          * @param oldPwd
          * @param newPwd
          */
-        void modifyPwd(int id, String oldPwd, String newPwd);
-
-        /**
-         * 绑定手机号成功
-         */
-        void saveBindPhone();
-
-        /**
-         * 校对是否有手机号
-         */
-        void equalsMobile();
-
+        void modifyPwd(@RelatedId int id, String oldPwd, String newPwd);
     }
 }

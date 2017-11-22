@@ -2,7 +2,6 @@ package jx.csp.contact;
 
 import android.graphics.Bitmap;
 
-import lib.ys.ui.other.NavBar;
 import lib.yy.contract.IContract;
 
 /**
@@ -13,19 +12,7 @@ import lib.yy.contract.IContract;
 public interface ClipImageContract {
     interface V extends IContract.View {
 
-        /**
-         * 头部的设置
-         *
-         * @param bar
-         */
-        void setNavBar(NavBar bar);
-
-        void setNavBarTextColor();
-
-        /**
-         * 请求成功的处理
-         */
-        void setSuccessProcessed();
+        void setProcessResult();
     }
 
     interface P extends IContract.Presenter<V> {
