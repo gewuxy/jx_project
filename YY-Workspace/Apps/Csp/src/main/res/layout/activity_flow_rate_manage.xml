@@ -126,6 +126,7 @@
         <ImageView
             android:id="@+id/flow_rate_iv_unionpay"
             style="@style/iv.flow"
+            android:visibility="invisible"
             android:src="@drawable/flow_rate_ic_unionpay"
             app:layout_columnWeight="1"/>
 

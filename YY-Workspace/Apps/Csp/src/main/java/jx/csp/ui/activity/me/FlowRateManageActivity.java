@@ -36,7 +36,8 @@ public class FlowRateManageActivity extends BaseFlowRateActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.flow_rate_iv_unionpay:
+            // FIXME: 2017/11/22 1.0版本暂时没有银联
+//            case R.id.flow_rate_iv_unionpay:
             case R.id.flow_rate_iv_wechat:
             case R.id.flow_rate_iv_alipay: {
                 mView.setHighlight(v.getId());
@@ -59,10 +60,10 @@ public class FlowRateManageActivity extends BaseFlowRateActivity {
                         mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.wechat);
                     }
                     break;
-                    case R.id.flow_rate_iv_unionpay: {
-                        mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
-                    }
-                    break;
+//                    case R.id.flow_rate_iv_unionpay: {
+//                        mPresenter.confirmPay(KPingReqCode, mRechargeSum, PingPayChannel.upacp);
+//                    }
+//                    break;
                 }
             }
             break;

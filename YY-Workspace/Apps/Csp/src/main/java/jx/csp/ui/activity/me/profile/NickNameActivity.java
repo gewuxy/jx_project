@@ -2,7 +2,6 @@ package jx.csp.ui.activity.me.profile;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +10,8 @@ import android.widget.ImageView;
 import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.contact.NickNameContract;
+import jx.csp.presenter.NickNamePresenterImpl;
 import lib.ys.util.view.ViewUtil;
 
 /**
@@ -22,16 +23,24 @@ import lib.ys.util.view.ViewUtil;
 @Route
 public class NickNameActivity extends BaseMyMessageActivity {
 
+    private int KNickNameCode = 0;
+
     private EditText mEt;
     private ImageView mIv;
     private int mLimit;
 
     private TextWatcher mWatcher;
 
+    private NickNameContract.V mNickNameView;
+    private NickNameContract.P mNickNamePresenter;
+
     @Override
     public void initData(Bundle state) {
         super.initData(state);
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
+
+        mNickNameView = new NickNameViewImpl();
+        mNickNamePresenter = new NickNamePresenterImpl(mNickNameView);
     }
 
     @NonNull
@@ -50,30 +59,15 @@ public class NickNameActivity extends BaseMyMessageActivity {
     public void setViews() {
         super.setViews();
         setOnClickListener(R.id.form_iv_clean);
-
-        addTextChangedListener(mEt, mIv);
         ViewUtil.limitInputCount(mEt, mLimit);
 
-        mWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mView.setNickNameTextListener(s, mEt, mWatcher);
-            }
-        };
-        mEt.addTextChangedListener(mWatcher);
+        mNickNamePresenter.onTextChangedListener(mTv, mEt, mIv);
+        mNickNamePresenter.onTextBlankListener(mEt);
     }
 
     @Override
     public void onClick(View v) {
-        mView.setClear(mEt);
+        mNickNameView.setTextClear(getEt());
     }
 
     @Override
@@ -84,5 +78,27 @@ public class NickNameActivity extends BaseMyMessageActivity {
     @Override
     protected void doSet() {
         mPresenter.savePersonMessage(KNickNameCode, mEt.getText().toString());
+    }
+
+    private class NickNameViewImpl extends MyMessageViewImpl implements NickNameContract.V {
+
+        @Override
+        public void setTextClear(EditText et) {
+            et.setText("");
+        }
+
+        @Override
+        public void inhibitInputBlank(@NonNull EditText et, String text) {
+            et.setText(text);
+            et.setSelection(text.length());
+        }
+
+        @Override
+        public void onStopRefresh() {
+        }
+
+        @Override
+        public void setViewState(int state) {
+        }
     }
 }

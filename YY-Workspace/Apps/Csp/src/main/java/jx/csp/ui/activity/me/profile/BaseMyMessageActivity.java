@@ -4,10 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -39,12 +35,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     @Arg
     boolean mFlag;
 
-    private TextView mTv;
-
-    public final int KNickNameCode = 0;
-    public final int KInfoCode = 1;
-
-    public final int KTextLength = 600;
+    protected TextView mTv;
 
     public MyMessageContract.P mPresenter;
     public MyMessageContract.V mView;
@@ -64,18 +55,28 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     @CallSuper
     @Override
     public void initNavBar(NavBar bar) {
-        mView.setNavBar(bar);
+        Util.addBackIcon(bar, R.string.my_message, this);
+        mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
+            if (mFlag == false) {
+                if (TextUtil.isEmpty(getEt().getText())) {
+                    showToast(R.string.my_message_save_as_blank);
+                } else {
+                    refresh(RefreshWay.dialog);
+                    doSet();
+                }
+            } else {
+                refresh(RefreshWay.dialog);
+                doSet();
+
+            }
+        });
+        mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
     }
 
     @Override
     public void setViews() {
-        mView.setNavBarTextColor();
         mView.getEtData();
-        mView.setTextButtonStatus();
-    }
-
-    protected void addTextChangedListener(@NonNull EditText et, @Nullable View ivClear) {
-        mView.onTextChangedListener(et, ivClear);
+        mTv.setEnabled(true);
     }
 
     /**
@@ -103,120 +104,16 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     protected class MyMessageViewImpl implements MyMessageContract.V {
 
         @Override
-        public void setNavBar(NavBar bar) {
-            Util.addBackIcon(bar, R.string.my_message, BaseMyMessageActivity.this);
-            mTv = bar.addTextViewRight(R.string.my_message_save, v -> {
-                if (mFlag == false) {
-                    if (TextUtil.isEmpty(getEt().getText())) {
-                        showToast(R.string.my_message_save_as_blank);
-                    } else {
-                        refresh(RefreshWay.dialog);
-                        doSet();
-                    }
-                } else {
-                    refresh(RefreshWay.dialog);
-                    doSet();
-
-                }
-            });
-        }
-
-        @Override
-        public void setNavBarTextColor() {
-            mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
-        }
-
-        @Override
-        public void setTextButtonStatus() {
-            mTv.setEnabled(true);
-        }
-
-        @Override
-        public void saveRevisedData() {
-            String text = Util.getEtString(getEt());
-            Profile.inst().put(mAttr, text);
-            Profile.inst().saveToSp();
-
+        public void setData(String text) {
             Intent i = new Intent().putExtra(Extra.KData, text);
             setResult(RESULT_OK, i);
             finish();
-            showToast(R.string.my_message_save_success);
         }
 
         @Override
         public void getEtData() {
             getEt().setText(getVal());
             getEt().setSelection(getEt().getText().length());
-        }
-
-        @Override
-        public void onTextChangedListener(@NonNull EditText et, @Nullable View ivClear) {
-            if (et == null) {
-                return;
-            }
-
-            et.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    setTextButtonStatus();
-
-                    if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
-                        showView(ivClear);
-                    } else {
-                        hideView(ivClear);
-                    }
-                }
-            });
-
-            et.setOnFocusChangeListener((v, hasFocus) -> {
-                // iv是否显示
-                if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
-                    showView(ivClear);
-                } else {
-                    hideView(ivClear);
-                }
-            });
-        }
-
-        @Override
-        public void setNickNameTextListener(Editable s, EditText et, TextWatcher watcher) {
-            String text = s.toString();
-            text = text.replaceAll(" ", "");
-
-            et.removeTextChangedListener(watcher);
-            et.setText(text);
-            et.setSelection(text.length());
-            et.addTextChangedListener(watcher);
-        }
-
-        @Override
-        public void setClear(EditText et) {
-            et.setText("");
-        }
-
-        @Override
-        public void setIntroTextLength(int length, TextView tv) {
-            if (length > KTextLength) {
-                length = 0;
-            }
-            tv.setText(String.format(getString(R.string.my_message_intro_unit), length));
-        }
-
-        @Override
-        public void setIntroChangedTextLength(Editable s, TextView tv) {
-            if (TextUtil.isEmpty(s)) {
-                setIntroTextLength(KTextLength, tv);
-            } else {
-                setIntroTextLength(KTextLength - s.length(), tv);
-            }
         }
 
         @Override

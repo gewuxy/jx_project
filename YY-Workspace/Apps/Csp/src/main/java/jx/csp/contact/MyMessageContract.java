@@ -1,14 +1,6 @@
 package jx.csp.contact;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import lib.ys.ui.other.NavBar;
+import jx.csp.model.Profile.TProfile;
 import lib.yy.contract.IContract;
 
 /**
@@ -20,66 +12,17 @@ public interface MyMessageContract {
     interface V extends IContract.View {
 
         /**
-         * 设置头部
+         * 设置数据
          *
-         * @param bar
+         * @param text
          */
-        void setNavBar(NavBar bar);
-
-        void setNavBarTextColor();
-
-        /**
-         * 设置头部文本状态
-         */
-        void setTextButtonStatus();
-
-        /**
-         * 保存数据
-         */
-        void saveRevisedData();
+        void setData(String text);
 
         /**
          * 获取输入框数据
          */
         void getEtData();
 
-        /**
-         * 基类输入框的监听
-         *
-         * @param et
-         * @param ivClear
-         */
-        void onTextChangedListener(@NonNull EditText et, @Nullable View ivClear);
-
-        /**
-         * 昵称输入框的规则
-         *
-         * @param s
-         * @param et
-         * @param watcher
-         */
-        void setNickNameTextListener(Editable s, EditText et, TextWatcher watcher);
-
-        /**
-         * 设置昵称的清除
-         *
-         * @param et
-         */
-        void setClear(EditText et);
-
-        /**
-         * 设置简介的文本长度
-         *
-         * @param length
-         */
-        void setIntroTextLength(int length, TextView tv);
-
-        /**
-         * 改变简介文本的长度
-         *
-         * @param s
-         */
-        void setIntroChangedTextLength(Editable s, TextView tv);
     }
 
     interface P extends IContract.Presenter<V> {
@@ -91,5 +34,10 @@ public interface MyMessageContract {
          * @param text
          */
         void savePersonMessage(int id, String text);
+
+        /**
+         * 保存数据
+         */
+        void saveLocal(TProfile profile);
     }
 }
