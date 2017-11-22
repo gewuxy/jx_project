@@ -1,7 +1,5 @@
 package jx.csp.contact;
 
-import android.widget.EditText;
-
 import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import lib.yy.contract.IContract;
 
@@ -25,9 +23,9 @@ public interface SetBindContract {
         /**
          * 检查密码规则
          *
-         * @param et
+         * @param pwd
          */
-        void checkPwd(EditText et);
+        void checkPwd(String pwd);
 
         /**
          * 确认绑定

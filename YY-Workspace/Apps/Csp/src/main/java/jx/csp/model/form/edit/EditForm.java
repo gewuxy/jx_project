@@ -96,6 +96,10 @@ public class EditForm extends BaseForm implements TextWatcher {
             }
 
         }
+        TextWatcher textWatcher = getTextWatcher();
+        if (textWatcher != null) {
+            et.addTextChangedListener(textWatcher);
+        }
     }
 
     @Override

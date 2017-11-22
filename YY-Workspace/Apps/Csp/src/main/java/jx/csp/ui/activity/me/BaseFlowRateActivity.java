@@ -24,12 +24,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 import lib.yy.ui.activity.base.BaseActivity;
-import pay.OnPayListener;
 import pay.PayAction;
-import pay.PayAction.PayType;
-import pay.PayPalPay;
-import pay.PayResult;
-import pay.PayResult.TPayResult;
 
 /**
  * @auther Huoxuyu
@@ -44,11 +39,9 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     protected final int KPingReqCode = 0;
     protected final int KPayPalPayCode = 1;
 
-
     protected MapList<Integer, View> mChannelViews;
     protected View mPreChannelView;
 
-    protected String mOrderId;
     protected String mFlowRate;
     protected int mRechargeSum;
     protected int mReqCode;//识别号，区分支付方式
@@ -125,7 +118,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mView.setResultDeal(requestCode, resultCode, data);
+        mPresenter.setResultDeal(mReqCode, requestCode, resultCode, data);
     }
 
     @Override
@@ -208,9 +201,8 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         }
 
         @Override
-        public void setPayPalPay(String orderId) {
+        public void setPayPalPay() {
             mReqCode = KPayPalPayCode;
-            mOrderId = orderId;
             PayAction.payPalPay(BaseFlowRateActivity.this, String.valueOf(mRechargeSum));
         }
 
@@ -218,43 +210,6 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         public void setPingPay(String info) {
             mReqCode = KPingReqCode;
             PayAction.pingPay(BaseFlowRateActivity.this, info);
-        }
-
-        @Override
-        public void setResultDeal(int requestCode, int resultCode, Intent data) {
-            final PayResult payResult = new PayResult();
-
-            if (mReqCode == KPingReqCode) {
-                payResult.put(TPayResult.type, PayType.pingPP);
-            } else if (mReqCode == KPayPalPayCode) {
-                payResult.put(TPayResult.type, PayType.payPal);
-                if (data != null) {
-                    data.putExtra(PayPalPay.KExtraOrderId, mOrderId);
-                } else {
-                    showToast(R.string.flow_rate_pay_fail);
-                    return;
-                }
-            }
-            payResult.put(TPayResult.requestCode, requestCode);
-            payResult.put(TPayResult.resultCode, resultCode);
-            payResult.put(TPayResult.data, data);
-
-            PayAction.onResult(payResult, new OnPayListener() {
-
-                @Override
-                public void onPaySuccess() {
-                    Profile.inst().increase(TProfile.flux, mRechargeSum * KFlowConversion);
-                    Profile.inst().saveToSp();
-
-                    setSurplusFlowRate();
-                    showToast(R.string.flow_rate_pay_success);
-                }
-
-                @Override
-                public void onPayError(String error) {
-                    showToast(R.string.flow_rate_pay_fail);
-                }
-            });
         }
 
         @Override

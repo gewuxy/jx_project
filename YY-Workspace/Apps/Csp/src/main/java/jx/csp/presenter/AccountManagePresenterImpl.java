@@ -49,9 +49,14 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 String userGender = params.getGender();
                 String icon = params.getIcon();
                 String userId = params.getId();
+                String unionId = params.getUnionId();
                 mNickName = params.getName();
 
-                bind(bindId, userId, mNickName, userGender, icon);
+                if (bindId == BindId.wechat) {
+                    bind(bindId, unionId, mNickName, userGender, icon);
+                }else {
+                    bind(bindId, userId, mNickName, userGender, icon);
+                }
 
                 App.showToast(R.string.account_authorization_success);
             }

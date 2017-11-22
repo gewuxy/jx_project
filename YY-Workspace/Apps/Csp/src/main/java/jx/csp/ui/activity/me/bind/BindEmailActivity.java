@@ -2,12 +2,11 @@ package jx.csp.ui.activity.me.bind;
 
 import android.os.Bundle;
 import android.text.Editable;
-import android.widget.EditText;
 
+import io.reactivex.annotations.NonNull;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
-import jx.csp.util.Util;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 
@@ -20,9 +19,6 @@ import lib.ys.util.TextUtil;
 
 public class BindEmailActivity extends BaseSetActivity {
 
-    private EditText mEtEmail;
-    private EditText mEtPwd;
-
     @Override
     public void initData(Bundle state) {
         super.initData(state);
@@ -31,23 +27,15 @@ public class BindEmailActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.bind_email)
                 .hint(R.string.setting_input_email_address)
+                .textWatcher(this)
                 .layout(R.layout.form_edit_bind_email));
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
                 .hint(R.string.input_pwd)
+                .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-        mEtEmail = getRelatedItem(RelatedId.bind_email).getHolder().getEt();
-        mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-
-        mEtEmail.addTextChangedListener(this);
-        mEtPwd.addTextChangedListener(this);
     }
 
     @Override
@@ -62,20 +50,23 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     protected void doSet() {
-        mPresenter.checkPwd(mEtPwd);
-        mPresenter.confirmBindAccount(RelatedId.bind_email, getEmail(), getUserPwd());
+        mPresenter.checkPwd(getPwd());
+        mPresenter.confirmBindAccount(RelatedId.bind_email, getEmail(), getPwd());
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getPwd()));
     }
 
-    public String getEmail() {
-        return Util.getEtString(mEtEmail);
+    @NonNull
+    private String getEmail(){
+        return getRelatedItem(RelatedId.bind_email).getVal();
     }
 
-    public String getUserPwd() {
-        return Util.getEtString(mEtPwd);
+    @NonNull
+    private String getPwd(){
+        return getRelatedItem(RelatedId.pwd).getVal();
     }
+
 }

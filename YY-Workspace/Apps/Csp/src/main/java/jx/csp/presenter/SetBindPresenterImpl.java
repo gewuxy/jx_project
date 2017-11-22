@@ -1,7 +1,5 @@
 package jx.csp.presenter;
 
-import android.widget.EditText;
-
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.SetBindContract;
@@ -51,8 +49,8 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
     }
 
     @Override
-    public void checkPwd(EditText et) {
-        if (!Util.checkPwd(Util.getEtString(et))) {
+    public void checkPwd(String pwd) {
+        if (!Util.checkPwd(pwd)) {
             return;
         }
     }

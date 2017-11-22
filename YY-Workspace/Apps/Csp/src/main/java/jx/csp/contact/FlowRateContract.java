@@ -37,22 +37,17 @@ public interface FlowRateContract {
         void setHighlight(@IdRes int id);
 
         /**
-         * 设置剩余流量
-         */
-        void setSurplusFlowRate();
-
-        /**
          * 设置支付调用第三方
          * ping++ or paypal
          */
-        void setPayPalPay(String orderId);
+        void setPayPalPay();
 
-        void setPingPay(String info);
+        void setPingPay(String charge);
 
         /**
-         * 设置支付结果回调处理
+         * 设置剩余流量
          */
-        void setResultDeal(int requestCode, int resultCode, Intent data);
+        void setSurplusFlowRate();
     }
 
     interface P extends IContract.Presenter<V> {
@@ -65,5 +60,10 @@ public interface FlowRateContract {
          * @param channel
          */
         void confirmPay(int id, int flow, String channel);
+
+        /**
+         * 设置支付结果回调处理
+         */
+        void setResultDeal(int code, int requestCode, int resultCode, Intent data);
     }
 }

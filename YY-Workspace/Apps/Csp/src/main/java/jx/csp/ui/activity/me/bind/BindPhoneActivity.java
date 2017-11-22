@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import jx.csp.R;
@@ -28,9 +27,6 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     private View mDialog;
 
-    private EditText mEtCaptcha;
-    private EditText mEtPhone;
-
     private BindPhoneContract.V mPhoneView;
     private BindPhoneContract.P mPhonePresenter;
 
@@ -45,6 +41,7 @@ public class BindPhoneActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.bind_phone_number)
                 .layout(R.layout.form_edit_bind_phone_number)
+                .textWatcher(this)
                 .hint(R.string.input_phone_number));
 
         addItem(Form.create(FormType.divider));
@@ -52,18 +49,9 @@ public class BindPhoneActivity extends BaseSetActivity {
                 .related(RelatedId.bind_captcha)
                 .drawable(R.drawable.login_ic_pwd)
                 .textColorRes(R.color.bind_captcha_text_selector)
+                .textWatcher(this)
                 .enable(false)
                 .hint(R.string.input_captcha));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-        mEtPhone = getRelatedItem(RelatedId.bind_phone_number).getHolder().getEt();
-        mEtCaptcha = getRelatedItem(RelatedId.bind_captcha).getHolder().getEt();
-
-        mEtPhone.addTextChangedListener(this);
-        mEtCaptcha.addTextChangedListener(this);
     }
 
     @Override
@@ -78,12 +66,12 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @NonNull
     private String getPhone() {
-        return Util.getEtString(mEtPhone).replace(" ", "");
+        return getRelatedItem(RelatedId.bind_phone_number).getVal().trim().replace(" ", "");
     }
 
     @NonNull
     private String getCaptcha() {
-        return Util.getEtString(mEtCaptcha);
+        return getRelatedItem(RelatedId.bind_captcha).getVal().trim();
     }
 
     @Override
