@@ -68,7 +68,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        mView.setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
     }
 
     public String getEmail() {

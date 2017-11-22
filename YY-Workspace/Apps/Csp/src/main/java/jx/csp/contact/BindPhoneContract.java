@@ -16,10 +16,6 @@ public interface BindPhoneContract {
 
     interface V extends IContract.View{
 
-        /**
-         * 添加item里的view
-         */
-        void addItemCaptchaView();
 
         /**
          * 获取验证码

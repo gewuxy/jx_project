@@ -73,7 +73,7 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        mView.setChanged(checkPwd(mEtPwdOld) && checkPwd(mEtPwdNew));
+        setChanged(checkPwd(mEtPwdOld) && checkPwd(mEtPwdNew));
     }
 
     /**

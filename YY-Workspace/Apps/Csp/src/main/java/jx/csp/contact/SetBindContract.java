@@ -15,21 +15,9 @@ public interface SetBindContract {
     interface V extends IContract.View {
 
         /**
-         * 设置按钮状态
-         *
-         * @param enabled true可以点击, false不可点击
-         */
-        void setChanged(boolean enabled);
-
-        /**
-         * 初始化按钮的状态
-         */
-        void initButtonStatus();
-
-        /**
          * 关闭页面
          */
-        void onFinish();
+        void closePage();
 
     }
     interface P extends IContract.Presenter<V> {

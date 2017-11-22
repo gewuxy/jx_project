@@ -38,12 +38,12 @@ public class SetBindPresenterImpl extends BasePresenterImpl<SetBindContract.V> i
         switch (id) {
             case KBindEmailCode: {
                 LaunchUtil.startActivity(BindEmailActivity.class, ReceiveEmailTipsActivity.class);
-                getView().onFinish();
+                getView().closePage();
                 App.showToast(R.string.setting_bind_email_succeed);
             }
             break;
             case KChangePwdCode: {
-                getView().onFinish();
+                getView().closePage();
                 App.showToast(R.string.setting_change_pwd_succeed);
             }
             break;

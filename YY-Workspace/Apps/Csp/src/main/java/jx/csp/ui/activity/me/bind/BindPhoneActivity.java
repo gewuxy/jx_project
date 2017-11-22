@@ -94,7 +94,7 @@ public class BindPhoneActivity extends BaseSetActivity {
     @Override
     public void afterTextChanged(Editable s) {
         // 是手机号且验证码长度为6
-        mView.setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()) && getCaptcha().length() == 6);
+        setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()) && getCaptcha().length() == 6);
     }
 
     @Override
@@ -103,7 +103,12 @@ public class BindPhoneActivity extends BaseSetActivity {
             case RelatedId.bind_captcha: {
                 if (v.getId() == R.id.form_tv_text) {
                     mPhonePresenter.checkMobile(getPhone());
-                    mPhoneView.addItemCaptchaView();
+
+                    mDialog = inflate(R.layout.dialog_captcha);
+                    TextView tv = mDialog.findViewById(R.id.captcha_tv_phone_number);
+                    String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
+                    tv.setText(phone);
+
                     mPhonePresenter.showCaptchaDialog(this, mDialog);
                 }
             }
@@ -123,15 +128,6 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     private class BindPhoneViewImpl extends BaseSetBindViewImpl implements BindPhoneContract.V {
-
-        @Override
-        public void addItemCaptchaView() {
-            mDialog = inflate(R.layout.dialog_captcha);
-            TextView tv = mDialog.findViewById(R.id.captcha_tv_phone_number);
-            String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
-            tv.setText(phone);
-        }
-
 
         @Override
         public void getCaptcha() {

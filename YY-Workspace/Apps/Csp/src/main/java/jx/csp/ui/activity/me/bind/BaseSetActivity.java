@@ -77,7 +77,8 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     public void setViews() {
         super.setViews();
-        mView.initButtonStatus();
+        mTvSet.setEnabled(false);
+        mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);
     }
 
@@ -126,21 +127,14 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
      */
     abstract protected void doSet();
 
+    protected void setChanged(boolean enabled){
+        mTvSet.setEnabled(enabled);
+    }
+
     protected class BaseSetBindViewImpl implements SetBindContract.V {
 
         @Override
-        public void setChanged(boolean enabled) {
-            mTvSet.setEnabled(enabled);
-        }
-
-        @Override
-        public void initButtonStatus() {
-            mTvSet.setEnabled(false);
-            mTvSet.setText(getSetText());
-        }
-
-        @Override
-        public void onFinish() {
+        public void closePage() {
             finish();
         }
 
