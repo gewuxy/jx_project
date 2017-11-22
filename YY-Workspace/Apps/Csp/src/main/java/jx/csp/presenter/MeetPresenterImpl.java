@@ -24,9 +24,9 @@ import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.liveroom.LiveRoomActivityRouter;
-import jx.csp.ui.activity.record.CommonRecordActivityRouter;
-import jx.csp.ui.activity.record.LiveRecordActivityRouter;
+import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
+import jx.csp.ui.activity.record.LiveAudioActivityRouter;
+import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -42,8 +42,8 @@ import lib.yy.contract.BasePresenterImpl;
 public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> implements MeetContract.P {
 
     private final int KJoinRecordCheckRedId = 1;
-    private final int KJoinLiveRoomCheckRedId = 2;
-    private boolean mJoinLiveRoom = false; // 是否进入直播间 为了区分PlayType.video的时候进入的是直播视频还是音频
+    private final int KJoinLiveVideoCheckRedId = 2;
+    private boolean mJoinLiveVideo = false; // 是否进入直播间 为了区分PlayType.video的时候进入的是直播视频还是音频
 
     private Context mContext;
     private Meet mMeet;
@@ -96,13 +96,13 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     d.setTextHint(ResLoader.getString(R.string.choice_contents));
                     d.addGrayButton(R.string.explain_meeting, view -> {
                         // 先判断是否有人在直播音频
-                        mJoinLiveRoom = false;
+                        mJoinLiveVideo = false;
                         exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
                     });
                     d.addBlueButton(R.string.live_video, view -> {
                         // 先判断是否有人在直播视频
-                        mJoinLiveRoom = true;
-                        exeNetworkReq(KJoinLiveRoomCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
+                        mJoinLiveVideo = true;
+                        exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
                     });
                     d.show();
                 } else {
@@ -133,8 +133,8 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         if (startTime > currentTime) {
             showToast(R.string.live_not_start);
         } else if (startTime < currentTime && endTime > currentTime) {
-            mJoinLiveRoom = true;
-            exeNetworkReq(KJoinLiveRoomCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
+            mJoinLiveVideo = true;
+            exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
         } else {
             showToast(R.string.live_have_end);
         }
@@ -159,7 +159,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KJoinRecordCheckRedId || id == KJoinLiveRoomCheckRedId) {
+        if (id == KJoinRecordCheckRedId || id == KJoinLiveVideoCheckRedId) {
             return JsonParser.ev(r.getText(), Scan.class);
         } else {
             return JsonParser.error(r.getText());
@@ -195,7 +195,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 }
             }
             break;
-            case KJoinLiveRoomCheckRedId: {
+            case KJoinLiveVideoCheckRedId: {
                 if (r.isSucceed()) {
                     Scan scan = (Scan) r.getData();
                     mLiveRoomWsUrl = scan.getString(TScan.wsUrl);
@@ -204,7 +204,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         showDialog(ResLoader.getString(R.string.main_live_dialog), mLiveRoomWsUrl);
                     } else {
                         // 没人在的时候直接进入直播间
-                        LiveRoomActivityRouter.create()
+                        LiveVideoActivityRouter.create()
                                 .courseId(mMeet.getString(TMeet.id))
                                 .streamId(mMeet.getString(TMeet.id))
                                 .title(mMeet.getString(TMeet.title))
@@ -240,14 +240,14 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         }
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
-                CommonRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                RecordActivityRouter.create(mMeet.getString(TMeet.id),
                         mMeet.getString(TMeet.coverUrl),
                         mMeet.getString(TMeet.title))
                         .route(mContext);
             }
             break;
             case PlayType.live: {
-                LiveRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
                         mMeet.getString(TMeet.coverUrl),
                         mMeet.getString(TMeet.title))
                         .startTime(mMeet.getLong(TMeet.startTime))
@@ -256,8 +256,8 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             }
             break;
             case PlayType.video: {
-                if (mJoinLiveRoom) {
-                    LiveRoomActivityRouter.create()
+                if (mJoinLiveVideo) {
+                    LiveVideoActivityRouter.create()
                             .courseId(mMeet.getString(TMeet.id))
                             .streamId(mMeet.getString(TMeet.id))
                             .title(mMeet.getString(TMeet.title))
@@ -266,7 +266,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                             .wsUrl(mLiveRoomWsUrl)
                             .route(mContext);
                 } else {
-                    LiveRecordActivityRouter.create(mMeet.getString(TMeet.id),
+                    LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
                             mMeet.getString(TMeet.coverUrl),
                             mMeet.getString(TMeet.title))
                             .startTime(mMeet.getLong(TMeet.startTime))

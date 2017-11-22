@@ -32,13 +32,13 @@
             android:name=".ui.activity.AdWebViewActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.liveroom.LiveRoomActivity"
+            android:name=".ui.activity.livevideo.LiveVideoActivity"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".ui.activity.record.CommonRecordActivity"
+            android:name=".ui.activity.record.RecordActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.record.LiveRecordActivity"
+            android:name=".ui.activity.record.LiveAudioActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.CommonWebViewActivity"

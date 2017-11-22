@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
-import jx.csp.contact.LiveRecordContract;
+import jx.csp.contact.LiveAudioContract;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
@@ -30,8 +30,8 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/10/11
  */
 
-public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContract.V> implements
-        LiveRecordContract.P,
+public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.V> implements
+        LiveAudioContract.P,
         OnCountDownListener {
 
     private final String TAG = getClass().getSimpleName();
@@ -50,6 +50,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     private int mNum = 0;
     private String mFilePath;
     private int mWsPosition = 0;  // websocket接收到的页数
+    private long mTime; // 录制的时间 单位秒
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -91,10 +92,12 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         }
     };
 
-    public LiveRecordPresenterImpl(LiveRecordContract.V view) {
+    public LiveAudioPresenterImpl(LiveAudioContract.V view) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
     }
 
     @Override
@@ -126,8 +129,6 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
     public void startCountDown(long startTime, long stopTime) {
         mStartTime = startTime;
         mStopTime = stopTime;
-        mCountDown = new CountDown();
-        mCountDown.setListener(this);
         mCountDown.start((mStopTime - System.currentTimeMillis()) / TimeUnit.SECONDS.toMillis(1));
     }
 
@@ -149,7 +150,8 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
-            YSLog.d(TAG, "startLiveRecord time = " + System.currentTimeMillis());
+            mTime = 0;
+            YSLog.d(TAG, "startRecord time = " + System.currentTimeMillis());
             getView().setAudioFilePath(mFilePath);
             getView().startRecordState();
             // 直播的时候每页只能录音15分钟，到15分钟的时候要要先上传这15分钟的音频
@@ -165,14 +167,13 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
             mMediaRecorder.reset();
-            YSLog.d(TAG, "stopLiveRecord time = " + System.currentTimeMillis());
+            YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
         }
         getView().stopRecordState();
         mHandler.removeMessages(KRecordMsgWhat);
         if (!mOverFifteen) {
             mNum = 0;
         }
-        getView().stopRecordState();
     }
 
     @Override
@@ -194,6 +195,7 @@ public class LiveRecordPresenterImpl extends BasePresenterImpl<LiveRecordContrac
         if (remainCount == 0) {
             getView().finishLive();
         }
+        ++mTime;
         long time = (mStopTime - mStartTime) / 1000 - remainCount;
         getView().setLiveTime(Util.getSpecialTimeFormat(time, "'", "''"));
         if (remainCount <= TimeUnit.MINUTES.toSeconds(KCountDownTime)) {

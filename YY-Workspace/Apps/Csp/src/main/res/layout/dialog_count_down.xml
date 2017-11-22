@@ -7,14 +7,14 @@
     android:gravity="center">
 
     <lib.ys.view.CornerView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:background="@color/white_alpha50"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:corner_radius="5dp">
 
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:background="@color/white_alpha50"
             android:gravity="center"
             android:orientation="vertical">
 

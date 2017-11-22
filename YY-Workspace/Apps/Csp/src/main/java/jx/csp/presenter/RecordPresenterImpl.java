@@ -13,8 +13,8 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
-import jx.csp.contact.CommonRecordContract;
-import jx.csp.contact.CommonRecordContract.V;
+import jx.csp.contact.RecordContract;
+import jx.csp.contact.RecordContract.V;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -36,8 +36,8 @@ import lib.yy.util.CountDown;
  * @since 2017/10/9
  */
 
-public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
-        CommonRecordContract.P,
+public class RecordPresenterImpl extends BasePresenterImpl<V> implements
+        RecordContract.P,
         RecordImgFrag.onMediaPlayerListener,
         CountDown.OnCountDownListener {
 
@@ -53,7 +53,7 @@ public class CommonRecordPresenterImpl extends BasePresenterImpl<V> implements
     private SparseArray<Integer> mRecordTimeArray;
     private int mPos; // 当前录制的ppt页面下标
 
-    public CommonRecordPresenterImpl(V view) {
+    public RecordPresenterImpl(V view) {
         super(view);
 
         mMediaRecorder = new MediaRecorder();

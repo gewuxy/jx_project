@@ -30,7 +30,7 @@ import jx.csp.presenter.AudioUploadPresenterImpl;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.record.CommonRecordActivity.OverType;
+import jx.csp.ui.activity.record.RecordActivity.OverType;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
@@ -91,7 +91,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     @Arg
     String mCoverUrl;  // 分享封面地址
     @Arg
-    String mTitle;
+    String mTitle;  // 会议标题
 
     @CallSuper
     @Override
@@ -116,7 +116,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_record;
+        return R.layout.activity_base_record;
     }
 
     @Override

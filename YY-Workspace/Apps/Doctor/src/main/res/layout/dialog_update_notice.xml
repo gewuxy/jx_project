@@ -8,8 +8,10 @@
     android:orientation="vertical">
 
     <lib.ys.view.CornerView
-        android:layout_width="266dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="47dp"
+        android:layout_marginRight="47dp"
         app:corner_radius="@dimen/radius">
 
         <LinearLayout

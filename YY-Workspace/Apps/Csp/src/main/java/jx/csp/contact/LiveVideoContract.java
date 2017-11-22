@@ -8,7 +8,7 @@ import lib.yy.contract.IContract;
  * @author CaiXiang
  * @since 2017/9/22
  */
-public interface LiveRoomContract {
+public interface LiveVideoContract {
 
     interface V extends IContract.View {
 
@@ -43,5 +43,4 @@ public interface LiveRoomContract {
 
         void useMic();
     }
-
 }

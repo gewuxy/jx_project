@@ -10,7 +10,7 @@ import lib.yy.contract.IContract;
  * @since 2017/10/9
  */
 
-public interface CommonRecordContract {
+public interface RecordContract {
 
     interface V extends IContract.View {
 

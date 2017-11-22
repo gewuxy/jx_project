@@ -7,7 +7,6 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
-import jx.csp.ui.activity.record.CommonRecordActivity;
 import lib.ys.YSLog;
 
 /**
@@ -55,7 +54,7 @@ public class GestureView extends RelativeLayout {
         return mGestureDetector.onTouchEvent(event);
     }
 
-    public void setGestureViewListener(CommonRecordActivity l) {
+    public void setGestureViewListener(onGestureViewListener l) {
         mListener = l;
     }
 

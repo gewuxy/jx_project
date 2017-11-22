@@ -22,8 +22,8 @@ import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.record.CommonRecordActivityRouter;
-import jx.csp.ui.activity.record.LiveRecordActivityRouter;
+import jx.csp.ui.activity.record.LiveAudioActivityRouter;
+import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -217,12 +217,12 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     protected void joinRecord() {
         if (mScan.getInt(TScan.playType) == PlayType.reb) {
             //录播
-            CommonRecordActivityRouter.create(mScan.getString(TScan.courseId),
+            RecordActivityRouter.create(mScan.getString(TScan.courseId),
                     mScan.getString(TScan.coverUrl),
                     mScan.getString(TScan.title))
                     .route(this);
         } else {
-            LiveRecordActivityRouter.create(mScan.getString(TScan.courseId),
+            LiveAudioActivityRouter.create(mScan.getString(TScan.courseId),
                     mScan.getString(TScan.coverUrl),
                     mScan.getString(TScan.title))
                     .startTime(mScan.getLong(TScan.startTime))

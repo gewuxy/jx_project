@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.liveroom;
+package jx.csp.ui.activity.livevideo;
 
 import android.app.Service;
 import android.os.Bundle;
@@ -15,13 +15,13 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.LiveRoomContract;
+import jx.csp.contact.LiveVideoContract;
 import jx.csp.dialog.BigButtonDialog;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.presenter.LiveRoomPresenterImpl;
+import jx.csp.presenter.LiveVideoPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
@@ -46,7 +46,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/20
  */
 @Route
-public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
+public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
 
     private final int KPermissionCode = 10;
 
@@ -76,10 +76,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
 
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
-
-    private LiveRoomContract.P mP;
-    private LiveRoomContract.V mV;
-
+    private LiveVideoContract.P mP;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private boolean mIsFlowInsufficient = false; // 流量是否不足 同时出现时间不足和流量不足的情况优先显示流量不足的提示；但在时间耗尽，流量还有的情况依旧结束直播
@@ -91,8 +88,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     public void initData(Bundle state) {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mV = new View();
-        mP = new LiveRoomPresenterImpl(mV);
+        mP = new LiveVideoPresenterImpl(new View());
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
 
         mConnectionReceiver = new ConnectionReceiver(this);
@@ -102,7 +98,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_live_room;
+        return R.layout.activity_live_video;
     }
 
     @Override
@@ -294,10 +290,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
             }
             break;
             case LiveNotifyType.online_num: {
-                int num = (int) data;
-                if (num >= 1) {
-                    mTvOnlineNum.setText(String.valueOf(num - 1));
-                }
+                mTvOnlineNum.setText(String.valueOf((int) data));
             }
             break;
             case LiveNotifyType.flow_insufficient: {
@@ -411,7 +404,7 @@ public class LiveRoomActivity extends BaseActivity implements OnLiveNotify, OnCo
         LiveNotifier.inst().notify(LiveNotifyType.send_msg, msg.toJson());
     }
 
-    private class View implements LiveRoomContract.V {
+    private class View implements LiveVideoContract.V {
 
         @Override
         public void setLiveTime(String s) {

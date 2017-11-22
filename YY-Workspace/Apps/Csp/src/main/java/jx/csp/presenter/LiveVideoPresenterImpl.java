@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
 import jx.csp.BuildConfig;
-import jx.csp.contact.LiveRoomContract;
-import jx.csp.contact.LiveRoomContract.V;
+import jx.csp.contact.LiveVideoContract;
+import jx.csp.contact.LiveVideoContract.V;
 import jx.csp.model.Profile;
 import jx.csp.util.Util;
 import lib.live.ILiveCallback;
@@ -23,11 +23,11 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @since 2017/9/22
  */
 
-public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
-        LiveRoomContract.P,
+public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
+        LiveVideoContract.P,
         OnCountDownListener {
 
-    private static final String TAG = "LiveRoomPresenterImpl";
+    private static final String TAG = "LiveVideoPresenterImpl";
     private final int KCountDownTime = 15;  // 开始倒计时的分钟数
 
     private boolean mUseFrontCamera = false;
@@ -40,17 +40,19 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
 
     private LiveCallbackImpl mZegoCallbackImpl;
 
-    public LiveRoomPresenterImpl(V v) {
+    public LiveVideoPresenterImpl(V v) {
         super(v);
 
         LiveApi.getInst().init(App.getContext(), Profile.inst().getUserId(), Profile.inst().getUserName());
         mZegoCallbackImpl = new LiveCallbackImpl();
+        mCountDown = new CountDown();
+        mCountDown.setListener(this);
     }
 
     @Override
     public void initLiveRoom(String roomId, TextureView textureView) {
         LiveApi.getInst()
-                .setTest(BuildConfig.TEST)  // 测试
+                .setTest(BuildConfig.DEBUG_NETWORK)  // 测试
                 .toggleAVConfig()
                 .enableAEC(true)  // 回声消除
                 .enableMic(mUseMic)
@@ -67,8 +69,6 @@ public class LiveRoomPresenterImpl extends BasePresenterImpl<V> implements
     public void startCountDown(long startTime, long stopTime) {
         mStartTime = startTime;
         mStopTime = stopTime;
-        mCountDown = new CountDown();
-        mCountDown.setListener(this);
         mCountDown.start((mStopTime - System.currentTimeMillis()) / TimeUnit.SECONDS.toMillis(1));
     }
 

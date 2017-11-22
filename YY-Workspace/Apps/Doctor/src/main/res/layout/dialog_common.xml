@@ -17,6 +17,7 @@
             android:id="@+id/dialog_common_layout_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical"/>
 
     </lib.ys.view.CornerView>

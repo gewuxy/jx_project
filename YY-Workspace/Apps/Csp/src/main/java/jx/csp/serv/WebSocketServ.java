@@ -166,15 +166,13 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
             mWsSuccess = false;
             // 1秒后重连
             // 没退出继续发任务
-            new Thread(() -> {
-                if (Util.noNetwork()) {
-                    return;
-                }
-                YSLog.d(TAG, "webSocket 失败重连");
-                SystemClock.sleep(1000);
-                // 没退出继续重连
-                mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWsUrl).build(), new WebSocketLink());
-            }).start();
+            if (Util.noNetwork()) {
+                return;
+            }
+            YSLog.d(TAG, "webSocket 失败重连");
+            SystemClock.sleep(1000);
+            // 没退出继续重连
+            mWebSocket = exeWebSocketReq(NetworkReq.newBuilder(mWsUrl).build(), new WebSocketLink());
         }
     }
 }

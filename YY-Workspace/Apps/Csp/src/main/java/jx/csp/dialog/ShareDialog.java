@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
 
@@ -113,9 +112,8 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                CommonDialog dialog = new CommonDialog(getContext());
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_delete, null);
-                dialog.addHintView(view);
+                CommonDialog2 dialog = new CommonDialog2(getContext());
+                dialog.setHint(R.string.ensure_delete);
                 dialog.addBlueButton(R.string.confirm, v1 -> {
                     CommonServRouter.create(ReqType.share_delete_meet).courseId(mCourseId).route(getContext());
                 });

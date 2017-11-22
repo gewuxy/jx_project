@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.LiveRecordContract;
+import jx.csp.contact.LiveAudioContract;
 import jx.csp.dialog.BigButtonDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
@@ -23,7 +23,7 @@ import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Live;
 import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.presenter.LiveRecordPresenterImpl;
+import jx.csp.presenter.LiveAudioPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
@@ -41,15 +41,15 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
- * 直播录制
+ * 直播语音
  *
  * @author CaiXiang
  * @since 2017/10/10
  */
 @Route
-public class LiveRecordActivity extends BaseRecordActivity {
+public class LiveAudioActivity extends BaseRecordActivity {
 
-    private LiveRecordPresenterImpl mLiveRecordPresenterImpl;
+    private LiveAudioPresenterImpl mLiveRecordPresenterImpl;
     private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private boolean mStopCountDown = false; // 是否开始进行结束倒计时
@@ -71,7 +71,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         super.initData(savedInstanceState);
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mView = new View();
-        mLiveRecordPresenterImpl = new LiveRecordPresenterImpl(mView);
+        mLiveRecordPresenterImpl = new LiveAudioPresenterImpl(mView);
     }
 
     @Override
@@ -279,10 +279,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             }
             break;
             case LiveNotifyType.online_num: {
-                int num = (int) data;
-                if (num >= 1) {
-                    mTvOnlineNum.setText(String.valueOf(num - 1));
-                }
+                mTvOnlineNum.setText(String.valueOf((int) data));
             }
             break;
             case LiveNotifyType.flow_insufficient: {
@@ -361,7 +358,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         }
     }
 
-    private class View implements LiveRecordContract.V {
+    private class View implements LiveAudioContract.V {
 
         @Override
         public void setData(JoinMeeting joinMeeting) {
@@ -401,7 +398,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
             invalidate();
             // 链接websocket
             if (TextUtil.isNotEmpty(wsUrl)) {
-                WebSocketServRouter.create(wsUrl).route(LiveRecordActivity.this);
+                WebSocketServRouter.create(wsUrl).route(LiveAudioActivity.this);
             }
         }
 
@@ -471,7 +468,7 @@ public class LiveRecordActivity extends BaseRecordActivity {
         @Override
         public void showToast(int id) {
             stopRecordState();
-            LiveRecordActivity.this.showToast(id);
+            LiveAudioActivity.this.showToast(id);
         }
 
         @Override

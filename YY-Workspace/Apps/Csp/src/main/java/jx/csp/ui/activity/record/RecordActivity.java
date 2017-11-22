@@ -15,7 +15,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.CommonRecordContract;
+import jx.csp.contact.RecordContract;
 import jx.csp.dialog.BigButtonDialog;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.meeting.Course.PlayType;
@@ -27,7 +27,7 @@ import jx.csp.model.meeting.JoinMeeting.TJoinMeeting;
 import jx.csp.model.meeting.Record;
 import jx.csp.model.meeting.Record.TRecord;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.presenter.CommonRecordPresenterImpl;
+import jx.csp.presenter.RecordPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.frag.record.RecordImgFrag;
@@ -48,19 +48,19 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
- * 普通的录制
+ * 普通的语音录制
  *
  * @author CaiXiang
  * @since 2017/10/10
  */
 @Route
-public class CommonRecordActivity extends BaseRecordActivity implements onGestureViewListener {
+public class RecordActivity extends BaseRecordActivity implements onGestureViewListener {
 
     private boolean mRecordState = false; // 是否在录制中
     private boolean mShowVoiceLine = false; // 声波曲线是否显示
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
-    private CommonRecordPresenterImpl mRecordPresenter;
+    private RecordPresenterImpl mRecordPresenter;
     private int mWsPosition = 0;  // websocket接收到的页数
 
     @IntDef({
@@ -87,7 +87,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
     public void initData(Bundle state) {
         super.initData(state);
 
-        mRecordPresenter = new CommonRecordPresenterImpl(new View());
+        mRecordPresenter = new RecordPresenterImpl(new View());
     }
 
     @Override
@@ -416,7 +416,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
         mIvRecordState.setSelected(mRecordState);
     }
 
-    private class View implements CommonRecordContract.V {
+    private class View implements RecordContract.V {
 
         @Override
         public void setData(JoinMeeting joinMeeting) {
@@ -467,7 +467,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
             invalidate();
             // 链接websocket
             if (TextUtil.isNotEmpty(wsUrl)) {
-                WebSocketServRouter.create(wsUrl).route(CommonRecordActivity.this);
+                WebSocketServRouter.create(wsUrl).route(RecordActivity.this);
             }
         }
 
@@ -512,7 +512,7 @@ public class CommonRecordActivity extends BaseRecordActivity implements onGestur
                 mRecordPresenter.stopPlay();
                 ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
             }
-            CommonRecordActivity.this.showToast(id);
+            RecordActivity.this.showToast(id);
         }
 
         @Override

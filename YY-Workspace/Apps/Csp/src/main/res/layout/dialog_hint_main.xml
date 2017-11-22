@@ -8,14 +8,16 @@
     android:orientation="vertical">
 
     <lib.ys.view.CornerView
-        android:layout_width="300dp"
-        android:layout_height="146dp"
-        android:background="@color/white"
-        app:corner_radius="6dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:corner_radius="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="146dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -41,13 +43,13 @@
             </LinearLayout>
 
             <View
-                style="@style/divider"/>
+                style="@style/divider"
+                android:background="@color/divider"/>
 
             <LinearLayout
                 android:id="@id/dialog_layout_button"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
-                android:layout_alignParentBottom="true"
                 android:orientation="horizontal"/>
 
         </LinearLayout>
