@@ -19,6 +19,8 @@ import lib.yy.contract.BasePresenterImpl;
 public class ContributePlatformPresenterImpl extends BasePresenterImpl<ContributePlatformContract.V>
         implements ContributePlatformContract.P {
 
+    private Platform mPlatform;
+
     public ContributePlatformPresenterImpl(ContributePlatformContract.V v) {
         super(v);
     }
@@ -35,12 +37,21 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void clickContributeReq(List<Platform> platformArrayList, Platform platform, String courseId) {
+    public void addItem(List<Platform> item, Platform position, boolean isSelected) {
+        if (isSelected) {
+            item.add(position);
+        } else {
+            item.remove(position);
+        }
+    }
+
+    @Override
+    public void clickContributeReq(List<Platform> platformArrayList, String courseId) {
         StringBuffer buffer = new StringBuffer();
         int size = platformArrayList.size();
         for (int i = 0; i < size; ++i) {
-            platform = platformArrayList.get(i);
-            buffer.append(platform.getString(TPlatformDetail.id));
+            mPlatform = platformArrayList.get(i);
+            buffer.append(mPlatform.getString(TPlatformDetail.id));
             if (i != size - 1) {
                 buffer.append(",");
             }

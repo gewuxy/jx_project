@@ -3,7 +3,6 @@ package jx.csp.contact;
 import java.util.List;
 
 import jx.csp.model.Platform;
-import lib.ys.ui.other.NavBar;
 import lib.yy.contract.IContract;
 
 /**
@@ -15,20 +14,6 @@ public interface ContributePlatformContract {
 
     interface V extends IContract.View {
 
-        /**
-         * 点击图标, 提示文字
-         *
-         * @param bar
-         */
-        void showDialog(NavBar bar);
-
-        /**
-         * 设置单位号条目
-         *
-         * @param position
-         * @param isSelected
-         */
-        void setListIdItem(int position, boolean isSelected);
 
         /**
          * 改变按钮状态
@@ -36,17 +21,24 @@ public interface ContributePlatformContract {
         void changeButtonStatus();
 
         void onFinish();
-    }
 
+    }
     interface P extends IContract.Presenter<V> {
+
+        /**
+         * 设置单位号条目
+         *
+         * @param position
+         * @param isSelected
+         */
+        void addItem(List<Platform> item, Platform position, boolean isSelected);
 
         /**
          * 单位号投稿
          *
          * @param platformArrayList
-         * @param platform
          */
-        void clickContributeReq(List<Platform> platformArrayList, Platform platform, String courseId);
+        void clickContributeReq(List<Platform> platformArrayList, String courseId);
 
     }
 }

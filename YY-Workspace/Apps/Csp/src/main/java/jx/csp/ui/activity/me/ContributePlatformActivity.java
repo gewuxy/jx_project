@@ -13,7 +13,6 @@ import jx.csp.R;
 import jx.csp.adapter.PlatformAdapter;
 import jx.csp.adapter.PlatformAdapter.OnPlatformCheckedListener;
 import jx.csp.contact.ContributePlatformContract;
-import jx.csp.contact.ContributePlatformContract.P;
 import jx.csp.model.Platform;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.presenter.ContributePlatformPresenterImpl;
@@ -37,9 +36,8 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     private TextView mTvPlatform;
     private TextView mTvTips;
     private List<Platform> mSelectedItem;
-    private Platform mPlatform;
 
-    private P mPresenter;
+    private ContributePlatformContract.P mPresenter;
     private ContributePlatformContract.V mView;
 
     @Arg
@@ -56,7 +54,14 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.contribute_platform, this);
-        mView.showDialog(bar);
+        bar.addViewRight(R.drawable.ic_default_hint, v -> {
+            if (isTvTipsShow) {
+                mTvTips.setVisibility(View.GONE);
+            } else {
+                mTvTips.setVisibility(View.VISIBLE);
+            }
+            isTvTipsShow = !isTvTipsShow;
+        });
     }
 
     @Override
@@ -81,7 +86,6 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         super.setViews();
         mTvPlatform.setEnabled(false);
         setOnClickListener(R.id.contribute_tv_platform);
-        setOnClickListener(R.id.contribute_tv_tips);
 
         getAdapter().setListener(this);
     }
@@ -91,12 +95,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
-                mPresenter.clickContributeReq(mSelectedItem, mPlatform, mCourseId);
-            }
-            break;
-            case R.id.contribute_tv_tips: {
-                mTvTips.setVisibility(View.GONE);
-                isTvTipsShow = !isTvTipsShow;
+                mPresenter.clickContributeReq(mSelectedItem, mCourseId);
             }
             break;
         }
@@ -104,32 +103,12 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     @Override
     public void onPlatformChecked(int position, boolean isSelected) {
-        mView.setListIdItem(position, isSelected);
+        Platform item = getItem(position);
+        mPresenter.addItem(mSelectedItem, item, isSelected);
         mView.changeButtonStatus();
     }
 
     private class ContributePlatformViewImpl implements ContributePlatformContract.V {
-
-        @Override
-        public void showDialog(NavBar bar) {
-            bar.addViewRight(R.drawable.ic_default_hint, v -> {
-                if (isTvTipsShow) {
-                    mTvTips.setVisibility(View.GONE);
-                } else {
-                    mTvTips.setVisibility(View.VISIBLE);
-                }
-                isTvTipsShow = !isTvTipsShow;
-            });
-        }
-
-        @Override
-        public void setListIdItem(int position, boolean isSelected) {
-            if (isSelected) {
-                mSelectedItem.add(getItem(position));
-            } else {
-                mSelectedItem.remove(getItem(position));
-            }
-        }
 
         @Override
         public void changeButtonStatus() {
