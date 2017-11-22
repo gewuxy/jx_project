@@ -23,7 +23,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/video_3b3a34_eighty">
+                android:background="@color/video_mask">
 
                 <ImageView
                     android:layout_width="180dp"

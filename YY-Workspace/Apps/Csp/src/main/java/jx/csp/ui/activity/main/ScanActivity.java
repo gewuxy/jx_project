@@ -69,7 +69,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.white_diaphaneity_thirty);
+        bar.setBackgroundResource(R.color.white_alpha30);
         bar.addViewLeft(R.drawable.scan_ic_back, v -> finish());
         bar.addTextViewMid(getString(R.string.scan), R.color.white);
     }

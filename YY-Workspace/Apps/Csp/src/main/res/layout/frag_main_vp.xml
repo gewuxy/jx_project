@@ -5,8 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/main_vp_layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="116dp"
+            android:layout_height="101dp"
+            android:layout_marginTop="136dp"
+            android:src="@drawable/main_ic_empty"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/ready"
+            android:textColor="@color/text_7a8b9f"
+            android:textSize="18dp"/>
+    </LinearLayout>
+
     <lib.ys.view.pager.ViewPagerEx
-        android:id="@+id/vp"
+        android:id="@+id/main_vp_layout_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="43dp"
@@ -15,86 +40,72 @@
         android:paddingLeft="@dimen/main_vp_padding_horizontal"
         android:paddingRight="@dimen/main_vp_padding_horizontal"/>
 
-    <RelativeLayout
-        android:id="@+id/layout_main_slide"
+    <!--1 | 12-->
+    <LinearLayout
+        android:id="@+id/main_vp_layout_page_num"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true">
+        android:layout_height="32dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/main_slide_data_layout"
+        <TextView
+            android:id="@+id/main_vp_tv_current_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
+            android:text="1"
+            android:textColor="@color/text_167afe"
+            android:textSize="14dp"/>
 
-            <TextView
-                android:id="@+id/frag_current_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="1"
-                android:textColor="@color/text_167afe"
-                android:textSize="14dp"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="11dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="6dp"
+            android:background="@color/color_db"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="11dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/frag_current_page"
-                android:background="@color/color_db"/>
+        <TextView
+            android:id="@+id/main_vp_tv_total_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="1"
+            android:textColor="@color/text_7b7a80"
+            android:textSize="14dp"/>
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/frag_total_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="16dp"
-                android:text="1"
-                android:textColor="@color/text_7b7a80"
-                android:textSize="14dp"/>
+    <RelativeLayout
+        android:id="@+id/main_vp_layout_live_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@color/pink_alpha60"
+        android:visibility="gone">
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/main_vp_tv_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:drawableLeft="@drawable/ic_default_warning"
+            android:drawablePadding="6dp"
+            android:text="@string/living"
+            android:textColor="@color/white"
+            android:textSize="12dp"/>
 
-        <LinearLayout
-            android:id="@+id/live_reminder"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:background="@color/pink_diaphaneity_sixty"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="9dp"
-                android:src="@drawable/ic_default_i"/>
-
-            <TextView
-                android:id="@+id/tv_reminder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/living"
-                android:textColor="@color/white"
-                android:textSize="12dp"/>
-
-            <TextView
-                android:id="@+id/click_continue"
-                android:layout_width="44dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="141dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/bg_main_slide_btn"
-                android:gravity="center"
-                android:text="@string/click_continue"
-                android:textColor="@color/white"
-                android:textSize="7dp"/>
-
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/main_vp_tv_continue"
+            android:layout_width="44dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_main_continue_btn"
+            android:gravity="center"
+            android:text="@string/click_continue"
+            android:textColor="@color/white"
+            android:textSize="7dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

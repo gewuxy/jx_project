@@ -20,7 +20,6 @@ public class SpJPush extends SpBase {
 
     public interface SpJPushKey {
         String KJPushRegisterId = "j_register_id";
-        String KKeyAlias = "j_alias";
         String KIsRegister = "is_register";
     }
 

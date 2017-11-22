@@ -9,7 +9,7 @@
     <lib.ys.view.CornerView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@color/white_diaphaneity_fifty"
+        android:background="@color/white_alpha50"
         app:corner_radius="5dp">
 
         <LinearLayout
