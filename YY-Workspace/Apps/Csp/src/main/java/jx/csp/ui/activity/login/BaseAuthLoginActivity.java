@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.view.View;
@@ -67,13 +68,14 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         mVideo = findView(getVideoViewId());
     }
 
+    @SuppressLint("ResourceAsColor")
     @CallSuper
     @Override
     public void setViews() {
         UIUtil.setFlatBar(getWindow());
+        getNavBar().setBackgroundColor(R.color.translucent);
 
         setOnClickListener(R.id.login_mail);
-
         setOnClickListener(R.id.login_protocol);
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());

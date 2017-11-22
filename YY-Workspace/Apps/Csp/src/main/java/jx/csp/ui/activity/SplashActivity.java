@@ -1,7 +1,11 @@
 package jx.csp.ui.activity;
 
+import android.widget.ImageView;
+
 import jx.csp.BuildConfig;
 import jx.csp.R;
+import jx.csp.constant.LangType;
+import jx.csp.sp.SpApp;
 import lib.ys.ui.activity.SplashActivityEx;
 
 /**
@@ -13,6 +17,9 @@ import lib.ys.ui.activity.SplashActivityEx;
 
 public class SplashActivity extends SplashActivityEx {
 
+    private ImageView mSplashBg;
+    private ImageView mSplashBgEn;
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_splash;
@@ -20,6 +27,17 @@ public class SplashActivity extends SplashActivityEx {
 
     @Override
     public void findViews() {
+        mSplashBg = findView(R.id.start_bg);
+        mSplashBgEn = findView(R.id.start_bg_en);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+       if (SpApp.inst().getLangType()== LangType.en) {
+           showView(mSplashBgEn);
+           goneView(mSplashBg);
+       }
     }
 
     @Override

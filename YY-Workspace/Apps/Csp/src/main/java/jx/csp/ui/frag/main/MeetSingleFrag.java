@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -21,6 +18,8 @@ import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import lib.yy.ui.frag.base.BaseFrag;
 
 /**
@@ -103,9 +102,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 if (startTime > currentTime) {
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
-                    Date d = new Date(Long.parseLong(mMeet.getString(TMeet.startTime)));
-                    SimpleDateFormat data = new SimpleDateFormat("MM月dd日 HH:mm");
-                    mTvTime.setText(data.format(d));
+                    mTvTime.setText(TimeFormatter.milli(mMeet.getString(TMeet.startTime), TimeFormat.form_MM_dd_24));
                 } else if (startTime < currentTime && stopTime > currentTime) {
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));

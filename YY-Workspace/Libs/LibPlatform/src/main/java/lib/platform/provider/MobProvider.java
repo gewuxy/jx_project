@@ -27,6 +27,7 @@ import lib.platform.listener.OnShareListener;
 import lib.platform.model.AuthParams;
 import lib.platform.model.ShareParams;
 import lib.ys.AppEx;
+import lib.ys.YSLog;
 import lib.ys.util.PackageUtil;
 
 /**
@@ -179,6 +180,10 @@ public class MobProvider implements Provider {
             public void onComplete(cn.sharesdk.framework.Platform platform, int i, HashMap<String, Object> hashMap) {
                 if (l != null) {
                     PlatformDb db = platform.getDb();
+                    String unionid = db.get("unionid");
+                    YSLog.d("unionid:",unionid);
+                    String userId = db.getUserId();
+                    YSLog.d("userId:",userId);
                     l.onAuthSuccess(AuthParams.newBuilder()
                             .gender(db.getUserGender())
                             .icon(db.getUserIcon())

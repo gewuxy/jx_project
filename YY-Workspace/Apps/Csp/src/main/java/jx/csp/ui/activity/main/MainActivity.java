@@ -95,6 +95,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             if (!flag) {
                 // 网格
                 mIvShift.setSelected(false);
+                // 跳转到九宫格Item，false表示没有切换效果,true是划过去的
                 setCurrPosition(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
                 SpUser.inst().saveMainPage(KPageGrid);
@@ -116,8 +117,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         setOnClickListener(R.id.main_scan);
 
-        //不能左右滑动
+        // 不能左右滑动
         setScrollable(false);
+        // vp的缓存量
         setOffscreenPageLimit(getCount());
 
         // 判断是否已经绑定极光推送
