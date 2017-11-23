@@ -253,11 +253,13 @@
     <string name="flow_rate_pay_success">支付成功</string>
     <string name="flow_rate_pay_fail">支付失敗</string>
     <string name="flow_rate_payment_proportion">1G流量 = 2元</string>
+    <string name="flow_rate_payment_proportion_en">1G流量 = 1美元</string>
     <string name="flow_rate_surplus">剩餘流量</string>
     <string name="flow_rate_recharge">充值流量</string>
     <string name="flow_rate_actual_pay">實際支付</string>
     <string name="flow_rate_amount">%d</string>
     <string name="flow_rate_unit">元</string>
+    <string name="flow_rate_unit_en">美元</string>
     <string name="flow_rate_input_top_up">請輸入充值流量</string>
 
     <!-- 帮助与反馈-->

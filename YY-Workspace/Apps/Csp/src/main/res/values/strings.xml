@@ -255,12 +255,14 @@
     <string name="flow_rate_pay">Confirm Payment</string>
     <string name="flow_rate_pay_success">Payoff</string>
     <string name="flow_rate_pay_fail">Payment Failure</string>
-    <string name="flow_rate_payment_proportion">1 GB = 1 USD</string>
+    <string name="flow_rate_payment_proportion">1 GB = 2 CNY</string>
+    <string name="flow_rate_payment_proportion_en">1 GB = 1 USD</string>
     <string name="flow_rate_surplus">Network Flow Balance</string>
     <string name="flow_rate_recharge">Recharge Network Flow</string>
     <string name="flow_rate_actual_pay">Payment: </string>
     <string name="flow_rate_amount">%d</string>
-    <string name="flow_rate_unit">USD</string>
+    <string name="flow_rate_unit">CNY</string>
+    <string name="flow_rate_unit_en">USD</string>
     <string name="flow_rate_input_top_up">Please enter the amount to recharge</string>
 
     <!-- 帮助与反馈-->

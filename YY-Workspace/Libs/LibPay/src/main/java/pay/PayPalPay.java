@@ -36,7 +36,7 @@ public class PayPalPay {
     // PayPal真实环境
 //    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
     // paypal申请到的设备ID
-//    private static final String KConfigClientId = "ASajAmtUp0Ky3p6ZG30tzEBCetF6d70A5iA-JdQK6GtVZrur2kLgsNgfYEG8ChIzqS8Ucsl4YwFP5FaT";
+//    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
 
     // PayPal沙盒测试
     private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
