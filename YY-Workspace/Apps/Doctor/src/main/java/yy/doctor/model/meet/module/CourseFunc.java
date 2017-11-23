@@ -90,7 +90,7 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                @LiveState int state = ppt.getInt(TPPT.liveSate);
+                @LiveState int state = ppt.getInt(TPPT.liveState);
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
                         MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());

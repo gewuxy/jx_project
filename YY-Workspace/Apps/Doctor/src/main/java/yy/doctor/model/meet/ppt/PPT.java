@@ -28,7 +28,7 @@ public class PPT extends EVal<TPPT> {
         /**
          * {@link LiveState}
          */
-        liveSate,
+        liveState,
 
     }
 }
