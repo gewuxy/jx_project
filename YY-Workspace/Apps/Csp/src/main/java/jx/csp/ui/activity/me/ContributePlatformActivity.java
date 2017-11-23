@@ -27,7 +27,7 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 public class ContributePlatformActivity extends BaseSRListActivity<Platform, PlatformAdapter>
         implements OnPlatformCheckedListener {
 
-    private boolean isTvTipsShow = false;
+    private boolean mTipsVisibility = false;
 
     private TextView mTvPlatform;
     private TextView mTvTips;
@@ -48,12 +48,12 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.contribute_platform, this);
         bar.addViewRight(R.drawable.ic_default_hint, v -> {
-            if (isTvTipsShow) {
+            if (mTipsVisibility) {
                 goneView(mTvTips);
             } else {
                 showView(mTvTips);
             }
-            isTvTipsShow = !isTvTipsShow;
+            mTipsVisibility = !mTipsVisibility;
         });
     }
 

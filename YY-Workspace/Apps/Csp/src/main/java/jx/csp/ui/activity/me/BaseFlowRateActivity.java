@@ -22,7 +22,6 @@ import jx.csp.util.Util;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.ys.util.view.ViewUtil;
 import lib.yy.ui.activity.base.BaseActivity;
 import pay.PayAction;
 
@@ -109,8 +108,8 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mView.setInputRule();
-                mView.setActualPaymentMoney();
+                mView.setInput();
+                mView.setPayMoney();
                 mView.setPayStatus();
             }
         });
@@ -118,7 +117,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.setResultDeal(mReqCode, requestCode, resultCode, data);
+        mPresenter.setCallBack(mReqCode, requestCode, resultCode, data);
     }
 
     @Override
@@ -134,7 +133,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     private class FlowRateViewImpl implements FlowRateContract.V {
 
         @Override
-        public void setActualPaymentMoney() {
+        public void setPayMoney() {
             mFlowRate = mEtFlowRate.getText().toString().trim();
             String num = null;
             if (Util.checkAppCn()) {
@@ -146,7 +145,7 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         }
 
         @Override
-        public void setInputRule() {
+        public void setInput() {
             Editable s = mEtFlowRate.getEditableText();
 
             int editStart = mEtFlowRate.getSelectionStart();
@@ -167,10 +166,10 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
         public void setPayStatus() {
             if (TextUtil.isNotEmpty(mFlowRate)) {
                 mTvPay.setEnabled(true);
-                ViewUtil.showView(mTvUnit);
+                showView(mTvUnit);
             } else {
                 mTvPay.setEnabled(false);
-                ViewUtil.goneView(mTvUnit);
+                goneView(mTvUnit);
             }
         }
 

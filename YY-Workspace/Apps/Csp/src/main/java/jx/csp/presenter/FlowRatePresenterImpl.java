@@ -52,7 +52,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     }
 
     @Override
-    public void setResultDeal(int id, int requestCode, int resultCode, Intent data) {
+    public void setCallBack(int id, int requestCode, int resultCode, Intent data) {
         final PayResult payResult = new PayResult();
 
         if (id == KPingReqCode) {

@@ -15,14 +15,14 @@ public interface FlowRateContract {
 
     interface V extends IContract.View {
         /**
-         * 设置实际支付金额
+         * 设置支付金额
          */
-        void setActualPaymentMoney();
+        void setPayMoney();
 
         /**
-         * 设置输入规则
+         * 设置输入
          */
-        void setInputRule();
+        void setInput();
 
         /**
          * 设置按钮的改变
@@ -64,6 +64,6 @@ public interface FlowRateContract {
         /**
          * 设置支付结果回调处理
          */
-        void setResultDeal(int id, int requestCode, int resultCode, Intent data);
+        void setCallBack(int id, int requestCode, int resultCode, Intent data);
     }
 }
