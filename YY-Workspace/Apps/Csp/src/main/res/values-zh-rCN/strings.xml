@@ -152,11 +152,12 @@
     <string name="live_have_end">直播已结束</string>
     <string name="on_solive">直播中</string>
     <string name="on_record">录播中</string>
+    <string name="recorded">录播</string>
     <string name="delete_success">删除成功</string>
     <string name="copy_duplicate_success">复制副本成功</string>
     <string name="service_agreement">CSPmeeting服务协议</string>
     <string name="click_again_exit">继续点击返回将关闭App</string>
-    <string name="duplicate">-副本</string>
+    <string name="duplicate">_副本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
@@ -244,7 +245,6 @@
     <string name="contribute_platform_succeed">投稿成功</string>
     <string name="contribute_not_submit_records_footer">- 无投稿记录 -</string>
     <string name="page_num">%s页</string>
-    <string name="record">录播</string>
     <string name="solive">直播</string>
 
     <!-- 流量支付 -->

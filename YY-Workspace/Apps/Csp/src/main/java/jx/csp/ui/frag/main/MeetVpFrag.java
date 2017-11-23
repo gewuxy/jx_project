@@ -157,7 +157,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     @Override
     public void setPosition(int position) {
-        setCurrPosition(position);
+        setCurrPosition(position, false);
     }
 
     @Override

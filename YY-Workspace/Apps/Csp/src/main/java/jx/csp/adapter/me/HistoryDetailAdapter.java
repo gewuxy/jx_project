@@ -34,7 +34,7 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail, HistoryDetail
         holder.getTvTitle().setText(item.getString(THistoryDetail.title));
         holder.getTvPaper().setText(s);
         if (item.getInt(THistoryDetail.playType) == PlayType.reb) {
-            holder.getTvState().setText(ResLoader.getString(R.string.record));
+            holder.getTvState().setText(ResLoader.getString(R.string.recorded));
 
             if (seconds > 60) {
                 long second = seconds % 60;

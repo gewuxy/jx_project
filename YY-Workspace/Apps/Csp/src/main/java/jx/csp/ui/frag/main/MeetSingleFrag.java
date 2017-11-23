@@ -13,6 +13,7 @@ import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
@@ -36,6 +37,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private TextView mTvTitle;
     private TextView mTvTime;
     private TextView mTvCurrentPage;
+    private View mDivider;
     private TextView mTvTotalPage;
     private TextView mTvState;
 
@@ -66,6 +68,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mIvLive = findView(R.id.main_meet_single_iv_live);
         mTvTime = findView(R.id.tv_total_time);
         mTvCurrentPage = findView(R.id.tv_current_page);
+        mDivider = findView(R.id.slide_divider);
         mTvTotalPage = findView(R.id.tv_total_page);
         mTvState = findView(R.id.tv_state);
     }
@@ -88,27 +91,49 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         long currentTime = System.currentTimeMillis();
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
-                mTvTime.setText(mMeet.getString(TMeet.playTime));
-                mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
-                mTvState.setText(R.string.on_record);
                 goneView(mIvLive);
+                mTvTime.setText(mMeet.getString(TMeet.playTime));
+                switch (mMeet.getInt(TMeet.playState)) {
+                    case PlayState.un_start: {
+                        mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
+                        mTvState.setText(R.string.recorded);
+                    }
+                    break;
+                    case PlayState.record: {
+                        mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
+                        mTvState.setText(R.string.on_record);
+                    }
+                    break;
+                    case PlayState.end: {
+                        mTvState.setText(ConstantsEx.KEmpty);
+                        hideView(mTvCurrentPage);
+                        hideView(mDivider);
+                    }
+                    break;
+                }
             }
             break;
-            case PlayType.live: {
-                goneView(mIvLive);
-            }
+            case PlayType.live:
             case PlayType.video: {
-                mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
+                if (mMeet.getInt(TMeet.playState) == PlayType.video) {
+                    showView(mIvLive);
+                } else {
+                    goneView(mIvLive);
+                }
                 if (startTime > currentTime) {
+                    mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
-                    mTvTime.setText(TimeFormatter.milli(mMeet.getString(TMeet.startTime), TimeFormat.form_MM_dd_24));
+                    mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
                 } else if (startTime < currentTime && stopTime > currentTime) {
+                    mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 } else {
                     mTvState.setText(ConstantsEx.KEmpty);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
+                    hideView(mTvCurrentPage);
+                    hideView(mDivider);
                 }
             }
             break;

@@ -73,7 +73,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         long currentTime = System.currentTimeMillis();
         switch (item.getInt(TMeet.playType)) {
             case PlayType.reb: {
-                // 先判断是否有人在录播中  请求网络  不需要判断录播状态
+                // 只需要判断是否有人在录播中  请求网络  不根据录播状态判断
                 exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
             }
             break;

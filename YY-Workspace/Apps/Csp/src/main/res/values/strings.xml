@@ -152,6 +152,7 @@
     <string name="live_have_end">Live stream is over</string>
     <string name="on_solive">On Air</string>
     <string name="on_record">Recording</string>
+    <string name="recorded">recorded</string>
     <string name="delete_success">Deleted successfully</string>
     <string name="copy_duplicate_success">Duplicated successfully!</string>
     <string name="service_agreement">CSPmeeting Terms of Service</string>
@@ -247,7 +248,6 @@
     <string name="contribute_platform_succeed">Contributed successfully</string>
     <string name="contribute_not_submit_records_footer">- No Record -</string>
     <string name="page_num">%s Page</string>
-    <string name="record">Recorded</string>
     <string name="solive">Live</string>
 
     <!-- 流量支付 -->
