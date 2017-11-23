@@ -40,7 +40,12 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
 
     @Override
     protected int getVideoViewId() {
-        return R.id.login_videoview;
+        return R.id.login_oversea_video_view;
+    }
+
+    @Override
+    protected int getVideoBgId() {
+        return R.id.login_oversea_video_bg;
     }
 
     @Override

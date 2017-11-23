@@ -3,6 +3,7 @@ package jx.csp.ui.activity.login;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.IdRes;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
@@ -46,6 +47,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private final int KLoginVideo = 1;
 
     private PLVideoTextureView mVideo;
+    private View mLayoutBg;
 
     private String mUrl;
     private String mFilePath;
@@ -66,6 +68,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     @Override
     public void findViews() {
         mVideo = findView(getVideoViewId());
+        mLayoutBg = findView(getVideoBgId());
     }
 
     @SuppressLint("ResourceAsColor")
@@ -126,7 +129,7 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
                             .gender(userGender)
                             .avatar(icon)
                             .build());
-                }else {
+                } else {
                     exeNetworkReq(id, UserAPI.login(type)
                             .uniqueId(userId)
                             .nickName(userName)
@@ -219,6 +222,11 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     private void prepared(String path) {
         mVideo.setVideoPath(path);
         mVideo.setVolume(0, 0);
+        mVideo.setOnPreparedListener(plMediaPlayer -> {
+            if (mLayoutBg != null) {
+                goneView(mLayoutBg);
+            }
+        });
     }
 
     @Override
@@ -228,5 +236,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         }
     }
 
+    @IdRes
     abstract protected int getVideoViewId();
+
+    @IdRes
+    abstract protected int getVideoBgId();
 }
