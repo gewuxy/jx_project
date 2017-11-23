@@ -26,8 +26,6 @@ public interface AccountManageContract {
          */
         void judgeBindStatus(@BindId int bindId, String tips, TProfile key);
 
-        void showUnBindDialog(@BindId int bindId, String tips);
-
         /**
          * 判断第三方的绑定状态
          *
@@ -36,6 +34,8 @@ public interface AccountManageContract {
          * @param tips
          */
         void judgeBindStatus(@BindId int bindId, Type type, String tips);
+
+        void showUnBindDialog(@BindId int bindId, String tips);
 
         /**
          * 刷新item
@@ -109,8 +109,8 @@ public interface AccountManageContract {
          * @param id
          * @param key
          */
-        void onUnBindSuccess(IResult r, int id, TProfile key);
+        void onUnBindSuccess(IResult r, @RelatedId int id, TProfile key);
 
-        void onUnBindSuccess(IResult r, int id);
+        void onUnBindSuccess(IResult r, @RelatedId int id);
     }
 }

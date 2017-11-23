@@ -1,7 +1,6 @@
 package jx.csp.contact;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 
 import lib.yy.contract.IContract;
 
@@ -14,6 +13,13 @@ public interface SettingsContract {
 
     interface V extends IContract.View {
 
+        void refreshItem(int related);
+
+        void closePage();
+    }
+
+    interface P extends IContract.Presenter<V> {
+
         /**
          * 修改密码
          */
@@ -22,15 +28,7 @@ public interface SettingsContract {
         /**
          * 清除缓存
          */
-        void clearCache(int related, @StringRes int resId, String... folderPath);
-
-        /**
-         * 退出登录
-         */
-        void logout();
-    }
-
-    interface P extends IContract.Presenter<V> {
+        void clearCache(Context context, int related, String resId, String cancel, String... folderPath);
 
         /**
          * 获取路径下的文件大小
@@ -43,5 +41,10 @@ public interface SettingsContract {
          * 启动登出服务
          */
         void startLogoutService(Context context);
+
+        /**
+         * 退出登录
+         */
+        void logout(Context context);
     }
 }

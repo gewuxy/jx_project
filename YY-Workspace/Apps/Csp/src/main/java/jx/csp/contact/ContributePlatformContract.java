@@ -1,7 +1,5 @@
 package jx.csp.contact;
 
-import java.util.List;
-
 import jx.csp.model.Platform;
 import lib.yy.contract.IContract;
 
@@ -38,7 +36,7 @@ public interface ContributePlatformContract {
          *
          * @param courseId
          */
-        void clickContributeReq(String courseId);
+        void clickContribute(String courseId);
 
     }
 }

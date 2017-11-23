@@ -169,6 +169,16 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
         }
 
         @Override
+        public void judgeBindStatus(int bindId, Type type, String tips) {
+            if (TextUtil.isEmpty(Profile.inst().getBindNickName(bindId))) {
+                refresh(RefreshWay.dialog);
+                mPresenter.auth(bindId, type);
+            } else {
+                showUnBindDialog(bindId, tips);
+            }
+        }
+
+        @Override
         public void showUnBindDialog(int bindId, String tips) {
             showConfirmUnBindDialog(tips, v -> {
                 if (Util.noNetwork()) {
@@ -177,16 +187,6 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
                 refresh(RefreshWay.dialog);
                 mPresenter.unBind(bindId);
             });
-        }
-
-        @Override
-        public void judgeBindStatus(int bindId, Type type, String tips) {
-            if (TextUtil.isEmpty(Profile.inst().getBindNickName(bindId))) {
-                refresh(RefreshWay.dialog);
-                mPresenter.auth(bindId, type);
-            } else {
-                showUnBindDialog(bindId, tips);
-            }
         }
 
         @Override
