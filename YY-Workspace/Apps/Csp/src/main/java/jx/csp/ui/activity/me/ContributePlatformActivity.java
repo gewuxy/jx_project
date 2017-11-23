@@ -35,7 +35,6 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     private TextView mTvPlatform;
     private TextView mTvTips;
-    private List<Platform> mSelectedItem;
 
     private ContributePlatformContract.P mPresenter;
     private ContributePlatformContract.V mView;
@@ -45,8 +44,6 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
     @Override
     public void initData(Bundle state) {
-        mSelectedItem = new ArrayList<>();
-
         mView = new ContributePlatformViewImpl();
         mPresenter = new ContributePlatformPresenterImpl(mView);
     }
@@ -56,9 +53,9 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         Util.addBackIcon(bar, R.string.contribute_platform, this);
         bar.addViewRight(R.drawable.ic_default_hint, v -> {
             if (isTvTipsShow) {
-                mTvTips.setVisibility(View.GONE);
+                goneView(mTvTips);
             } else {
-                mTvTips.setVisibility(View.VISIBLE);
+                showView(mTvTips);
             }
             isTvTipsShow = !isTvTipsShow;
         });
@@ -77,6 +74,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     @Override
     public void findViews() {
         super.findViews();
+
         mTvPlatform = findView(R.id.contribute_tv_platform);
         mTvTips = findView(R.id.contribute_tv_tips);
     }
@@ -84,6 +82,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     @Override
     public void setViews() {
         super.setViews();
+
         mTvPlatform.setEnabled(false);
         setOnClickListener(R.id.contribute_tv_platform);
 
@@ -95,7 +94,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
-                mPresenter.clickContributeReq(mSelectedItem, mCourseId);
+                mPresenter.clickContributeReq(mCourseId);
             }
             break;
         }
@@ -104,21 +103,15 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
     @Override
     public void onPlatformChecked(int position, boolean isSelected) {
         Platform item = getItem(position);
-        mPresenter.addItem(mSelectedItem, item, isSelected);
-        mView.changeButtonStatus();
+        mPresenter.addItem(item, isSelected);
     }
 
     private class ContributePlatformViewImpl implements ContributePlatformContract.V {
 
         @Override
-        public void changeButtonStatus() {
-            // 判断确认按钮
-            if (mSelectedItem.isEmpty()) {
-                // 不可点
-                mTvPlatform.setEnabled(false);
-            } else {
-                // 可投稿
-                mTvPlatform.setEnabled(true);
+        public void changeButtonStatus(boolean enabled) {
+            if (mTvPlatform != null) {
+                mTvPlatform.setEnabled(enabled);
             }
         }
 

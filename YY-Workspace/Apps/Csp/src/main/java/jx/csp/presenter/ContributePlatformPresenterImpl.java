@@ -1,5 +1,6 @@
 package jx.csp.presenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.App;
@@ -19,10 +20,12 @@ import lib.yy.contract.BasePresenterImpl;
 public class ContributePlatformPresenterImpl extends BasePresenterImpl<ContributePlatformContract.V>
         implements ContributePlatformContract.P {
 
-    private Platform mPlatform;
+    private List<Platform> mSelectedItem;
 
     public ContributePlatformPresenterImpl(ContributePlatformContract.V v) {
         super(v);
+
+        mSelectedItem = new ArrayList<>();
     }
 
     @Override
@@ -37,21 +40,23 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void addItem(List<Platform> item, Platform position, boolean isSelected) {
+    public void addItem(Platform position, boolean isSelected) {
         if (isSelected) {
-            item.add(position);
+            mSelectedItem.add(position);
         } else {
-            item.remove(position);
+            mSelectedItem.remove(position);
         }
+        getView().changeButtonStatus(mSelectedItem.isEmpty());
     }
 
     @Override
-    public void clickContributeReq(List<Platform> platformArrayList, String courseId) {
+    public void clickContributeReq(String courseId) {
         StringBuffer buffer = new StringBuffer();
-        int size = platformArrayList.size();
+        int size = mSelectedItem.size();
+        Platform platform = null;
         for (int i = 0; i < size; ++i) {
-            mPlatform = platformArrayList.get(i);
-            buffer.append(mPlatform.getString(TPlatformDetail.id));
+            platform = mSelectedItem.get(i);
+            buffer.append(platform.getString(TPlatformDetail.id));
             if (i != size - 1) {
                 buffer.append(",");
             }

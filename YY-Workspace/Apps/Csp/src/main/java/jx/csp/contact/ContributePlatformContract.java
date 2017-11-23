@@ -14,15 +14,15 @@ public interface ContributePlatformContract {
 
     interface V extends IContract.View {
 
-
         /**
          * 改变按钮状态
          */
-        void changeButtonStatus();
+        void changeButtonStatus(boolean enabled);
 
         void onFinish();
 
     }
+
     interface P extends IContract.Presenter<V> {
 
         /**
@@ -31,14 +31,14 @@ public interface ContributePlatformContract {
          * @param position
          * @param isSelected
          */
-        void addItem(List<Platform> item, Platform position, boolean isSelected);
+        void addItem(Platform position, boolean isSelected);
 
         /**
          * 单位号投稿
          *
-         * @param platformArrayList
+         * @param courseId
          */
-        void clickContributeReq(List<Platform> platformArrayList, String courseId);
+        void clickContributeReq(String courseId);
 
     }
 }
