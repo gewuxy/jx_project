@@ -12,6 +12,7 @@ import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.ui.activity.me.bind.BaseAccountActivity.RelatedId;
 import jx.csp.util.Util;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
@@ -152,7 +153,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void onUnBindSuccess(IResult r, int id, TProfile key) {
+    public void onUnBindSuccess(IResult r, @RelatedId int id, TProfile key) {
         App.showToast(R.string.account_unbind_succeed);
         getView().refreshItem(id);
 
@@ -162,7 +163,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void onUnBindSuccess(IResult r, int id) {
+    public void onUnBindSuccess(IResult r, @RelatedId int id) {
         App.showToast(R.string.account_unbind_succeed);
 
         List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);

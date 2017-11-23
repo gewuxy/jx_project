@@ -50,7 +50,7 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
     }
 
     @Override
-    public void clickContributeReq(String courseId) {
+    public void clickContribute(String courseId) {
         StringBuffer buffer = new StringBuffer();
         int size = mSelectedItem.size();
         Platform platform = null;

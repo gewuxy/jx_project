@@ -1,11 +1,7 @@
 package jx.csp.ui.activity.me;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -94,7 +90,7 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
         switch (v.getId()) {
             case R.id.contribute_tv_platform: {
                 refresh(RefreshWay.dialog);
-                mPresenter.clickContributeReq(mCourseId);
+                mPresenter.clickContribute(mCourseId);
             }
             break;
         }

@@ -10,21 +10,11 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.contact.SettingsContract;
-import jx.csp.dialog.BottomDialog;
-import jx.csp.dialog.CommonDialog2;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
-import jx.csp.ui.activity.login.AuthLoginActivity;
-import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
-import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
-import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
-import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
@@ -36,10 +26,6 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  */
 
 public class SettingsActivity extends BaseFormActivity {
-
-    private final String KM = "M";
-    private final int KColorNormal = R.color.text_666;
-    private final int KColorCancel = R.color.text_167afe;
 
     private SettingsContract.P mPresenter;
     private SettingsContract.V mView;
@@ -105,7 +91,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_tv_exit_account: {
-                mView.logout();
+                mPresenter.logout(SettingsActivity.this);
             }
             break;
         }
@@ -116,15 +102,15 @@ public class SettingsActivity extends BaseFormActivity {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
             case RelatedId.change_password: {
-                mView.changePassWord();
+                mPresenter.changePassWord();
             }
             break;
             case RelatedId.clear_img_cache: {
-                mView.clearCache(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
+                mPresenter.clearCache(SettingsActivity.this, RelatedId.clear_img_cache, getString(R.string.setting_clear_img_cache), getString(R.string.cancel), CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
             }
             break;
             case RelatedId.clear_sound_cache: {
-                mView.clearCache(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
+                mPresenter.clearCache(SettingsActivity.this, RelatedId.clear_sound_cache, getString(R.string.setting_clear_sound_cache), getString(R.string.cancel), CacheUtil.getAudioCacheDir());
             }
             break;
         }
@@ -133,72 +119,22 @@ public class SettingsActivity extends BaseFormActivity {
     private class SettingsViewImpl implements SettingsContract.V {
 
         @Override
-        public void changePassWord() {
-            if (TextUtil.isEmpty(Profile.inst().getString(TProfile.email))) {
-                startActivity(BindEmailTipsActivity.class);
-            } else {
-                //已绑定邮箱,直接跳转到修改页面
-                startActivity(ChangePwdActivity.class);
-            }
+        public void refreshItem(int related) {
+            getRelatedItem(related).text("0M");
+            refreshRelatedItem(related);
         }
 
         @Override
-        public void clearCache(int related, int resId, String... folderPath) {
-            BottomDialog d = new BottomDialog(SettingsActivity.this, position -> {
-
-                if (position == 0) {
-                    Util.runOnSubThread(() -> {
-                        boolean result = true;
-                        for (int i = 0; i < folderPath.length; ++i) {
-                            if (!FileUtil.delFolder(folderPath[i])) {
-                                result = false;
-                                break;
-                            }
-                        }
-
-                        if (result) {
-                            runOnUIThread(() -> {
-                                getRelatedItem(related).text("0M");
-                                refreshRelatedItem(related);
-                                showToast(R.string.setting_clear_succeed);
-                            });
-                        } else {
-                            showToast(R.string.setting_clear_error);
-                        }
-                    });
-                }
-            });
-            d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
-            d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
-            d.show();
-        }
-
-        @Override
-        public void logout() {
-            CommonDialog2 d = new CommonDialog2(SettingsActivity.this);
-            d.setHint(getString(R.string.setting_exit_current_account));
-            d.addBlackButton(getString(R.string.setting_exit), v -> {
-                mPresenter.startLogoutService(SettingsActivity.this);
-
-                if (Util.checkAppCn()) {
-                    startActivity(AuthLoginActivity.class);
-                } else {
-                    startActivity(AuthLoginOverseaActivity.class);
-                }
-                finish();
-            });
-            d.addBlueButton(R.string.cancel);
-            d.show();
+        public void closePage() {
+            finish();
         }
 
         @Override
         public void onStopRefresh() {
-
         }
 
         @Override
         public void setViewState(int state) {
-
         }
     }
 }
