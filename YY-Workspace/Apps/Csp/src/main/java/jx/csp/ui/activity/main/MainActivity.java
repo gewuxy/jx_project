@@ -86,6 +86,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .url(Profile.inst().getString(TProfile.avatar))
                 .load();
+
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));
 
         bar.addTextViewMid(getString(R.string.app_name));
@@ -100,7 +101,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mGridFrag.setPosition(mVpFrag.getPosition());
                 SpUser.inst().saveMainPage(KPageGrid);
             } else {
-                // 列表
+                // 卡片
                 mIvShift.setSelected(true);
                 setCurrPosition(KPageVp, false);
                 mVpFrag.setPosition(mGridFrag.getPosition());
@@ -226,7 +227,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     Meet m = (Meet) meet.clone();
                     m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
                     m.put(TMeet.id, copy.getInt(TCopy.id));
-                    mGridFrag.addItem(m);
+                    // 复制的会议默认放到最前面 页面跳到最前面位置
+                    mGridFrag.addItem(0, m);
+                    mGridFrag.setPosition(0);
                     mGridFrag.invalidate();
                     break;
                 }

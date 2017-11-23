@@ -14,8 +14,6 @@ import jx.csp.R;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
-import jx.csp.model.meeting.Live.LiveState;
-import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
@@ -104,17 +102,15 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                     }
                     switch (mMeet.getInt(TMeet.playType)) {
                         case PlayType.reb: {
-                            if (mMeet.getInt(TMeet.playState) == PlayState.record) {
-                                showView(mLayoutLiveReminder);
-                                mTvReminder.setText(R.string.playing);
-                            } else {
-                                goneView(mLayoutLiveReminder);
-                            }
+                            goneView(mLayoutLiveReminder);
                         }
                         break;
                         case PlayType.live:
                         case PlayType.video: {
-                            if (mMeet.getInt(TMeet.liveState) == LiveState.live && mMeet.getLong(TMeet.endTime) < System.currentTimeMillis()) {
+                            long startTime = mMeet.getLong(TMeet.startTime);
+                            long endTime = mMeet.getLong(TMeet.endTime);
+                            long currentTime = System.currentTimeMillis();
+                            if (startTime < currentTime && endTime > currentTime) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayoutLiveReminder);
                                 mTvReminder.setText(R.string.living);
@@ -174,6 +170,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             hideView(mLayoutPageNum);
             hideView(getViewPager());
             showView(mLayoutEmpty);
+            invalidate();
         } else {
             int size = mMeets.size();
             for (int i = 0; i < size; ++i) {

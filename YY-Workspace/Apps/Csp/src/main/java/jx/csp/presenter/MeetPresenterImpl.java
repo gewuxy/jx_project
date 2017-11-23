@@ -118,7 +118,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         mMeet = item;
         ShareDialog shareDialog = new ShareDialog(mContext,
                 item.getString(TMeet.id),
-                String.format(ResLoader.getString(R.string.share_title), item.getString(TMeet.title)),
+                item.getString(TMeet.title),
                 item.getString(TMeet.coverUrl));
         shareDialog.show();
     }

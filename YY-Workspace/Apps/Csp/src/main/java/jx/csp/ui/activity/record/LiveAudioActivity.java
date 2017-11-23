@@ -31,6 +31,7 @@ import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
@@ -98,6 +99,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         }
 
         //请求网络
+        refresh(RefreshWay.dialog);
         mLiveRecordPresenterImpl.getData(mCourseId);
     }
 
@@ -362,6 +364,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
         @Override
         public void setData(JoinMeeting joinMeeting) {
+            stopRefresh();
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
             mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();

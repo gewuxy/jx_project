@@ -37,6 +37,7 @@ import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
@@ -110,6 +111,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         mGestureView.setGestureViewListener(this);
 
         //请求网络
+        refresh(RefreshWay.dialog);
         mRecordPresenter.getData(mCourseId);
     }
 
@@ -420,6 +422,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void setData(JoinMeeting joinMeeting) {
+            stopRefresh();
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
             mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();

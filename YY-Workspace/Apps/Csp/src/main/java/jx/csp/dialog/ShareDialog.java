@@ -65,8 +65,9 @@ public class ShareDialog extends BaseDialog {
         super(context);
 
         mCourseId = courseId;
-        mTitle = title;
-        mShareTitle = title;
+        // 复制的会议要标题加  _复制
+        mTitle = title  + getString(R.string.duplicate);
+        mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
 
         shareSignature();
