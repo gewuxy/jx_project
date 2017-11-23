@@ -208,7 +208,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(Util.isMobileCN(getRelatedString(RelatedId.phone_number)) && TextUtil.isNotEmpty(getRelatedString(RelatedId.captcha)));
+        setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()));
     }
 
     public String getPhone() {

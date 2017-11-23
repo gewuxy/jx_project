@@ -66,8 +66,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .hint(R.string.email_address)
                 .layout(R.layout.form_edit_email)
                 .textWatcher(this)
-                .text(SpApp.inst().getUserEmail()))
-                /*.paddingLeft(46)*/;
+                .text(SpApp.inst().getUserEmail()));
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et_pwd))
