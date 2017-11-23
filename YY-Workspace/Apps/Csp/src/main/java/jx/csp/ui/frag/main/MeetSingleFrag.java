@@ -135,6 +135,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                     hideView(mTvCurrentPage);
                     hideView(mDivider);
+                    hideView(mIvLive);
                 }
             }
             break;
