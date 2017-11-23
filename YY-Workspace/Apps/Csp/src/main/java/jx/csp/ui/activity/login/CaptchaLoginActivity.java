@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.annotation.Retention;
@@ -62,8 +61,6 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     private final int KMaxCount = 3; // 最多获取3次验证码
     private final long KCaptchaDuration = TimeUnit.MINUTES.toMillis(10); // 10分钟
 
-    private EditText mEtPhoneNumber;
-    private EditText mEtCaptcha;
     private View mLayout;
     private int mCount; // 计算点击多少次
     private long mStartTime; // 开始计算10分钟间隔的时间
@@ -78,6 +75,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
                 .hint(R.string.input_phone_number)
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_phone));
         addItem(Form.create(FormType.divider_margin));
 
@@ -86,6 +84,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 .hint(R.string.input_captcha)
                 .textColorRes(R.color.bind_captcha_text_selector)
                 .drawable(R.drawable.login_ic_pwd)
+                .textWatcher(this)
                 .enable(false);
         addItem(Form.create(FormType.divider_margin));
     }
@@ -103,18 +102,10 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         setOnClickListener(R.id.protocol);
         //清空用户信息
         Profile.inst().clear();
-        mEtPhoneNumber = getRelatedItem(RelatedId.phone_number).getHolder().getEt();
-        mEtPhoneNumber.addTextChangedListener(this);
 
-        mEtCaptcha = getRelatedItem(RelatedId.captcha).getHolder().getEt();
-        mEtCaptcha.addTextChangedListener(this);
-
-      /*  mEtPhoneNumber.setText(SpApp.inst().getUserMobile());
-        mEtPhoneNumber.setSelection(getPhone().length());*/
-
-        if (TextUtil.isNotEmpty(mEtCaptcha.getText())) {
+        if (TextUtil.isNotEmpty(getCaptcha())) {
             getRelatedItem(RelatedId.captcha).enable(true);
-        } else {
+        } else{
             getRelatedItem(RelatedId.captcha).enable(false);
         }
         refreshItem(getRelatedItem(RelatedId.captcha));
@@ -225,15 +216,15 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(Util.isMobileCN(Util.getEtString(mEtPhoneNumber)) && TextUtil.isNotEmpty(Util.getEtString(mEtCaptcha)));
+        setChanged(Util.isMobileCN(getPhone()) && TextUtil.isNotEmpty(getCaptcha()));
     }
 
     public String getPhone() {
-        return Util.getEtString(mEtPhoneNumber).replace(" ", "");
+        return getRelatedItem(RelatedId.phone_number).getVal().trim().replace(" ", "");
     }
 
     public String getCaptcha() {
-        return Util.getEtString(mEtCaptcha);
+        return getRelatedItem(RelatedId.captcha).getVal().trim();
     }
 
     /**
@@ -256,5 +247,4 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             refreshItem(form);
         }
     }
-
 }

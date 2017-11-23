@@ -3,7 +3,6 @@ package jx.csp.ui.activity.login;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,7 +11,6 @@ import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
-import jx.csp.util.Util;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
@@ -34,8 +32,6 @@ public class ForgetPwdActivity extends BaseLoginActivity {
         int email = 0;
     }
 
-    private EditText mEtEmail;
-
     @Override
     public void initData(Bundle state) {
         super.initData(state);
@@ -44,15 +40,9 @@ public class ForgetPwdActivity extends BaseLoginActivity {
                 .related(RelatedId.email)
                 .hint(R.string.input_register_email)
                 .layout(R.layout.form_edit_email))
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_email);
         addItem(Form.create(FormType.divider_margin));
-    }
-
-    @Override
-    public void setViews() {
-        super.setViews();
-        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtEmail.addTextChangedListener(this);
     }
 
     @Override
@@ -83,10 +73,10 @@ public class ForgetPwdActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)));
+        setChanged(RegexUtil.isEmail(getEmail()));
     }
 
     public String getEmail() {
-        return Util.getEtString(mEtEmail);
+        return getRelatedItem(RelatedId.email).getVal().trim();
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,7 +20,6 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
-import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -52,8 +50,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
-    private EditText mEtEmail;
-    private EditText mEtPwd;
     private View mLayout;
     private View mLayoutRegister;
 
@@ -66,13 +62,14 @@ public class EmailLoginActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
                 .hint(R.string.email_address)
-                .layout(R.layout.form_edit_email))
-                /*.paddingLeft(46)*/;
+                .textWatcher(this)
+                .layout(R.layout.form_edit_email));
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
                 .hint(R.string.input_pwd)
+                .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
     }
@@ -90,17 +87,13 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         //清空用户信息
         Profile.inst().clear();
-        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtEmail.addTextChangedListener(this);
-        mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-        mEtPwd.addTextChangedListener(this);
 
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.protocol);
 
-        mEtEmail.setText(SpApp.inst().getUserEmail());
-        mEtEmail.setSelection(getEmail().length());
+        getRelatedItem(RelatedId.email).getHolder().getEt().setText(SpApp.inst().getUserEmail());
+
         showView(mLayout);
         showView(mLayoutRegister);
     }
@@ -182,15 +175,15 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)) && TextUtil.isNotEmpty(Util.getEtString(mEtPwd)));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
     }
 
     public String getEmail() {
-        return Util.getEtString(mEtEmail);
+        return getRelatedItem(RelatedId.email).getVal();
     }
 
     public String getUserPwd() {
-        return Util.getEtString(mEtPwd);
+        return getRelatedItem(RelatedId.pwd).getVal();
     }
 
 }

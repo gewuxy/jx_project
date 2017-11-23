@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,7 +16,6 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
-import jx.csp.util.Util;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
@@ -40,14 +38,13 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         int nickname = 0;
     }
 
-    private EditText mEtNickName;
-
     @Override
     public void initData(Bundle state) {
         super.initData(state);
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_nickname));
         addItem(Form.create(FormType.divider_margin));
     }
@@ -60,9 +57,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     @Override
     public void setViews() {
         super.setViews();
-        mEtNickName = getRelatedItem(RelatedId.nickname).getHolder().getEt();
-        mEtNickName.addTextChangedListener(this);
-
         setOnClickListener(R.id.protocol);
     }
 
@@ -110,10 +104,10 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(TextUtil.isNotEmpty(Util.getEtString(mEtNickName)));
+        setChanged(TextUtil.isNotEmpty(getNickName()));
     }
 
     public String getNickName() {
-        return Util.getEtString(mEtNickName);
+        return getRelatedItem(RelatedId.nickname).getVal().trim();
     }
 }
