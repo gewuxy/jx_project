@@ -46,7 +46,7 @@ public class ContributePlatformPresenterImpl extends BasePresenterImpl<Contribut
         } else {
             mSelectedItem.remove(position);
         }
-        getView().changeButtonStatus(mSelectedItem.isEmpty());
+        getView().changeButtonStatus(!mSelectedItem.isEmpty());
     }
 
     @Override
