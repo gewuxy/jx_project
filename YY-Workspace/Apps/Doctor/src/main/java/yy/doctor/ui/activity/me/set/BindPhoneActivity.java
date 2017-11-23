@@ -80,12 +80,12 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @NonNull
     private String getPhone() {
-        return getRelatedItem(RelatedId.phone_number).getVal().trim().replace(" ", "");
+        return getRelatedString(RelatedId.phone_number).replace(" ", "");
     }
 
     @NonNull
     private String getCaptcha() {
-        return getRelatedItem(RelatedId.captcha).getVal().trim();
+        return getRelatedString(RelatedId.captcha);
     }
 
     @Override

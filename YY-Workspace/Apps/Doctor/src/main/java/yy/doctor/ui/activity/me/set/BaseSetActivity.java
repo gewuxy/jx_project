@@ -7,7 +7,9 @@ import android.widget.TextView;
 
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.model.form.BaseForm;
 import lib.yy.ui.activity.base.BaseFormActivity;
 import yy.doctor.R;
 import yy.doctor.network.JsonParser;
@@ -72,6 +74,15 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Deprecated
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
+    public String getRelatedString(Object related) {
+        BaseForm form = getRelatedItem(related);
+        if (form != null) {
+            return form.getVal();
+        } else {
+            return ConstantsEx.KEmpty;
+        }
     }
 
     /**

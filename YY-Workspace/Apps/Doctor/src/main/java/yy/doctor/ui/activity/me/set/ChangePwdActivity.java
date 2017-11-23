@@ -80,16 +80,16 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     protected void toSet() {
-        String oldPwd = getRelatedItem(RelatedId.pwd_old).getVal();
-        String newPwd = getRelatedItem(RelatedId.pwd_new).getVal();
+        String oldPwd = getRelatedString(RelatedId.pwd_old);
+        String newPwd = getRelatedString(RelatedId.pwd_new);
         refresh(RefreshWay.dialog);
         exeNetworkReq(UserAPI.changePwd(oldPwd, newPwd).build());
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        String oldPwd = getRelatedItem(RelatedId.pwd_old).getVal();
-        String newPwd = getRelatedItem(RelatedId.pwd_new).getVal();
+        String oldPwd = getRelatedString(RelatedId.pwd_old);
+        String newPwd = getRelatedString(RelatedId.pwd_new);
         setChanged(checkPwd(oldPwd) && checkPwd(newPwd));
     }
 

@@ -52,8 +52,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
         int pwd = 1;
     }
 
-    private EditText mEtEmail;
-    private EditText mEtPwd;
     private View mLayout;
     private View mLayoutRegister;
 
@@ -66,13 +64,16 @@ public class EmailLoginActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
                 .hint(R.string.email_address)
-                .layout(R.layout.form_edit_email))
+                .layout(R.layout.form_edit_email)
+                .textWatcher(this)
+                .text(SpApp.inst().getUserEmail()))
                 /*.paddingLeft(46)*/;
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
                 .hint(R.string.input_pwd)
+                .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
     }
@@ -80,6 +81,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
     @Override
     public void findViews() {
         super.findViews();
+
         mLayout = findView(R.id.layout_email_login);
         mLayoutRegister = findView(R.id.layout_register);
     }
@@ -88,19 +90,10 @@ public class EmailLoginActivity extends BaseLoginActivity {
     public void setViews() {
         super.setViews();
 
-        //清空用户信息
-        Profile.inst().clear();
-        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtEmail.addTextChangedListener(this);
-        mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-        mEtPwd.addTextChangedListener(this);
-
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.protocol);
 
-        mEtEmail.setText(SpApp.inst().getUserEmail());
-        mEtEmail.setSelection(getEmail().length());
         showView(mLayout);
         showView(mLayoutRegister);
     }
@@ -145,7 +138,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         if (r.isSucceed()) {
-            // FIXME: 怎么使用的getEmail??
             SpApp.inst().saveUserEmail(getEmail());
             Profile.inst().update((Profile) r.getData());
             SpUser.inst().updateProfileRefreshTime();
@@ -182,15 +174,15 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(Util.getEtString(mEtEmail)) && TextUtil.isNotEmpty(Util.getEtString(mEtPwd)));
+        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getUserPwd()));
     }
 
     public String getEmail() {
-        return Util.getEtString(mEtEmail);
+        return getRelatedString(RelatedId.email);
     }
 
     public String getUserPwd() {
-        return Util.getEtString(mEtPwd);
+        return getRelatedString(RelatedId.pwd);
     }
 
 }

@@ -11,7 +11,9 @@ import jx.csp.network.JsonParser;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
+import lib.yy.model.form.BaseForm;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -45,11 +47,15 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     public void setViews() {
         super.setViews();
 
+        //清空用户信息
+        Profile.inst().clear();
+
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);
     }
 
+    @CallSuper
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -103,4 +109,12 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         return JsonParser.ev(resp.getText(), Profile.class);
     }
 
+    public String getRelatedString(Object related) {
+        BaseForm form = getRelatedItem(related);
+        if (form != null) {
+            return form.getVal();
+        } else {
+            return ConstantsEx.KEmpty;
+        }
+    }
 }

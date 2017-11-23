@@ -40,14 +40,13 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         int nickname = 0;
     }
 
-    private EditText mEtNickName;
-
     @Override
     public void initData(Bundle state) {
         super.initData(state);
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_nickname));
         addItem(Form.create(FormType.divider_margin));
     }
@@ -60,8 +59,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     @Override
     public void setViews() {
         super.setViews();
-        mEtNickName = getRelatedItem(RelatedId.nickname).getHolder().getEt();
-        mEtNickName.addTextChangedListener(this);
 
         setOnClickListener(R.id.protocol);
     }
@@ -110,10 +107,10 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(TextUtil.isNotEmpty(Util.getEtString(mEtNickName)));
+        setChanged(TextUtil.isNotEmpty(getNickName()));
     }
 
     public String getNickName() {
-        return Util.getEtString(mEtNickName);
+        return getRelatedString(RelatedId.nickname);
     }
 }

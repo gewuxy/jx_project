@@ -50,9 +50,6 @@ public class RegisterActivity extends BaseLoginActivity {
 
     private final int KReturnCode = 101; // 邮箱已经注册后台返回值
 
-    private EditText mEtEmail;
-    private EditText mEtPwd;
-    private EditText mEtNickname;
     private View mLayout;
 
     @Override
@@ -62,6 +59,7 @@ public class RegisterActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
                 .hint(R.string.email_address)
+                .textWatcher(this)
                 .layout(R.layout.form_edit_email))
                 .drawable(R.drawable.login_ic_email);
         addItem(Form.create(FormType.divider_margin));
@@ -69,12 +67,14 @@ public class RegisterActivity extends BaseLoginActivity {
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
                 .hint(R.string.input_pwd)
+                .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_nickname)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
                     if (source.equals(" ")) {
@@ -95,14 +95,6 @@ public class RegisterActivity extends BaseLoginActivity {
     @Override
     public void setViews() {
         super.setViews();
-        mEtEmail = getRelatedItem(RelatedId.email).getHolder().getEt();
-        mEtEmail.addTextChangedListener(this);
-
-        mEtPwd = getRelatedItem(RelatedId.pwd).getHolder().getEt();
-        mEtPwd.addTextChangedListener(this);
-
-        mEtNickname = getRelatedItem(RelatedId.nickname).getHolder().getEt();
-        mEtNickname.addTextChangedListener(this);
 
         setOnClickListener(R.id.service_agreement);
 
@@ -175,14 +167,14 @@ public class RegisterActivity extends BaseLoginActivity {
     }
 
     public String getEmail() {
-        return Util.getEtString(mEtEmail);
+        return getRelatedString(RelatedId.email);
     }
 
     public String getUserPwd() {
-        return Util.getEtString(mEtPwd);
+        return getRelatedString(RelatedId.pwd);
     }
 
     public String getNickname() {
-        return Util.getEtString(mEtNickname);
+        return getRelatedString(RelatedId.nickname);
     }
 }

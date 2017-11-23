@@ -55,7 +55,7 @@ public class BindEmailActivity extends BaseSetActivity {
     @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
-        String email = getRelatedItem(RelatedId.email).getVal();
+        String email = getRelatedString(RelatedId.email);
         exeNetworkReq(UserAPI.bindEmail(email.trim()).build());
     }
 
@@ -72,6 +72,6 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(getRelatedItem(RelatedId.email).getVal().trim()));
+        setChanged(RegexUtil.isEmail(getRelatedString(RelatedId.email)));
     }
 }
