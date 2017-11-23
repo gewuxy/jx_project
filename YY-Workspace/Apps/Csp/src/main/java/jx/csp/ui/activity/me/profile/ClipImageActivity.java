@@ -48,7 +48,7 @@ public class ClipImageActivity extends BaseClipImageActivity {
     private class ClipImageViewImpl implements ClipImageContract.V {
 
         @Override
-        public void setProcessResult() {
+        public void setData() {
             setResult(RESULT_OK, getIntent());
             finish();
         }

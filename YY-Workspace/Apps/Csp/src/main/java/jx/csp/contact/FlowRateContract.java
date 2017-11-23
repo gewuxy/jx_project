@@ -64,6 +64,6 @@ public interface FlowRateContract {
         /**
          * 设置支付结果回调处理
          */
-        void setResultDeal(int code, int requestCode, int resultCode, Intent data);
+        void setResultDeal(int id, int requestCode, int resultCode, Intent data);
     }
 }

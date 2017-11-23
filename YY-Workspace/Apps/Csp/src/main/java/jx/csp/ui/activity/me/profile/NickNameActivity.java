@@ -2,7 +2,6 @@ package jx.csp.ui.activity.me.profile;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +11,7 @@ import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.contact.NickNameContract;
 import jx.csp.presenter.NickNamePresenterImpl;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
 
 /**
@@ -28,8 +28,6 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private EditText mEt;
     private ImageView mIv;
     private int mLimit;
-
-    private TextWatcher mWatcher;
 
     private NickNameContract.V mNickNameView;
     private NickNameContract.P mNickNamePresenter;
@@ -61,13 +59,13 @@ public class NickNameActivity extends BaseMyMessageActivity {
         setOnClickListener(R.id.form_iv_clean);
         ViewUtil.limitInputCount(mEt, mLimit);
 
-        mNickNamePresenter.onTextChangedListener(mTv, mEt, mIv);
+        mNickNamePresenter.onTextChangedListener(mEt);
         mNickNamePresenter.onTextBlankListener(mEt);
     }
 
     @Override
     public void onClick(View v) {
-        mNickNameView.setTextClear(getEt());
+        mNickNameView.setTextClear();
     }
 
     @Override
@@ -83,14 +81,28 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private class NickNameViewImpl extends MyMessageViewImpl implements NickNameContract.V {
 
         @Override
-        public void setTextClear(EditText et) {
-            et.setText("");
+        public void setTextClear() {
+            getEt().setText("");
         }
 
         @Override
-        public void inhibitInputBlank(@NonNull EditText et, String text) {
-            et.setText(text);
-            et.setSelection(text.length());
+        public void inhibitInputBlank(String text) {
+            getEt().setText(text);
+            getEt().setSelection(text.length());
+        }
+
+        @Override
+        public void buttonStatus() {
+            mTv.setEnabled(true);
+        }
+
+        @Override
+        public void setClearButton(String text) {
+            if (mEt.hasFocus() && TextUtil.isNotEmpty(text)) {
+                showView(mIv);
+            } else {
+                hideView(mIv);
+            }
         }
 
         @Override

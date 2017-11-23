@@ -52,8 +52,8 @@ public class IntroActivity extends BaseMyMessageActivity {
     public void setViews() {
         super.setViews();
 
-        mIntroView.setIntroTextLength(KTextLength - getVal().length(), mTv);
-        mIntroPresenter.onTextChangedListener(getEt(), mTv);
+        mIntroView.setIntroTextLength(KTextLength - getVal().length());
+        mIntroPresenter.onTextChangedListener(getEt());
     }
 
     @Override
@@ -68,11 +68,11 @@ public class IntroActivity extends BaseMyMessageActivity {
 
     private class IntroViewImpl extends MyMessageViewImpl implements IntroContract.V {
         @Override
-        public void setIntroTextLength(int length, TextView tv) {
+        public void setIntroTextLength(int length) {
             if (length > KTextLength) {
                 length = 0;
             }
-            tv.setText(String.format(getString(R.string.my_message_intro_unit), length));
+            mTv.setText(String.format(getString(R.string.my_message_intro_unit), length));
         }
 
         @Override

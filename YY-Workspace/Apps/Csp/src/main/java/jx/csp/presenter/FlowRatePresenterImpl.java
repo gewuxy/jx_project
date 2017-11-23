@@ -52,12 +52,12 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
     }
 
     @Override
-    public void setResultDeal(int code, int requestCode, int resultCode, Intent data) {
+    public void setResultDeal(int id, int requestCode, int resultCode, Intent data) {
         final PayResult payResult = new PayResult();
 
-        if (code == KPingReqCode) {
+        if (id == KPingReqCode) {
             payResult.put(TPayResult.type, PayType.pingPP);
-        } else if (code == KPayPalPayCode) {
+        } else if (id == KPayPalPayCode) {
             payResult.put(TPayResult.type, PayType.payPal);
             if (data != null) {
                 data.putExtra(PayPalPay.KExtraOrderId, mOrderId);

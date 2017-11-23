@@ -3,7 +3,6 @@ package jx.csp.presenter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import jx.csp.contact.IntroContract;
 import jx.csp.contact.IntroContract.V;
@@ -24,7 +23,7 @@ public class IntroPresenterImpl extends BasePresenterImpl<IntroContract.V> imple
     }
 
     @Override
-    public void onTextChangedListener(EditText et, TextView tv) {
+    public void onTextChangedListener(EditText et) {
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -37,9 +36,9 @@ public class IntroPresenterImpl extends BasePresenterImpl<IntroContract.V> imple
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtil.isEmpty(s)) {
-                    getView().setIntroTextLength(KTextLength, tv);
+                    getView().setIntroTextLength(KTextLength);
                 } else {
-                    getView().setIntroTextLength(KTextLength - s.length(), tv);
+                    getView().setIntroTextLength(KTextLength - s.length());
                 }
             }
         });

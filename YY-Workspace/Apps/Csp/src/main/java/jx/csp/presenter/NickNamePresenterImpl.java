@@ -2,17 +2,12 @@ package jx.csp.presenter;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 import jx.csp.contact.NickNameContract;
 import jx.csp.contact.NickNameContract.V;
 import jx.csp.util.Util;
-import lib.ys.util.TextUtil;
-import lib.ys.util.view.ViewUtil;
 import lib.yy.contract.BasePresenterImpl;
 
 /**
@@ -31,7 +26,7 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
     }
 
     @Override
-    public void onTextChangedListener(@NonNull TextView tv, @NonNull EditText et, @Nullable View iv) {
+    public void onTextChangedListener(@NonNull EditText et) {
         if (et == null) {
             return;
         }
@@ -47,36 +42,27 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
 
             @Override
             public void afterTextChanged(Editable s) {
-                tv.setEnabled(true);
-
-                if (et.hasFocus() && TextUtil.isNotEmpty(s)) {
-                    ViewUtil.showView(iv);
-                } else {
-                    ViewUtil.hideView(iv);
-                }
+                getView().buttonStatus();
+                getView().setClearButton(String.valueOf(s));
             }
         });
 
         et.setOnFocusChangeListener((v, hasFocus) -> {
             // iv是否显示
-            if (hasFocus && TextUtil.isNotEmpty(Util.getEtString(et))) {
-                ViewUtil.showView(iv);
-            } else {
-                ViewUtil.hideView(iv);
-            }
+            getView().setClearButton(Util.getEtString(et));
         });
     }
 
     @Override
-    public void onTextBlankListener(EditText et) {
+    public void onTextBlankListener(@NonNull EditText et) {
         mWatcher = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
             }
 
@@ -86,7 +72,7 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
                 text = text.replaceAll(" ", "");
 
                 et.removeTextChangedListener(mWatcher);
-                getView().inhibitInputBlank(et, text);
+                getView().inhibitInputBlank(text);
                 et.addTextChangedListener(mWatcher);
             }
         };

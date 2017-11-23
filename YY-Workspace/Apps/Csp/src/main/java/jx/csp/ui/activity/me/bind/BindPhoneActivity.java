@@ -25,8 +25,6 @@ import lib.yy.notify.Notifier.NotifyType;
  */
 public class BindPhoneActivity extends BaseSetActivity {
 
-    private View mDialog;
-
     private BindPhoneContract.V mPhoneView;
     private BindPhoneContract.P mPhonePresenter;
 
@@ -92,12 +90,12 @@ public class BindPhoneActivity extends BaseSetActivity {
                 if (v.getId() == R.id.form_tv_text) {
                     mPhonePresenter.checkMobile(getPhone());
 
-                    mDialog = inflate(R.layout.dialog_captcha);
-                    TextView tv = mDialog.findViewById(R.id.captcha_tv_phone_number);
+                    View captcha = inflate(R.layout.dialog_captcha);
+                    TextView tv = captcha.findViewById(R.id.captcha_tv_phone_number);
                     String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
                     tv.setText(phone);
 
-                    mPhonePresenter.showCaptchaDialog(this, mDialog);
+                    mPhonePresenter.showCaptchaDialog(this, captcha);
                 }
             }
             break;

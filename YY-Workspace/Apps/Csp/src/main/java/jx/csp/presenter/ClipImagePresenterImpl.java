@@ -41,7 +41,7 @@ public class ClipImagePresenterImpl extends BasePresenterImpl<ClipImageContract.
             Profile.inst().update(Profile.inst().put(TProfile.avatar, avatar.getString(TAvatar.url)));
             Profile.inst().saveToSp();
 
-            getView().setProcessResult();
+            getView().setData();
             App.showToast(R.string.my_message_save_success);
         } else {
             onNetworkError(id, r.getError());

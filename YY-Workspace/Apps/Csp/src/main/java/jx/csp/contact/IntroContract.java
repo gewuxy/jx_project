@@ -1,7 +1,6 @@
 package jx.csp.contact;
 
 import android.widget.EditText;
-import android.widget.TextView;
 
 import lib.yy.contract.IContract;
 
@@ -17,7 +16,7 @@ public interface IntroContract {
          *
          * @param length
          */
-        void setIntroTextLength(int length, TextView tv);
+        void setIntroTextLength(int length);
     }
 
     interface P extends IContract.Presenter<V>{
@@ -26,8 +25,7 @@ public interface IntroContract {
          * 输入框的监听
          *
          * @param et
-         * @param tv
          */
-        void onTextChangedListener(EditText et, TextView tv);
+        void onTextChangedListener(EditText et);
     }
 }

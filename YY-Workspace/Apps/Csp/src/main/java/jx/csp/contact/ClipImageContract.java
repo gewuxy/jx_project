@@ -12,7 +12,7 @@ import lib.yy.contract.IContract;
 public interface ClipImageContract {
     interface V extends IContract.View {
 
-        void setProcessResult();
+        void setData();
     }
 
     interface P extends IContract.Presenter<V> {
