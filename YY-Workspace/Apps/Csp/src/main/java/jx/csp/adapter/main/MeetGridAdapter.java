@@ -7,7 +7,6 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Record.PlayState;
 import lib.ys.ConstantsEx;
-import lib.ys.YSLog;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
@@ -27,17 +26,21 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
     @Override
     protected void refreshView(int position, MeetGridVH holder) {
         Meet item = getItem(position);
-        YSLog.d(TAG, "position = "+ position +"开始时间 = " + TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.from_y_24));
-        YSLog.d(TAG, "position = "+ position +"结束时间 = " + TimeFormatter.milli(item.getLong(TMeet.endTime), TimeFormat.from_y_24));
+
         holder.getIvHead()
                 .placeHolder(R.drawable.ic_default_main_grid)
                 .url(item.getString(TMeet.coverUrl))
                 .load();
+
         holder.getTvTitle().setText(item.getString(TMeet.title));
         holder.getTvTotalPage().setText(item.getString(TMeet.pageCount));
+
         setOnViewClickListener(position, holder.getItemLayout());
         setOnViewClickListener(position, holder.getIvShare());
         setOnViewClickListener(position, holder.getIvLive());
+
+        showView(holder.getTvCurrentPage());
+        showView(holder.getVDivider());
         switch (item.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 holder.getTvTime().setText(item.getString(TMeet.playTime));
@@ -69,22 +72,24 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 } else {
                     goneView(holder.getIvLive());
                 }
+
                 long startTime = item.getLong(TMeet.startTime);
-                long stopTime = item.getLong(TMeet.endTime);
-                if (startTime > System.currentTimeMillis()) {
+                long endTime = item.getLong(TMeet.endTime);
+                long currentTime = System.currentTimeMillis();
+
+                if (startTime > currentTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < System.currentTimeMillis() && stopTime > System.currentTimeMillis()) {
+                } else if (startTime < currentTime && endTime > currentTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 } else {
                     goneView(holder.getTvCurrentPage());
                     goneView(holder.getVDivider());
-                    goneView(holder.getTvPlayState());
-                    goneView(holder.getIvLive());
+                    holder.getTvPlayState().setText(ConstantsEx.KEmpty);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 }
             }
