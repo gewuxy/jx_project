@@ -13,6 +13,7 @@ import lib.yy.util.CountDown;
 import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
+ * 忘记密码跳转和注册跳转的基类
  * @auther WangLan
  * @since 2017/10/17
  */

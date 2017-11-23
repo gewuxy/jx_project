@@ -48,11 +48,6 @@ public class ContributeHistoryActivity extends BaseSRListActivity<History, Histo
     }
 
     @Override
-    public int getOffset() {
-        return 1;
-    }
-
-    @Override
     public View createEmptyFooterView() {
         return inflate(R.layout.layout_empty_history_footer);
     }

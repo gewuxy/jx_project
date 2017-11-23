@@ -193,7 +193,9 @@ public class NetworkApi {
          * @param acceptId 接收者id
          */
         @Get("user/detail")
-        void historyDetail(int acceptId);
+        void historyDetail(int acceptId,
+                           @Query(opt = true) int pageNum,
+                           @Query(opt = true) int pageSize);
 
         /**
          * 投稿

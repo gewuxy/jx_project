@@ -20,6 +20,8 @@ import lib.yy.ui.activity.base.BaseSRListActivity;
 @Route
 public class ContributeHistoryDetailActivity extends BaseSRListActivity<HistoryDetail, HistoryDetailAdapter> {
 
+    private final int KLimit = 16; // 每页展示的数据
+
     @Arg
     public int mAcceptId;
 
@@ -43,6 +45,11 @@ public class ContributeHistoryDetailActivity extends BaseSRListActivity<HistoryD
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(DeliveryAPI.historyDetail(mAcceptId).build());
+        exeNetworkReq(DeliveryAPI.historyDetail(mAcceptId).pageNum(getOffset()).pageSize(getLimit()).build());
+    }
+
+    @Override
+    public int getLimit() {
+        return KLimit;
     }
 }
