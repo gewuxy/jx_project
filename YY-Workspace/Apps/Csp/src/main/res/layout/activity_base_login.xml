@@ -37,8 +37,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        style="@style/v.login.foot"
         android:layout_marginBottom="27dp"
-        android:orientation="horizontal"
         android:visibility="gone">
 
         <TextView
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="200dp"
-            android:orientation="horizontal">
+            style="@style/v.login.foot">
 
             <TextView
                 android:id="@+id/agree_to"
