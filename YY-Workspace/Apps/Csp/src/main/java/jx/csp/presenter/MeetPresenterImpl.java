@@ -49,6 +49,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private Meet mMeet;
     private CountdownDialog mCountdownDialog;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
+    private boolean mWsClose = false; // web socket 是否已经关闭
 
     @IntDef({
             LiveType.ppt,
@@ -67,6 +68,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onMeetClick(Meet item) {
+        mWsClose = false;
         mMeet = item;
         long startTime = item.getLong(TMeet.startTime);
         long endTime = item.getLong(TMeet.endTime);
@@ -126,6 +128,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onLiveClick(Meet item) {
         // 先判断会议是否已经开始，再判断是否有人在直播视频
+        mWsClose = false;
         mMeet = item;
         long startTime = item.getLong(TMeet.startTime);
         long endTime = item.getLong(TMeet.endTime);
@@ -142,15 +145,21 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void allowEnter() {
-        YSLog.d(TAG, "MeetPresenterImpl enter WebSocketServRouter.stop");
-        WebSocketServRouter.stop(mContext);
+        if (!mWsClose) {
+            mWsClose = true;
+            YSLog.d(TAG, "MeetPresenterImpl enter WebSocketServRouter.stop");
+            WebSocketServRouter.stop(mContext);
+        }
         join();
     }
 
     @Override
     public void notAllowEnter() {
-        YSLog.d(TAG, "MeetPresenterImpl noEnter WebSocketServRouter.stop");
-        WebSocketServRouter.stop(mContext);
+        if (!mWsClose) {
+            mWsClose = true;
+            YSLog.d(TAG, "MeetPresenterImpl noEnter WebSocketServRouter.stop");
+            WebSocketServRouter.stop(mContext);
+        }
         if (mCountdownDialog != null) {
             mCountdownDialog.dismiss();
         }
@@ -228,6 +237,13 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 // 倒计时结束没有收到websocket默认进入会议
                 mCountdownDialog = new CountdownDialog(mContext, 15);
             }
+            mCountdownDialog.setOnDismissListener(dialogInterface -> {
+                if (!mWsClose) {
+                    mWsClose = true;
+                    YSLog.d(TAG, "MeetPresenterImpl count down dialog dismiss WebSocketServRouter.stop");
+                    WebSocketServRouter.stop(mContext);
+                }
+            });
             mCountdownDialog.show();
         });
         d.addBlueButton(R.string.cancel);
