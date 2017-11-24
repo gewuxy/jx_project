@@ -5,7 +5,6 @@ import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.view.View;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -142,21 +141,21 @@ public class RegisterActivity extends BaseLoginActivity {
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         //注册
-        if (r.getCode() == KReturnCode) {
-            CommonDialog2 d = new CommonDialog2(this);
-            d.setHint(getString(R.string.email_have_been_register));
-            d.addBlueButton(R.string.cancel);
-            d.addBlueButton(getString(R.string.immediately_login), v -> finish());
-            d.show();
-            return;
-        }
         if (r.isSucceed()) {
             Profile.inst().put(TProfile.nickName, getNickname());
             Profile.inst().put(TProfile.email, getNickname());
             Profile.inst().saveToSp();
-            startActivity(RegisterSkipActivity.class);
+            SkipActivityRouter.create(getString(R.string.register),getString(R.string.active_email)).route(this);
             finish();
         } else {
+            if (r.getCode() == KReturnCode) {
+                CommonDialog2 d = new CommonDialog2(this);
+                d.setHint(getString(R.string.email_have_been_register));
+                d.addBlueButton(R.string.cancel);
+                d.addBlueButton(getString(R.string.immediately_login), v -> finish());
+                d.show();
+                return;
+            }
             onNetworkError(id, r.getError());
         }
     }

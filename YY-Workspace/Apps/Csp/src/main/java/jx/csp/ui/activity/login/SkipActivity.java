@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
@@ -14,17 +16,23 @@ import lib.yy.util.CountDown.OnCountDownListener;
 
 /**
  * 忘记密码跳转和注册跳转的基类
+ *
  * @auther WangLan
  * @since 2017/10/17
  */
-
-public abstract class BaseSkipActivity extends BaseActivity implements OnCountDownListener {
+@Route
+public class SkipActivity extends BaseActivity implements OnCountDownListener {
 
     private final int KCountDownTime = 5; // 单位是秒
 
     private TextView mTvSkipText;
     private TextView mTvBack;
     private CountDown mCountDown;
+    @Arg
+    public String mTitleText;
+
+    @Arg
+    public String mSkipText;
 
     @Override
     public void initData(Bundle state) {
@@ -41,7 +49,7 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, getTitleText(), this);
+        Util.addCloseIcon(bar, mTitleText, this);
     }
 
     @Override
@@ -52,7 +60,7 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
 
     @Override
     public void setViews() {
-        mTvSkipText.setText(getSkipText());
+        mTvSkipText.setText(mSkipText);
         setOnClickListener(R.id.tv_back_login);
     }
 
@@ -86,8 +94,4 @@ public abstract class BaseSkipActivity extends BaseActivity implements OnCountDo
             mCountDown.stop();
         }
     }
-
-    abstract protected CharSequence getTitleText();
-
-    abstract protected CharSequence getSkipText();
 }

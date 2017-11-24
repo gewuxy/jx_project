@@ -182,19 +182,19 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         }
     }
 
-    //返回重新加载
+
     @Override
     protected void onRestart() {
         super.onRestart();
-
+        //返回重新加载
         startPlay();
     }
 
-    //防止锁屏或者切出的时候，视频在播放
+
     @Override
     protected void onStop() {
         super.onStop();
-
+        //防止锁屏或者切出的时候，视频在播放
         if (mVideo.isPlaying()) {
             mVideo.stopPlayback();
         }

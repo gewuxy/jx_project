@@ -40,6 +40,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
                 .related(RelatedId.email)
                 .hint(R.string.input_register_email)
                 .layout(R.layout.form_edit_email))
+                .textWatcher(this)
                 .drawable(R.drawable.login_ic_email);
         addItem(Form.create(FormType.divider_margin));
     }
@@ -63,7 +64,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            startActivity(ForgetPwdSkipActivity.class);
+            SkipActivityRouter.create(getString(R.string.find_pwd),getString(R.string.reset_pwd_to_email)).route(this);
             finish();
         } else {
             onNetworkError(id, r.getError());
