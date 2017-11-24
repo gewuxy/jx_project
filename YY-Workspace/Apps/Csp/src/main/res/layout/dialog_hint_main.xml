@@ -38,7 +38,7 @@
                     android:lineSpacingExtra="@dimen/margin"
                     android:text="确定退出当前账号"
                     android:textColor="@color/text_333"
-                    android:textSize="19dp"/>
+                    android:textSize="16dp"/>
 
             </LinearLayout>
 
@@ -47,7 +47,7 @@
                 android:background="@color/divider"/>
 
             <LinearLayout
-                android:id="@id/dialog_layout_button"
+                android:id="@+id/dialog_layout_button"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:orientation="horizontal"/>

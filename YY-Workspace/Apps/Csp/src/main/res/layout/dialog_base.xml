@@ -34,7 +34,7 @@
                 android:background="@color/divider"/>
 
             <LinearLayout
-                android:id="@id/dialog_layout_button"
+                android:id="@+id/dialog_layout_button"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:orientation="horizontal"/>
