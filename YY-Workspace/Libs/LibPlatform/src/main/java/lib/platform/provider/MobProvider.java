@@ -260,7 +260,7 @@ public class MobProvider implements Provider {
             case sms: {
                 p = ShareSDK.getPlatform(ShortMessage.NAME);
                 //短信只能发文字，链接可以写在text里面
-                shareParams.setText(param.getUrl());
+                shareParams.setText(param.getText()+param.getUrl());
             }
             break;
             case facebook: {
@@ -269,10 +269,14 @@ public class MobProvider implements Provider {
             break;
             case twitter: {
                 p = ShareSDK.getPlatform(Twitter.NAME);
+                //推特只能发文字，链接可以写在text里面
+                shareParams.setText(param.getText()+param.getUrl());
             }
             break;
             case whatsapp: {
                 p = ShareSDK.getPlatform(WhatsApp.NAME);
+                //whatsapp只能发文字，链接可以写在text里面
+                shareParams.setText(param.getText()+param.getUrl());
                 if (!p.isClientValid()) {
                     AppEx.showToast(R.string.whatsapp_check_app);
                     return;
