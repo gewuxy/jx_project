@@ -75,7 +75,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-        mView.getEtData();
+        mView.getText();
         mTv.setEnabled(true);
     }
 
@@ -111,7 +111,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
         }
 
         @Override
-        public void getEtData() {
+        public void getText() {
             getEt().setText(getVal());
             getEt().setSelection(getEt().getText().length());
         }

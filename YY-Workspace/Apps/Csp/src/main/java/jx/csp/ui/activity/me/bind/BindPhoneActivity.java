@@ -9,6 +9,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.contact.BindPhoneContract;
+import jx.csp.dialog.CommonDialog;
 import jx.csp.model.form.Form;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.presenter.BindPhonePresenterImpl;
@@ -89,13 +90,7 @@ public class BindPhoneActivity extends BaseSetActivity {
             case RelatedId.bind_captcha: {
                 if (v.getId() == R.id.form_tv_text) {
                     mPhonePresenter.checkMobile(getPhone());
-
-                    View captcha = inflate(R.layout.dialog_captcha);
-                    TextView tv = captcha.findViewById(R.id.captcha_tv_phone_number);
-                    String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
-                    tv.setText(phone);
-
-                    mPhonePresenter.showCaptchaDialog(this, captcha);
+                    mPhoneView.showCaptchaDialog();
                 }
             }
             break;
@@ -114,6 +109,22 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     private class BindPhoneViewImpl extends BaseSetBindViewImpl implements BindPhoneContract.V {
+
+        @Override
+        public void showCaptchaDialog() {
+            View captcha = inflate(R.layout.dialog_captcha);
+            TextView tv = captcha.findViewById(R.id.captcha_tv_phone_number);
+            String phone = getRelatedItem(RelatedId.bind_phone_number).getVal();
+            tv.setText(phone);
+
+            CommonDialog dialog = new CommonDialog(BindPhoneActivity.this);
+            dialog.addHintView(captcha);
+            dialog.addGrayButton(R.string.cancel);
+            dialog.addBlueButton(R.string.well, v1 -> {
+                mPhonePresenter.checkCaptcha();
+            });
+            dialog.show();
+        }
 
         @Override
         public void getCaptcha() {

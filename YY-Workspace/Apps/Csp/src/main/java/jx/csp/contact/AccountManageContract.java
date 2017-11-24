@@ -109,8 +109,8 @@ public interface AccountManageContract {
          * @param id
          * @param key
          */
-        void onUnBindSuccess(IResult r, @RelatedId int id, TProfile key);
+        void onUnBindSuccess(@RelatedId int id, IResult r, TProfile key);
 
-        void onUnBindSuccess(IResult r, @RelatedId int id);
+        void onUnBindSuccess(@RelatedId int id, IResult r);
     }
 }

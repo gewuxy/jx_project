@@ -86,7 +86,7 @@ public class NickNameActivity extends BaseMyMessageActivity {
         }
 
         @Override
-        public void inhibitInputBlank(String text) {
+        public void forbidInputBlank(String text) {
             getEt().setText(text);
             getEt().setSelection(text.length());
         }
