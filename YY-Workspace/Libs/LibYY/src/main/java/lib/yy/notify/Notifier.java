@@ -57,6 +57,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.bind_twitter,
             NotifyType.delete_meeting,
             NotifyType.copy_duplicate,
+
+            NotifyType.login_video,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -200,6 +202,8 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 首页九宫格页面分享中的复制副本
          */
         int copy_duplicate = 35;
+
+        int login_video = 50;
     }
 
     public interface OnNotify {

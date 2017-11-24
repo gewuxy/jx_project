@@ -10,10 +10,10 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
-import jx.csp.util.Util;
 import lib.network.model.NetworkReq;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
+import lib.ys.util.DeviceUtil;
 import lib.yy.notify.LiveNotifier;
 import lib.yy.notify.LiveNotifier.LiveNotifyType;
 import lib.yy.notify.LiveNotifier.OnLiveNotify;
@@ -166,7 +166,7 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
             mWsSuccess = false;
             // 1秒后重连
             // 没退出继续发任务
-            if (Util.noNetwork()) {
+            if (!DeviceUtil.isNetworkEnabled()) {
                 return;
             }
             YSLog.d(TAG, "webSocket 失败重连");

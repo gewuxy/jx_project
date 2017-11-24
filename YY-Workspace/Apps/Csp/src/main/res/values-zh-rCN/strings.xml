@@ -121,7 +121,7 @@
     <string name="SMS">SMS</string>
     <string name="copy_link">复制链接</string>
     <string name="contribute">立即投稿</string>
-    <string name="copy_replica">复制副本</string>
+    <string name="copy_ectype">复制副本</string>
     <string name="delete_speech">删除</string>
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失败</string>
@@ -132,6 +132,7 @@
     <string name="wx_check_app">您尚未安装微信客户端</string>
     <string name="whatsapp_check_app">您尚未安装whatsapp客户端</string>
     <string name="line_check_app">您尚未安装line客户端</string>
+    <string name="affirm_copy">确认复制</string>
 
     <!--首页-->
     <string name="living">直播会议正在进行中...</string>

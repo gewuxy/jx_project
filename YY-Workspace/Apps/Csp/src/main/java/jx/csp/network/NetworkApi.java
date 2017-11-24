@@ -296,8 +296,7 @@ public class NetworkApi {
          * @param pageSize
          */
         @Post("list")
-        void meetingList(@Query(opt = true) int pageNum,
-                         @Query(opt = true) int pageSize);
+        void meetingList(int pageNum,int pageSize);
 
         /**
          * 直播PPT中包含视频 视频页翻页时调用

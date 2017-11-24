@@ -28,6 +28,7 @@ import jx.csp.network.NetworkApi;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.main.CopyEctypeActivityRouter;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
 import lib.platform.Platform;
@@ -65,7 +66,7 @@ public class ShareDialog extends BaseDialog {
         super(context);
 
         mCourseId = courseId;
-        // 复制的会议要标题加  _复制
+        // 复制的会议标题默认加  _复制
         mTitle = title  + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
@@ -109,7 +110,7 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_copy_replica: {
-                CommonServRouter.create(ReqType.share_copy).courseId(mCourseId).title(mTitle).route(getContext());
+                CopyEctypeActivityRouter.create(mTitle, mCourseId).route(getContext());
             }
             break;
             case R.id.dialog_share_tv_delete: {

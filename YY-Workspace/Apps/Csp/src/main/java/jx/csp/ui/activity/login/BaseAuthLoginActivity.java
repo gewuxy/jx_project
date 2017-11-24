@@ -171,10 +171,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
                 mUrl = data.getString(TLoginVideo.videoUrl);
                 YSLog.d(TAG, "onNetworkSuccess : newVersion = " + newVersion + " , oldVersion = " + oldVersion);
                 if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
-                    DownloadServRouter.create(DownReqType.login_video,
-                            mUrl,
-                            CacheUtil.getVideoLoginFileName(newVersion))
-                            .newVersion(newVersion).route(this);
+                    DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(newVersion))
+                            .newVersion(newVersion)
+                            .route(this);
                 }
             } else {
                 onNetworkError(id, r.getError());
@@ -208,6 +207,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         if (!file.exists()) {
             // 如果文件不存在，则还原到低版本
             SpApp.inst().saveLoginVideoVersion(KInitVersion);
+            /*DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(KInitVersion))
+                    .newVersion(KInitVersion)
+                    .route(this);*/
             return;
         }
 
@@ -233,6 +235,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     public void onNotify(int type, Object data) {
         if (type == NotifyType.login) {
             finish();
+        } else if (type == NotifyType.login_video) {
+            mFilePath = CacheUtil.getVideoCacheDir() + data;
+            startPlay();
         }
     }
 

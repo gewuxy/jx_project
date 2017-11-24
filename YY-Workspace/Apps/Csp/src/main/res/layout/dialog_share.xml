@@ -42,7 +42,7 @@
     <TextView
         android:id="@+id/dialog_share_tv_copy_replica"
         style="@style/tv.dialog.share"
-        android:text="@string/copy_replica"/>
+        android:text="@string/copy_ectype"/>
 
     <View
         style="@style/divider"

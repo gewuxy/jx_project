@@ -76,7 +76,7 @@
         <item name="android:layout_height">24dp</item>
         <item name="android:padding">8dp</item>
         <item name="android:visibility">gone</item>
-        <item name="android:src">@drawable/ic_default_cloce</item>
+        <item name="android:src">@drawable/ic_default_clear</item>
         <item name="android:layout_marginRight">@dimen/margin</item>
     </style>
 

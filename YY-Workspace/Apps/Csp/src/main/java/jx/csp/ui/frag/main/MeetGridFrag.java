@@ -61,7 +61,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(MeetingAPI.meetingList().pageNum(getOffset()).pageSize(getLimit()).build());
+        exeNetworkReq(MeetingAPI.meetingList(getOffset(), getLimit()).build());
     }
 
     @Override

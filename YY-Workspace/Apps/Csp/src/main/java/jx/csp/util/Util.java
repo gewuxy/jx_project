@@ -57,12 +57,12 @@ public class Util extends BaseUtil {
      */
     public static void addCloseIcon(NavBar n, @StringRes int id, final Activity act) {
         n.addTextViewMid(id);
-        n.addBackIcon(R.drawable.login_ic_close, act);
+        n.addBackIcon(R.drawable.default_ic_close, act);
     }
 
     public static void addCloseIcon(NavBar n, CharSequence text, final Activity act) {
         n.addTextViewMid(text);
-        n.addBackIcon(R.drawable.login_ic_close, act);
+        n.addBackIcon(R.drawable.default_ic_close, act);
     }
 
     /**

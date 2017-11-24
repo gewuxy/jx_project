@@ -16,6 +16,8 @@ import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
+import lib.yy.notify.Notifier;
+import lib.yy.notify.Notifier.NotifyType;
 
 /**
  * 下载专用
@@ -60,7 +62,9 @@ public class DownloadServ extends ServiceEx {
         switch (id) {
             case DownReqType.login_video: {
                 SpApp.inst().saveLoginVideoVersion(mNewVersion);
+                Notifier.inst().notify(NotifyType.login_video, mFileName);
             }
+            break;
         }
         stopSelf();
         YSLog.d(TAG, "下载成功");

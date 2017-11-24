@@ -12,8 +12,6 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
-import jx.csp.model.meeting.Copy;
-import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -68,7 +66,6 @@ public class CommonServ extends ServiceEx {
             ReqType.j_push,
             ReqType.exit_record,
             ReqType.share_delete_meet,
-            ReqType.share_copy,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -76,7 +73,6 @@ public class CommonServ extends ServiceEx {
         int j_push = 2;
         int exit_record = 3;
         int share_delete_meet = 4;
-        int share_copy = 5;
     }
 
     @Override
@@ -94,10 +90,6 @@ public class CommonServ extends ServiceEx {
                 exeNetworkReq(mType, MeetingAPI.exitRecord(mCourseId, mPageNum, mOverType).build());
             }
             break;
-            case ReqType.share_copy: {
-                exeNetworkReq(mType, MeetingAPI.copy(mCourseId, mTitle).build());
-            }
-            break;
             case ReqType.share_delete_meet: {
                 exeNetworkReq(mType, MeetingAPI.delete(mCourseId).build());
             }
@@ -107,11 +99,7 @@ public class CommonServ extends ServiceEx {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
-        if (id == ReqType.share_copy) {
-            return JsonParser.ev(resp.getText(), Copy.class);
-        } else {
-            return JsonParser.error(resp.getText());
-        }
+        return JsonParser.error(resp.getText());
     }
 
     @Override
@@ -156,17 +144,6 @@ public class CommonServ extends ServiceEx {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "发送删除通知");
                     Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
-            break;
-            case ReqType.share_copy: {
-                if (r.isSucceed()) {
-                    Copy copy = (Copy) r.getData();
-                    copy.put(TCopy.oldId, mCourseId);
-                    Notifier.inst().notify(NotifyType.copy_duplicate, copy);
-                    YSLog.d(TAG, mCourseId + "发送复制通知");
                 } else {
                     onNetworkError(id, r.getError());
                 }

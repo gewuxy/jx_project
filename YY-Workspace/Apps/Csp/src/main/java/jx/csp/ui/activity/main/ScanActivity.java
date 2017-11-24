@@ -14,6 +14,7 @@ import com.mylhyl.zxing.scanner.OnScannerCompletionListener;
 import com.mylhyl.zxing.scanner.ScannerView;
 import com.mylhyl.zxing.scanner.common.Scanner;
 
+import jx.csp.App.NavBarVal;
 import jx.csp.R;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Scan;
@@ -27,6 +28,7 @@ import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
@@ -47,7 +49,7 @@ import lib.yy.util.CountDown.OnCountDownListener;
 public class ScanActivity extends BaseActivity implements OnScannerCompletionListener, OnCountDownListener, OnLiveNotify {
 
     private final int KFrameSize = 248;
-    private final int KTopMargin = 96;
+    private final int KTopMargin = 96 + NavBarVal.KHeightDp; // ps: 在界面上层故要加上NavBarVal的高度
     private final int KDelayTime = 30; // 单位是秒
 
     private ToggleButton mBtn;
@@ -68,8 +70,13 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     }
 
     @Override
+    protected TNavBarState getNavBarState() {
+        return TNavBarState.above;
+    }
+
+    @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.white_alpha30);
+        bar.setBackgroundResource(R.color.transparent);
         bar.addViewLeft(R.drawable.scan_ic_back, v -> finish());
         bar.addTextViewMid(getString(R.string.scan), R.color.white);
     }
