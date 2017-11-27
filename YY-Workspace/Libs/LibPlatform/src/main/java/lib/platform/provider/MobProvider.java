@@ -103,8 +103,8 @@ public class MobProvider implements Provider {
             case line: {
                 name = Line.NAME;
                 id = "6";
-                hashMap.put("ChannelID",key);
-                hashMap.put("ChannelSecret",secret);
+                hashMap.put("ChannelID", key);
+                hashMap.put("ChannelSecret", secret);
             }
             break;
             case wechat_friend: {
@@ -119,12 +119,12 @@ public class MobProvider implements Provider {
                 id = "8";
             }
             break;
-            case facebook:{
+            case facebook: {
                 name = Facebook.NAME;
                 id = "9";
-                hashMap.put("ConsumerKey",key);
-                hashMap.put("ConsumerSecret",secret);
-                hashMap.put("RedirectUrl", "https://www.baidu.com");
+                hashMap.put("ConsumerKey", key);
+                hashMap.put("ConsumerSecret", secret);
+                hashMap.put("RedirectUrl", "https://www.cspmeeting.com");
                 hashMap.put("ShareByAppClient", "true");
             }
             break;
@@ -260,7 +260,7 @@ public class MobProvider implements Provider {
             case sms: {
                 p = ShareSDK.getPlatform(ShortMessage.NAME);
                 //短信只能发文字，链接可以写在text里面
-                shareParams.setText(param.getText()+param.getUrl());
+                shareParams.setText(param.getText() + param.getUrl());
             }
             break;
             case facebook: {
@@ -270,13 +270,13 @@ public class MobProvider implements Provider {
             case twitter: {
                 p = ShareSDK.getPlatform(Twitter.NAME);
                 //推特只能发文字，链接可以写在text里面
-                shareParams.setText(param.getText()+param.getUrl());
+                shareParams.setText(param.getText() + param.getUrl());
             }
             break;
             case whatsapp: {
                 p = ShareSDK.getPlatform(WhatsApp.NAME);
                 //whatsapp只能发文字，链接可以写在text里面
-                shareParams.setText(param.getText()+param.getUrl());
+                shareParams.setText(param.getText() + param.getUrl());
                 if (!p.isClientValid()) {
                     AppEx.showToast(R.string.whatsapp_check_app);
                     return;

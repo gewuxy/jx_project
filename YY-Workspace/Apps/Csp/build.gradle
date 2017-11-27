@@ -9,8 +9,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 96
-        versionName "0.96"
+        versionCode 100
+        versionName "1.0.0"
 
         multiDexEnabled true
 
