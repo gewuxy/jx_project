@@ -10,6 +10,8 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.contact.SettingsContract;
+import jx.csp.dialog.BottomDialog;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.util.CacheUtil;
@@ -27,6 +29,9 @@ import lib.yy.ui.activity.base.BaseFormActivity;
 
 public class SettingsActivity extends BaseFormActivity {
 
+    private final int KColorNormal = R.color.text_666;
+    private final int KColorCancel = R.color.text_167afe;
+
     private SettingsContract.P mPresenter;
     private SettingsContract.V mView;
 
@@ -36,7 +41,7 @@ public class SettingsActivity extends BaseFormActivity {
             RelatedId.clear_sound_cache,
     })
     @Retention(RetentionPolicy.SOURCE)
-    private @interface RelatedId {
+    public @interface RelatedId {
         int change_password = 1;
         int clear_img_cache = 2;
         int clear_sound_cache = 3;
@@ -91,7 +96,7 @@ public class SettingsActivity extends BaseFormActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.setting_tv_exit_account: {
-                mPresenter.logout(SettingsActivity.this);
+                mView.logoutDialog();
             }
             break;
         }
@@ -106,11 +111,11 @@ public class SettingsActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.clear_img_cache: {
-                mPresenter.clearCache(SettingsActivity.this, RelatedId.clear_img_cache, getString(R.string.setting_clear_img_cache), getString(R.string.cancel), CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
+                mView.clearCacheDialog(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
             }
             break;
             case RelatedId.clear_sound_cache: {
-                mPresenter.clearCache(SettingsActivity.this, RelatedId.clear_sound_cache, getString(R.string.setting_clear_sound_cache), getString(R.string.cancel), CacheUtil.getAudioCacheDir());
+                mView.clearCacheDialog(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
             }
             break;
         }
@@ -119,9 +124,34 @@ public class SettingsActivity extends BaseFormActivity {
     private class SettingsViewImpl implements SettingsContract.V {
 
         @Override
-        public void refreshItem(int related) {
-            getRelatedItem(related).text("0M");
-            refreshRelatedItem(related);
+        public void clearCacheDialog(int id, int resId, String... folderPath) {
+            BottomDialog d = new BottomDialog(SettingsActivity.this, position -> {
+                if (position == 0) {
+                    mPresenter.clearCache(id, folderPath);
+                }
+            });
+            d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
+            d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
+            d.show();
+        }
+
+
+        @Override
+        public void refreshItem(int id) {
+            getRelatedItem(id).text("0M");
+            refreshRelatedItem(id);
+        }
+
+        @Override
+        public void logoutDialog() {
+            CommonDialog2 d = new CommonDialog2(SettingsActivity.this);
+            d.setHint(R.string.setting_exit_current_account);
+            d.addBlackButton(R.string.setting_exit, v -> {
+                mPresenter.logout(SettingsActivity.this);
+            });
+            d.addBlueButton(R.string.cancel);
+            d.show();
+
         }
 
         @Override

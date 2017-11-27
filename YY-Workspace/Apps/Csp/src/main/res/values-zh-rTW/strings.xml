@@ -34,7 +34,7 @@
     <string name="record_live_insufficient">流量不足，即將關閉視頻直播\n請登錄網站充值</string>
     <string name="recharge">充值</string>
     <string name="ok">知道了</string>
-    <string name="live_exit_success">退出成功</string>
+    <string name="exit_success">退出成功</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一頁</string>
@@ -77,6 +77,7 @@
     <string name="forget_pwd">忘記密碼</string>
     <string name="email_address">輸入郵箱地址</string>
     <string name="input_pwd">輸入密碼</string>
+    <string name="input_login_pwd">輸入登錄密碼</string>
     <string name="input_phone_number">輸入手機號</string>
     <string name="input_captcha">輸入驗證碼</string>
     <string name="input_nickname">輸入暱稱</string>
@@ -96,9 +97,9 @@
     <string name="immediately_login">立即登錄</string>
     <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="input_right_pwd_num">請輸入6〜24位密碼</string>
-    <string name="reset_pwd_to_email">重置密碼鏈接已發送至您的郵箱，請設置密碼後再重新登錄</string>
+    <string name="reset_pwd_to_email">重置密碼鏈接已發送至您的郵箱，\n請設置密碼後再重新登錄</string>
     <string name="active_email">激活賬號郵件已發送至您的郵箱，請前往激活完成註冊。</string>
-    <string name="back_to_login">%ds返回登錄</string>
+    <string name="back_to_login">%ds 返回登錄</string>
     <string name="visit_csp">使用敬信數字平台賬號訪問 CSPmeeting</string>
     <string name="username">用戶名</string>
     <string name="pwd">密碼</string>
@@ -143,10 +144,10 @@
     <string name="fail_to_identify">無法識別此二維碼</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">複製成功</string>
-    <string name="main_record_dialog">會議正在錄播中，確定繼續將中斷其他客戶端的進度</string>
-    <string name="main_live_dialog">會議正在直播中，確定繼續將中斷其他客戶端的進度</string>
+    <string name="main_record_dialog">會議正在錄播中，確定繼續將\n中斷其他客戶端的進度</string>
+    <string name="main_live_dialog">會議正在直播中，確定繼續將\n中斷其他客戶端的進度</string>
     <string name="confirm_continue">確定繼續</string>
-    <string name="choice_contents">請選擇您要進行的內容</string>
+    <string name="choice_contents">請選擇您要進行的內容？</string>
     <string name="explain_meeting">講解會議</string>
     <string name="live_video">視頻直播</string>
     <string name="live_not_start">直播還沒開始，請稍等</string>
@@ -172,6 +173,7 @@
     <string name="my_message">我的信息</string>
     <string name="my_message_intro">簡介</string>
     <string name="my_message_person_intro">個人簡介</string>
+    <string name="my_message_input_person_intro">輸入個人簡介</string>
     <string name="my_message_intro_unit">%1$d</string>
     <string name="my_message_nick_name">暱稱</string>
     <string name="my_message_no_input">未輸入</string>

@@ -2,6 +2,7 @@ package jx.csp.contact;
 
 import android.content.Context;
 
+import jx.csp.ui.activity.me.SettingsActivity.RelatedId;
 import lib.yy.contract.IContract;
 
 /**
@@ -13,7 +14,17 @@ public interface SettingsContract {
 
     interface V extends IContract.View {
 
-        void refreshItem(int related);
+        /**
+         * 清除缓存Dialog
+         */
+        void clearCacheDialog(@RelatedId int id, int resId, String... folderPath);
+
+        void refreshItem(@RelatedId int id);
+
+        /**
+         * 退出登录Dialog
+         */
+        void logoutDialog();
 
         void closePage();
     }
@@ -28,7 +39,7 @@ public interface SettingsContract {
         /**
          * 清除缓存
          */
-        void clearCache(Context context, int related, String resId, String cancel, String... folderPath);
+        void clearCache(@RelatedId int id, String... folderPath);
 
         /**
          * 获取路径下的文件大小

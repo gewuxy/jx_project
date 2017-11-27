@@ -72,7 +72,7 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
                 text = text.replaceAll(" ", "");
 
                 et.removeTextChangedListener(mWatcher);
-                getView().inhibitInputBlank(text);
+                getView().forbidInputBlank(text);
                 et.addTextChangedListener(mWatcher);
             }
         };

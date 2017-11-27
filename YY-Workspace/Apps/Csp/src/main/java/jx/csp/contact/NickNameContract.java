@@ -23,7 +23,7 @@ public interface NickNameContract {
          *
          * @param text
          */
-        void inhibitInputBlank(String text);
+        void forbidInputBlank(String text);
 
         /**
          * 按钮的状态

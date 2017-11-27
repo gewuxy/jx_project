@@ -1,8 +1,5 @@
 package jx.csp.contact;
 
-import android.content.Context;
-import android.view.View;
-
 import jx.csp.constant.CaptchaType;
 import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import lib.yy.contract.IContract;
@@ -18,6 +15,11 @@ public interface BindPhoneContract {
 
 
         /**
+         * 展示验证码dialog
+         */
+        void showCaptchaDialog();
+
+        /**
          * 获取验证码
          */
         void getCaptcha();
@@ -26,14 +28,11 @@ public interface BindPhoneContract {
          * 关闭页面
          */
         void closePage();
-
     }
+
     interface P extends IContract.Presenter<V>{
 
-        /**
-         * 展示验证码dialog
-         */
-        void showCaptchaDialog(Context context, View v);
+        void checkCaptcha();
 
         /**
          * 获取验证码

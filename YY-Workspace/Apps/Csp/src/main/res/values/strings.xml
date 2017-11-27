@@ -34,7 +34,7 @@
     <string name="record_live_insufficient">Please recharge the network flow in time to ensure a smooth broadcast.</string>
     <string name="recharge">Recharge</string>
     <string name="ok">OK</string>
-    <string name="live_exit_success">Exit Successfully</string>
+    <string name="exit_success">Exit Successfully</string>
 
     <!-- 录音 -->
     <string name="first_page">No more pages ahead</string>
@@ -77,6 +77,7 @@
     <string name="forget_pwd">Forgot Password</string>
     <string name="email_address">E-mail Address</string>
     <string name="input_pwd">Password</string>
+    <string name="input_login_pwd">Password</string>
     <string name="input_phone_number">Phone number</string>
     <string name="input_captcha">Verification code</string>
     <string name="input_nickname">Your Name</string>
@@ -96,9 +97,9 @@
     <string name="immediately_login">Login now</string>
     <string name="input_special_symbol">Illegal character not allowed.</string>
     <string name="input_right_pwd_num">Please enter a password with 6-24 digits</string>
-    <string name="reset_pwd_to_email">Password-reset link has been sent to your e-mail address.Please reset your password and log in again.</string>
+    <string name="reset_pwd_to_email">Password-reset link has been sent to your e-mail address.\nPlease reset your password and log in again.</string>
     <string name="active_email">Activation e-mail has been sent to your mail box. Please proceed activation in e-mail and complete your registration.</string>
-    <string name="back_to_login">%dsReturn to login in</string>
+    <string name="back_to_login">%ds Return to login in</string>
     <string name="visit_csp">Login with Jingxin Digital Platform</string>
     <string name="username">User Name</string>
     <string name="pwd">Password</string>
@@ -146,7 +147,7 @@
     <string name="main_record_dialog">Recording is in progress. Other clients will be broken off. Continue?</string>
     <string name="main_live_dialog">Live stream is in progress. Other clients will be broken off. Continue?</string>
     <string name="confirm_continue">Yes</string>
-    <string name="choice_contents">I would like to...</string>
+    <string name="choice_contents">I would like to...?</string>
     <string name="explain_meeting">Deliver my lecture</string>
     <string name="live_video">Shoot for live stream</string>
     <string name="live_not_start">Live stream has not started. Please wait.</string>
@@ -172,6 +173,7 @@
     <string name="my_message">Me</string>
     <string name="my_message_intro">Biography</string>
     <string name="my_message_person_intro">Your Biography</string>
+    <string name="my_message_input_person_intro">Your Biography</string>
     <string name="my_message_intro_unit">%1$d</string>
     <string name="my_message_nick_name">Name</string>
     <string name="my_message_no_input">No input</string>

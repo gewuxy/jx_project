@@ -21,7 +21,7 @@ public interface MyMessageContract {
         /**
          * 获取输入框数据
          */
-        void getEtData();
+        void getText();
 
     }
 

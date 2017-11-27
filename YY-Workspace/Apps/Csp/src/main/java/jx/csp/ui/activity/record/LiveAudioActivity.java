@@ -12,7 +12,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveAudioContract;
-import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
@@ -210,7 +210,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
     @Override
     protected void switchDevice() {
         YSLog.d(TAG, "是否切换直播设备");
-        BigButtonDialog dialog = new BigButtonDialog(this);
+        BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
@@ -249,6 +249,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
             @Override
             public void onCountDownErr() {
             }
+        });
+        dialog.setOnDismissListener(dialogInterface -> {
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+            countDown.stop();
         });
         dialog.show();
     }

@@ -151,8 +151,8 @@ public class RegisterActivity extends BaseLoginActivity {
             if (r.getCode() == KReturnCode) {
                 CommonDialog2 d = new CommonDialog2(this);
                 d.setHint(getString(R.string.email_have_been_register));
+                d.addGrayButton(R.string.immediately_login, v -> finish());
                 d.addBlueButton(R.string.cancel);
-                d.addBlueButton(getString(R.string.immediately_login), v -> finish());
                 d.show();
                 return;
             }

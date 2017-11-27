@@ -3,8 +3,8 @@ package jx.csp.ui.activity.login;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.view.View;
-import android.widget.EditText;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,7 +21,6 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
-import jx.csp.util.Util;
 import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -31,7 +30,8 @@ import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.notify.Notifier.NotifyType;
 
 //import jx.csp.model.login.login;
-;
+;import static lib.ys.util.TextUtil.KCNRangeMax;
+import static lib.ys.util.TextUtil.KCNRangeMin;
 
 /**
  * 邮箱登录
@@ -66,6 +66,16 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .hint(R.string.email_address)
                 .layout(R.layout.form_edit_email)
                 .textWatcher(this)
+                .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
+                    for (int i = start; i < end; i++) {
+                        int chr1 = source.charAt(i);
+                        if (chr1 >= KCNRangeMin && chr1 <= KCNRangeMax) {
+                            //是中文
+                            return "";
+                        }
+                    }
+                    return null;
+                })
                 .text(SpApp.inst().getUserEmail()));
         addItem(Form.create(FormType.divider_margin));
 

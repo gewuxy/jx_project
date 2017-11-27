@@ -19,16 +19,16 @@ import lib.ys.util.view.LayoutUtil;
  * @since : 2017/11/7
  */
 
-public class BigButtonDialog extends CommonDialog {
+public class BtnVerticalDialog extends CommonDialog {
 
-    public BigButtonDialog(Context context) {
+    public BtnVerticalDialog(Context context) {
         super(context);
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_button;
+        return R.layout.dialog_btn_vertical;
     }
 
     @NonNull

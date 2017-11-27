@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <View style="@style/divider.form.match"/>
+        <View style="@style/divider.form.match"
+            android:background="@color/color_db"/>
 
     </RelativeLayout>
 

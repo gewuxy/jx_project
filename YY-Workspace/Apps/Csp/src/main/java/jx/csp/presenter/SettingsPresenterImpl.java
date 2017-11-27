@@ -7,8 +7,6 @@ import java.io.File;
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.SettingsContract;
-import jx.csp.dialog.BottomDialog;
-import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.serv.CommonServ.ReqType;
@@ -23,7 +21,6 @@ import lib.ys.YSLog;
 import lib.ys.util.FileUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
 import lib.yy.contract.BasePresenterImpl;
 
 /**
@@ -35,8 +32,6 @@ public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
         implements SettingsContract.P {
 
     private final String KM = "M";
-    private final int KColorNormal = R.color.text_666;
-    private final int KColorCancel = R.color.text_167afe;
 
     public SettingsPresenterImpl(SettingsContract.V v) {
         super(v);
@@ -53,33 +48,25 @@ public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
     }
 
     @Override
-    public void clearCache(Context context, int related, String resId, String cancel, String... folderPath) {
-        BottomDialog d = new BottomDialog(context, position -> {
+    public void clearCache(int id, String... folderPath) {
+        Util.runOnSubThread(() -> {
+            boolean result = true;
+            for (int i = 0; i < folderPath.length; ++i) {
+                if (!FileUtil.delFolder(folderPath[i])) {
+                    result = false;
+                    break;
+                }
+            }
 
-            if (position == 0) {
-                Util.runOnSubThread(() -> {
-                    boolean result = true;
-                    for (int i = 0; i < folderPath.length; ++i) {
-                        if (!FileUtil.delFolder(folderPath[i])) {
-                            result = false;
-                            break;
-                        }
-                    }
-
-                    if (result) {
-                        Util.runOnUIThread(() -> {
-                            getView().refreshItem(related);
-                            App.showToast(R.string.setting_clear_succeed);
-                        });
-                    } else {
-                        App.showToast(R.string.setting_clear_error);
-                    }
+            if (result) {
+                Util.runOnUIThread(() -> {
+                    getView().refreshItem(id);
+                    App.showToast(R.string.setting_clear_succeed);
                 });
+            } else {
+                App.showToast(R.string.setting_clear_error);
             }
         });
-        d.addItem(resId, ResLoader.getColor(KColorNormal));
-        d.addItem(cancel, ResLoader.getColor(KColorCancel));
-        d.show();
     }
 
     @Override
@@ -107,19 +94,13 @@ public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
 
     @Override
     public void logout(Context context) {
-        CommonDialog2 d = new CommonDialog2(context);
-        d.setHint(R.string.setting_exit_current_account);
-        d.addBlackButton(R.string.setting_exit, v -> {
-            startLogoutService(context);
+        startLogoutService(context);
 
-            if (Util.checkAppCn()) {
-                LaunchUtil.startActivity(context, AuthLoginActivity.class);
-            } else {
-                LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
-            }
-            getView().closePage();
-        });
-        d.addBlueButton(R.string.cancel);
-        d.show();
+        if (Util.checkAppCn()) {
+            LaunchUtil.startActivity(context, AuthLoginActivity.class);
+        } else {
+            LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
+        }
+        getView().closePage();
     }
 }

@@ -63,7 +63,7 @@ public class MobProvider implements Provider {
                 id = "1";
                 hashMap.put("AppKey", key);
                 hashMap.put("AppSecret", secret);
-                hashMap.put("RedirectUrl", "http://www.cspmeeting.cn/mgr/oauth/callback?thirdPartyId=2");
+                hashMap.put("RedirectUrl", "https://www.cspmeeting.com/mgr/oauth/callback?thirdPartyId=2");
                 hashMap.put("ShareByAppClient", "true");
                 hashMap.put("ShareByWebApi", "false");
             }

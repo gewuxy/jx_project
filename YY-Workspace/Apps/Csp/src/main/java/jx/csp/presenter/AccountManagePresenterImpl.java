@@ -93,6 +93,21 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
+    public void unBind(int bindId) {
+        switch (bindId) {
+            case BindId.email:
+            case BindId.phone: {
+                exeNetworkReq(bindId, UserAPI.unBind(bindId).build());
+            }
+            break;
+            default: {
+                exeNetworkReq(bindId, UserAPI.bindAccountStatus().thirdPartyId(bindId).build());
+            }
+            break;
+        }
+    }
+
+    @Override
     public void saveNickName(@BindId int bindId, String nickName) {
         List<BindInfo> infos = Profile.inst().getList(TProfile.bindInfoList);
         if (infos == null) {
@@ -138,22 +153,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void unBind(int bindId) {
-        switch (bindId) {
-            case BindId.email:
-            case BindId.phone: {
-                exeNetworkReq(bindId, UserAPI.unBind(bindId).build());
-            }
-            break;
-            default: {
-                exeNetworkReq(bindId, UserAPI.bindAccountStatus().thirdPartyId(bindId).build());
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void onUnBindSuccess(IResult r, @RelatedId int id, TProfile key) {
+    public void onUnBindSuccess(@RelatedId int id, IResult r, TProfile key) {
         App.showToast(R.string.account_unbind_succeed);
         getView().refreshItem(id);
 
@@ -163,7 +163,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
     }
 
     @Override
-    public void onUnBindSuccess(IResult r, @RelatedId int id) {
+    public void onUnBindSuccess(@RelatedId int id, IResult r) {
         App.showToast(R.string.account_unbind_succeed);
 
         List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
@@ -199,7 +199,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.wechat))) {
                     saveNickName(id, mNickName);
                 } else {
-                    onUnBindSuccess(r, id);
+                    onUnBindSuccess(id, r);
                 }
             }
             break;
@@ -207,20 +207,20 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.sina))) {
                     saveNickName(id, mNickName);
                 } else {
-                    onUnBindSuccess(r, id);
+                    onUnBindSuccess(id, r);
                 }
             }
             break;
             case BindId.yaya: {
-                onUnBindSuccess(r, id);
+                onUnBindSuccess(id, r);
             }
             break;
             case BindId.phone: {
-                onUnBindSuccess(r, id, TProfile.mobile);
+                onUnBindSuccess(id, r, TProfile.mobile);
             }
             break;
             case BindId.email: {
-                onUnBindSuccess(r, id, TProfile.email);
+                onUnBindSuccess(id, r, TProfile.email);
             }
             break;
         }
