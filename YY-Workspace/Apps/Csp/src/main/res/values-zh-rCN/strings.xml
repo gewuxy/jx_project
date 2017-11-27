@@ -96,9 +96,9 @@
     <string name="immediately_login">立即登录</string>
     <string name="input_special_symbol">不能包含非法字符</string>
     <string name="input_right_pwd_num">请输入6〜24位密码</string>
-    <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱，请设置密码后再重新登录</string>
+    <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱，\n请设置密码后再重新登录</string>
     <string name="active_email">激活账号邮件已发送至您的邮箱，请前往激活完成注册。</string>
-    <string name="back_to_login">%ds返回登录</string>
+    <string name="back_to_login">%ds 返回登录</string>
     <string name="visit_csp">使用敬信数字平台账号访问 CSPmeeting</string>
     <string name="username">用户名</string>
     <string name="pwd">密码</string>
@@ -146,7 +146,7 @@
     <string name="main_record_dialog">会议正在录播中，确定继续将\n中断其他客户端的进度</string>
     <string name="main_live_dialog">会议正在直播中，确定继续将\n中断其他客户端的进度</string>
     <string name="confirm_continue">确定继续</string>
-    <string name="choice_contents">请选择您要进行的内容?</string>
+    <string name="choice_contents">请选择您要进行的内容？</string>
     <string name="explain_meeting">讲解会议</string>
     <string name="live_video">视频直播</string>
     <string name="live_not_start">直播还没开始，请稍等</string>
