@@ -61,7 +61,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="27dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/layout_register"
@@ -69,7 +70,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_marginTop="38dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/login_tv_register"
