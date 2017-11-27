@@ -17,6 +17,7 @@ import lib.yy.ui.frag.base.BaseFrag;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;
+import yy.doctor.BuildConfig;
 import yy.doctor.R;
 import yy.doctor.model.Profile;
 import yy.doctor.model.Profile.TProfile;
@@ -54,9 +55,12 @@ public class PPTLiveFrag extends BaseFrag {
 
     private String mStream; // 直播的流
 
+    private boolean mPull;
+
     @Override
     public void initData(Bundle savedInstanceState) {
         mLiveCallbackImpl = new LiveCallbackImpl();
+        mPull = true;
     }
 
     @NonNull
@@ -86,21 +90,26 @@ public class PPTLiveFrag extends BaseFrag {
     public void loginRoom(String roomId) {
         LiveApi.getInst().init(getContext(), Profile.inst().getString(TProfile.id), Profile.inst().getString(TProfile.linkman));
         // FIXME:
-        LiveApi.getInst().setTest(true);
+        LiveApi.getInst().setTest(BuildConfig.DEBUG_NETWORK);
         LiveApi.getInst().setCallback(roomId, UserType.audience, mLiveCallbackImpl);
     }
 
     public void startPullStream() {
+        mPull = true;
         if (TextUtil.isEmpty(mStream) || mViewLive == null) {
             return;
         }
         setLiveState(LiveType.loading);
         if (LiveApi.getInst().startPullStream(mStream, mViewLive)) {
             setLiveState(LiveType.living);
+        } else {
+            setLiveState(LiveType.no_live);
         }
     }
 
     public void stopPullStream() {
+        mPull = false;
+        setLiveState(LiveType.live_break);
         LiveApi.getInst().stopPullStream(mStream);
     }
 
@@ -182,6 +191,9 @@ public class PPTLiveFrag extends BaseFrag {
 
         @Override
         public void onStreamUpdated(int i, String stream) {
+            if (!mPull) {
+                return;
+            }
             if (i == ILiveCallback.Constants.KStreamAdd) {
                 YSLog.d(TAG, "onStreamUpdated:play");
                 if (TextUtil.isNotEmpty(stream)) {

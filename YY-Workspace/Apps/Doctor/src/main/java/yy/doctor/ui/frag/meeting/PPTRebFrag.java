@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.frag.base.BaseVPFrag;
@@ -75,6 +76,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     private View mLayoutL;
 
     private Handler mHandler;
+    private String mUrl;
 
     public void addOnPageChangeListener(OnPageChangeListener listener) {
         setOnPageChangeListener(listener); // 外部添加
@@ -292,7 +294,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      * 开始播放
      */
     public void startPlay() {
-        NetPlayer.inst().stop();
         BaseCourseFrag frag = getItem(getCurrPosition());
         if (frag instanceof VideoCourseFrag) {
             VideoCourseFrag f = (VideoCourseFrag) frag;
@@ -305,7 +306,12 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             // FIXME: 什么时候显示录音中
             setTextMedia("录音中");
         } else {
-            NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), url);
+            if (url.equals(mUrl) && NetPlayer.inst().isPlaying()) {
+                return;
+            }
+            mUrl = url;
+            NetPlayer.inst().stop();
+            NetPlayer.inst().prepare(mPPT.getString(TPPT.meetId), mUrl);
         }
     }
 
@@ -314,6 +320,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      */
     public void stopPlay() {
         NetPlayer.inst().stop();
+        mUrl = ConstantsEx.KEmpty;
     }
 
     public boolean startVolume() {

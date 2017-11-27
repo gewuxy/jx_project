@@ -133,6 +133,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
     @Override
     public void onCompletion() {
         getView().getPptFrag().animation(false);
+        getView().nextItem();
     }
 
     @Override

@@ -165,7 +165,7 @@ public class UISetter {
         viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null, holder.getTvUnitNum());
 
         String title = meeting.getString(TMeeting.meetName);
-        if (meeting.getInt(TMeeting.liveState) == LiveState.under_way) {
+        if (meeting.getInt(TMeeting.liveState) == LiveState.under_way && state == MeetState.under_way) {
             title = "[直播中] ".concat(title);
         }
         holder.getTvTitle().setText(title);
