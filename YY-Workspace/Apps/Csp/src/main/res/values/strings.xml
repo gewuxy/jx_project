@@ -77,6 +77,7 @@
     <string name="forget_pwd">Forgot Password</string>
     <string name="email_address">E-mail Address</string>
     <string name="input_pwd">Password</string>
+    <string name="input_login_pwd">Password</string>
     <string name="input_phone_number">Phone number</string>
     <string name="input_captcha">Verification code</string>
     <string name="input_nickname">Your Name</string>
