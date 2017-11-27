@@ -34,14 +34,14 @@ public class PayPalPay {
     public static final String KExtraOrderId = "order_id";
 
     // PayPal真实环境
-//    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
+    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
     // paypal申请到的设备ID
-//    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
+    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
 
     // PayPal沙盒测试
-    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+//    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     //paypal官方申请的沙盒设备ID
-    private static final String KConfigClientId = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
+//    private static final String KConfigClientId = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
 
     private static PayPalConfiguration mConfig = new PayPalConfiguration()
             .environment(KConfigEnvironment)
