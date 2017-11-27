@@ -103,7 +103,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
         detachAndScrapAttachedViews(recycler);
 
-        fill(recycler);
+        fill(recycler, null);
 
         applyItemTransformToChildren();
     }
@@ -143,7 +143,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         recyclerCenter.set(getWidth() / 2, getHeight() / 2);
     }
 
-    private void fill(RecyclerView.Recycler recycler) {
+    private void fill(RecyclerView.Recycler recycler, RecyclerView.State state) {
         cacheAndDetachAttachedViews();
 
         orientationHelper.setCurrentViewCenter(recyclerCenter, scrolled, currentViewCenter);
@@ -152,19 +152,19 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
         //Layout current
         if (isViewVisible(currentViewCenter, endBound)) {
-            layoutView(recycler, currentPosition, currentViewCenter);
+            layoutView(recycler, currentPosition, currentViewCenter, state);
         }
 
         //Layout items before the current item
-        layoutViews(recycler, Direction.START, endBound);
+        layoutViews(recycler, Direction.START, endBound, state);
 
         //Layout items after the current item
-        layoutViews(recycler, Direction.END, endBound);
+        layoutViews(recycler, Direction.END, endBound, state);
 
         recycleViewsAndClearCache(recycler);
     }
 
-    private void layoutViews(RecyclerView.Recycler recycler, Direction direction, int endBound) {
+    private void layoutViews(RecyclerView.Recycler recycler, Direction direction, int endBound, RecyclerView.State state) {
         final int positionStep = direction.applyTo(1);
 
         //Predictive layout is required when we are doing smooth fast scroll towards pendingPosition
@@ -178,17 +178,20 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
             }
             orientationHelper.shiftViewCenter(direction, scrollToChangeCurrent, viewCenterIterator);
             if (isViewVisible(viewCenterIterator, endBound)) {
-                layoutView(recycler, pos, viewCenterIterator);
+                layoutView(recycler, pos, viewCenterIterator, state);
             } else if (noPredictiveLayoutRequired) {
                 break;
             }
         }
     }
 
-    private void layoutView(RecyclerView.Recycler recycler, int position, Point viewCenter) {
+    private void layoutView(RecyclerView.Recycler recycler, int position, Point viewCenter, RecyclerView.State state) {
         if (position < 0) return;
         View v = detachedCache.get(position);
         if (v == null) {
+            if (state != null && position >= state.getItemCount()) {
+                return;
+            }
             v = recycler.getViewForPosition(position);
             addView(v);
             measureChildWithMargins(v, 0, 0);
@@ -263,15 +266,15 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        return scrollBy(dx, recycler);
+        return scrollBy(dx, recycler, state);
     }
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        return scrollBy(dy, recycler);
+        return scrollBy(dy, recycler, state);
     }
 
-    private int scrollBy(int amount, RecyclerView.Recycler recycler) {
+    private int scrollBy(int amount, RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (getChildCount() == 0) {
             return 0;
         }
@@ -291,7 +294,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         orientationHelper.offsetChildren(-delta, this);
 
         if (orientationHelper.hasNewBecomeVisible(this)) {
-            fill(recycler);
+            fill(recycler, state);
         }
 
         notifyScroll();
@@ -461,7 +464,7 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         startSmoothScroll(scroller);
     }
 
-    private void startSmoothPendingScroll(int position){
+    private void startSmoothPendingScroll(int position) {
         if (currentPosition == position) return;
         pendingScroll = -scrolled;
         Direction direction = Direction.fromDelta(position - currentPosition);
@@ -534,11 +537,11 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
         requestLayout();
     }
 
-    public void setShouldSlideOnFling(boolean result){
+    public void setShouldSlideOnFling(boolean result) {
         shouldSlideOnFling = result;
     }
 
-    public void setSlideOnFlingThreshold(int threshold){
+    public void setSlideOnFlingThreshold(int threshold) {
         flingThreshold = threshold;
     }
 
@@ -597,8 +600,8 @@ class DiscreteScrollLayoutManager extends RecyclerView.LayoutManager {
 
     private void notifyScroll() {
         float amountToScroll = pendingPosition != NO_POSITION ?
-            Math.abs(scrolled + pendingScroll) :
-            scrollToChangeCurrent;
+                Math.abs(scrolled + pendingScroll) :
+                scrollToChangeCurrent;
         float position = -Math.min(Math.max(-1f, scrolled / amountToScroll), 1f);
         scrollStateListener.onScroll(position);
     }

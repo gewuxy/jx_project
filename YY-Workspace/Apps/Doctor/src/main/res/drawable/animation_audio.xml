@@ -5,12 +5,15 @@
 
     <item
         android:drawable="@drawable/breviary_ic_audio1"
-        android:duration="200"/>
+        android:duration="625"/>
     <item
         android:drawable="@drawable/breviary_ic_audio2"
-        android:duration="200"/>
+        android:duration="625"/>
     <item
         android:drawable="@drawable/breviary_ic_audio3"
-        android:duration="200"/>
+        android:duration="625"/>
+    <item
+        android:drawable="@drawable/breviary_ic_audio4"
+        android:duration="625"/>
 
 </animation-list>
