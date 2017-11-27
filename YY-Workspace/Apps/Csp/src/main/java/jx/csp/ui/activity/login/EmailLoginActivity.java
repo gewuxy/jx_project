@@ -29,10 +29,6 @@ import lib.ys.util.TextUtil;
 import lib.yy.network.BaseJsonParser.ErrorCode;
 import lib.yy.notify.Notifier.NotifyType;
 
-//import jx.csp.model.login.login;
-;import static lib.ys.util.TextUtil.KCNRangeMax;
-import static lib.ys.util.TextUtil.KCNRangeMin;
-
 /**
  * 邮箱登录
  *
@@ -69,7 +65,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
                     for (int i = start; i < end; i++) {
                         int chr1 = source.charAt(i);
-                        if (chr1 >= KCNRangeMin && chr1 <= KCNRangeMax) {
+                        if (chr1 >= TextUtil.KCNRangeMin && chr1 <= TextUtil.KCNRangeMax) {
                             //是中文
                             return "";
                         }
