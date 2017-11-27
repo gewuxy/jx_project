@@ -131,6 +131,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
             @Override
             public void onPageSelected(int position) {
+                mFragPpt.setTextMedia("录音中");
                 if (position == mFragPpt.getCount() - 1) {
                     mFragPpt.newVisibility(false);
                 }
@@ -181,6 +182,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         switch (id) {
             case R.id.meet_live_layout_live: {
                 mFragPpt.landscapeVisibility(false);
+                mFragPpt.setToLastPosition();
                 if (mPlayType == PlayType.live || !mPlay) {
                     // 直播状态
                     return;
@@ -378,9 +380,9 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                             // 不在最新页提示新的一页
                             if (mPlayType == PlayType.live) {
                                 mFragPpt.setToLastPosition();
+                            } else {
+                                getPptFrag().setTextNew(String.valueOf(count));
                             }
-                        } else {
-                            getPptFrag().setTextNew(String.valueOf(count));
                         }
                         removeOnGlobalLayoutListener(this);
                     }
@@ -408,6 +410,13 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         @Override
         public void setTextOnline(int onlineNum) {
             MeetingLiveActivity.this.setTextOnline(onlineNum);
+        }
+
+        @Override
+        public void nextItem() {
+            if (mPlayType == PlayType.ppt) {
+                getPptFrag().offsetPosition(1, "");
+            }
         }
     }
 

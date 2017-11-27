@@ -23,6 +23,8 @@ public interface MeetingLiveContract {
         PPTRebFrag getPptFrag();
 
         void setTextOnline(int onlineNum);
+
+        void nextItem();
     }
 
     interface Presenter extends IContract.Presenter<View> {
