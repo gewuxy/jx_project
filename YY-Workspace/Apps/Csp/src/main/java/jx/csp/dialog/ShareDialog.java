@@ -321,6 +321,7 @@ public class ShareDialog extends BaseDialog {
                 }
                 Platform.share(t, param, listener);
             }
+            dismiss();
         });
     }
 

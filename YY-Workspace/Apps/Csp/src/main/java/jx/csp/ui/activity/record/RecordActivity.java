@@ -16,7 +16,7 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.RecordContract;
-import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
@@ -243,12 +243,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     protected void switchDevice() {
-        BigButtonDialog dialog = new BigButtonDialog(this);
+        BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_common_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
         dialog.addBlackButton(R.string.continue_host, view -> {
-            // do nothing
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
             countDown.stop();
         });
@@ -260,6 +259,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
             countDown.stop();
+            showToast(R.string.exit_success);
             finish();
         });
         countDown.setListener(new OnCountDownListener() {
@@ -273,6 +273,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
                     dialog.dismiss();
+                    showToast(R.string.exit_success);
                     finish();
                     return;
                 }
@@ -282,6 +283,10 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             @Override
             public void onCountDownErr() {
             }
+        });
+        dialog.setOnDismissListener(dialogInterface -> {
+            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+            countDown.stop();
         });
         dialog.show();
     }

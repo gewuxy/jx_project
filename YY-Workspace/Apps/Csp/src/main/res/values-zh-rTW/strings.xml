@@ -34,7 +34,7 @@
     <string name="record_live_insufficient">流量不足，即將關閉視頻直播\n請登錄網站充值</string>
     <string name="recharge">充值</string>
     <string name="ok">知道了</string>
-    <string name="live_exit_success">退出成功</string>
+    <string name="exit_success">退出成功</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一頁</string>
@@ -143,10 +143,10 @@
     <string name="fail_to_identify">無法識別此二維碼</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">複製成功</string>
-    <string name="main_record_dialog">會議正在錄播中，確定繼續將中斷其他客戶端的進度</string>
-    <string name="main_live_dialog">會議正在直播中，確定繼續將中斷其他客戶端的進度</string>
+    <string name="main_record_dialog">會議正在錄播中，確定繼續將\n中斷其他客戶端的進度</string>
+    <string name="main_live_dialog">會議正在直播中，確定繼續將\n中斷其他客戶端的進度</string>
     <string name="confirm_continue">確定繼續</string>
-    <string name="choice_contents">請選擇您要進行的內容</string>
+    <string name="choice_contents">請選擇您要進行的內容?</string>
     <string name="explain_meeting">講解會議</string>
     <string name="live_video">視頻直播</string>
     <string name="live_not_start">直播還沒開始，請稍等</string>

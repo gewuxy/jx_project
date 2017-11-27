@@ -34,7 +34,7 @@
     <string name="record_live_insufficient">Please recharge the network flow in time to ensure a smooth broadcast.</string>
     <string name="recharge">Recharge</string>
     <string name="ok">OK</string>
-    <string name="live_exit_success">Exit Successfully</string>
+    <string name="exit_success">Exit Successfully</string>
 
     <!-- 录音 -->
     <string name="first_page">No more pages ahead</string>

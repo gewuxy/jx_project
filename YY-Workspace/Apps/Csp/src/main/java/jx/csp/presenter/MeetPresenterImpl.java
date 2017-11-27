@@ -11,7 +11,7 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
-import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
@@ -94,9 +94,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     showToast(R.string.live_not_start);
                 } else if (startTime < currentTime && endTime > currentTime) {
                     // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
-                    BigButtonDialog d = new BigButtonDialog(mContext);
+                    BtnVerticalDialog d = new BtnVerticalDialog(mContext);
                     d.setTextHint(ResLoader.getString(R.string.choice_contents));
-                    d.addGrayButton(R.string.explain_meeting, view -> {
+                    d.addBlackButton(R.string.explain_meeting, view -> {
                         // 先判断是否有人在直播音频
                         mJoinLiveVideo = false;
                         exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
@@ -231,7 +231,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void showDialog(String hint, String wsUrl) {
         CommonDialog2 d = new CommonDialog2(mContext);
         d.setHint(hint);
-        d.addGrayButton(R.string.confirm_continue, view -> {
+        d.addBlackButton(R.string.confirm_continue, view -> {
             WebSocketServRouter.create(wsUrl).route(mContext);
             if (mCountdownDialog == null) {
                 // 倒计时结束没有收到websocket默认进入会议

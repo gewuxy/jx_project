@@ -16,7 +16,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveVideoContract;
-import jx.csp.dialog.BigButtonDialog;
+import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
@@ -355,7 +355,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
 
     private void switchLiveDevice() {
         YSLog.d(TAG, "直播间是否切换直播设备");
-        BigButtonDialog dialog = new BigButtonDialog(this);
+        BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
         CountDown countDown = new CountDown();
         countDown.start(5);
@@ -370,6 +370,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 mLiveState = false;
             }
             sendWsMsg(WsOrderType.accept);
+            showToast(R.string.exit_success);
             finish();
         });
         countDown.setListener(new OnCountDownListener() {
@@ -383,6 +384,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                     }
                     sendWsMsg(WsOrderType.accept);
                     dialog.dismiss();
+                    showToast(R.string.exit_success);
                     finish();
                     return;
                 }
@@ -392,6 +394,10 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             @Override
             public void onCountDownErr() {
             }
+        });
+        dialog.setOnDismissListener(dialogInterface -> {
+            sendWsMsg(WsOrderType.reject);
+            countDown.stop();
         });
         dialog.show();
     }
