@@ -64,6 +64,7 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
         @Override
         public void portraitInit(PPT ppt, List<Course> courses) {
             super.portraitInit(ppt, courses);
+            onPlayState(true); // 非静音
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override

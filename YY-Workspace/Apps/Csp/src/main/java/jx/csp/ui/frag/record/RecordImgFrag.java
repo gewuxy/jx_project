@@ -85,6 +85,7 @@ public class RecordImgFrag extends BaseFrag {
         mIv.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
+                .resize(fit(328), fit(252))
                 .load();
         mAnimation = (AnimationDrawable) mIvAudio.getBackground();
         // 判断是否上传过音频，如果上传过再判断音频文件是否还存在，不存在就下载，下载下来的是mp3文件,下载完成显示播放按钮

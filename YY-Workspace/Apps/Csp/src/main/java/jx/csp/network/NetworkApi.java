@@ -16,7 +16,7 @@ import jx.csp.constant.BindId;
  * @since 2017/8/16
  */
 @Descriptor(
-        host = "https://app.medyaya.cn/api/",
+        host = "https://www.cspmeeting.com/",
         hostDebuggable = "http://59.111.90.245:8084/api/"
 //        hostDebuggable = "http://10.0.0.234:8080/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑

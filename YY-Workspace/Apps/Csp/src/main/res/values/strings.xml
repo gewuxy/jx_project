@@ -20,6 +20,7 @@
     <string name="toast_hint_input">Please input</string>
     <string name="toast_hint_select">Please select</string>
     <string name="toast_hint_upload">Please upload</string>
+    <string name="second_unit">s</string>
 
     <!-- 直播间 -->
     <string name="online">Audience(s)</string>

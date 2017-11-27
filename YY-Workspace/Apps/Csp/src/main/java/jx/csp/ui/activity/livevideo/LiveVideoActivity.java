@@ -83,6 +83,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     private boolean mIsShowRemainingTimeTv = false; // 倒计时或者流量不足提示是否显示
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
+    private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
 
     @Override
     public void initData(Bundle state) {
@@ -354,6 +355,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     }
 
     private void switchLiveDevice() {
+        mSendAcceptOrReject = false;
         YSLog.d(TAG, "直播间是否切换直播设备");
         BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
@@ -370,6 +372,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 mLiveState = false;
             }
             sendWsMsg(WsOrderType.accept);
+            mSendAcceptOrReject = true;
             showToast(R.string.exit_success);
             finish();
         });
@@ -383,6 +386,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                         mLiveState = false;
                     }
                     sendWsMsg(WsOrderType.accept);
+                    mSendAcceptOrReject = true;
                     dialog.dismiss();
                     showToast(R.string.exit_success);
                     finish();
@@ -396,8 +400,10 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             }
         });
         dialog.setOnDismissListener(dialogInterface -> {
-            sendWsMsg(WsOrderType.reject);
-            countDown.stop();
+            if (!mSendAcceptOrReject) {
+                sendWsMsg(WsOrderType.reject);
+                countDown.stop();
+            }
         });
         dialog.show();
     }

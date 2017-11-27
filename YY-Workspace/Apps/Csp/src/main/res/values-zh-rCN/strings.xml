@@ -20,6 +20,7 @@
     <string name="toast_hint_input">请输入</string>
     <string name="toast_hint_select">请选择</string>
     <string name="toast_hint_upload">请上传</string>
+    <string name="second_unit">s</string>
 
     <!-- 直播间 -->
     <string name="online">在线</string>

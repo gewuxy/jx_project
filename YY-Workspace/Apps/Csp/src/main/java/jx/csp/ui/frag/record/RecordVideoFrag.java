@@ -63,6 +63,7 @@ public class RecordVideoFrag extends BaseFrag {
         mIvBg.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
+                .resize(fit(328), fit(252))
                 .load();
     }
 

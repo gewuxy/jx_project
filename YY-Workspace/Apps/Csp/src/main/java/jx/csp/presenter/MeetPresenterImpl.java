@@ -242,6 +242,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     mWsClose = true;
                     YSLog.d(TAG, "MeetPresenterImpl count down dialog dismiss WebSocketServRouter.stop");
                     WebSocketServRouter.stop(mContext);
+                    mCountdownDialog.stopCountDown();
                 }
             });
             mCountdownDialog.show();

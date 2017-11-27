@@ -79,6 +79,11 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
         mProgressView.start();
     }
 
+    public void stopCountDown() {
+        mProgressView.stop();
+        mCountDown.stop();
+    }
+
     @Override
     public void dismiss() {
         super.dismiss();

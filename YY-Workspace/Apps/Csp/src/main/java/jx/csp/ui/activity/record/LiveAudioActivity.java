@@ -57,6 +57,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
     private boolean mIsReceiveFlowInsufficient = false; // 是否已经收到过流量不足警告
     private int mLastPage = 0; // 上一页的位置
     private int mFirstClickStart = 1; // 是否第一次点击开始直播  0表示不是 1表示是
+    private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
 
     @Arg(opt = true)
     long mStartTime;
@@ -87,6 +88,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         }
         showView(mLayoutOnline);
         showView(mTvStartRemain);
+        mIvRecordState.setBackgroundResource(R.drawable.record_selector_state);
         setOnClickListener(R.id.record_iv_state);
         // 判断直播是否已经开始
         if (System.currentTimeMillis() >= mStartTime) {
@@ -209,6 +211,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     @Override
     protected void switchDevice() {
+        mSendAcceptOrReject = false;
         YSLog.d(TAG, "是否切换直播设备");
         BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_live_record_device));
@@ -224,8 +227,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 mLiveState = false;
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+                notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+            mSendAcceptOrReject = true;
             finish();
         });
         countDown.setListener(new OnCountDownListener() {
@@ -236,9 +241,11 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     if (mLiveState) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
+                        notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
                         mLiveState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+                    mSendAcceptOrReject = true;
                     dialog.dismiss();
                     finish();
                     return;
@@ -251,8 +258,11 @@ public class LiveAudioActivity extends BaseRecordActivity {
             }
         });
         dialog.setOnDismissListener(dialogInterface -> {
-            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
-            countDown.stop();
+            if (!mSendAcceptOrReject) {
+                YSLog.d(TAG, "发送拒绝指令");
+                notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+                countDown.stop();
+            }
         });
         dialog.show();
     }
@@ -396,7 +406,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
                     int page = live.getInt(TLive.livePage);
                     if (page != 0) {
-                        setCurrPosition(page);
+                        setCurrPosition(page, false);
                     }
 
                     removeOnGlobalLayoutListener(this);

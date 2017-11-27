@@ -20,6 +20,7 @@
     <string name="toast_hint_input">請輸入</string>
     <string name="toast_hint_select">請選擇</string>
     <string name="toast_hint_upload">請上傳</string>
+    <string name="second_unit">s</string>
 
     <!-- 直播间 -->
     <string name="online">在線</string>

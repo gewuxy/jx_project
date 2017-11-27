@@ -63,6 +63,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private AnimationDrawable mAnimationRecord;
     private RecordPresenterImpl mRecordPresenter;
     private int mWsPosition = 0;  // websocket接收到的页数
+    private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
 
     @IntDef({
             ScrollType.last,
@@ -105,8 +106,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         goneView(mLayoutOnline);
         goneView(mIvVoiceState);
         mTvRecordState.setText("");
-        mIvVoiceState.setImageResource(R.drawable.animation_record_record);
-        mAnimationRecord = (AnimationDrawable) mIvVoiceState.getDrawable();
+        mIvRecordState.setImageResource(R.drawable.animation_record);
+        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
         setOnClickListener(R.id.record_iv_state);
         mGestureView.setGestureViewListener(this);
 
@@ -210,7 +211,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mRecordPresenter.stopRecord();
             mRecordState = false;
         }
-        mIvRecordState.setSelected(false);
+        //mIvRecordState.setSelected(false);
     }
 
     @Override
@@ -230,7 +231,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         // 如果页面是视频页 要录音状态图片要变且不能点击
         Fragment f = getItem(position);
         if (f instanceof RecordImgFrag) {
-            mIvRecordState.setImageResource(R.drawable.record_selector_state);
+            mIvRecordState.setImageResource(R.drawable.animation_record);
+            mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
             mIvRecordState.setClickable(true);
         } else {
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
@@ -243,6 +245,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     protected void switchDevice() {
+        mSendAcceptOrReject = false;
         BtnVerticalDialog dialog = new BtnVerticalDialog(this);
         dialog.setTextHint(ResLoader.getString(R.string.switch_common_record_device));
         CountDown countDown = new CountDown();
@@ -258,6 +261,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 mRecordState = false;
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+            mSendAcceptOrReject = true;
             countDown.stop();
             showToast(R.string.exit_success);
             finish();
@@ -272,6 +276,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                         mRecordState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
+                    mSendAcceptOrReject = true;
                     dialog.dismiss();
                     showToast(R.string.exit_success);
                     finish();
@@ -285,8 +290,10 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
         });
         dialog.setOnDismissListener(dialogInterface -> {
-            notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
-            countDown.stop();
+            if (!mSendAcceptOrReject) {
+                notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
+                countDown.stop();
+            }
         });
         dialog.show();
     }
@@ -420,7 +427,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     protected void changeRecordState(boolean b) {
         mRecordState = b;
-        mIvRecordState.setSelected(mRecordState);
     }
 
     private class View implements RecordContract.V {
@@ -466,7 +472,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
                     int page = record.getInt(TRecord.playPage);
                     if (page != 0) {
-                        setCurrPosition(page);
+                        setCurrPosition(page, false);
                     }
                     removeOnGlobalLayoutListener(this);
                 }
@@ -486,7 +492,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void startRecordState() {
-            showView(mIvVoiceState);
             mAnimationRecord.start();
             mTvRecordState.setText("00:00");
             getViewPager().setScrollable(false);
@@ -495,8 +500,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void stopRecordState() {
+            mAnimationRecord.selectDrawable(0);
             mAnimationRecord.stop();
-            goneView(mIvVoiceState);
             //对应frag显示播放图标
             RecordImgFrag frag = (RecordImgFrag) getItem(getCurrPosition());
             frag.showLayoutAudio();

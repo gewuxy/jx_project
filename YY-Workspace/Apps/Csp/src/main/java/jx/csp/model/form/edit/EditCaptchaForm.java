@@ -50,6 +50,7 @@ public class EditCaptchaForm extends EditForm {
 
     public void start() {
         CaptchaView v = (CaptchaView) getHolder().getTvText();
+        v.setSymbol(R.string.second_unit);
         v.setMaxCount(KCountDown);
         v.start();
     }

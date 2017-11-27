@@ -6,7 +6,6 @@ import android.view.TextureView;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
-import jx.csp.BuildConfig;
 import jx.csp.contact.LiveVideoContract;
 import jx.csp.contact.LiveVideoContract.V;
 import jx.csp.model.Profile;
@@ -52,7 +51,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void initLiveRoom(String roomId, TextureView textureView) {
         LiveApi.getInst()
-                .setTest(BuildConfig.DEBUG_NETWORK)  // 测试
+                .setTest(false)  // 测试
                 .toggleAVConfig()
                 .enableAEC(true)  // 回声消除
                 .enableMic(mUseMic)
