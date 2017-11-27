@@ -171,7 +171,8 @@
     <!-- 我的信息 -->
     <string name="my_message">我的信息</string>
     <string name="my_message_intro">简介</string>
-    <string name="my_message_person_intro">输入个人简介</string>
+    <string name="my_message_person_intro">个人简介</string>
+    <string name="my_message_input_person_intro">输入个人简介</string>
     <string name="my_message_intro_unit">%1$d</string>
     <string name="my_message_nick_name">昵称</string>
     <string name="my_message_no_input">未输入</string>

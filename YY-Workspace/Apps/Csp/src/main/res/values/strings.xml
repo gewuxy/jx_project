@@ -172,6 +172,7 @@
     <string name="my_message">Me</string>
     <string name="my_message_intro">Biography</string>
     <string name="my_message_person_intro">Your Biography</string>
+    <string name="my_message_input_person_intro">Your Biography</string>
     <string name="my_message_intro_unit">%1$d</string>
     <string name="my_message_nick_name">Name</string>
     <string name="my_message_no_input">No input</string>
