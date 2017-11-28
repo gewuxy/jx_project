@@ -128,14 +128,15 @@
         <item name="android:background">@drawable/item_selector</item>
     </style>
 
-    <style name="tv.liveRoom"/>
+    <style name="tv.live"/>
+    <style name="tv.live.video"/>
 
-    <style name="tv.liveRoom.online">
+    <style name="tv.live.video.online">
         <item name="android:textSize">11dp</item>
         <item name="android:layout_marginBottom">1dp</item>
     </style>
 
-    <style name="tv.liveRoom.start">
+    <style name="tv.live.video.start">
         <item name="android:textSize">14dp</item>
         <item name="android:paddingBottom">20dp</item>
         <item name="android:paddingLeft">20dp</item>

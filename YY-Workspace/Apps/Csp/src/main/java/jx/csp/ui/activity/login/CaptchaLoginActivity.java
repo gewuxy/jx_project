@@ -102,6 +102,9 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     public void setViews() {
         super.setViews();
 
+        //清空用户信息
+        Profile.inst().clear();
+
         setOnClickListener(R.id.protocol);
         showView(mLayout);
     }
@@ -183,11 +186,11 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
             if (r.isSucceed()) {
                 Profile data = (Profile) r.getData();
                 Profile.inst().update(data);
-                SpUser.inst().updateProfileRefreshTime();
 
                 //如果有nickname这个字段
                 if (TextUtil.isNotEmpty(data.getString(TProfile.nickName))) {
                     notify(NotifyType.login);
+                    SpUser.inst().updateProfileRefreshTime();
                     startActivity(MainActivity.class);
                 } else {
                     startActivity(CaptchaLoginNicknameActivity.class);

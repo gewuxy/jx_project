@@ -153,7 +153,7 @@
                 android:layout_toRightOf="@+id/record_tv_online_num"
                 android:text="@string/online"
                 android:textColor="@color/text_888"
-                style="@style/tv.liveRoom.online"/>
+                style="@style/tv.live.video.online"/>
 
         </RelativeLayout>
 

@@ -95,6 +95,9 @@ public class EmailLoginActivity extends BaseLoginActivity {
     public void setViews() {
         super.setViews();
 
+        //清空用户信息
+        Profile.inst().clear();
+
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.protocol);

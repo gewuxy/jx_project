@@ -89,7 +89,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            style="@style/tv.liveRoom.online"
+            style="@style/tv.live.video.online"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/live_tv_online_num"
@@ -145,7 +145,7 @@
 
     <TextView
         android:id="@+id/live_tv_start"
-        style="@style/tv.liveRoom.start"
+        style="@style/tv.live.video.start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

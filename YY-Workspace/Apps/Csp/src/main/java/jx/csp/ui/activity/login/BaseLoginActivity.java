@@ -47,9 +47,6 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     public void setViews() {
         super.setViews();
 
-        //清空用户信息
-        Profile.inst().clear();
-
         mTvSet.setEnabled(false);
         mTvSet.setText(getSetText());
         setOnClickListener(R.id.base_set_tv_set);

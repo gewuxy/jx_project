@@ -46,13 +46,11 @@ public class NetworkApi {
         /**
          * 修改个人资料
          *
-         * @param userName
          * @param info
          * @param nickName
          */
         @Post("updateInfo")
-        void modify(@Query(opt = true) String userName,
-                    @Query(opt = true) String info,
+        void modify(@Query(opt = true) String info,
                     @Query(opt = true) String nickName);
 
         /**
