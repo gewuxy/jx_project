@@ -57,6 +57,10 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         return mFragReb;
     }
 
+    public DiscreteScrollView getRv() {
+        return mRvP;
+    }
+
     @CallSuper
     @Override
     public void initData(Bundle state) {

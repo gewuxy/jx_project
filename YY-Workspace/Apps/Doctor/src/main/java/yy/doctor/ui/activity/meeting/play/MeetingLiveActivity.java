@@ -26,6 +26,7 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingLivePresenterImpl;
 import yy.doctor.ui.frag.meeting.PPTLiveFrag;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.util.LandscapeSwitch;
+import yy.doctor.util.NetPlayer;
 
 /**
  * ppt直播(有视频)
@@ -131,13 +132,18 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
             @Override
             public void onPageSelected(int position) {
-                mFragPpt.setTextMedia("录音中");
+                NetPlayer.inst().stop();
                 if (position == mFragPpt.getCount() - 1) {
                     mFragPpt.newVisibility(false);
                 }
-                if (mPlayType == PlayType.ppt && mPlay) {
-                    // 在播放ppt
-                    mFragPpt.startPlay();
+                if (mPlayType == PlayType.ppt) {
+                    mFragPpt.setTextMedia("录音中");
+                    if (mPlay) {
+                        // 在播放ppt
+                        mFragPpt.startPlay();
+                    }
+                } else {
+                    mFragPpt.mediaVisibility(false);
                 }
                 setTextCur(position + 1);
             }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import inject.annotation.router.Route;
 import yy.doctor.R;
+import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
@@ -18,7 +19,7 @@ import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
  * @since : 2017/10/27
  */
 @Route
-public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContract.View,MeetingPptLiveContract.Presenter> {
+public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContract.View, MeetingPptLiveContract.Presenter> {
 
     private MeetingPptLiveContract.View mView;
     private MeetingPptLiveContract.Presenter mPresenter;
@@ -93,6 +94,9 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
                             getFragPpt().setTextNew(String.valueOf(count));
                         }
                         setTextAll(count);
+                        // 第三方的DiscreteScrollView可能会没刷新到图片
+                        MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
+                        adapter.invalidate(count - 1);
                         removeOnGlobalLayoutListener(this);
                     }
 
