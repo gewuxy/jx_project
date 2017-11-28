@@ -147,6 +147,7 @@ public class RecordImgFrag extends BaseFrag {
         if (mAnimationState) {
             mAnimationState = false;
             mAnimation.stop();
+            mListener.stopPlay();
         }
     }
 
