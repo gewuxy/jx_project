@@ -93,4 +93,8 @@ public class PicAudioCourseFrag extends BaseCourseFrag implements OnRootTouchLis
     public void onTouchUp() {
         clickFrag();
     }
+
+    public void refresh() {
+        setPic();
+    }
 }

@@ -50,7 +50,7 @@ public class SplashActivity extends SplashActivityEx {
         if (BuildConfig.TEST) {
             startActivity(TestActivity.class);
         } else {
-            startActivity(AdvActivity.class);
+            startActivity(AdActivity.class);
         }
     }
 }

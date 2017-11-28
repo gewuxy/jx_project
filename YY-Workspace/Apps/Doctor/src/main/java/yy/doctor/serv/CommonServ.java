@@ -116,7 +116,11 @@ public class CommonServ extends ServiceEx {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
-        return JsonParser.error(resp.getText());
+        if (id == ReqType.advert) {
+            return JsonParser.ev(resp.getText(),Ad.class);
+        } else {
+            return JsonParser.error(resp.getText());
+        }
     }
 
     @Override

@@ -26,7 +26,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".ui.activity.AdvActivity"
+            android:name=".ui.activity.AdActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.AdWebViewActivity"

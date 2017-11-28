@@ -11,6 +11,8 @@ import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
 import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
+import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
+import yy.doctor.ui.frag.meeting.course.PicAudioCourseFrag;
 
 /**
  * ppt直播(无视频)
@@ -80,6 +82,11 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
         public void addCourse(Course course, int index) {
             if (course == null) {
                 // 播放音频
+                BaseCourseFrag f = getFragPpt().getItem(getFragPpt().getCurrPosition());
+                if (f instanceof PicAudioCourseFrag) {
+                    // 图片可能不一样
+                    ((PicAudioCourseFrag) f).refresh();
+                }
                 getFragPpt().startPlay();
             } else {
                 // 添加新的界面

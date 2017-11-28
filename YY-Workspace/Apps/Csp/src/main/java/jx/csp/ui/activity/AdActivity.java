@@ -2,29 +2,29 @@ package jx.csp.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.login.Advert;
 import jx.csp.model.login.Advert.TAdvert;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
+import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * 广告页
@@ -32,20 +32,24 @@ import lib.yy.util.CountDown.OnCountDownListener;
  * @auther WangLan
  * @since 2017/9/20
  */
-public class AdvActivity extends ActivityEx implements OnClickListener, OnCountDownListener {
-
-    private final int KDelayTime = 3; // 3秒跳转
-
-    private CountDown mCountDown;
+public class AdActivity extends BaseActivity {
 
     private NetworkImageView mIv;
     private String mPageUrl;
 
+    private Handler mHandler;
 
     @Override
     public void initData(Bundle state) {
-        mCountDown = new CountDown();
-        mCountDown.setListener(this);
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                afterAd(AdActivity.this);
+                finish();
+            }
+
+        };
     }
 
     @NonNull
@@ -56,6 +60,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
 
     @Override
     public void initNavBar(NavBar bar) {
+        // no nav bar
     }
 
     @Override
@@ -65,19 +70,24 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
 
     @Override
     public void setViews() {
-        setOnClickListener(R.id.adv_iv);
         setOnClickListener(R.id.adv_skip);
 
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                mCountDown.start(KDelayTime);
-                removeOnGlobalLayoutListener(this);
-            }
-        });
-
-        exeNetworkReq(AdvertAPI.advert().build());
+        CommonServRouter.create(ReqType.advert).route(this);
+        int count = 0;
+        String url = ConstantsEx.KEmpty;
+        Advert advert = SpApp.inst().getAdvert();
+        if (advert != null) {
+            url = advert.getString(TAdvert.imgUrl);
+            count = advert.getInt(TAdvert.countDown);
+            mPageUrl = advert.getString(TAdvert.pageUrl);
+        }
+        if (count <= 0) {
+            finish();
+        } else {
+            mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(count));
+            mIv.url(url).load();
+            setOnClickListener(mIv);
+        }
     }
 
     @Override
@@ -97,38 +107,10 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
     }
 
     @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.ev(resp.getText(), Advert.class);
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        if (r.isSucceed()) {
-            Advert adv = (Advert) r.getData();
-            mIv.url(adv.getString(TAdvert.imgUrl)).load();
-            mPageUrl = adv.getString(TAdvert.pageUrl);
-        } else {
-            onNetworkError(id, r.getError());
-        }
-    }
-
-    @Override
-    public void onCountDown(long remainCount) {
-        if (remainCount == 0) {
-            afterAd(this);
-            finish();
-        }
-    }
-
-    @Override
-    public void onCountDownErr() {
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mCountDown.recycle();
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     public static void afterAd(Context context) {
@@ -139,7 +121,7 @@ public class AdvActivity extends ActivityEx implements OnClickListener, OnCountD
             // 未登录,退出登录
             if (Util.checkAppCn()) {
                 LaunchUtil.startActivity(context, AuthLoginActivity.class);
-            }else {
+            } else {
                 LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
             }
         }

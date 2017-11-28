@@ -2,9 +2,13 @@ package yy.doctor.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
+
+import java.util.concurrent.TimeUnit;
 
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
@@ -12,7 +16,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.util.CountDown;
 import yy.doctor.R;
 import yy.doctor.model.Ad;
 import yy.doctor.model.Ad.TAd;
@@ -31,10 +34,10 @@ import yy.doctor.ui.activity.user.login.LoginActivity;
 public class AdActivity extends BaseActivity {
 
     private NetworkImageView mIvAd;
-
     private TextView mTvPass;
-    private CountDown mCountDown;
+
     private String mHtmlUrl;
+    private Handler mHandler;
 
     public static void afterAd(Context context) {
         if (Profile.inst().isLogin()) {
@@ -48,22 +51,14 @@ public class AdActivity extends BaseActivity {
 
     @Override
     public void initData(Bundle state) {
-        mCountDown = new CountDown();
-        mCountDown.setListener(new CountDown.OnCountDownListener() {
+        mHandler = new Handler(){
 
             @Override
-            public void onCountDown(long remainCount) {
-                mTvPass.setText(remainCount + "跳过");
-                if (remainCount == 0) {
-                    mTvPass.performClick();
-                }
+            public void handleMessage(Message msg) {
+                mTvPass.performClick();
             }
 
-            @Override
-            public void onCountDownErr() {
-                // do nothing
-            }
-        });
+        };
     }
 
     @NonNull
@@ -99,8 +94,7 @@ public class AdActivity extends BaseActivity {
         if (count <= 0) {
             mTvPass.performClick();
         } else {
-            mCountDown.start(count);
-
+            mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(count));
             mIvAd.url(url).load();
             setOnClickListener(mIvAd);
         }
@@ -109,10 +103,10 @@ public class AdActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        mCountDown.stop();
+        mHandler.removeCallbacksAndMessages(null);
         switch (v.getId()) {
             case R.id.ad_iv_ad: {
-                String title = "";
+                String title = ConstantsEx.KEmpty;
                 if (TextUtil.isEmpty(mHtmlUrl)) {
                     return;
                 }
@@ -136,6 +130,6 @@ public class AdActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        mCountDown.recycle();
+        mHandler.removeCallbacksAndMessages(null);
     }
 }

@@ -13,6 +13,6 @@ public class AdWebViewActivity extends CommonWebViewActivity {
     public void finish() {
         super.finish();
 
-        AdvActivity.afterAd(this);
+        AdActivity.afterAd(this);
     }
 }

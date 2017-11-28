@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import jx.csp.App;
 import jx.csp.constant.AppType;
 import jx.csp.constant.LangType;
+import jx.csp.model.login.Advert;
 import lib.ys.util.sp.SpBase;
 
 /**
@@ -33,6 +34,14 @@ public class SpApp extends SpBase {
         super(context, fileName);
     }
 
+    public void saveAdvert(Advert ad) {
+        save(SpAppKey.KAdvert, ad);
+    }
+
+    public Advert getAdvert() {
+        return getEV(SpAppKey.KAdvert, Advert.class);
+    }
+
     public interface SpAppKey {
         String KUserName = "user_name";
         String KAppUpdateTime = "app_update_time";
@@ -40,6 +49,7 @@ public class SpApp extends SpBase {
         String KSystemLang = "sys_lang";
         String KAppType = "app_type";
         String KLoginVideoVersion = "version";
+        String KAdvert = "advert";
     }
 
     @Override

@@ -79,6 +79,7 @@ public class MeetingPptLivePresenterImpl extends BasePptPresenterImpl<MeetingPpt
                 }
                 Course c = mCourses.get(index);
                 c.put(TCourse.audioUrl, course.getString(TCourse.audioUrl));
+                c.put(TCourse.imgUrl, course.getString(TCourse.imgUrl));
                 getView().addCourse(null, index);
             } else if (order == OrderType.synchronize) {
                 // 同步

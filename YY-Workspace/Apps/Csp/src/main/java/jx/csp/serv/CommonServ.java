@@ -12,9 +12,12 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
+import jx.csp.model.login.Advert;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
+import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import lib.jg.jpush.SpJPush;
 import lib.network.model.NetworkResp;
@@ -66,6 +69,7 @@ public class CommonServ extends ServiceEx {
             ReqType.j_push,
             ReqType.exit_record,
             ReqType.share_delete_meet,
+            ReqType.advert,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -73,6 +77,7 @@ public class CommonServ extends ServiceEx {
         int j_push = 2;
         int exit_record = 3;
         int share_delete_meet = 4;
+        int advert = 5;
     }
 
     @Override
@@ -94,12 +99,20 @@ public class CommonServ extends ServiceEx {
                 exeNetworkReq(mType, MeetingAPI.delete(mCourseId).build());
             }
             break;
+            case ReqType.advert: {
+                exeNetworkReq(mType, AdvertAPI.advert().build());
+            }
+            break;
         }
     }
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
-        return JsonParser.error(resp.getText());
+        if (id == ReqType.advert) {
+            return JsonParser.ev(resp.getText(),Advert.class);
+        } else {
+            return JsonParser.error(resp.getText());
+        }
     }
 
     @Override
@@ -146,6 +159,13 @@ public class CommonServ extends ServiceEx {
                     Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
                 } else {
                     onNetworkError(id, r.getError());
+                }
+            }
+            break;
+            case ReqType.advert: {
+                if (r.isSucceed()) {
+                    Advert data = (Advert) r.getData();
+                    SpApp.inst().saveAdvert(data);
                 }
             }
             break;
