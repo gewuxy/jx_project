@@ -376,37 +376,47 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void addCourse(Course course) {
-            // 同步
+            // 同步 fixme:待整理
             int position = mFragPpt.getCount() - 1;
             BaseCourseFrag f = mFragPpt.getItem(position);
             Course c = f.getCourse();
             boolean temp = c.getBoolean(TCourse.temp);
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");
+                int cur = mFragPpt.getCurrPosition();
                 mFragPpt.removeCourse(c);
                 mFragPpt.addCourse(course);
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+                        mFragPpt.setCurrPosition(cur);
+                        removeOnGlobalLayoutListener(this);
+                    }
+
+                });
             } else {
                 YSLog.d(TAG, "addCourse : add");
                 mFragPpt.addCourse(course);
-            }
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                @Override
-                public void onGlobalLayout() {
-                    int count = getPptFrag().getCount();
-                    setTextAll(count);
-                    if (count != getPptFrag().getCurrPosition()) {
-                        // 不在最新页提示新的一页
-                        if (mPlayType == PlayType.live) {
-                            mFragPpt.setToLastPosition();
-                        } else {
-                            getPptFrag().setTextNew(String.valueOf(count));
+                    @Override
+                    public void onGlobalLayout() {
+                        int count = getPptFrag().getCount();
+                        setTextAll(count);
+                        if (count != getPptFrag().getCurrPosition()) {
+                            // 不在最新页提示新的一页
+                            if (mPlayType == PlayType.live) {
+                                mFragPpt.setToLastPosition();
+                            } else {
+                                getPptFrag().setTextNew(String.valueOf(count));
+                            }
                         }
+                        removeOnGlobalLayoutListener(this);
                     }
-                    removeOnGlobalLayoutListener(this);
-                }
 
-            });
+                });
+            }
         }
 
         @Override

@@ -87,30 +87,40 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
             boolean temp = c.getBoolean(TCourse.temp);
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");
+                int cur = getFragPpt().getCurrPosition();
                 getFragPpt().removeCourse(c);
                 getFragPpt().addCourse(course);
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+                        getFragPpt().setCurrPosition(cur);
+                        removeOnGlobalLayoutListener(this);
+                    }
+
+                });
             } else {
                 YSLog.d(TAG, "addCourse : add");
                 getFragPpt().addCourse(course);
-            }
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                @Override
-                public void onGlobalLayout() {
-                    int count = getFragPpt().getCount();
-                    if (count != getFragPpt().getCurrPosition()) {
-                        // 不在最新页提示新的一页完成
-                        getFragPpt().setTextNew(String.valueOf(count));
+                    @Override
+                    public void onGlobalLayout() {
+                        int count = getFragPpt().getCount();
+                        if (count != getFragPpt().getCurrPosition()) {
+                            // 不在最新页提示新的一页完成
+                            getFragPpt().setTextNew(String.valueOf(count));
+                        }
+                        setTextAll(count);
+                        // DiscreteScrollView可能会没刷新到图片
+                        MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
+                        adapter.notifyDataSetChanged();
+                        adapter.invalidate(adapter.getCount() - 1);
+                        removeOnGlobalLayoutListener(this);
                     }
-                    setTextAll(count);
-                    // DiscreteScrollView可能会没刷新到图片
-                    MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
-                    adapter.notifyDataSetChanged();
-                    adapter.invalidate(adapter.getCount() - 1);
-                    removeOnGlobalLayoutListener(this);
-                }
 
-            });
+                });
+            }
         }
 
         @Override
