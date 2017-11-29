@@ -217,6 +217,20 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     /**
+     * 删除ppt
+     *
+     * @param course 下标
+     */
+    public void removeCourse(Course course) {
+        if (mCourses == null || course == null) {
+            return;
+        }
+        mCourses.remove(course);
+        getAdapter().removeAll();
+        addCourses();
+    }
+
+    /**
      * 添加原有ppt
      */
     public void addCourses() {
@@ -259,15 +273,14 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         return (BaseCourseFrag) super.getItem(position);
     }
 
-    public void setToLastPosition() {
-        if (mCourses != null) {
-            setCurrPosition(mCourses.size());
-        }
-    }
-
     @Override
     public void setCurrPosition(int position) {
         super.setCurrPosition(position);
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
     }
 
     public void offsetPosition(int offset, String content) {
@@ -276,6 +289,12 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             setCurrPosition(position);
         } else {
             showToast(content);
+        }
+    }
+
+    public void setToLastPosition() {
+        if (mCourses != null) {
+            setCurrPosition(mCourses.size() - 1);
         }
     }
 

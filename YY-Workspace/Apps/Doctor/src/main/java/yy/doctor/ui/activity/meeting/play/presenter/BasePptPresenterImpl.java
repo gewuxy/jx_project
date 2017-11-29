@@ -200,7 +200,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
     @Override
     public void onPreparedSuccess(long allMillisecond) {
         mAllMillisecond = allMillisecond;
-        getView().onPlayState(true);
         Course course = mCourses.get(mPosition);
         course.put(TCourse.play, true); // 播放
         course.put(TCourse.time, Time.getTime(mAllMillisecond));

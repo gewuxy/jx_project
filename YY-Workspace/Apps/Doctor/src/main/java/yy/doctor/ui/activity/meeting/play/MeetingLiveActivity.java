@@ -13,10 +13,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import inject.annotation.router.Route;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import yy.doctor.R;
 import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
@@ -25,6 +27,7 @@ import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
 import yy.doctor.ui.activity.meeting.play.presenter.MeetingLivePresenterImpl;
 import yy.doctor.ui.frag.meeting.PPTLiveFrag;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
+import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import yy.doctor.util.LandscapeSwitch;
 import yy.doctor.util.NetPlayer;
 
@@ -372,9 +375,18 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         }
 
         @Override
-        public void addCourse(Course course, int index) {
-            if (course != null) {
-                // 同步
+        public void addCourse(Course course) {
+            // 同步
+            int position = mFragPpt.getCount() - 1;
+            BaseCourseFrag f = mFragPpt.getItem(position);
+            Course c = f.getCourse();
+            boolean temp = c.getBoolean(TCourse.temp);
+            if (temp) {
+                YSLog.d(TAG, "addCourse : update");
+                mFragPpt.removeCourse(c);
+                mFragPpt.addCourse(course);
+            } else {
+                YSLog.d(TAG, "addCourse : add");
                 mFragPpt.addCourse(course);
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
@@ -394,11 +406,14 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                     }
 
                 });
-            } else {
-                // 推了音频过来
-                if (mPlayType == PlayType.ppt) {
-                    getPptFrag().startPlay();
-                }
+            }
+        }
+
+        @Override
+        public void refresh(Course course) {
+            // 推了音频过来
+            if (mPlayType == PlayType.ppt) {
+                getPptFrag().startPlay();
             }
         }
 

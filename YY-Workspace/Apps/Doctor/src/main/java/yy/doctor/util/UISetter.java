@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import lib.ys.ConstantsEx;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
@@ -26,7 +27,6 @@ import yy.doctor.model.data.DataUnitDetails;
 import yy.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import yy.doctor.model.home.RecUnitNum.Attention;
 import yy.doctor.model.meet.Meeting;
-import yy.doctor.model.meet.Meeting.LiveState;
 import yy.doctor.model.meet.Meeting.MeetState;
 import yy.doctor.model.meet.Meeting.MeetType;
 import yy.doctor.model.meet.Meeting.TMeeting;
@@ -165,7 +165,10 @@ public class UISetter {
         viewVisibility(visibility ? meeting.getString(TMeeting.organizer) : null, holder.getTvUnitNum());
 
         String title = meeting.getString(TMeeting.meetName);
-        if (meeting.getInt(TMeeting.liveState) == LiveState.under_way && state == MeetState.under_way) {
+        long start = meeting.getLong(TMeeting.startTime);
+        long server = meeting.getLong(TMeeting.serverTime);
+        long end = meeting.getLong(TMeeting.endTime);
+        if (start <= server && server <= end && state == MeetState.under_way && meeting.getInt(TMeeting.liveState) != ConstantsEx.KInvalidValue) {
             title = "[直播中] ".concat(title);
         }
         holder.getTvTitle().setText(title);
@@ -173,7 +176,7 @@ public class UISetter {
         if (meeting.getInt(TMeeting.type) == MeetType.meet) {
 
             holder.getTvSection().setText(meeting.getString(TMeeting.meetType));
-            holder.getTvTime().setText(TimeFormatter.milli(meeting.getLong(TMeeting.startTime), "MM/dd HH:mm"));
+            holder.getTvTime().setText(TimeFormatter.milli(start, "MM/dd HH:mm"));
 
             if (meeting.getBoolean(TMeeting.rewardCredit) && meeting.getInt(TMeeting.eduCredits) > 0) {
                 ViewUtil.showView(holder.getIvCme());
@@ -284,7 +287,7 @@ public class UISetter {
     public static void setNavBarMidText(NavBar bar, String fileName, Activity act) {
         bar.addBackIcon(R.drawable.nav_bar_ic_back, act);
         View v = View.inflate(act, R.layout.layout_nav_bar_mid_text, null);
-        TextView tv = (TextView) v.findViewById(R.id.nav_bar_mid_tv);
+        TextView tv = v.findViewById(R.id.nav_bar_mid_tv);
         tv.setText(fileName);
         bar.addViewMid(v);
     }

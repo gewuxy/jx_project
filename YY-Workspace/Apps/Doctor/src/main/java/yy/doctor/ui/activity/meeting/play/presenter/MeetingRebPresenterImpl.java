@@ -52,4 +52,11 @@ public class MeetingRebPresenterImpl extends BasePptPresenterImpl<MeetingRebCont
             super.playMedia(position);
         }
     }
+
+    @Override
+    public void onPreparedSuccess(long allMillisecond) {
+        super.onPreparedSuccess(allMillisecond);
+
+        getView().onPlayState(true);
+    }
 }

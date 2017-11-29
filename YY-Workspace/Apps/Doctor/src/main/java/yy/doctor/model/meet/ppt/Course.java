@@ -24,6 +24,7 @@ public class Course extends EVal<TCourse> {
         imgUrl, // 微课图片明细路径
         sort, // 微课明细序号
         videoUrl, // 微课视频明细路径
+        temp, // 是否临时
 
         /******************
          * 以下是自定义字段
@@ -86,18 +87,4 @@ public class Course extends EVal<TCourse> {
         return mType;
     }
 
-    /**
-     * 是否有音/视频
-     */
-    public boolean haveMedia() {
-        switch (getType()) {
-            // 不加break 因为都有多媒体
-            case CourseType.pic_audio:
-            case CourseType.video:
-            case CourseType.audio: {
-                return true;
-            }
-        }
-        return false;
-    }
 }

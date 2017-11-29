@@ -12,11 +12,13 @@ import yy.doctor.ui.frag.meeting.PPTRebFrag;
  */
 public interface MeetingLiveContract {
 
-    interface View extends IContract.View,ICommonOpt {
+    interface View extends IContract.View, ICommonOpt {
 
         void initView(PPT ppt);
 
-        void addCourse(Course course, int index);
+        void addCourse(Course course);
+
+        void refresh(Course course);
 
         void finishCount();
 

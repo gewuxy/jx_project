@@ -79,6 +79,8 @@ public class NetPlayer implements
 
     private float mVolume;
 
+    private boolean mNeedPlay; // 因为下载成功会播放最新的音频
+
     public interface OnPlayerListener {
 
         /**
@@ -161,6 +163,7 @@ public class NetPlayer implements
         mAudioPlay.setOnCompletionListener(this);
         mProgress = ConstantsEx.KInvalidValue;
         mVolume = ConstantsEx.KInvalidValue;
+        mNeedPlay = true;
     }
 
     @Override
@@ -248,6 +251,7 @@ public class NetPlayer implements
      * @param url    播放Url
      */
     public void prepare(String meetId, String url, boolean play) {
+        mNeedPlay = true;
         if (TextUtil.isEmpty(meetId) || TextUtil.isEmpty(url)) {
             return;
         }
@@ -366,6 +370,7 @@ public class NetPlayer implements
      * 暂停
      */
     public void pause() {
+        mNeedPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {
@@ -415,6 +420,7 @@ public class NetPlayer implements
      * 停止
      */
     public void stop() {
+        mNeedPlay = false;
         mCountDown.stop();
         if (mType == PlayType.audio) {
             if (mAudioPlay.isPlaying()) {
@@ -531,7 +537,7 @@ public class NetPlayer implements
         String path = mPaths.getByKey(id);
         File fileTemp = new File(path.concat(KTemp));
         fileTemp.renameTo(new File(path));
-        if (id == mPlayCode) {
+        if (id == mPlayCode && mNeedPlay) {
             // 准备当前选中
             preparePlay(path);
             if (mListener != null) {

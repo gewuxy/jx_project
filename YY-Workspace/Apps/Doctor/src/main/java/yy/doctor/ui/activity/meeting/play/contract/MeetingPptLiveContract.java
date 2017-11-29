@@ -11,7 +11,9 @@ public interface MeetingPptLiveContract {
 
     interface View extends BasePptContract.View {
 
-        void addCourse(Course course, int index);
+        void addCourse(Course course);
+
+        void refresh(Course course);
     }
 
     interface Presenter extends BasePptContract.Presenter<View> {

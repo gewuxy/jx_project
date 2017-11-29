@@ -23,6 +23,8 @@ public class PPT extends EVal<TPPT> {
         moduleId, // 模块ID
         count, // 会议评论人数
 
+        serverTime, // 服务器时间
+
         socketUrl,
 
         /**

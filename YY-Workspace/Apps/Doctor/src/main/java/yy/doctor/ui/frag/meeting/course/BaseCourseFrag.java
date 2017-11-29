@@ -34,8 +34,12 @@ abstract public class BaseCourseFrag extends BaseFrag {
         mListener = listener;
     }
 
-    protected Course getCourse() {
+    public Course getCourse() {
         return mCourse;
+    }
+
+    public void setCourse(Course course) {
+        mCourse = course;
     }
 
     protected String getMeetId() {

@@ -82,6 +82,7 @@ public class Meeting extends EVal<TMeeting> implements IRec {
         id, //  17062316384929986180,会议ID
         startTime, //  1501752518401,开始时间
         endTime, //  1501752518401,结束时间
+        serverTime, // 服务器时间
 
         meetName, //  2015年莆田市基层医疗卫生机构考试（下）,会议名称
         meetCount, //  0, 会议数量

@@ -175,10 +175,12 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
 
                 Course c = mCourses.get(index);
                 c.put(TCourse.audioUrl, course.getString(TCourse.audioUrl));
-                getView().addCourse(null, index);
+                c.put(TCourse.imgUrl, course.getString(TCourse.imgUrl));
+                c.put(TCourse.temp, false); // 已经换了
+                getView().refresh(c);
             } else if (order == OrderType.synchronize) {
                 // 同步
-                getView().addCourse(course, index);
+                getView().addCourse(course);
             }
         }
 

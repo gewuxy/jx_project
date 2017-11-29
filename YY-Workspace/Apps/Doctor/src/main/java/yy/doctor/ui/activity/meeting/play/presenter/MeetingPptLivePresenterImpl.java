@@ -73,17 +73,18 @@ public class MeetingPptLivePresenterImpl extends BasePptPresenterImpl<MeetingPpt
         @Override
         public void onMessage(int order, int index, Course course) {
             if (order == OrderType.live) {
-                // 直播
-                if (index > mCourses.size() - 1) {
+                // 直播(音频)
+                if (mCourses == null || index > mCourses.size() - 1) {
                     return;
                 }
                 Course c = mCourses.get(index);
                 c.put(TCourse.audioUrl, course.getString(TCourse.audioUrl));
                 c.put(TCourse.imgUrl, course.getString(TCourse.imgUrl));
-                getView().addCourse(null, index);
+                c.put(TCourse.temp, false); // 已经换了
+                getView().refresh(c);
             } else if (order == OrderType.synchronize) {
-                // 同步
-                getView().addCourse(course, index);
+                // 同步(图片,视频)
+                getView().addCourse(course);
             }
         }
 

@@ -90,14 +90,15 @@ public class CourseFunc extends BaseFunc {
             if (details == null || details.size() == 0) {
                 App.showToast(R.string.course_no);
             } else {
-                @LiveState int state = ppt.getInt(TPPT.liveState);
+                long end = getDetail().getLong(TMeetDetail.endTime);
+                long server = ppt.getLong(TPPT.serverTime);
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
                         MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                     case BroadcastType.live_ppt: {
-                        if (state == LiveState.end) {
+                        if (server > end) {
                             MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         } else {
                             MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
@@ -105,7 +106,7 @@ public class CourseFunc extends BaseFunc {
                     }
                     break;
                     case BroadcastType.live: {
-                        if (state == LiveState.end) {
+                        if (server > end) {
                             MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         } else {
                             MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());

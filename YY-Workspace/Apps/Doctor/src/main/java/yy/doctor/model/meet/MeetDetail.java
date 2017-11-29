@@ -59,6 +59,7 @@ public class MeetDetail extends EVal<TMeetDetail> {
         coverUrl, // 缩略图
         startTime, // 开始时间
         endTime, // 结束时间
+        serverTime, // 服务器时间
 
         meetName, // 会议名称
         meetType, // 会议科室类型
@@ -114,7 +115,9 @@ public class MeetDetail extends EVal<TMeetDetail> {
     }
 
     public String getBroadcastType() {
-        if (getInt(TMeetDetail.playType, 0) == BroadcastType.reb) {
+        long server = getLong(TMeetDetail.serverTime);
+        long end = getLong(TMeetDetail.endTime);
+        if (getInt(TMeetDetail.playType, 0) == BroadcastType.reb || server > end) {
             return "录播";
         } else {
             return "直播";

@@ -5,14 +5,15 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import java.util.List;
 
 import inject.annotation.router.Route;
+import lib.ys.YSLog;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
+import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
 import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
-import yy.doctor.ui.frag.meeting.course.PicAudioCourseFrag;
 
 /**
  * ppt直播(无视频)
@@ -79,36 +80,41 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
         }
 
         @Override
-        public void addCourse(Course course, int index) {
-            if (course == null) {
-                // 播放音频
-                BaseCourseFrag f = getFragPpt().getItem(getFragPpt().getCurrPosition());
-                if (f instanceof PicAudioCourseFrag) {
-                    // 图片可能不一样
-                    ((PicAudioCourseFrag) f).refresh();
-                }
-                getFragPpt().startPlay();
-            } else {
-                // 添加新的界面
-                getFragPpt().addCourse(course);
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        int count = getFragPpt().getCount();
-                        if (count != getFragPpt().getCurrPosition()) {
-                            // 不在最新页提示新的一页完成
-                            getFragPpt().setTextNew(String.valueOf(count));
-                        }
-                        setTextAll(count);
-                        // 第三方的DiscreteScrollView可能会没刷新到图片
-                        MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
-                        adapter.invalidate(count - 1);
-                        removeOnGlobalLayoutListener(this);
-                    }
-
-                });
+        public void addCourse(Course course) {
+            int position = getFragPpt().getCount() - 1;
+            BaseCourseFrag f = getFragPpt().getItem(position);
+            Course c = f.getCourse();
+            boolean temp = c.getBoolean(TCourse.temp);
+            if (temp) {
+                YSLog.d(TAG, "addCourse : update");
+                getFragPpt().removeCourse(c);
             }
+            // 添加新的界面
+            YSLog.d(TAG, "addCourse : add");
+            getFragPpt().addCourse(course);
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int count = getFragPpt().getCount();
+                    if (count != getFragPpt().getCurrPosition()) {
+                        // 不在最新页提示新的一页完成
+                        getFragPpt().setTextNew(String.valueOf(count));
+                    }
+                    setTextAll(count);
+                    // 第三方的DiscreteScrollView可能会没刷新到图片
+                    MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
+                    adapter.invalidate(adapter.getCount() - 1);
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
+        }
+
+        @Override
+        public void refresh(Course course) {
+            // 播放音频
+            getFragPpt().startPlay();
         }
     }
 }
