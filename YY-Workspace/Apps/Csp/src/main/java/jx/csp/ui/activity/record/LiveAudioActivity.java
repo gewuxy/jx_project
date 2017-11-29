@@ -67,6 +67,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     private View mView;
     private String mFilePath; // 正在录制的音频文件名字
+    private long mServerTime; // 服务器时间
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -90,15 +91,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
         showView(mTvStartRemain);
         mIvRecordState.setBackgroundResource(R.drawable.record_selector_state);
         setOnClickListener(R.id.record_iv_state);
-        // 判断直播是否已经开始
-        if (System.currentTimeMillis() >= mStartTime) {
-            mBeginCountDown = true;
-            mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime);
-            mTvStartRemain.setText(R.string.meeting_start_click_start_live);
-        } else {
-            setNavBarMidText(mTitle);
-            mTvStartRemain.setText(R.string.meeting_no_start_remain);
-        }
 
         //请求网络
         refresh(RefreshWay.dialog);
@@ -123,6 +115,8 @@ public class LiveAudioActivity extends BaseRecordActivity {
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
                     } else {
                         mView.stopRecordState();
+                        YSLog.d(TAG, "暂停的时候是视频 调用接口 视频 pos = " + getCurrPosition());
+                        mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.id));
                     }
                 } else {
                     // 如果点击开始直播是在视频页，不需要录音，在直播状态
@@ -135,9 +129,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     mLiveRecordPresenterImpl.startLive(mCourseId,
                             mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.videoUrl),
                             mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.imgUrl),
-                            mFirstClickStart);
+                            mFirstClickStart, getCurrPosition());
                     mFirstClickStart = 0;
-                    YSLog.d(TAG, "点击开始直播,发同步指令 pos = " + getCurrPosition());
+                    YSLog.d(TAG, "点击开始直播,延时3s请求服务器发同步指令" + getCurrPosition());
                 }
             } else {
                 startCountDownAndLive(filePath);
@@ -167,6 +161,8 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             } else {
                 mView.stopRecordState();
+                YSLog.d(TAG, "onPause的时候是视频 调用接口 视频 pos = " + getCurrPosition());
+                mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.id));
             }
             mLiveState = false;
         }
@@ -193,7 +189,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 // 上传上一页的音频 确保存在
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
             } else {
-                YSLog.d(TAG, "上一页是视频 调用接口 视频 pos = " + mLastPage);
+                YSLog.d(TAG, "翻页上一页是视频 调用接口 视频 last pos = " + mLastPage);
                 mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id));
             }
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
@@ -227,7 +223,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 mLiveState = false;
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
-                notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
             mSendAcceptOrReject = true;
@@ -241,7 +236,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     if (mLiveState) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mFilePath);
-                        notifyServ(LiveNotifyType.send_msg, getCurrPosition(), WsOrderType.sync);
                         mLiveState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
@@ -360,15 +354,22 @@ public class LiveAudioActivity extends BaseRecordActivity {
     }
 
     private void startCountDownAndLive(String filePath) {
-        if (System.currentTimeMillis() >= mStartTime) {
+        if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
-            mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime);
+            mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime, mServerTime);
             // 如果点击开始直播是在视频页，不需要录音，在直播状态
             if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
                 mView.startRecordState();
             }
+            // 点击开始直播告诉服务器开始直播，自己不发同步指令
+            mLiveRecordPresenterImpl.startLive(mCourseId,
+                    mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.videoUrl),
+                    mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.imgUrl),
+                    mFirstClickStart, getCurrPosition());
+            mFirstClickStart = 0;
+            YSLog.d(TAG, "点击开始直播,延时3s请求服务器发同步指令" + getCurrPosition());
         } else {
             showToast(R.string.meeting_no_start_remain);
         }
@@ -380,6 +381,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         public void setData(JoinMeeting joinMeeting) {
             stopRefresh();
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
+            mServerTime = joinMeeting.getLong(TJoinMeeting.serverTime);
             mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
@@ -416,6 +418,15 @@ public class LiveAudioActivity extends BaseRecordActivity {
             // 链接websocket
             if (TextUtil.isNotEmpty(wsUrl)) {
                 WebSocketServRouter.create(wsUrl).route(LiveAudioActivity.this);
+            }
+            // 判断直播是否已经开始
+            if (mServerTime >= mStartTime) {
+                mBeginCountDown = true;
+                mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime, mServerTime);
+                mTvStartRemain.setText(R.string.meeting_start_click_start_live);
+            } else {
+                setNavBarMidText(mTitle);
+                mTvStartRemain.setText(R.string.meeting_no_start_remain);
             }
         }
 

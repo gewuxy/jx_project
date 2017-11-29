@@ -23,7 +23,10 @@ public class HistoryAdapter extends AdapterEx<History, HistoryVH> {
     @Override
     protected void refreshView(int position, HistoryVH holder) {
         History item = getItem(position);
-        holder.getIvHead().url(item.getString(THistory.headimg)).load();
+        holder.getIvHead()
+                .placeHolder(R.drawable.ic_default_unit_num_header)
+                .url(item.getString(THistory.headimg))
+                .load();
         holder.getTvName().setText(item.getString(THistory.acceptName));
         holder.getTvInfo().setText(item.getString(THistory.sign));
         setOnViewClickListener(position, holder.getItemLayout());

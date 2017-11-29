@@ -22,5 +22,6 @@ public class JoinMeeting extends EVal<TJoinMeeting> {
         record, // 录播信息
 
         wsUrl, // 直播或者同步ws地址
+        serverTime, // 服务器当前时间
     }
 }

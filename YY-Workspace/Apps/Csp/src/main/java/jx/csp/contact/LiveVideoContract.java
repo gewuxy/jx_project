@@ -33,7 +33,7 @@ public interface LiveVideoContract {
 
         void initLiveRoom(String roomId, TextureView textureView);
 
-        void startCountDown(long startTime, long stopTime);
+        void startCountDown(long startTime, long stopTime, long serverTime);
 
         void startLive(String streamId, String title);
 

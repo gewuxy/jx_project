@@ -27,7 +27,7 @@ public class EditCaptchaForm extends EditForm {
         if (layout != ConstantsEx.KInvalidValue) {
             return layout;
         }
-        return R.layout.form_edit_captcha;
+        return R.layout.form_edit_captcha_login;
     }
 
     @Override
