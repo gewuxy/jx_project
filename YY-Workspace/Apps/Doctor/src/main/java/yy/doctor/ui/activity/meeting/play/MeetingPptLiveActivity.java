@@ -88,10 +88,11 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");
                 getFragPpt().removeCourse(c);
+                getFragPpt().addCourse(course);
+            } else {
+                YSLog.d(TAG, "addCourse : add");
+                getFragPpt().addCourse(course);
             }
-            // 添加新的界面
-            YSLog.d(TAG, "addCourse : add");
-            getFragPpt().addCourse(course);
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
@@ -102,8 +103,9 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
                         getFragPpt().setTextNew(String.valueOf(count));
                     }
                     setTextAll(count);
-                    // 第三方的DiscreteScrollView可能会没刷新到图片
+                    // DiscreteScrollView可能会没刷新到图片
                     MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
+                    adapter.notifyDataSetChanged();
                     adapter.invalidate(adapter.getCount() - 1);
                     removeOnGlobalLayoutListener(this);
                 }

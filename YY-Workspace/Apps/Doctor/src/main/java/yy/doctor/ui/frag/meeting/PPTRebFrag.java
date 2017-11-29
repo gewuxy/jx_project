@@ -227,6 +227,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         }
         mCourses.remove(course);
         getAdapter().removeAll();
+        invalidate();
         addCourses();
     }
 
@@ -276,11 +277,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     @Override
     public void setCurrPosition(int position) {
         super.setCurrPosition(position);
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
     }
 
     public void offsetPosition(int offset, String content) {
@@ -354,6 +350,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      * 记录上一页的学习时间
      */
     public void saveStudyTime() {
+        if (mLastPosition < 0 || mLastPosition >= getCount()) {
+            return;
+        }
         Submit submit = mSubmits.get(mLastPosition);
         if (submit == null) {
             if (getItem(mLastPosition) == null) {

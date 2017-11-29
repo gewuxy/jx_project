@@ -388,25 +388,25 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
             } else {
                 YSLog.d(TAG, "addCourse : add");
                 mFragPpt.addCourse(course);
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        int count = getPptFrag().getCount();
-                        setTextAll(count);
-                        if (count != getPptFrag().getCurrPosition()) {
-                            // 不在最新页提示新的一页
-                            if (mPlayType == PlayType.live) {
-                                mFragPpt.setToLastPosition();
-                            } else {
-                                getPptFrag().setTextNew(String.valueOf(count));
-                            }
-                        }
-                        removeOnGlobalLayoutListener(this);
-                    }
-
-                });
             }
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    int count = getPptFrag().getCount();
+                    setTextAll(count);
+                    if (count != getPptFrag().getCurrPosition()) {
+                        // 不在最新页提示新的一页
+                        if (mPlayType == PlayType.live) {
+                            mFragPpt.setToLastPosition();
+                        } else {
+                            getPptFrag().setTextNew(String.valueOf(count));
+                        }
+                    }
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
         }
 
         @Override
