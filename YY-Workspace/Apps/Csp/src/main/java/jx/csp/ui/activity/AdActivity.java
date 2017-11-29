@@ -38,6 +38,7 @@ public class AdActivity extends BaseActivity {
     private String mPageUrl;
 
     private Handler mHandler;
+    private View mTv;
 
     @Override
     public void initData(Bundle state) {
@@ -45,8 +46,7 @@ public class AdActivity extends BaseActivity {
 
             @Override
             public void handleMessage(Message msg) {
-                afterAd(AdActivity.this);
-                finish();
+                mTv.performClick();
             }
 
         };
@@ -66,6 +66,7 @@ public class AdActivity extends BaseActivity {
     @Override
     public void findViews() {
         mIv = findView(R.id.adv_iv);
+        mTv = findView(R.id.adv_skip);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class AdActivity extends BaseActivity {
             mPageUrl = advert.getString(TAdvert.pageUrl);
         }
         if (count <= 0) {
-            finish();
+            mTv.performClick();
         } else {
             mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(count));
             mIv.url(url).load();
@@ -92,7 +93,6 @@ public class AdActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
-        finish();
         switch (v.getId()) {
             case R.id.adv_iv: {
                 //点击广告跳到h5页面
@@ -100,10 +100,11 @@ public class AdActivity extends BaseActivity {
             }
             break;
             case R.id.adv_skip: {
-                afterAd(this);
+                afterAd(AdActivity.this);
             }
             break;
         }
+        finish();
     }
 
     @Override

@@ -72,6 +72,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     @Arg(opt = true)
     long mStopTime;
     @Arg(opt = true)
+    long mServerTime;
+    @Arg(opt = true)
     String mWsUrl;
 
     // 实际结束时间比结束时间多15分钟
@@ -135,9 +137,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         setOnClickListener(R.id.live_tv_start);
         setOnClickListener(R.id.live_iv_live);
         //判断是否需要开始倒计时
-        if (System.currentTimeMillis() >= mStartTime) {
+        if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
-            mP.startCountDown(mStartTime, mRealStopTime);
+            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
         }
         // 连接websocket
         WebSocketServRouter.create(mWsUrl).route(this);
@@ -242,9 +244,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     }
 
     protected void startCountDownAndLive() {
-        if (System.currentTimeMillis() >= mStartTime) {
+        if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
-            mP.startCountDown(mStartTime, mRealStopTime);
+            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
             mP.startLive(mStreamId, mTitle);
         } else {
             showToast(R.string.meeting_no_start_remain);

@@ -55,13 +55,13 @@ public interface LiveAudioContract {
 
         void getData(String courseId);
 
-        void startLive(String courseId, String videoUrl, String imgUrl, int firstClk);
+        void startLive(String courseId, String videoUrl, String imgUrl, int firstClk, int pageNum);
 
         void changePage(int pos);
 
         void setWsPos(int pos);
 
-        void startCountDown(long startTime, long stopTime);
+        void startCountDown(long startTime, long stopTime, long serverTime);
 
         void startLiveRecord(String filePath);
 

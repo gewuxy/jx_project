@@ -86,10 +86,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mTvTitle.setText(mMeet.getString(TMeet.title));
         mTvTotalPage.setText(mMeet.getString(TMeet.pageCount));
 
-        long startTime = mMeet.getLong(TMeet.startTime);
-        long endTime = mMeet.getLong(TMeet.endTime);
-        long currentTime = System.currentTimeMillis();
-
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 hideView(mIvLive);
@@ -116,17 +112,20 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
             break;
             case PlayType.live:
             case PlayType.video: {
+                long startTime = mMeet.getLong(TMeet.startTime);
+                long endTime = mMeet.getLong(TMeet.endTime);
+                long serverTime = mMeet.getLong(TMeet.serverTime);
                 if (mMeet.getInt(TMeet.playType) == PlayType.video) {
                     showView(mIvLive);
                 } else {
                     hideView(mIvLive);
                 }
-                if (startTime > currentTime) {
+                if (startTime > serverTime) {
                     mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
                     mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < currentTime && endTime > currentTime) {
+                } else if (startTime < serverTime && endTime > serverTime) {
                     mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));

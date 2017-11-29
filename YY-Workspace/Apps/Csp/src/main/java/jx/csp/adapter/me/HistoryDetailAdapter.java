@@ -30,7 +30,10 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail, HistoryDetail
         String timeStr = duration + "''";
         long seconds = Long.parseLong(duration);
 
-        holder.getIvHead().url(item.getString(THistoryDetail.coverUrl)).load();
+        holder.getIvHead()
+                .placeHolder(R.drawable.ic_default_unit_num_header)
+                .url(item.getString(THistoryDetail.coverUrl))
+                .load();
         holder.getTvTitle().setText(item.getString(THistoryDetail.title));
         holder.getTvPaper().setText(s);
         if (item.getInt(THistoryDetail.playType) == PlayType.reb) {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/v.form"
+        android:background="@color/white">
+
+        <lib.ys.network.image.NetworkImageView
+            style="@style/iv.login"/>
+
+        <EditText
+            android:id="@+id/form_et"
+            style="@style/et.common"
+            android:inputType="number"
+            android:singleLine="true"
+            android:maxLength="6"/>
+
+        <ImageView style="@style/iv.form.clean"
+            android:layout_marginRight="2dp"/>
+
+        <lib.ys.view.CaptchaView
+            android:id="@+id/form_tv_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/margin"
+            android:clickable="false"
+            android:gravity="center"
+            android:text="@string/get_captcha"
+            android:textColor="@color/text_af"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

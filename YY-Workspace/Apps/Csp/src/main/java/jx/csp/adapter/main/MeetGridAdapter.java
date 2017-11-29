@@ -75,14 +75,14 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
 
                 long startTime = item.getLong(TMeet.startTime);
                 long endTime = item.getLong(TMeet.endTime);
-                long currentTime = System.currentTimeMillis();
+                long serverTime = item.getLong(TMeet.serverTime);
 
-                if (startTime > currentTime) {
+                if (startTime > serverTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < currentTime && endTime > currentTime) {
+                } else if (startTime < serverTime && endTime > serverTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));

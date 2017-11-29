@@ -237,9 +237,10 @@ public class NetworkApi {
          * @param courseId
          * @param imgUrl
          * @param firstClk  是否是第一次点击开始按钮 0表示不是 1表示是
+         * @param pageNum  当前下标
          */
         @Get("live/start")
-        void start(String courseId, String videoUrl, String imgUrl, int firstClk);
+        void start(String courseId, String videoUrl, String imgUrl, int firstClk, int pageNum);
 
         /**
          * 同步指令

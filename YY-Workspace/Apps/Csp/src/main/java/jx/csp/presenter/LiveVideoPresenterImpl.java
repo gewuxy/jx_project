@@ -65,10 +65,10 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void startCountDown(long startTime, long stopTime) {
+    public void startCountDown(long startTime, long stopTime, long serverTime) {
         mStartTime = startTime;
         mStopTime = stopTime;
-        mCountDown.start((mStopTime - System.currentTimeMillis()) / TimeUnit.SECONDS.toMillis(1));
+        mCountDown.start((mStopTime - serverTime) / TimeUnit.SECONDS.toMillis(1));
     }
 
     @Override

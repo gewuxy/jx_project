@@ -41,6 +41,7 @@ public class Meet extends EVal<TMeet> {
          * {@link PlayState}
          */
         playState, // 录播状态
+        serverTime, // 服务器当前时间
     }
 
 }
