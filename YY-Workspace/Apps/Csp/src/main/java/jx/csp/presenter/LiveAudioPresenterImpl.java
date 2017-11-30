@@ -52,7 +52,8 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     private int mNum = 0;
     private String mFilePath;
     private int mWsPosition = -1;  // websocket接收到的页数
-    private long mTime; // 录制的时间 单位秒
+    private long mTime; // 每页ppt录制的时间 单位秒
+    private boolean mLastSyncOrderState = false;  // 上一页的同步指令是否已经发送
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -86,6 +87,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
                     // 直播的时候翻页，在页面停留时间小于3秒不发同步指令，超过3秒才发同步指令
                     // 如果当前页跟网页段发来的是同一页。则不发同步指令
                     int pos = msg.arg1;
+                    mLastSyncOrderState = true;
                     YSLog.d(TAG, "翻页后收到延时3秒指令 pos = " + pos);
                     if (mWsPosition != pos) {
                         YSLog.d(TAG, "跟网页端的页数不一样，发同步指令");
@@ -141,6 +143,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     @Override
     public void changePage(int pos) {
         // 先去除mHandler的对应消息，再延时发送消息
+        mLastSyncOrderState = false;
         mHandler.removeMessages(KSendSyncMsgWhat);
         Message msg = new Message();
         msg.what = KSendSyncMsgWhat;
@@ -164,7 +167,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     public void startLiveRecord(String filePath) {
         mHandler.removeMessages(KRecordMsgWhat);
         if (!filePath.contains("-")) {
-            YSLog.d(TAG, "不包含-");
+            YSLog.d(TAG, "不包含“-”, 录制时间没有超过15分钟");
             mOverFifteen = false;
             mNum = 0;
         }
@@ -206,7 +209,12 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
 
     @Override
     public void uploadVideoPage(String courseId, String courseDetailId) {
-        exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(courseId, courseDetailId).build());
+        if (mLastSyncOrderState) {
+            YSLog.d(TAG, "上页是视频 停留时间超过3秒 请求服务器发送直播指令");
+            exeNetworkReq(KUploadVideoPage, MeetingAPI.videoNext(courseId, courseDetailId).build());
+        } else {
+            YSLog.d(TAG, "上页是视频 停留时间没超过3秒 不请求服务器发送直播指令");
+        }
     }
 
     @Override

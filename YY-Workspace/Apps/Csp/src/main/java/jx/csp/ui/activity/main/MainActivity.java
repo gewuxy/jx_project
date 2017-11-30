@@ -85,6 +85,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         mIvAvatar = view.findViewById(R.id.main_iv_user);
         mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                 .url(Profile.inst().getString(TProfile.avatar))
+                .resize(fit(32), fit(32))
                 .load();
 
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));

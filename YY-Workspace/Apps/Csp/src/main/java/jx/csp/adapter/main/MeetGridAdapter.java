@@ -30,6 +30,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
         holder.getIvHead()
                 .placeHolder(R.drawable.ic_default_main_grid)
                 .url(item.getString(TMeet.coverUrl))
+                .resize(fit(160), fit(110))
                 .load();
 
         holder.getTvTitle().setText(item.getString(TMeet.title));

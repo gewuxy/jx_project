@@ -81,6 +81,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
         mIvCover.placeHolder(R.drawable.ic_default_main_vp)
                 .url(mMeet.getString(TMeet.coverUrl))
+                .resize(fit(300), fit(310))
                 .load();
 
         mTvTitle.setText(mMeet.getString(TMeet.title));

@@ -180,7 +180,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
     protected void pageSelected(int position) {
         // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音
         if (mLiveState) {
-            mLiveRecordPresenterImpl.changePage(position);
             // 如果上一页是的录音页面， 录音时间小于3秒 不发同步指令  在视频页面要发同步指令
             // 在直播的时候翻页,如果上一页是视频，则不掉stopLiveRecord()这个方法 要告诉服务器是翻的视频页
             Fragment f1 = getItem(mLastPage);
@@ -200,6 +199,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             } else {
                 mView.startRecordState();
             }
+            mLiveRecordPresenterImpl.changePage(position);
         }
         // 记录位置
         mLastPage = position;
