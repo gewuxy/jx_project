@@ -7,12 +7,12 @@ import java.util.List;
 import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
+import yy.doctor.adapter.meeting.PptBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.ppt.PPT;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
-import yy.doctor.ui.activity.meeting.play.presenter.MeetingPptLivePresenterImpl;
+import yy.doctor.ui.activity.meeting.play.contract.PptLiveContract;
+import yy.doctor.ui.activity.meeting.play.presenter.PptLivePresenterImpl;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
 
 /**
@@ -22,48 +22,39 @@ import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
  * @since : 2017/10/27
  */
 @Route
-public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContract.View, MeetingPptLiveContract.Presenter> {
-
-    private MeetingPptLiveContract.View mView;
-    private MeetingPptLiveContract.Presenter mPresenter;
+public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLiveContract.Presenter> {
 
     @Override
-    protected MeetingPptLiveContract.View createView() {
-        if (mView == null) {
-            mView = new MeetingPptLiveViewImpl();
-        }
-        return mView;
+    protected PptLiveContract.View createV() {
+        return new PptLiveViewImpl();
     }
 
     @Override
-    protected MeetingPptLiveContract.Presenter createPresenter(MeetingPptLiveContract.View view) {
-        if (mPresenter == null) {
-            mPresenter = new MeetingPptLivePresenterImpl(view);
-        }
-        return mPresenter;
+    protected PptLiveContract.Presenter createP(PptLiveContract.View view) {
+        return new PptLivePresenterImpl(view);
     }
 
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
-        mPresenter.playMedia(position);
+        getP().playMedia(position);
         if (position == getFragPpt().getCount() - 1) {
             getFragPpt().newVisibility(false);
         }
     }
 
-    @Override
-    protected boolean getNavBarLandscape() {
-        return true;
-    }
+    private class PptLiveViewImpl extends BasePptViewImpl implements PptLiveContract.View {
 
-    @Override
-    protected int getControlResId() {
-        return R.drawable.meet_play_live_select_control;
-    }
+        @Override
+        public boolean getNavBarLandscape() {
+            return true;
+        }
 
-    private class MeetingPptLiveViewImpl extends BasePptViewImpl implements MeetingPptLiveContract.View {
+        @Override
+        public int getControlResId() {
+            return R.drawable.live_select_control;
+        }
 
         @Override
         public void portraitInit(PPT ppt, List<Course> courses) {
@@ -113,7 +104,7 @@ public class MeetingPptLiveActivity extends BasePptActivity<MeetingPptLiveContra
                         }
                         setTextAll(count);
                         // DiscreteScrollView可能会没刷新到图片
-                        MeetingBreviaryAdapter adapter = (MeetingBreviaryAdapter) getRv().getAdapter();
+                        PptBreviaryAdapter adapter = (PptBreviaryAdapter) getRv().getAdapter();
                         adapter.notifyDataSetChanged();
                         adapter.invalidate(adapter.getCount() - 1);
                         removeOnGlobalLayoutListener(this);

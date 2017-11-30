@@ -141,7 +141,7 @@
     <string name="finish_exam">您已完成考试</string>
     <string name="meeting_detail">会议详情</string>
     <string name="meeting_intro">会议简介</string>
-    <string name="course_no">没有PPT文件</string>
+    <string name="course_no">访问资源不存在</string>
     <string name="cancel_collect">取消收藏成功</string>
     <string name="collect_no_start">收藏成功，关注并绑定YaYa医师微信公众号，在会议开始前15分钟可收到提醒。</string>
     <string name="collect_finish">收藏成功</string>

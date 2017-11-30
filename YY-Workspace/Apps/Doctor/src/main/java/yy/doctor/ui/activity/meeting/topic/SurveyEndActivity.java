@@ -8,7 +8,7 @@ import lib.network.model.NetworkReq;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import yy.doctor.R;
-import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.topic.Topic;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.BaseResultActivity;
 import yy.doctor.util.Util;

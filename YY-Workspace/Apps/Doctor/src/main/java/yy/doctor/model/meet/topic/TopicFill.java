@@ -1,8 +1,8 @@
-package yy.doctor.model.meet.exam;
+package yy.doctor.model.meet.topic;
 
 import lib.ys.model.EVal;
 import yy.doctor.model.constants.SubjectType;
-import yy.doctor.model.meet.exam.TopicFill.TTopicFill;
+import yy.doctor.model.meet.topic.TopicFill.TTopicFill;
 
 /**
  * 填空
@@ -10,8 +10,7 @@ import yy.doctor.model.meet.exam.TopicFill.TTopicFill;
  * @auther : GuoXuan
  * @since : 2017/11/16
  */
-
-public class TopicFill extends EVal<TTopicFill> implements ISubject {
+public class TopicFill extends EVal<TTopicFill> implements ITopic {
 
     @Override
     public int getType() {

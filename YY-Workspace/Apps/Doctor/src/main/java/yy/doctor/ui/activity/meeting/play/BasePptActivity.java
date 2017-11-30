@@ -19,7 +19,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.MeetingBreviaryAdapter;
+import yy.doctor.adapter.meeting.PptBreviaryAdapter;
 import yy.doctor.model.meet.ppt.Course;
 import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
@@ -39,16 +39,13 @@ import yy.doctor.view.discretescrollview.ScaleTransformer;
  * @auther : GuoXuan
  * @since : 2017/4/24
  */
-abstract public class BasePptActivity<V extends BasePptContract.View, P extends BasePptContract.Presenter> extends BaseMeetingPlayActivity
+abstract public class BasePptActivity<V extends BasePptContract.View, P extends BasePptContract.Presenter<V>> extends BasePlayActivity<V, P>
         implements ViewPager.OnPageChangeListener {
 
     private View mLayoutFrag;
     private PPTRebFrag mFragReb;
 
-    private DiscreteScrollView mRvP;
-
-    private P mPresenter;
-    private V mView;
+    private DiscreteScrollView mRv;
 
     private LayoutParams mParamP;
     private LayoutParams mParamL;
@@ -58,31 +55,22 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
     }
 
     public DiscreteScrollView getRv() {
-        return mRvP;
-    }
-
-    @CallSuper
-    @Override
-    public void initData(Bundle state) {
-        super.initData(state);
-
-        mView = createView();
-        mPresenter = createPresenter(mView);
+        return mRv;
     }
 
     @Override
     public final int getContentViewId() {
-        return R.layout.activity_meeting_ppt;
+        return R.layout.activity_ppt;
     }
 
     @Override
     public final void findViews() {
         super.findViews();
 
-        mFragReb = findFragment(R.id.meet_ppt_frag_rep);
-        mLayoutFrag = findView(R.id.meet_ppt_layout);
+        mFragReb = findFragment(R.id.ppt_frag_ppt);
+        mLayoutFrag = findView(R.id.ppt_layout_ppt);
 
-        mRvP = findView(R.id.meet_ppt_rv_p);
+        mRv = findView(R.id.ppt_rv);
     }
 
     @Override
@@ -90,7 +78,7 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         super.setViews();
 
         refresh(RefreshWay.embed);
-        mPresenter.exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
+        getP().exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
 
         mFragReb.addOnPageChangeListener(this);
     }
@@ -105,7 +93,7 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         NetworkImageView.clearMemoryCache(BasePptActivity.this);
 
         setTextCur(position + 1);
-        mRvP.smoothScrollToPosition(position);
+        mRv.smoothScrollToPosition(position);
     }
 
     @Override
@@ -114,56 +102,10 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
     }
 
     @Override
-    protected void portrait() {
-        mFragReb.landscapeVisibility(false);
-        showView(R.id.meet_ppt_layout_p);
-
-        if (mParamP == null) {
-            mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, (int) ResLoader.getDimension(R.dimen.meet_play_ppt));
-        }
-        mLayoutFrag.setLayoutParams(mParamP);
-        mView.finishCount();
-    }
-
-    @Override
-    protected void landscape() {
-        mFragReb.landscapeVisibility(true);
-        goneView(R.id.meet_ppt_layout_p);
-
-        if (mParamL == null) {
-            mParamL = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
-        }
-        mLayoutFrag.setLayoutParams(mParamL);
-        showLandscapeView();
-    }
-
-    @Override
-    protected void toggle() {
-        mPresenter.toggle(mFragReb.getCurrPosition());
-    }
-
-    @Override
-    protected void toLeft() {
-        mFragReb.offsetPosition(-1, getString(R.string.course_first));
-    }
-
-    @Override
-    protected void toRight() {
-        mFragReb.offsetPosition(1, getString(R.string.course_last));
-    }
-
-    @Override
-    protected void showLandscapeView() {
-        mPresenter.starCount();
-        showView(getNavBar());
-        mFragReb.landscapeVisibility(true);
-    }
-
-    @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            mPresenter.exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
+            getP().exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
         }
         return true;
     }
@@ -172,21 +114,63 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
     protected void onPause() {
         super.onPause();
 
-        mPresenter.stopMedia();
+        getP().stopMedia();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mPresenter.onDestroy();
+        getP().onDestroy();
     }
 
-    abstract protected V createView();
+    abstract protected class BasePptViewImpl extends BaseViewImpl implements BasePptContract.View {
 
-    abstract protected P createPresenter(V view);
+        @Override
+        public void portrait() {
+            mFragReb.landscapeVisibility(false);
+            BasePptActivity.this.showView(R.id.ppt_layout_p);
 
-    protected class BasePptViewImpl extends BaseViewImpl implements BasePptContract.View {
+            if (mParamP == null) {
+                mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, (int) ResLoader.getDimension(R.dimen.meet_play_ppt));
+            }
+            mLayoutFrag.setLayoutParams(mParamP);
+            getV().finishCount();
+        }
+
+        @Override
+        public void landscape() {
+            mFragReb.landscapeVisibility(true);
+            BasePptActivity.this.goneView(R.id.ppt_layout_p);
+
+            if (mParamL == null) {
+                mParamL = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
+            }
+            mLayoutFrag.setLayoutParams(mParamL);
+            showLandscapeView();
+        }
+
+        @Override
+        public void toggle() {
+            getP().toggle(mFragReb.getCurrPosition());
+        }
+
+        @Override
+        public void toLeft() {
+            mFragReb.offsetPosition(-1, getString(R.string.course_first));
+        }
+
+        @Override
+        public void toRight() {
+            mFragReb.offsetPosition(1, getString(R.string.course_last));
+        }
+
+        @Override
+        public void showLandscapeView() {
+            getP().starCount();
+            showView(getNavBar());
+            mFragReb.landscapeVisibility(true);
+        }
 
         @Override
         public void portraitInit(PPT ppt, List<Course> courses) {
@@ -199,24 +183,24 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
             CourseInfo courseInfo = ppt.get(TPPT.course);
             setTextTitle(courseInfo.getString(TCourseInfo.title));
 
-            MeetingBreviaryAdapter adapter = new MeetingBreviaryAdapter();
+            PptBreviaryAdapter adapter = new PptBreviaryAdapter();
             adapter.setData(courses);
             adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
 
                 @Override
                 public void onItemClick(View v, int position) {
                     if (position == mFragReb.getCurrPosition()) {
-                        mPresenter.playMedia(position);
+                        getP().playMedia(position);
                     } else {
                         mFragReb.setCurrPosition(position);
                     }
                 }
 
             });
-            mRvP.setAdapter(adapter);
-            mRvP.setSlideOnFling(true);
-            mRvP.setItemTransitionTimeMillis(150);
-            mRvP.setItemTransformer(new ScaleTransformer.Builder()
+            mRv.setAdapter(adapter);
+            mRv.setSlideOnFling(true);
+            mRv.setItemTransitionTimeMillis(150);
+            mRv.setItemTransformer(new ScaleTransformer.Builder()
                     .setMinScale(0.8f)
                     .build());
 
@@ -241,7 +225,7 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
 
         @Override
         public void invalidate(int position) {
-            RecyclerAdapterEx p = (RecyclerAdapterEx) mRvP.getAdapter();
+            RecyclerAdapterEx p = (RecyclerAdapterEx) mRv.getAdapter();
             p.invalidate(position);
         }
 

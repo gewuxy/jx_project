@@ -1,13 +1,12 @@
-package yy.doctor.model.meet.exam;
+package yy.doctor.model.meet.topic;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.exam.TopicResult.TTopicResult;
+import yy.doctor.model.meet.topic.TopicResult.TTopicResult;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/6/8
  */
-
 public class TopicResult extends EVal<TTopicResult> {
 
     public enum TTopicResult {

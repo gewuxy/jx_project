@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/meet_ppt_layout"
+        android:id="@+id/ppt_layout_ppt"
         android:layout_width="match_parent"
         android:layout_height="@dimen/meet_play_ppt"
         android:orientation="vertical">
 
         <fragment
-            android:id="@+id/meet_ppt_frag_rep"
+            android:id="@+id/ppt_frag_ppt"
             android:name="yy.doctor.ui.frag.meeting.PPTRebFrag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,7 +19,7 @@
     </LinearLayout>
     <!-- 竖屏布局 -->
     <RelativeLayout
-        android:id="@+id/meet_ppt_layout_p"
+        android:id="@+id/ppt_layout_p"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -33,7 +33,7 @@
             android:orientation="vertical">
 
             <yy.doctor.view.discretescrollview.DiscreteScrollView
-                android:id="@+id/meet_ppt_rv_p"
+                android:id="@+id/ppt_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
@@ -43,11 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/meet_ppt_rv_layout">
 
-            <include layout="@layout/layout_meet_play_mid_num"/>
+            <include layout="@layout/layout_play_mid_num"/>
 
         </LinearLayout>
 
-        <include layout="@layout/layout_meet_play_bottom_nav"/>
+        <include layout="@layout/layout_play_bottom_nav"/>
 
     </RelativeLayout>
 

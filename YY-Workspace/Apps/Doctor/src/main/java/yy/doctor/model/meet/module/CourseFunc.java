@@ -23,9 +23,9 @@ import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.model.meet.module.Module.ModuleType;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
-import yy.doctor.ui.activity.meeting.play.MeetingLiveActivityRouter;
-import yy.doctor.ui.activity.meeting.play.MeetingPptLiveActivityRouter;
-import yy.doctor.ui.activity.meeting.play.MeetingRebActivityRouter;
+import yy.doctor.ui.activity.meeting.play.LiveActivityRouter;
+import yy.doctor.ui.activity.meeting.play.PptLiveActivityRouter;
+import yy.doctor.ui.activity.meeting.play.RebActivityRouter;
 
 /**
  * 微课模块
@@ -94,22 +94,22 @@ public class CourseFunc extends BaseFunc {
                 long server = ppt.getLong(TPPT.serverTime);
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
-                        MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                        RebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                     }
                     break;
                     case BroadcastType.live_ppt: {
                         if (server > end) {
-                            MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                            RebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         } else {
-                            MeetingPptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                            PptLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         }
                     }
                     break;
                     case BroadcastType.live: {
                         if (server > end) {
-                            MeetingRebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                            RebActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         } else {
-                            MeetingLiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
+                            LiveActivityRouter.create(getMeetId(), getModuleId()).route(getContext());
                         }
                     }
                     break;

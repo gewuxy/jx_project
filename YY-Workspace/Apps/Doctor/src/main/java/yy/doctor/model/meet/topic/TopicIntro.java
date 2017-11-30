@@ -1,18 +1,18 @@
-package yy.doctor.model.meet.exam;
+package yy.doctor.model.meet.topic;
 
 import lib.ys.model.EVal;
-import yy.doctor.model.meet.exam.Intro.TIntro;
+import yy.doctor.model.meet.topic.TopicIntro.TTopicIntro;
 
 /**
- * 考试/问卷 全部信息
+ * 考试/问卷 介绍(总体信息,含会议信息)
+ * 含{@link TopicPaper}
  *
  * @author : GuoXuan
  * @since : 2017/5/5
  */
+public class TopicIntro extends EVal<TTopicIntro> {
 
-public class Intro extends EVal<TIntro> {
-
-    public enum TIntro {
+    public enum TTopicIntro {
         id,
         meetId, // 会议ID
         moduleId, // 模块ID
@@ -27,7 +27,7 @@ public class Intro extends EVal<TIntro> {
         resitTimes, // 可考次数
         passScore, // 及格分数
 
-        @Bind(Paper.class)
+        @Bind(TopicPaper.class)
         paper, // 试卷(问卷)信息
 
         /**

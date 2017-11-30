@@ -46,7 +46,7 @@ import yy.doctor.util.Util;
  * @since : 2017/5/2
  */
 @Route
-public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAdapter> {
+public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     private static final String KSender = "sender"; // 发送人名称
     private static final String KMessage = "message"; // 发送内容
@@ -69,7 +69,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_meeting_comment;
+        return R.layout.activity_comment;
     }
 
     @Override
@@ -86,8 +86,8 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     public void findViews() {
         super.findViews();
 
-        mTvSend = findView(R.id.meeting_comment_tv_send);
-        mEtSend = findView(R.id.meeting_comment_et_send);
+        mTvSend = findView(R.id.comment_tv_send);
+        mEtSend = findView(R.id.comment_et_send);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meeting_comment_tv_send:
+            case R.id.comment_tv_send:
                 String message = mEtSend.getText().toString().trim();
                 if (TextUtil.isEmpty(message)) {
                     // 过滤空信息
@@ -205,6 +205,13 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
         return comment;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        MeetWebSocketListener.close(mWebSocket);
+    }
+
     public class CommentListener extends WebSocketListener {
 
         @Override
@@ -258,13 +265,6 @@ public class MeetingCommentActivity extends BaseListActivity<Comment, CommentAda
             }, TimeUnit.SECONDS.toMillis(2));
 
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        MeetWebSocketListener.close(mWebSocket);
     }
 
 }

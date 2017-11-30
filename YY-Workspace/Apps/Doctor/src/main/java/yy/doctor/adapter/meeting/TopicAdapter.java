@@ -5,17 +5,17 @@ import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
 import yy.doctor.R;
-import yy.doctor.adapter.VH.meeting.SubjectVH;
+import yy.doctor.adapter.VH.meeting.TopicVH;
 import yy.doctor.model.constants.SubjectType;
-import yy.doctor.model.meet.exam.ISubject;
-import yy.doctor.model.meet.exam.TopicButton;
-import yy.doctor.model.meet.exam.TopicButton.TTopicButton;
-import yy.doctor.model.meet.exam.TopicChoice;
-import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
-import yy.doctor.model.meet.exam.TopicFill;
-import yy.doctor.model.meet.exam.TopicFill.TTopicFill;
-import yy.doctor.model.meet.exam.TopicTitle;
-import yy.doctor.model.meet.exam.TopicTitle.TTopicTitle;
+import yy.doctor.model.meet.topic.ITopic;
+import yy.doctor.model.meet.topic.TopicButton;
+import yy.doctor.model.meet.topic.TopicButton.TTopicButton;
+import yy.doctor.model.meet.topic.TopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice.TTopicChoice;
+import yy.doctor.model.meet.topic.TopicFill;
+import yy.doctor.model.meet.topic.TopicFill.TTopicFill;
+import yy.doctor.model.meet.topic.TopicTitle;
+import yy.doctor.model.meet.topic.TopicTitle.TTopicTitle;
 
 /**
  * 回答内容Adapter
@@ -24,10 +24,10 @@ import yy.doctor.model.meet.exam.TopicTitle.TTopicTitle;
  * @since : 2017/4/28
  */
 
-public class SubjectAdapter extends MultiAdapterEx<ISubject, SubjectVH> {
+public class TopicAdapter extends MultiAdapterEx<ITopic, TopicVH> {
 
     @Override
-    protected void refreshView(int position, SubjectVH holder, int itemType) {
+    protected void refreshView(int position, TopicVH holder, int itemType) {
         switch (itemType) {
             case SubjectType.title: {
                 TopicTitle item = (TopicTitle) getItem(position);

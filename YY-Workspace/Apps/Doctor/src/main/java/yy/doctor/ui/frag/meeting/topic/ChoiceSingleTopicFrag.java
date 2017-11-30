@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
-import yy.doctor.model.meet.exam.TopicChoice;
-import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice.TTopicChoice;
 
 /**
  * 单选题

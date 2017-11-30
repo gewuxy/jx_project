@@ -119,17 +119,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.meeting.play.MeetingRebActivity"
+            android:name=".ui.activity.meeting.play.RebActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
-            android:name=".ui.activity.meeting.play.MeetingPptLiveActivity"
+            android:name=".ui.activity.meeting.play.PptLiveActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
         <activity
-            android:name=".ui.activity.meeting.play.MeetingLiveActivity"
+            android:name=".ui.activity.meeting.play.LiveActivity"
             android:configChanges="keyboard|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
@@ -137,7 +137,7 @@
             android:name=".ui.activity.search.SearchActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.meeting.play.MeetingCommentActivity"
+            android:name=".ui.activity.meeting.play.CommentActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.meeting.topic.ExamIntroActivity"

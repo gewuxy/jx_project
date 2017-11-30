@@ -23,8 +23,8 @@ import yy.doctor.model.meet.ppt.CourseInfo;
 import yy.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import yy.doctor.model.meet.ppt.PPT;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
-import yy.doctor.ui.activity.meeting.play.presenter.MeetingLivePresenterImpl;
+import yy.doctor.ui.activity.meeting.play.contract.LiveContract;
+import yy.doctor.ui.activity.meeting.play.presenter.LivePresenterImpl;
 import yy.doctor.ui.frag.meeting.PPTLiveFrag;
 import yy.doctor.ui.frag.meeting.PPTRebFrag;
 import yy.doctor.ui.frag.meeting.course.BaseCourseFrag;
@@ -38,7 +38,7 @@ import yy.doctor.util.NetPlayer;
  * @since : 2017/9/25
  */
 @Route
-public class MeetingLiveActivity extends BaseMeetingPlayActivity {
+public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContract.Presenter> {
 
     @IntDef({
             PlayType.ppt,
@@ -66,20 +66,20 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     private PPTLiveFrag mFragLive;
     private PPTRebFrag mFragPpt;
 
-    private MeetingLiveContract.Presenter mPresenter;
-    private MeetingLiveContract.View mView;
-
     @PlayType
     private int mPlayType; // 播放ppt还是播放直播
 
     private boolean mPlay; // 是否在播放声音
 
+    @NonNull
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_live;
+    }
+
     @Override
     public void initData(Bundle state) {
         super.initData(state);
-
-        mView = new MeetingLiveViewImpl();
-        mPresenter = new MeetingLivePresenterImpl(mView);
 
         mPlay = false;
     }
@@ -88,10 +88,10 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     public void findViews() {
         super.findViews();
 
-        mViewLive = findView(R.id.meet_live_layout_live);
-        mFragLive = findFragment(R.id.meet_live_frag_live);
-        mViewPpt = findView(R.id.meet_live_layout_ppt);
-        mFragPpt = findFragment(R.id.meet_live_frag_ppt);
+        mViewLive = findView(R.id.live_layout_live);
+        mFragLive = findFragment(R.id.live_frag_live);
+        mViewPpt = findView(R.id.live_layout_ppt);
+        mFragPpt = findFragment(R.id.live_frag_ppt);
 
     }
 
@@ -106,7 +106,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mViewLive.setOnTouchListener(mLandscapeSwitch);
         mViewPpt.setOnTouchListener(mLandscapeSwitch);
         mLandscapeSwitch.setListener(v -> {
-            if (v.getId() == R.id.meet_live_layout_ppt) {
+            if (v.getId() == R.id.live_layout_ppt) {
                 mFragPpt.setDispatch(true);
                 mFragPpt.refreshCurrentItem();
             } else {
@@ -122,7 +122,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         mLocationLive = LandscapeSwitch.getLocation(mViewLive);
 
         refresh(RefreshWay.embed);
-        mPresenter.getDataFromNet(mMeetId, mModuleId);
+        getP().getDataFromNet(mMeetId, mModuleId);
 
         mFragPpt.setFragClickListener(() -> playPpt());
 
@@ -160,10 +160,20 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     }
 
     @Override
+    protected LiveContract.View createV() {
+        return new LiveViewImpl();
+    }
+
+    @Override
+    protected LiveContract.Presenter createP(LiveContract.View view) {
+        return new LivePresenterImpl(view);
+    }
+
+    @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            mPresenter.getDataFromNet(mMeetId, mModuleId);
+            getP().getDataFromNet(mMeetId, mModuleId);
         }
         return true;
     }
@@ -189,7 +199,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
     @Override
     protected void onClick(int id) {
         switch (id) {
-            case R.id.meet_live_layout_live: {
+            case R.id.live_layout_live: {
                 mFragPpt.landscapeVisibility(false);
                 mFragPpt.setToLastPosition();
                 if (mPlayType == PlayType.live || !mPlay) {
@@ -203,104 +213,12 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
                 mFragLive.startAudio();
             }
             break;
-            case R.id.meet_live_layout_ppt: {
+            case R.id.live_layout_ppt: {
                 if (orientationLandscape()) {
                     mFragPpt.landscapeVisibility(true);
                 }
             }
             break;
-        }
-    }
-
-    @Override
-    protected void toLeft() {
-        mFragPpt.offsetPosition(-1, getString(R.string.course_first));
-    }
-
-    @Override
-    protected void toRight() {
-        mFragPpt.offsetPosition(1, getString(R.string.course_last));
-    }
-
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_meeting_live;
-    }
-
-    @Override
-    protected boolean getNavBarLandscape() {
-        return true;
-    }
-
-    @Override
-    protected void portrait() {
-        mViewPpt.setLayoutParams(mParamPpt);
-        mViewLive.setLayoutParams(mParamLive);
-
-        mViewPpt.setX(mLocationPpt[0]);
-        mViewPpt.setY(mLocationPpt[1]);
-        mViewLive.setX(mLocationLive[0]);
-        mViewLive.setY(mLocationLive[1]);
-        mFragPpt.setDispatch(false);
-
-        mLandscapeSwitch.setDispatch(false);
-        showView(R.id.meet_live_layout_p);
-    }
-
-    @Override
-    protected void landscape() {
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                mLandscapeSwitch.initLandscape();
-                removeOnGlobalLayoutListener(this);
-            }
-
-        });
-        // 默认要放直播
-        mLandscapeSwitch.setViewB(mViewLive);
-        mFragPpt.setDispatch(true);
-        mViewLive.performClick();
-
-        mFragPpt.refreshCurrentItem();
-
-        mLandscapeSwitch.setDispatch(true);
-        goneView(R.id.meet_live_layout_p);
-        showLandscapeView();
-        mFragPpt.mediaVisibility(false);
-    }
-
-    @Override
-    protected void toggle() {
-        if (mPlay) {
-            // 播放中(全部停掉)
-            mFragPpt.closeVolume();
-            mFragLive.closeAudio();
-        } else {
-            // 没有播放中
-            if (mPlayType == PlayType.live) {
-                mFragLive.startAudio();
-            } else {
-                mFragPpt.startVolume();
-            }
-        }
-        mPlay = !mPlay;
-        setPlayState(mPlay);
-    }
-
-    @Override
-    protected int getControlResId() {
-        return R.drawable.meet_play_live_select_control;
-    }
-
-    @Override
-    protected void showLandscapeView() {
-        mPresenter.starCount();
-        showView(getNavBar());
-        if (mPlayType == PlayType.ppt) {
-            mFragPpt.landscapeVisibility(true);
         }
     }
 
@@ -317,17 +235,103 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
         super.onPause();
 
         mFragLive.stopPullStream();
-        mPresenter.mediaStop();
+        getP().mediaStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-        mPresenter.onDestroy();
+        getP().onDestroy();
     }
 
-    private class MeetingLiveViewImpl extends BaseViewImpl implements MeetingLiveContract.View {
+    private class LiveViewImpl extends BaseViewImpl implements LiveContract.View {
+
+        @Override
+        public void toLeft() {
+            mFragPpt.offsetPosition(-1, getString(R.string.course_first));
+        }
+
+        @Override
+        public void toRight() {
+            mFragPpt.offsetPosition(1, getString(R.string.course_last));
+        }
+
+        @Override
+        public boolean getNavBarLandscape() {
+            return true;
+        }
+
+        @Override
+        public void portrait() {
+            mViewPpt.setLayoutParams(mParamPpt);
+            mViewLive.setLayoutParams(mParamLive);
+
+            mViewPpt.setX(mLocationPpt[0]);
+            mViewPpt.setY(mLocationPpt[1]);
+            mViewLive.setX(mLocationLive[0]);
+            mViewLive.setY(mLocationLive[1]);
+            mFragPpt.setDispatch(false);
+
+            mLandscapeSwitch.setDispatch(false);
+            LiveActivity.this.showView(R.id.live_layout_p);
+        }
+
+        @Override
+        public void landscape() {
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    mLandscapeSwitch.initLandscape();
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
+            // 默认要放直播
+            mLandscapeSwitch.setViewB(mViewLive);
+            mFragPpt.setDispatch(true);
+            mViewLive.performClick();
+
+            mFragPpt.refreshCurrentItem();
+
+            mLandscapeSwitch.setDispatch(true);
+            LiveActivity.this.goneView(R.id.live_layout_p);
+            showLandscapeView();
+            mFragPpt.mediaVisibility(false);
+        }
+
+        @Override
+        public void toggle() {
+            if (mPlay) {
+                // 播放中(全部停掉)
+                mFragPpt.closeVolume();
+                mFragLive.closeAudio();
+            } else {
+                // 没有播放中
+                if (mPlayType == PlayType.live) {
+                    mFragLive.startAudio();
+                } else {
+                    mFragPpt.startVolume();
+                }
+            }
+            mPlay = !mPlay;
+            setPlayState(mPlay);
+        }
+
+        @Override
+        public int getControlResId() {
+            return R.drawable.live_select_control;
+        }
+
+        @Override
+        public void showLandscapeView() {
+            getP().starCount();
+            showView(getNavBar());
+            if (mPlayType == PlayType.ppt) {
+                mFragPpt.landscapeVisibility(true);
+            }
+        }
 
         @Override
         public void initView(PPT ppt) {
@@ -429,7 +433,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void finishCount() {
-            MeetingLiveActivity.this.goneView(getNavBar());
+            LiveActivity.this.goneView(getNavBar());
             mFragPpt.landscapeVisibility(false);
         }
 
@@ -440,7 +444,7 @@ public class MeetingLiveActivity extends BaseMeetingPlayActivity {
 
         @Override
         public void setTextOnline(int onlineNum) {
-            MeetingLiveActivity.this.setTextOnline(onlineNum);
+            LiveActivity.this.setTextOnline(onlineNum);
         }
 
         @Override

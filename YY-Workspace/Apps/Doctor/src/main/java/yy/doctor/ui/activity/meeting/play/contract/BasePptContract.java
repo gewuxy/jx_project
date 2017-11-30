@@ -15,7 +15,7 @@ import yy.doctor.model.meet.ppt.PPT;
  */
 public interface BasePptContract {
 
-    interface View extends IContract.View,ICommonOpt {
+    interface View extends BasePlayContract.View, ICommonOpt {
         /**
          * 初始化竖屏
          */

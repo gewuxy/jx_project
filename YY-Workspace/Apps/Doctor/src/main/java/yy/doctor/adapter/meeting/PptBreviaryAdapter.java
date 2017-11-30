@@ -18,7 +18,7 @@ import yy.doctor.model.meet.ppt.Course.TCourse;
  * @auther : GuoXuan
  * @since : 2017/9/29
  */
-public class MeetingBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> {
+public class PptBreviaryAdapter extends RecyclerAdapterEx<Course, CourseVH> {
 
     private final int KW = 129;
     private final int KH = 96;

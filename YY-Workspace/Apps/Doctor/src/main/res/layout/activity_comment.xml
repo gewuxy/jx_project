@@ -32,7 +32,7 @@
         android:padding="@dimen/margin">
 
         <EditText
-            android:id="@+id/meeting_comment_et_send"
+            android:id="@+id/comment_et_send"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/meeting_comment_tv_send"
+            android:id="@+id/comment_tv_send"
             android:layout_width="54dp"
             android:layout_height="30dp"
             android:layout_marginLeft="6dp"

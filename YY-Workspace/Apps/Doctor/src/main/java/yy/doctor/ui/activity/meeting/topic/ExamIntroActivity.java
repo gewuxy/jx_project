@@ -24,11 +24,11 @@ import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
-import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Intro.TIntro;
-import yy.doctor.model.meet.exam.Paper;
-import yy.doctor.model.meet.exam.Paper.TPaper;
-import yy.doctor.model.meet.exam.Topic;
+import yy.doctor.model.meet.topic.Topic;
+import yy.doctor.model.meet.topic.TopicIntro;
+import yy.doctor.model.meet.topic.TopicIntro.TTopicIntro;
+import yy.doctor.model.meet.topic.TopicPaper;
+import yy.doctor.model.meet.topic.TopicPaper.TTopicPaper;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.ExamCount;
@@ -41,8 +41,6 @@ import yy.doctor.util.ExamCount;
  */
 @Route
 public class ExamIntroActivity extends BaseActivity {
-
-    private Intro mIntro; // 考试信息
 
     @Arg(opt = true)
     String mHost;
@@ -61,6 +59,8 @@ public class ExamIntroActivity extends BaseActivity {
     private TextView mTvCount; // 总题数
     private TextView mTvTime; // 考试时间
     private TextView mTvScore; // 过往成绩
+
+    private TopicIntro mTopicIntro; // 考试信息
 
     private boolean mCanStart; // 是否能开始考试
 
@@ -119,22 +119,22 @@ public class ExamIntroActivity extends BaseActivity {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.ev(resp.getText(), Intro.class);
+        return JsonParser.ev(resp.getText(), TopicIntro.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            mIntro = (Intro) r.getData();
+            mTopicIntro = (TopicIntro) r.getData();
 
             // 获取起始结束时间
-            mStartTime = mIntro.getLong(TIntro.startTime);
-            mEndTime = mIntro.getLong(TIntro.endTime);
-            long curTime = mIntro.getLong(TIntro.serverTime); // 服务器当前时间
+            mStartTime = mTopicIntro.getLong(TTopicIntro.startTime);
+            mEndTime = mTopicIntro.getLong(TTopicIntro.endTime);
+            long curTime = mTopicIntro.getLong(TTopicIntro.serverTime); // 服务器当前时间
 
-            if (mIntro.getBoolean(TIntro.finished)) {
-                mTvScore.setText(String.format("过往成绩 : %d 分", mIntro.getInt(TIntro.score, 0)));
+            if (mTopicIntro.getBoolean(TTopicIntro.finished)) {
+                mTvScore.setText(String.format("过往成绩 : %d 分", mTopicIntro.getInt(TTopicIntro.score, 0)));
             } else {
                 hideView(mTvScore);
             }
@@ -147,10 +147,10 @@ public class ExamIntroActivity extends BaseActivity {
 
             mCanStart = mStartTime <= curTime && difEnd > 0; // (mCurTime < mEndTime) 当前能不能考试
 
-            Paper paper = mIntro.get(TIntro.paper);
-            mTvTitle.setText(paper.getString(TPaper.name));
+            TopicPaper topicPaper = mTopicIntro.get(TTopicIntro.paper);
+            mTvTitle.setText(topicPaper.getString(TTopicPaper.name));
             mTvHost.setText(getString(R.string.exam_host) + mHost);
-            List<Topic> topics = paper.getList(TPaper.questions);
+            List<Topic> topics = topicPaper.getList(TTopicPaper.questions);
             if (topics != null && topics.size() > 0) {
                 mTvCount.setText(String.format("%d道题目", topics.size()));
             }
@@ -186,16 +186,16 @@ public class ExamIntroActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.exam_intro_tv_start: {
                 // 点击开始考试
-                if (mIntro.getInt(TIntro.score, 0) >= mIntro.getInt(TIntro.passScore)) {
+                if (mTopicIntro.getInt(TTopicIntro.score, 0) >= mTopicIntro.getInt(TTopicIntro.passScore)) {
                     // 及格不让再考
                     showToast(R.string.finish_exam);
                     return;
                 }
                 if (mCanStart) {
                     // 考试进行中
-                    if (mIntro.getInt(TIntro.resitTimes) > mIntro.getInt(TIntro.finishTimes)) {
+                    if (mTopicIntro.getInt(TTopicIntro.resitTimes) > mTopicIntro.getInt(TTopicIntro.finishTimes)) {
                         // 还有考试次数
-                        ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mIntro);
+                        ExamTopicActivity.nav(ExamIntroActivity.this, mMeetId, mModuleId, mTopicIntro);
                         finish();
                     } else {
                         showToast(R.string.finish_exam);

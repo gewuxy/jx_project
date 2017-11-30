@@ -2,8 +2,8 @@ package yy.doctor.ui.frag.meeting.topic;
 
 import inject.annotation.router.Route;
 import io.reactivex.Flowable;
-import yy.doctor.model.meet.exam.TopicChoice;
-import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice.TTopicChoice;
 
 /**
  * 多选题

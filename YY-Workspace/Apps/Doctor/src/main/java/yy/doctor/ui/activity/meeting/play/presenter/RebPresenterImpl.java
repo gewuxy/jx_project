@@ -1,17 +1,16 @@
 package yy.doctor.ui.activity.meeting.play.presenter;
 
-import yy.doctor.ui.activity.meeting.play.contract.MeetingRebContact;
+import yy.doctor.ui.activity.meeting.play.contract.RebContact;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/11/17
  */
-
-public class MeetingRebPresenterImpl extends BasePptPresenterImpl<MeetingRebContact.View> implements MeetingRebContact.Presenter {
+public class RebPresenterImpl extends BasePptPresenterImpl<RebContact.View> implements RebContact.Presenter {
 
     private boolean auto;
 
-    public MeetingRebPresenterImpl(MeetingRebContact.View view) {
+    public RebPresenterImpl(RebContact.View view) {
         super(view);
 
         auto = true;
@@ -21,7 +20,7 @@ public class MeetingRebPresenterImpl extends BasePptPresenterImpl<MeetingRebCont
     public void start(int index) {
         auto = true;
 
-        // fixme : 重新开启音频？
+        // 重新开启音频(开启ppt)
         playMedia(index);
         getView().onPlayState(auto);
     }

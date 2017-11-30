@@ -25,7 +25,7 @@ import yy.doctor.network.JsonParser;
  * @auther : GuoXuan
  * @since : 2017/6/10
  */
-public abstract class BaseResultActivity extends BaseActivity implements OnCountDownListener {
+abstract public class BaseResultActivity extends BaseActivity implements OnCountDownListener {
 
     private static final int KReturnTime = 3; // 关闭倒计时
 

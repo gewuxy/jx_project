@@ -22,7 +22,7 @@ import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetFactory;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.ui.activity.meeting.play.MeetWebSocketListener;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingLiveContract;
+import yy.doctor.ui.activity.meeting.play.contract.LiveContract;
 import yy.doctor.util.NetPlayer;
 import yy.doctor.util.Time;
 
@@ -31,7 +31,9 @@ import yy.doctor.util.Time;
  * @since : 2017/10/16
  */
 
-public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContract.View> implements MeetingLiveContract.Presenter, NetPlayer.OnPlayerListener {
+public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> implements
+        LiveContract.Presenter,
+        NetPlayer.OnPlayerListener {
 
     private PPT mPpt;
     private WebSocket mWebSocket;
@@ -40,7 +42,7 @@ public class MeetingLivePresenterImpl extends BasePresenterImpl<MeetingLiveContr
     private Handler mHandler;
     private List<Course> mCourses;
 
-    public MeetingLivePresenterImpl(MeetingLiveContract.View view) {
+    public LivePresenterImpl(LiveContract.View view) {
         super(view);
         NetPlayer.inst().setListener(this);
         mHandler = new Handler() {

@@ -1,13 +1,11 @@
 package yy.doctor.ui.activity.meeting.play.contract;
 
-import lib.yy.contract.IContract;
-
 /**
  * @auther : GuoXuan
  * @since : 2017/11/17
  */
 
-public interface MeetingRebContact {
+public interface RebContact {
 
     interface View extends BasePptContract.View {
 

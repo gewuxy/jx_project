@@ -9,21 +9,20 @@ import yy.doctor.model.meet.ppt.Course.TCourse;
 import yy.doctor.model.meet.ppt.PPT.TPPT;
 import yy.doctor.network.NetFactory;
 import yy.doctor.ui.activity.meeting.play.MeetWebSocketListener;
-import yy.doctor.ui.activity.meeting.play.contract.MeetingPptLiveContract;
+import yy.doctor.ui.activity.meeting.play.contract.PptLiveContract;
 import yy.doctor.util.NetPlayer;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/9/26
  */
-
-public class MeetingPptLivePresenterImpl extends BasePptPresenterImpl<MeetingPptLiveContract.View> implements MeetingPptLiveContract.Presenter {
+public class PptLivePresenterImpl extends BasePptPresenterImpl<PptLiveContract.View> implements PptLiveContract.Presenter {
 
     private WebSocket mWebSocket;
 
     private boolean mPlay; // 播放声音
 
-    public MeetingPptLivePresenterImpl(MeetingPptLiveContract.View view) {
+    public PptLivePresenterImpl(PptLiveContract.View view) {
         super(view);
 
         mPlay = true;

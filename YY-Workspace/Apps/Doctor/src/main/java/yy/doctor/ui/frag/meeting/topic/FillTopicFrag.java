@@ -7,9 +7,9 @@ import android.widget.EditText;
 
 import inject.annotation.router.Route;
 import lib.ys.util.KeyboardUtil;
-import yy.doctor.adapter.VH.meeting.SubjectVH;
-import yy.doctor.model.meet.exam.ISubject;
-import yy.doctor.model.meet.exam.TopicFill;
+import yy.doctor.adapter.VH.meeting.TopicVH;
+import yy.doctor.model.meet.topic.ITopic;
+import yy.doctor.model.meet.topic.TopicFill;
 
 /**
  * 填空题
@@ -54,9 +54,9 @@ public class FillTopicFrag extends BaseTopicFrag implements TextWatcher {
 
     private void setEditTextListener() {
         for (int i = 0; i < getData().size(); i++) {
-            ISubject subject = getItem(i);
+            ITopic subject = getItem(i);
             if (subject instanceof TopicFill) {
-                SubjectVH holder = getAdapter().getCacheVH(i);
+                TopicVH holder = getAdapter().getCacheVH(i);
                 if (holder != null) {
                     mEtFill = holder.getEtFill();
                     mEtFill.addTextChangedListener(this);

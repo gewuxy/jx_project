@@ -5,8 +5,8 @@ import android.widget.TextView;
 import lib.ys.adapter.AdapterEx;
 import yy.doctor.R;
 import yy.doctor.adapter.VH.meeting.TopicCaseVH;
-import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TTopic;
+import yy.doctor.model.meet.topic.Topic;
+import yy.doctor.model.meet.topic.Topic.TTopic;
 
 /**
  * 考试/问卷 题目情况Adapter

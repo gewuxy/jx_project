@@ -14,9 +14,9 @@ import yy.doctor.R;
  * @since : 2017/11/16
  */
 
-public class SubjectVH extends ViewHolderEx {
+public class TopicVH extends ViewHolderEx {
 
-    public SubjectVH(@NonNull View convertView) {
+    public TopicVH(@NonNull View convertView) {
         super(convertView);
     }
 

@@ -10,9 +10,9 @@ import yy.doctor.ui.frag.meeting.PPTRebFrag;
  * @auther : GuoXuan
  * @since : 2017/10/16
  */
-public interface MeetingLiveContract {
+public interface LiveContract {
 
-    interface View extends IContract.View, ICommonOpt {
+    interface View extends BasePlayContract.View, ICommonOpt {
 
         void initView(PPT ppt);
 

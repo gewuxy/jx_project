@@ -15,9 +15,9 @@ import yy.doctor.Constants.DateUnit;
 import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.dialog.HintDialogSec;
-import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Intro.TIntro;
-import yy.doctor.model.meet.exam.Paper.TPaper;
+import yy.doctor.model.meet.topic.TopicIntro;
+import yy.doctor.model.meet.topic.TopicIntro.TTopicIntro;
+import yy.doctor.model.meet.topic.TopicPaper.TTopicPaper;
 import yy.doctor.popup.TopicPopup;
 import yy.doctor.sp.SpApp;
 import yy.doctor.util.ExamCount;
@@ -43,11 +43,11 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
 
     private boolean mShouldHint; // 是否可以提示剩余时间
 
-    public static void nav(Context context, String meetId, String moduleId, Intro intro) {
+    public static void nav(Context context, String meetId, String moduleId, TopicIntro topicIntro) {
         Intent i = new Intent(context, ExamTopicActivity.class)
                 .putExtra(Extra.KMeetId, meetId)
                 .putExtra(Extra.KModuleId, moduleId)
-                .putExtra(Extra.KData, intro);
+                .putExtra(Extra.KData, topicIntro);
         LaunchUtil.startActivity(context, i);
     }
 
@@ -56,9 +56,9 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         super.initData(state);
 
         mShouldHint = true;
-        mIntro = (Intro) getIntent().getSerializableExtra(Extra.KData);
+        mTopicIntro = (TopicIntro) getIntent().getSerializableExtra(Extra.KData);
         long surplusTime = ExamCount.inst().getRemainTime();
-        mUseTime = mIntro.getLong(TIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
+        mUseTime = mTopicIntro.getLong(TTopicIntro.usetime) * TimeUnit.MINUTES.toSeconds(1);
         mUseTime = mUseTime > surplusTime ? surplusTime : mUseTime;
 
         ExamCount.inst().setOnCountListener(this);
@@ -86,10 +86,10 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                mTopicPopup = new TopicPopup(ExamTopicActivity.this);
-                mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
-                SpApp.inst().noFirstExam();
-                removeOnGlobalLayoutListener(this);
+                    mTopicPopup = new TopicPopup(ExamTopicActivity.this);
+                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                    SpApp.inst().noFirstExam();
+                    removeOnGlobalLayoutListener(this);
                 }
             });
         }
@@ -105,9 +105,9 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         ExamEndActivityRouter.create()
                 .meetId(mMeetId)
                 .moduleId(mModuleId)
-                .paperId(mPaper.getString(TPaper.id))
-                .pass(mIntro.getInt(TIntro.passScore))
-                .count(mIntro.getInt(TIntro.resitTimes) - mIntro.getInt(TIntro.finishTimes) - 1)
+                .paperId(mTopicPaper.getString(TTopicPaper.id))
+                .pass(mTopicIntro.getInt(TTopicIntro.passScore))
+                .count(mTopicIntro.getInt(TTopicIntro.resitTimes) - mTopicIntro.getInt(TTopicIntro.finishTimes) - 1)
                 .topics(mTopics)
                 .route(ExamTopicActivity.this);
         finish();

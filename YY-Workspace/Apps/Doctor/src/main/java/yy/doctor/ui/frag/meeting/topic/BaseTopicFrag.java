@@ -8,15 +8,15 @@ import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.ui.other.NavBar;
 import lib.yy.ui.frag.base.BaseListFrag;
 import yy.doctor.R;
-import yy.doctor.adapter.meeting.SubjectAdapter;
+import yy.doctor.adapter.meeting.TopicAdapter;
 import yy.doctor.model.constants.SubjectType;
-import yy.doctor.model.meet.exam.ISubject;
+import yy.doctor.model.meet.topic.ITopic;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/9/12
  */
-abstract public class BaseTopicFrag extends BaseListFrag<ISubject, SubjectAdapter> implements MultiAdapterEx.OnAdapterClickListener {
+abstract public class BaseTopicFrag extends BaseListFrag<ITopic, TopicAdapter> implements MultiAdapterEx.OnAdapterClickListener {
 
     @Arg
     int mSort; // 题号

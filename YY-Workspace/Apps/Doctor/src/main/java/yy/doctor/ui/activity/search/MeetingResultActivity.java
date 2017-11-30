@@ -76,9 +76,9 @@ public class MeetingResultActivity extends BaseSearchResultActivity {
 
         // 单独管理空界面
         if (isEmpty()) {
-            goneView(mLayoutEmpty);
-        } else {
             showView(mLayoutEmpty);
+        } else {
+            goneView(mLayoutEmpty);
         }
     }
 

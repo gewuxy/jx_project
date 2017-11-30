@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
@@ -24,6 +23,7 @@ import lib.yy.contract.IContract;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
 import yy.doctor.R;
+import yy.doctor.ui.activity.meeting.play.contract.BasePlayContract;
 import yy.doctor.util.Util;
 
 /**
@@ -31,7 +31,7 @@ import yy.doctor.util.Util;
  * @since : 2017/9/25
  */
 
-abstract public class BaseMeetingPlayActivity extends BaseActivity {
+abstract public class BasePlayActivity<V extends BasePlayContract.View, P extends IContract.Presenter<V>> extends BaseActivity {
 
     @Arg
     String mMeetId; // 会议ID
@@ -48,25 +48,44 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     private TextView mTvAll;
     private TextView mTvCur;
 
-    @CallSuper
-    @Override
-    public void initData(Bundle state) {
-        notify(NotifyType.study_start);
+    private V mV;
+    private P mP;
+
+    protected V getV() {
+        if (mV == null) {
+            mV = createV();
+        }
+        return mV;
+    }
+
+    protected P getP() {
+        if (mP == null) {
+            mP = createP(getV());
+        }
+        return mP;
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.layout_meet_play_bottom_nav;
+        return R.layout.layout_play_bottom_nav;
+    }
+
+    @CallSuper
+    @Override
+    public void initData(Bundle state) {
+        notify(NotifyType.study_start);
+
+        mV = getV();
+        mP = getP();
     }
 
     @Override
     public final void initNavBar(NavBar bar) {
         bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> nativePortrait());
 
-        if (getNavBarLandscape()) {
-            ViewGroup view = bar.addViewRight(R.drawable.meet_play_audio_selector, v -> mIvControlP.performClick());
-
+        if (mV.getNavBarLandscape()) {
+            ViewGroup view = bar.addViewRight(R.drawable.play_audio_selector, v -> mIvControlP.performClick());
             mIvControlL = Util.getBarView(view, ImageView.class);
         }
 
@@ -78,27 +97,27 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     @CallSuper
     @Override
     public void findViews() {
-        mTvComment = findView(R.id.meet_play_nav_tv_comment);
-        mTvOnlineNum = findView(R.id.meet_play_nav_tv_online_num);
-        mIvControlP = findView(R.id.meet_play_nav_iv_control);
+        mTvComment = findView(R.id.play_nav_tv_comment);
+        mTvOnlineNum = findView(R.id.play_nav_tv_online_num);
+        mIvControlP = findView(R.id.play_nav_iv_control);
 
-        mTvCur = findView(R.id.meet_play_tv_current);
-        mTvAll = findView(R.id.meet_play_tv_all);
+        mTvCur = findView(R.id.play_tv_current);
+        mTvAll = findView(R.id.play_tv_all);
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        setOnClickListener(R.id.meet_play_nav_iv_back);
-        setOnClickListener(R.id.meet_play_nav_iv_comment);
-        setOnClickListener(R.id.meet_play_nav_iv_control);
-        setOnClickListener(R.id.meet_play_nav_tv_online_num);
-        setOnClickListener(R.id.meet_play_nav_iv_landscape);
+        setOnClickListener(R.id.play_nav_iv_back);
+        setOnClickListener(R.id.play_nav_iv_comment);
+        setOnClickListener(R.id.play_nav_iv_control);
+        setOnClickListener(R.id.play_nav_tv_online_num);
+        setOnClickListener(R.id.play_nav_iv_landscape);
 
-        setOnClickListener(R.id.meet_play_iv_left);
-        setOnClickListener(R.id.meet_play_iv_right);
+        setOnClickListener(R.id.play_iv_left);
+        setOnClickListener(R.id.play_iv_right);
 
-        mIvControlP.setImageResource(getControlResId());
+        mIvControlP.setImageResource(mV.getControlResId());
     }
 
     @Override
@@ -109,31 +128,31 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     @Override
     public final void onClick(View v) {
         switch (v.getId()) {
-            case R.id.meet_play_nav_iv_back: {
+            case R.id.play_nav_iv_back: {
                 finish();
             }
             break;
-            case R.id.meet_play_nav_iv_comment: {
-                MeetingCommentActivityRouter.create(mMeetId).route(this);
+            case R.id.play_nav_iv_comment: {
+                CommentActivityRouter.create(mMeetId).route(this);
             }
             break;
-            case R.id.meet_play_nav_iv_control: {
-                toggle();
+            case R.id.play_nav_iv_control: {
+                mV.toggle();
             }
             break;
-            case R.id.meet_play_nav_iv_landscape: {
+            case R.id.play_nav_iv_landscape: {
                 // 切换横屏
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                 showView(getNavBar());
-                landscape();
+                mV.landscape();
             }
             break;
-            case R.id.meet_play_iv_left: {
-                toLeft();
+            case R.id.play_iv_left: {
+                mV.toLeft();
             }
             break;
-            case R.id.meet_play_iv_right: {
-                toRight();
+            case R.id.play_iv_right: {
+                mV.toRight();
             }
             break;
             default: {
@@ -141,12 +160,6 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
             }
             break;
         }
-    }
-
-    private void nativePortrait() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        goneView(getNavBar());
-        portrait();
     }
 
     @Override
@@ -161,7 +174,7 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (orientationLandscape()) {
-            showLandscapeView();
+            mV.showLandscapeView();
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -174,15 +187,19 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         super.onDestroy();
     }
 
+    private void nativePortrait() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        goneView(getNavBar());
+        mV.portrait();
+    }
+
+    /**
+     * 点击事件
+     *
+     * @param id View的id{@link View#getId()}
+     */
     protected void onClick(int id) {
-    }
-
-    protected void goneView(@IdRes int resId) {
-        goneView(findView(resId));
-    }
-
-    protected void showView(@IdRes int resId) {
-        showView(findView(resId));
+        // do nothing
     }
 
     protected void setPlayState(boolean state) {
@@ -191,6 +208,21 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
             // 录播横屏没有按钮
             mIvControlL.setSelected(state);
         }
+    }
+
+    /**
+     * 屏幕方向是否为横屏
+     */
+    protected boolean orientationLandscape() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+    }
+
+    protected void goneView(@IdRes int resId) {
+        goneView(findView(resId));
+    }
+
+    protected void showView(@IdRes int resId) {
+        showView(findView(resId));
     }
 
     protected void setTextComment(int num) {
@@ -214,107 +246,65 @@ abstract public class BaseMeetingPlayActivity extends BaseActivity {
         goneView(getNavBar());
     }
 
-    /**
-     * 屏幕方向是否为横屏
-     */
-    protected boolean orientationLandscape() {
-        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
-    }
+    @NonNull
+    abstract protected V createV();
 
-    /**
-     * 上一页
-     */
-    abstract protected void toLeft();
-
-    /**
-     * 下一页
-     */
-    abstract protected void toRight();
-
-    /**
-     * 竖屏
-     */
-    abstract protected void portrait();
-
-    /**
-     * 横屏
-     */
-    abstract protected void landscape();
-
-    /**
-     * 点击控制按钮
-     */
-    abstract protected void toggle();
-
-    /**
-     * 控制按钮的选择器
-     */
-    @DrawableRes
-    abstract protected int getControlResId();
-
-    /**
-     * 横屏时操作
-     */
-    protected abstract void showLandscapeView();
-
-    /**
-     * 横屏右上角按钮
-     */
-    abstract protected boolean getNavBarLandscape();
+    @NonNull
+    abstract protected P createP(V view);
 
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)
      */
     protected class BaseViewImpl implements IContract.View, ICommonOpt {
 
-        @Deprecated
         @Override
         public void showView(View v) {
+            BasePlayActivity.this.showView(v);
         }
 
-        @Deprecated
         @Override
         public void hideView(View v) {
+            BasePlayActivity.this.hideView(v);
         }
 
-        @Deprecated
         @Override
         public void goneView(View v) {
+            BasePlayActivity.this.goneView(v);
         }
 
         @Override
         public void startActivity(Class<?> clz) {
-            BaseMeetingPlayActivity.this.startActivity(clz);
+            BasePlayActivity.this.startActivity(clz);
         }
 
         @Override
         public void startActivity(Intent intent) {
-            BaseMeetingPlayActivity.this.startActivity(intent);
+            BasePlayActivity.this.startActivity(intent);
         }
 
         @Override
         public void startActivityForResult(Class<?> clz, int requestCode) {
-            BaseMeetingPlayActivity.this.startActivityForResult(clz, requestCode);
+            BasePlayActivity.this.startActivityForResult(clz, requestCode);
         }
 
         @Override
         public void showToast(String content) {
-            BaseMeetingPlayActivity.this.showToast(content);
+            BasePlayActivity.this.showToast(content);
         }
 
         @Override
         public void showToast(int... resId) {
-            BaseMeetingPlayActivity.this.showToast(resId);
+            BasePlayActivity.this.showToast(resId);
         }
 
         @Override
         public void onStopRefresh() {
-            BaseMeetingPlayActivity.this.stopRefresh();
+            BasePlayActivity.this.stopRefresh();
         }
 
         @Override
         public void setViewState(@ViewState int state) {
-            BaseMeetingPlayActivity.this.setViewState(state);
+            BasePlayActivity.this.setViewState(state);
         }
     }
 

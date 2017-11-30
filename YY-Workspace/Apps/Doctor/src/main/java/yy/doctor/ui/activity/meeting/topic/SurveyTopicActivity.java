@@ -16,8 +16,8 @@ import lib.ys.util.LaunchUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import yy.doctor.Extra;
 import yy.doctor.R;
-import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Paper.TPaper;
+import yy.doctor.model.meet.topic.TopicIntro;
+import yy.doctor.model.meet.topic.TopicPaper.TTopicPaper;
 import yy.doctor.network.JsonParser;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.popup.TopicPopup;
@@ -71,16 +71,16 @@ public class SurveyTopicActivity extends BaseTopicActivity {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.ev(resp.getText(), Intro.class);
+        return JsonParser.ev(resp.getText(), TopicIntro.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             setViewState(ViewState.normal);
-            mIntro = (Intro) r.getData();
+            mTopicIntro = (TopicIntro) r.getData();
 
-            if (mIntro != null) {
+            if (mTopicIntro != null) {
                 initFrag();
                 invalidate();
             }
@@ -121,7 +121,7 @@ public class SurveyTopicActivity extends BaseTopicActivity {
             return;
         }
         SurveyEndActivityRouter.create(mMeetId, mModuleId)
-                .paperId(mPaper.getString(TPaper.id))
+                .paperId(mTopicPaper.getString(TTopicPaper.id))
                 .topics(mTopics)
                 .route(this);
         finish();

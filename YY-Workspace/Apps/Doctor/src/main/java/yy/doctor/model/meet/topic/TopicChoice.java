@@ -1,8 +1,8 @@
-package yy.doctor.model.meet.exam;
+package yy.doctor.model.meet.topic;
 
 import lib.ys.model.EVal;
 import yy.doctor.model.constants.SubjectType;
-import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
+import yy.doctor.model.meet.topic.TopicChoice.TTopicChoice;
 
 /**
  * 考试/问卷 考题的选项
@@ -10,7 +10,7 @@ import yy.doctor.model.meet.exam.TopicChoice.TTopicChoice;
  * @author : GuoXuan
  * @since : 2017/5/8
  */
-public class TopicChoice extends EVal<TTopicChoice> implements ISubject {
+public class TopicChoice extends EVal<TTopicChoice> implements ITopic {
 
     @Override
     public int getType() {

@@ -25,20 +25,21 @@ import yy.doctor.Extra;
 import yy.doctor.R;
 import yy.doctor.adapter.meeting.TopicCaseAdapter;
 import yy.doctor.dialog.HintDialogMain;
-import yy.doctor.model.meet.exam.ISubject;
-import yy.doctor.model.meet.exam.Intro;
-import yy.doctor.model.meet.exam.Intro.TIntro;
-import yy.doctor.model.meet.exam.Paper;
-import yy.doctor.model.meet.exam.Paper.TPaper;
-import yy.doctor.model.meet.exam.Topic;
-import yy.doctor.model.meet.exam.Topic.TTopic;
-import yy.doctor.model.meet.exam.Topic.TopicType;
-import yy.doctor.model.meet.exam.TopicButton;
-import yy.doctor.model.meet.exam.TopicButton.TTopicButton;
-import yy.doctor.model.meet.exam.TopicFill;
-import yy.doctor.model.meet.exam.TopicTitle;
-import yy.doctor.model.meet.exam.TopicTitle.TTopicTitle;
+import yy.doctor.model.meet.topic.ITopic;
+import yy.doctor.model.meet.topic.Topic;
+import yy.doctor.model.meet.topic.Topic.TTopic;
+import yy.doctor.model.meet.topic.Topic.TopicType;
+import yy.doctor.model.meet.topic.TopicButton;
+import yy.doctor.model.meet.topic.TopicButton.TTopicButton;
+import yy.doctor.model.meet.topic.TopicFill;
+import yy.doctor.model.meet.topic.TopicIntro;
+import yy.doctor.model.meet.topic.TopicIntro.TTopicIntro;
+import yy.doctor.model.meet.topic.TopicPaper;
+import yy.doctor.model.meet.topic.TopicPaper.TTopicPaper;
+import yy.doctor.model.meet.topic.TopicTitle;
+import yy.doctor.model.meet.topic.TopicTitle.TTopicTitle;
 import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag;
+import yy.doctor.ui.frag.meeting.topic.BaseTopicFrag.OnTopicListener;
 import yy.doctor.ui.frag.meeting.topic.ChoiceMultipleTopicFragRouter;
 import yy.doctor.ui.frag.meeting.topic.ChoiceSingleTopicFragRouter;
 import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
@@ -49,7 +50,10 @@ import yy.doctor.ui.frag.meeting.topic.FillTopicFragRouter;
  * @author : GuoXuan
  * @since : 2017/4/28
  */
-public abstract class BaseTopicActivity extends BaseVpActivity implements OnPageChangeListener, OnItemClickListener, BaseTopicFrag.OnTopicListener {
+abstract public class BaseTopicActivity extends BaseVpActivity implements
+        OnPageChangeListener,
+        OnItemClickListener,
+        OnTopicListener {
 
     private final int KVpSize = 3;
     private final int KDuration = 300; // 动画时长
@@ -71,8 +75,8 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnPage
     protected int mCount; // 完成数量
     protected String mMeetId;
     protected String mModuleId;
-    protected Intro mIntro;
-    protected Paper mPaper; // 整套考题
+    protected TopicIntro mTopicIntro;
+    protected TopicPaper mTopicPaper; // 整套考题
     protected ArrayList<Topic> mTopics; // 所有的考题
     protected TextView mTvCase; // 总数(底部)
     protected TextView mTvAllCase; // 总数(查看考题)
@@ -289,11 +293,11 @@ public abstract class BaseTopicActivity extends BaseVpActivity implements OnPage
      * 加载TopicFrag
      */
     protected void initFrag() {
-        mPaper = mIntro.get(TIntro.paper);
-        mTopics = mPaper.getList(TPaper.questions);
+        mTopicPaper = mTopicIntro.get(TTopicIntro.paper);
+        mTopics = mTopicPaper.getList(TTopicPaper.questions);
 
         Topic topic;
-        List<ISubject> l;
+        List<ITopic> l;
         TopicTitle title;
         int size = mTopics.size();
         for (int i = 0; i < size; i++) {

@@ -19,6 +19,9 @@ import yy.doctor.model.meet.Meeting;
 import yy.doctor.network.NetworkApiDescriptor.MeetAPI;
 import yy.doctor.util.Util;
 
+/**
+ * 会议文件夹
+ */
 @Route
 public class MeetingFolderActivity extends BaseSRListActivity<Meeting, MeetingAdapter> {
 

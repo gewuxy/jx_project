@@ -7,7 +7,7 @@ import yy.doctor.model.meet.ppt.Course;
  * @since : 2017/10/30
  */
 
-public interface MeetingPptLiveContract {
+public interface PptLiveContract {
 
     interface View extends BasePptContract.View {
 
