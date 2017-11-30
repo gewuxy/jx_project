@@ -155,10 +155,9 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.share_delete_meet: {
                 if (r.isSucceed()) {
-                    YSLog.d(TAG, "发送删除通知");
-                    Notifier.inst().notify(NotifyType.delete_meeting, mCourseId);
+                    Notifier.inst().notify(NotifyType.delete_meeting_success, mCourseId);
                 } else {
-                    onNetworkError(id, r.getError());
+                    Notifier.inst().notify(NotifyType.delete_meeting_fail, r.getError().getMessage());
                 }
             }
             break;

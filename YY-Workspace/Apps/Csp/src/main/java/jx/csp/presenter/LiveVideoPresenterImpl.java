@@ -49,7 +49,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void initLiveRoom(String roomId, TextureView textureView) {
+    public void initLive(String roomId, TextureView textureView) {
         LiveApi.getInst()
                 .setTest(false)  // 测试
                 .toggleAVConfig()

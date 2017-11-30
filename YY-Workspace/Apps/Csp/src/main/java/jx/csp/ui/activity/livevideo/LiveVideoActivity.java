@@ -342,7 +342,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     }
 
     private void havePermissionState() {
-        mP.initLiveRoom(mCourseId, mTextureView);
+        mP.initLive(mCourseId, mTextureView);
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);

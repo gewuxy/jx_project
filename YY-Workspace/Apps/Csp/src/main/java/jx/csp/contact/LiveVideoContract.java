@@ -31,7 +31,7 @@ public interface LiveVideoContract {
 
     interface P extends IContract.Presenter<V> {
 
-        void initLiveRoom(String roomId, TextureView textureView);
+        void initLive(String roomId, TextureView textureView);
 
         void startCountDown(long startTime, long stopTime, long serverTime);
 

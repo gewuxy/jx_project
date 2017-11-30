@@ -55,7 +55,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.bind_fackbook,
             NotifyType.bind_sina,
             NotifyType.bind_twitter,
-            NotifyType.delete_meeting,
+            NotifyType.delete_meeting_success,
+            NotifyType.delete_meeting_fail,
             NotifyType.copy_duplicate,
 
             NotifyType.login_video,
@@ -194,14 +195,19 @@ public class Notifier extends NotifierEx<OnNotify> {
         int collection_cancel_thomson = 33;
 
         /**
-         * 首页九宫格页面分享中的删除会议
+         * 删除会议成功
          */
-        int delete_meeting = 34;
+        int delete_meeting_success = 34;
+
+        /**
+         * 删除会议失败
+         */
+        int delete_meeting_fail = 35;
 
         /**
          * 首页九宫格页面分享中的复制副本
          */
-        int copy_duplicate = 35;
+        int copy_duplicate = 36;
 
         int login_video = 50;
     }

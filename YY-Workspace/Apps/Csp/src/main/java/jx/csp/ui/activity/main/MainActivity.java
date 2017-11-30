@@ -198,49 +198,64 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        if (type == NotifyType.logout) {
-            finish();
-        } else if (type == NotifyType.token_out_of_date) {
-            Intent intent;
-            //清除栈里的activity2
-            if (Util.checkAppCn()) {
-                intent = new Intent(this, AuthLoginActivity.class);
-            } else {
-                intent = new Intent(this, AuthLoginOverseaActivity.class);
+        switch (type) {
+            case NotifyType.logout: {
+                finish();
             }
-            startActivity(intent);
-            finish();
-        } else if (type == NotifyType.delete_meeting) {
-            String str = (String) data;
-            YSLog.d(TAG, str + "删除接收通知");
-            for (Meet meet : mGridFrag.getData()) {
-                if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
-                    mGridFrag.getData().remove(meet);
-                    mGridFrag.invalidate();
-                    break;
+            break;
+            case NotifyType.token_out_of_date: {
+                Intent intent;
+                //清除栈里的activity2
+                if (Util.checkAppCn()) {
+                    intent = new Intent(this, AuthLoginActivity.class);
+                } else {
+                    intent = new Intent(this, AuthLoginOverseaActivity.class);
                 }
+                startActivity(intent);
+                finish();
             }
-            showToast(R.string.delete_success);
-        } else if (type == NotifyType.copy_duplicate) {
-            Copy copy = (Copy) data;
-            for (Meet meet : mGridFrag.getData()) {
-                if (copy.getInt(TCopy.oldId) == meet.getInt(TMeet.id)) {
-                    Meet m = (Meet) meet.clone();
-                    m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
-                    m.put(TMeet.id, copy.getInt(TCopy.id));
-                    m.put(TMeet.title, copy.getString(TCopy.title));
-                    // 复制的会议默认放到最前面 页面跳到最前面位置
-                    mGridFrag.addItem(0, m);
-                    mGridFrag.setPosition(0);
-                    mGridFrag.invalidate();
-                    break;
+            break;
+            case NotifyType.delete_meeting_success: {
+                String str = (String) data;
+                YSLog.d(TAG, str + "删除接收通知");
+                for (Meet meet : mGridFrag.getData()) {
+                    if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
+                        mGridFrag.getData().remove(meet);
+                        mGridFrag.invalidate();
+                        break;
+                    }
                 }
+                showToast(R.string.delete_success);
             }
-            showToast(R.string.copy_duplicate_success);
-        } else if (type == NotifyType.profile_change) {
-            mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
-                    .url(Profile.inst().getString(TProfile.avatar))
-                    .load();
+            break;
+            case NotifyType.delete_meeting_fail: {
+                showToast((String) data);
+            }
+            break;
+            case NotifyType.copy_duplicate: {
+                Copy copy = (Copy) data;
+                for (Meet meet : mGridFrag.getData()) {
+                    if (copy.getInt(TCopy.oldId) == meet.getInt(TMeet.id)) {
+                        Meet m = (Meet) meet.clone();
+                        m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
+                        m.put(TMeet.id, copy.getInt(TCopy.id));
+                        m.put(TMeet.title, copy.getString(TCopy.title));
+                        // 复制的会议默认放到最前面 页面跳到最前面位置
+                        mGridFrag.addItem(0, m);
+                        mGridFrag.setPosition(0);
+                        mGridFrag.invalidate();
+                        break;
+                    }
+                }
+                showToast(R.string.copy_duplicate_success);
+            }
+            break;
+            case NotifyType.profile_change: {
+                mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
+                        .url(Profile.inst().getString(TProfile.avatar))
+                        .load();
+            }
+            break;
         }
     }
 
