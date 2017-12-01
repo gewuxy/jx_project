@@ -14,7 +14,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.Profile;

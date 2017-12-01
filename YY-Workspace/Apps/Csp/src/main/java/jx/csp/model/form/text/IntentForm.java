@@ -8,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.Extra;
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 
 /**
  * @author HuoXuYu

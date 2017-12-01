@@ -21,8 +21,8 @@ import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * @auther Huoxuyu

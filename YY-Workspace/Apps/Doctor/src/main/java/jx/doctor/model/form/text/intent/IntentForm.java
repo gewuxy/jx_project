@@ -7,7 +7,7 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 import jx.doctor.Extra;
 import jx.doctor.model.form.text.TextForm;
 import jx.doctor.model.hospital.HospitalLevel;

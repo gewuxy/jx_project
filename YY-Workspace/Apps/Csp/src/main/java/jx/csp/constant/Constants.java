@@ -1,6 +1,6 @@
 package jx.csp.constant;
 
-import lib.yy.BaseConstants;
+import lib.jx.BaseConstants;
 
 /**
  * @author CaiXiang

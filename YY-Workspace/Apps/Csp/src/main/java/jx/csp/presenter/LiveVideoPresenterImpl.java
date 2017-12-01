@@ -13,9 +13,9 @@ import jx.csp.util.Util;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * @author CaiXiang

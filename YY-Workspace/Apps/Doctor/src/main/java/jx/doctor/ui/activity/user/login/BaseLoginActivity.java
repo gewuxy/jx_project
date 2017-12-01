@@ -20,7 +20,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.model.Profile;
 import jx.doctor.network.JsonParser;

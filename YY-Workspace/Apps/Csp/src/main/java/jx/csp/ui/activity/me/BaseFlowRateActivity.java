@@ -22,7 +22,7 @@ import jx.csp.util.Util;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import pay.PayAction;
 
 /**

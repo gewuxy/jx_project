@@ -17,7 +17,7 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 import jx.doctor.R;
 
 /**

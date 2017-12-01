@@ -41,11 +41,11 @@ import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
-import lib.yy.notify.LiveNotifier;
-import lib.yy.notify.LiveNotifier.LiveNotifyType;
-import lib.yy.notify.LiveNotifier.OnLiveNotify;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVpActivity;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
 
 /**
  * 录音页面

@@ -9,7 +9,7 @@ import lib.network.model.NetworkReq;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.R;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 import jx.doctor.util.Util;

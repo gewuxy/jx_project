@@ -7,9 +7,9 @@ import inject.annotation.router.Route;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
-import lib.yy.notify.DownloadNotifier;
-import lib.yy.notify.DownloadNotifier.DownloadNotifyType;
-import lib.yy.notify.DownloadNotifier.OnDownloadNotify;
+import lib.jx.notify.DownloadNotifier;
+import lib.jx.notify.DownloadNotifier.DownloadNotifyType;
+import lib.jx.notify.DownloadNotifier.OnDownloadNotify;
 import jx.doctor.network.NetworkApiDescriptor.DataAPI;
 
 /**

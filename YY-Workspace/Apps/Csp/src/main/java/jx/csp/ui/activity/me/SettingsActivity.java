@@ -18,7 +18,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 设置

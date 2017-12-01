@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.util.Util;
 

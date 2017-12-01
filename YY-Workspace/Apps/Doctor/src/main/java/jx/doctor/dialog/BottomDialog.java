@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import lib.ys.adapter.AdapterEx;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 import jx.doctor.R;
 import jx.doctor.adapter.BottomAdapter;
 import jx.doctor.adapter.VH.BottomVH;

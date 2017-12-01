@@ -5,7 +5,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import lib.ys.ConstantsEx;
 import lib.ys.view.CaptchaView;
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 
 /**
  * @auther WangLan

@@ -13,7 +13,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.bmp.BmpUtil;
 import lib.ys.view.photoViewer.NetworkPhotoView;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.model.Profile;
 import jx.doctor.model.Profile.TProfile;

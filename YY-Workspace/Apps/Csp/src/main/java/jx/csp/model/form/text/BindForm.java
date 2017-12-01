@@ -1,7 +1,7 @@
 package jx.csp.model.form.text;
 
 import jx.csp.R;
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 
 /**
  * @author HuoXuYu

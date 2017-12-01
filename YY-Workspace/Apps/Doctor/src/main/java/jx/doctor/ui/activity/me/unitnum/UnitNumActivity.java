@@ -8,7 +8,7 @@ import org.json.JSONException;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.R;
 import jx.doctor.adapter.me.UnitNumAdapter;
 import jx.doctor.model.unitnum.GroupUnitNum;

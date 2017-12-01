@@ -5,7 +5,7 @@ import android.os.Bundle;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseWebViewActivity;
+import lib.jx.ui.activity.base.BaseWebViewActivity;
 import jx.doctor.R;
 import jx.doctor.dialog.ShareDialog;
 import jx.doctor.util.Util;

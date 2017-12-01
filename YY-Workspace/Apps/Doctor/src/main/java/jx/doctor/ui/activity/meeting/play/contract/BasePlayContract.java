@@ -2,7 +2,7 @@ package jx.doctor.ui.activity.meeting.play.contract;
 
 import android.support.annotation.DrawableRes;
 
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther : GuoXuan

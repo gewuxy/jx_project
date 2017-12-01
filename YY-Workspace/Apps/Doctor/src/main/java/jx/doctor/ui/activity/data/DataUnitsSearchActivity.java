@@ -10,7 +10,7 @@ import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseSRListActivity;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 import jx.doctor.R;
 import jx.doctor.adapter.data.DataUnitAdapter;
 import jx.doctor.model.data.DataUnit;

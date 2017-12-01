@@ -12,7 +12,7 @@ import lib.ys.YSLog;
 import lib.ys.action.IntentAction;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.ui.activity.data.PDFActivityRouter;
 import jx.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;

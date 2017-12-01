@@ -7,7 +7,7 @@ import java.util.List;
 
 import inject.annotation.router.Route;
 import lib.network.model.interfaces.IResult;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 import jx.doctor.model.meet.Meeting;
 import jx.doctor.model.search.IRec;
 import jx.doctor.model.search.Margin;

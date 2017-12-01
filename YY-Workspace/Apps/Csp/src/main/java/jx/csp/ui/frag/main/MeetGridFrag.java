@@ -17,7 +17,7 @@ import jx.csp.presenter.MeetPresenterImpl;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseSRRecyclerFrag;
+import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
 
 /**
  * 首页九宫格的frag

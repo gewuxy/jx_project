@@ -15,8 +15,8 @@ import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.presenter.BindPhonePresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.util.TextUtil;
-import lib.yy.model.form.BaseForm;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.model.form.BaseForm;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 绑定手机号

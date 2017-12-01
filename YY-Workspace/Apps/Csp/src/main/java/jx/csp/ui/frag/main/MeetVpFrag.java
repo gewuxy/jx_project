@@ -18,7 +18,7 @@ import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseVPFrag;
+import lib.jx.ui.frag.base.BaseVPFrag;
 
 /**
  * 首页左右滑动的列表的frag

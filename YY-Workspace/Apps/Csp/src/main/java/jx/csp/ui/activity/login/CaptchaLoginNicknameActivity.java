@@ -22,7 +22,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 手机登录之后没有昵称的跳出的输入昵称

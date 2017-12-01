@@ -24,7 +24,7 @@ import inject.annotation.router.Route;
 import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.frag.base.BaseVPFrag;
+import lib.jx.ui.frag.base.BaseVPFrag;
 import jx.doctor.R;
 import jx.doctor.model.meet.Submit;
 import jx.doctor.model.meet.Submit.TSubmit;

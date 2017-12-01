@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.jx.ui.frag.base.BaseFrag;
 import jx.doctor.model.meet.Submit;
 import jx.doctor.model.meet.Submit.TSubmit;
 import jx.doctor.model.meet.ppt.Course;

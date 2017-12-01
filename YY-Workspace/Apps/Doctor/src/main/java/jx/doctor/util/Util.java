@@ -24,7 +24,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.util.BaseUtil;
+import lib.jx.util.BaseUtil;
 import jx.doctor.App;
 import jx.doctor.Extra.FileFrom;
 import jx.doctor.R;

@@ -5,8 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.widget.TextView;
 
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import jx.doctor.R;
 
 /**

@@ -13,7 +13,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.meet.topic.TopicIntro;

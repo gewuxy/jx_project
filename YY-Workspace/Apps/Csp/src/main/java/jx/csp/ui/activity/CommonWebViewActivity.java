@@ -9,7 +9,7 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.UISetter;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseWebViewActivity;
+import lib.jx.ui.activity.base.BaseWebViewActivity;
 
 /**
  * WebView页面

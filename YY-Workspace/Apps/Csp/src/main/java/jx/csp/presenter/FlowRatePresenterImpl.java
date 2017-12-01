@@ -15,7 +15,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.PayAPI;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 import pay.OnPayListener;
 import pay.PayAction;
 import pay.PayAction.PayType;

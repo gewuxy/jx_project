@@ -15,7 +15,7 @@ import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.model.data.DataUnitDetails;
 import jx.doctor.model.data.DataUnitDetails.TDataUnitDetails;

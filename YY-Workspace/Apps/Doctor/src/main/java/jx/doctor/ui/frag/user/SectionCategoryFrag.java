@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseListFrag;
+import lib.jx.ui.frag.base.BaseListFrag;
 import jx.doctor.adapter.user.SectionCategoryAdapter;
 import jx.doctor.model.me.Section;
 import jx.doctor.model.me.Section.TSection;

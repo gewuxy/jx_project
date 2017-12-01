@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.widget.EditText;
 
 import io.reactivex.annotations.NonNull;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

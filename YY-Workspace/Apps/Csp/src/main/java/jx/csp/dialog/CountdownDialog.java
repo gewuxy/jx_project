@@ -9,11 +9,11 @@ import android.widget.TextView;
 import jx.csp.R;
 import lib.ys.YSLog;
 import lib.ys.view.ProgressView;
-import lib.yy.dialog.BaseDialog;
-import lib.yy.notify.LiveNotifier;
-import lib.yy.notify.LiveNotifier.LiveNotifyType;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.dialog.BaseDialog;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * @auther yuansui

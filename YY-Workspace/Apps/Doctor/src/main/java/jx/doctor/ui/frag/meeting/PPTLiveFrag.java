@@ -13,7 +13,7 @@ import inject.annotation.router.Route;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.jx.ui.frag.base.BaseFrag;
 import lib.live.ILiveCallback;
 import lib.live.ILiveCallback.UserType;
 import lib.live.LiveApi;

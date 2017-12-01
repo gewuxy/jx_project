@@ -12,7 +12,7 @@ import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 
 /**
  * 第三方登录

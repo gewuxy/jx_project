@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 import jx.doctor.R;
 import jx.doctor.ui.activity.user.ForgetPwdEmailActivity;
 import jx.doctor.ui.activity.user.ForgetPwdPhoneActivity;

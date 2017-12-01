@@ -28,7 +28,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.yy.BaseApp;
+import lib.jx.BaseApp;
 
 /**
  * @auther yuansui

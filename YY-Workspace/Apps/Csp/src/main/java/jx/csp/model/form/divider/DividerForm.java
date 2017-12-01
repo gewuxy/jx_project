@@ -1,8 +1,8 @@
 package jx.csp.model.form.divider;
 
 import jx.csp.R;
-import lib.yy.adapter.VH.FormVH;
-import lib.yy.model.form.BaseForm;
+import lib.jx.adapter.VH.FormVH;
+import lib.jx.model.form.BaseForm;
 
 /**
  * @author CaiXiang

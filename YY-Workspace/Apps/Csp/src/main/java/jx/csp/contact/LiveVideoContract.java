@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.view.TextureView;
 
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @author CaiXiang

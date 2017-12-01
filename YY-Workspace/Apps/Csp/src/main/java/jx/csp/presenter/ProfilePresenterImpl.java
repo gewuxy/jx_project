@@ -4,7 +4,7 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.ProfileContract;
 import lib.ys.util.permission.PermissionResult;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

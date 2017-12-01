@@ -8,7 +8,7 @@ import io.reactivex.annotations.NonNull;
 import jx.csp.contact.NickNameContract;
 import jx.csp.contact.NickNameContract.V;
 import jx.csp.util.Util;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * fixme : 暂时设置2个监听，合并setText会循环，导致报错（不知道怎么改）

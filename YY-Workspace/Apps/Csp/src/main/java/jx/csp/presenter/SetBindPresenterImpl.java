@@ -10,7 +10,7 @@ import jx.csp.ui.activity.me.bind.ReceiveEmailTipsActivity;
 import jx.csp.util.Util;
 import lib.network.model.interfaces.IResult;
 import lib.ys.util.LaunchUtil;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

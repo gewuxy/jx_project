@@ -9,7 +9,7 @@ import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.KeyboardUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.util.Util;
 

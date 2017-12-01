@@ -7,7 +7,7 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.ui.activity.me.bind.BaseAccountActivity.RelatedId;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform.Type;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

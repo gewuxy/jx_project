@@ -11,7 +11,7 @@ import java.util.List;
 
 import lib.ys.fitter.Fitter;
 import lib.ys.network.image.NetworkImageView;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 import jx.doctor.R;
 import jx.doctor.model.config.GlConfig;
 import jx.doctor.model.hospital.HospitalLevel;

@@ -21,7 +21,7 @@ import lib.ys.YSLog;
 import lib.ys.util.FileUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

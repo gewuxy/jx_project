@@ -38,11 +38,11 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.notify.LiveNotifier;
-import lib.yy.notify.LiveNotifier.LiveNotifyType;
-import lib.yy.notify.LiveNotifier.OnLiveNotify;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVpActivity;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
 
 /**
  * 首页

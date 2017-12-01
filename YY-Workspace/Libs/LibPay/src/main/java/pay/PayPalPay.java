@@ -20,7 +20,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
-import lib.yy.network.BaseJsonParser;
+import lib.jx.network.BaseJsonParser;
 
 /**
  * PayPal

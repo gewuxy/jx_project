@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Arg;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseSRListFrag;
+import lib.jx.ui.frag.base.BaseSRListFrag;
 import jx.doctor.R;
 import jx.doctor.adapter.data.DataUnitAdapter;
 import jx.doctor.model.data.DataUnit;

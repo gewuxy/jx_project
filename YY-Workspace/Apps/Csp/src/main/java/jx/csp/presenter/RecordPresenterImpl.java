@@ -28,8 +28,8 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.util.CountDown;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.util.CountDown;
 
 /**
  * @author CaiXiang

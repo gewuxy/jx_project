@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import inject.annotation.router.Arg;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVpActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
 import jx.doctor.R;
 import jx.doctor.ui.frag.data.BaseDataUnitsFrag;
 

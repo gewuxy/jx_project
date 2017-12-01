@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.support.annotation.StringRes;
 
 import jx.csp.model.meeting.JoinMeeting;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @author CaiXiang

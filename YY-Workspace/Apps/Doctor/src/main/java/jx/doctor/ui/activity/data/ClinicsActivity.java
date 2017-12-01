@@ -2,7 +2,7 @@ package jx.doctor.ui.activity.data;
 
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.R;
 import jx.doctor.ui.frag.data.BaseDataUnitsFrag;
 import jx.doctor.ui.frag.data.ClinicsFragRouter;

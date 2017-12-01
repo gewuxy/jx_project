@@ -6,7 +6,7 @@ import android.view.View;
 import inject.annotation.router.Arg;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseListFrag;
+import lib.jx.ui.frag.base.BaseListFrag;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.TopicAdapter;
 import jx.doctor.model.constants.SubjectType;

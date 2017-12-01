@@ -1,6 +1,6 @@
 package jx.doctor.model.form;
 
-import lib.yy.model.form.BaseForm;
+import lib.jx.model.form.BaseForm;
 import jx.doctor.model.form.divider.DividerForm;
 import jx.doctor.model.form.divider.DividerLargeForm;
 import jx.doctor.model.form.divider.DividerMarginForm;

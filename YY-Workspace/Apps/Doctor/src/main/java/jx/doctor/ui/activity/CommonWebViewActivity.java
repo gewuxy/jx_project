@@ -9,7 +9,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseWebViewActivity;
+import lib.jx.ui.activity.base.BaseWebViewActivity;
 import jx.doctor.model.data.DataUnitDetails;
 import jx.doctor.model.data.DataUnitDetails.TDataUnitDetails;
 import jx.doctor.network.JsonParser;

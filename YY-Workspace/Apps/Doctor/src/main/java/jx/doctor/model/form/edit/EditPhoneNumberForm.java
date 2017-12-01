@@ -6,8 +6,8 @@ import android.widget.EditText;
 import lib.ys.ConstantsEx;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.R;
 import jx.doctor.util.Util;
 

@@ -3,7 +3,7 @@ package jx.doctor.model.form.edit;
 import android.content.Intent;
 import android.view.View;
 
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 import jx.doctor.Extra;
 
 /**

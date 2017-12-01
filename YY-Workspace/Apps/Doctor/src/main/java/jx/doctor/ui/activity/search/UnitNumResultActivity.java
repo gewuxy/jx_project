@@ -9,7 +9,7 @@ import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 import jx.doctor.model.search.Hot;
 import jx.doctor.model.search.IRec;
 import jx.doctor.model.unitnum.UnitNum;

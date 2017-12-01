@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import jx.doctor.ui.activity.user.login.LoginActivity;
-import lib.yy.test.BaseTestActivity;
+import lib.jx.test.BaseTestActivity;
 
 /**
  * @auther yuansui

@@ -19,7 +19,7 @@ import jx.csp.R;
 import lib.ys.fitter.Fitter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 
 /**
  * 可变的对话框

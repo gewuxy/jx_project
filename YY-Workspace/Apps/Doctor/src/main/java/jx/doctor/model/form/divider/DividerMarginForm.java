@@ -1,6 +1,6 @@
 package jx.doctor.model.form.divider;
 
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 import jx.doctor.R;
 
 /**

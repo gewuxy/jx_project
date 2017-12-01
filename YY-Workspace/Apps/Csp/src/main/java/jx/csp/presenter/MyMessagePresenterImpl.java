@@ -7,7 +7,7 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.network.model.interfaces.IResult;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

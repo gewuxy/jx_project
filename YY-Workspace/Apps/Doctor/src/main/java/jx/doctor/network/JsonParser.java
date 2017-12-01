@@ -9,8 +9,8 @@ import lib.ys.model.EVal;
 import lib.ys.model.MapList;
 import lib.ys.util.GenericUtil;
 import lib.ys.util.ReflectUtil;
-import lib.yy.network.BaseJsonParser;
-import lib.yy.network.Result;
+import lib.jx.network.BaseJsonParser;
+import lib.jx.network.Result;
 import jx.doctor.model.BaseGroup;
 
 /**

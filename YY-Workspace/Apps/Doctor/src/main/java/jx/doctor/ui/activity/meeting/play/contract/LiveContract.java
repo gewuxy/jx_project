@@ -1,7 +1,7 @@
 package jx.doctor.ui.activity.meeting.play.contract;
 
 import lib.ys.ui.interfaces.opt.ICommonOpt;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.ui.frag.meeting.PPTRebFrag;

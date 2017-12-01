@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.content.Context;
 
 import jx.csp.ui.activity.me.SettingsActivity.RelatedId;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

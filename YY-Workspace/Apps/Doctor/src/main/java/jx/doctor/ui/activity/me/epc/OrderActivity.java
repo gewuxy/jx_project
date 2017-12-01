@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseSRListActivity;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 import jx.doctor.R;
 import jx.doctor.adapter.me.OrderAdapter;
 import jx.doctor.model.me.Order;

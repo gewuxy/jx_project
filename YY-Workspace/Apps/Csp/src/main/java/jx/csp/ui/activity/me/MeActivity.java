@@ -21,8 +21,8 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 个人中心

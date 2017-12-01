@@ -8,8 +8,8 @@ import java.util.List;
 
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseListActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseListActivity;
 import jx.doctor.R;
 import jx.doctor.adapter.home.NoticeAdapter;
 import jx.doctor.model.notice.Notice;

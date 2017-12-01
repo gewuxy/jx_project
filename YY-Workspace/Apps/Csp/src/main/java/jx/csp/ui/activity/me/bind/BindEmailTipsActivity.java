@@ -7,7 +7,7 @@ import android.view.View;
 import jx.csp.R;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * 提示绑定邮箱

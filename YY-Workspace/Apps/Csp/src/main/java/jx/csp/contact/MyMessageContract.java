@@ -1,7 +1,7 @@
 package jx.csp.contact;
 
 import jx.csp.model.Profile.TProfile;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

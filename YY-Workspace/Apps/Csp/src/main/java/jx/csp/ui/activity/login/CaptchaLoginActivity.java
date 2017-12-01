@@ -31,8 +31,8 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import lib.yy.model.form.BaseForm;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.model.form.BaseForm;
+import lib.jx.notify.Notifier.NotifyType;
 
 
 /**

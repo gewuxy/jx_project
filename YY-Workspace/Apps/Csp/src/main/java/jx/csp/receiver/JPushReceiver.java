@@ -10,8 +10,8 @@ import jx.csp.model.Profile.TProfile;
 import lib.jg.jpush.BaseJPushReceiver;
 import lib.jg.jpush.SpJPush;
 import lib.ys.YSLog;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @author Huoxuyu

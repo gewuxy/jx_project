@@ -10,7 +10,7 @@ import jx.csp.model.Platform;
 import jx.csp.model.Platform.TPlatformDetail;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import lib.network.model.interfaces.IResult;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

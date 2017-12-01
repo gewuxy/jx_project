@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.serv.DownloadApkServ;

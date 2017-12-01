@@ -30,8 +30,8 @@ import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 个人中心

@@ -10,9 +10,9 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 忘记密码跳转和注册跳转的基类

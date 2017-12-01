@@ -26,8 +26,8 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.network.BaseJsonParser.ErrorCode;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.network.BaseJsonParser.ErrorCode;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 邮箱登录

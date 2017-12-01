@@ -13,8 +13,8 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
-import lib.yy.model.form.BaseForm;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.model.form.BaseForm;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * @auther : GuoXuan

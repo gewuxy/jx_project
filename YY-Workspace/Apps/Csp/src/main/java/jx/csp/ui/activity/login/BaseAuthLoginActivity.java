@@ -33,8 +33,8 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * @auther WangLan

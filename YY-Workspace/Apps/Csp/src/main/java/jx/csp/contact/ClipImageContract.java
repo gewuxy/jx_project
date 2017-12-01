@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.graphics.Bitmap;
 
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

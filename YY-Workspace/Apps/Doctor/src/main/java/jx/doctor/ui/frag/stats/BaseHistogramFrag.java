@@ -14,7 +14,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.jx.ui.frag.base.BaseFrag;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.me.Stats;

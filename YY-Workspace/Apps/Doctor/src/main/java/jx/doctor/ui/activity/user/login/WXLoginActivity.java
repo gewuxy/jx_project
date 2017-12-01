@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.Profile;

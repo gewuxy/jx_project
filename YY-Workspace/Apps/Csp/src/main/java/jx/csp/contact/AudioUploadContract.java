@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.util.SparseArray;
 
 import jx.csp.model.meeting.Course.PlayType;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @author CaiXiang

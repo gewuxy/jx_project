@@ -22,9 +22,9 @@ import lib.platform.model.AuthParams;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu

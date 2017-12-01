@@ -12,7 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseSRListActivity;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.MeetingAdapter;
 import jx.doctor.model.meet.Meeting;

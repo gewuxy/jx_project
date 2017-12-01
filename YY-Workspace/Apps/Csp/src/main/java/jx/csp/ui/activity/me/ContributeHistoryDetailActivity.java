@@ -9,7 +9,7 @@ import jx.csp.model.me.HistoryDetail;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.util.Util;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseSRListActivity;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 
 /**
  * 投稿历史详情

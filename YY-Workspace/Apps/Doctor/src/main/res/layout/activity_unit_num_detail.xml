@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <lib.yy.view.SwipeZoomView.SwipeZoomListView
+    <lib.jx.view.SwipeZoomView.SwipeZoomListView
         android:id="@+id/unit_num_detail_layout_zoom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

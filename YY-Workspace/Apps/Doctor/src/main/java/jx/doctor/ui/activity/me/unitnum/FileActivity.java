@@ -6,7 +6,7 @@ import android.view.View;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.activity.base.BaseSRRecyclerActivity;
+import lib.jx.ui.activity.base.BaseSRRecyclerActivity;
 import jx.doctor.Extra.FileFrom;
 import jx.doctor.R;
 import jx.doctor.adapter.me.FileAdapter;

@@ -22,9 +22,9 @@ import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * @author CaiXiang

@@ -24,7 +24,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
-import lib.yy.util.BaseUtil;
+import lib.jx.util.BaseUtil;
 
 /**
  * @author CaiXiang

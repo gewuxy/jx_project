@@ -39,7 +39,7 @@ import lib.ys.YSLog;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static lib.ys.util.res.ResLoader.getString;

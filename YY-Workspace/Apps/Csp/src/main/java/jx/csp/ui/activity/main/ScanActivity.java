@@ -32,12 +32,12 @@ import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.notify.LiveNotifier;
-import lib.yy.notify.LiveNotifier.LiveNotifyType;
-import lib.yy.notify.LiveNotifier.OnLiveNotify;
-import lib.yy.ui.activity.base.BaseActivity;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 扫一扫

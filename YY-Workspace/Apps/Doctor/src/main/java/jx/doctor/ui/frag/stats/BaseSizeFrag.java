@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.ui.frag.base.BaseVPFrag;
+import lib.jx.ui.frag.base.BaseVPFrag;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.me.Stats;

@@ -1,7 +1,7 @@
 package jx.csp.contact;
 
 import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * @auther Huoxuyu

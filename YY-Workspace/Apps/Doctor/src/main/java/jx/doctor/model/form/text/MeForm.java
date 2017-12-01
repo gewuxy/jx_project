@@ -1,7 +1,7 @@
 package jx.doctor.model.form.text;
 
 import lib.ys.util.res.ResLoader;
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 import jx.doctor.R;
 
 /**

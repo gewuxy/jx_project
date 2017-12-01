@@ -14,7 +14,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.res.ResUtil.ResDefType;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import jx.doctor.R;
 import jx.doctor.model.form.Form;
 import jx.doctor.model.form.FormType;

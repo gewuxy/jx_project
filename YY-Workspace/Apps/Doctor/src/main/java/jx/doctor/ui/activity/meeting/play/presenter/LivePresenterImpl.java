@@ -11,7 +11,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.util.TextUtil;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 import okhttp3.WebSocket;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.TCourse;

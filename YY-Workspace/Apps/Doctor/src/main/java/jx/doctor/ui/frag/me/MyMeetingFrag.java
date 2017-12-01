@@ -6,8 +6,8 @@ import android.view.View;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.frag.base.BaseSRListFrag;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.frag.base.BaseSRListFrag;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.MeetingAdapter;
 import jx.doctor.model.meet.Meeting;

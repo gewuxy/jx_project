@@ -21,7 +21,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.jx.ui.frag.base.BaseFrag;
 
 /**
  * 首页左右滑动列表的单个frag

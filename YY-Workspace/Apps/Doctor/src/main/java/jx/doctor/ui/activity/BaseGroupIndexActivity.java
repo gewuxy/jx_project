@@ -14,7 +14,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.adapter.interfaces.IGroupAdapter;
 import lib.ys.view.SideBar;
-import lib.yy.ui.activity.base.BaseSRGroupListActivity;
+import lib.jx.ui.activity.base.BaseSRGroupListActivity;
 import jx.doctor.R;
 import jx.doctor.model.BaseGroup;
 

@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseVpActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
 import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.TopicCaseAdapter;

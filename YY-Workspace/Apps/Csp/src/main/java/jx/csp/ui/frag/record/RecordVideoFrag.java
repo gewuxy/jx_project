@@ -15,7 +15,7 @@ import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.yy.ui.frag.base.BaseFrag;
+import lib.jx.ui.frag.base.BaseFrag;
 
 /**
  * @author CaiXiang

@@ -18,7 +18,7 @@ import jx.csp.R;
 import jx.csp.adapter.BottomAdapter;
 import jx.csp.adapter.VH.BottomVH;
 import lib.ys.adapter.AdapterEx;
-import lib.yy.dialog.BaseDialog;
+import lib.jx.dialog.BaseDialog;
 
 /**
  * 在底部的dialog

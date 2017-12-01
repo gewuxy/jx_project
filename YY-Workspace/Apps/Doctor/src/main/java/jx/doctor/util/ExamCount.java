@@ -1,8 +1,8 @@
 package jx.doctor.util;
 
 import lib.ys.YSLog;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 考试专用倒计时

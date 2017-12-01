@@ -11,7 +11,7 @@ import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.yy.ui.activity.BaseClipImageActivity;
+import lib.jx.ui.activity.BaseClipImageActivity;
 
 /**
  * 裁剪图片

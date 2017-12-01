@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 
 /**
  * 流量管理

@@ -7,7 +7,7 @@ import android.widget.EditText;
 import jx.csp.contact.IntroContract;
 import jx.csp.contact.IntroContract.V;
 import lib.ys.util.TextUtil;
-import lib.yy.contract.BasePresenterImpl;
+import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

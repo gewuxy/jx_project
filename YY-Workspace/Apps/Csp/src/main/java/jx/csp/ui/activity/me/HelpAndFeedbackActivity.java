@@ -23,7 +23,7 @@ import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.res.ResLoader;
-import lib.yy.ui.activity.base.BaseFormActivity;
+import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 帮助与反馈

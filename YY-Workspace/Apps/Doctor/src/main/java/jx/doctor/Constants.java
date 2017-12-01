@@ -6,7 +6,7 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.yy.BaseConstants;
+import lib.jx.BaseConstants;
 
 /**
  * @author CaiXiang

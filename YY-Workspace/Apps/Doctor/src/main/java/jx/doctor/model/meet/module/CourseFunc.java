@@ -9,7 +9,7 @@ import java.util.List;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 import jx.doctor.App;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.CourseInfo;

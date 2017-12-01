@@ -10,7 +10,7 @@ import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import lib.ys.YSLog;
-import lib.yy.test.BaseTestActivity;
+import lib.jx.test.BaseTestActivity;
 
 /**
  * @auther yuansui

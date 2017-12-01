@@ -12,7 +12,7 @@ import jx.csp.model.form.text.BindForm;
 import jx.csp.model.form.text.ClearCacheForm;
 import jx.csp.model.form.text.IntentForm;
 import jx.csp.model.form.text.TextForm;
-import lib.yy.model.form.BaseForm;
+import lib.jx.model.form.BaseForm;
 
 /**
  * @auther HuoXuYu

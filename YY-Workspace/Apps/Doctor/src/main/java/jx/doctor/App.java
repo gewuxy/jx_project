@@ -26,7 +26,7 @@ import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
 import lib.ys.util.PackageUtil;
-import lib.yy.BaseApp;
+import lib.jx.BaseApp;
 import jx.doctor.Constants.PageConstants;
 import jx.doctor.network.NetFactory;
 import jx.doctor.network.NetworkApiDescriptor;

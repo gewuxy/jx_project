@@ -12,9 +12,9 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.util.bmp.BmpUtil;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.model.Avatar;
-import lib.yy.model.Avatar.TAvatar;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.model.Avatar;
+import lib.jx.model.Avatar.TAvatar;
 
 /**
  * @auther Huoxuyu

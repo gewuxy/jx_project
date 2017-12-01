@@ -40,5 +40,5 @@ dependencies {
     // 使用银联支付时添加
     implementation 'com.pingxx:pingpp-upacp:2.1.11'
 
-    implementation project(':YY-Workspace:Libs:LibYY')
+    implementation project(':YY-Workspace:Libs:LibJX')
 }

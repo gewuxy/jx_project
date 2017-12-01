@@ -6,7 +6,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.AppEx;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 import jx.doctor.R;
 import jx.doctor.model.meet.MeetDetail;
 import jx.doctor.model.meet.module.Module.ModuleType;

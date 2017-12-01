@@ -24,8 +24,8 @@ import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
-import lib.yy.util.CountDown;
-import lib.yy.util.CountDown.OnCountDownListener;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import jx.doctor.App;
 import jx.doctor.network.NetworkApiDescriptor.CommonAPI;
 

@@ -1,6 +1,6 @@
 package jx.csp.network;
 
-import lib.yy.network.BaseJsonParser;
+import lib.jx.network.BaseJsonParser;
 
 /**
  * @author CaiXiang

@@ -16,7 +16,7 @@ import lib.ys.util.permission.OnPermissionListener;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.yy.network.Result;
+import lib.jx.network.Result;
 import jx.doctor.App;
 import jx.doctor.R;
 import jx.doctor.dialog.SignErrDialog;

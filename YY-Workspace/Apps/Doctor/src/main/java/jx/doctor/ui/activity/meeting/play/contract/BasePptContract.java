@@ -5,7 +5,7 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 import java.util.List;
 
 import lib.ys.ui.interfaces.opt.ICommonOpt;
-import lib.yy.contract.IContract;
+import lib.jx.contract.IContract;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.PPT;
 

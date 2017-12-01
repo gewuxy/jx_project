@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.model.Profile;
 import jx.doctor.model.Profile.TProfile;

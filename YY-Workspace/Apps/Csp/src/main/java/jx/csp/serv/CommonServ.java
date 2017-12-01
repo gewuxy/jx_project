@@ -24,8 +24,8 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu

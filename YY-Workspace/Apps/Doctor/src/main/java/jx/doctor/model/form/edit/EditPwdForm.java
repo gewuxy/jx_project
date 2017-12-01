@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
-import lib.yy.adapter.VH.FormVH;
+import lib.jx.adapter.VH.FormVH;
 import jx.doctor.R;
 import jx.doctor.util.UISetter;
 import jx.doctor.util.input.InputFilterSpaCN;

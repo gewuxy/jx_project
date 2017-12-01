@@ -13,9 +13,9 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
-import lib.yy.contract.BasePresenterImpl;
-import lib.yy.notify.Notifier;
-import lib.yy.notify.Notifier.NotifyType;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu
