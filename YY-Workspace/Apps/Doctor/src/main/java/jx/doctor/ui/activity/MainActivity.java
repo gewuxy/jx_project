@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -12,17 +13,6 @@ import android.widget.TextView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.jg.jpush.SpJPush;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.impl.SingletonImpl;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.ys.util.permission.Permission;
-import lib.ys.util.view.LayoutUtil;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseVpActivity;
 import jx.doctor.R;
 import jx.doctor.dialog.HintDialog;
 import jx.doctor.dialog.UpdateNoticeDialog;
@@ -43,7 +33,17 @@ import jx.doctor.ui.frag.DataCenterFrag;
 import jx.doctor.ui.frag.HomeFrag;
 import jx.doctor.ui.frag.MeFrag;
 import jx.doctor.ui.frag.MeetingFrag;
-
+import lib.jg.jpush.SpJPush;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.impl.SingletonImpl;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.view.LayoutUtil;
 
 @Route
 public class MainActivity extends BaseVpActivity {
@@ -116,9 +116,18 @@ public class MainActivity extends BaseVpActivity {
         //判断是否需要弹绑定的dialog
         if (TextUtil.isEmpty(Profile.inst().getString(TProfile.mobile)) && TextUtil.isEmpty(Profile.inst().getString(TProfile.wxNickname))) {
             if (SpUser.inst().isShowBind()) {
-                showBind();
-                SpUser.inst().saveShowBind();
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                    @Override
+                    public void onGlobalLayout() {
+                        showBind();
+                        SpUser.inst().saveShowBind();
+                        removeOnGlobalLayoutListener(this);
+                    }
+
+                });
             }
+
         }
 
     }

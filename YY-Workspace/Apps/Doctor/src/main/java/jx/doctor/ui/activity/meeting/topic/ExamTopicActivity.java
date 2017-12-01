@@ -3,14 +3,12 @@ package jx.doctor.ui.activity.meeting.topic;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
 
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.LaunchUtil;
 import jx.doctor.Constants.DateUnit;
 import jx.doctor.Extra;
 import jx.doctor.R;
@@ -18,12 +16,14 @@ import jx.doctor.dialog.HintDialogSec;
 import jx.doctor.model.meet.topic.TopicIntro;
 import jx.doctor.model.meet.topic.TopicIntro.TTopicIntro;
 import jx.doctor.model.meet.topic.TopicPaper.TTopicPaper;
-import jx.doctor.popup.TopicPopup;
 import jx.doctor.sp.SpApp;
 import jx.doctor.util.ExamCount;
 import jx.doctor.util.ExamCount.OnCountListener;
 import jx.doctor.util.Time;
 import jx.doctor.util.Util;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * 考试答题界面
@@ -39,7 +39,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     private TextView mTvTime;
 
     private long mUseTime; // 剩余做题的时间
-    private TopicPopup mTopicPopup; // App第一次考试
 
     private boolean mShouldHint; // 是否可以提示剩余时间
 
@@ -86,8 +85,9 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    mTopicPopup = new TopicPopup(ExamTopicActivity.this);
-                    mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                    View view = inflate(R.layout.layout_topic_hint);
+                    view.setOnClickListener(v -> goneView(v));
+                    getWindow().addContentView(view, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT));
                     SpApp.inst().noFirstExam();
                     removeOnGlobalLayoutListener(this);
                 }
@@ -171,9 +171,6 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
         super.finish();
 
         ExamCount.inst().remove();
-        if (mTopicPopup != null) {
-            mTopicPopup.dismiss();
-        }
     }
 
 }

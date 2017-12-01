@@ -3,8 +3,9 @@ package jx.doctor.ui.activity.meeting.topic;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.ImageView;
 
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -20,9 +21,9 @@ import jx.doctor.model.meet.topic.TopicIntro;
 import jx.doctor.model.meet.topic.TopicPaper.TTopicPaper;
 import jx.doctor.network.JsonParser;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
-import jx.doctor.popup.TopicPopup;
 import jx.doctor.sp.SpApp;
 import jx.doctor.util.Util;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * 问卷
@@ -31,8 +32,6 @@ import jx.doctor.util.Util;
  * @since : 2017/4/27
  */
 public class SurveyTopicActivity extends BaseTopicActivity {
-
-    private TopicPopup mTopicPopup;
 
     public static void nav(Context context, String meetId, String moduleId) {
         Intent i = new Intent(context, SurveyTopicActivity.class)
@@ -91,10 +90,13 @@ public class SurveyTopicActivity extends BaseTopicActivity {
 
                     @Override
                     public void onGlobalLayout() {
-                        mTopicPopup = new TopicPopup(SurveyTopicActivity.this);
-                        mTopicPopup.setCheck(R.drawable.que_popup_check);
-                        mTopicPopup.setSlide(R.drawable.que_popup_slide);
-                        mTopicPopup.showAtLocation(getNavBar(), Gravity.CENTER, 0, 0);
+                        View view = inflate(R.layout.layout_topic_hint);
+                        ImageView ivS = view.findViewById(R.id.topic_hint_iv_scroll);
+                        ImageView ivC = view.findViewById(R.id.topic_hint_iv_check);
+                        ivS.setImageResource(R.drawable.que_topic_scroll);
+                        ivC.setImageResource(R.drawable.que_topic_check);
+                        view.setOnClickListener(v -> goneView(v));
+                        getWindow().addContentView(view, LayoutUtil.getLinearParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT));
                         SpApp.inst().noFirstQue();
                         removeOnGlobalLayoutListener(this);
                     }
