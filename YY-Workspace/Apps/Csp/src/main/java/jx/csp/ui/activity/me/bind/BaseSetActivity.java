@@ -16,6 +16,7 @@ import jx.csp.presenter.SetBindPresenterImpl;
 import jx.csp.util.Util;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
@@ -25,6 +26,9 @@ import lib.yy.ui.activity.base.BaseFormActivity;
  * @since 2017/9/25
  */
 abstract public class BaseSetActivity extends BaseFormActivity implements TextWatcher {
+
+    private final int KLengthMax = 24; // 密码最大长度
+    private final int KLengthMin = 6; // 密码最小长度
 
     private TextView mTvSet;
 
@@ -106,6 +110,16 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     @Override
     protected View createFooterView() {
         return inflate(R.layout.layout_set_footer);
+    }
+
+    /**
+     * 检查密码
+     *
+     * @param pwd 密码输入框
+     * @return true 密码符合规则; false 密码不符合规则
+     */
+    public boolean checkPwd(String pwd) {
+        return TextUtil.isNotEmpty(pwd) && pwd.length() >= KLengthMin && pwd.length() <= KLengthMax;
     }
 
     /**
