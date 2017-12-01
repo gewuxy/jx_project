@@ -28,9 +28,10 @@ import jx.csp.network.NetworkApi;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.main.CopyEctypeActivityRouter;
+import jx.csp.ui.activity.main.CopyDuplicateActivityRouter;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
+import lib.jx.dialog.BaseDialog;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
@@ -39,7 +40,6 @@ import lib.ys.YSLog;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
-import lib.jx.dialog.BaseDialog;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static lib.ys.util.res.ResLoader.getString;
@@ -94,7 +94,7 @@ public class ShareDialog extends BaseDialog {
     public void setViews() {
 
         setOnClickListener(R.id.dialog_share_tv_contribute);
-        setOnClickListener(R.id.dialog_share_tv_copy_replica);
+        setOnClickListener(R.id.dialog_share_tv_copy_duplicate);
         setOnClickListener(R.id.dialog_share_tv_delete);
         setOnClickListener(R.id.dialog_share_tv_cancel);
 
@@ -109,8 +109,8 @@ public class ShareDialog extends BaseDialog {
                 ContributePlatformActivityRouter.create(mCourseId).route(getContext());
             }
             break;
-            case R.id.dialog_share_tv_copy_replica: {
-                CopyEctypeActivityRouter.create(mTitle, mCourseId).route(getContext());
+            case R.id.dialog_share_tv_copy_duplicate: {
+                CopyDuplicateActivityRouter.create(mTitle, mCourseId).route(getContext());
             }
             break;
             case R.id.dialog_share_tv_delete: {

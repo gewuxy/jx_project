@@ -53,6 +53,7 @@ import lib.jx.ui.activity.base.BaseVpActivity;
 
 public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
+    private final int KCameraPermissionCode = 10;
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
 
@@ -160,7 +161,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onClick(View v) {
-        if (checkPermission(0, Permission.camera)) {
+        if (checkPermission(KCameraPermissionCode, Permission.camera)) {
             startActivity(ScanActivity.class);
         }
     }
@@ -280,12 +281,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public void onPermissionResult(int code, @PermissionResult int result) {
         switch (result) {
             case PermissionResult.granted: {
-                startActivity(ScanActivity.class);
+                if (code == KCameraPermissionCode) {
+                    startActivity(ScanActivity.class);
+                }
             }
             break;
             case PermissionResult.denied:
             case PermissionResult.never_ask: {
-                showToast(getString(R.string.user_photo_permission));
+                if (code == KCameraPermissionCode) {
+                    showToast(getString(R.string.user_photo_permission));
+                }
             }
             break;
         }

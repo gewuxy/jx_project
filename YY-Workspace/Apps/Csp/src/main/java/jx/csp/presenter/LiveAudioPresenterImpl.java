@@ -52,7 +52,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     private int mNum = 0;
     private String mFilePath;
     private int mWsPosition = -1;  // websocket接收到的页数
-    private long mTime; // 每页ppt录制的时间 单位秒
+    private int mTime = 0; // 每页ppt录制的时间 单位秒
     private boolean mLastSyncOrderState = false;  // 上一页的同步指令是否已经发送
 
     @SuppressLint("HandlerLeak")

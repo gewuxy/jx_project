@@ -90,7 +90,7 @@
             android:name=".ui.activity.main.ScanActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.CopyEctypeActivity"
+            android:name=".ui.activity.main.CopyDuplicateActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 个人中心 -->

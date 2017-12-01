@@ -31,7 +31,7 @@ import lib.jx.ui.activity.base.BaseActivity;
  * @since 2017/11/24
  */
 @Route
-public class CopyEctypeActivity extends BaseActivity {
+public class CopyDuplicateActivity extends BaseActivity {
 
     @Arg
     String mTitle;
@@ -48,7 +48,7 @@ public class CopyEctypeActivity extends BaseActivity {
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.activity_copy_ectype;
+        return R.layout.activity_copy_duplicate;
     }
 
     @Override

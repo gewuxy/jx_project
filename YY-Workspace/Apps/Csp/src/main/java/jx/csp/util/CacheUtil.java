@@ -10,7 +10,7 @@ import lib.ys.util.CacheUtilEx;
  */
 public class CacheUtil extends CacheUtilEx {
 
-    private static final String KHomeDir = "/yaya/csp/";
+    private static final String KHomeDir = "/jx/csp/";
 
     private static final String KBmpCacheDef = KHomeDir + "cache/bmp/";
     private static final String KUploadCacheDef = KHomeDir + "upload/tmp/";
@@ -18,7 +18,6 @@ public class CacheUtil extends CacheUtilEx {
     private static final String KVideoCacheDef = KHomeDir + "video/";
 
     private static final String KVideoFileNameLogin = "login";
-
 
     private static String mBmpCacheDir;
     private static String mUploadCacheDir;

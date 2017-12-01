@@ -40,7 +40,7 @@
         android:background="@color/color_db"/>
 
     <TextView
-        android:id="@+id/dialog_share_tv_copy_replica"
+        android:id="@+id/dialog_share_tv_copy_duplicate"
         style="@style/tv.dialog.share"
         android:text="@string/copy_ectype"/>
 
