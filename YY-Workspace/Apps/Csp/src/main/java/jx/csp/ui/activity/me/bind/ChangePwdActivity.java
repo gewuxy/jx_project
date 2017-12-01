@@ -7,7 +7,6 @@ import io.reactivex.annotations.NonNull;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
-import lib.ys.util.TextUtil;
 
 /**
  * 修改密码
@@ -73,13 +72,4 @@ public class ChangePwdActivity extends BaseSetActivity {
         return getRelatedItem(RelatedId.change_new_pwd).getVal();
     }
 
-    /**
-     * 检查密码
-     *
-     * @param pwd 密码输入框
-     * @return true 密码符合规则; false 密码不符合规则
-     */
-    private boolean checkPwd(String pwd) {
-        return TextUtil.isNotEmpty(pwd) && pwd.length() >= KLengthMin;
-    }
 }

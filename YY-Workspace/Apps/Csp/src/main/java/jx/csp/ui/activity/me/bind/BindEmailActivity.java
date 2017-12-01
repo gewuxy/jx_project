@@ -2,6 +2,7 @@ package jx.csp.ui.activity.me.bind;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 
 import io.reactivex.annotations.NonNull;
 import jx.csp.R;
@@ -27,6 +28,16 @@ public class BindEmailActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et)
                 .related(RelatedId.bind_email)
                 .hint(R.string.setting_input_email_address)
+                .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
+                    for (int i = start; i < end; i++) {
+                        int chr1 = source.charAt(i);
+                        if (chr1 >= TextUtil.KCNRangeMin && chr1 <= TextUtil.KCNRangeMax) {
+                            //是中文
+                            return "";
+                        }
+                    }
+                    return null;
+                })
                 .textWatcher(this)
                 .layout(R.layout.form_edit_bind_email));
 
@@ -56,7 +67,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(getEmail()) && TextUtil.isNotEmpty(getPwd()));
+        setChanged(RegexUtil.isEmail(getEmail()) && checkPwd(getPwd()));
     }
 
     @NonNull
