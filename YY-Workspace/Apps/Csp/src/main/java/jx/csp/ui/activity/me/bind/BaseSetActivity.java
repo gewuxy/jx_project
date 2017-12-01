@@ -14,10 +14,10 @@ import jx.csp.R;
 import jx.csp.contact.SetBindContract;
 import jx.csp.presenter.SetBindPresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.yy.ui.activity.base.BaseFormActivity;
 
 /**
  * 修改与绑定的基类

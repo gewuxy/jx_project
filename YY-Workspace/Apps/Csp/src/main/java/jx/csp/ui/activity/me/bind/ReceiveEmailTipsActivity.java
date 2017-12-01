@@ -6,9 +6,9 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ui.other.NavBar;
-import lib.yy.notify.Notifier.NotifyType;
-import lib.yy.ui.activity.base.BaseActivity;
 
 /**
  * 提示接收邮件

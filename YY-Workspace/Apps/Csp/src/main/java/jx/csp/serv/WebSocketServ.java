@@ -97,7 +97,7 @@ public class WebSocketServ extends ServiceEx implements OnLiveNotify {
                 int order = ob.optInt("order");
                 switch (order) {
                     case WsOrderType.sync: {
-                        String from = ob.getString("orderFrom");
+                        String from = ob.optString("orderFrom");
                         if (from.equals(WsOrderFrom.web)) {
                             // 接收到同步指令
                             WebSocketServ.this.notify(LiveNotifyType.sync, ob.getInt("pageNum"));
