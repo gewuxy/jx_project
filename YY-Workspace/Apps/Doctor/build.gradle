@@ -27,7 +27,6 @@ android {
                 // LibYS里的混淆, 相对路径为3级
                 '../../../Android/Libs/LibYS_Rx/proguard-ys.pro',
                 '../../../Android/Libs/LibYS_Rx/proguard-fresco.pro',
-                '../../../Android/Libs/LibYS_Rx/proguard-lambda.pro',
 
                 '../../../Android/Libs/LibNetwork_Rx/proguard-network.pro',
                 '../../../Android/Di/Compiler/proguard-injection.pro',

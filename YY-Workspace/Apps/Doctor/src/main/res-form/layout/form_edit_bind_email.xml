@@ -15,7 +15,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <yy.doctor.view.AutoCompleteEditText
+            <jx.doctor.view.AutoCompleteEditText
                 android:id="@id/form_et"
                 style="@style/et.form.bind"
                 android:layout_marginRight="28dp"

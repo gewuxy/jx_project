@@ -12,7 +12,7 @@
         android:layout_height="168dp"
         android:layout_marginTop="73dp">
 
-        <yy.doctor.view.CircleProgressView
+        <jx.doctor.view.CircleProgressView
             android:id="@+id/download_progress_bar"
             view:circle_widthDp="5dp"
             android:layout_width="match_parent"

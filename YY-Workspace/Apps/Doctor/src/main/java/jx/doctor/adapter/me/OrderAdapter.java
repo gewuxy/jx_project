@@ -1,0 +1,67 @@
+package jx.doctor.adapter.me;
+
+import lib.ys.adapter.AdapterEx;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
+import jx.doctor.R;
+import jx.doctor.adapter.VH.me.OrderVH;
+import jx.doctor.model.me.Order;
+import jx.doctor.model.me.Order.OrderState;
+import jx.doctor.model.me.Order.TOrder;
+
+import static lib.ys.util.res.ResLoader.getString;
+
+/**
+ * 订单的adapter
+ *
+ * @author CaiXiang
+ * @since 2017/4/27
+ */
+public class OrderAdapter extends AdapterEx<Order, OrderVH> {
+
+    @Override
+    public int getConvertViewResId() {
+        return R.layout.layout_order_item;
+    }
+
+    @Override
+    protected void refreshView(int position, OrderVH holder) {
+
+        Order item = getItem(position);
+
+        holder.getTvName().setText(item.getString(TOrder.name));
+        holder.getTvOrderNum().setText(item.getString(TOrder.orderNo));
+
+        int state = item.getInt(TOrder.status);
+        int id = 0;
+        switch (state) {
+            case OrderState.pending: {
+                id = R.string.order_state_pending;
+            }
+            break;
+            case OrderState.accepted_order: {
+                id = R.string.order_state_accepted;
+            }
+            break;
+            case OrderState.shipped: {
+                id = R.string.order_state_shipped;
+            }
+            break;
+            case OrderState.received: {
+                id = R.string.order_state_received;
+            }
+            break;
+        }
+        holder.getTvStatus().setText(id);
+
+        String strTime = TimeFormatter.milli(item.getLong(TOrder.createTime), TimeFormat.from_y_24);
+        holder.getTvTime().setText(strTime);
+
+        holder.getTvPayEpn().setText(item.getString(TOrder.price) + getString(R.string.epn));
+        holder.getTvAdress().setText(item.getString(TOrder.province) + item.getString(TOrder.address));
+        holder.getTvMobile().setText(item.getString(TOrder.phone));
+        holder.getTvReceiver().setText(item.getString(TOrder.receiver));
+        holder.getTvOrderInfo().setText(item.getString(TOrder.postUnit));
+    }
+
+}

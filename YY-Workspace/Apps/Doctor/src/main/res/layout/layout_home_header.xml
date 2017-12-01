@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!--KBanner 容器-->
-    <yy.doctor.view.BannerView
+    <jx.doctor.view.BannerView
         android:id="@+id/home_header_banner"
         android:layout_width="match_parent"
         android:layout_height="138dp">
@@ -22,6 +22,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="12dp"
             android:layout_marginRight="18dp"/>
-    </yy.doctor.view.BannerView>
+    </jx.doctor.view.BannerView>
 
 </FrameLayout>

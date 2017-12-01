@@ -12,7 +12,7 @@
 
         <fragment
             android:id="@+id/stats_meet_frag_meet_size"
-            android:name="yy.doctor.ui.frag.stats.MeetSizeFrag"
+            android:name="jx.doctor.ui.frag.stats.MeetSizeFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"/>
@@ -24,7 +24,7 @@
 
         <fragment
             android:id="@+id/stats_meet_frag_unit_num_size"
-            android:name="yy.doctor.ui.frag.stats.UnitNumSizeFrag"
+            android:name="jx.doctor.ui.frag.stats.UnitNumSizeFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"/>

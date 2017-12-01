@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<yy.doctor.view.RootLayout
+<jx.doctor.view.RootLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/meeting_course_pic_layout"
     android:layout_width="match_parent"
@@ -15,4 +15,4 @@
         android:id="@+id/meeting_course_pic_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</yy.doctor.view.RootLayout>
+</jx.doctor.view.RootLayout>

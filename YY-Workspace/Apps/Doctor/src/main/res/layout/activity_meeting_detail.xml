@@ -31,7 +31,7 @@
                 android:background="#f0f0f0"/>
 
             <!-- 资料 -->
-            <yy.doctor.view.meet.MaterialView
+            <jx.doctor.view.meet.MaterialView
                 android:id="@+id/layout_meeting_detail_material"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
     </ScrollView>
 
     <!-- 底部按钮 -->
-    <yy.doctor.view.meet.ModuleLayout
+    <jx.doctor.view.meet.ModuleLayout
         android:id="@+id/meeting_detail_modules"
         android:layout_width="match_parent"
         android:layout_height="48dp"

@@ -23,7 +23,7 @@
         android:background="@drawable/meeting_detail_progress_bg"
         android:visibility="gone">
 
-        <yy.doctor.view.CircleProgressView
+        <jx.doctor.view.CircleProgressView
             android:id="@+id/meeting_detail_v_progress"
             android:layout_width="28dp"
             android:layout_height="28dp"

@@ -1,0 +1,33 @@
+package jx.doctor.adapter.VH.data;
+
+import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import lib.ys.adapter.VH.ViewHolderEx;
+import jx.doctor.R;
+
+/**
+ * @author CaiXiang
+ * @since 2017/4/27
+ */
+public class DataVH extends ViewHolderEx {
+
+    public DataVH(@NonNull View convertView) {
+        super(convertView);
+    }
+
+    public LinearLayout getRootLayout() {
+        return getView(R.id.data_item_layout_root);
+    }
+
+    public TextView getTvName() {
+        return getView(R.id.data_item_tv_name);
+    }
+
+    public TextView getTvDetail() {
+        return getView(R.id.data_item_tv_detail);
+    }
+
+}

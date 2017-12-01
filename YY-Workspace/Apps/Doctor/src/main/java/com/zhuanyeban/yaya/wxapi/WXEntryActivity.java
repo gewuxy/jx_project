@@ -18,17 +18,17 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.yy.notify.Notifier.NotifyType;
 import lib.yy.ui.activity.base.BaseActivity;
-import yy.doctor.Constants;
-import yy.doctor.Constants.WXType;
-import yy.doctor.R;
-import yy.doctor.model.Profile;
-import yy.doctor.model.Profile.TProfile;
-import yy.doctor.network.JsonParser;
-import yy.doctor.network.NetworkApiDescriptor;
-import yy.doctor.sp.SpUser;
-import yy.doctor.ui.activity.MainActivity;
-import yy.doctor.ui.activity.user.login.WXLoginActivity;
-import yy.doctor.ui.activity.user.login.WXLoginApi;
+import jx.doctor.Constants;
+import jx.doctor.Constants.WXType;
+import jx.doctor.R;
+import jx.doctor.model.Profile;
+import jx.doctor.model.Profile.TProfile;
+import jx.doctor.network.JsonParser;
+import jx.doctor.network.NetworkApiDescriptor;
+import jx.doctor.sp.SpUser;
+import jx.doctor.ui.activity.MainActivity;
+import jx.doctor.ui.activity.user.login.WXLoginActivity;
+import jx.doctor.ui.activity.user.login.WXLoginApi;
 
 /**
  * 微信的回调, (根据applicationId回调)

@@ -72,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"/>
     
-    <yy.doctor.view.meet.MaterialView
+    <jx.doctor.view.meet.MaterialView
         android:id="@+id/unit_num_detail_layout_material"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

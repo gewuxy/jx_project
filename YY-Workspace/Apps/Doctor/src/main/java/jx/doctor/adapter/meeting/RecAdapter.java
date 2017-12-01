@@ -1,0 +1,95 @@
+package jx.doctor.adapter.meeting;
+
+import android.widget.TextView;
+
+import lib.ys.adapter.MultiAdapterEx;
+import lib.ys.network.image.renderer.CircleRenderer;
+import jx.doctor.R;
+import jx.doctor.adapter.VH.me.UnitNumVH;
+import jx.doctor.adapter.VH.meeting.MeetingVH;
+import jx.doctor.adapter.VH.meeting.RecVH;
+import jx.doctor.model.meet.Meeting;
+import jx.doctor.model.search.IRec;
+import jx.doctor.model.search.IRec.RecType;
+import jx.doctor.model.unitnum.UnitNum;
+import jx.doctor.model.unitnum.UnitNum.TUnitNum;
+import jx.doctor.util.UISetter;
+
+/**
+ * 搜索
+ *
+ * @auther : GuoXuan
+ * @since : 2017/6/8
+ */
+public class RecAdapter extends MultiAdapterEx<IRec, RecVH> {
+
+    @Override
+    protected void refreshView(int position, RecVH holder, int itemType) {
+        switch (itemType) {
+            case RecType.meet_folder:
+            case RecType.meeting: {
+                // 搜索会议
+                MeetingVH meetingVH = holder.getMeetingVH();
+
+                UISetter.meetingHolderSet(meetingVH, (Meeting) getItem(position), true);
+            }
+            break;
+            case RecType.unit_num: {
+                // 搜索单位号
+                UnitNum unitNum = (UnitNum) getItem(position);
+                UnitNumVH unitNumVH = holder.getUnitNumVH();
+
+                unitNumVH.getIvChild().placeHolder(R.drawable.ic_default_epc)
+                        .renderer(new CircleRenderer())
+                        .url(unitNum.getString(TUnitNum.headimg))
+                        .load();
+                unitNumVH.getTvChild().setText(unitNum.getString(TUnitNum.nickname));
+            }
+            break;
+            case RecType.more: {
+                // 有搜索更多
+                TextView tvMore = holder.getTvMore();
+                if (position - 1 < 0) {
+                    return;
+                }
+                // 前面的Item类型
+                if (getItemViewType(position - 1) == RecType.unit_num) {
+                    tvMore.setText("查看更多单位号");
+                } else {
+                    tvMore.setText("查看更多会议");
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public int getConvertViewResId(int itemType) {
+        switch (itemType) {
+            case RecType.meeting:
+                return R.layout.layout_meeting_item;
+            case RecType.meet_folder:
+                return R.layout.layout_meeting_folder_item;
+            case RecType.unit_num:
+                return R.layout.layout_unit_num_item;
+            case RecType.hot:
+                return R.layout.layout_reach_hot;
+            case RecType.margin:
+                return R.layout.layout_reach_margin;
+            case RecType.more:
+                return R.layout.layout_reach_more;
+            default:
+                return R.layout.layout_meeting_item;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).getRecType();
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return RecType.class.getDeclaredFields().length;
+    }
+}

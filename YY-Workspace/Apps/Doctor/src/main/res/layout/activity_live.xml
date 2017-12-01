@@ -17,7 +17,7 @@
 
             <fragment
                 android:id="@+id/live_frag_ppt"
-                android:name="yy.doctor.ui.frag.meeting.PPTRebFrag"
+                android:name="jx.doctor.ui.frag.meeting.PPTRebFrag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0"/>
@@ -33,7 +33,7 @@
 
             <fragment
                 android:id="@+id/live_frag_live"
-                android:name="yy.doctor.ui.frag.meeting.PPTLiveFrag"
+                android:name="jx.doctor.ui.frag.meeting.PPTLiveFrag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0"/>

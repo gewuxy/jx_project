@@ -12,7 +12,7 @@
 
         <fragment
             android:id="@+id/ppt_frag_ppt"
-            android:name="yy.doctor.ui.frag.meeting.PPTRebFrag"
+            android:name="jx.doctor.ui.frag.meeting.PPTRebFrag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0"/>
@@ -32,7 +32,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <yy.doctor.view.discretescrollview.DiscreteScrollView
+            <jx.doctor.view.discretescrollview.DiscreteScrollView
                 android:id="@+id/ppt_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
