@@ -133,7 +133,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         Intent i = getIntent();
         if (i != null) {
             Uri uri = i.getData();

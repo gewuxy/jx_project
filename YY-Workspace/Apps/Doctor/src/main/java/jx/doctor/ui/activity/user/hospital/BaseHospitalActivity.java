@@ -94,7 +94,7 @@ abstract public class BaseHospitalActivity extends BaseSRListActivity<IHospital,
 
     @CallSuper
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mFromType = getIntent().getIntExtra(Extra.KData, FromType.register);
         mFirstAction = true;
         mSearch = PoiSearch.newInstance();

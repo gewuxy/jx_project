@@ -46,8 +46,8 @@ public class BindPhoneActivity extends BaseSetActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)

@@ -45,7 +45,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
     private DataUnitDetails mData;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

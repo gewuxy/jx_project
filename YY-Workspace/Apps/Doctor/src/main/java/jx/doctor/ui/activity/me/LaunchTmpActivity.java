@@ -26,7 +26,7 @@ public class LaunchTmpActivity extends BaseActivity {
     private int mUnitNumId;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mUnitNumId = getIntent().getIntExtra(Extra.KUnitNumId, 100);
         YSLog.d(TAG, " UnitNumId = " + mUnitNumId);
     }

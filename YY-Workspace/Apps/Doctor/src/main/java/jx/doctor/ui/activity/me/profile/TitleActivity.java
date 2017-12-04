@@ -51,7 +51,7 @@ public class TitleActivity extends BaseActivity implements OnGradeListener, OnCa
     private List<Title> mTitleGrade;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mGrade = getString(R.string.high_grade);
     }
 

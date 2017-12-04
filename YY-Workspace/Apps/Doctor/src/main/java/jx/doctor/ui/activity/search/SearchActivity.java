@@ -30,7 +30,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

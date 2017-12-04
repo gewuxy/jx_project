@@ -24,7 +24,7 @@ public class OrderActivity extends BaseSRListActivity<Order, OrderAdapter> {
     private TextView mTv;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

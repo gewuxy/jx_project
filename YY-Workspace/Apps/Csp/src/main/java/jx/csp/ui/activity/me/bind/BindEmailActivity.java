@@ -21,8 +21,8 @@ import lib.ys.util.TextUtil;
 public class BindEmailActivity extends BaseSetActivity {
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.et)

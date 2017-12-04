@@ -17,7 +17,7 @@ import jx.doctor.util.Util;
 public class StatsMeetActivity extends BaseActivity {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

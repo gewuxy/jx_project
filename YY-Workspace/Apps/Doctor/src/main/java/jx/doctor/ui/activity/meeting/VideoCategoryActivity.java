@@ -60,7 +60,7 @@ public class VideoCategoryActivity extends BaseSRListActivity<Detail, VideoCateg
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         notify(NotifyType.study_start);
 
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KData);

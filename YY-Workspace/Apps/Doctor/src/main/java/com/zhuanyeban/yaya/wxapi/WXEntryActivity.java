@@ -42,7 +42,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private IWXAPI mApi;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mApi = WXLoginApi.create(this, Constants.KAppId);
 
         try {

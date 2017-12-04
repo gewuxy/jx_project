@@ -35,7 +35,7 @@ public class SkipActivity extends BaseActivity implements OnCountDownListener {
     public String mSkipText;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
         mCountDown.start(KCountDownTime);

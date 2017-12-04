@@ -31,7 +31,7 @@ public class NoticeActivity extends BaseListActivity<Notice, NoticeAdapter> {
     private TextView mTvEmpty;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         //读取通知数据库的数据
         mNotices = NoticeManager.inst().queryAll();
     }

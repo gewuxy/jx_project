@@ -29,8 +29,8 @@ public class IntroActivity extends BaseMyMessageActivity {
     private IntroContract.V mIntroView;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mIntroView = new IntroViewImpl();
         mIntroPresenter = new IntroPresenterImpl(mIntroView);

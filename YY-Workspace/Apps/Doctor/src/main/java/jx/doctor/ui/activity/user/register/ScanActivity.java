@@ -55,7 +55,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     private CountDown mCountDown; // 倒计时
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

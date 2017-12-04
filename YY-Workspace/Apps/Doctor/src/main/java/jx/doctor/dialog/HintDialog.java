@@ -36,7 +36,7 @@ public class HintDialog extends BaseDialog {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

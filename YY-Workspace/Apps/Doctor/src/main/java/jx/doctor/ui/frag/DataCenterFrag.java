@@ -55,7 +55,7 @@ public class DataCenterFrag extends BaseVPFrag {
     private OnClickListener mTabListener;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         add(new ThomsonFrag());
         add(new DrugsFrag());
         add(new ClinicsFrag());

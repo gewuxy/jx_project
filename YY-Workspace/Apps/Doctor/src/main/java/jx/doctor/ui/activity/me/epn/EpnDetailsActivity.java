@@ -19,7 +19,7 @@ import jx.doctor.util.Util;
 public class EpnDetailsActivity extends BaseSRListActivity<EpnDetails, EpnDetailsAdapter> {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

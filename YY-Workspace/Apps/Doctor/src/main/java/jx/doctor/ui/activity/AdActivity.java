@@ -50,7 +50,7 @@ public class AdActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mHandler = new Handler(){
 
             @Override

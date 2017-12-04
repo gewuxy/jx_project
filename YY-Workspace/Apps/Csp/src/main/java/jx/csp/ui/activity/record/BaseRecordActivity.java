@@ -95,7 +95,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     @CallSuper
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //创建文件夹存放音频

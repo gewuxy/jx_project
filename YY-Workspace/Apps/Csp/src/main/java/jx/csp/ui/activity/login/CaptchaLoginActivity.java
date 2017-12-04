@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
@@ -26,13 +25,13 @@ import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
+import lib.jx.model.form.BaseForm;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import lib.jx.model.form.BaseForm;
-import lib.jx.notify.Notifier.NotifyType;
 
 
 /**
@@ -67,8 +66,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mCount = 0;
 

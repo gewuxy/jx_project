@@ -21,7 +21,7 @@ public class SectionCategoryFrag extends BaseListFrag<Section, SectionCategoryAd
     private OnCategoryListener mListener;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

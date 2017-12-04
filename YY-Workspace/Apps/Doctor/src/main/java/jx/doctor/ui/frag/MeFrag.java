@@ -65,8 +65,8 @@ public class MeFrag extends BaseFormFrag {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         int paddingLeft = fit(58);
         int paddingRight = fit(12);

@@ -60,8 +60,8 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mView = new AccountManageViewImpl();
         mPresenter = new AccountManagePresenterImpl(mView);

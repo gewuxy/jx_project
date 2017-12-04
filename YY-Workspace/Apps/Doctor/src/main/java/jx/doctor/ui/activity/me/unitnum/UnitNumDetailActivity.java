@@ -87,7 +87,7 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
     private String mUnitNumName;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

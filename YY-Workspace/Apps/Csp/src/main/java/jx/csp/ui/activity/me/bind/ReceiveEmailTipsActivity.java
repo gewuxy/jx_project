@@ -20,7 +20,7 @@ import lib.ys.ui.other.NavBar;
 public class ReceiveEmailTipsActivity extends BaseActivity {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

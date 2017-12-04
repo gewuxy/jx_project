@@ -60,7 +60,7 @@ public class ExamEndActivity extends BaseActivity {
     private View mLayout;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

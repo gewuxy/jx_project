@@ -145,8 +145,8 @@ public class RegisterActivity extends BaseFormActivity implements
     private Set<Integer> mStatus; // 记录要完成的内容
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mCount = 0;
 

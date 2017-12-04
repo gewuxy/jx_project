@@ -73,7 +73,7 @@ public class DownloadFileActivity extends BaseActivity implements OnDownloadNoti
     private String mFileNameHashCode;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         DownloadNotifier.inst().add(this);
 
         mFileSizeKB = String.valueOf(mFileSize / 1024) + KByteSymbol;

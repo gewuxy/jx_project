@@ -26,7 +26,7 @@ public class MyMeetingFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     private int mType = DataType.meeting;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

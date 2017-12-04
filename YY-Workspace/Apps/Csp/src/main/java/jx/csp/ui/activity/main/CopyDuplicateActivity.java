@@ -42,7 +42,7 @@ public class CopyDuplicateActivity extends BaseActivity {
     private TextView mTv;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

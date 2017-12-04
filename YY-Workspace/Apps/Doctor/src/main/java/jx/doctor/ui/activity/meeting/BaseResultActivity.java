@@ -49,7 +49,7 @@ abstract public class BaseResultActivity extends BaseActivity implements OnCount
 
     @CallSuper
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }

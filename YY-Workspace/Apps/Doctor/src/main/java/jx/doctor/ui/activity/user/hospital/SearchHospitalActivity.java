@@ -36,8 +36,8 @@ public class SearchHospitalActivity extends BaseHospitalActivity {
     private OnClickListener mSearchListener;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mSearchListener = v -> {
             if (TextUtil.isEmpty(Util.getEtString(mEtSearch))) {

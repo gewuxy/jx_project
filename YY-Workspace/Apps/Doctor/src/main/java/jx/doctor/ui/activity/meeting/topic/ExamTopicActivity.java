@@ -51,8 +51,8 @@ public class ExamTopicActivity extends BaseTopicActivity implements OnCountListe
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mShouldHint = true;
         mTopicIntro = (TopicIntro) getIntent().getSerializableExtra(Extra.KData);

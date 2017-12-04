@@ -33,7 +33,7 @@ public class MeetsFrag extends BaseSRListFrag<Meeting, MeetingAdapter> {
     private String mDepart;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

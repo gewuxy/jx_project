@@ -19,7 +19,7 @@ import lib.jx.ui.activity.base.BaseActivity;
 public class BindEmailTipsActivity extends BaseActivity {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

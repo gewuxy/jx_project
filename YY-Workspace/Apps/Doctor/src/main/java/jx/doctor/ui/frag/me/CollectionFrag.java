@@ -26,7 +26,7 @@ public class CollectionFrag extends BaseSRListFrag<DataUnit, DataUnitAdapter> {
     int mType;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         if (mType == DataType.un_know) {
             throw new IllegalStateException("收藏类型未知");
         }

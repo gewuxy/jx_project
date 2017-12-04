@@ -88,7 +88,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());

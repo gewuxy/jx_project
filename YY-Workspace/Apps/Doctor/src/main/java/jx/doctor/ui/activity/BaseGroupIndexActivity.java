@@ -39,7 +39,7 @@ abstract public class BaseGroupIndexActivity<GROUP extends BaseGroup<CHILD>, CHI
     private String[] mSideBarLetters;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mLetterSize = fit(10);
         mSingleLetterHight = fit(15);
     }

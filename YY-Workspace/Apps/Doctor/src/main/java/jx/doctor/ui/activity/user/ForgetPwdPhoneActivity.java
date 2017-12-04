@@ -73,8 +73,8 @@ public class ForgetPwdPhoneActivity extends BaseFormActivity implements OnFormOb
     private Set<Integer> mStatus;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mCount = 0;
 

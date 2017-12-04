@@ -64,7 +64,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private MeetVpFrag mVpFrag;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mGridFrag = new MeetGridFrag();
         mVpFrag = new MeetVpFrag();
 

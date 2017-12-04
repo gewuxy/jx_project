@@ -33,7 +33,7 @@ public class CountdownDialog extends BaseDialog implements OnCountDownListener {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

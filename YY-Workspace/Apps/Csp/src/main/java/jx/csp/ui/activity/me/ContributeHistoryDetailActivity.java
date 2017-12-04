@@ -29,7 +29,7 @@ public class ContributeHistoryDetailActivity extends BaseSRListActivity<HistoryD
     public String mTitle;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

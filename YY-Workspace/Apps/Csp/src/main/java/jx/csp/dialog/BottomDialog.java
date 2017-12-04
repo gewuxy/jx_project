@@ -39,7 +39,7 @@ public class BottomDialog extends BaseDialog implements OnItemClickListener {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

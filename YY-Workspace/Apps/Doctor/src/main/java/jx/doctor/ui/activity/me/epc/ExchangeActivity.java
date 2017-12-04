@@ -78,8 +78,8 @@ public class ExchangeActivity extends BaseFormActivity implements OnFormObserver
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mStatus = new HashSet<>();
         mEnableSize = RelatedId.class.getDeclaredFields().length;

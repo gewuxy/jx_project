@@ -33,8 +33,8 @@ public class NickNameActivity extends BaseMyMessageActivity {
     private NickNameContract.P mNickNamePresenter;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
         mLimit = getIntent().getIntExtra(Extra.KLimit, 18);
 
         mNickNameView = new NickNameViewImpl();

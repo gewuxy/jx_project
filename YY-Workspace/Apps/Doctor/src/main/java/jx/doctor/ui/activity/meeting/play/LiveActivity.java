@@ -78,8 +78,8 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mPlay = false;
     }

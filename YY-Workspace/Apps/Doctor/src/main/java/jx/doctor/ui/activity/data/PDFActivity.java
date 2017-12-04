@@ -53,7 +53,7 @@ public class PDFActivity extends BaseActivity {
     private ICollectionView mCollectionView;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

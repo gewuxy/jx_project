@@ -58,8 +58,8 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mView = new BaseSetBindViewImpl();
         mPresenter = new SetBindPresenterImpl(mView);

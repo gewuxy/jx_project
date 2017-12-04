@@ -47,7 +47,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private MeetContract.P mPresenter;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 

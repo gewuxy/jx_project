@@ -35,7 +35,7 @@ public class ForgetPwdEmailActivity extends BaseActivity {
     private TextView mTvSendEmail;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

@@ -65,7 +65,7 @@ public class MainActivity extends BaseVpActivity {
     int mCurrPage;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         add(new HomeFrag());
         add(new MeetingFrag());
         add(new DataCenterFrag());

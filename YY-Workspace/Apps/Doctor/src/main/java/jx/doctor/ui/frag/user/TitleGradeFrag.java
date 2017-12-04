@@ -20,7 +20,7 @@ public class TitleGradeFrag extends BaseListFrag<String, TitleGradeAdapter> {
     private OnGradeListener mListener;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

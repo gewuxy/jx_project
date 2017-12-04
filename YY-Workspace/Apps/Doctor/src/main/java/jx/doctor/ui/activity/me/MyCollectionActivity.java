@@ -55,7 +55,7 @@ public class MyCollectionActivity extends BaseVpActivity {
     private OnClickListener mTabListener;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         add(new MyMeetingFrag());
         add(CollectionFragRouter.create(DataType.thomson).route());
         add(CollectionFragRouter.create(DataType.drug).route());

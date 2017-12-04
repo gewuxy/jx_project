@@ -19,7 +19,7 @@ import jx.doctor.util.Util;
 public class EpcActivity extends BaseSRListActivity<Epc, EpcAdapter> {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

@@ -52,7 +52,7 @@ public class SectionActivity extends BaseActivity implements OnCategoryListener,
     private String mCategoryName;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mCategory = "内科系统";
     }
 

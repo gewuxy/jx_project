@@ -73,7 +73,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
 
     @CallSuper
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         notify(NotifyType.study_start);
 
         mV = getV();

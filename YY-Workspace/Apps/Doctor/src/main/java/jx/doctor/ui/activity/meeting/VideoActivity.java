@@ -92,7 +92,7 @@ public class VideoActivity extends BaseActivity implements
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mDetail = (Detail) getIntent().getSerializableExtra(Extra.KData);
         mSubmit = (Submit) getIntent().getSerializableExtra(Extra.KSubmit);
         mUriString = Util.convertUrl(mDetail.getString(TDetail.url));

@@ -48,8 +48,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mView = new SettingsViewImpl();
         mPresenter = new SettingsPresenterImpl(mView);

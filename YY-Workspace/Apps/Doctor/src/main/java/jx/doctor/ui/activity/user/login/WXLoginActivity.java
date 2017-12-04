@@ -32,7 +32,7 @@ public class WXLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mOpenId = getIntent().getStringExtra(Extra.KData);
     }
 

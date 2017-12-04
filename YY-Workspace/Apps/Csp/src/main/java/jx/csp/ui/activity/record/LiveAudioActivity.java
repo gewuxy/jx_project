@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.record;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -30,6 +29,9 @@ import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
@@ -37,9 +39,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.jx.notify.LiveNotifier.LiveNotifyType;
-import lib.jx.util.CountDown;
-import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 直播语音
@@ -70,8 +69,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
     private long mServerTime; // 服务器时间
 
     @Override
-    public void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
+    public void initData() {
+        super.initData();
+
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mView = new View();
         mLiveRecordPresenterImpl = new LiveAudioPresenterImpl(mView);

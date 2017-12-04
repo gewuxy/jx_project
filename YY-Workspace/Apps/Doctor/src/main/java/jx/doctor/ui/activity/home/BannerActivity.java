@@ -25,7 +25,7 @@ public class BannerActivity extends BaseWebViewActivity {
     private ShareDialog mShareDialog;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

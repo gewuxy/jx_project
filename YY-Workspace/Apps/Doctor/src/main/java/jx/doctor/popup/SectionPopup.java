@@ -50,7 +50,7 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         setTouchOutsideDismissEnabled(true);
         setDimEnabled(true);
     }

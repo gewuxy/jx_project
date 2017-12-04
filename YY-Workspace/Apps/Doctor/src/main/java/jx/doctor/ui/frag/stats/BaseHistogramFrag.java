@@ -49,7 +49,7 @@ abstract public class BaseHistogramFrag extends BaseFrag {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         Bundle b = getArguments();
         if (b != null) {
             mIndex = b.getInt(Extra.KId);

@@ -39,7 +39,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 

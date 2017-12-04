@@ -88,7 +88,7 @@ abstract public class BaseTopicActivity extends BaseVpActivity implements
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mCount = 0;
         mIsAnimating = false;
         mMeetId = getIntent().getStringExtra(Extra.KMeetId);

@@ -77,7 +77,7 @@ public class ExamIntroActivity extends BaseActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         notify(NotifyType.study_start);
     }
 

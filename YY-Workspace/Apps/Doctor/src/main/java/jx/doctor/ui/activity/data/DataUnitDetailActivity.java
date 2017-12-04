@@ -49,7 +49,7 @@ public class DataUnitDetailActivity extends BaseSRGroupListActivity<GroupDataUni
     private ICollectionView mCollectionView;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

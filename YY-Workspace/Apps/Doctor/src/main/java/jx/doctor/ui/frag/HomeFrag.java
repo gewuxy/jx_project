@@ -75,7 +75,7 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
     private BannerView mBannerView;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

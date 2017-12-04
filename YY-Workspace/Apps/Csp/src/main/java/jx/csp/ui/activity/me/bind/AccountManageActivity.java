@@ -18,8 +18,8 @@ import jx.csp.model.form.Form;
 public class AccountManageActivity extends BaseAccountActivity {
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent_bind)

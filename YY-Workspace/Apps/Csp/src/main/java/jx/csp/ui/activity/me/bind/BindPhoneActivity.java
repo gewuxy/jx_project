@@ -30,8 +30,8 @@ public class BindPhoneActivity extends BaseSetActivity {
     private BindPhoneContract.P mPhonePresenter;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mPhoneView = new BindPhoneViewImpl();
         mPhonePresenter = new BindPhonePresenterImpl(mPhoneView);

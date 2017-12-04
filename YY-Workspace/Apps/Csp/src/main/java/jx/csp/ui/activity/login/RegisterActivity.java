@@ -52,8 +52,8 @@ public class RegisterActivity extends BaseLoginActivity {
     private View mLayout;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)

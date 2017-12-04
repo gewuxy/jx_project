@@ -31,7 +31,7 @@ abstract public class BaseSizeFrag extends BaseVPFrag implements OnPageChangeLis
     private ArrayList<Stats> mStatses;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mStatses = new ArrayList<>();
         for (int i = 0; i < KSize; i++) {
             Stats stats = new Stats();

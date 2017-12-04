@@ -29,7 +29,7 @@ public class EpnActivity extends BaseActivity {
     private TextView mTvEpn;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

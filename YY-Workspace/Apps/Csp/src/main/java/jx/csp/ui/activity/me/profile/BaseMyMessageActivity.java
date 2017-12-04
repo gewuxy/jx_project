@@ -41,7 +41,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
     public MyMessageContract.V mView;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mView = new MyMessageViewImpl();
         mPresenter = new MyMessagePresenterImpl(mView);
     }

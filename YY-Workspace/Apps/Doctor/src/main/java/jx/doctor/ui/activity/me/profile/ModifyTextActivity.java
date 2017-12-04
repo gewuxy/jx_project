@@ -26,7 +26,7 @@ public class ModifyTextActivity extends BaseModifyActivity {
 
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         //获取限制长度的字段并 赋默认值
         mLimit = getIntent().getIntExtra(Extra.KLimit, 30);
     }

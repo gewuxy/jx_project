@@ -34,8 +34,8 @@ public class HospitalActivity extends BaseHospitalActivity {
     private boolean mIsFromSet;  // 是否从设置页面返回的
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mIsFirstLoad = true;
         mIsFromSet = false;

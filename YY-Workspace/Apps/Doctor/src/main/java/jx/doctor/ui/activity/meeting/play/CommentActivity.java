@@ -63,7 +63,7 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mSuccess = false; // 没连接默认失败
     }
 

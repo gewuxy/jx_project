@@ -54,8 +54,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
     private int mCount = 0;
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)

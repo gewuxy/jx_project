@@ -20,7 +20,7 @@ public class TitleCategoryFrag extends BaseListFrag<String, TitleCategoryAdapter
     private OnCategoryListener mListener;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

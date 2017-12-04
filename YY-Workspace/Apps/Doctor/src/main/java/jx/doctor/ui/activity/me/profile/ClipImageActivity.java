@@ -41,7 +41,7 @@ public class ClipImageActivity extends BaseActivity {
     String mPath;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

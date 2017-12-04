@@ -14,7 +14,7 @@ import lib.jx.test.BaseTestActivity;
 public class TestActivity extends BaseTestActivity {
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
 
         add("主页", MainActivityRouter.newIntent(this, MainActivity.KTabHome));
         add("会议", MainActivityRouter.newIntent(this, MainActivity.KTabMeeting));

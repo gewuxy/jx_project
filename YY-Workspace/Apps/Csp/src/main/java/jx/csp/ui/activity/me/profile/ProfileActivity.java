@@ -74,8 +74,8 @@ public class ProfileActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         mView = new ProfileViewImpl();
         mPresenter = new ProfilePresenterImpl(mView);

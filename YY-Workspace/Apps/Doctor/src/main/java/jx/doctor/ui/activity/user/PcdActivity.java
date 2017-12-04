@@ -69,7 +69,7 @@ public class PcdActivity extends BaseSRListActivity<Pcd, PcdAdapter> implements 
     private Place mRetPlace;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

@@ -70,7 +70,7 @@ abstract public class BaseDataUnitsFrag extends BaseSRListFrag<DataUnit, DataUni
 
     @CallSuper
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @Override

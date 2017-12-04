@@ -54,8 +54,8 @@ public class SurveyTopicActivity extends BaseTopicActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         notify(NotifyType.study_start);
     }

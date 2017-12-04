@@ -45,7 +45,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

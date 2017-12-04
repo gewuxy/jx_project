@@ -58,7 +58,7 @@ public class PPTLiveFrag extends BaseFrag {
     private boolean mPull;
 
     @Override
-    public void initData(Bundle savedInstanceState) {
+    public void initData() {
         mLiveCallbackImpl = new LiveCallbackImpl();
         mPull = true;
     }

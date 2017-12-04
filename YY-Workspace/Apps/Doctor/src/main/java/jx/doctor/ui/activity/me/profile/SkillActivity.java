@@ -26,7 +26,7 @@ public class SkillActivity extends BaseModifyActivity {
 
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

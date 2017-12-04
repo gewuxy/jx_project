@@ -36,8 +36,8 @@ public class SignActivity extends BaseResultActivity {
     private ImageView mIvResult;//结果图标
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         notify(NotifyType.study_start);
     }

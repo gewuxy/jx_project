@@ -44,7 +44,7 @@ public class EpcDetailActivity extends BaseActivity {
     private int mEpn;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

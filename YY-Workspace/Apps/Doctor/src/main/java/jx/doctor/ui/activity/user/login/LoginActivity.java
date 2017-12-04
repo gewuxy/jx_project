@@ -39,7 +39,7 @@ public class LoginActivity extends BaseLoginActivity {
     private int mCount = 0;
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         mRequest = getIntent().getStringExtra(Extra.KData);
     }
 

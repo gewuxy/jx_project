@@ -86,7 +86,7 @@ public class EpnRechargeActivity extends BaseActivity {
     };
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
     }
 
     @NonNull

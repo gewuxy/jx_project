@@ -45,7 +45,7 @@ abstract public class BaseTopicFrag extends BaseListFrag<ITopic, TopicAdapter> i
     }
 
     @Override
-    public void initData(Bundle state) {
+    public void initData() {
         // do nothing
     }
 

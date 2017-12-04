@@ -108,8 +108,8 @@ public class SettingsActivity extends BaseFormActivity {
     }
 
     @Override
-    public void initData(Bundle state) {
-        super.initData(state);
+    public void initData() {
+        super.initData();
 
         addItem(Form.create(FormType.text)
                 .related(RelatedId.bind_wx)
