@@ -103,15 +103,13 @@ public class CopyDuplicateActivity extends BaseActivity {
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         if (r.isSucceed()) {
-            if (r.isSucceed()) {
-                Copy copy = (Copy) r.getData();
-                copy.put(TCopy.oldId, mCourseId);
-                copy.put(TCopy.title, mEt.getText().toString());
-                Notifier.inst().notify(NotifyType.copy_duplicate, copy);
-                YSLog.d(TAG, mCourseId + "发送复制通知");
-            } else {
-                onNetworkError(id, r.getError());
-            }
+            Copy copy = (Copy) r.getData();
+            copy.put(TCopy.oldId, mCourseId);
+            copy.put(TCopy.title, mEt.getText().toString());
+            Notifier.inst().notify(NotifyType.copy_duplicate, copy);
+            YSLog.d(TAG, mCourseId + "发送复制通知");
+        } else {
+            onNetworkError(id, r.getError());
         }
         finish();
     }

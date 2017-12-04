@@ -14,7 +14,7 @@ public class UrlUtil {
 
     private static String mYaYaAuthorize = "https://www.medcn.com/oauth/app/authorize";
 
-    private static String mBaseHttp = "http://59.111.90.245:8084/view/";
+    private static String mBaseHttp = " http://www.cspmeeting.com/view/";
     //更新日志
     private static String mUrlUpdateLog = mBaseHttp + "17110216044331146598";
     //免责声明  服务协议
