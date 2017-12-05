@@ -9,7 +9,7 @@
         <item name="android:background">@drawable/item_selector</item>
     </style>
 
-    <style name="v.form.Bind">
+    <style name="v.form.bind">
         <item name="android:layout_height">62dp</item>
     </style>
 

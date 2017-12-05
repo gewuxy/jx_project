@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        style="@style/v.form.Bind">
+        style="@style/v.form.bind">
 
         <LinearLayout
             android:layout_width="wrap_content"

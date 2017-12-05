@@ -10,7 +10,7 @@
     </style>
 
     <!-- 适配英文版-->
-    <style name="v.form.Bind">
+    <style name="v.form.bind">
         <item name="android:layout_height">@dimen/form_height</item>
     </style>
 
