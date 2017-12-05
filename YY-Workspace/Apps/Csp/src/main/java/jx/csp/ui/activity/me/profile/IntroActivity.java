@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.profile;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.EditText;
 import android.widget.TextView;

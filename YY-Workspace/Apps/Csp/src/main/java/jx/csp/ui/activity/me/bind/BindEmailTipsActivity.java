@@ -1,13 +1,12 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import jx.csp.R;
 import jx.csp.util.Util;
-import lib.ys.ui.other.NavBar;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.ys.ui.other.NavBar;
 
 /**
  * 提示绑定邮箱

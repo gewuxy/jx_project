@@ -1,7 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
-
 import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.constant.FormType;

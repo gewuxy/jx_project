@@ -18,7 +18,8 @@
             android:singleLine="true"
             android:maxLength="6"/>
 
-        <ImageView style="@style/iv.form.clean"
+        <ImageView
+            style="@style/iv.form.clean"
             android:layout_marginRight="2dp"/>
 
         <lib.ys.view.CaptchaView

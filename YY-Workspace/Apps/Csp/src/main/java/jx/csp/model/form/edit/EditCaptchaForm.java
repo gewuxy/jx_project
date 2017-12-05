@@ -3,9 +3,9 @@ package jx.csp.model.form.edit;
 import android.widget.TextView;
 
 import jx.csp.R;
+import lib.jx.adapter.VH.FormVH;
 import lib.ys.ConstantsEx;
 import lib.ys.view.CaptchaView;
-import lib.jx.adapter.VH.FormVH;
 
 /**
  * @auther WangLan

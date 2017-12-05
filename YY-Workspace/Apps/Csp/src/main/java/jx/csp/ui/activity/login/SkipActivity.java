@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
@@ -9,10 +8,10 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.Util;
-import lib.ys.ui.other.NavBar;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.ys.ui.other.NavBar;
 
 /**
  * 忘记密码跳转和注册跳转的基类

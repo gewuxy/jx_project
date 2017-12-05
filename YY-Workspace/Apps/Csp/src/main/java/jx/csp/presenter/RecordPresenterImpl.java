@@ -24,12 +24,12 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.util.Util;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.util.CountDown;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
-import lib.jx.contract.BasePresenterImpl;
-import lib.jx.util.CountDown;
 
 /**
  * @author CaiXiang

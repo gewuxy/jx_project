@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -145,7 +144,7 @@ public class RegisterActivity extends BaseLoginActivity {
             Profile.inst().put(TProfile.nickName, getNickname());
             Profile.inst().put(TProfile.email, getNickname());
             Profile.inst().saveToSp();
-            SkipActivityRouter.create(getString(R.string.register),getString(R.string.active_email)).route(this);
+            SkipActivityRouter.create(getString(R.string.register), getString(R.string.active_email)).route(this);
             finish();
         } else {
             if (r.getCode() == KReturnCode) {

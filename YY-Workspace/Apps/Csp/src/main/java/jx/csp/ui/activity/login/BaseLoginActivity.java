@@ -9,12 +9,12 @@ import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.util.Util;
+import lib.jx.model.form.BaseForm;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
-import lib.jx.model.form.BaseForm;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * @auther : GuoXuan

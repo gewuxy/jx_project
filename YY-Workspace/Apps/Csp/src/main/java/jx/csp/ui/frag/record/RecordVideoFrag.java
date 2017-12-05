@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.record;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +10,11 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
-import lib.jx.ui.frag.base.BaseFrag;
 
 /**
  * @author CaiXiang

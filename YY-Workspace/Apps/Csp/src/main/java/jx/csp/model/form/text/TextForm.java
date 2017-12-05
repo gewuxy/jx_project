@@ -3,12 +3,12 @@ package jx.csp.model.form.text;
 import android.widget.TextView;
 
 import jx.csp.R;
+import lib.jx.adapter.VH.FormVH;
+import lib.jx.model.form.BaseForm;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.jx.adapter.VH.FormVH;
-import lib.jx.model.form.BaseForm;
 
 /**
  * @auther HuoXuYu

@@ -1,15 +1,13 @@
 package jx.csp.ui.activity.me;
 
-import android.os.Bundle;
-
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.adapter.me.HistoryDetailAdapter;
 import jx.csp.model.me.HistoryDetail;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.util.Util;
-import lib.ys.ui.other.NavBar;
 import lib.jx.ui.activity.base.BaseSRListActivity;
+import lib.ys.ui.other.NavBar;
 
 /**
  * 投稿历史详情

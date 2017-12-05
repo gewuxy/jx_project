@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -21,13 +20,13 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
+import lib.jx.network.BaseJsonParser.ErrorCode;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.jx.network.BaseJsonParser.ErrorCode;
-import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 邮箱登录

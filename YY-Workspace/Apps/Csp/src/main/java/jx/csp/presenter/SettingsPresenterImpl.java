@@ -17,11 +17,11 @@ import jx.csp.ui.activity.me.SettingsActivity;
 import jx.csp.ui.activity.me.bind.BindEmailTipsActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import jx.csp.util.Util;
+import lib.jx.contract.BasePresenterImpl;
 import lib.ys.YSLog;
 import lib.ys.util.FileUtil;
 import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
-import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

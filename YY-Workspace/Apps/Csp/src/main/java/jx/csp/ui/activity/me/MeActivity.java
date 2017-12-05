@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -17,12 +16,12 @@ import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 个人中心

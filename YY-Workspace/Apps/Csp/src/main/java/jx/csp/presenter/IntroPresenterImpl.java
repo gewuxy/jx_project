@@ -6,15 +6,15 @@ import android.widget.EditText;
 
 import jx.csp.contact.IntroContract;
 import jx.csp.contact.IntroContract.V;
-import lib.ys.util.TextUtil;
 import lib.jx.contract.BasePresenterImpl;
+import lib.ys.util.TextUtil;
 
 /**
  * @auther Huoxuyu
  * @since 2017/11/22
  */
 
-public class IntroPresenterImpl extends BasePresenterImpl<IntroContract.V> implements IntroContract.P{
+public class IntroPresenterImpl extends BasePresenterImpl<IntroContract.V> implements IntroContract.P {
 
     private int KTextLength = 600;
 

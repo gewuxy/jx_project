@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.main;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -28,6 +27,11 @@ import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseVpActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -38,11 +42,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.view.LayoutUtil;
-import lib.jx.notify.LiveNotifier;
-import lib.jx.notify.LiveNotifier.LiveNotifyType;
-import lib.jx.notify.LiveNotifier.OnLiveNotify;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseVpActivity;
 
 /**
  * 首页

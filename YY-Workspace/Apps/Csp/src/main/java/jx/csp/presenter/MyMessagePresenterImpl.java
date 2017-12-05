@@ -6,8 +6,8 @@ import jx.csp.contact.MyMessageContract;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import lib.network.model.interfaces.IResult;
 import lib.jx.contract.BasePresenterImpl;
+import lib.network.model.interfaces.IResult;
 
 /**
  * @auther Huoxuyu
@@ -56,7 +56,7 @@ public class MyMessagePresenterImpl extends BasePresenterImpl<MyMessageContract.
         if (r.isSucceed()) {
             if (id == KNickNameCode) {
                 saveLocal(TProfile.nickName);
-            }else {
+            } else {
                 saveLocal(TProfile.info);
             }
         } else {

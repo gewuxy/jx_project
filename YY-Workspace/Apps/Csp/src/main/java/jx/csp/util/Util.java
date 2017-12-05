@@ -18,13 +18,13 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.constant.Constants;
 import jx.csp.constant.MetaValue;
+import lib.jx.util.BaseUtil;
 import lib.network.Network;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
-import lib.jx.util.BaseUtil;
 
 /**
  * @author CaiXiang

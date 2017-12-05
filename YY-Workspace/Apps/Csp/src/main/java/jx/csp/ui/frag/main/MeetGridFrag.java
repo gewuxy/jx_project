@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.main;
 
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -14,10 +13,10 @@ import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
+import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
-import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
 
 /**
  * 首页九宫格的frag

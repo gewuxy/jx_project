@@ -10,12 +10,12 @@ import jx.csp.contact.LiveVideoContract;
 import jx.csp.contact.LiveVideoContract.V;
 import jx.csp.model.Profile;
 import jx.csp.util.Util;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.live.ILiveCallback;
+import lib.live.ILiveCallback.UserType;
+import lib.live.LiveApi;
 
 /**
  * @author CaiXiang
@@ -146,6 +146,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
         }
 
         @Override
-        public void onUserUpdate(int number) {}
+        public void onUserUpdate(int number) {
+        }
     }
 }

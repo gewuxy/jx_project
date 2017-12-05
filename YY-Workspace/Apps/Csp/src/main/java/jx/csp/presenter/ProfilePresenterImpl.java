@@ -3,8 +3,8 @@ package jx.csp.presenter;
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.ProfileContract;
-import lib.ys.util.permission.PermissionResult;
 import lib.jx.contract.BasePresenterImpl;
+import lib.ys.util.permission.PermissionResult;
 
 /**
  * @auther Huoxuyu

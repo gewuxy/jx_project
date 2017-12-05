@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.livevideo;
 
 import android.app.Service;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -24,6 +23,12 @@ import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.LiveVideoPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.Util;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
@@ -32,12 +37,6 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.jx.notify.LiveNotifier;
-import lib.jx.notify.LiveNotifier.LiveNotifyType;
-import lib.jx.notify.LiveNotifier.OnLiveNotify;
-import lib.jx.ui.activity.base.BaseActivity;
-import lib.jx.util.CountDown;
-import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 直播推流界面

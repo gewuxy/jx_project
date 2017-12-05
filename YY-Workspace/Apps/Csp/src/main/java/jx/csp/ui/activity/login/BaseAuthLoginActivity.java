@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.login;
 
 import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -25,6 +24,8 @@ import jx.csp.serv.DownloadServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;
@@ -33,8 +34,6 @@ import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * @auther WangLan

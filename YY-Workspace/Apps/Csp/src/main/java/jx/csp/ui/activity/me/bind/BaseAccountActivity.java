@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,13 +15,13 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.AccountManagePresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.platform.Platform.Type;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * @auther Huoxuyu

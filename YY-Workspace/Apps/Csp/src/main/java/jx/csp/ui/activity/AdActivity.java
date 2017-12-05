@@ -1,7 +1,6 @@
 package jx.csp.ui.activity;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -20,11 +19,11 @@ import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.LaunchUtil;
-import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * 广告页
