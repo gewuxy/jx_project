@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.view.View;
@@ -18,11 +17,11 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.util.TextUtil;
-import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 手机登录之后没有昵称的跳出的输入昵称

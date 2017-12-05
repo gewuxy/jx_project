@@ -2,7 +2,6 @@ package jx.csp.ui.activity.me.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -21,6 +20,8 @@ import jx.csp.model.form.text.IntentForm.IntentType;
 import jx.csp.presenter.ProfilePresenterImpl;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.model.FileSuffix;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CircleRenderer;
@@ -30,8 +31,6 @@ import lib.ys.util.bmp.BmpUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 个人中心

@@ -236,7 +236,7 @@ public class NetworkApi {
          *
          * @param courseId
          * @param imgUrl
-         * @param firstClk  是否是第一次点击开始按钮 0表示不是 1表示是
+         * @param firstClk 是否是第一次点击开始按钮 0表示不是 1表示是
          * @param pageNum  当前下标
          */
         @Get("live/start")
@@ -295,7 +295,7 @@ public class NetworkApi {
          * @param pageSize
          */
         @Post("list")
-        void meetingList(int pageNum,int pageSize);
+        void meetingList(int pageNum, int pageSize);
 
         /**
          * 直播PPT中包含视频 视频页翻页时调用

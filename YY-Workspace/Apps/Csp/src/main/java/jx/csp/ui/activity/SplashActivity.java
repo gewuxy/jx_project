@@ -34,10 +34,10 @@ public class SplashActivity extends SplashActivityEx {
     @Override
     public void setViews() {
         super.setViews();
-       if (SpApp.inst().getLangType()== LangType.en) {
-           showView(mSplashBgEn);
-           goneView(mSplashBg);
-       }
+        if (SpApp.inst().getLangType() == LangType.en) {
+            showView(mSplashBgEn);
+            goneView(mSplashBg);
+        }
     }
 
     @Override

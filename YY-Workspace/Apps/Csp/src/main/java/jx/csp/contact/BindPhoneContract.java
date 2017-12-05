@@ -11,7 +11,7 @@ import lib.jx.contract.IContract;
 
 public interface BindPhoneContract {
 
-    interface V extends IContract.View{
+    interface V extends IContract.View {
 
 
         /**
@@ -30,7 +30,7 @@ public interface BindPhoneContract {
         void closePage();
     }
 
-    interface P extends IContract.Presenter<V>{
+    interface P extends IContract.Presenter<V> {
 
         void checkCaptcha();
 

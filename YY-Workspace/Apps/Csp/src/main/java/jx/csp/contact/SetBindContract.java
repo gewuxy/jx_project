@@ -18,6 +18,7 @@ public interface SetBindContract {
         void closePage();
 
     }
+
     interface P extends IContract.Presenter<V> {
 
         /**

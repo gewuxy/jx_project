@@ -1,19 +1,18 @@
 package jx.csp.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.widget.TextView;
 
 import jx.csp.R;
-import lib.ys.YSLog;
-import lib.ys.view.ProgressView;
 import lib.jx.dialog.BaseDialog;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.ys.YSLog;
+import lib.ys.view.ProgressView;
 
 /**
  * @auther yuansui

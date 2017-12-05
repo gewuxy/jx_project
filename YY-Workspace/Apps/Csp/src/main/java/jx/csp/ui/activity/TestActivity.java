@@ -1,7 +1,6 @@
 package jx.csp.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginActivity;
@@ -9,8 +8,8 @@ import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
-import lib.ys.YSLog;
 import lib.jx.test.BaseTestActivity;
+import lib.ys.YSLog;
 
 /**
  * @auther yuansui

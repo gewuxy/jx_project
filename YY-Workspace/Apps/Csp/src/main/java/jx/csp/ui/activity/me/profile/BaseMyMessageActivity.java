@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.me.profile;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.widget.EditText;
@@ -15,11 +14,11 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.MyMessagePresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * 个人中心基类

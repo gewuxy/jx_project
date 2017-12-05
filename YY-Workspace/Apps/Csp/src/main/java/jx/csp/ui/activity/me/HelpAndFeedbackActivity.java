@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -19,11 +18,11 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.res.ResLoader;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 帮助与反馈

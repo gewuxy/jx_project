@@ -8,9 +8,9 @@ import android.widget.EditText;
 import jx.csp.R;
 import jx.csp.util.UISetter;
 import jx.csp.util.input.InputFilterSpaCN;
+import lib.jx.adapter.VH.FormVH;
 import lib.ys.ConstantsEx;
 import lib.ys.network.image.NetworkImageView;
-import lib.jx.adapter.VH.FormVH;
 
 /**
  * @author GuoXuan

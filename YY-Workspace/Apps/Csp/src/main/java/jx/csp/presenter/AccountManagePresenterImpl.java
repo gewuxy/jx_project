@@ -14,6 +14,9 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.me.bind.BaseAccountActivity.RelatedId;
 import jx.csp.util.Util;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
@@ -22,9 +25,6 @@ import lib.platform.model.AuthParams;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
-import lib.jx.contract.BasePresenterImpl;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu
@@ -55,7 +55,7 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
                 if (bindId == BindId.wechat) {
                     bind(bindId, unionId, mNickName, userGender, icon);
-                }else {
+                } else {
                     bind(bindId, userId, mNickName, userGender, icon);
                 }
 

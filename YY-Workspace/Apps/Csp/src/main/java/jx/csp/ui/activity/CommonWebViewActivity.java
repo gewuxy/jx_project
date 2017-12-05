@@ -1,15 +1,13 @@
 package jx.csp.ui.activity;
 
-import android.os.Bundle;
-
 import java.util.HashMap;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.UISetter;
-import lib.ys.ui.other.NavBar;
 import lib.jx.ui.activity.base.BaseWebViewActivity;
+import lib.ys.ui.other.NavBar;
 
 /**
  * WebView页面

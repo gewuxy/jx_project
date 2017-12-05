@@ -17,6 +17,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="56dp"
-        android:text="进入" />
+        android:text="进入"/>
 
 </RelativeLayout>

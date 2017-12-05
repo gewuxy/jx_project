@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 

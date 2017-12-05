@@ -19,12 +19,12 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
 
 /**
  * @author CaiXiang

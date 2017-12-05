@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.view.View;
@@ -14,9 +13,9 @@ import jx.csp.model.form.Form;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.presenter.BindPhonePresenterImpl;
 import jx.csp.util.Util;
-import lib.ys.util.TextUtil;
 import lib.jx.model.form.BaseForm;
 import lib.jx.notify.Notifier.NotifyType;
+import lib.ys.util.TextUtil;
 
 /**
  * 绑定手机号

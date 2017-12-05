@@ -3,7 +3,6 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -67,7 +66,7 @@ public class ShareDialog extends BaseDialog {
 
         mCourseId = courseId;
         // 复制的会议标题默认加  _复制
-        mTitle = title  + getString(R.string.duplicate);
+        mTitle = title + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
 

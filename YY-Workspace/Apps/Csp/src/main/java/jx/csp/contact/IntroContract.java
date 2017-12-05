@@ -10,7 +10,7 @@ import lib.jx.contract.IContract;
  */
 
 public interface IntroContract {
-    interface V extends IContract.View{
+    interface V extends IContract.View {
         /**
          * 设置简介的文本长度
          *
@@ -19,7 +19,7 @@ public interface IntroContract {
         void setIntroTextLength(int length);
     }
 
-    interface P extends IContract.Presenter<V>{
+    interface P extends IContract.Presenter<V> {
 
         /**
          * 输入框的监听

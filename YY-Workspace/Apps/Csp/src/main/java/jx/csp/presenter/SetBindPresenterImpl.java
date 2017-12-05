@@ -8,9 +8,9 @@ import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import jx.csp.ui.activity.me.bind.BindEmailActivity;
 import jx.csp.ui.activity.me.bind.ReceiveEmailTipsActivity;
 import jx.csp.util.Util;
+import lib.jx.contract.BasePresenterImpl;
 import lib.network.model.interfaces.IResult;
 import lib.ys.util.LaunchUtil;
-import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther Huoxuyu

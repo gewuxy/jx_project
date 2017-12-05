@@ -47,6 +47,7 @@
                 android:textSize="14dp"/>
         </LinearLayout>
     </LinearLayout>
+
     <View
         style="@style/divider"
         android:layout_marginLeft="@dimen/margin"

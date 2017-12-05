@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.profile;
 
-import android.os.Bundle;
 import android.widget.TextView;
 
 import inject.annotation.router.Route;
@@ -8,10 +7,10 @@ import jx.csp.R;
 import jx.csp.contact.ClipImageContract;
 import jx.csp.presenter.ClipImagePresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.BaseClipImageActivity;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.jx.ui.activity.BaseClipImageActivity;
 
 /**
  * 裁剪图片

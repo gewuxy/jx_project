@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.main;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -16,9 +15,9 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
+import lib.jx.ui.frag.base.BaseVPFrag;
 import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
-import lib.jx.ui.frag.base.BaseVPFrag;
 
 /**
  * 首页左右滑动的列表的frag

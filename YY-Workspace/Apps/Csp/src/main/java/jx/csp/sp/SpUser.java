@@ -107,6 +107,7 @@ public class SpUser extends SpBase {
 
     /**
      * 保存离开首页时，vp的页面
+     *
      * @param page
      */
     public void saveMainPage(int page) {

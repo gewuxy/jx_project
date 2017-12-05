@@ -1,7 +1,6 @@
 package jx.csp.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +16,8 @@ import android.widget.ListView;
 import jx.csp.R;
 import jx.csp.adapter.BottomAdapter;
 import jx.csp.adapter.VH.BottomVH;
-import lib.ys.adapter.AdapterEx;
 import lib.jx.dialog.BaseDialog;
+import lib.ys.adapter.AdapterEx;
 
 /**
  * 在底部的dialog

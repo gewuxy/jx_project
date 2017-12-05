@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.main;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,14 +14,14 @@ import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * 复制副本

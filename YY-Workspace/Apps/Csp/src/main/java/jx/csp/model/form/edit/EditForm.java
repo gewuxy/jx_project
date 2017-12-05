@@ -16,12 +16,12 @@ import java.util.List;
 
 import jx.csp.R;
 import jx.csp.util.Util;
+import lib.jx.adapter.VH.FormVH;
+import lib.jx.model.form.BaseForm;
 import lib.ys.ConstantsEx;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.ViewUtil;
-import lib.jx.adapter.VH.FormVH;
-import lib.jx.model.form.BaseForm;
 
 
 /**

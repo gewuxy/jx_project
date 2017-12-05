@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 
@@ -16,9 +15,9 @@ import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.res.ResLoader;
-import lib.jx.ui.activity.base.BaseFormActivity;
 
 /**
  * 设置

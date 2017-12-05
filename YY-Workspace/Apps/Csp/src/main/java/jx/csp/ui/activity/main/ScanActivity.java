@@ -2,7 +2,6 @@ package jx.csp.ui.activity.main;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.RelativeLayout.LayoutParams;
@@ -25,6 +24,12 @@ import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
+import lib.jx.notify.LiveNotifier;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -32,12 +37,6 @@ import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.jx.notify.LiveNotifier;
-import lib.jx.notify.LiveNotifier.LiveNotifyType;
-import lib.jx.notify.LiveNotifier.OnLiveNotify;
-import lib.jx.ui.activity.base.BaseActivity;
-import lib.jx.util.CountDown;
-import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 扫一扫

@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me;
 
-import android.os.Bundle;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
@@ -13,9 +12,9 @@ import jx.csp.model.Platform;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.presenter.ContributePlatformPresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
-import lib.jx.ui.activity.base.BaseSRListActivity;
 
 /**
  * 投稿平台

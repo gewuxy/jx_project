@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.me;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -19,10 +18,10 @@ import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.FlowRatePresenterImpl;
 import jx.csp.util.Util;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.jx.ui.activity.base.BaseActivity;
 import pay.PayAction;
 
 /**

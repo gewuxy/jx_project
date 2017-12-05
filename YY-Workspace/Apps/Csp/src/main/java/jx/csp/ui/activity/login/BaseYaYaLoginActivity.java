@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,14 +26,14 @@ import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseActivity;
 
 /**
  * @auther WangLan

@@ -1,7 +1,6 @@
 package jx.csp.ui.frag.record;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 import android.view.View;
@@ -16,13 +15,13 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import lib.jx.ui.frag.base.BaseFrag;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.renderer.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
-import lib.jx.ui.frag.base.BaseFrag;
 
 /**
  * @author CaiXiang

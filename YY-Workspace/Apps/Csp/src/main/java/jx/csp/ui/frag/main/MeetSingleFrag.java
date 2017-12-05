@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.main;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,13 +14,13 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
+import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
-import lib.jx.ui.frag.base.BaseFrag;
 
 /**
  * 首页左右滑动列表的单个frag

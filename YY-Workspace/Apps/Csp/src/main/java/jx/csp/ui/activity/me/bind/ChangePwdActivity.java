@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.text.Editable;
 
 import io.reactivex.annotations.NonNull;
@@ -63,12 +62,12 @@ public class ChangePwdActivity extends BaseSetActivity {
     }
 
     @NonNull
-    private String getOldPwd(){
+    private String getOldPwd() {
         return getRelatedItem(RelatedId.change_old_pwd).getVal();
     }
 
     @NonNull
-    private String getNewPwd(){
+    private String getNewPwd() {
         return getRelatedItem(RelatedId.change_new_pwd).getVal();
     }
 

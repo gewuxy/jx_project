@@ -27,12 +27,12 @@ import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
+import lib.jx.contract.BasePresenterImpl;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
-import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @auther yuansui

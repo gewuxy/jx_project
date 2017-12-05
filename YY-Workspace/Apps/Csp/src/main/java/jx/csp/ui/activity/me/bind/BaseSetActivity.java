@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
 import android.text.TextWatcher;
@@ -141,7 +140,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
      */
     abstract protected void doSet();
 
-    protected void setChanged(boolean enabled){
+    protected void setChanged(boolean enabled) {
         mTvSet.setEnabled(enabled);
     }
 

@@ -8,11 +8,11 @@ import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
+import lib.jx.network.Result;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.jx.network.Result;
 
 /**
  * 第三方登录

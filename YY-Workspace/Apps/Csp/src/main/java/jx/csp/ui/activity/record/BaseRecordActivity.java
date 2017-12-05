@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.record;
 
 import android.app.Service;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
@@ -36,16 +35,16 @@ import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
 import jx.csp.view.VoiceLineView;
-import lib.ys.YSLog;
-import lib.ys.receiver.ConnectionReceiver;
-import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseVpActivity;
+import lib.ys.YSLog;
+import lib.ys.receiver.ConnectionReceiver;
+import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 
 /**
  * 录音页面

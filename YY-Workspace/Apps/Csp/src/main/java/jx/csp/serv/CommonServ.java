@@ -20,12 +20,12 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import lib.jg.jpush.SpJPush;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * @auther Huoxuyu
@@ -109,7 +109,7 @@ public class CommonServ extends ServiceEx {
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
         if (id == ReqType.advert) {
-            return JsonParser.ev(resp.getText(),Advert.class);
+            return JsonParser.ev(resp.getText(), Advert.class);
         } else {
             return JsonParser.error(resp.getText());
         }

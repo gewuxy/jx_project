@@ -12,12 +12,12 @@ import inject.annotation.router.Route;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.util.CacheUtil;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
 
 /**
  * 下载专用

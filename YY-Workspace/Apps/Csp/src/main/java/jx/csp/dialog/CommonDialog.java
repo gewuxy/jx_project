@@ -1,7 +1,6 @@
 package jx.csp.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -16,10 +15,10 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import jx.csp.R;
+import lib.jx.dialog.BaseDialog;
 import lib.ys.fitter.Fitter;
 import lib.ys.util.res.ResLoader;
 import lib.ys.util.view.LayoutUtil;
-import lib.jx.dialog.BaseDialog;
 
 /**
  * 可变的对话框

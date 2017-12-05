@@ -2,8 +2,8 @@ package jx.csp.contact;
 
 import android.content.Intent;
 
-import lib.ys.util.permission.PermissionResult;
 import lib.jx.contract.IContract;
+import lib.ys.util.permission.PermissionResult;
 
 /**
  * @auther Huoxuyu

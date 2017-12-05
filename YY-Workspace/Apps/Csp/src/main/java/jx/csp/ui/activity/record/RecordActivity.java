@@ -1,7 +1,6 @@
 package jx.csp.ui.activity.record;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -36,6 +35,9 @@ import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.view.GestureView.onGestureViewListener;
+import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
@@ -44,9 +46,6 @@ import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
-import lib.jx.notify.LiveNotifier.LiveNotifyType;
-import lib.jx.util.CountDown;
-import lib.jx.util.CountDown.OnCountDownListener;
 
 /**
  * 普通的语音录制

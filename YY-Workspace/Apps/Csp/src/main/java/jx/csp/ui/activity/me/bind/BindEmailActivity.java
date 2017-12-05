@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.me.bind;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 
@@ -71,12 +70,12 @@ public class BindEmailActivity extends BaseSetActivity {
     }
 
     @NonNull
-    private String getEmail(){
+    private String getEmail() {
         return getRelatedItem(RelatedId.bind_email).getVal();
     }
 
     @NonNull
-    private String getPwd(){
+    private String getPwd() {
         return getRelatedItem(RelatedId.pwd).getVal();
     }
 

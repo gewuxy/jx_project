@@ -18,6 +18,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
+import lib.jx.BaseApp;
 import lib.network.NetworkConfig;
 import lib.platform.Platform;
 import lib.ys.YSLog;
@@ -28,7 +29,6 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.jx.BaseApp;
 
 /**
  * @auther yuansui

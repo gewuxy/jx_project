@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.login;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 
@@ -64,7 +63,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
-            SkipActivityRouter.create(getString(R.string.find_pwd),getString(R.string.reset_pwd_to_email)).route(this);
+            SkipActivityRouter.create(getString(R.string.find_pwd), getString(R.string.reset_pwd_to_email)).route(this);
             finish();
         } else {
             onNetworkError(id, r.getError());

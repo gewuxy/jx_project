@@ -10,12 +10,12 @@ import jx.csp.contact.AudioUploadContract.V;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import lib.jx.contract.BasePresenterImpl;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.util.FileUtil;
-import lib.jx.contract.BasePresenterImpl;
 
 /**
  * @author CaiXiang
