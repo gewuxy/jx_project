@@ -3,6 +3,7 @@ package jx.csp;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
 import java.util.Locale;
@@ -21,6 +22,7 @@ import lib.jg.JG;
 import lib.jx.BaseApp;
 import lib.network.NetworkConfig;
 import lib.platform.Platform;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -29,6 +31,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.util.TextUtil;
 
 /**
  * @auther yuansui
@@ -117,15 +120,7 @@ public class App extends BaseApp {
             StrictMode.setVmPolicy(builder.build());
         }
 
-        Locale l = Locale.getDefault();
-        LangType langType = LangType.en;
-        if (l.equals(Locale.SIMPLIFIED_CHINESE)) {
-            // 简体中文
-            langType = LangType.cn_simplified;
-        } else if (l.equals(Locale.TRADITIONAL_CHINESE)) {
-            // 繁体中文
-            langType = LangType.cn;
-        }
+        LangType langType = getLangType();
         // 保存系统语言
         SpApp.inst().saveSystemLang(langType);
 
@@ -136,6 +131,55 @@ public class App extends BaseApp {
             appType = AppType.overseas;
         }
         SpApp.inst().setAppType(appType);
+    }
+
+    @NonNull
+    private LangType getLangType() {
+        Locale l = Locale.getDefault();
+        LangType langType = LangType.en;
+        String language = l.getLanguage();
+        /** {@link Locale#CHINESE}*/
+        final String zh = "zh";
+        if (zh.equals(language)) {
+            String script = ConstantsEx.KEmpty;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                String s = l.toString();
+                int start = s.indexOf("#");
+                if (start != ConstantsEx.KErrNotFound) {
+                    int end = s.lastIndexOf("_");
+                    if (end > start) {
+                        script = s.substring(start + 1, end);
+                    } else {
+                        script = s.substring(start + 1);
+                    }
+                }
+            } else {
+                script = l.getScript();
+            }
+            if (TextUtil.isEmpty(script)) {
+                // 有的地方不返回_#Hant或_#Hans
+                final String cn = "CN";
+                String country = l.getCountry();
+                if (cn.equals(country)) {
+                    // 简体中文 , 除了cn其他地方没有区分简体繁体的默认繁体
+                    langType = LangType.cn_simplified;
+                } else {
+                    // 繁体中文
+                    langType = LangType.cn;
+                }
+            } else {
+                // Hans表示简体中文 , Hant表示繁体中文 http://www.jianshu.com/p/a6d090234d25
+                final String hans = "Hans";
+                if (hans.equals(script)) {
+                    // 简体中文
+                    langType = LangType.cn_simplified;
+                } else {
+                    // 繁体中文
+                    langType = LangType.cn;
+                }
+            }
+        }
+        return langType;
     }
 
     @Override

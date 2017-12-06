@@ -63,12 +63,13 @@ public class MeActivity extends BaseFormActivity {
                 .name(R.string.person_center_history)
                 .related(RelatedId.history));
 
-        addItem(Form.create(FormType.divider_margin));
+        // fixme:1.1跟直播再打开
+        /*addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_flow)
                 .layout(R.layout.form_text_me)
                 .name(R.string.person_center_flow_manage)
-                .related(RelatedId.flow));
+                .related(RelatedId.flow));*/
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
