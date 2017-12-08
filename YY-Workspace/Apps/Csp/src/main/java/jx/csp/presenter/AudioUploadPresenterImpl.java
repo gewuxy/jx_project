@@ -22,7 +22,7 @@ import lib.ys.util.FileUtil;
  * @since 2017/11/16
  */
 
-public class AudioUploadPresenterImpl extends BasePresenterImpl<AudioUploadContract.V> implements AudioUploadContract.P {
+public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements AudioUploadContract.P {
 
     private SparseArray<String> mCourseDetailIdArray;
     private LinkedList<NetworkReq> mUploadList;  // 上传音频队列
@@ -42,16 +42,17 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<AudioUploadContr
     }
 
     @Override
-    public void uploadAudioFile(String courseId, int page, int type, String audioFilePath) {
+    public void uploadAudioFile(String courseId, int page, int type, String audioFilePath, int time) {
         File file = new File(audioFilePath);
         if (file.exists()) {
             byte[] bytes = FileUtil.fileToBytes(audioFilePath);
             YSLog.d(TAG, "upload audioFilePath = " + audioFilePath);
-            YSLog.d(TAG, "audioFile bytes = " + bytes.length);
-            // 直播时小于三秒的音频不上传并且删除文件 1s差不多1500 byte
-            if (type == PlayType.live && bytes.length < 4500) {
+            YSLog.d(TAG, "upload audioFile bytes = " + bytes.length);
+            // 直播时小于三秒的音频不上传并且删除文件
+            YSLog.d(TAG, "音频文件的时间 = " + time + "秒");
+            if (type == PlayType.live && time < 3) {
+                YSLog.d(TAG, "直播 小于三秒的音频不上传且删除对应文件");
                 FileUtil.delFile(file);
-                YSLog.d(TAG, "直播时小于三秒的音频不上传且删除对应文件");
                 return;
             }
             NetworkReq req = MeetingAPI.uploadAudio()

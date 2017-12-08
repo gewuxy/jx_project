@@ -80,9 +80,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected List<CourseDetail> mCourseDetailList;
     protected AudioUploadPresenterImpl mAudioUploadPresenter;
-    private ConnectionReceiver mConnectionReceiver;
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
-
+    private ConnectionReceiver mConnectionReceiver;
     private ScaleTransformer mTransformer;
 
     @Arg
@@ -210,12 +209,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         }
     }
 
-    abstract protected void onClick(int id);
-
-    abstract protected void skipToLast();
-
-    abstract protected void skipToNext();
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -223,14 +216,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         // 注销服务
         if (mConnectionReceiver != null) {
             mConnectionReceiver.unRegister();
-        }
-    }
-
-    protected void setNavBarMidText(String str) {
-        if (mTvNavBar == null) {
-            mTvNavBar = getNavBar().addTextViewMid(str);
-        } else {
-            mTvNavBar.setText(str);
         }
     }
 
@@ -267,7 +252,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         }
     }
 
-    abstract protected void pageSelected(int position);
+    protected void setNavBarMidText(String str) {
+        if (mTvNavBar == null) {
+            mTvNavBar = getNavBar().addTextViewMid(str);
+        } else {
+            mTvNavBar.setText(str);
+        }
+    }
 
     public void initPhoneCallingListener() {
         mPhoneStateListener = new PhoneStateListener() {
@@ -293,8 +284,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
-    abstract protected void onCallOffHooK();
-
     /**
      * 上传音频文件
      *
@@ -304,14 +293,12 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
      */
     protected void uploadAudioFile(String courseId, int page, @PlayType int type) {
         String audioFilePath = CacheUtil.getAudioPath(courseId, page);
-        uploadAudioFile(courseId, page, type, audioFilePath);
+        uploadAudioFile(courseId, page, type, audioFilePath, 0);
     }
 
-    protected void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath) {
-        mAudioUploadPresenter.uploadAudioFile(courseId, page, type, audioFilePath);
+    protected void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath, int time) {
+        mAudioUploadPresenter.uploadAudioFile(courseId, page, type, audioFilePath, time);
     }
-
-    abstract protected void switchDevice();
 
     protected void notifyServ(@LiveNotifyType int type, @WsOrderType int orderType) {
         notifyServ(type, 0, orderType);
@@ -335,4 +322,16 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
     }
+
+    abstract protected void onClick(int id);
+
+    abstract protected void pageSelected(int position);
+
+    abstract protected void skipToLast();
+
+    abstract protected void skipToNext();
+
+    abstract protected void onCallOffHooK();
+
+    abstract protected void switchDevice();
 }
