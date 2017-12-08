@@ -3,7 +3,6 @@ package jx.doctor.ui.activity.me.unitnum;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AbsListView;
@@ -15,22 +14,6 @@ import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.interceptor.BlurInterceptor;
-import lib.ys.network.image.renderer.CircleRenderer;
-import lib.ys.ui.decor.DecorViewEx.TNavBarState;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.ys.util.view.ViewUtil;
-import lib.jx.network.BaseJsonParser.ErrorCode;
-import lib.jx.network.Result;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseSRListActivity;
-import lib.jx.view.SwipeZoomView.SwipeZoomListView;
 import jx.doctor.Extra;
 import jx.doctor.Extra.FileFrom;
 import jx.doctor.R;
@@ -49,6 +32,23 @@ import jx.doctor.ui.activity.search.SearchActivity;
 import jx.doctor.util.UISetter;
 import jx.doctor.util.Util;
 import jx.doctor.view.meet.MaterialView;
+import lib.jx.network.BaseJsonParser.ErrorCode;
+import lib.jx.network.Result;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseSRListActivity;
+import lib.jx.view.SwipeZoomView.SwipeZoomListView;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.interceptor.BlurInterceptor;
+import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
 
 /**
  * 单位号详情
@@ -241,7 +241,10 @@ public class UnitNumDetailActivity extends BaseSRListActivity<Meeting, MeetingAd
             }
         });
 
-        dialog.addItem(getString(R.string.cancel_attention), KColorNoAttention);
+        if (!String.valueOf(mUnitNumId).equals(PackageUtil.getMetaValue("MASTER_ID"))) {
+            dialog.addItem(getString(R.string.cancel_attention), KColorNoAttention);
+        }
+
         dialog.addItem(getString(R.string.add_to_desktop), KColorNormal);
         dialog.addItem(getString(R.string.cancel), KColorCancel);
 

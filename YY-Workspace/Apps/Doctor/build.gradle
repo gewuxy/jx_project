@@ -110,9 +110,13 @@ android {
                     master_id     : "",
                     wx_id         : "wx83d3ea20a714b660",
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
-                    sina_appkey   : "506754622",
+                    sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "ws://",
+                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic: "splash_bg",
+                    login_icon: "ic_launcher_login",
             ]
         }
         flavors_alpha {
@@ -122,9 +126,13 @@ android {
                     master_id     : "",
                     wx_id         : "wx83d3ea20a714b660",
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
-                    sina_appkey   : "506754622",
+                    sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "ws://",
+                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic: "splash_bg",
+                    login_icon: "ic_launcher_login",
             ]
         }
         flavors_release {
@@ -134,23 +142,31 @@ android {
                     master_id     : "",
                     wx_id         : "wx83d3ea20a714b660",
                     wx_secret     : "b02f7292152660b7b551a70dced8feec",
-                    sina_appkey   : "506754622",
+                    sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "wss://",
+                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic: "splash_bg",
+                    login_icon: "ic_launcher_login",
             ]
         }
         c_mairui {
-//            applicationIdSuffix "mairui"
             manifestPlaceholders = [
-                    app_name      : "麦瑞",
-                    app_icon      : "ic_launcher_mairui",
-                    master_id     : "957425",
-                    wx_id         : "",
-                    wx_secret     : "",
-                    sina_appkey   : "",
-                    sina_appsecret: "",
+                    app_name: "麦瑞会展",
+                    app_icon: "ic_launcher_mairui",
+                    master_id: "\\957425",
+                    wx_id         : "wxe346153ebb3a3e50",
+                    wx_secret     : "1bf1940b53f12f2ef7558417e0ec007b",
+                    sina_appkey   : "\\3179393566",
+                    sina_appsecret: "1762cee0b80988e7719126b32f9ed46e",
                     comment_socket: "wss://",
+                    jpush_appkey: "948085aa03fc30293fec9fff",
+                    baidu_api_key: "D10a8VG2lvyNG2uvozDSXNhiaGWGaNfg",
+                    splash_ic: "splash_bg_mairui",
+                    login_icon: "login_ic_mairui",
             ]
+            applicationIdSuffix ".mairui"
         }
     }
 
