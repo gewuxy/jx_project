@@ -10,13 +10,15 @@ import android.support.v4.app.NotificationCompat.Builder;
 
 import java.io.File;
 
+import jx.doctor.Extra;
+import jx.doctor.network.NetworkApiDescriptor.DataAPI;
+import jx.doctor.util.CacheUtil;
 import lib.network.model.NetworkError;
 import lib.network.model.interfaces.IResult;
 import lib.ys.service.ServiceEx;
-import jx.doctor.Extra;
-import jx.doctor.R;
-import jx.doctor.network.NetworkApiDescriptor.DataAPI;
-import jx.doctor.util.CacheUtil;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.res.ResUtil.ResDefType;
 
 /**
  * 后台下载apk服务
@@ -48,7 +50,7 @@ public class DownloadApkServ extends ServiceEx {
         PendingIntent intentPend = PendingIntent.getActivity(this, 0, mIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setContentIntent(intentPend);
 
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setSmallIcon(ResLoader.getIdentifier(PackageUtil.getMetaValue("APP_ICON"), ResDefType.mipmap));
         mBuilder.setContentTitle("YaYa医师");
         mBuilder.setContentText("正在下载");
         mBuilder.setProgress(100, 0, false);

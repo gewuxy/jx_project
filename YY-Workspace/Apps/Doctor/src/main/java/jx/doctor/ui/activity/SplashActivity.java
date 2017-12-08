@@ -2,10 +2,12 @@ package jx.doctor.ui.activity;
 
 import android.os.Bundle;
 
-import lib.ys.ui.activity.SimpleSplashActivityEx;
 import jx.doctor.BuildConfig;
-import jx.doctor.R;
 import jx.doctor.serv.GlConfigServRouter;
+import lib.ys.ui.activity.SimpleSplashActivityEx;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.res.ResUtil.ResDefType;
 
 /**
  * 推广页面
@@ -24,7 +26,7 @@ public class SplashActivity extends SimpleSplashActivityEx {
 
     @Override
     protected int getSplashImageResId() {
-        return R.drawable.splash_bg;
+        return ResLoader.getIdentifier(PackageUtil.getMetaValue("SPLASH_BG"), ResDefType.drawable);
     }
 
     @Override

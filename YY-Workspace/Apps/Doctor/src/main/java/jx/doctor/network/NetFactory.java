@@ -35,6 +35,8 @@ public class NetFactory {
         ps.add(CommonParam.KOSVersion, DeviceUtil.getSystemVersion());
         ps.add(CommonParam.KAppVersion, PackageUtil.getAppVersionCode());
 
+        ps.add(CommonParam.KMasterId, PackageUtil.getMetaValue("MASTER_ID"));
+
         if (Profile.inst().isLogin()) {
             ps.add(CommonParam.KToken, Profile.inst().getString(TProfile.token));
         }
@@ -46,6 +48,7 @@ public class NetFactory {
         String KDevice = "os_type";
         String KAppVersion = "app_version";
         String KToken = "token";
+        String KMasterId = "masterId";
     }
 
     public interface MeetParam {

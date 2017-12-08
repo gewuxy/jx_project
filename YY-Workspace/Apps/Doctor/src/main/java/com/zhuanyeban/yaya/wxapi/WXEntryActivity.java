@@ -1,7 +1,6 @@
 package com.zhuanyeban.yaya.wxapi;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -43,7 +42,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void initData() {
-        mApi = WXLoginApi.create(this, Constants.KAppId);
+        mApi = WXLoginApi.create(this, Constants.KWXAppId);
 
         try {
             mApi.handleIntent(getIntent(), this);

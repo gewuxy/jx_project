@@ -2,7 +2,6 @@ package jx.doctor.ui.activity.me;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
 import android.view.View;
@@ -208,7 +207,7 @@ public class SettingsActivity extends BaseFormActivity {
                         return;
                     }
 
-                    WXLoginApi.create(SettingsActivity.this, Constants.KAppId);
+                    WXLoginApi.create(SettingsActivity.this, Constants.KWXAppId);
                     if (WXLoginApi.isWXAppInstalled()) {
                         WXLoginApi.sendReq(Constants.WXType.bind);
                     } else {
