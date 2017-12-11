@@ -167,6 +167,7 @@
     <string name="person_center_avatar">Head-Portrait</string>
     <string name="person_center_history">History</string>
     <string name="person_center_flow_manage">Network Flow</string>
+    <string name="person_center_vip_manage">Privileges</string>
     <string name="person_center_account_manage">Account</string>
     <string name="person_center_help_and_feedback">Help &amp; Feedback</string>
 
@@ -276,5 +277,20 @@
     <string name="help_and_feedback_opinion_feedback">Feedback</string>
     <string name="help_and_feedback_about_us">About Us</string>
     <string name="help_and_feedback_email_subject">CSPMeeting--Feedback</string>
+
+    <!-- 会员管理 -->
+    <string name="vip_manage_meeting_num">Number of Meetings</string>
+    <string name="vip_manage_validity">Valid</string>
+    <string name="vip_manage_permission">Permission</string>
+    <string name="vip_manage_record">Projective Record</string>
+    <string name="vip_manage_live">Projective Live Stream</string>
+    <string name="vip_manage_three_meeting">3 Meetings</string>
+    <string name="vip_manage_ten_meeting">10 Meetings</string>
+    <string name="vip_manage_infinite_meeting">Unlimited</string>
+    <string name="vip_manage_advertising">Ads Free</string>
+    <string name="vip_manage_close_watermark">Closable Watermark</string>
+    <string name="vip_manage_custom_watermark">Customized</string>
+    <string name="vip_manage_time">Permanent Usage</string>
+    <string name="vip_manage_to">to</string>
 
 </resources>

@@ -42,6 +42,7 @@ public class MeActivity extends BaseFormActivity {
             RelatedId.account,
             RelatedId.setting,
             RelatedId.help_and_feedback,
+            RelatedId.vip,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -50,6 +51,7 @@ public class MeActivity extends BaseFormActivity {
         int account = 2;
         int setting = 3;
         int help_and_feedback = 4;
+        int vip = 5;
     }
 
     @Override
@@ -80,12 +82,19 @@ public class MeActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
+                .drawable(R.drawable.form_ic_vip_manage)
+                .layout(R.layout.form_text_me)
+                .name(R.string.person_center_vip_manage)
+                .related(RelatedId.vip));
+
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_setting)
                 .layout(R.layout.form_text_me)
                 .name(R.string.setting)
                 .related(RelatedId.setting));
 
-        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_help_and_feedback)
                 .layout(R.layout.form_text_me)
@@ -152,6 +161,10 @@ public class MeActivity extends BaseFormActivity {
                 } else {
                     startActivity(AccountManageEnActivity.class);
                 }
+            }
+            break;
+            case RelatedId.vip: {
+                startActivity(VipManageActivity.class);
             }
             break;
             case RelatedId.setting: {

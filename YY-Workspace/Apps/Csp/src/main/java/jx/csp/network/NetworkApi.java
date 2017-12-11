@@ -20,7 +20,7 @@ import jx.csp.constant.BindId;
         hostDebuggable = "http://59.111.90.245:8084/api/"
 //        hostDebuggable = "http://10.0.0.234:8080/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
-//        hostDebuggable = "http://10.0.0.252:8084/api/"   // 长玲电脑
+//        hostDebuggable = "http://10.0.0.252:8085/api/"   // 长玲电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 
 )
@@ -376,5 +376,15 @@ public class NetworkApi {
         @Get
         @Url
         void scanQrCode();
+    }
+
+    @Api
+    interface Vip {
+
+        @Post("member/package")
+        void vip();
+
+        @Post("member/expire/remind")
+        void remind();
     }
 }

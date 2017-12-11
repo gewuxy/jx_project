@@ -126,6 +126,9 @@
         <activity
             android:name=".ui.activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.VipManageActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 设置 -->
         <activity
