@@ -1,16 +1,9 @@
 package jx.doctor.ui.activity.user.login;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.ImageView;
 
-import lib.network.model.NetworkError;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.util.TextUtil;
-import lib.ys.util.permission.Permission;
-import lib.jx.network.BaseJsonParser.ErrorCode;
-import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.Constants;
 import jx.doctor.Extra;
 import jx.doctor.R;
@@ -22,6 +15,16 @@ import jx.doctor.sp.SpApp;
 import jx.doctor.sp.SpUser;
 import jx.doctor.ui.activity.MainActivity;
 import jx.doctor.ui.activity.user.register.RegisterActivity;
+import lib.jx.network.BaseJsonParser.ErrorCode;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.network.model.NetworkError;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.TextUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.res.ResUtil.ResDefType;
 
 //import lib.wx.WXLoginApi;
 
@@ -38,6 +41,8 @@ public class LoginActivity extends BaseLoginActivity {
 
     private int mCount = 0;
 
+    private ImageView mIvLogo;
+
     @Override
     public void initData() {
         mRequest = getIntent().getStringExtra(Extra.KData);
@@ -50,12 +55,19 @@ public class LoginActivity extends BaseLoginActivity {
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+
+        mIvLogo = findView(R.id.login_ic);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
 
         // 清空用户信息
         Profile.inst().clear();
-
+        mIvLogo.setImageResource(ResLoader.getIdentifier(PackageUtil.getMetaValue("LOGIN_ICON"), ResDefType.drawable));
         setOnClickListener(R.id.login_tv_register);
         setOnClickListener(R.id.login_tv_forget_pwd);
         setOnClickListener(R.id.login_layout_wechat);
@@ -90,7 +102,7 @@ public class LoginActivity extends BaseLoginActivity {
             }
             break;
             case R.id.login_layout_wechat: {
-                WXLoginApi.create(LoginActivity.this, Constants.KAppId);
+                WXLoginApi.create(LoginActivity.this, Constants.KWXAppId);
                 if (WXLoginApi.isWXAppInstalled()) {
                     WXLoginApi.sendReq(Constants.WXType.login);
                 } else {

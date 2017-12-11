@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
 import jx.csp.contact.LiveAudioContract;
+import jx.csp.contact.LiveAudioContract.V;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
@@ -31,7 +32,7 @@ import lib.ys.YSLog;
  * @since 2017/10/11
  */
 
-public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.V> implements
+public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         LiveAudioContract.P,
         OnCountDownListener {
 
@@ -66,7 +67,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
                     // 先暂停录音，然后再开始录音，上传这15m的音频
                     mOverFifteen = true;
                     stopLiveRecord();
-                    getView().joinUploadRank(mFilePath);
+                    getView().joinUploadRank(mFilePath, (int) TimeUnit.MINUTES.toSeconds(15));
                     // 截取文件路径不包括后缀
                     String str;
                     if (mNum > 0) {
@@ -167,7 +168,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     public void startLiveRecord(String filePath) {
         mHandler.removeMessages(KRecordMsgWhat);
         if (!filePath.contains("-")) {
-            YSLog.d(TAG, "不包含“-”, 录制时间没有超过15分钟");
+            YSLog.d(TAG, "不包含“-”, 上一段录制时间没有超过15分钟");
             mOverFifteen = false;
             mNum = 0;
         }
@@ -195,13 +196,13 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<LiveAudioContract.
     @Override
     public void stopLiveRecord() {
         mHandler.removeMessages(KStartLiveMsgWhat);
+        mHandler.removeMessages(KRecordMsgWhat);
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
             mMediaRecorder.reset();
             YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
         }
-        getView().stopRecordState();
-        mHandler.removeMessages(KRecordMsgWhat);
+        getView().stopRecordState(mTime);
         if (!mOverFifteen) {
             mNum = 0;
         }

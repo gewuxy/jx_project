@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.jx.BaseConstants;
+import lib.ys.util.PackageUtil;
 
 /**
  * @author CaiXiang
@@ -14,7 +15,7 @@ import lib.jx.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
-    String KAppId = "wx83d3ea20a714b660";
+    String KWXAppId = PackageUtil.getMetaValue("WX_ID");
 
     @StringDef({
             MeetStateText.under_way,

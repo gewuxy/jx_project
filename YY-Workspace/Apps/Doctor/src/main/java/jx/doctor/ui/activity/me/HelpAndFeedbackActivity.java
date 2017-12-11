@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.me;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -8,19 +7,19 @@ import android.widget.TextView;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.action.IntentAction;
-import lib.ys.network.image.NetworkImageView;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.PackageUtil;
-import lib.ys.util.res.ResLoader;
-import lib.ys.util.res.ResUtil.ResDefType;
-import lib.jx.ui.activity.base.BaseFormActivity;
 import jx.doctor.R;
 import jx.doctor.model.form.Form;
 import jx.doctor.model.form.FormType;
 import jx.doctor.network.UrlUtil;
 import jx.doctor.ui.activity.CommonWebViewActivityRouter;
 import jx.doctor.util.Util;
+import lib.jx.ui.activity.base.BaseFormActivity;
+import lib.ys.action.IntentAction;
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.PackageUtil;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.res.ResUtil.ResDefType;
 
 /**
  * 帮助和反馈

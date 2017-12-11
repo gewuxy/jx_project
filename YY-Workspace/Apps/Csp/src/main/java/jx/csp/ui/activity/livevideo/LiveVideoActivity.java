@@ -146,32 +146,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         LiveNotifier.inst().add(this);
     }
 
-    public void initPhoneCallingListener() {
-        mPhoneStateListener = new PhoneStateListener() {
-
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                super.onCallStateChanged(state, incomingNumber);
-                switch (state) {
-                    case TelephonyManager.CALL_STATE_IDLE:
-                        YSLog.d(TAG, "call state idle " + state);
-                        break;
-                    case TelephonyManager.CALL_STATE_RINGING:
-                        YSLog.d(TAG, "call state ringing " + state);
-                        break;
-                    case TelephonyManager.CALL_STATE_OFFHOOK:
-                        YSLog.d(TAG, "call state off hook " + state);
-                        if (mLiveState) {
-                            mP.stopLive();
-                        }
-                        break;
-                }
-            }
-        };
-        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
-    }
-
     @Override
     public void onClick(android.view.View v) {
         int id = v.getId();
@@ -239,16 +213,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         if (mLiveState) {
             mP.stopLive();
             mLiveState = false;
-        }
-    }
-
-    protected void startCountDownAndLive() {
-        if (mServerTime >= mStartTime) {
-            mBeginCountDown = true;
-            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-            mP.startLive(mStreamId, mTitle);
-        } else {
-            showToast(R.string.meeting_no_start_remain);
         }
     }
 
@@ -353,6 +317,42 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         showView(mTvNoCameraPermission);
         mIvLive.setClickable(false);
         mTvState.setText(R.string.live_fail);
+    }
+
+    public void initPhoneCallingListener() {
+        mPhoneStateListener = new PhoneStateListener() {
+
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                super.onCallStateChanged(state, incomingNumber);
+                switch (state) {
+                    case TelephonyManager.CALL_STATE_IDLE:
+                        YSLog.d(TAG, "call state idle " + state);
+                        break;
+                    case TelephonyManager.CALL_STATE_RINGING:
+                        YSLog.d(TAG, "call state ringing " + state);
+                        break;
+                    case TelephonyManager.CALL_STATE_OFFHOOK:
+                        YSLog.d(TAG, "call state off hook " + state);
+                        if (mLiveState) {
+                            mP.stopLive();
+                        }
+                        break;
+                }
+            }
+        };
+        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
+        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+    }
+
+    protected void startCountDownAndLive() {
+        if (mServerTime >= mStartTime) {
+            mBeginCountDown = true;
+            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
+            mP.startLive(mStreamId, mTitle);
+        } else {
+            showToast(R.string.meeting_no_start_remain);
+        }
     }
 
     private void switchLiveDevice() {

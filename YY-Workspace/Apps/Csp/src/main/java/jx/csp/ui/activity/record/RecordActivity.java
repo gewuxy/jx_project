@@ -210,7 +210,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mRecordPresenter.stopRecord();
             mRecordState = false;
         }
-        //mIvRecordState.setSelected(false);
     }
 
     @Override
@@ -309,6 +308,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             break;
             case LiveNotifyType.inquired: {
                 switchDevice();
+            }
+            break;
+            case LiveNotifyType.reject: {
+                YSLog.d(TAG, "直播音频页面-接收到拒绝进入指令");
+                finish();
             }
             break;
         }

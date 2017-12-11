@@ -318,11 +318,10 @@
 
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="88391aa0f118d8646d1fb6e3"/>
-
+            android:value="${jpush_appkey}"/>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP"/>
+            android:value="${baidu_api_key}"/>
         <meta-data
             android:name="APP_NAME"
             android:value="${app_name}"/>
@@ -344,6 +343,12 @@
         <meta-data
             android:name="SINA_SECRET"
             android:value="${sina_appsecret}"/>
+        <meta-data
+            android:name="SPLASH_BG"
+            android:value="${splash_ic}"/>
+        <meta-data
+            android:name="LOGIN_ICON"
+            android:value="${login_icon}"/>
         <meta-data
             android:name="COMMENT_SOCKET"
             android:value="${comment_socket}"/>

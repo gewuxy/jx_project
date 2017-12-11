@@ -25,7 +25,7 @@ public interface LiveAudioContract {
 
         void startRecordState();
 
-        void stopRecordState();
+        void stopRecordState(int time);
 
         /**
          * 直播倒计时
@@ -35,7 +35,7 @@ public interface LiveAudioContract {
         /**
          * 一页录音的时间超过15分钟时，先上传15分钟的音频 加入上传音频列队
          */
-        void joinUploadRank(String audioFilePath);
+        void joinUploadRank(String audioFilePath, int time);
 
         /**
          * 设置正在录制音频文件的路径
@@ -69,5 +69,4 @@ public interface LiveAudioContract {
 
         void uploadVideoPage(String courseId, String courseDetailId);
     }
-
 }

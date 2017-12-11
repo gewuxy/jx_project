@@ -27,7 +27,8 @@ buildscript {
     ]
 
     ext.plugs = [
-            kotlin: 'kotlin-kapt',
+            kotlin  : 'kotlin-kapt',
+            greendao: 'org.greenrobot.greendao'
 //            butterknife: 'com.jakewharton.butterknife',
     ]
 
@@ -54,6 +55,7 @@ buildscript {
                     fresco: 'com.facebook.fresco:fresco:1.5.0',
                     gif   : 'com.facebook.fresco:animated-gif:1.5.0',
             ],
+            greendao    : 'org.greenrobot:greendao:3.2.2',
 //            butterknife : [
 //                    core    : 'com.jakewharton:butterknife:8.5.1',
 //                    compiler: 'com.jakewharton:butterknife-compiler:8.5.1'
@@ -143,6 +145,11 @@ buildscript {
          * apply plugin: plugs.butterknife 之后编译无法通过. 暂时放弃
          */
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
+
+        /**
+         * 数据库
+         */
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
     }
 }
 
