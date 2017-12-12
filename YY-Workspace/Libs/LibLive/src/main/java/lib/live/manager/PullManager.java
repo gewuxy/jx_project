@@ -1,13 +1,15 @@
 package lib.live.manager;
 
 import android.content.Context;
-import android.view.View;
+import android.os.Bundle;
 
-import com.tencent.rtmp.TXLiveBase;
+import com.tencent.rtmp.ITXLivePlayListener;
+import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 
-import lib.live.TxProvider;
+import lib.live.LiveListener;
 import lib.live.ui.LiveView;
+import lib.ys.util.TextUtil;
 
 /**
  * 拉流管理
@@ -17,11 +19,20 @@ import lib.live.ui.LiveView;
  */
 public class PullManager {
 
-    private final TxProvider mProvider;
+    private TXLivePlayer mPlayer;
+
+    private LiveView mView;
+    private Context mContext;
+    private LiveListener mListener;
 
     public PullManager(Context context) {
-        TXLiveBase.getSDKVersionStr();
-        mProvider = new TxProvider(context);
+//        TXLiveBase.getSDKVersionStr();
+
+        mContext = context;
+    }
+
+    public void listener(LiveListener listener) {
+        mListener = listener;
     }
 
     /**
@@ -32,6 +43,9 @@ public class PullManager {
      * @return true 成功(0) 失败(-1/-2)
      */
     public boolean startPullStream(String playUrl, LiveView view) {
+        if (TextUtil.isEmpty(playUrl) || view == null) {
+            return false;
+        }
         int playType;
         if (playUrl.startsWith("rtmp://")) {
             playType = TXLivePlayer.PLAY_TYPE_LIVE_RTMP;
@@ -40,15 +54,43 @@ public class PullManager {
         } else {
             playType = TXLivePlayer.PLAY_TYPE_LIVE_RTMP;
         }
-        mProvider.setPlayerView(view);
-        return 0 == mProvider.startPlay(playUrl, playType);
+        mView = view;
+        mPlayer = new TXLivePlayer(mContext);
+        mPlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        mPlayer.setPlayerView(mView);
+        mPlayer.setPlayListener(new ITXLivePlayListener() {
+
+            @Override
+            public void onPlayEvent(int i, Bundle bundle) {
+                switch (i) {
+                    case TXLiveConstants.PLAY_EVT_PLAY_LOADING: {
+                        mListener.load();
+                    }
+                    break;
+                    case TXLiveConstants.PLAY_EVT_PLAY_BEGIN: {
+                        mListener.begin();
+                    }
+                    break;
+
+                }
+
+            }
+
+            @Override
+            public void onNetStatus(Bundle bundle) {
+
+            }
+        });
+        return 0 == mPlayer.startPlay(playUrl, playType);
     }
 
     /**
      * 停止拉流
      */
     public void stopPullStream() {
-        mProvider.pause();
+        mPlayer.pause();
+        mPlayer.stopPlay(true);
+        mPlayer = null;
     }
 
     /**
@@ -57,6 +99,6 @@ public class PullManager {
      * @param b 静音变量, true 表示静音, false 表示非静音
      */
     public void audio(boolean b) {
-        mProvider.setMute(b);
+        mPlayer.setMute(b);
     }
 }

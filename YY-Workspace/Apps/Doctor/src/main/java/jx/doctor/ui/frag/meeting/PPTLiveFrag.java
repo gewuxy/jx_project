@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Route;
 import jx.doctor.R;
 import lib.jx.ui.frag.base.BaseFrag;
+import lib.live.LiveListener;
 import lib.live.manager.PullManager;
 import lib.live.ui.LiveView;
 import lib.ys.ui.other.NavBar;
@@ -46,16 +47,23 @@ public class PPTLiveFrag extends BaseFrag {
 
     private LiveView mViewLive; // 直播画面的载体
 
-//    private LiveCallbackImpl mLiveCallbackImpl;
-
     private String mPlayUrl; // 直播的流
 
     private boolean mPull;
 
     @Override
     public void initData() {
-//        mLiveCallbackImpl = new LiveCallbackImpl();
         mPullManager = new PullManager(getContext());
+        mPullManager.listener(new LiveListener() {
+            @Override
+            public void load() {
+            }
+
+            @Override
+            public void begin() {
+
+            }
+        });
         mPull = true;
     }
 
@@ -91,7 +99,7 @@ public class PPTLiveFrag extends BaseFrag {
     }
 
     public void startPullStream() {
-        mPlayUrl = "rtmp://3891.livepush.myqcloud.com/live/3891_user_0da23c97_e723?bizid=3891&txSecret=ebce14ac179184940b4b5ae593be064c&txTime=5A38A996";
+        mPlayUrl = "rtmp://3891.liveplay.myqcloud.com/live/3891_user_0da23c97_e723";
         mPull = true;
         if (TextUtil.isEmpty(mPlayUrl) || mViewLive == null) {
             return;
@@ -111,11 +119,11 @@ public class PPTLiveFrag extends BaseFrag {
     }
 
     public void startAudio() {
-        mPullManager.audio(true);
+        mPullManager.audio(false);
     }
 
     public void closeAudio() {
-        mPullManager.audio(false);
+        mPullManager.audio(true);
     }
 
     private void setLiveState(@LiveType int state) {
@@ -123,28 +131,28 @@ public class PPTLiveFrag extends BaseFrag {
             case LiveType.no_live: {
                 showView(mLayoutDefault);
                 goneView(mLayoutLoading);
-//                goneView(mViewLive);
+                goneView(mViewLive);
                 goneView(mLayoutBreak);
             }
             break;
             case LiveType.loading: {
                 goneView(mLayoutDefault);
                 showView(mLayoutLoading);
-//                showView(mViewLive);
+                showView(mViewLive);
                 goneView(mLayoutBreak);
             }
             break;
             case LiveType.living: {
                 goneView(mLayoutDefault);
                 goneView(mLayoutLoading);
-//                showView(mViewLive);
+                showView(mViewLive);
                 goneView(mLayoutBreak);
             }
             break;
             case LiveType.live_break: {
                 goneView(mLayoutDefault);
                 goneView(mLayoutLoading);
-//                showView(mViewLive);
+                showView(mViewLive);
                 showView(mLayoutBreak);
             }
             break;
