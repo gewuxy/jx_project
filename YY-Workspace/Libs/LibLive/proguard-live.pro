@@ -1,2 +1,1 @@
--keep class com.zego.**{*;}
--keep class com.google.**{*;}
+-keep class com.tencent.** { *; }

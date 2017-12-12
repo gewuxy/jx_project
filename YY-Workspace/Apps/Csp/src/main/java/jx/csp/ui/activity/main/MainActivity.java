@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import jx.csp.App;
 import jx.csp.R;
@@ -62,10 +63,29 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private MeetGridFrag mGridFrag;
     private MeetVpFrag mVpFrag;
 
+    private View mLayoutPast;
+    private TextView mTvPast;
+
     @Override
     public void initData() {
         mGridFrag = new MeetGridFrag();
         mVpFrag = new MeetVpFrag();
+
+        mVpFrag.setListener(flag -> {
+            if (mLayoutPast == null) {
+                return;
+            }
+            boolean vis = View.VISIBLE == mLayoutPast.getVisibility();
+            if (vis) {
+                // 过期了
+                if (flag) {
+                    // 进行中显示优先
+                    goneView(mLayoutPast);
+                } else {
+                    showView(mLayoutPast);
+                }
+            }
+        });
 
         add(mGridFrag);
         add(mVpFrag);
@@ -114,6 +134,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     }
 
     @Override
+    public void findViews() {
+        super.findViews();
+
+        mLayoutPast = findView(R.id.main_Layout_past);
+        mTvPast = findView(R.id.main_tv_past);
+    }
+
+    @Override
     public void setViews() {
         super.setViews();
 
@@ -155,6 +183,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "更新个人数据");
             exeNetworkReq(UserAPI.uploadProfileInfo().build());
         }
+        // FIXME:
+        if (true) {
+            showView(mLayoutPast);
+            mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+        }
         LiveNotifier.inst().add(this);
     }
 
@@ -176,6 +209,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "个人数据更新成功");
             SpUser.inst().updateProfileRefreshTime();
             Profile.inst().update((Profile) r.getData());
+            // FIXME:
+            if (true) {
+                showView(mLayoutPast);
+                mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+            }
             notify(NotifyType.profile_change);
         }
     }
