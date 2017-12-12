@@ -70,6 +70,7 @@ public class CommonServ extends ServiceEx {
             ReqType.exit_record,
             ReqType.share_delete_meet,
             ReqType.advert,
+            ReqType.over_live,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -78,6 +79,7 @@ public class CommonServ extends ServiceEx {
         int exit_record = 3;
         int share_delete_meet = 4;
         int advert = 5;
+        int over_live = 6;
     }
 
     @Override
@@ -101,6 +103,10 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.advert: {
                 exeNetworkReq(mType, AdvertAPI.advert().build());
+            }
+            break;
+            case ReqType.over_live: {
+                exeNetworkReq(mType, MeetingAPI.overLive(mCourseId).build());
             }
             break;
         }
@@ -165,6 +171,15 @@ public class CommonServ extends ServiceEx {
                 if (r.isSucceed()) {
                     Advert data = (Advert) r.getData();
                     SpApp.inst().saveAdvert(data);
+                }
+            }
+            break;
+            case ReqType.over_live: {
+                if (r.isSucceed()) {
+                    YSLog.d(TAG, "结束直播成功");
+                } else {
+                    YSLog.d(TAG, "结束直播失败重试");
+                    retryNetworkRequest(id);
                 }
             }
             break;

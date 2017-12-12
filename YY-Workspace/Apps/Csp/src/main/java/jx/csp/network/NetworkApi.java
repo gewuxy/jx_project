@@ -328,6 +328,15 @@ public class NetworkApi {
          */
         @Get("join/check")
         void joinCheck(String courseId, int liveType);
+
+        /**
+         * 結束直播
+         *
+         * @param courseId
+         */
+        @Get("live/over")
+        @Retry(count = 5, delay = 1000)
+        void overLive(String courseId);
     }
 
     @Api("charge")

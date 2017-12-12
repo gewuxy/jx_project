@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,6 +62,13 @@ public class BtnVerticalDialog extends CommonDialog {
         tv.setTextColor(ResLoader.getColor(R.color.text_333));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(16));
         addHintView(tv);
+    }
+
+    public void setBtnStyle(int orientation) {
+        mLayoutButton.setOrientation(orientation);
+        LayoutParams layoutParams = mLayoutButton.getLayoutParams();
+        layoutParams.height = LayoutUtil.WRAP_CONTENT;
+        mLayoutButton.setLayoutParams(layoutParams);
     }
 
 }

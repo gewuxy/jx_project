@@ -146,8 +146,8 @@
     <string name="fail_to_identify">Fail to identify the QR code</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">Copy successfully!</string>
-    <string name="main_record_dialog">Recording is in progress. Other clients will be broken off. Continue?</string>
-    <string name="main_live_dialog">Live stream is in progress. Other clients will be broken off. Continue?</string>
+    <string name="main_record_dialog">Another device is recording. \nContinue could break off its \n recording progress</string>
+    <string name="main_live_dialog">Another device is on air. \nContinue could break off its \n live progress</string>
     <string name="confirm_continue">Yes</string>
     <string name="choice_contents">I would like to...?</string>
     <string name="explain_meeting">Deliver my lecture</string>
@@ -162,6 +162,9 @@
     <string name="service_agreement">CSPmeeting Terms of Service</string>
     <string name="click_again_exit">App will be shutdown by tapping "return"</string>
     <string name="duplicate">_copy</string>
+    <string name="over_meeting">End this meeting?</string>
+    <string name="over">Confirm</string>
+    <string name="cancel_over">Cancel</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>
