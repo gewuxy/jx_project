@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.me.flowrate;
 
 import android.support.annotation.NonNull;
 import android.view.View;

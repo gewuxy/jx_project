@@ -5,19 +5,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
-import jx.csp.model.VipPackage;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.network.NetworkApiDescriptor.VipAPI;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpUser;
@@ -58,9 +57,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
 
-    private final int KUploadProfile = 2;
-    private final int KVipPackage = 3;
-
+    private TextView mMidRemind;
     private ImageView mIvShift;
     private NetworkImageView mIvAvatar;
 
@@ -95,7 +92,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));
 
-        bar.addTextViewMid(getString(R.string.app_name));
+        View midView = inflate(R.layout.layout_main_text_mid);
+        TextView midTitle = midView.findViewById(R.id.main_tv_title);
+        mMidRemind = midView.findViewById(R.id.main_tv_remind);
+        midTitle.setText(R.string.app_name);
+        bar.addViewMid(midView);
 
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
             boolean flag = getCurrPosition() == KPageGrid;
@@ -158,10 +159,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         // 静默更新用户数据
         if (SpUser.inst().needUpdateProfile()) {
             YSLog.d(TAG, "更新个人数据");
-            exeNetworkReq(KUploadProfile, UserAPI.uploadProfileInfo().build());
+            exeNetworkReq(UserAPI.uploadProfileInfo().build());
         }
-        //获取用户会员套餐
-        exeNetworkReq(KVipPackage, VipAPI.vip().build());
 
         LiveNotifier.inst().add(this);
     }
@@ -175,28 +174,19 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        if (id == KUploadProfile) {
-            return JsonParser.ev(resp.getText(), Profile.class);
-        } else {
-            return JsonParser.ev(resp.getText(), VipPackage.class);
-        }
+        return JsonParser.ev(resp.getText(), Profile.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        if (id == KUploadProfile) {
-            if (r.isSucceed()) {
-                YSLog.d(TAG, "个人数据更新成功");
-                SpUser.inst().updateProfileRefreshTime();
-                Profile.inst().update((Profile) r.getData());
-                notify(NotifyType.profile_change);
-            }
-        } else {
-            if (r.isSucceed()) {
-                YSLog.d(TAG, "会员套餐获取成功");
-                VipPackage.inst().update((VipPackage) r.getData());
-            } else {
-                onNetworkError(id, r.getError());
+        if (r.isSucceed()) {
+            YSLog.d(TAG, "个人数据更新成功");
+            SpUser.inst().updateProfileRefreshTime();
+            Profile.inst().update((Profile) r.getData());
+            notify(NotifyType.profile_change);
+            if (Profile.inst().getString(TProfile.expireRemind) != null) {
+                mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
+                showView(mMidRemind);
             }
         }
     }

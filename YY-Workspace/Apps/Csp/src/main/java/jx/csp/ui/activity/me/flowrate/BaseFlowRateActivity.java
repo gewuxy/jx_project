@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.me.flowrate;
 
 import android.content.Intent;
 import android.support.annotation.IdRes;

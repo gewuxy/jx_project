@@ -291,6 +291,6 @@
     <string name="vip_manage_close_watermark">Closable Watermark</string>
     <string name="vip_manage_custom_watermark">Customized</string>
     <string name="vip_manage_time">Permanent Usage</string>
-    <string name="vip_manage_to">to</string>
+    <string name="vip_manage_to"> to </string>
 
 </resources>

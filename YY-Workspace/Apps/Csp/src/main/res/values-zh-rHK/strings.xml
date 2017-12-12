@@ -288,6 +288,6 @@
     <string name="vip_manage_close_watermark">可關閉水印</string>
     <string name="vip_manage_custom_watermark">自定義水印</string>
     <string name="vip_manage_time">不限時長</string>
-    <string name="vip_manage_to">至</string>
+    <string name="vip_manage_to"> 至 </string>
 
 </resources>

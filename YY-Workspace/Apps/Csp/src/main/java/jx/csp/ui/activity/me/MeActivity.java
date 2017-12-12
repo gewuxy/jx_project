@@ -14,7 +14,11 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
+import jx.csp.ui.activity.me.flowrate.FlowRateManageActivity;
+import jx.csp.ui.activity.me.flowrate.FlowRateManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
+import jx.csp.ui.activity.me.vip.VipManageActivity;
+import jx.csp.ui.activity.me.vip.VipManageEnActivity;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseFormActivity;
@@ -164,7 +168,11 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.vip: {
-                startActivity(VipManageActivity.class);
+                if (Util.checkAppCn()) {
+                    startActivity(VipManageActivity.class);
+                } else {
+                    startActivity(VipManageEnActivity.class);
+                }
             }
             break;
             case RelatedId.setting: {
