@@ -12,9 +12,13 @@ import jx.csp.R;
 public class VipManageEnActivity extends BaseVipManageActivity{
 
     @Override
-    public void setViews() {
-        super.setViews();
-        switch (mPackageId) {
+    protected void setLayout() {
+        mRvPermission.setLayoutManager(new GridLayoutManager(this, 3));
+    }
+
+    @Override
+    protected void setVipCard(int id) {
+        switch (id) {
             case KNorm: {
                 mIvCard.setImageResource(R.drawable.vip_ic_norm_card);
             }
@@ -28,11 +32,6 @@ public class VipManageEnActivity extends BaseVipManageActivity{
             }
             break;
         }
-    }
-
-    @Override
-    protected void getPermissionLayout() {
-        mRvPermission.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
 }

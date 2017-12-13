@@ -13,10 +13,14 @@ import jx.csp.sp.SpApp;
 public class VipManageActivity extends BaseVipManageActivity {
 
     @Override
-    public void setViews() {
-        super.setViews();
+    protected void setLayout() {
+        mRvPermission.setLayoutManager(new GridLayoutManager(this, 4));
+    }
+
+    @Override
+    protected void setVipCard(int id) {
         if (LangType.cn_simplified == SpApp.inst().getLangType()) {
-            switch (mPackageId) {
+            switch (id) {
                 case KNorm: {
                     mIvCard.setImageResource(R.drawable.vip_ic_norm_card_cn);
                 }
@@ -31,7 +35,7 @@ public class VipManageActivity extends BaseVipManageActivity {
                 break;
             }
         }else {
-            switch (mPackageId) {
+            switch (id) {
                 case KNorm: {
                     mIvCard.setImageResource(R.drawable.vip_ic_norm_card_tw);
                 }
@@ -46,10 +50,5 @@ public class VipManageActivity extends BaseVipManageActivity {
                 break;
             }
         }
-    }
-
-    @Override
-    protected void getPermissionLayout() {
-        mRvPermission.setLayoutManager(new GridLayoutManager(this, 4));
     }
 }

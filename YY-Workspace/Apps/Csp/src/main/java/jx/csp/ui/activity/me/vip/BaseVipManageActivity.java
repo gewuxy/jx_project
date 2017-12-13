@@ -30,24 +30,22 @@ abstract public class BaseVipManageActivity extends BaseActivity {
     public final int KAdvanced = 2;//高级
     public final int KProfession = 3;//专业
 
-    public final String KMeetingLimit = "10";
-    public final String KMeetingInfinite = "∞";
+    private final String KMeetingLimit = "10";
+    private final String KMeetingInfinite = "∞";
 
     public RecyclerView mRvPermission; //使用权限
 
     public ImageView mIvCard;   //会员卡片
-    public TextView mTvValidity;
-    public TextView mTvMeetCount;
-    public TextView mTvLimit;
+    private TextView mTvValidity;
+    private TextView mTvMeetCount;
+    private TextView mTvLimit;
 
-    public int mPackageId;
+    private int[] mImage;
+    private String[] mText;
+    private int[] mPermissionId;
 
-    public int[] mImage;
-    public String[] mText;
-    public int[] mPermissionId;
-
-    private VipManageContract.P mPresenter;
-    private VipManageContract.V mView;
+    public VipManageContract.P mPresenter;
+    public VipManageContract.V mView;
 
     @Override
     public void initData() {
@@ -81,18 +79,27 @@ abstract public class BaseVipManageActivity extends BaseActivity {
         mPresenter.checkPackage();
     }
 
-    abstract protected void getPermissionLayout();
+    /**
+     * 设置权限布局
+     */
+    abstract protected void setLayout();
+
+    /**
+     * 设置会员卡片
+     * @param id
+     */
+    abstract protected void setVipCard(int id);
 
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
         public void setAdapterData(int id, long packageStart, long packageEnd, String meetCount) {
-            getPermissionLayout();
+            setLayout();
             VipPermissionAdapter adapter = new VipPermissionAdapter();
             mPermissionId = new int[]{1, 2, 3, 4, 5};
 
-            mPackageId = id;
-            switch (mPackageId) {
+            setVipCard(id);
+            switch (id) {
                 case KNorm: {
                     mTvMeetCount.setText(meetCount);
                     mImage = new int[]{

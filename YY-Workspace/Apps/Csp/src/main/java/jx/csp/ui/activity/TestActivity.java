@@ -8,6 +8,7 @@ import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.activity.me.vip.VipManageActivity;
 import lib.jx.test.BaseTestActivity;
 import lib.ys.YSLog;
 
@@ -27,6 +28,7 @@ public class TestActivity extends BaseTestActivity {
         add("登录", new Intent(this, AuthLoginActivity.class));
         add("手机登录", new Intent(this, CaptchaLoginActivity.class));
         add("scan", ScanActivity.class);
+        add("会员管理", VipManageActivity.class);
 
         int[] A1 = new int[]{-1, 1, 3, 3, 3, 2, 1, 0};
         solution1(A1);

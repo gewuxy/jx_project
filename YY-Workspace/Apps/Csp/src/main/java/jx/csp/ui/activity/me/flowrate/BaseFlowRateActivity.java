@@ -3,14 +3,12 @@ package jx.csp.ui.activity.me.flowrate;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import jx.csp.R;
 import jx.csp.contact.FlowRateContract;
@@ -19,9 +17,9 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.FlowRatePresenterImpl;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
-import lib.ys.model.MapList;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 import pay.PayAction;
 
 /**
@@ -37,7 +35,6 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     protected final int KPingReqCode = 0;
     protected final int KPayPalPayCode = 1;
 
-    protected MapList<Integer, View> mChannelViews;
     protected View mPreChannelView;
 
     protected String mFlowRate;
@@ -49,16 +46,17 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
     protected EditText mEtFlowRate;
 
+    private View mViewList;
     protected TextView mTvSurplus;
-    protected TextView mTvUnit;
-    protected TextView mTvMoney;
+    protected TextView mPriceRmb1;
+    protected TextView mPriceRmb2;
+    protected TextView mPriceRmb3;
+    protected TextView mPriceRmb4;
     protected TextView mTvPay;
 
     @Override
     public void initData() {
         PayAction.startPayPalService(this);
-
-        mChannelViews = new MapList<>();
 
         mView = new FlowRateViewImpl();
         mPresenter = new FlowRatePresenterImpl(mView);
@@ -71,47 +69,55 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mEtFlowRate = findView(R.id.flow_rate_et_recharge);
-
         mTvSurplus = findView(R.id.flow_rate_tv_surplus);
-        mTvUnit = findView(R.id.flow_rate_tv_unit);
-        mTvMoney = findView(R.id.flow_rate_tv_money);
         mTvPay = findView(R.id.flow_rate_tv_pay);
 
-        findChannelView(R.id.flow_rate_iv_alipay);
-        findChannelView(R.id.flow_rate_iv_wechat);
-        findChannelView(R.id.flow_rate_iv_unionpay);
-        findChannelView(R.id.flow_rate_iv_paypal);
+        mPriceRmb1 = findView(R.id.flow_rate_price_rmb_1);
+        mPriceRmb2 = findView(R.id.flow_rate_price_rmb_2);
+        mPriceRmb3 = findView(R.id.flow_rate_price_rmb_3);
+        mPriceRmb4 = findView(R.id.flow_rate_price_rmb_4);
+
+
+        sort(R.id.flow_rate_iv_alipay);
+        sort(R.id.flow_rate_iv_wechat);
+        sort(R.id.flow_rate_iv_unionpay);
+        sort(R.id.flow_rate_iv_paypal);
+
+        sort(R.id.flow_rate_layout_price_flow_1);
+        sort(R.id.flow_rate_layout_price_flow_2);
+        sort(R.id.flow_rate_layout_price_flow_3);
+        sort(R.id.flow_rate_layout_price_flow_4);
+
+        sort(R.id.flow_rate_layout_price_usd_five);
+        sort(R.id.flow_rate_layout_price_usd_twenty_five);
+        sort(R.id.flow_rate_layout_price_usd_one_hundred);
+        sort(R.id.flow_rate_layout_price_usd_five_hundred);
+
+        sort(R.id.flow_rate_cny_currency);
+        sort(R.id.flow_rate_usd_currency);
+
     }
 
-    private void findChannelView(int id) {
-        mChannelViews.add(Integer.valueOf(id), findView(id));
+    protected View sort(@IdRes int id) {
+        mViewList = findView(id);
+        setOnClickListener(mViewList);
+        return mViewList;
+    }
+
+    public void setPriceText(String id, TextView tv) {
+        if (tv == null && TextUtil.isEmpty(id)) {
+            return;
+        }
+        SpannableString text = new SpannableString(id);
+        text.setSpan(new ForegroundColorSpan(ResLoader.getColor(R.color.text_167afe)), 2, id.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(text);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.flow_rate_tv_pay);
 
-        mView.setPayStatus();
         mView.setSurplusFlowRate();
-
-        mEtFlowRate.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mView.setInput();
-                mView.setPayMoney();
-                mView.setPayStatus();
-            }
-        });
     }
 
     @Override
@@ -132,70 +138,25 @@ abstract public class BaseFlowRateActivity extends BaseActivity {
     private class FlowRateViewImpl implements FlowRateContract.V {
 
         @Override
-        public void setPayMoney() {
-            mFlowRate = mEtFlowRate.getText().toString().trim();
-            String num = null;
-            if (Util.checkAppCn()) {
-                num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate) * 2);
-            } else {
-                num = String.format(getString(R.string.flow_rate_amount), TextUtil.isEmpty(mFlowRate) ? 0 : Integer.valueOf(mFlowRate));
-            }
-            mTvMoney.setText(num);
-        }
-
-        @Override
-        public void setInput() {
-            Editable s = mEtFlowRate.getEditableText();
-
-            int editStart = mEtFlowRate.getSelectionStart();
-            int editEnd = mEtFlowRate.getSelectionEnd();
-
-            Pattern pattern = Pattern.compile("0[0-9]");
-            Matcher matcher = pattern.matcher(s.toString());
-            // 如果是以0开头截断后面的字符串
-            if (matcher.matches()) {
-                s.delete(editStart - 1, editEnd);
-                editStart--;
-                editEnd--;
-            }
-            mEtFlowRate.setSelection(editStart);
-        }
-
-        @Override
-        public void setPayStatus() {
-            if (TextUtil.isNotEmpty(mFlowRate)) {
-                mTvPay.setEnabled(true);
-                showView(mTvUnit);
-            } else {
-                mTvPay.setEnabled(false);
-                goneView(mTvUnit);
-            }
-        }
-
-        @Override
-        public void setHighlight(@IdRes int id) {
-            View v = mChannelViews.getByKey(id);
+        public View setHighlight(View v, View view) {
             if (v == null) {
-                return;
+                return null;
             }
-
-            if (mPreChannelView == null) {
-                mPreChannelView = v;
+            if (view == null) {
+                v.setSelected(true);
             } else {
-                if (mPreChannelView.equals(v)) {
-                    return;
+                if (view.getId() != v.getId()) {
+                    v.setSelected(true);
+                    view.setSelected(false);
                 }
-                mPreChannelView.setSelected(false);
-                mPreChannelView = v;
             }
-            v.setSelected(true);
+            return v;
         }
 
         @Override
         public void setSurplusFlowRate() {
             float flux = Profile.inst().getFloat(TProfile.flux) / KFlowConversion;
             mTvSurplus.setText(String.format("%.2f", flux) + KSurplusFlowUnit);
-            mEtFlowRate.setText("");
         }
 
         @Override

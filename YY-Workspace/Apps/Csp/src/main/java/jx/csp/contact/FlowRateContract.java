@@ -1,7 +1,7 @@
 package jx.csp.contact;
 
 import android.content.Intent;
-import android.support.annotation.IdRes;
+import android.view.View;
 
 import lib.jx.contract.IContract;
 
@@ -14,27 +14,14 @@ import lib.jx.contract.IContract;
 public interface FlowRateContract {
 
     interface V extends IContract.View {
-        /**
-         * 设置支付金额
-         */
-        void setPayMoney();
 
-        /**
-         * 设置输入
-         */
-        void setInput();
-
-        /**
-         * 设置按钮的改变
-         */
-        void setPayStatus();
 
         /**
          * 设置高亮
          *
-         * @param id
+         * @param v
          */
-        void setHighlight(@IdRes int id);
+        View setHighlight(View v, View view);
 
         /**
          * 设置支付调用第三方

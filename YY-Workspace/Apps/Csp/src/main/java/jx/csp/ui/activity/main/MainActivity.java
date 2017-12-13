@@ -80,6 +80,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void initNavBar(NavBar bar) {
+        //添加左边布局
         View view = inflate(R.layout.layout_main_user);
         View layout = view.findViewById(R.id.main_layout_user);
         ViewGroup.LayoutParams params = LayoutUtil.getLinearParams(fit(App.NavBarVal.KHeightDp), fit(App.NavBarVal.KHeightDp));
@@ -92,12 +93,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         bar.addViewLeft(view, v -> startActivity(MeActivity.class));
 
+        //添加中间布局
         View midView = inflate(R.layout.layout_main_text_mid);
         TextView midTitle = midView.findViewById(R.id.main_tv_title);
         mMidRemind = midView.findViewById(R.id.main_tv_remind);
         midTitle.setText(R.string.app_name);
+        if (Profile.inst().getString(TProfile.expireRemind) != null) {
+            mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
+            showView(mMidRemind);
+        } else {
+            goneView(mMidRemind);
+        }
         bar.addViewMid(midView);
 
+        //添加右边布局
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
             boolean flag = getCurrPosition() == KPageGrid;
             if (!flag) {
@@ -187,6 +196,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             if (Profile.inst().getString(TProfile.expireRemind) != null) {
                 mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
                 showView(mMidRemind);
+            } else {
+                goneView(mMidRemind);
             }
         }
     }

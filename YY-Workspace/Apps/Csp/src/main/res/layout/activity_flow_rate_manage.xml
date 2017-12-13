@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -31,121 +30,92 @@
             android:textColor="@color/text_333"
             android:textSize="32dp"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_marginTop="41dp">
+        <include
+            android:id="@+id/flow_rate_layout_cny_price"
+            layout="@layout/layout_flow_rate_cny_price"
+            android:visibility="visible"/>
 
-            <EditText
-                android:id="@+id/flow_rate_et_recharge"
-                style="@style/et.common"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/bg_et_flow_rate"
-                android:hint="@string/flow_rate_recharge"
-                android:inputType="number"
-                android:maxLength="3"
-                android:paddingLeft="@dimen/margin"/>
-
-            <TextView
-                android:id="@+id/flow_rate_tv_unit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/flow_rate_et_recharge"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin"
-                android:text="G"
-                android:textColor="@color/text_af"
-                android:textSize="@dimen/margin"
-                android:visibility="gone"/>
-
-        </RelativeLayout>
-
+        <include
+            android:id="@+id/flow_rate_layout_usd_price"
+            layout="@layout/layout_flow_rate_usd_price"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="34dp">
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/flow_rate_actual_pay"
+            android:text="支付币种"
             android:textColor="@color/text_888"
-            android:textSize="14sp"/>
+            android:textSize="14dp"/>
 
-        <TextView
-            android:id="@+id/flow_rate_tv_money"
+        <LinearLayout
+            android:id="@+id/flow_rate_cny_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="21dp"
-            android:text="0"
-            android:textColor="@color/text_167afe"
-            android:textSize="28sp"/>
+            android:layout_marginLeft="@dimen/margin"
+            android:orientation="horizontal">
 
-        <TextView
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/flow_rate_selector_currency"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:text="人民币"
+                android:textColor="@drawable/flow_rate_selector_type_currency"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/flow_rate_usd_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="@string/flow_rate_unit"
-            android:textColor="@color/text_3a"
-            android:textSize="14sp"/>
+            android:layout_marginLeft="32dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="86dp"
-            android:layout_height="19dp"
-            android:gravity="center"
-            android:background="@drawable/bg_tv_rate"
-            android:layout_marginLeft="10dp"
-            android:text="@string/flow_rate_payment_proportion"
-            android:textColor="@color/text_888"
-            android:textSize="11sp"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/flow_rate_selector_currency"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:text="美元"
+                android:textColor="@drawable/flow_rate_selector_type_currency"/>
+        </LinearLayout>
     </LinearLayout>
 
-
-    <android.support.v7.widget.GridLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_marginTop="32dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="51dp"
-        app:columnCount="3">
+        android:textColor="@color/text_888"
+        android:text="支付方式"/>
 
-        <ImageView
-            android:id="@+id/flow_rate_iv_alipay"
-            style="@style/iv.flow"
-            android:src="@drawable/flow_rate_ic_alipay"
-            app:layout_columnWeight="1"/>
+    <include
+        android:id="@+id/flow_rate_layout_cny_payment"
+        layout="@layout/layout_flow_rate_cny_payment"/>
 
-        <ImageView
-            android:id="@+id/flow_rate_iv_wechat"
-            style="@style/iv.flow"
-            android:src="@drawable/flow_rate_ic_wechat"
-            app:layout_columnWeight="1"/>
-
-        <ImageView
-            android:id="@+id/flow_rate_iv_unionpay"
-            style="@style/iv.flow"
-            android:visibility="invisible"
-            android:src="@drawable/flow_rate_ic_unionpay"
-            app:layout_columnWeight="1"/>
-
-        <ImageView
-            android:id="@+id/flow_rate_iv_paypal"
-            android:layout_marginTop="15dp"
-            android:visibility="invisible"
-            style="@style/iv.flow"
-            android:src="@drawable/flow_rate_ic_paypal"
-            app:layout_columnWeight="1"/>
-    </android.support.v7.widget.GridLayout>
+    <include
+        android:visibility="gone"
+        android:id="@+id/flow_rate_layout_usd_payment"
+        layout="@layout/layout_flow_rate_usd_payment"/>
 
     <TextView
         android:id="@+id/flow_rate_tv_pay"
         style="@style/tv.common"
-        android:layout_marginTop="60dp"
-        android:enabled="false"
+        android:layout_marginTop="42dp"
+        android:enabled="true"
         android:text="@string/flow_rate_pay"/>
 
 </LinearLayout>
