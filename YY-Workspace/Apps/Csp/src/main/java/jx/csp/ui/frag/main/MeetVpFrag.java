@@ -42,6 +42,15 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     private List<Meet> mMeets;
 
+    private OnMeetVpListener mListener;
+
+    public interface OnMeetVpListener {
+        void replace(boolean flag);
+    }
+
+    public void setListener(OnMeetVpListener listener) {
+        mListener = listener;
+    }
 
     @Override
     public void initData() {
@@ -97,11 +106,17 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                     mMeet = ((MeetSingleFrag) (getItem(position))).getMeet();
                     if (mMeet == null) {
                         goneView(mLayoutLiveReminder);
+                        if (mListener != null) {
+                            mListener.replace(false);
+                        }
                         return;
                     }
                     switch (mMeet.getInt(TMeet.playType)) {
                         case PlayType.reb: {
                             goneView(mLayoutLiveReminder);
+                            if (mListener != null) {
+                                mListener.replace(false);
+                            }
                         }
                         break;
                         case PlayType.live:
@@ -112,10 +127,16 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                             if (startTime < currentTime && endTime > currentTime) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayoutLiveReminder);
+                                if (mListener != null) {
+                                    mListener.replace(true);
+                                }
                                 mTvReminder.setText(R.string.living);
                             } else {
                                 YSLog.d(TAG, "直播会议不在进行中");
                                 goneView(mLayoutLiveReminder);
+                                if (mListener != null) {
+                                    mListener.replace(false);
+                                }
                             }
                         }
                         break;

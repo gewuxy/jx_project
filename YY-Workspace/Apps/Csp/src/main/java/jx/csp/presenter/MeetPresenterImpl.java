@@ -3,6 +3,7 @@ package jx.csp.presenter;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringRes;
+import android.widget.LinearLayout;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,11 +19,14 @@ import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.DuplicateType;
 import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
@@ -84,17 +88,30 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             case PlayType.video: {
                 // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
                 BtnVerticalDialog d = new BtnVerticalDialog(mContext);
+                d.setBtnStyle(LinearLayout.VERTICAL);
                 d.setTextHint(ResLoader.getString(R.string.choice_contents));
                 d.addBlackButton(R.string.explain_meeting, view -> {
                     // 先判断是否有人在直播音频
                     mJoinLiveVideo = false;
                     exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
                 });
-                d.addBlueButton(R.string.live_video, view -> {
+                d.addBlackButton(R.string.live_video, view -> {
                     // 先判断是否有人在直播视频
                     mJoinLiveVideo = true;
                     exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
                 });
+                // 判断是否需要显示结束直播按钮
+                if (item.getInt(TMeet.liveState) == LiveState.live) {
+                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v ->
+                            {
+                                CommonDialog2 dialog = new CommonDialog2(mContext);
+                                dialog.setHint(R.string.over_meeting);
+                                dialog.addBlackButton(R.string.over, v1 ->
+                                        CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
+                                dialog.addBlueButton(R.string.cancel_over);
+                                dialog.show();
+                            });
+                }
                 d.show();
             }
             break;

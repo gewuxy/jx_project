@@ -1,31 +1,11 @@
 package lib.live;
 
-import android.content.Context;
-import android.util.Log;
-
-import com.zego.zegoliveroom.ZegoLiveRoom;
-import com.zego.zegoliveroom.callback.IZegoLivePublisherCallback;
-import com.zego.zegoliveroom.callback.IZegoRoomCallback;
-import com.zego.zegoliveroom.callback.im.IZegoIMCallback;
-import com.zego.zegoliveroom.constants.ZegoAvConfig;
-import com.zego.zegoliveroom.constants.ZegoAvConfig.Level;
-import com.zego.zegoliveroom.entity.AuxData;
-import com.zego.zegoliveroom.entity.ZegoConversationMessage;
-import com.zego.zegoliveroom.entity.ZegoRoomMessage;
-import com.zego.zegoliveroom.entity.ZegoStreamInfo;
-import com.zego.zegoliveroom.entity.ZegoStreamQuality;
-import com.zego.zegoliveroom.entity.ZegoUserState;
-
-import java.util.HashMap;
-
-import lib.ys.YSLog;
-
 /**
  * @author CaiXiang
  * @since 2017/9/20
  */
 public class LiveApi {
-
+/*
     private final String TAG = getClass().getSimpleName();
 
     // zego公司测试
@@ -128,8 +108,8 @@ public class LiveApi {
         return this;
     }
 
-    public LiveApi enableMic(boolean b) {
-        mZegoLive.enableMic(b);
+    public LiveApi mute(boolean b) {
+        mZegoLive.mute(b);
         return this;
     }
 
@@ -303,6 +283,6 @@ public class LiveApi {
         } else {
             return "";
         }
-    }
+    }*/
 
 }

@@ -1,21 +1,19 @@
 package jx.csp.presenter;
 
-import android.view.Surface;
-import android.view.TextureView;
+import android.content.Context;
+import android.os.Bundle;
 
 import java.util.concurrent.TimeUnit;
 
-import jx.csp.App;
 import jx.csp.contact.LiveVideoContract;
 import jx.csp.contact.LiveVideoContract.V;
-import jx.csp.model.Profile;
 import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
-import lib.live.ILiveCallback;
-import lib.live.ILiveCallback.UserType;
-import lib.live.LiveApi;
+import lib.live.LiveListener;
+import lib.live.manager.PushManager;
+import lib.live.ui.LiveView;
 
 /**
  * @author CaiXiang
@@ -30,38 +28,24 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     private final int KCountDownTime = 15;  // 开始倒计时的分钟数
 
     private boolean mUseFrontCamera = false;
-    private boolean mUseMic = true;
+    private boolean mMute = false;
     private boolean mShowCountDownRemainTv = false;
 
     private CountDown mCountDown;
     private long mStartTime;
     private long mStopTime;
 
-    private LiveCallbackImpl mZegoCallbackImpl;
-
     public LiveVideoPresenterImpl(V v) {
         super(v);
 
-        LiveApi.getInst().init(App.getContext(), Profile.inst().getUserId(), Profile.inst().getUserName());
-        mZegoCallbackImpl = new LiveCallbackImpl();
         mCountDown = new CountDown();
         mCountDown.setListener(this);
     }
 
     @Override
-    public void initLive(String roomId, TextureView textureView) {
-        LiveApi.getInst()
-                .setTest(false)  // 测试
-                .toggleAVConfig()
-                .enableAEC(true)  // 回声消除
-                .enableMic(mUseMic)
-                .enableCamera(true)
-                .setFrontCam(mUseFrontCamera)  // 是否使用前置摄像头
-                .setPreviewViewMode(ILiveCallback.Constants.KAspectFill)
-                .setAppOrientation(Surface.ROTATION_90)
-                .setRoomConfig(true, true)
-                .setPreviewView(textureView)
-                .setCallback(roomId, UserType.anchor, mZegoCallbackImpl);
+    public void initLive(Context context, LiveView liveView) {
+        PushManager.getInst().init(context, liveView);
+        PushManager.getInst().setPushListener(new PushListener());
     }
 
     @Override
@@ -72,34 +56,33 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void startLive(String streamId, String title) {
-        LiveApi.getInst().startPublishing(streamId, title, ILiveCallback.Constants.KSingleAnchor);
+    public void startLive(String rtmpUrl) {
+        PushManager.getInst().startLive(rtmpUrl);
         getView().startLiveState();
     }
 
     @Override
     public void stopLive() {
-        LiveApi.getInst().stopPublishing();
+        PushManager.getInst().stopLive();
         getView().stopLiveState();
     }
 
     @Override
     public void switchCamera() {
         mUseFrontCamera = !mUseFrontCamera;
-        LiveApi.getInst().setFrontCam(mUseFrontCamera);
+        PushManager.getInst().switchCamera();
     }
 
     @Override
-    public void useMic() {
-        getView().setSilenceIvSelected(mUseMic);
-        mUseMic = !mUseMic;
-        LiveApi.getInst().enableMic(mUseMic);
+    public void mute() {
+        getView().setSilenceIvSelected(mMute);
+        mMute = !mMute;
+        PushManager.getInst().mute(mMute);
     }
 
     @Override
     public void onDestroy() {
-        LiveApi.getInst().stopPreview();
-        LiveApi.getInst().logoutRoom();
+        PushManager.getInst().finishLive();
     }
 
     @Override
@@ -119,34 +102,18 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void onCountDownErr() {
-    }
+    public void onCountDownErr() {}
 
-    private class LiveCallbackImpl extends ILiveCallback {
-
-        private final int KSuccess = 0; // 成功
+    private class PushListener extends LiveListener {
 
         @Override
-        public void onLoginCompletion(int i, String stream) {
-            // i  登陆房间是否成功  0:成功, 其它:失败
-            // if (i != KSuccess) {}
+        public void onPushEvent(int var1, Bundle var2) {
+
         }
 
         @Override
-        public void onPublishStateUpdate(int i) {
-            // i  推流是否成功  0:成功, 其它:失败
-            if (i != KSuccess) {
-                getView().liveFailState();
-            }
-        }
+        public void onNetStatus(Bundle var1) {
 
-        @Override
-        public void onKickOut() {
-            getView().finishLive();
-        }
-
-        @Override
-        public void onUserUpdate(int number) {
         }
     }
 }

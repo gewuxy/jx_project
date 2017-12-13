@@ -137,6 +137,7 @@
     <string name="affirm_copy">確認複製</string>
 
     <!--首页-->
+    <string name="past_meet_hide">已隱藏%d個會議，請在WEB端登錄查看</string>
     <string name="living">直播會議正在進行中...</string>
     <string name="playing">錄播會議正在進行中...</string>
     <string name="click_continue">點擊繼續</string>
@@ -145,8 +146,8 @@
     <string name="fail_to_identify">無法識別此二維碼</string>
     <string name="ready">Ready！</string>
     <string name="copy_success">複製成功</string>
-    <string name="main_record_dialog">會議正在錄播中，確定繼續將\n中斷其他客戶端的進度</string>
-    <string name="main_live_dialog">會議正在直播中，確定繼續將\n中斷其他客戶端的進度</string>
+    <string name="main_record_dialog">另一台設備正在錄播會議，繼\n續可能中斷該設備錄播進度</string>
+    <string name="main_live_dialog">另一台設備正在直播會議，繼\n續可能中斷該設備直播進度</string>
     <string name="confirm_continue">確定繼續</string>
     <string name="choice_contents">請選擇您要進行的內容？</string>
     <string name="explain_meeting">講解會議</string>
@@ -161,6 +162,11 @@
     <string name="service_agreement">CSPmeeting服务协议</string>
     <string name="click_again_exit">繼續點擊返回將關閉App</string>
     <string name="duplicate">_副本</string>
+    <string name="over_meeting">是否結束會議?</string>
+    <string name="over">結束</string>
+    <string name="cancel_over">取消</string>
+    <string name="live_already_over">直播已結束</string>
+    <string name="share_meeting_playback">分享會議回放</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

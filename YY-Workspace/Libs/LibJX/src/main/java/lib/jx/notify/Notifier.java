@@ -58,6 +58,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.delete_meeting_success,
             NotifyType.delete_meeting_fail,
             NotifyType.copy_duplicate,
+            NotifyType.over_live,
 
             NotifyType.login_video,
     })
@@ -208,6 +209,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 首页九宫格页面分享中的复制副本
          */
         int copy_duplicate = 36;
+
+        /**
+         * 结束直播成功
+         */
+        int over_live = 37;
 
         int login_video = 50;
     }

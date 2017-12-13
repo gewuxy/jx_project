@@ -27,7 +27,7 @@
             android:textSize="14dp"/>
     </LinearLayout>
 
-    <TextureView
+    <lib.live.ui.LiveView
         android:id="@+id/ppt_live_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
