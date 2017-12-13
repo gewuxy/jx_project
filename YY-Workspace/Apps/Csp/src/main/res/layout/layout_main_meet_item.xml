@@ -20,12 +20,11 @@
         app:corner_foreground="@drawable/item_foreground_selector"
         app:corner_radius="6dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="160dp"
             android:layout_height="188dp"
             android:layout_gravity="center"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:background="@color/white">
 
             <lib.ys.network.image.NetworkImageView
                 android:id="@+id/iv_head"
@@ -36,6 +35,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="140dp"
                 android:layout_height="16dp"
+                android:layout_below="@id/iv_head"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="7dp"
                 android:ellipsize="end"
@@ -45,8 +45,10 @@
                 android:textSize="14dp"/>
 
             <RelativeLayout
+                android:id="@+id/layout_time"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:layout_below="@id/tv_title"
                 android:layout_marginTop="3dp">
 
                 <TextView
@@ -93,8 +95,10 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/layout_state"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_time">
 
                 <TextView
                     android:id="@+id/current_state"
@@ -124,7 +128,28 @@
                     android:padding="5dp"
                     android:src="@drawable/main_ic_share"/>
             </RelativeLayout>
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/frag_main_meet_vp_tv_share_playback"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="30dp"
+                android:singleLine="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="11dp"
+                android:paddingBottom="17dp"
+                android:gravity="center"
+                android:background="@drawable/main_ic_share_meeting_playback_bg"
+                android:textSize="12dp"
+                android:textColor="@color/white"
+                android:text="@string/share_meeting_playback"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
     </lib.ys.view.CornerView>
 
 </LinearLayout>

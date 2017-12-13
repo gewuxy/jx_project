@@ -39,6 +39,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private View mDivider;
     private TextView mTvTotalPage;
     private TextView mTvState;
+    private TextView mTvSharePlayback;
 
     @Arg
     Meet mMeet;
@@ -70,6 +71,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mDivider = findView(R.id.slide_divider);
         mTvTotalPage = findView(R.id.tv_total_page);
         mTvState = findView(R.id.tv_state);
+        mTvSharePlayback = findView(R.id.frag_main_meet_single_tv_share_playback);
     }
 
     @Override
@@ -186,5 +188,18 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
     public void onMeetClick() {
         mPresenter.onMeetClick(mMeet);
+    }
+
+    public void showSharePlayback(String id) {
+        if (mMeet.getString(TMeet.id).equals(id)) {
+            showView(mTvSharePlayback);
+            goneView(mTvState);
+        }
+    }
+
+    public void goneSharePlayback(String id) {
+        if (mMeet.getString(TMeet.id).equals(id)) {
+            goneView(mTvSharePlayback);
+        }
     }
 }

@@ -13,4 +13,8 @@ public interface IMeetOpt {
     void allowEnter();
 
     void notAllowEnter();
+
+    void showSharePlayback(String id);
+
+    void goneSharePlayback(String id);
 }

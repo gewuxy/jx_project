@@ -123,8 +123,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                         case PlayType.video: {
                             long startTime = mMeet.getLong(TMeet.startTime);
                             long endTime = mMeet.getLong(TMeet.endTime);
-                            long currentTime = System.currentTimeMillis();
-                            if (startTime < currentTime && endTime > currentTime) {
+                            long serverTime = mMeet.getLong(TMeet.serverTime);
+                            if (startTime < serverTime && endTime > serverTime) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayoutLiveReminder);
                                 if (mListener != null) {
@@ -220,6 +220,26 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     @Override
     public void notAllowEnter() {
         getCurrItem().notAllowEnter();
+    }
+
+    @Override
+    public void showSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            MeetSingleFrag frag = (MeetSingleFrag) getItem(i);
+            if (frag.getMeet().getString(TMeet.id).equals(id)) {
+                frag.showSharePlayback(id);
+            }
+        }
+    }
+
+    @Override
+    public void goneSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            MeetSingleFrag frag = (MeetSingleFrag) getItem(i);
+            if (frag.getMeet().getString(TMeet.id).equals(id)) {
+                frag.goneSharePlayback(id);
+            }
+        }
     }
 
     @Override

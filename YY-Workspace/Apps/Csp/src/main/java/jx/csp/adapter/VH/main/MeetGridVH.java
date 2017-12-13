@@ -59,4 +59,8 @@ public class MeetGridVH extends RecyclerViewHolderEx {
     public View getVDivider() {
         return getView(R.id.square_divider);
     }
+
+    public TextView getTvSharePlayback() {
+        return getView(R.id.frag_main_meet_vp_tv_share_playback);
+    }
 }

@@ -11,6 +11,7 @@ import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
 import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
@@ -133,6 +134,26 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
             return;
         }
         mPresenter.notAllowEnter();
+    }
+
+    @Override
+    public void showSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            Meet meet = getItem(i);
+            if (meet.getString(TMeet.id).equals(id)) {
+                getAdapter().showSharePlayback(i);
+            }
+        }
+    }
+
+    @Override
+    public void goneSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            Meet meet = getItem(i);
+            if (meet.getString(TMeet.id).equals(id)) {
+                getAdapter().goneSharePlayback(i);
+            }
+        }
     }
 
     @Override

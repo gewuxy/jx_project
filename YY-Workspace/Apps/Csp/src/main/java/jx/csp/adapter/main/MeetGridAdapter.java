@@ -98,4 +98,19 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
             break;
         }
     }
+
+    public void showSharePlayback(int pos) {
+        if (getCacheVH(pos) == null) {
+            return;
+        }
+        showView(getCacheVH(pos).getTvSharePlayback());
+        goneView(getCacheVH(pos).getTvPlayState());
+    }
+
+    public void goneSharePlayback(int pos) {
+        if (getCacheVH(pos) == null) {
+            return;
+        }
+        goneView(getCacheVH(pos).getTvSharePlayback());
+    }
 }
