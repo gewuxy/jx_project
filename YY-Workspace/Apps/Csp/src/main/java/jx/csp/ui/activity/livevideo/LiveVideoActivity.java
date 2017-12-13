@@ -61,11 +61,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     private TextView mTvStart;
 
     @Arg(opt = true)
-    String mCourseId;  // 房间号
-    @Arg(opt = true)
-    String mStreamId;
-    @Arg(opt = true)
-    String mTitle;
+    String mCourseId;
     @Arg(opt = true)
     long mStartTime;
     @Arg(opt = true)
@@ -94,8 +90,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
 
+        // FIXME: 2017/12/13 测试数据
         mStartTime = System.currentTimeMillis();
-        mServerTime = System.currentTimeMillis() + 1 * 60 * 1000;
+        mServerTime = System.currentTimeMillis() + 60 * 1000;
         mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
 
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
@@ -496,12 +493,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         }
 
         @Override
-        public void onStopRefresh() {
-
-        }
+        public void onStopRefresh() {}
 
         @Override
-        public void setViewState(int state) {
-        }
+        public void setViewState(int state) {}
     }
 }

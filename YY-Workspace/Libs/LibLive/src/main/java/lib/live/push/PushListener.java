@@ -9,15 +9,13 @@ import android.os.Bundle;
 abstract public class PushListener {
 
     /**
-     * 推流事件通知
-     * @param var1
-     * @param var2
+     * 推流失败回调
      */
-    public void onPushEvent(int var1, Bundle var2) {}
+    abstract protected void onPushFail();
 
     /**
      * 网络状态通知
      * @param var1
      */
-    public void onNetStatus(Bundle var1){}
+    protected void onNetStatus(Bundle var1){}
 }
