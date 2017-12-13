@@ -109,9 +109,7 @@ public class PPTLiveFrag extends BaseFrag {
         if (TextUtil.isEmpty(mPlayUrl) || mViewLive == null) {
             return;
         }
-        if (mPullManager.startPullStream(mPlayUrl, mViewLive)) {
-        } else {
-        }
+       mPullManager.startPullStream(mPlayUrl, mViewLive);
     }
 
     public void stopPullStream() {
@@ -124,11 +122,5 @@ public class PPTLiveFrag extends BaseFrag {
 
     public void closeAudio() {
         mPullManager.audio(true);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
     }
 }

@@ -134,10 +134,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         //添加中间布局
         View midView = inflate(R.layout.layout_main_text_mid);
         TextView midTitle = midView.findViewById(R.id.main_tv_title);
-        mMidRemind = midView.findViewById(R.id.main_tv_remind);
         midTitle.setText(R.string.app_name);
-        if (Profile.inst().getString(TProfile.expireRemind) != null) {
-            mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
+        mMidRemind = midView.findViewById(R.id.main_tv_remind);
+        int day = Profile.inst().getInt(TProfile.expireDays);
+        if (day > 0) {
+            mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
             showView(mMidRemind);
         } else {
             goneView(mMidRemind);
@@ -217,10 +218,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             exeNetworkReq(UserAPI.uploadProfileInfo().build());
         }
 
-        // FIXME:
-        if (true) {
+        int num = Profile.inst().getInt(TProfile.hiddenMeetCount);
+        if (num > 0) {
+            mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
             showView(mLayoutPast);
-            mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+        } else {
+            goneView(mLayoutPast);
         }
         LiveNotifier.inst().add(this);
     }
@@ -243,18 +246,21 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "个人数据更新成功");
             SpUser.inst().updateProfileRefreshTime();
             Profile.inst().update((Profile) r.getData());
-            // FIXME:
-            if (true) {
+            int num = Profile.inst().getInt(TProfile.hiddenMeetCount);
+            if (num > 0) {
+                mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
                 showView(mLayoutPast);
-                mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+            } else {
+                goneView(mLayoutPast);
             }
-            notify(NotifyType.profile_change);
-            if (Profile.inst().getString(TProfile.expireRemind) != null) {
-                mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
+            int day = Profile.inst().getInt(TProfile.expireDays);
+            if (day > 0) {
+                mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
                 showView(mMidRemind);
             } else {
                 goneView(mMidRemind);
             }
+            notify(NotifyType.profile_change);
         }
     }
 

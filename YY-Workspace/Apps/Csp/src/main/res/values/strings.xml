@@ -137,7 +137,8 @@
     <string name="affirm_copy">Confirm</string>
 
     <!--首页-->
-    <string name="past_meet_hide">%dmeeting(s) hidden. Please check in website.</string>
+    <string name="overdue_reminder">%d meeting(s) hidden. Please check in website</string>
+    <string name="will_reminder">Expiring in %d days</string>
     <string name="living">Live stream is proceeding...</string>
     <string name="playing">Recording is proceeding...</string>
     <string name="click_continue">Continue</string>

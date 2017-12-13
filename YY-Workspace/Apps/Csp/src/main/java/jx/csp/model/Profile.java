@@ -45,7 +45,11 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
         @Bind(asList = VipPackage.class)
         cspPackage,
-        expireRemind,//套餐过期提醒
+
+        expireDays, // 套餐即将过期天数
+
+        hiddenMeetCount, // 套餐过期 隐藏的会议数
+        expireRemind, //套餐过期提醒
     }
 
     private static Profile mInst = null;

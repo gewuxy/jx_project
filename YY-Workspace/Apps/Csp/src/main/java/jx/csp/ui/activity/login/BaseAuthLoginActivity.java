@@ -26,6 +26,7 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.live.ui.LiveView;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;
@@ -81,7 +82,8 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_protocol);
 
         exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());
-        // fixme:暂时使用铺满 link{@https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk#6}
+        // fixme:暂时使用铺满 https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk#6 可以改用
+        /**{@link LiveView}*/
         mVideo.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
