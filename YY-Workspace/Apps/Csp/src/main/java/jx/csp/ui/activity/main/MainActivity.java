@@ -16,6 +16,8 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.model.VipPackage;
+import jx.csp.model.VipPackage.TPackage;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Copy;
@@ -74,7 +76,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private TextView mTvPast;
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -136,12 +138,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         TextView midTitle = midView.findViewById(R.id.main_tv_title);
         midTitle.setText(R.string.app_name);
         mMidRemind = midView.findViewById(R.id.main_tv_remind);
-        int day = Profile.inst().getInt(TProfile.expireDays);
-        if (day > 0) {
-            mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
-            showView(mMidRemind);
-        } else {
-            goneView(mMidRemind);
+        VipPackage p = Profile.inst().get(TProfile.cspPackage);
+        if (p != null) {
+            int day = p.getInt(TPackage.expireDays);
+            if (day > 0) {
+                mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
+                showView(mMidRemind);
+            } else {
+                goneView(mMidRemind);
+            }
         }
         bar.addViewMid(midView);
 
@@ -218,12 +223,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             exeNetworkReq(UserAPI.uploadProfileInfo().build());
         }
 
-        int num = Profile.inst().getInt(TProfile.hiddenMeetCount);
-        if (num > 0) {
-            mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
-            showView(mLayoutPast);
-        } else {
-            goneView(mLayoutPast);
+        VipPackage p = Profile.inst().get(TProfile.cspPackage);
+        if (p != null) {
+            int num = p.getInt(TPackage.hiddenMeetCount);
+            if (num > 0) {
+                mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+                showView(mLayoutPast);
+            } else {
+                goneView(mLayoutPast);
+            }
         }
         LiveNotifier.inst().add(this);
     }
@@ -246,19 +254,22 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "个人数据更新成功");
             SpUser.inst().updateProfileRefreshTime();
             Profile.inst().update((Profile) r.getData());
-            int num = Profile.inst().getInt(TProfile.hiddenMeetCount);
-            if (num > 0) {
-                mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
-                showView(mLayoutPast);
-            } else {
-                goneView(mLayoutPast);
-            }
-            int day = Profile.inst().getInt(TProfile.expireDays);
-            if (day > 0) {
-                mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
-                showView(mMidRemind);
-            } else {
-                goneView(mMidRemind);
+            VipPackage p = Profile.inst().get(TProfile.cspPackage);
+            if (p != null) {
+                int num = p.getInt(TPackage.hiddenMeetCount);
+                if (num > 0) {
+                    mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+                    showView(mLayoutPast);
+                } else {
+                    goneView(mLayoutPast);
+                }
+                int day = p.getInt(TPackage.expireDays);
+                if (day > 0) {
+                    mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
+                    showView(mMidRemind);
+                } else {
+                    goneView(mMidRemind);
+                }
             }
             notify(NotifyType.profile_change);
         }

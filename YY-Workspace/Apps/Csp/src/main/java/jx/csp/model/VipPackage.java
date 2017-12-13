@@ -29,5 +29,10 @@ public class VipPackage extends EVal<TPackage>{
 
         monthRmb,
         monthUsd,
+
+        expireDays, // 套餐即将过期天数
+
+        hiddenMeetCount, // 套餐过期 隐藏的会议数
+        expireRemind, //套餐过期提醒
     }
 }

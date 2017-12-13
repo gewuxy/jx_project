@@ -27,10 +27,10 @@
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="15dp"
+            android:layout_width="11dp"
             android:layout_height="15dp"
             android:layout_marginLeft="16dp"
-            android:drawableLeft="@drawable/ic_default_warning"/>
+            android:src="@drawable/ic_default_warning"/>
 
         <TextView
             android:id="@+id/main_tv_past"
