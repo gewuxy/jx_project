@@ -36,6 +36,8 @@ import jx.doctor.view.AutoCompleteEditText;
  */
 abstract public class BaseLoginActivity extends BaseActivity {
 
+    protected final int KReqLogin = 0;
+
     private AutoCompleteEditText mEtName; // 用户名输入框
     private EditText mEtPwd; // 密码输入框
     private CheckBox mCbPwdVisible; // 密码是否可见
@@ -166,7 +168,7 @@ abstract public class BaseLoginActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.login_tv_login: {
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(UserAPI.login(getUserName(), Util.getEtString(mEtPwd), getOpenId(), PackageUtil.getMetaValue("MASTER_ID")).build());
+                exeNetworkReq(KReqLogin, UserAPI.login(getUserName(), Util.getEtString(mEtPwd), getOpenId(), PackageUtil.getMetaValue("MASTER_ID")).build());
             }
             break;
             case R.id.login_iv_cancel: {
@@ -181,9 +183,14 @@ abstract public class BaseLoginActivity extends BaseActivity {
         }
     }
 
+    @CallSuper
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.ev(resp.getText(), Profile.class);
+        if (KReqLogin == id) {
+            return JsonParser.ev(resp.getText(), Profile.class);
+        } else {
+            return null;
+        }
     }
 
     abstract protected CharSequence getBtnText();
