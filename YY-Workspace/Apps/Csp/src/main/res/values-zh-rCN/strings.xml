@@ -137,7 +137,8 @@
     <string name="affirm_copy">确认复制</string>
 
     <!--首页-->
-    <string name="past_meet_hide">已隐藏%d个会议，请在WEB端登录查看</string>
+    <string name="overdue_reminder">已隐藏%d个会议，请在WEB端登录查看</string>
+    <string name="will_reminder">还有%d天到期</string>
     <string name="living">直播会议正在进行中...</string>
     <string name="playing">录播会议正在进行中...</string>
     <string name="click_continue">点击继续</string>

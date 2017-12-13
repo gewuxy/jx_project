@@ -14,18 +14,6 @@ import java.lang.annotation.RetentionPolicy;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import lib.jg.jpush.SpJPush;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.ConstantsEx;
-import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.FileUtil;
-import lib.ys.util.TextUtil;
-import lib.ys.util.res.ResLoader;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseFormActivity;
 import jx.doctor.Constants;
 import jx.doctor.R;
 import jx.doctor.dialog.BottomDialog;
@@ -40,6 +28,7 @@ import jx.doctor.model.form.text.intent.IntentForm.IntentType;
 import jx.doctor.model.me.CheckAppVersion;
 import jx.doctor.model.me.CheckAppVersion.TCheckAppVersion;
 import jx.doctor.network.JsonParser;
+import jx.doctor.network.NetworkApiDescriptor;
 import jx.doctor.network.NetworkApiDescriptor.CommonAPI;
 import jx.doctor.network.NetworkApiDescriptor.UserAPI;
 import jx.doctor.serv.CommonServ.ReqType;
@@ -53,6 +42,18 @@ import jx.doctor.ui.activity.user.login.LoginActivity;
 import jx.doctor.ui.activity.user.login.WXLoginApi;
 import jx.doctor.util.CacheUtil;
 import jx.doctor.util.Util;
+import lib.jg.jpush.SpJPush;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseFormActivity;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.ConstantsEx;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
+import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 设置页面
@@ -70,6 +71,7 @@ public class SettingsActivity extends BaseFormActivity {
     private final int KUnBindEmail = 0; // 解绑邮箱
     private final int KUnBindWX = 1; // 解绑微信
     private final int KVersion = 2; // 检查版本号
+    private final int KBindWX = 3; // 绑定微信
 
     @IntDef({
             RelatedId.bind_wx,
@@ -272,6 +274,8 @@ public class SettingsActivity extends BaseFormActivity {
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KVersion) {
             return JsonParser.ev(resp.getText(), CheckAppVersion.class);
+        } else if (id == KBindWX) {
+            return JsonParser.ev(resp.getText(), Profile.class);
         } else {
             return JsonParser.error(resp.getText());
         }
@@ -292,6 +296,18 @@ public class SettingsActivity extends BaseFormActivity {
                 } else {
                     showToast(R.string.already_latest_version);
                 }
+            }
+        } else if (id == KBindWX) {
+            if (r.isSucceed()) {
+                Profile profile = (Profile) r.getData();
+                if (profile == null) {
+                    showToast("绑定失败");
+                } else {
+                    bindSuccess(profile.getString(TProfile.wxNickname), RelatedId.bind_wx);
+                    Profile.inst().update(profile);
+                }
+            } else {
+                onNetworkError(id, r.getError());
             }
         } else {
             // 绑定的
@@ -423,7 +439,9 @@ public class SettingsActivity extends BaseFormActivity {
     @Override
     public void onNotify(@NotifyType int type, Object data) {
         if (type == NotifyType.bind_wx) {
-            bindSuccess((String) data, RelatedId.bind_wx);
+            String code = (String) data;
+            refresh(RefreshWay.dialog);
+            exeNetworkReq(KBindWX, NetworkApiDescriptor.UserAPI.bindWX().code(code).build());
         } else if (type == NotifyType.bind_phone) {
             bindSuccess((String) data, RelatedId.bind_phone);
         } else if (type == NotifyType.bind_email) {

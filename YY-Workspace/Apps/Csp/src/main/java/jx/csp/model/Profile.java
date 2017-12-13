@@ -43,9 +43,8 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         @Bind(asList = BindInfo.class)
         bindInfoList,
 
-        @Bind(asList = VipPackage.class)
+        @Bind(value = VipPackage.class)
         cspPackage,
-        expireRemind,//套餐过期提醒
     }
 
     private static Profile mInst = null;

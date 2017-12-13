@@ -1,7 +1,6 @@
 package jx.doctor.dialog;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
@@ -100,14 +99,14 @@ public class ShareDialog extends BaseDialog {
 
         switch (v.getId()) {
             case R.id.dialog_share_iv_wechat_friend_cicle: {
-                platform = ShareSDK.getPlatform(Wechat.NAME);
+                platform = ShareSDK.getPlatform(WechatMoments.NAME);
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 platform.setPlatformActionListener(mPlatFormActionListener);
                 platform.share(shareParams);
             }
             break;
             case R.id.dialog_share_iv_wechat_friends: {
-                platform = ShareSDK.getPlatform(WechatMoments.NAME);
+                platform = ShareSDK.getPlatform(Wechat.NAME);
                 shareParams.setShareType(Platform.SHARE_WEBPAGE);
                 platform.setPlatformActionListener(mPlatFormActionListener);
                 platform.share(shareParams);

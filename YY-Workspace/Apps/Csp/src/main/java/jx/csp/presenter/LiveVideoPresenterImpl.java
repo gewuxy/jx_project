@@ -1,7 +1,6 @@
 package jx.csp.presenter;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,8 +10,7 @@ import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
-import lib.live.LiveListener;
-import lib.live.manager.PushManager;
+import lib.live.push.PushManager;
 import lib.live.ui.LiveView;
 
 /**
@@ -24,7 +22,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
         LiveVideoContract.P,
         OnCountDownListener {
 
-    private static final String TAG = "LiveVideoPresenterImpl";
+    private final String TAG = "LiveVideoPresenterImpl";
     private final int KCountDownTime = 15;  // 开始倒计时的分钟数
 
     private boolean mUseFrontCamera = false;
@@ -45,7 +43,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void initLive(Context context, LiveView liveView) {
         PushManager.getInst().init(context, liveView);
-        PushManager.getInst().setPushListener(new PushListener());
+        PushManager.getInst().setPushListener(new MyPushListener());
     }
 
     @Override
@@ -104,16 +102,13 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void onCountDownErr() {}
 
-    private class PushListener extends LiveListener {
+    private class MyPushListener extends lib.live.push.PushListener {
 
         @Override
-        public void onPushEvent(int var1, Bundle var2) {
-
-        }
-
-        @Override
-        public void onNetStatus(Bundle var1) {
-
+        protected void onPushFail() {
+            PushManager.getInst().stopLive();
+            getView().liveFailState();
         }
     }
+
 }

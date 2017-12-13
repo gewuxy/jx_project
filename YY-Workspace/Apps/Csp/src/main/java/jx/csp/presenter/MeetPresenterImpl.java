@@ -230,8 +230,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                             // 没人在的时候直接进入直播间
                             LiveVideoActivityRouter.create()
                                     .courseId(mMeet.getString(TMeet.id))
-                                    .streamId(mMeet.getString(TMeet.id))
-                                    .title(mMeet.getString(TMeet.title))
                                     .startTime(mMeet.getLong(TMeet.startTime))
                                     .stopTime(mMeet.getLong(TMeet.endTime))
                                     .serverTime(mServerTime)
@@ -295,8 +293,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 if (mJoinLiveVideo) {
                     LiveVideoActivityRouter.create()
                             .courseId(mMeet.getString(TMeet.id))
-                            .streamId(mMeet.getString(TMeet.id))
-                            .title(mMeet.getString(TMeet.title))
                             .startTime(mMeet.getLong(TMeet.startTime))
                             .stopTime(mMeet.getLong(TMeet.endTime))
                             .serverTime(mServerTime)

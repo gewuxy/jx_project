@@ -1,4 +1,4 @@
-package lib.live.manager;
+package lib.live.pull;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 
-import lib.live.LiveListener;
 import lib.live.ui.LiveView;
 import lib.ys.util.TextUtil;
 
@@ -22,16 +21,45 @@ public class PullManager {
     private TXLivePlayer mPlayer;
 
     private LiveView mView;
-    private Context mContext;
-    private LiveListener mListener;
+    private PullListener mListener;
 
     public PullManager(Context context) {
 //        TXLiveBase.getSDKVersionStr();
+        mPlayer = new TXLivePlayer(context);
+        mPlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
+        mPlayer.setPlayListener(new ITXLivePlayListener() {
 
-        mContext = context;
+            @Override
+            public void onPlayEvent(int i, Bundle bundle) {
+                if (mListener == null) {
+                    return;
+                }
+                switch (i) {
+                    case TXLiveConstants.PLAY_EVT_PLAY_LOADING: {
+                        mListener.load();
+                    }
+                    break;
+                    case TXLiveConstants.PLAY_EVT_PLAY_BEGIN: {
+                        mListener.begin();
+                    }
+                    break;
+                    case TXLiveConstants.PLAY_ERR_NET_DISCONNECT:
+                    case TXLiveConstants.PLAY_EVT_PLAY_END: {
+                        mListener.end();
+                    }
+                    break;
+                }
+
+            }
+
+            @Override
+            public void onNetStatus(Bundle bundle) {
+
+            }
+        });
     }
 
-    public void listener(LiveListener listener) {
+    public void listener(PullListener listener) {
         mListener = listener;
     }
 
@@ -55,32 +83,8 @@ public class PullManager {
             playType = TXLivePlayer.PLAY_TYPE_LIVE_RTMP;
         }
         mView = view;
-        mPlayer = new TXLivePlayer(mContext);
-        mPlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         mPlayer.setPlayerView(mView);
-        mPlayer.setPlayListener(new ITXLivePlayListener() {
 
-            @Override
-            public void onPlayEvent(int i, Bundle bundle) {
-                switch (i) {
-                    case TXLiveConstants.PLAY_EVT_PLAY_LOADING: {
-                        mListener.load();
-                    }
-                    break;
-                    case TXLiveConstants.PLAY_EVT_PLAY_BEGIN: {
-                        mListener.begin();
-                    }
-                    break;
-
-                }
-
-            }
-
-            @Override
-            public void onNetStatus(Bundle bundle) {
-
-            }
-        });
         return 0 == mPlayer.startPlay(playUrl, playType);
     }
 
@@ -90,7 +94,6 @@ public class PullManager {
     public void stopPullStream() {
         mPlayer.pause();
         mPlayer.stopPlay(true);
-        mPlayer = null;
     }
 
     /**

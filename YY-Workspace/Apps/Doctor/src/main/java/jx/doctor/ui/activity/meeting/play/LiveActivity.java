@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.meeting.play;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -13,9 +12,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import inject.annotation.router.Route;
-import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.TCourse;
@@ -30,6 +26,9 @@ import jx.doctor.ui.frag.meeting.PPTRebFrag;
 import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import jx.doctor.util.LandscapeSwitch;
 import jx.doctor.util.NetPlayer;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**
  * ppt直播(有视频)
@@ -309,11 +308,8 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
                 mFragLive.closeAudio();
             } else {
                 // 没有播放中
-                if (mPlayType == PlayType.live) {
-                    mFragLive.startAudio();
-                } else {
-                    mFragPpt.startVolume();
-                }
+                mFragPpt.startVolume();
+                mFragLive.startAudio();
             }
             mPlay = !mPlay;
             setPlayState(mPlay);
@@ -344,7 +340,7 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
             setTextComment(ppt.getInt(TPPT.count));
 
             String roomId = ppt.getString(TPPT.courseId);
-            mFragLive.loginRoom(roomId);
+            mFragLive.setPlayUrl(roomId);
             mPlayType = PlayType.live;
 
             mPlay = true;

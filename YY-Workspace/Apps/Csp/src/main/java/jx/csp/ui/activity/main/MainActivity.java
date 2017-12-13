@@ -1,16 +1,23 @@
 package jx.csp.ui.activity.main;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import jx.csp.App;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.model.VipPackage;
+import jx.csp.model.VipPackage.TPackage;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Copy;
@@ -56,6 +63,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KCameraPermissionCode = 10;
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
+    private final int KGoneMsgWhat = 1;
 
     private TextView mMidRemind;
     private ImageView mIvShift;
@@ -66,6 +74,19 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private View mLayoutPast;
     private TextView mTvPast;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == KGoneMsgWhat) {
+                YSLog.d(TAG, "接收到隐藏分享会议回放");
+                ((IMeetOpt) getItem(KPageGrid)).goneSharePlayback(String.valueOf(msg.arg1));
+                ((IMeetOpt) getItem(KPageVp)).goneSharePlayback(String.valueOf(msg.arg1));
+            }
+        }
+    };
 
     @Override
     public void initData() {
@@ -115,13 +136,17 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         //添加中间布局
         View midView = inflate(R.layout.layout_main_text_mid);
         TextView midTitle = midView.findViewById(R.id.main_tv_title);
-        mMidRemind = midView.findViewById(R.id.main_tv_remind);
         midTitle.setText(R.string.app_name);
-        if (Profile.inst().getString(TProfile.expireRemind) != null) {
-            mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
-            showView(mMidRemind);
-        } else {
-            goneView(mMidRemind);
+        mMidRemind = midView.findViewById(R.id.main_tv_remind);
+        VipPackage p = Profile.inst().get(TProfile.cspPackage);
+        if (p != null) {
+            int day = p.getInt(TPackage.expireDays);
+            if (day > 0) {
+                mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
+                showView(mMidRemind);
+            } else {
+                goneView(mMidRemind);
+            }
         }
         bar.addViewMid(midView);
 
@@ -198,10 +223,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             exeNetworkReq(UserAPI.uploadProfileInfo().build());
         }
 
-        // FIXME:
-        if (true) {
-            showView(mLayoutPast);
-            mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+        VipPackage p = Profile.inst().get(TProfile.cspPackage);
+        if (p != null) {
+            int num = p.getInt(TPackage.hiddenMeetCount);
+            if (num > 0) {
+                mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+                showView(mLayoutPast);
+            } else {
+                goneView(mLayoutPast);
+            }
         }
         LiveNotifier.inst().add(this);
     }
@@ -224,18 +254,24 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "个人数据更新成功");
             SpUser.inst().updateProfileRefreshTime();
             Profile.inst().update((Profile) r.getData());
-            // FIXME:
-            if (true) {
-                showView(mLayoutPast);
-                mTvPast.setText(String.format(getString(R.string.past_meet_hide), 2));
+            VipPackage p = Profile.inst().get(TProfile.cspPackage);
+            if (p != null) {
+                int num = p.getInt(TPackage.hiddenMeetCount);
+                if (num > 0) {
+                    mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+                    showView(mLayoutPast);
+                } else {
+                    goneView(mLayoutPast);
+                }
+                int day = p.getInt(TPackage.expireDays);
+                if (day > 0) {
+                    mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
+                    showView(mMidRemind);
+                } else {
+                    goneView(mMidRemind);
+                }
             }
             notify(NotifyType.profile_change);
-            if (Profile.inst().getString(TProfile.expireRemind) != null) {
-                mMidRemind.setText(Profile.inst().getString(TProfile.expireRemind));
-                showView(mMidRemind);
-            } else {
-                goneView(mMidRemind);
-            }
         }
     }
 
@@ -316,7 +352,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.over_live: {
+                String id = (String) data;
                 showToast(R.string.live_already_over);
+                // 显示分享会议回放提示
+                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
+                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
+                // 5秒后隐藏分享会议回放提示
+                Message msg = new Message();
+                msg.what = KGoneMsgWhat;
+                msg.arg1 = Integer.valueOf(id).intValue();
+                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
             }
             break;
         }

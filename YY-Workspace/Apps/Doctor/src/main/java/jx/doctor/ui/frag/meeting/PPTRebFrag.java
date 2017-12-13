@@ -3,7 +3,6 @@ package jx.doctor.ui.frag.meeting;
 import android.content.res.Configuration;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -409,7 +408,10 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     }
 
     public void animation(boolean state) {
-        mediaVisibility(true);
+        if (state) {
+            // 开启音频的时候需要显示(暂停不干涉)
+            mediaVisibility(true);
+        }
         Drawable drawable = mIvMedia.getDrawable();
         if (drawable instanceof AnimationDrawable) {
             AnimationDrawable animation = (AnimationDrawable) drawable;
