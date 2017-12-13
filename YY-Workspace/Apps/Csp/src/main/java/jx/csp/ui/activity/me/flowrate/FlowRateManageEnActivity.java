@@ -14,7 +14,7 @@ import lib.ys.config.AppConfig.RefreshWay;
  * @since 2017/11/7
  */
 
-public class FlowRateManageEnActivity extends BaseFlowRateActivity {
+public class FlowRateManageEnActivity extends FlowRateManageActivity {
 
     private ImageView mIvPayPal;
 

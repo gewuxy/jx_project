@@ -45,8 +45,8 @@
                 android:id="@+id/divider"
                 android:layout_width="1dp"
                 android:layout_height="11dp"
-                android:layout_marginTop="6dp"
                 android:layout_marginRight="6dp"
+                android:layout_marginTop="6dp"
                 android:layout_toLeftOf="@+id/tv_vip_meet_limit"
                 android:background="@color/color_db"/>
 
@@ -56,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin"
-                android:textColor="@color/text_af"
                 android:text="3"
+                android:textColor="@color/text_af"
                 android:textSize="@dimen/margin"/>
         </RelativeLayout>
 
@@ -76,9 +76,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_333"
                 android:layout_marginLeft="@dimen/margin"
                 android:text="@string/vip_manage_validity"
+                android:textColor="@color/text_333"
                 android:textSize="@dimen/margin"/>
 
             <TextView
@@ -86,10 +86,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin"
                 android:text="@string/vip_manage_time"
                 android:textColor="@color/text_af"
                 android:textSize="@dimen/margin"
-                android:layout_marginRight="@dimen/margin"
                 />
         </RelativeLayout>
 
@@ -103,18 +103,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="18dp"
             android:text="@string/vip_manage_permission"
             android:textColor="@color/text_333"
-            android:textSize="@dimen/margin"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginTop="18dp"/>
+            android:textSize="@dimen/margin"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_vip_permission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="32dp">
+        android:layout_marginTop="32dp"
+        android:overScrollMode="never">
 
     </android.support.v7.widget.RecyclerView>
 

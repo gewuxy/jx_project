@@ -15,7 +15,6 @@ import jx.csp.model.form.Form;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
 import jx.csp.ui.activity.me.flowrate.FlowRateManageActivity;
-import jx.csp.ui.activity.me.flowrate.FlowRateManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.ui.activity.me.vip.VipManageActivity;
 import jx.csp.ui.activity.me.vip.VipManageEnActivity;
@@ -155,7 +154,8 @@ public class MeActivity extends BaseFormActivity {
                 if (Util.checkAppCn()) {
                     startActivity(FlowRateManageActivity.class);
                 } else {
-                    startActivity(FlowRateManageEnActivity.class);
+                    // FIXME: 2017/12/13 暂时注释
+//                    startActivity(FlowRateManageEnActivity.class);
                 }
             }
             break;

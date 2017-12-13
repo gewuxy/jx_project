@@ -41,7 +41,7 @@ public class PayAction {
         PayPalPay.stopPayPalService(context);
     }
 
-    public static void payPalPay(Context context, String flow){
+    public static void payPalPay(Context context, int flow){
         PayPalPay.onPayPalPay(context, flow);
     }
 

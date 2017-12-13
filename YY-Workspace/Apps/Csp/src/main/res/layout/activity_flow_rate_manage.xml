@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/margin"
-    android:paddingRight="@dimen/margin">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,21 +28,23 @@
             android:textColor="@color/text_333"
             android:textSize="32dp"/>
 
-        <include
-            android:id="@+id/flow_rate_layout_cny_price"
-            layout="@layout/layout_flow_rate_cny_price"
-            android:visibility="visible"/>
+        <lib.ys.view.recycler.WrapRecyclerView
+            android:id="@+id/flow_rate_rv_price"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="34dp"
+            android:overScrollMode="never"/>
 
-        <include
-            android:id="@+id/flow_rate_layout_usd_price"
-            layout="@layout/layout_flow_rate_usd_price"
-            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
         <TextView
@@ -62,6 +62,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/flow_rate_iv_cny"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/flow_rate_selector_currency"/>
@@ -71,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="人民币"
-                android:textColor="@drawable/flow_rate_selector_type_currency"/>
+                android:textColor="@color/flow_rate_selector_type_currency"/>
         </LinearLayout>
 
         <LinearLayout
@@ -82,6 +83,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/flow_rate_iv_usd"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/flow_rate_selector_currency"/>
@@ -91,25 +93,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
                 android:text="美元"
-                android:textColor="@drawable/flow_rate_selector_type_currency"/>
+                android:textColor="@color/flow_rate_selector_type_currency"/>
         </LinearLayout>
     </LinearLayout>
 
     <TextView
-        android:layout_marginTop="32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_888"
-        android:text="支付方式"/>
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginTop="32dp"
+        android:text="支付方式"
+        android:textColor="@color/text_888"/>
 
-    <include
-        android:id="@+id/flow_rate_layout_cny_payment"
-        layout="@layout/layout_flow_rate_cny_payment"/>
-
-    <include
-        android:visibility="gone"
-        android:id="@+id/flow_rate_layout_usd_payment"
-        layout="@layout/layout_flow_rate_usd_payment"/>
+    <lib.ys.view.recycler.WrapRecyclerView
+        android:id="@+id/flow_rate_rv_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:overScrollMode="never"/>
 
     <TextView
         android:id="@+id/flow_rate_tv_pay"

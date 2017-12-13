@@ -96,7 +96,7 @@ abstract public class BaseVipManageActivity extends BaseActivity {
         public void setAdapterData(int id, long packageStart, long packageEnd, String meetCount) {
             setLayout();
             VipPermissionAdapter adapter = new VipPermissionAdapter();
-            mPermissionId = new int[]{1, 2, 3, 4, 5};
+            mPermissionId = new int[]{0, 1, 2, 3, 4};
 
             setVipCard(id);
             switch (id) {

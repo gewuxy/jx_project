@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/flow_rate_layout_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@drawable/flow_rate_selector">
+
+        <ImageView
+            android:id="@+id/flow_rate_iv_payment"
+            style="@style/iv.flow"
+            android:src="@drawable/flow_rate_ic_alipay"/>
+
+    </LinearLayout>
+
+</LinearLayout>

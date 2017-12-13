@@ -15,13 +15,13 @@ public interface FlowRateContract {
 
     interface V extends IContract.View {
 
-
         /**
          * 设置高亮
          *
-         * @param v
+         * @param targetView
+         * @param view
          */
-        View setHighlight(View v, View view);
+        void setHighlight(View targetView, View view);
 
         /**
          * 设置支付调用第三方

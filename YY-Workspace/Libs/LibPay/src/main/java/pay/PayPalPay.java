@@ -77,8 +77,27 @@ public class PayPalPay {
      * @param context
      * @param flow
      */
-    public static void onPayPalPay(Context context, String flow) {
-        PayPalPayment payment = new PayPalPayment(new BigDecimal(flow), "USD", "money", PayPalPayment.PAYMENT_INTENT_SALE);
+    public static void onPayPalPay(Context context, int flow) {
+        String money = null;
+        switch (flow) {
+            case 5: {
+                money = "1.75";
+            }
+            break;
+            case 25: {
+                money = "8.75";
+            }
+            break;
+            case 100: {
+                money = "35";
+            }
+            break;
+            case 500: {
+                money = "175";
+            }
+            break;
+        }
+        PayPalPayment payment = new PayPalPayment(new BigDecimal(money), "USD", "money", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(context, PaymentActivity.class);
         //发送相同的配置以恢复弹性
