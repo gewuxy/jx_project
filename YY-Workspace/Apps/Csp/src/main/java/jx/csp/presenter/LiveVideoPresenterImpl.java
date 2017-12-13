@@ -11,8 +11,9 @@ import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
-import lib.live.LiveListener;
-import lib.live.manager.PushManager;
+import lib.live.pull.PullListener;
+import lib.live.push.PushListener;
+import lib.live.push.PushManager;
 import lib.live.ui.LiveView;
 
 /**
@@ -45,7 +46,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void initLive(Context context, LiveView liveView) {
         PushManager.getInst().init(context, liveView);
-        PushManager.getInst().setPushListener(new PushListener());
+        PushManager.getInst().setPushListener(new PushListener() {});
     }
 
     @Override
@@ -104,16 +105,4 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void onCountDownErr() {}
 
-    private class PushListener extends LiveListener {
-
-        @Override
-        public void onPushEvent(int var1, Bundle var2) {
-
-        }
-
-        @Override
-        public void onNetStatus(Bundle var1) {
-
-        }
-    }
 }

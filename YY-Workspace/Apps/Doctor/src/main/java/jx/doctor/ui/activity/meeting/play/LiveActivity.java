@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.meeting.play;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
@@ -344,7 +343,7 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
             setTextComment(ppt.getInt(TPPT.count));
 
             String roomId = ppt.getString(TPPT.courseId);
-            mFragLive.loginRoom(roomId);
+            mFragLive.setPlayUrl(roomId);
             mPlayType = PlayType.live;
 
             mPlay = true;

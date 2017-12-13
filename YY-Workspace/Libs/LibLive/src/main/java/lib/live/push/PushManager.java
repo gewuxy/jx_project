@@ -1,4 +1,4 @@
-package lib.live.manager;
+package lib.live.push;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
-import lib.live.LiveListener;
+import lib.live.pull.PullListener;
 import lib.live.ui.LiveView;
 
 /**
  * 推流管理
  *
- * @auther : GuoXuan
+ * @auther : CaiXiang
  * @since : 2017/12/11
  */
 public class PushManager {
@@ -51,7 +51,7 @@ public class PushManager {
         mLivePusher.stopPusher();
     }
 
-    public void setPushListener(LiveListener l) {
+    public void setPushListener(PushListener l) {
         mLivePusher.setPushListener(new ITXLivePushListener() {
 
             @Override

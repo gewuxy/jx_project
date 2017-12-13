@@ -1,4 +1,4 @@
-package lib.live.manager;
+package lib.live.pull;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 
-import lib.live.LiveListener;
 import lib.live.ui.LiveView;
+import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 
 /**
@@ -23,7 +23,7 @@ public class PullManager {
 
     private LiveView mView;
     private Context mContext;
-    private LiveListener mListener;
+    private PullListener mListener;
 
     public PullManager(Context context) {
 //        TXLiveBase.getSDKVersionStr();
@@ -31,7 +31,7 @@ public class PullManager {
         mContext = context;
     }
 
-    public void listener(LiveListener listener) {
+    public void listener(PullListener listener) {
         mListener = listener;
     }
 
@@ -62,6 +62,7 @@ public class PullManager {
 
             @Override
             public void onPlayEvent(int i, Bundle bundle) {
+                YSLog.d("www", "onPlayEvent : " + i);
                 switch (i) {
                     case TXLiveConstants.PLAY_EVT_PLAY_LOADING: {
                         mListener.load();
@@ -71,7 +72,11 @@ public class PullManager {
                         mListener.begin();
                     }
                     break;
-
+                    case TXLiveConstants.PLAY_ERR_NET_DISCONNECT:
+                    case TXLiveConstants.PLAY_EVT_PLAY_END: {
+                        mListener.end();
+                    }
+                    break;
                 }
 
             }
@@ -88,6 +93,9 @@ public class PullManager {
      * 停止拉流
      */
     public void stopPullStream() {
+        if (mPlayer == null) {
+            return;
+        }
         mPlayer.pause();
         mPlayer.stopPlay(true);
         mPlayer = null;
