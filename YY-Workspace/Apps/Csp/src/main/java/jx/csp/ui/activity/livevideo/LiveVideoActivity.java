@@ -4,7 +4,6 @@ import android.app.Service;
 import android.support.annotation.NonNull;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.view.TextureView;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +28,7 @@ import lib.jx.notify.LiveNotifier.OnLiveNotify;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.live.ui.LiveView;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
@@ -49,7 +49,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
 
     private final int KPermissionCode = 10;
 
-    private TextureView mTextureView;
+    private LiveView mTextureView;
     private TextView mTvLiveTime;
     private TextView mTvRemainingTime;
     private ImageView mIvSilence;
@@ -75,6 +75,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     @Arg(opt = true)
     String mWsUrl;
 
+    String mRtmpUrl = "rtmp://3891.livepush.myqcloud.com/live/3891_user_0da23c97_e723?bizid=3891&txSecret=ebce14ac179184940b4b5ae593be064c&txTime=5A38A996";
+
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
     private LiveVideoContract.P mP;
@@ -91,6 +93,11 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         // 禁止手机锁屏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
+
+        mStartTime = System.currentTimeMillis();
+        mServerTime = System.currentTimeMillis() + 1 * 60 * 1000;
+        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
+
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
 
         mConnectionReceiver = new ConnectionReceiver(this);
@@ -141,7 +148,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
         }
         // 连接websocket
-        WebSocketServRouter.create(mWsUrl).route(this);
+        if (mWsUrl != null) {
+            WebSocketServRouter.create(mWsUrl).route(this);
+        }
 
         LiveNotifier.inst().add(this);
     }
@@ -159,7 +168,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             }
             break;
             case R.id.live_iv_silence: {
-                mP.useMic();
+                mP.mute();
             }
             break;
             case R.id.live_iv_switch_camera: {
@@ -172,7 +181,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 }
                 //判断直播时间是否到
                 if (mBeginCountDown) {
-                    mP.startLive(mStreamId, mTitle);
+                    mP.startLive(mRtmpUrl);
                 } else {
                     startCountDownAndLive();
                 }
@@ -188,7 +197,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                         mP.stopLive();
                         mLiveState = false;
                     } else {
-                        mP.startLive(mStreamId, mTitle);
+                        mP.startLive(mRtmpUrl);
                     }
                 } else {
                     startCountDownAndLive();
@@ -305,7 +314,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     }
 
     private void havePermissionState() {
-        mP.initLive(mCourseId, mTextureView);
+        mP.initLive(this, mTextureView);
         initPhoneCallingListener();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);
@@ -349,7 +358,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
             mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-            mP.startLive(mStreamId, mTitle);
+            mP.startLive(mRtmpUrl);
         } else {
             showToast(R.string.meeting_no_start_remain);
         }

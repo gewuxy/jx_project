@@ -1,8 +1,9 @@
 package jx.csp.contact;
 
-import android.view.TextureView;
+import android.content.Context;
 
 import lib.jx.contract.IContract;
+import lib.live.ui.LiveView;
 
 /**
  * @author CaiXiang
@@ -31,16 +32,16 @@ public interface LiveVideoContract {
 
     interface P extends IContract.Presenter<V> {
 
-        void initLive(String roomId, TextureView textureView);
+        void initLive(Context context, LiveView liveView);
 
         void startCountDown(long startTime, long stopTime, long serverTime);
 
-        void startLive(String streamId, String title);
+        void startLive(String rtmpUrl);
 
         void stopLive();
 
         void switchCamera();
 
-        void useMic();
+        void mute();
     }
 }

@@ -177,6 +177,7 @@ public class CommonServ extends ServiceEx {
             case ReqType.over_live: {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "结束直播成功");
+                    Notifier.inst().notify(NotifyType.over_live);
                 } else {
                     YSLog.d(TAG, "结束直播失败重试");
                     retryNetworkRequest(id);

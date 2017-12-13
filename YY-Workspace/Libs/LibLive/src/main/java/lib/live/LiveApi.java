@@ -1,12 +1,5 @@
 package lib.live;
 
-import android.content.Context;
-import android.util.Log;
-
-import java.util.HashMap;
-
-import lib.ys.YSLog;
-
 /**
  * @author CaiXiang
  * @since 2017/9/20
@@ -115,8 +108,8 @@ public class LiveApi {
         return this;
     }
 
-    public LiveApi enableMic(boolean b) {
-        mZegoLive.enableMic(b);
+    public LiveApi mute(boolean b) {
+        mZegoLive.mute(b);
         return this;
     }
 

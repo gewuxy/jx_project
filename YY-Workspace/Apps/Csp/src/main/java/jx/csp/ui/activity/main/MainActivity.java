@@ -294,6 +294,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         .load();
             }
             break;
+            case NotifyType.over_live: {
+                showToast(R.string.live_already_over);
+            }
+            break;
         }
     }
 
