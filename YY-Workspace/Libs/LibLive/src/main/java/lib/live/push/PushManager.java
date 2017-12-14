@@ -10,6 +10,7 @@ import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
 import lib.live.ui.LiveView;
+import lib.ys.YSLog;
 
 import static com.tencent.rtmp.TXLiveConstants.PUSH_ERR_AUDIO_ENCODE_FAIL;
 import static com.tencent.rtmp.TXLiveConstants.PUSH_ERR_NET_DISCONNECT;
@@ -88,6 +89,7 @@ public class PushManager {
                     case PUSH_WARNING_READ_WRITE_FAIL: // RTMP 读/写失败，将会断开连接
                     case PUSH_ERR_AUDIO_ENCODE_FAIL: // 音频编码失败
                     case PUSH_ERR_VIDEO_ENCODE_FAIL: // 视频编码失败
+                        YSLog.d("PushManager", " 推流失败的id = " + i);
                         l.onPushFail();
                     break;
                 }

@@ -44,6 +44,9 @@
         <activity
             android:name=".ui.activity.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 登录 -->
         <activity
@@ -256,8 +259,6 @@
             android:name="FACEBOOK_SECRET"
             android:value="${facebook_secret}"/>
 
-        <activity android:name=".ui.MyTestActivity">
-        </activity>
     </application>
 
 </manifest>

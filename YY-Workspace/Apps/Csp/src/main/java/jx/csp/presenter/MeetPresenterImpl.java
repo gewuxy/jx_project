@@ -55,6 +55,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
     private boolean mWsClose = false; // web socket 是否已经关闭
     private long mServerTime;
+    private String mPushUrl;
 
     @IntDef({
             LiveType.ppt,
@@ -216,6 +217,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     Scan scan = (Scan) r.getData();
                     mLiveRoomWsUrl = scan.getString(TScan.wsUrl);
                     mServerTime = scan.getLong(TScan.serverTime);
+                    mPushUrl = scan.getString(TScan.pushUrl);
                     long startTime = mMeet.getLong(TMeet.startTime);
                     long endTime = mMeet.getLong(TMeet.endTime);
                     // 是否有人在直播
@@ -234,6 +236,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                                     .stopTime(mMeet.getLong(TMeet.endTime))
                                     .serverTime(mServerTime)
                                     .wsUrl(mLiveRoomWsUrl)
+                                    .pushUrl(mPushUrl)
                                     .route(mContext);
                         }
                     } else {
@@ -297,6 +300,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                             .stopTime(mMeet.getLong(TMeet.endTime))
                             .serverTime(mServerTime)
                             .wsUrl(mLiveRoomWsUrl)
+                            .pushUrl(mPushUrl)
                             .route(mContext);
                 } else {
                     LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),

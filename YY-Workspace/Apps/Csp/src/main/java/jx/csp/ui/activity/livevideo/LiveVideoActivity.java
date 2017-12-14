@@ -70,8 +70,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     long mServerTime;
     @Arg(opt = true)
     String mWsUrl;
-
-    String mRtmpUrl = "rtmp://3891.livepush.myqcloud.com/live/3891_user_0da23c97_e723?bizid=3891&txSecret=ebce14ac179184940b4b5ae593be064c&txTime=5A38A996";
+    @Arg(opt = true)
+    String mPushUrl;
 
     // 实际结束时间比结束时间多15分钟
     private long mRealStopTime;
@@ -90,10 +90,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
 
-        // FIXME: 2017/12/13 测试数据
-        mStartTime = System.currentTimeMillis();
-        mServerTime = System.currentTimeMillis() + 60 * 1000;
-        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
+//        mStartTime = System.currentTimeMillis();
+//        mServerTime = System.currentTimeMillis() + 60 * 1000;
+//        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
 
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
 
@@ -178,7 +177,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 }
                 //判断直播时间是否到
                 if (mBeginCountDown) {
-                    mP.startLive(mRtmpUrl);
+                    mP.startLive(mPushUrl);
                 } else {
                     startCountDownAndLive();
                 }
@@ -194,7 +193,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                         mP.stopLive();
                         mLiveState = false;
                     } else {
-                        mP.startLive(mRtmpUrl);
+                        mP.startLive(mPushUrl);
                     }
                 } else {
                     startCountDownAndLive();
@@ -355,7 +354,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
             mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-            mP.startLive(mRtmpUrl);
+            mP.startLive(mPushUrl);
         } else {
             showToast(R.string.meeting_no_start_remain);
         }
