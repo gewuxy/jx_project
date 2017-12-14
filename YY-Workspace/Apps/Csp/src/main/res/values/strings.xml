@@ -267,15 +267,12 @@
     <string name="flow_rate_pay">Confirm Payment</string>
     <string name="flow_rate_pay_success">Payoff</string>
     <string name="flow_rate_pay_fail">Payment Failure</string>
-    <string name="flow_rate_payment_proportion">1 GB = 2 CNY</string>
-    <string name="flow_rate_payment_proportion_en">1 GB = 1 USD</string>
     <string name="flow_rate_surplus">Network Flow Balance</string>
-    <string name="flow_rate_recharge">Recharge Network Flow</string>
-    <string name="flow_rate_actual_pay">Payment: </string>
-    <string name="flow_rate_amount">%d</string>
     <string name="flow_rate_unit">CNY</string>
     <string name="flow_rate_unit_en">USD</string>
-    <string name="flow_rate_input_top_up">Please enter the amount to recharge</string>
+    <string name="flow_rate_currency">Currency</string>
+    <string name="flow_rate_currency_cny">CNY</string>
+    <string name="flow_rate_payment">Mode of Payment</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">Update Log</string>
@@ -299,5 +296,9 @@
     <string name="vip_manage_custom_watermark">Customized</string>
     <string name="vip_manage_time">Permanent Usage</string>
     <string name="vip_manage_to"> to </string>
+    <string name="vip_manage_norm_version">Standard Edition</string>
+    <string name="vip_manage_advanced_version">Premium Edition</string>
+    <string name="vip_manage_profession_version">Professional Edition</string>
+    <string name="vip_manage_app_name">CSPmeeting</string>
 
 </resources>

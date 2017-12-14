@@ -7,9 +7,64 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_vip_manage_card"
-        style="@style/iv.vip"/>
+    <RelativeLayout
+        android:id="@+id/vip_layout_background"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/vip_ic_norm_card">
+
+        <TextView
+            android:id="@+id/vip_tv_versions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin"
+            android:layout_marginTop="@dimen/margin"
+            android:text="标准版"
+            android:textColor="@color/white"
+            android:textSize="26dp"/>
+
+        <TextView
+            android:id="@+id/vip_tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            android:text="讲"
+            android:textColor="@color/text_50fff"
+            android:textSize="17dp"/>
+
+        <LinearLayout
+            android:id="@+id/vip_layout_spell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/margin"
+            android:layout_marginRight="4dp"
+            android:layout_toLeftOf="@id/vip_tv_app_name"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hui"
+                android:textColor="@color/text_50fff"
+                android:textSize="9dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="会"
+                android:textColor="@color/text_50fff"
+                android:textSize="17dp"/>
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +87,7 @@
                 android:textSize="@dimen/margin"/>
 
             <TextView
-                android:id="@+id/tv_vip_meet_num"
+                android:id="@+id/vip_tv_meet_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -47,11 +102,11 @@
                 android:layout_height="11dp"
                 android:layout_marginRight="6dp"
                 android:layout_marginTop="6dp"
-                android:layout_toLeftOf="@+id/tv_vip_meet_limit"
+                android:layout_toLeftOf="@+id/vip_tv_meet_limit"
                 android:background="@color/color_db"/>
 
             <TextView
-                android:id="@+id/tv_vip_meet_limit"
+                android:id="@+id/vip_tv_meet_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -82,15 +137,14 @@
                 android:textSize="@dimen/margin"/>
 
             <TextView
-                android:id="@+id/tv_vip_validity"
+                android:id="@+id/vip_tv_validity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin"
                 android:text="@string/vip_manage_time"
                 android:textColor="@color/text_af"
-                android:textSize="@dimen/margin"
-                />
+                android:textSize="@dimen/margin"/>
         </RelativeLayout>
 
         <View
@@ -111,12 +165,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_vip_permission"
+        android:id="@+id/vip_rv_permission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="32dp"
-        android:overScrollMode="never">
-
-    </android.support.v7.widget.RecyclerView>
-
+        android:overScrollMode="never"/>
 </LinearLayout>

@@ -50,7 +50,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付币种"
+            android:text="@string/flow_rate_currency"
             android:textColor="@color/text_888"
             android:textSize="14dp"/>
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:text="人民币"
+                android:text="@string/flow_rate_currency_cny"
                 android:textColor="@color/flow_rate_selector_type_currency"/>
         </LinearLayout>
 
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:text="美元"
+                android:text="@string/flow_rate_unit_en"
                 android:textColor="@color/flow_rate_selector_type_currency"/>
         </LinearLayout>
     </LinearLayout>
@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginTop="32dp"
-        android:text="支付方式"
+        android:text="@string/flow_rate_payment"
         android:textColor="@color/text_888"/>
 
     <lib.ys.view.recycler.WrapRecyclerView

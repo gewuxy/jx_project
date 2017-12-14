@@ -1,17 +1,22 @@
-package jx.csp.ui.activity.me.vip;
+package jx.csp.ui.activity.me;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import jx.csp.R;
 import jx.csp.adapter.VipPermissionAdapter;
+import jx.csp.constant.LangType;
+import jx.csp.constant.VipType;
 import jx.csp.contact.VipManageContract;
 import jx.csp.model.VipPermission;
 import jx.csp.presenter.VipManagePresenterImpl;
+import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.YSLog;
@@ -20,32 +25,33 @@ import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
 
 /**
+ * 会员管理
+ *
  * @auther Huoxuyu
  * @since 2017/12/11
  */
 
-abstract public class BaseVipManageActivity extends BaseActivity {
-
-    public final int KNorm = 1;    //标准
-    public final int KAdvanced = 2;//高级
-    public final int KProfession = 3;//专业
+public class VipManageActivity extends BaseActivity {
 
     private final String KMeetingLimit = "10";
     private final String KMeetingInfinite = "∞";
 
-    public RecyclerView mRvPermission; //使用权限
+    private RecyclerView mRvPermission; //使用权限
+    private RelativeLayout mLayoutCard;   //会员卡片
+    private LinearLayout mLayoutSpell;
 
-    public ImageView mIvCard;   //会员卡片
     private TextView mTvValidity;
     private TextView mTvMeetCount;
     private TextView mTvLimit;
+    private TextView mTvAppName;
+    private TextView mTvVersion;
 
     private int[] mImage;
     private String[] mText;
     private int[] mPermissionId;
 
-    public VipManageContract.P mPresenter;
-    public VipManageContract.V mView;
+    private VipManageContract.P mPresenter;
+    private VipManageContract.V mView;
 
     @Override
     public void initData() {
@@ -66,12 +72,16 @@ abstract public class BaseVipManageActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mRvPermission = findView(R.id.rv_vip_permission);
-        mIvCard = findView(R.id.iv_vip_manage_card);
+        mRvPermission = findView(R.id.vip_rv_permission);
+        mLayoutCard = findView(R.id.vip_layout_background);
 
-        mTvValidity = findView(R.id.tv_vip_validity);
-        mTvMeetCount = findView(R.id.tv_vip_meet_num);
-        mTvLimit = findView(R.id.tv_vip_meet_limit);
+        mTvValidity = findView(R.id.vip_tv_validity);
+        mTvMeetCount = findView(R.id.vip_tv_meet_num);
+        mTvLimit = findView(R.id.vip_tv_meet_limit);
+
+        mTvAppName = findView(R.id.vip_tv_app_name);
+        mTvVersion = findView(R.id.vip_tv_versions);
+        mLayoutSpell = findView(R.id.vip_layout_spell);
     }
 
     @Override
@@ -79,29 +89,31 @@ abstract public class BaseVipManageActivity extends BaseActivity {
         mPresenter.checkPackage();
     }
 
-    /**
-     * 设置权限布局
-     */
-    abstract protected void setLayout();
-
-    /**
-     * 设置会员卡片
-     * @param id
-     */
-    abstract protected void setVipCard(int id);
 
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
         public void setAdapterData(int id, long packageStart, long packageEnd, String meetCount) {
-            setLayout();
+            //设置会员权限布局
+            if (LangType.en == SpApp.inst().getLangType()) {
+                goneView(mLayoutSpell);
+                mRvPermission.setLayoutManager(new GridLayoutManager(VipManageActivity.this, 3));
+            } else {
+                mRvPermission.setLayoutManager(new GridLayoutManager(VipManageActivity.this, 4));
+            }
+
             VipPermissionAdapter adapter = new VipPermissionAdapter();
             mPermissionId = new int[]{0, 1, 2, 3, 4};
 
-            setVipCard(id);
+            YSLog.d("TAG", "" + System.currentTimeMillis());
+            mTvAppName.setText(R.string.vip_manage_app_name);
             switch (id) {
-                case KNorm: {
+                case VipType.norm: {
+                    mLayoutCard.setBackgroundResource(R.drawable.vip_ic_norm_card);
+
+                    mTvVersion.setText(R.string.vip_manage_norm_version);
                     mTvMeetCount.setText(meetCount);
+
                     mImage = new int[]{
                             R.drawable.vip_ic_record,
                             R.drawable.vip_ic_live,
@@ -119,11 +131,14 @@ abstract public class BaseVipManageActivity extends BaseActivity {
                     };
                 }
                 break;
-                case KAdvanced: {
+                case VipType.advanced: {
+                    mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
+
                     mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    YSLog.d("TAG", "" + System.currentTimeMillis());
                     mTvMeetCount.setText(meetCount);
                     mTvLimit.setText(KMeetingLimit);
+                    mTvVersion.setText(R.string.vip_manage_advanced_version);
+
                     mImage = new int[]{
                             R.drawable.vip_ic_record,
                             R.drawable.vip_ic_live,
@@ -141,10 +156,14 @@ abstract public class BaseVipManageActivity extends BaseActivity {
                     };
                 }
                 break;
-                case KProfession: {
+                case VipType.profession: {
+                    mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
+
                     mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     mTvMeetCount.setText(meetCount);
                     mTvLimit.setText(KMeetingInfinite);
+                    mTvVersion.setText(R.string.vip_manage_profession_version);
+
                     mImage = new int[]{
                             R.drawable.vip_ic_record,
                             R.drawable.vip_ic_live,

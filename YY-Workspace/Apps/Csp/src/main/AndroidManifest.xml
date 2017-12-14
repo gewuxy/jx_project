@@ -117,21 +117,14 @@
             android:name=".ui.activity.me.ContributeHistoryDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.flowrate.FlowRateManageActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".ui.activity.me.flowrate.FlowRateManageEnActivity"
+            android:name=".ui.activity.me.FlowRateManageActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.activity.me.HelpAndFeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.me.vip.VipManageActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.me.vip.VipManageEnActivity"
+            android:name=".ui.activity.me.VipManageActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 设置 -->

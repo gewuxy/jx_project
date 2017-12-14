@@ -13,7 +13,6 @@ import lib.ys.model.EVal;
 public class FlowRate extends EVal<TFlow> {
 
     public enum TFlow {
-        id,
         flow, // 数量
         price, // 价格
         currency, // 币种

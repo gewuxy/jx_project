@@ -4,8 +4,10 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.FlowRateVH;
+import jx.csp.constant.LangType;
 import jx.csp.model.FlowRate;
 import jx.csp.model.FlowRate.TFlow;
+import jx.csp.sp.SpApp;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
@@ -28,6 +30,10 @@ public class FlowRateAdapter extends RecyclerAdapterEx<FlowRate, FlowRateVH> {
 
     @Override
     protected int getConvertViewResId() {
-        return R.layout.layout_flow_rate_price;
+        if (LangType.en == SpApp.inst().getLangType()) {
+            return R.layout.layout_flow_rate_price_en;
+        }else {
+            return R.layout.layout_flow_rate_price;
+        }
     }
 }

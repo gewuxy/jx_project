@@ -264,15 +264,12 @@
     <string name="flow_rate_pay">确认支付</string>
     <string name="flow_rate_pay_success">支付成功</string>
     <string name="flow_rate_pay_fail">支付失败</string>
-    <string name="flow_rate_payment_proportion">1G流量 = 2元</string>
-    <string name="flow_rate_payment_proportion_en">1G流量 = 1美元</string>
     <string name="flow_rate_surplus">剩余流量</string>
-    <string name="flow_rate_recharge">充值流量</string>
-    <string name="flow_rate_actual_pay">实际支付</string>
-    <string name="flow_rate_amount">%d</string>
     <string name="flow_rate_unit">元</string>
     <string name="flow_rate_unit_en">美元</string>
-    <string name="flow_rate_input_top_up">请输入充值流量</string>
+    <string name="flow_rate_currency">支付币种</string>
+    <string name="flow_rate_currency_cny">人民币</string>
+    <string name="flow_rate_payment">支付方式</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">更新日志</string>
@@ -296,5 +293,9 @@
     <string name="vip_manage_custom_watermark">自定义水印</string>
     <string name="vip_manage_time">不限时长</string>
     <string name="vip_manage_to"> 至 </string>
+    <string name="vip_manage_norm_version">标准版</string>
+    <string name="vip_manage_advanced_version">高级版</string>
+    <string name="vip_manage_profession_version">专业版</string>
+    <string name="vip_manage_app_name">讲</string>
 
 </resources>

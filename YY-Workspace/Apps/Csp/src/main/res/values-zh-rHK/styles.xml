@@ -149,12 +149,4 @@
         <item name="android:layout_height">62dp</item>
         <item name="android:src">@drawable/login_hui_logo</item>
     </style>
-
-    <style name="iv.vip">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@drawable/vip_ic_norm_card_tw</item>
-        <item name="android:layout_marginTop">10dp</item>
-    </style>
-
 </resources>
