@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -29,6 +29,7 @@ import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
+import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.IMeetOpt;
 import jx.csp.ui.frag.main.MeetGridFrag;
@@ -65,7 +66,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KPageVp = 1;
     private final int KGoneMsgWhat = 1;
 
-    private TextView mMidRemind;
+    private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
     private NetworkImageView mIvAvatar;
 
@@ -135,17 +136,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         //添加中间布局
         View midView = inflate(R.layout.layout_main_text_mid);
-        TextView midTitle = midView.findViewById(R.id.main_tv_title);
-        midTitle.setText(R.string.app_name);
-        mMidRemind = midView.findViewById(R.id.main_tv_remind);
+        mTvExpireRemind = midView.findViewById(R.id.main_tv_remind);
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
         if (p != null) {
             int day = p.getInt(TPackage.expireDays);
             if (day > 0) {
-                mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
-                showView(mMidRemind);
+                mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
+                showView(mTvExpireRemind);
             } else {
-                goneView(mMidRemind);
+                goneView(mTvExpireRemind);
             }
         }
         bar.addViewMid(midView);
@@ -265,10 +264,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
                 int day = p.getInt(TPackage.expireDays);
                 if (day > 0) {
-                    mMidRemind.setText(String.format(getString(R.string.will_reminder), day));
-                    showView(mMidRemind);
+                    mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
+                    showView(mTvExpireRemind);
                 } else {
-                    goneView(mMidRemind);
+                    goneView(mTvExpireRemind);
                 }
             }
             notify(NotifyType.profile_change);

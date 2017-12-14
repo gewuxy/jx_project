@@ -2,9 +2,8 @@ package jx.csp.adapter.main;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.main.ShareVH;
+import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
-import jx.csp.model.main.Share;
-import jx.csp.model.main.Share.TShare;
 import lib.ys.adapter.MultiAdapterEx;
 
 /**
@@ -12,13 +11,13 @@ import lib.ys.adapter.MultiAdapterEx;
  * @since 2017/11/8
  */
 
-public class ShareAdapter extends MultiAdapterEx<Share, ShareVH> {
+public class SharePlatformAdapter extends MultiAdapterEx<SharePlatform, ShareVH> {
 
     @Override
     protected void refreshView(int position, ShareVH holder, int itemType) {
-        Share item = getItem(position);
-        holder.getIvIcon().setImageResource(item.getInt(TShare.icon));
-        holder.getTvName().setText(item.getString(TShare.name));
+        SharePlatform item = getItem(position);
+        holder.getIvIcon().setImageResource(item.icon());
+        holder.getTvName().setText(item.platformName());
     }
 
     @Override
@@ -28,12 +27,11 @@ public class ShareAdapter extends MultiAdapterEx<Share, ShareVH> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getInt(TShare.type);
+        return getItem(position).type();
     }
 
     @Override
     public int getViewTypeCount() {
         return ShareType.class.getDeclaredFields().length;
     }
-
 }

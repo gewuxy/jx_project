@@ -16,13 +16,12 @@ import java.util.List;
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
-import jx.csp.adapter.main.ShareAdapter;
+import jx.csp.adapter.main.SharePlatformAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
+import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
-import jx.csp.model.main.Share;
-import jx.csp.model.main.Share.TShare;
 import jx.csp.network.NetworkApi;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
@@ -168,73 +167,27 @@ public class ShareDialog extends BaseDialog {
      */
     private void getPlatform() {
         GridView gridView = findView(R.id.share_gridview);
-        ShareAdapter adapter = new ShareAdapter();
-        int[] icons;
-        String[] names;
-        int[] types;
+        SharePlatformAdapter adapter = new SharePlatformAdapter();
+        List<SharePlatform> sharePlatformList = new ArrayList<>();
         if (Util.checkAppCn()) {
-            icons = new int[]{
-                    R.drawable.share_ic_wechat,
-                    R.drawable.share_ic_moment,
-                    R.drawable.share_ic_qq,
-                    R.drawable.share_ic_linkedin,
-                    R.drawable.share_ic_weibo,
-                    R.drawable.share_ic_message,
-                    R.drawable.share_ic_copy
-            };
-
-            names = new String[]{
-                    getString(R.string.wechat),
-                    getString(R.string.moment),
-                    getString(R.string.QQ),
-                    getString(R.string.linkedin),
-                    getString(R.string.weibo),
-                    getString(R.string.message),
-                    getString(R.string.copy_link)
-            };
-
-            types = new int[]{
-                    ShareType.wechat,
-                    ShareType.wechat_friend,
-                    ShareType.qq,
-                    ShareType.linkedin,
-                    ShareType.sina,
-                    ShareType.sms,
-                    ShareType.copy,
-            };
+            sharePlatformList.add(SharePlatform.wechat);
+            sharePlatformList.add(SharePlatform.wechat_moment);
+            sharePlatformList.add(SharePlatform.qq);
+            sharePlatformList.add(SharePlatform.linkedin);
+            sharePlatformList.add(SharePlatform.sina);
+            sharePlatformList.add(SharePlatform.sms);
+            sharePlatformList.add(SharePlatform.copy);
         } else {
-            icons = new int[]{
-                    R.drawable.share_ic_facebook,
-                    R.drawable.share_ic_twitter,
-                    R.drawable.share_ic_whatsapp,
-                    R.drawable.share_ic_line,
-                    R.drawable.share_ic_linkedin,
-                    R.drawable.share_ic_sms,
-                    R.drawable.share_ic_copy
-            };
-
-            names = new String[]{
-                    getString(R.string.facebook),
-                    getString(R.string.twitter),
-                    getString(R.string.whatsapp),
-                    getString(R.string.Line),
-                    getString(R.string.linkedin),
-                    getString(R.string.SMS),
-                    getString(R.string.copy_link)
-            };
-
-            types = new int[]{
-                    ShareType.facebook,
-                    ShareType.twitter,
-                    ShareType.whatsapp,
-                    ShareType.line,
-                    ShareType.linkedin,
-                    ShareType.sms,
-                    ShareType.copy,
-            };
+            sharePlatformList.add(SharePlatform.overseas_facebook);
+            sharePlatformList.add(SharePlatform.overseas_twitter);
+            sharePlatformList.add(SharePlatform.overseas_whatsapp);
+            sharePlatformList.add(SharePlatform.overseas_line);
+            sharePlatformList.add(SharePlatform.overseas_linkedin);
+            sharePlatformList.add(SharePlatform.overseas_sms);
+            sharePlatformList.add(SharePlatform.overseas_copy);
         }
-        List<Share> shareList = toShare(icons, names, types);
-        adapter.setData(shareList);
+
+        adapter.setData(sharePlatformList);
         gridView.setAdapter(adapter);
 
         OnShareListener listener = new OnShareListener() {
@@ -322,22 +275,6 @@ public class ShareDialog extends BaseDialog {
             }
             dismiss();
         });
-    }
-
-    private List<Share> toShare(int[] icons, String[] names, int[] types) {
-        List<Share> list = new ArrayList<>();
-        if (icons == null || names == null || types == null) {
-            return list;
-        }
-        int length = Math.min(Math.min(icons.length, names.length), types.length);
-        for (int i = 0; i < length; i++) {
-            Share share = new Share();
-            share.put(TShare.icon, icons[i]);
-            share.put(TShare.name, names[i]);
-            share.put(TShare.type, types[i]);
-            list.add(share);
-        }
-        return list;
     }
 }
 

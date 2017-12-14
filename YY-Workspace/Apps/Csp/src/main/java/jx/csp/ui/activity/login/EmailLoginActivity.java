@@ -19,7 +19,7 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.MainActivity;
 import lib.jx.network.BaseJsonParser.ErrorCode;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;

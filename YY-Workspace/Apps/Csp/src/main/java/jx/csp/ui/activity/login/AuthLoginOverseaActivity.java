@@ -7,7 +7,7 @@ import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.MainActivity;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;

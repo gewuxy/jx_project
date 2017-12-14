@@ -23,7 +23,7 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.MainActivity;
 import jx.csp.util.Util;
 import lib.jx.model.form.BaseForm;
 import lib.jx.notify.Notifier.NotifyType;

@@ -9,18 +9,18 @@
     <LinearLayout
         android:id="@+id/layout_share"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="207dp"
+        android:orientation="vertical"
+        android:gravity="center"
         android:paddingTop="25dp">
 
         <GridView
             android:id="@+id/share_gridview"
             android:layout_width="match_parent"
-            android:layout_height="207dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:numColumns="4"
-            android:verticalSpacing="31dp">
+            android:verticalSpacing="31dp"/>
 
-        </GridView>
     </LinearLayout>
 
     <View

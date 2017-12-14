@@ -17,7 +17,6 @@ import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ConstantsEx;
