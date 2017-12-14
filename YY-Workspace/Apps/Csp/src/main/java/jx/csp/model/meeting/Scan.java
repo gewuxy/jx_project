@@ -39,5 +39,6 @@ public class Scan extends EVal<TScan> {
         title, // 会议标题
         coverUrl, // 封面地址
         serverTime,  //	服务器当前时间
+        pushUrl, // 推流地址
     }
 }

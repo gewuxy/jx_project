@@ -50,6 +50,7 @@ public class SpApp extends SpBase {
         String KAppType = "app_type";
         String KLoginVideoVersion = "version";
         String KAdvert = "advert";
+        String KGuide = "guide";
     }
 
     @Override
@@ -92,7 +93,6 @@ public class SpApp extends SpBase {
     public String getUserEmail() {
         return getString(SpAppKey.KUserEmail);
     }
-
 
     /**
      * 保存登录视频的版本
@@ -155,5 +155,20 @@ public class SpApp extends SpBase {
     @AppType
     public int getAppType() {
         return getInt(SpAppKey.KAppType, AppType.inland);
+    }
+
+    /**
+     * 保存已显示过引导页状态
+     */
+    public void saveGuideState() {
+        save(SpAppKey.KGuide, true);
+    }
+
+    /**
+     * 是否需要显示引导页
+     * @return
+     */
+    public boolean getGuideState() {
+        return getBoolean(SpAppKey.KGuide, false);
     }
 }
