@@ -59,6 +59,7 @@
 
     <!-- 广告页 -->
     <string name="adv_skip">Skip</string>
+    <string name="start_experience">立即体验</string>
 
     <!--登录-->
     <string name="login_title">CSP</string>

@@ -1,4 +1,4 @@
-package lib.live.ui;
+package lib.live;
 
 import android.content.Context;
 import android.util.AttributeSet;

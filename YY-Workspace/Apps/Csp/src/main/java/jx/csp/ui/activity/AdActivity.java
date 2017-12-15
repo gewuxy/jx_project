@@ -113,15 +113,20 @@ public class AdActivity extends BaseActivity {
     }
 
     public static void afterAd(Context context) {
-        if (Profile.inst().isLogin()) {
-            // 登录有效(登录过且没有退出)
-            LaunchUtil.startActivity(context, MainActivity.class);
+        // 先判断是否需要显示引导页 如果不显示则判断跳转到登陆还是首页
+        if (SpApp.inst().getGuideState()) {
+            LaunchUtil.startActivity(context, GuideActivity.class);
         } else {
-            // 未登录,退出登录
-            if (Util.checkAppCn()) {
-                LaunchUtil.startActivity(context, AuthLoginActivity.class);
+            if (Profile.inst().isLogin()) {
+                // 登录有效(登录过且没有退出)
+                LaunchUtil.startActivity(context, MainActivity.class);
             } else {
-                LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
+                // 未登录,退出登录
+                if (Util.checkAppCn()) {
+                    LaunchUtil.startActivity(context, AuthLoginActivity.class);
+                } else {
+                    LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
+                }
             }
         }
     }

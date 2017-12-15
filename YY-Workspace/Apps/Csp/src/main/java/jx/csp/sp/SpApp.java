@@ -161,14 +161,14 @@ public class SpApp extends SpBase {
      * 保存已显示过引导页状态
      */
     public void saveGuideState() {
-        save(SpAppKey.KGuide, true);
+        save(SpAppKey.KGuide, false);
     }
 
     /**
      * 是否需要显示引导页
-     * @return
+     * @return true 表示要显示   false 表示已经显示过了，不需要再显示
      */
     public boolean getGuideState() {
-        return getBoolean(SpAppKey.KGuide, false);
+        return getBoolean(SpAppKey.KGuide, true);
     }
 }

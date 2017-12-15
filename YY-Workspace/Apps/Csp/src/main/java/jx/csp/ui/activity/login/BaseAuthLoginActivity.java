@@ -26,7 +26,6 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
-import lib.live.ui.LiveView;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;

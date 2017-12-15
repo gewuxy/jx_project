@@ -7,7 +7,8 @@ import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayer;
 
-import lib.live.ui.LiveView;
+import lib.live.LiveListener;
+import lib.live.LiveView;
 import lib.ys.util.TextUtil;
 
 /**
@@ -59,7 +60,7 @@ public class PullManager {
         });
     }
 
-    public void listener(PullListener listener) {
+    public void listener(LiveListener listener) {
         mListener = listener;
     }
 

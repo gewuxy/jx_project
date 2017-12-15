@@ -1,6 +1,7 @@
 package jx.csp.presenter;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,8 +11,9 @@ import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.live.LiveListener;
+import lib.live.LiveView;
 import lib.live.push.PushManager;
-import lib.live.ui.LiveView;
 
 /**
  * @author CaiXiang
@@ -102,13 +104,16 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void onCountDownErr() {}
 
-    private class MyPushListener extends lib.live.push.PushListener {
+    private class MyPushListener extends LiveListener {
 
         @Override
-        protected void onPushFail() {
+        public void onPushFail() {
             PushManager.getInst().stopLive();
             getView().liveFailState();
         }
+
+        @Override
+        public void onNetStatus(Bundle var1) {}
     }
 
 }

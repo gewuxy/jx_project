@@ -10,10 +10,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.login.AuthLoginActivity;
+import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.frag.GuideFragRouter;
+import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseVpActivity;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.LaunchUtil;
+import lib.ys.util.UIUtil;
 import lib.ys.util.res.ResLoader;
 
 /**
@@ -25,7 +31,7 @@ import lib.ys.util.res.ResLoader;
 
 public class GuideActivity extends BaseVpActivity {
 
-    private ImageView mIvBlueDot;
+    private ImageView mIvBlackDot;
     private LinearLayout mLayoutGreyDot;
     private TextView mTv;
 
@@ -34,7 +40,18 @@ public class GuideActivity extends BaseVpActivity {
 
     @Override
     public void initData() {
-        mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+        // 要判断系统语言
+        switch (SpApp.inst().getLangType()) {
+            case en:
+                mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+                break;
+            case cn_simplified:
+                mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+                break;
+            case cn:
+                mImgResArray = new int[]{R.drawable.guide_f1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+                break;
+        }
         for (int i = 0; i < mImgResArray.length; ++i) {
             add(GuideFragRouter.create(mImgResArray[i]).route());
         }
@@ -52,7 +69,7 @@ public class GuideActivity extends BaseVpActivity {
     public void findViews() {
         super.findViews();
 
-        mIvBlueDot = findView(R.id.activity_guide_iv_blue);
+        mIvBlackDot = findView(R.id.activity_guide_iv_blue);
         mLayoutGreyDot = findView(R.id.activity_guide_layout_dot);
         mTv = findView(R.id.activity_guide_tv);
     }
@@ -61,7 +78,7 @@ public class GuideActivity extends BaseVpActivity {
     public void setViews() {
         super.setViews();
 
-        // UIUtil.setFlatBar(getWindow());
+        UIUtil.setFlatBar(getWindow());
         getNavBar().setBackgroundColor(ResLoader.getColor(R.color.translucent));
         setOnClickListener(R.id.activity_guide_tv);
 
@@ -72,7 +89,7 @@ public class GuideActivity extends BaseVpActivity {
             //设置圆点布局参数
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             if (i > 0) {  //设置每个圆点的间隔
-                params.leftMargin = 8;
+                params.leftMargin = fit(11);
             }
             dot.setLayoutParams(params);
             fit(dot);
@@ -94,17 +111,21 @@ public class GuideActivity extends BaseVpActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 // 计算当前小蓝点的移动量
                 int leftMargin = (int) (mDotWidth * positionOffset + position * mDotWidth);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIvBlueDot.getLayoutParams();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIvBlackDot.getLayoutParams();
                 params.leftMargin = leftMargin;
-                mIvBlueDot.setLayoutParams(params);
+                mIvBlackDot.setLayoutParams(params);
             }
 
             @Override
             public void onPageSelected(int position) {
                 if (position == mImgResArray.length - 1) {
                     showView(mTv);
+                    goneView(mIvBlackDot);
+                    goneView(mLayoutGreyDot);
                 } else {
                     goneView(mTv);
+                    showView(mIvBlackDot);
+                    showView(mLayoutGreyDot);
                 }
             }
 
@@ -117,6 +138,17 @@ public class GuideActivity extends BaseVpActivity {
     @Override
     public void onClick(View v) {
         SpApp.inst().saveGuideState();
+        if (Profile.inst().isLogin()) {
+            // 登录有效(登录过且没有退出)
+            LaunchUtil.startActivity(this, MainActivity.class);
+        } else {
+            // 未登录,退出登录
+            if (Util.checkAppCn()) {
+                LaunchUtil.startActivity(this, AuthLoginActivity.class);
+            } else {
+                LaunchUtil.startActivity(this, AuthLoginOverseaActivity.class);
+            }
+        }
         finish();
     }
 }

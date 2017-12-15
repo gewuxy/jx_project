@@ -9,7 +9,8 @@ import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
 import com.tencent.rtmp.TXLivePusher;
 
-import lib.live.ui.LiveView;
+import lib.live.LiveListener;
+import lib.live.LiveView;
 import lib.ys.YSLog;
 
 import static com.tencent.rtmp.TXLiveConstants.PUSH_ERR_AUDIO_ENCODE_FAIL;
@@ -71,7 +72,8 @@ public class PushManager {
         }
     }
 
-    public void setPushListener(PushListener l) {
+    public void setPushListener(LiveListener
+                                        l) {
         mLivePusher.setPushListener(new ITXLivePushListener() {
 
             @Override

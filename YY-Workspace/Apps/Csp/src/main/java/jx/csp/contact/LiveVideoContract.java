@@ -3,7 +3,7 @@ package jx.csp.contact;
 import android.content.Context;
 
 import lib.jx.contract.IContract;
-import lib.live.ui.LiveView;
+import lib.live.LiveView;
 
 /**
  * @author CaiXiang

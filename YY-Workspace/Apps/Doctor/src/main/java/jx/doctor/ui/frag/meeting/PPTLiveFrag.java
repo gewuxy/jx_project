@@ -7,9 +7,9 @@ import inject.annotation.router.Route;
 import jx.doctor.BuildConfig;
 import jx.doctor.R;
 import lib.jx.ui.frag.base.BaseFrag;
-import lib.live.pull.PullListener;
+import lib.live.LiveListener;
+import lib.live.LiveView;
 import lib.live.pull.PullManager;
-import lib.live.ui.LiveView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -37,7 +37,8 @@ public class PPTLiveFrag extends BaseFrag {
     @Override
     public void initData() {
         mPullManager = new PullManager(getContext());
-        mPullManager.listener(new PullListener() {
+        mPullManager.listener(new LiveListener() {
+
             @Override
             public void load() {
                 showView(mLayoutLoading);

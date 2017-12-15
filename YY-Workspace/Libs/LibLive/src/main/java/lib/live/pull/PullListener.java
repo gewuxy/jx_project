@@ -1,12 +1,10 @@
 package lib.live.pull;
 
-import android.os.Bundle;
-
 /**
  * @auther : GuoXuan
  * @since : 2017/12/11
  */
-abstract public class PullListener {
+public interface PullListener {
 
     /**
      * 视频播放loading(如果能够恢复,之后会有BEGIN事件)
@@ -14,16 +12,12 @@ abstract public class PullListener {
      * 因为PLAY_LOADING -> PLAY_BEGIN 的时间长短是不确定的
      * 推荐的做法是在视频播放画面上叠加一个半透明的 loading 动画
      */
-    public void load() {
-    }
+    void load();
 
     /**
      * 视频播放开始
      */
-    public void begin() {
-    }
+    void begin();
 
-    public void end() {
-
-    }
+    void end();
 }
