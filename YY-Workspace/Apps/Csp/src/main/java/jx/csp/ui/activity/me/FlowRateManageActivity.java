@@ -396,15 +396,11 @@ public class FlowRateManageActivity extends BaseActivity {
             if (mPaymentPosition == position) {
                 return;
             }
-            if (mPaymentPosition != ConstantsEx.KInvalidValue) {
-                mPaymentAdapter.getItem(mPaymentPosition).put(TPayment.select, false);
-                mPaymentAdapter.invalidate(mPaymentPosition);
-            }
+            mPaymentAdapter.getItem(mPaymentPosition).put(TPayment.select, false);
             mPaymentAdapter.getItem(position).put(TPayment.select, true);
-            mPaymentAdapter.invalidate(position);
+            mPaymentAdapter.notifyDataSetChanged();
             mPaymentPosition = position;
         }
-
     }
 
     private class FlowAdApterListener implements OnAdapterClickListener {
@@ -414,14 +410,10 @@ public class FlowRateManageActivity extends BaseActivity {
             if (mPricePosition == position) {
                 return;
             }
-            if (mPricePosition != ConstantsEx.KInvalidValue) {
-                mFlowRateAdapter.getItem(mPricePosition).put(TFlow.select, false);
-                mFlowRateAdapter.invalidate(mPricePosition);
-            }
+            mFlowRateAdapter.getItem(mPricePosition).put(TFlow.select, false);
             mFlowRateAdapter.getItem(position).put(TFlow.select, true);
-            mFlowRateAdapter.invalidate(position);
+            mFlowRateAdapter.notifyDataSetChanged();
             mPricePosition = position;
         }
-
     }
 }
