@@ -112,6 +112,7 @@ public class FlowRateManageActivity extends BaseActivity {
         //售价
         mRvPrice.setLayoutManager(new GridLayoutManager(this, 2));
         mFlowRateAdapter = new FlowRateAdapter();
+        mPricePosition = 0;
         mFlowRateAdapter.setData(getFlowData());
         mRvPrice.setAdapter(mFlowRateAdapter);
         mFlowRateAdapter.setOnAdapterClickListener(new FlowAdApterListener());
@@ -181,155 +182,69 @@ public class FlowRateManageActivity extends BaseActivity {
     }
 
     private List<Payment> getPaymentData() {
-        int[] id;
-        int[] image;
+        List<Payment> list = new ArrayList<>();
         if (Util.checkAppCn()) {
-            //初始为人民币
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
-                id = new int[]{
-                        PayType.alipay,
-                        PayType.wechat,
-//                        PayType.unionpay
-                };
-                image = new int[]{
-                        R.drawable.flow_rate_ic_alipay,
-                        R.drawable.flow_rate_ic_wechat,
-//                        R.drawable.flow_rate_ic_unionpay,
-                };
+                list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
+                list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
             } else {
-                id = new int[]{
-                        PayType.paypal
-                };
-                image = new int[]{
-                        R.drawable.flow_rate_ic_paypal,
-                };
+                list.add(new Payment(PayType.paypal, R.drawable.flow_rate_ic_paypal, true));
             }
         } else {
-            //初始为美元
             if (mViewUsdCurrency.getId() == R.id.flow_rate_usd_currency) {
-                id = new int[]{
-                        PayType.paypal
-                };
-                image = new int[]{
-                        R.drawable.flow_rate_ic_paypal,
-                };
+                list.add(new Payment(PayType.paypal, R.drawable.flow_rate_ic_paypal, true));
             } else {
-                id = new int[]{
-                        PayType.alipay,
-                        PayType.wechat,
-//                        PayType.unionpay
-                };
-                image = new int[]{
-                        R.drawable.flow_rate_ic_alipay,
-                        R.drawable.flow_rate_ic_wechat,
-//                        R.drawable.flow_rate_ic_unionpay,
-                };
+                list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
+                list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
             }
         }
-
-        List<Payment> list = new ArrayList<>();
-        for (int i = 0; i < image.length; i++) {
-            Payment payment = new Payment();
-            payment.put(TPayment.image, image[i]);
-            payment.put(TPayment.id, id[i]);
-            if (i == 0) {
-                payment.put(TPayment.select, true);
-                mPaymentPosition = 0;
-            }
-            list.add(payment);
-        }
+        mPaymentPosition = 0;
         return list;
     }
 
     private List<FlowRate> getFlowData() {
-        String[] flow;
-        String[] currency;
-        String[] price;
-        flow = new String[]{
-                PriceValue.flow1,
-                PriceValue.flow2,
-                PriceValue.flow3,
-                PriceValue.flow4,
-        };
         if (Util.checkAppCn()) {
-            //初始为5G流量值,售价10元
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
-                price = new String[]{
-                        PriceValue.cnyPrice1,
-                        PriceValue.cnyPrice2,
-                        PriceValue.cnyPrice3,
-                        PriceValue.cnyPrice4,
-                };
-                currency = new String[]{
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                };
+                return getCnyData();
             } else {
-                price = new String[]{
-                        PriceValue.usdPrice1,
-                        PriceValue.usdPrice2,
-                        PriceValue.usdPrice3,
-                        PriceValue.usdPrice4,
-                };
-                currency = new String[]{
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                };
+                return getUsdData();
             }
         } else {
-            //初始为5G流量值,售价1.75美元
             if (mViewUsdCurrency.getId() == R.id.flow_rate_usd_currency) {
-                price = new String[]{
-                        PriceValue.usdPrice1,
-                        PriceValue.usdPrice2,
-                        PriceValue.usdPrice3,
-                        PriceValue.usdPrice4,
-                };
-                currency = new String[]{
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                        getString(R.string.flow_rate_unit_en),
-                };
+                return getUsdData();
             } else {
-                price = new String[]{
-                        PriceValue.cnyPrice1,
-                        PriceValue.cnyPrice2,
-                        PriceValue.cnyPrice3,
-                        PriceValue.cnyPrice4,
-                };
-                currency = new String[]{
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                        getString(R.string.flow_rate_unit),
-                };
+                return getCnyData();
             }
+        }
+    }
+
+    private List<FlowRate> getUsdData() {
+        List<FlowRate> list = new ArrayList<>();
+        list.add(new FlowRate(PriceValue.flow1, PriceValue.usdPrice1, getString(R.string.flow_rate_unit_en), false));
+        list.add(new FlowRate(PriceValue.flow2, PriceValue.usdPrice2, getString(R.string.flow_rate_unit_en), false));
+        list.add(new FlowRate(PriceValue.flow3, PriceValue.usdPrice3, getString(R.string.flow_rate_unit_en), false));
+        list.add(new FlowRate(PriceValue.flow4, PriceValue.usdPrice4, getString(R.string.flow_rate_unit_en), false));
+
+        if (list.size() > mPricePosition && mPricePosition >= 0) {
+            FlowRate flowRate = list.get(mPricePosition);
+            flowRate.put(TFlow.select, true);
         }
 
+        return list;
+    }
+
+    private List<FlowRate> getCnyData() {
         List<FlowRate> list = new ArrayList<>();
-        int length = Math.min(Math.min(flow.length, price.length), currency.length);
-        for (int i = 0; i < length; i++) {
-            FlowRate flowRate = new FlowRate();
-            flowRate.put(TFlow.flow, flow[i]);
-            flowRate.put(TFlow.price, price[i]);
-            flowRate.put(TFlow.currency, currency[i]);
-            if (mPricePosition == ConstantsEx.KInvalidValue) {
-                // 没选择过
-                flowRate.put(TFlow.select, true);
-                mPricePosition = 0;
-            } else {
-                if (mPricePosition == i) {
-                    // 找到选择过的
-                    flowRate.put(TFlow.select, true);
-                }
-            }
-            list.add(flowRate);
+        list.add(new FlowRate(PriceValue.flow1, PriceValue.cnyPrice1, getString(R.string.flow_rate_unit), false));
+        list.add(new FlowRate(PriceValue.flow2, PriceValue.cnyPrice2, getString(R.string.flow_rate_unit), false));
+        list.add(new FlowRate(PriceValue.flow3, PriceValue.cnyPrice3, getString(R.string.flow_rate_unit), false));
+        list.add(new FlowRate(PriceValue.flow4, PriceValue.cnyPrice4, getString(R.string.flow_rate_unit), false));
+
+        if (list.size() > mPricePosition && mPricePosition >= 0) {
+            FlowRate flowRate = list.get(mPricePosition);
+            flowRate.put(TFlow.select, true);
         }
+
         return list;
     }
 

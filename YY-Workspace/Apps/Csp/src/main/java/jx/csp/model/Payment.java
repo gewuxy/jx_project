@@ -10,7 +10,13 @@ import lib.ys.model.EVal;
  * @since 2017/12/13
  */
 
-public class Payment extends EVal<TPayment>{
+public class Payment extends EVal<TPayment> {
+
+    public Payment(int id, int image, boolean select) {
+        put(TPayment.id, id);
+        put(TPayment.image, image);
+        put(TPayment.select, select);
+    }
 
     public enum TPayment {
         id,

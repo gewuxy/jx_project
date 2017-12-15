@@ -12,6 +12,13 @@ import lib.ys.model.EVal;
 
 public class FlowRate extends EVal<TFlow> {
 
+    public FlowRate(String flow, String price, String currency, boolean select) {
+        put(TFlow.flow, flow);
+        put(TFlow.price, price);
+        put(TFlow.currency, currency);
+        put(TFlow.select, select);
+    }
+
     public enum TFlow {
         flow, // 数量
         price, // 价格
