@@ -165,10 +165,11 @@ public class FlowRateManageActivity extends BaseActivity {
                         mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.wechat);
                     }
                     break;
-                    case PayType.unionpay: {
-                        mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.upacp);
-                    }
-                    break;
+                    // FIXME: 2017/12/15 暂时不提供，后续版本再添加
+//                    case PayType.unionpay: {
+//                        mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.upacp);
+//                    }
+//                    break;
                     case PayType.paypal: {
                         mPresenter.confirmPay(KPayPalPayCode, mFlow, null);
                     }
@@ -188,12 +189,12 @@ public class FlowRateManageActivity extends BaseActivity {
                 id = new int[]{
                         PayType.alipay,
                         PayType.wechat,
-                        PayType.unionpay
+//                        PayType.unionpay
                 };
                 image = new int[]{
                         R.drawable.flow_rate_ic_alipay,
                         R.drawable.flow_rate_ic_wechat,
-                        R.drawable.flow_rate_ic_unionpay,
+//                        R.drawable.flow_rate_ic_unionpay,
                 };
             } else {
                 id = new int[]{
@@ -216,12 +217,12 @@ public class FlowRateManageActivity extends BaseActivity {
                 id = new int[]{
                         PayType.alipay,
                         PayType.wechat,
-                        PayType.unionpay
+//                        PayType.unionpay
                 };
                 image = new int[]{
                         R.drawable.flow_rate_ic_alipay,
                         R.drawable.flow_rate_ic_wechat,
-                        R.drawable.flow_rate_ic_unionpay,
+//                        R.drawable.flow_rate_ic_unionpay,
                 };
             }
         }
