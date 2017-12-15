@@ -23,6 +23,9 @@ public class FlowRateAdapter extends RecyclerAdapterEx<FlowRate, FlowRateVH> {
         holder.getTvFlow().setText(item.getString(TFlow.flow).concat("G"));
         holder.getTvPrice().setText(item.getString(TFlow.price));
         holder.getTvCurrency().setText(item.getString(TFlow.currency));
+        if (LangType.en == SpApp.inst().getLangType()) {
+            goneView(holder.getTvPriceText());
+        }
         View layout = holder.getItemLayout();
         layout.setSelected(item.getBoolean(TFlow.select));
         setOnViewClickListener(position, layout);
@@ -30,10 +33,6 @@ public class FlowRateAdapter extends RecyclerAdapterEx<FlowRate, FlowRateVH> {
 
     @Override
     protected int getConvertViewResId() {
-        if (LangType.en == SpApp.inst().getLangType()) {
-            return R.layout.layout_flow_rate_price_en;
-        }else {
-            return R.layout.layout_flow_rate_price;
-        }
+        return R.layout.layout_flow_rate_price;
     }
 }

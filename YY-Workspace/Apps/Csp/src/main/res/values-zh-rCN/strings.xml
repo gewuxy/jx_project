@@ -270,6 +270,7 @@
     <string name="flow_rate_currency">支付币种</string>
     <string name="flow_rate_currency_cny">人民币</string>
     <string name="flow_rate_payment">支付方式</string>
+    <string name="flow_rate_price">售价</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">更新日志</string>
@@ -292,7 +293,8 @@
     <string name="vip_manage_close_watermark">可关闭水印</string>
     <string name="vip_manage_custom_watermark">自定义水印</string>
     <string name="vip_manage_time">不限时长</string>
-    <string name="vip_manage_to"> 至 </string>
+    <string name="vip_manage_form">form </string>
+    <string name="vip_manage_to">至</string>
     <string name="vip_manage_norm_version">标准版</string>
     <string name="vip_manage_advanced_version">高级版</string>
     <string name="vip_manage_profession_version">专业版</string>

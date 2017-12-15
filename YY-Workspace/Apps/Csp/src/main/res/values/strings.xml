@@ -273,6 +273,7 @@
     <string name="flow_rate_currency">Currency</string>
     <string name="flow_rate_currency_cny">CNY</string>
     <string name="flow_rate_payment">Mode of Payment</string>
+    <string name="flow_rate_price">Price</string>
 
     <!-- 帮助与反馈-->
     <string name="help_and_feedback_update_log">Update Log</string>
@@ -295,7 +296,8 @@
     <string name="vip_manage_close_watermark">Closable Watermark</string>
     <string name="vip_manage_custom_watermark">Customized</string>
     <string name="vip_manage_time">Permanent Usage</string>
-    <string name="vip_manage_to"> to </string>
+    <string name="vip_manage_form">form</string>
+    <string name="vip_manage_to">to</string>
     <string name="vip_manage_norm_version">Standard Edition</string>
     <string name="vip_manage_advanced_version">Premium Edition</string>
     <string name="vip_manage_profession_version">Professional Edition</string>

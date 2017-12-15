@@ -23,7 +23,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
-            android:text="标准版"
             android:textColor="@color/white"
             android:textSize="26dp"/>
 
@@ -35,7 +34,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
-            android:text="讲"
             android:textColor="@color/text_50fff"
             android:textSize="17dp"/>
 
@@ -116,12 +114,7 @@
                 android:textSize="@dimen/margin"/>
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:background="@color/color_db"/>
+        <View style="@style/divider.form.match"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -147,12 +140,7 @@
                 android:textSize="@dimen/margin"/>
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:background="@color/color_db"/>
+        <View style="@style/divider.form.match"/>
 
         <TextView
             android:layout_width="wrap_content"

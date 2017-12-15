@@ -3,7 +3,7 @@ package jx.csp.ui.activity.me;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,13 +34,13 @@ import lib.ys.util.res.ResLoader;
 
 public class VipManageActivity extends BaseActivity {
 
-    private final int KMeetingNormLimit = 3;
-    private final int KMeetingAdvancedLimit = 10;
+    private final String KMeetingNormLimit = "3";
+    private final String KMeetingAdvancedLimit = "10";
     private final String KMeetingInfinite = "∞";
 
     private RecyclerView mRvPermission; //使用权限
     private RelativeLayout mLayoutCard;   //会员卡片
-    private LinearLayout mLayoutSpell;
+    private View mViewSpell;
 
     private TextView mTvValidity;   //有效期
     private TextView mTvMeetCount;  //会议已使用数量
@@ -79,7 +79,7 @@ public class VipManageActivity extends BaseActivity {
 
         mTvAppName = findView(R.id.vip_tv_app_name);
         mTvVersion = findView(R.id.vip_tv_versions);
-        mLayoutSpell = findView(R.id.vip_layout_spell);
+        mViewSpell = findView(R.id.vip_layout_spell);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class VipManageActivity extends BaseActivity {
         public void setAdapterData(int id, long packageStart, long packageEnd, int meetCount) {
             //设置会员权限布局
             if (LangType.en == SpApp.inst().getLangType()) {
-                goneView(mLayoutSpell);
+                goneView(mViewSpell);
                 mRvPermission.setLayoutManager(new GridLayoutManager(VipManageActivity.this, 3));
             } else {
                 mRvPermission.setLayoutManager(new GridLayoutManager(VipManageActivity.this, 4));
@@ -103,15 +103,16 @@ public class VipManageActivity extends BaseActivity {
             VipPermissionAdapter adapter = new VipPermissionAdapter();
             List<VipPermission> list = new ArrayList<>();
 
-            mTvAppName.setText(R.string.vip_manage_app_name);
+            String count = String.valueOf(meetCount);
+            mTvAppName.setText(getString(R.string.vip_manage_app_name));
             switch (id) {
                 case VipType.norm: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_norm_card);
-                    mTvVersion.setText(R.string.vip_manage_norm_version);
-                    if (meetCount > KMeetingNormLimit) {
+                    mTvVersion.setText(getString(R.string.vip_manage_norm_version));
+                    if (meetCount > 3) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
-                    mTvMeetCount.setText(meetCount);
+                    mTvMeetCount.setText(count);
 
                     list.add(VipPermission.norm_record);
                     list.add(VipPermission.norm_live);
@@ -122,13 +123,17 @@ public class VipManageActivity extends BaseActivity {
                 break;
                 case VipType.advanced: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
+                    if (LangType.en == SpApp.inst().getLangType()) {
+                        mTvValidity.setText(getString(R.string.vip_manage_form) + " " + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                    }else {
+                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                    }
 
-                    mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    mTvVersion.setText(R.string.vip_manage_advanced_version);
-                    if (meetCount > KMeetingAdvancedLimit) {
+                    mTvVersion.setText(getString(R.string.vip_manage_advanced_version));
+                    if (meetCount > 10) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
-                    mTvMeetCount.setText(meetCount);
+                    mTvMeetCount.setText(count);
                     mTvLimit.setText(KMeetingAdvancedLimit);
 
                     list.add(VipPermission.advanced_record);
@@ -140,11 +145,15 @@ public class VipManageActivity extends BaseActivity {
                 break;
                 case VipType.profession: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
+                    if (LangType.en == SpApp.inst().getLangType()) {
+                        mTvValidity.setText(getString(R.string.vip_manage_form) + " " + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                    }else {
+                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                    }
 
-                    mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    mTvMeetCount.setText(meetCount);
+                    mTvMeetCount.setText(count);
                     mTvLimit.setText(KMeetingInfinite);
-                    mTvVersion.setText(R.string.vip_manage_profession_version);
+                    mTvVersion.setText(getString(R.string.vip_manage_profession_version));
 
                     list.add(VipPermission.profession_record);
                     list.add(VipPermission.profession_live);
