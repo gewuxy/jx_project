@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * 会员套餐id
+ *
  * @auther Huoxuyu
  * @since 2017/12/14
  */
@@ -17,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface VipType {
-    int norm = 1;
-    int advanced =2;
-    int profession = 3;
+    int norm = 1;       //标准版
+    int advanced =2;    //高级版
+    int profession = 3; //专业版
 }

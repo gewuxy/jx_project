@@ -2,8 +2,7 @@ package jx.csp.adapter;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.VipPermissionVH;
-import jx.csp.model.VipPermission;
-import jx.csp.model.VipPermission.TVip;
+import jx.csp.constant.VipPermission;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
@@ -21,8 +20,9 @@ public class VipPermissionAdapter extends RecyclerAdapterEx<VipPermission, VipPe
     @Override
     protected void refreshView(int position, VipPermissionVH holder) {
         VipPermission item = getItem(position);
-        holder.getIvImage().setImageResource(item.getInt(TVip.image));
-        holder.getTvText().setText(item.getString(TVip.text));
+        holder.getIvImage().setImageResource(item.image());
+        holder.getTvText().setText(item.text());
+        holder.getTvText().setTextColor(item.color());
     }
 
 }

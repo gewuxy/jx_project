@@ -7,19 +7,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.R;
 import jx.csp.adapter.VipPermissionAdapter;
 import jx.csp.constant.LangType;
+import jx.csp.constant.VipPermission;
 import jx.csp.constant.VipType;
 import jx.csp.contact.VipManageContract;
-import jx.csp.model.VipPermission;
 import jx.csp.presenter.VipManagePresenterImpl;
 import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
@@ -40,15 +40,11 @@ public class VipManageActivity extends BaseActivity {
     private RelativeLayout mLayoutCard;   //会员卡片
     private LinearLayout mLayoutSpell;
 
-    private TextView mTvValidity;
-    private TextView mTvMeetCount;
-    private TextView mTvLimit;
-    private TextView mTvAppName;
-    private TextView mTvVersion;
-
-    private int[] mImage;
-    private String[] mText;
-    private int[] mPermissionId;
+    private TextView mTvValidity;   //有效期
+    private TextView mTvMeetCount;  //会议已使用数量
+    private TextView mTvLimit;      //会议最大上限
+    private TextView mTvAppName;    //app名字
+    private TextView mTvVersion;    //会员套餐版本
 
     private VipManageContract.P mPresenter;
     private VipManageContract.V mView;
@@ -103,32 +99,20 @@ public class VipManageActivity extends BaseActivity {
             }
 
             VipPermissionAdapter adapter = new VipPermissionAdapter();
-            mPermissionId = new int[]{0, 1, 2, 3, 4};
+            List<VipPermission> list = new ArrayList<>();
 
-            YSLog.d("TAG", "" + System.currentTimeMillis());
             mTvAppName.setText(R.string.vip_manage_app_name);
             switch (id) {
                 case VipType.norm: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_norm_card);
-
                     mTvVersion.setText(R.string.vip_manage_norm_version);
                     mTvMeetCount.setText(meetCount);
 
-                    mImage = new int[]{
-                            R.drawable.vip_ic_record,
-                            R.drawable.vip_ic_live,
-                            R.drawable.vip_ic_meet_num,
-                            R.drawable.vip_ic_un_advertising,
-                            R.drawable.vip_ic_un_watermark,
-                    };
-
-                    mText = new String[]{
-                            getString(R.string.vip_manage_record),
-                            getString(R.string.vip_manage_live),
-                            getString(R.string.vip_manage_three_meeting),
-                            getString(R.string.vip_manage_advertising),
-                            getString(R.string.vip_manage_close_watermark),
-                    };
+                    list.add(VipPermission.norm_record);
+                    list.add(VipPermission.norm_live);
+                    list.add(VipPermission.norm_meeting);
+                    list.add(VipPermission.norm_advertising);
+                    list.add(VipPermission.norm_watermark);
                 }
                 break;
                 case VipType.advanced: {
@@ -139,21 +123,11 @@ public class VipManageActivity extends BaseActivity {
                     mTvLimit.setText(KMeetingLimit);
                     mTvVersion.setText(R.string.vip_manage_advanced_version);
 
-                    mImage = new int[]{
-                            R.drawable.vip_ic_record,
-                            R.drawable.vip_ic_live,
-                            R.drawable.vip_ic_meet_num,
-                            R.drawable.vip_ic_advertising,
-                            R.drawable.vip_ic_watermark,
-                    };
-
-                    mText = new String[]{
-                            getString(R.string.vip_manage_record),
-                            getString(R.string.vip_manage_live),
-                            getString(R.string.vip_manage_ten_meeting),
-                            getString(R.string.vip_manage_advertising),
-                            getString(R.string.vip_manage_close_watermark),
-                    };
+                    list.add(VipPermission.advanced_record);
+                    list.add(VipPermission.advanced_live);
+                    list.add(VipPermission.advanced_meeting);
+                    list.add(VipPermission.advanced_advertising);
+                    list.add(VipPermission.advanced_watermark);
                 }
                 break;
                 case VipType.profession: {
@@ -164,26 +138,14 @@ public class VipManageActivity extends BaseActivity {
                     mTvLimit.setText(KMeetingInfinite);
                     mTvVersion.setText(R.string.vip_manage_profession_version);
 
-                    mImage = new int[]{
-                            R.drawable.vip_ic_record,
-                            R.drawable.vip_ic_live,
-                            R.drawable.vip_ic_meet_num,
-                            R.drawable.vip_ic_advertising,
-                            R.drawable.vip_ic_watermark,
-                    };
-
-                    mText = new String[]{
-                            getString(R.string.vip_manage_record),
-                            getString(R.string.vip_manage_live),
-                            getString(R.string.vip_manage_infinite_meeting),
-                            getString(R.string.vip_manage_advertising),
-                            getString(R.string.vip_manage_custom_watermark),
-                    };
+                    list.add(VipPermission.profession_record);
+                    list.add(VipPermission.profession_live);
+                    list.add(VipPermission.profession_meeting);
+                    list.add(VipPermission.profession_advertising);
+                    list.add(VipPermission.profession_watermark);
                 }
                 break;
             }
-
-            List<VipPermission> list = mPresenter.addPermission(mPermissionId, mImage, mText);
             adapter.setData(list);
             mRvPermission.setAdapter(adapter);
         }
