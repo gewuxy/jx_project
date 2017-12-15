@@ -38,7 +38,7 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
             int packageId = vipPackage.getInt(TPackage.id);
             long packageStart = vipPackage.getLong(TPackage.packageStart);
             long packageEnd = vipPackage.getLong(TPackage.packageEnd);
-            String packageMeetCount = vipPackage.getString(TPackage.usedMeetCount);
+            int packageMeetCount = vipPackage.getInt(TPackage.usedMeetCount);
             getView().setAdapterData(packageId, packageStart, packageEnd, packageMeetCount);
         } else {
             onNetworkError(id, r.getError());

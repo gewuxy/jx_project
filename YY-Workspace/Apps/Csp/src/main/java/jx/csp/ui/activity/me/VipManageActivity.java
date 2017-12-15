@@ -23,6 +23,7 @@ import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 会员管理
@@ -33,7 +34,8 @@ import lib.ys.util.TimeFormatter.TimeFormat;
 
 public class VipManageActivity extends BaseActivity {
 
-    private final String KMeetingLimit = "10";
+    private final int KMeetingNormLimit = 3;
+    private final int KMeetingAdvancedLimit = 10;
     private final String KMeetingInfinite = "∞";
 
     private RecyclerView mRvPermission; //使用权限
@@ -89,7 +91,7 @@ public class VipManageActivity extends BaseActivity {
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
-        public void setAdapterData(int id, long packageStart, long packageEnd, String meetCount) {
+        public void setAdapterData(int id, long packageStart, long packageEnd, int meetCount) {
             //设置会员权限布局
             if (LangType.en == SpApp.inst().getLangType()) {
                 goneView(mLayoutSpell);
@@ -106,6 +108,9 @@ public class VipManageActivity extends BaseActivity {
                 case VipType.norm: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_norm_card);
                     mTvVersion.setText(R.string.vip_manage_norm_version);
+                    if (meetCount > KMeetingNormLimit) {
+                        mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
+                    }
                     mTvMeetCount.setText(meetCount);
 
                     list.add(VipPermission.norm_record);
@@ -119,9 +124,12 @@ public class VipManageActivity extends BaseActivity {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
 
                     mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    mTvMeetCount.setText(meetCount);
-                    mTvLimit.setText(KMeetingLimit);
                     mTvVersion.setText(R.string.vip_manage_advanced_version);
+                    if (meetCount > KMeetingAdvancedLimit) {
+                        mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
+                    }
+                    mTvMeetCount.setText(meetCount);
+                    mTvLimit.setText(KMeetingAdvancedLimit);
 
                     list.add(VipPermission.advanced_record);
                     list.add(VipPermission.advanced_live);

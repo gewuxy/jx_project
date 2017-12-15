@@ -20,7 +20,7 @@ public interface VipManageContract {
          * @param packageEnd
          * @param meetCount
          */
-        void setAdapterData(int id, long packageStart, long packageEnd, String meetCount);
+        void setAdapterData(int id, long packageStart, long packageEnd, int meetCount);
     }
 
     interface P extends Presenter<V> {
