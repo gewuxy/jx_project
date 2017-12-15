@@ -112,7 +112,7 @@ public class FlowRateManageActivity extends BaseActivity {
         //售价
         mRvPrice.setLayoutManager(new GridLayoutManager(this, 2));
         mFlowRateAdapter = new FlowRateAdapter();
-        mPricePosition = 0;
+        mPricePosition = 2;
         mFlowRateAdapter.setData(getFlowData());
         mRvPrice.setAdapter(mFlowRateAdapter);
         mFlowRateAdapter.setOnAdapterClickListener(new FlowAdApterListener());
