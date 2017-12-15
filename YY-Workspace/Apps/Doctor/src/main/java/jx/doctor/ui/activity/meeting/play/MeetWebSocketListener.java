@@ -39,12 +39,14 @@ abstract public class MeetWebSocketListener extends WebSocketListener {
             OrderType.live,
             OrderType.synchronize,
             OrderType.online,
+            OrderType.start,
     })
     @Retention(RetentionPolicy.SOURCE)
     protected @interface OrderType {
         int live = 0; // 直播
         int synchronize = 1; // 同步
         int online = 6; // 观众人数
+        int start = 12; // 拉流
     }
 
     @Override
@@ -69,6 +71,8 @@ abstract public class MeetWebSocketListener extends WebSocketListener {
                 UtilEx.runOnUIThread(() -> onMessage(order, index, course));
             } else if (order == OrderType.online) {
                 UtilEx.runOnUIThread(() -> online(o.optInt(KOnline)));
+            } else if (order == OrderType.start) {
+                UtilEx.runOnUIThread(() -> startPull());
             }
         } catch (JSONException e) {
             YSLog.d(TAG, "onMessage:" + e.getMessage());
@@ -99,6 +103,9 @@ abstract public class MeetWebSocketListener extends WebSocketListener {
     abstract protected void online(int onlineNum);
 
     abstract protected void onMessage(int order, int index, Course course);
+
+    protected void startPull() {
+    }
 
     /**
      * 2S秒后重连

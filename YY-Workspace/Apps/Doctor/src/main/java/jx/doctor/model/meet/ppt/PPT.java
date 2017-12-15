@@ -32,5 +32,7 @@ public class PPT extends EVal<TPPT> {
          */
         liveState,
 
+        pullUrl,
+
     }
 }

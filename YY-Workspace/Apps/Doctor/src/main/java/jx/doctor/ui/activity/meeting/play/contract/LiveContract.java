@@ -24,6 +24,8 @@ public interface LiveContract {
 
         PPTRebFrag getPptFrag();
 
+        void startPull();
+
         void setTextOnline(int onlineNum);
 
         void nextItem();

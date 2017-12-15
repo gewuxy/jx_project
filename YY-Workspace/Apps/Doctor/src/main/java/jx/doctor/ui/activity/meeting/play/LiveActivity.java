@@ -339,8 +339,8 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
 
             setTextComment(ppt.getInt(TPPT.count));
 
-            String roomId = ppt.getString(TPPT.courseId);
-            mFragLive.setPlayUrl(roomId);
+            String pullUrl = ppt.getString(TPPT.pullUrl);
+            mFragLive.setPlayUrl(pullUrl);
             mPlayType = PlayType.live;
 
             mPlay = true;
@@ -436,6 +436,11 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         @Override
         public PPTRebFrag getPptFrag() {
             return mFragPpt;
+        }
+
+        @Override
+        public void startPull() {
+            mFragLive.startPullStream();
         }
 
         @Override

@@ -187,6 +187,11 @@ public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> impl
         }
 
         @Override
+        protected void startPull() {
+            getView().startPull();
+        }
+
+        @Override
         public void reconnect() {
             if (mPpt != null) {
                 String url = mPpt.getString(TPPT.socketUrl);

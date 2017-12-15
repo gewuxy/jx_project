@@ -153,8 +153,9 @@ public class LoginActivity extends BaseLoginActivity {
             if (r.isSucceed()) {
                 mProfile = (Profile) r.getData();
                 long l = System.currentTimeMillis() - mTime;
-                if (l < 1000) {
-                    mHandler.sendEmptyMessageDelayed(0, 1500 - l);
+                if (l < 800) {
+                    // 回调太快了会闪屏
+                    mHandler.sendEmptyMessageDelayed(0, 800 - l);
                 } else {
                     bindReturn();
                 }

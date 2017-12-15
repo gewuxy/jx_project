@@ -94,22 +94,19 @@ public class PPTLiveFrag extends BaseFrag {
         // do nothing
     }
 
-    public void setPlayUrl(String playUrl) {
+    public boolean setPlayUrl(String playUrl) {
         if (TextUtil.isEmpty(playUrl)) {
-            return;
+            return false;
         }
         mPlayUrl = playUrl;
-        if (BuildConfig.DEBUG) {
-            mPlayUrl = "rtmp://3891.liveplay.myqcloud.com/live/3891_user_0da23c97_e723";
-        }
-        startPullStream();
+        return startPullStream();
     }
 
-    public void startPullStream() {
+    public boolean startPullStream() {
         if (TextUtil.isEmpty(mPlayUrl) || mViewLive == null) {
-            return;
+            return false;
         }
-       mPullManager.startPullStream(mPlayUrl, mViewLive);
+       return mPullManager.startPullStream(mPlayUrl, mViewLive);
     }
 
     public void stopPullStream() {
