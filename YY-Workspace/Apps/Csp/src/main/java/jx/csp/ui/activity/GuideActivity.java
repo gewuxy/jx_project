@@ -43,7 +43,7 @@ public class GuideActivity extends BaseVpActivity {
         // 要判断系统语言
         switch (SpApp.inst().getLangType()) {
             case en:
-                mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+                mImgResArray = new int[]{R.drawable.guide_en1, R.drawable.guide_en2, R.drawable.guide_en3, R.drawable.guide_en4};
                 break;
             case cn_simplified:
                 mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};

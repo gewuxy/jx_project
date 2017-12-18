@@ -56,6 +56,7 @@ public class ShareDialog extends BaseDialog {
     private String mCourseId;  // 会议id
     private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
+//    private Bitmap mCoverBmp;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -68,6 +69,7 @@ public class ShareDialog extends BaseDialog {
         mTitle = title + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
+//        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();
     }
@@ -222,7 +224,24 @@ public class ShareDialog extends BaseDialog {
                 //把clip对象放在剪切板中
                 mClipboardManager.setPrimaryClip(clipData);
                 showToast(R.string.copy_success);
-            } else {
+            }
+//            else if (type == ShareType.sms) {
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                if (mCoverBmp == null) {
+//                    showToast("bitmap == null");
+//                    return;
+//                }
+//                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AppEx.getContext().getContentResolver(), mCoverBmp, null,null));
+//                intent.putExtra(Intent.EXTRA_STREAM, uri);// uri为你的附件的uri
+//                intent.putExtra("subject", mShareTitle); //彩信的主题
+//                //intent.putExtra("sms_body", ResLoader.getString(R.string.share_text)); //彩信中文字内容
+//                intent.putExtra(Intent.EXTRA_TEXT, ResLoader.getString(R.string.share_text) + mShareUrl);
+//                intent.setType("image/*");// 彩信附件类型
+//                intent.setClassName("com.android.mms","com.android.mms.ui.ComposeMessageActivity"); // ComposeMessageActivity  NewMessageActivity
+//                startActivity(intent);
+//            }
+            else {
                 Type t = Type.qq;
                 switch (type) {
                     case ShareType.wechat: {

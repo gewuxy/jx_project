@@ -1,12 +1,18 @@
 package jx.csp.util;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.Key;
 
 import javax.crypto.Cipher;
@@ -198,5 +204,32 @@ public class Util extends BaseUtil {
      */
     public static boolean checkAppCn() {
         return Constants.KAppTypeCn.equals(PackageUtil.getMetaValue(MetaValue.app_type));
+    }
+
+    /**
+     * 通过图片url获取bitmap
+     *
+     * @param urlPath
+     * @return
+     */
+    public static Bitmap getBitMBitmap(String urlPath) {
+
+        final Bitmap[] map = {null};
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlPath);
+                    URLConnection conn = url.openConnection();
+                    conn.connect();
+                    InputStream in;
+                    in = conn.getInputStream();
+                    map[0] = BitmapFactory.decodeStream(in);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        return map[0];
     }
 }

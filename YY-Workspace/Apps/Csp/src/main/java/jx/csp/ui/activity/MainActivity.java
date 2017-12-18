@@ -352,7 +352,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.over_live: {
                 String id = (String) data;
-                showToast(R.string.live_already_over);
+                showToast(R.string.live_have_end);
                 // 显示分享会议回放提示
                 ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
                 ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
