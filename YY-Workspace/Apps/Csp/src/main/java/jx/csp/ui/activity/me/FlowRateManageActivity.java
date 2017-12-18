@@ -231,7 +231,6 @@ public class FlowRateManageActivity extends BaseActivity {
             FlowRate flowRate = list.get(mPricePosition);
             flowRate.put(TFlow.select, true);
         }
-
         return list;
     }
 
@@ -246,13 +245,12 @@ public class FlowRateManageActivity extends BaseActivity {
             FlowRate flowRate = list.get(mPricePosition);
             flowRate.put(TFlow.select, true);
         }
-
         return list;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mPresenter.setCallBack(mReqCode, requestCode, resultCode, data);
+        mPresenter.getCallBack(mReqCode, requestCode, resultCode, data);
     }
 
     @Override

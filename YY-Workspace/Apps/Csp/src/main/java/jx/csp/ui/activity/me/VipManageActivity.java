@@ -108,9 +108,11 @@ public class VipManageActivity extends BaseActivity {
                 case VipType.norm: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_norm_card);
                     mTvVersion.setText(getString(R.string.vip_manage_norm_version));
+                    //获取会议大于上限值,显示红色字体
                     if (meetCount > 3) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
+                    //设置已使用会议数量
                     mTvMeetCount.setText(count);
 
                     list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_record));
@@ -123,16 +125,19 @@ public class VipManageActivity extends BaseActivity {
                 case VipType.advanced: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
                     if (LangType.en == SpApp.inst().getLangType()) {
-                        mTvValidity.setText(getString(R.string.vip_manage_form) + " " + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                        mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }else {
-                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
                     mTvVersion.setText(getString(R.string.vip_manage_advanced_version));
+                    //获取会议大于上限值,显示红色字体
                     if (meetCount > 10) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
+                    //设置已使用会议数量
                     mTvMeetCount.setText(count);
+                    //设置会议上限值
                     mTvLimit.setText(KMeetingAdvancedLimit);
 
                     list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_record));
@@ -145,12 +150,14 @@ public class VipManageActivity extends BaseActivity {
                 case VipType.profession: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
                     if (LangType.en == SpApp.inst().getLangType()) {
-                        mTvValidity.setText(getString(R.string.vip_manage_form) + " " + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                        mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }else {
-                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + " " + getString(R.string.vip_manage_to) + " " + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) +  getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
+                    //设置已使用会议数量
                     mTvMeetCount.setText(count);
+                    //设置会议上限值
                     mTvLimit.setText(KMeetingInfinite);
                     mTvVersion.setText(getString(R.string.vip_manage_profession_version));
 

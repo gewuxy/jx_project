@@ -297,8 +297,8 @@
     <string name="vip_manage_close_watermark">Closable Watermark</string>
     <string name="vip_manage_custom_watermark">Customized</string>
     <string name="vip_manage_time">Permanent Usage</string>
-    <string name="vip_manage_form">form</string>
-    <string name="vip_manage_to">to</string>
+    <string name="vip_manage_form">form&#160;</string>
+    <string name="vip_manage_to">&#160;to&#160;</string>
     <string name="vip_manage_norm_version">Standard Edition</string>
     <string name="vip_manage_advanced_version">Premium Edition</string>
     <string name="vip_manage_profession_version">Professional Edition</string>

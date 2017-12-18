@@ -51,6 +51,6 @@ public interface FlowRateContract {
         /**
          * 设置支付结果回调处理
          */
-        void setCallBack(int id, int requestCode, int resultCode, Intent data);
+        void getCallBack(int id, int requestCode, int resultCode, Intent data);
     }
 }

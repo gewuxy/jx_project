@@ -31,7 +31,14 @@ import lib.jx.network.BaseJsonParser;
 
 public class PayPalPay {
 
+    //正式线
+    private static final String KHostUrl = "https://www.cspmeeting.com/api/charge/paypalCallback";
+    //测试线
+//    private static final String KHostUrl = "http://medcn.synology.me:8886/csp/api/charge/paypalCallback";
+
     public static final String KExtraOrderId = "order_id";
+    private static final int KRequestCodePayment = 1;
+    private static String mPaymentId;
 
     // PayPal真实环境
     private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
@@ -46,10 +53,6 @@ public class PayPalPay {
     private static PayPalConfiguration mConfig = new PayPalConfiguration()
             .environment(KConfigEnvironment)
             .clientId(KConfigClientId);
-
-    private static final int KRequestCodePayment = 1;
-
-    private static String mPaymentId;
 
     /**
      * 启动PayPal服务
@@ -119,7 +122,7 @@ public class PayPalPay {
             if (confirm != null) {
                 Network network = new Network("PayPal", null);
                 network.load(0,
-                        NetworkReq.newBuilder("http://59.111.90.245:8084/api/charge/paypalCallback")
+                        NetworkReq.newBuilder(KHostUrl)
                                 .post()
                                 .param("paymentId", mPaymentId)
                                 .param("orderId", data.getStringExtra(KExtraOrderId))

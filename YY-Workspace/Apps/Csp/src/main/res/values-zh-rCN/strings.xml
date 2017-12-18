@@ -294,8 +294,8 @@
     <string name="vip_manage_close_watermark">可关闭水印</string>
     <string name="vip_manage_custom_watermark">自定义水印</string>
     <string name="vip_manage_time">不限时长</string>
-    <string name="vip_manage_form">form </string>
-    <string name="vip_manage_to">至</string>
+    <string name="vip_manage_form">form</string>
+    <string name="vip_manage_to">&#160;至&#160;</string>
     <string name="vip_manage_norm_version">标准版</string>
     <string name="vip_manage_advanced_version">高级版</string>
     <string name="vip_manage_profession_version">专业版</string>
