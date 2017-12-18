@@ -293,8 +293,8 @@
     <string name="vip_manage_ten_meeting">10 Meetings</string>
     <string name="vip_manage_infinite_meeting">Unlimited</string>
     <string name="vip_manage_advertising">Ads Free</string>
-    <string name="vip_manage_close_watermark">Closable Watermark</string>
-    <string name="vip_manage_custom_watermark">Customized</string>
+    <string name="vip_manage_close_watermark">Watermark Switch</string>
+    <string name="vip_manage_custom_watermark">Customized Watermark</string>
     <string name="vip_manage_time">Permanent Usage</string>
     <string name="vip_manage_form">form&#160;</string>
     <string name="vip_manage_to">&#160;to&#160;</string>

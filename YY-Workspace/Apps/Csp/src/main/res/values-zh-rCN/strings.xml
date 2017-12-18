@@ -290,7 +290,7 @@
     <string name="vip_manage_ten_meeting">10个会议</string>
     <string name="vip_manage_infinite_meeting">无限会议</string>
     <string name="vip_manage_advertising">无广告</string>
-    <string name="vip_manage_close_watermark">可关闭水印</string>
+    <string name="vip_manage_close_watermark">水印开关</string>
     <string name="vip_manage_custom_watermark">自定义水印</string>
     <string name="vip_manage_time">不限时长</string>
     <string name="vip_manage_form">form</string>

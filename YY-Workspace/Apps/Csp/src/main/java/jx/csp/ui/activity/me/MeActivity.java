@@ -65,7 +65,6 @@ public class MeActivity extends BaseFormActivity {
                 .name(R.string.person_center_history)
                 .related(RelatedId.history));
 
-        // fixme:1.1跟直播再打开
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_flow)
