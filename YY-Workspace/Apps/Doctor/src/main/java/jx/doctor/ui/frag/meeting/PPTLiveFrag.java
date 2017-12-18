@@ -67,6 +67,7 @@ public class PPTLiveFrag extends BaseFrag {
                     goneView(mLayoutDefault);
                 }
             }
+
         });
         mFirst = true;
     }
@@ -107,7 +108,10 @@ public class PPTLiveFrag extends BaseFrag {
         if (TextUtil.isEmpty(mPlayUrl) || mViewLive == null) {
             return false;
         }
-       return mPullManager.startPullStream(mPlayUrl, mViewLive);
+        showView(mLayoutLoading);
+        goneView(mLayoutBreak);
+        goneView(mLayoutDefault);
+        return mPullManager.startPullStream(mPlayUrl, mViewLive);
     }
 
     public void stopPullStream() {
