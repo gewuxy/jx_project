@@ -23,6 +23,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin"
             android:layout_marginTop="@dimen/margin"
+            android:text="@string/vip_manage_norm_version"
             android:textColor="@color/white"
             android:textSize="26dp"/>
 
@@ -34,6 +35,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
+            android:text="@string/vip_manage_app_name"
             android:textColor="@color/text_50fff"
             android:textSize="17dp"/>
 
@@ -152,7 +154,7 @@
             android:textSize="@dimen/margin"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <lib.ys.view.recycler.WrapRecyclerView
         android:id="@+id/vip_rv_permission"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
