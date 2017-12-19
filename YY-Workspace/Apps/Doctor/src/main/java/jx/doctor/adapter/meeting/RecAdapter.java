@@ -3,7 +3,7 @@ package jx.doctor.adapter.meeting;
 import android.widget.TextView;
 
 import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.shape.CircleRenderer;
 import jx.doctor.R;
 import jx.doctor.adapter.VH.me.UnitNumVH;
 import jx.doctor.adapter.VH.meeting.MeetingVH;

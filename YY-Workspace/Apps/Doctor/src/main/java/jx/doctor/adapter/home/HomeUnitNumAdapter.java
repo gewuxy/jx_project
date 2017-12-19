@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
-import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.shape.CircleRenderer;
 import jx.doctor.R;
 import jx.doctor.adapter.VH.home.HomeUnitNumVH;
 import jx.doctor.model.home.RecUnitNum;

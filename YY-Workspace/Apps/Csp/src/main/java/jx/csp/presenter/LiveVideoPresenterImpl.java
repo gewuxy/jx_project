@@ -44,8 +44,8 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void initLive(Context context, LiveView liveView) {
-        PushManager.getInst().init(context, liveView);
-        PushManager.getInst().setPushListener(new MyPushListener());
+        PushManager.inst().init(context, liveView);
+        PushManager.inst().setPushListener(new MyPushListener());
     }
 
     @Override
@@ -57,32 +57,32 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void startLive(String rtmpUrl) {
-        PushManager.getInst().startLive(rtmpUrl);
+        PushManager.inst().startPush(rtmpUrl);
         getView().startLiveState();
     }
 
     @Override
     public void stopLive() {
-        PushManager.getInst().stopLive();
+        PushManager.inst().stopPush();
         getView().stopLiveState();
     }
 
     @Override
     public void switchCamera() {
         mUseFrontCamera = !mUseFrontCamera;
-        PushManager.getInst().switchCamera();
+        PushManager.inst().switchCamera();
     }
 
     @Override
     public void mute() {
         getView().setSilenceIvSelected(mMute);
         mMute = !mMute;
-        PushManager.getInst().mute(mMute);
+        PushManager.inst().mute(mMute);
     }
 
     @Override
     public void onDestroy() {
-        PushManager.getInst().finishLive();
+        PushManager.inst().finishPush();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
         @Override
         public void onPushFail() {
-            PushManager.getInst().stopLive();
+            PushManager.inst().stopPush();
             getView().liveFailState();
         }
 

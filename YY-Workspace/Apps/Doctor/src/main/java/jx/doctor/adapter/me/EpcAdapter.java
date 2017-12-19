@@ -3,7 +3,7 @@ package jx.doctor.adapter.me;
 import android.view.View;
 
 import lib.ys.adapter.AdapterEx;
-import lib.ys.network.image.renderer.CornerRenderer;
+import lib.ys.network.image.shape.CornerRenderer;
 import jx.doctor.R;
 import jx.doctor.adapter.VH.me.EpcVH;
 import jx.doctor.model.me.Epc;

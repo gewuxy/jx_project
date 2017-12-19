@@ -90,10 +90,10 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
 
-        mStartTime = System.currentTimeMillis();
-        mServerTime = System.currentTimeMillis() + 60 * 1000;
-        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
-        mPushUrl = "rtmp://17932.livepush.myqcloud.com/live/17932_14520?txTime=5A3542FF&bizid=17932&txSecret=177fff775234140e7b5d2d7f32e4ada1";
+//        mStartTime = System.currentTimeMillis();
+//        mServerTime = System.currentTimeMillis() + 60 * 1000;
+//        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
+//        mPushUrl = "rtmp://17932.livepush.myqcloud.com/live/17932_14520?txTime=5A3542FF&bizid=17932&txSecret=177fff775234140e7b5d2d7f32e4ada1";
 
         mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
         mConnectionReceiver = new ConnectionReceiver(this);

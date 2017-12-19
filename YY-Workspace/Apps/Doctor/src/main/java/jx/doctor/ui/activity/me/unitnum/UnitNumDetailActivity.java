@@ -42,7 +42,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.interceptor.BlurInterceptor;
-import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.shape.CircleRenderer;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;

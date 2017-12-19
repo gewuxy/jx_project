@@ -38,7 +38,7 @@ public class PushManager {
     private TXLivePusher mLivePusher;
     private TXLivePushConfig mLivePushConfig;
 
-    public synchronized static PushManager getInst() {
+    public synchronized static PushManager inst() {
         if (mInst == null) {
             mInst = new PushManager();
         }
@@ -60,20 +60,19 @@ public class PushManager {
         mLivePusher.startCameraPreview(liveView);
     }
 
-    public void startLive(String rtmpUrl) {
+    public void startPush(String pushUrl) {
         if (!mLivePusher.isPushing()) {
-            mLivePusher.startPusher(rtmpUrl);
+            mLivePusher.startPusher(pushUrl);
         }
     }
 
-    public void stopLive() {
+    public void stopPush() {
         if (mLivePusher.isPushing()) {
             mLivePusher.stopPusher();
         }
     }
 
-    public void setPushListener(LiveListener
-                                        l) {
+    public void setPushListener(LiveListener l) {
         mLivePusher.setPushListener(new ITXLivePushListener() {
 
             @Override
@@ -116,8 +115,7 @@ public class PushManager {
         mLivePusher.setMute(b);
     }
 
-    public void finishLive() {
+    public void finishPush() {
         mLivePusher.stopCameraPreview(true);
     }
-
 }

@@ -3,7 +3,7 @@ package jx.doctor.adapter.me;
 import android.view.View;
 
 import lib.ys.adapter.GroupAdapterEx;
-import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.shape.CircleRenderer;
 import jx.doctor.R;
 import jx.doctor.adapter.VH.me.UnitNumVH;
 import jx.doctor.model.unitnum.GroupUnitNum;

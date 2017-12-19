@@ -1,6 +1,5 @@
 package jx.doctor.ui.frag;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -9,7 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.renderer.CircleRenderer;
+import lib.ys.network.image.shape.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.frag.base.BaseFormFrag;

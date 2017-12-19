@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.me.epc;
 
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +17,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.form.OnFormObserver;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.renderer.CornerRenderer;
+import lib.ys.network.image.shape.CornerRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseFormActivity;
