@@ -534,6 +534,9 @@ public class NetPlayer implements
     @Override
     public void onNetworkSuccess(int id, IResult result) {
         YSLog.d(TAG, "onNetworkSuccess:" + id);
+        if (mPaths == null) {
+            return;
+        }
         String path = mPaths.getByKey(id);
         File fileTemp = new File(path.concat(KTemp));
         fileTemp.renameTo(new File(path));
@@ -550,6 +553,9 @@ public class NetPlayer implements
     public void onNetworkError(int id, NetworkError error) {
         YSLog.d(TAG, "onNetworkError:remove=" + id);
         // 删除 文件 和 内存记录
+        if (mPaths == null) {
+            return;
+        }
         String pathLocal = mPaths.getByKey(id);
         File file = new File(pathLocal);
         if (file.exists()) {
