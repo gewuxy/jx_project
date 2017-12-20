@@ -473,9 +473,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 @Override
                 public void onGlobalLayout() {
                     Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
-                    int page = record.getInt(TRecord.playPage);
-                    if (page != 0) {
-                        setCurrPosition(page, false);
+                    if (record != null) {
+                        int page = record.getInt(TRecord.playPage);
+                        if (page != 0) {
+                            setCurrPosition(page, false);
+                        }
                     }
                     removeOnGlobalLayoutListener(this);
                 }

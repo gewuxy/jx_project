@@ -209,6 +209,8 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         }
                         break;
                     }
+                } else {
+                    showToast(r.getError().getMessage());
                 }
             }
             break;
@@ -242,6 +244,8 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     } else {
                         showToast(R.string.live_have_end);
                     }
+                } else {
+                    showToast(r.getError().getMessage());
                 }
             }
             break;
@@ -317,5 +321,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     private void showToast(@StringRes int... ids) {
         App.showToast(ids);
+    }
+
+    private void showToast(String str) {
+        App.showToast(str);
     }
 }
