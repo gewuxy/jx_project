@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import jx.csp.R;
@@ -12,9 +14,15 @@ import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.main.MeetInfo;
+import jx.csp.model.main.MeetInfo.TMeetInfo;
+import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
+import lib.jx.network.Result;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
+import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
@@ -62,6 +70,21 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     @Override
     public void getDataFromNet() {
         exeNetworkReq(MeetingAPI.meetingList(getOffset(), getLimit()).build());
+    }
+
+    @Override
+    public IResult parseNetworkResponse(int id, String text) throws JSONException {
+        Result<MeetInfo> info = JsonParser.ev(text, MeetInfo.class);
+        MeetInfo meetInfo = info.getData();
+        int num = meetInfo.getInt(TMeetInfo.hideCount);
+        runOnUIThread(() -> notify(NotifyType.meet_num, num));
+        Result<Meet> r = new Result<>();
+        r.setCode(info.getCode());
+        if (meetInfo != null) {
+            List<Meet> list = meetInfo.getList(TMeetInfo.list);
+            r.setData(list);
+        }
+        return r;
     }
 
     @Override

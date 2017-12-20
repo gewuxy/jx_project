@@ -363,6 +363,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
             }
             break;
+            case NotifyType.meet_num: {
+                int num = (int) data;
+                if (num > 0) {
+                    mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+                    showView(mLayoutPast);
+                } else {
+                    goneView(mLayoutPast);
+                }
+            }
+            break;
         }
     }
 
