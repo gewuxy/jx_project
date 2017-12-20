@@ -102,7 +102,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
                 });
                 // 判断是否需要显示结束直播按钮
-                if (item.getInt(TMeet.liveState) == LiveState.live) {
+                if (item.getInt(TMeet.liveState) == LiveState.live || item.getInt(TMeet.liveState) == LiveState.stop) {
                     d.addButton(R.string.record_live_stop, R.color.text_e43939, v ->
                             {
                                 CommonDialog2 dialog = new CommonDialog2(mContext);

@@ -18,13 +18,13 @@ public class Live extends EVal<TLive> {
     @IntDef({
             LiveState.un_start,
             LiveState.live,
-            LiveState.end
+            LiveState.stop
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface LiveState {
         int un_start = 0; // 未开始
         int live = 1; // 正在直播中
-        int end = 2; // 已结束
+        int stop = 2; // 已暂停
     }
 
     public enum TLive {

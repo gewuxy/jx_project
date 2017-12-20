@@ -76,11 +76,11 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     public IResult parseNetworkResponse(int id, String text) throws JSONException {
         Result<MeetInfo> info = JsonParser.ev(text, MeetInfo.class);
         MeetInfo meetInfo = info.getData();
-        int num = meetInfo.getInt(TMeetInfo.hideCount);
-        runOnUIThread(() -> notify(NotifyType.meet_num, num));
         Result<Meet> r = new Result<>();
         r.setCode(info.getCode());
         if (meetInfo != null) {
+            int num = meetInfo.getInt(TMeetInfo.hideCount);
+            runOnUIThread(() -> notify(NotifyType.meet_num, num));
             List<Meet> list = meetInfo.getList(TMeetInfo.list);
             r.setData(list);
         }
