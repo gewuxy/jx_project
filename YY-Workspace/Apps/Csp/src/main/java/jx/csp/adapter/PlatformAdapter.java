@@ -8,7 +8,7 @@ import jx.csp.adapter.VH.PlatformVH;
 import jx.csp.model.Platform;
 import jx.csp.model.Platform.TPlatformDetail;
 import lib.ys.adapter.AdapterEx;
-import lib.ys.network.image.shape.CircleRenderer;
+import lib.ys.network.image.renderer.CircleRenderer;
 
 /**
  * @auther Huoxuyu

@@ -19,7 +19,7 @@ import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.shape.CircleRenderer;
+import lib.ys.network.image.renderer.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
