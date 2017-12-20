@@ -106,6 +106,11 @@ public class AdActivity extends BaseActivity {
     }
 
     @Override
+    protected void startInAnim() {
+        // 取消转场动画
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
