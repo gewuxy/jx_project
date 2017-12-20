@@ -20,6 +20,7 @@ import jx.csp.presenter.VipManagePresenterImpl;
 import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
@@ -83,9 +84,18 @@ public class VipManageActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+        refresh(RefreshWay.embed);
         mPresenter.checkPackage();
     }
 
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            mPresenter.checkPackage();
+        }
+        return true;
+    }
 
     private class VipManageViewImpl implements VipManageContract.V {
 
@@ -126,7 +136,7 @@ public class VipManageActivity extends BaseActivity {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
                     if (LangType.en == SpApp.inst().getLangType()) {
                         mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    }else {
+                    } else {
                         mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
@@ -151,8 +161,8 @@ public class VipManageActivity extends BaseActivity {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
                     if (LangType.en == SpApp.inst().getLangType()) {
                         mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    }else {
-                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) +  getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
+                    } else {
+                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
                     //设置已使用会议数量
@@ -175,12 +185,11 @@ public class VipManageActivity extends BaseActivity {
 
         @Override
         public void onStopRefresh() {
-
         }
 
         @Override
         public void setViewState(int state) {
-
+            VipManageActivity.this.setViewState(state);
         }
     }
 }

@@ -7,8 +7,10 @@ import jx.csp.model.VipPackage.TPackage;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.VipAPI;
 import lib.jx.contract.BasePresenterImpl;
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**
  * @auther Huoxuyu
@@ -34,6 +36,7 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
+            getView().setViewState(ViewState.normal);
             VipPackage vipPackage = (VipPackage) r.getData();
             int packageId = vipPackage.getInt(TPackage.id);
             long packageStart = vipPackage.getLong(TPackage.packageStart);
@@ -43,5 +46,12 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
         } else {
             onNetworkError(id, r.getError());
         }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        super.onNetworkError(id, error);
+
+        getView().setViewState(ViewState.error);
     }
 }
