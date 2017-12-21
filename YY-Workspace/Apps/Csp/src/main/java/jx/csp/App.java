@@ -1,6 +1,7 @@
 package jx.csp;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -102,6 +103,15 @@ public class App extends BaseApp {
                 .initOffset(PageConstants.KPage)
                 .limit(PageConstants.KPageSize)
                 .build();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        LangType langType = getLangType();
+        // 保存系统语言
+        SpApp.inst().saveSystemLang(langType);
     }
 
     @Override

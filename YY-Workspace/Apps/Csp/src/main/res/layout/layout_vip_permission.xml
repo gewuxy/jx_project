@@ -15,15 +15,15 @@
         <ImageView
             android:id="@+id/iv_vip_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/vip_ic_record"/>
+            android:src="@drawable/vip_ic_live"/>
 
         <TextView
             android:id="@+id/tv_vip_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_height="32dp"
+            android:gravity="center"
             android:text="wechat"
             android:textColor="@color/text_7a8b9f"
             android:textSize="12dp"/>

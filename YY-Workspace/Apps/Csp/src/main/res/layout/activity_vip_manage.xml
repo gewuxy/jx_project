@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/divider"
-                android:text="1"
+                android:text="0"
                 android:textColor="@color/text_167afe"
                 android:textSize="@dimen/margin"/>
 
@@ -147,6 +147,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginTop="18dp"
             android:text="@string/vip_manage_permission"
@@ -154,10 +155,5 @@
             android:textSize="@dimen/margin"/>
     </LinearLayout>
 
-    <lib.ys.view.recycler.WrapRecyclerView
-        android:id="@+id/vip_rv_permission"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="32dp"
-        android:overScrollMode="never"/>
+    <include layout="@layout/layout_scrollable_recycler"/>
 </LinearLayout>
