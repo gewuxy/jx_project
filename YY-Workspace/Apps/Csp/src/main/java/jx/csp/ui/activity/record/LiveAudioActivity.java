@@ -104,7 +104,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             return;
         }
         if (id == R.id.record_iv_state) {
-            String filePath = CacheUtil.getAudioPath(mCourseId, getCurrPosition());
+            String filePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
             // 判断直播时间是否已经到了
             if (mBeginCountDown) {
                 Fragment f = getItem(getCurrPosition());
@@ -195,7 +195,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             // 如果下一页是视频则不要录音，但页面状态是显示在直播状态，视频页滑到其他页不要上传音频
             Fragment f2 = getItem(position);
             if (f2 instanceof RecordImgFrag) {
-                String filePath = CacheUtil.getAudioPath(mCourseId, position);
+                String filePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
                 mLiveRecordPresenterImpl.startLiveRecord(filePath);
             } else {
                 mView.startRecordState();

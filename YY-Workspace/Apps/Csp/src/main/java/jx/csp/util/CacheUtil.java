@@ -49,8 +49,8 @@ public class CacheUtil extends CacheUtilEx {
         return mVideoCacheDir;
     }
 
-    public static String getAudioPath(String courseId, int page) {
-        return mAudioCacheDir + courseId + File.separator + (page + 1) + FileSuffix.amr;
+    public static String getAudioPath(String courseId, int pageId) {
+        return mAudioCacheDir + courseId + File.separator + pageId + FileSuffix.amr;
     }
 
     public static String getVideoLoginFileName(int version) {

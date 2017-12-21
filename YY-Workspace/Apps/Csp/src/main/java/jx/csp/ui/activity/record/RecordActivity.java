@@ -129,7 +129,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                         ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
                     }
                 }
-                String filePath = CacheUtil.getAudioPath(mCourseId, getCurrPosition());
+                String filePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
                 // 判断这页是否已经录制过 有可能是mp3文件
                 File f = new File(filePath);
                 String mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
@@ -422,9 +422,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 FileUtil.delFile(new File(mp3FilePath));
             }
         });
-        dialog.addBlueButton(R.string.cancel, v -> {
-            changeRecordState(false);
-        });
+        dialog.addBlueButton(R.string.cancel, v -> changeRecordState(false));
         dialog.show();
     }
 
@@ -450,7 +448,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                     RecordImgFrag frag = RecordImgFragRouter
                             .create(courseDetail.getString(TCourseDetail.imgUrl))
-                            .audioFilePath(CacheUtil.getAudioPath(mCourseId, i))
+                            .audioFilePath(CacheUtil.getAudioPath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                             .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
                             .route();
                     frag.setPlayerListener(mRecordPresenter);
@@ -475,7 +473,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
                     if (record != null) {
                         int page = record.getInt(TRecord.playPage);
-                        if (page != 0) {
+                        if (page > 0) {
                             setCurrPosition(page, false);
                         }
                     }

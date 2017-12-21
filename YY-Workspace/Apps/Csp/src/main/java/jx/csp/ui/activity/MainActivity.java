@@ -1,16 +1,11 @@
 package jx.csp.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
 import jx.csp.R;
@@ -64,7 +59,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KCameraPermissionCode = 10;
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
-    private final int KGoneMsgWhat = 1;
+//    private final int KGoneMsgWhat = 1;
 
     private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
@@ -76,18 +71,18 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private View mLayoutPast;
     private TextView mTvPast;
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == KGoneMsgWhat) {
-                YSLog.d(TAG, "接收到隐藏分享会议回放");
-                ((IMeetOpt) getItem(KPageGrid)).goneSharePlayback(String.valueOf(msg.arg1));
-                ((IMeetOpt) getItem(KPageVp)).goneSharePlayback(String.valueOf(msg.arg1));
-            }
-        }
-    };
+//    @SuppressLint("HandlerLeak")
+//    private Handler mHandler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == KGoneMsgWhat) {
+//                YSLog.d(TAG, "接收到隐藏分享会议回放");
+//                ((IMeetOpt) getItem(KPageGrid)).goneSharePlayback(String.valueOf(msg.arg1));
+//                ((IMeetOpt) getItem(KPageVp)).goneSharePlayback(String.valueOf(msg.arg1));
+//            }
+//        }
+//    };
 
     @Override
     public void initData() {
@@ -351,16 +346,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.over_live: {
-                String id = (String) data;
                 showToast(R.string.live_have_end);
                 // 显示分享会议回放提示
-                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
-                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
-                // 5秒后隐藏分享会议回放提示
-                Message msg = new Message();
-                msg.what = KGoneMsgWhat;
-                msg.arg1 = Integer.valueOf(id).intValue();
-                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
+//                String id = (String) data;
+//                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
+//                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
+//                // 5秒后隐藏分享会议回放提示
+//                Message msg = new Message();
+//                msg.what = KGoneMsgWhat;
+//                msg.arg1 = Integer.valueOf(id).intValue();
+//                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
             }
             break;
             case NotifyType.meet_num: {
