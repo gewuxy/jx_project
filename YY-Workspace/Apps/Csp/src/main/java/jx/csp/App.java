@@ -9,11 +9,14 @@ import android.support.multidex.MultiDex;
 import java.util.Locale;
 
 import jx.csp.constant.AppType;
+import jx.csp.constant.Constants;
 import jx.csp.constant.Constants.PageConstants;
 import jx.csp.constant.LangType;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
+import jx.csp.serv.DownloadServ.DownReqType;
+import jx.csp.serv.DownloadServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
@@ -131,6 +134,8 @@ public class App extends BaseApp {
             appType = AppType.overseas;
         }
         SpApp.inst().setAppType(appType);
+        DownloadServRouter.create(DownReqType.login_video, Constants.KVideoUrl, CacheUtil.getVideoLoginFileName())
+                .route(this);
     }
 
     @NonNull

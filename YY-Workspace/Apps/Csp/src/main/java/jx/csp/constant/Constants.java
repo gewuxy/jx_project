@@ -8,6 +8,8 @@ import lib.jx.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
+    String KVideoUrl = "http://139.199.170.178/cspvideo/login_background_video.mp4";
+
     interface PageConstants {
         int KPage = 1;  // 起始页页数
         int KPageSize = 20;  //分页加载时 每页加载的条目数

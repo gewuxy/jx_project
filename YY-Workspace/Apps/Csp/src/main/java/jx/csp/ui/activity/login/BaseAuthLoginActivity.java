@@ -14,14 +14,9 @@ import java.io.File;
 import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
-import jx.csp.model.login.LoginVideo;
-import jx.csp.model.login.LoginVideo.TLoginVideo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
-import jx.csp.serv.DownloadServ.DownReqType;
-import jx.csp.serv.DownloadServRouter;
-import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.CacheUtil;
 import lib.jx.notify.Notifier.NotifyType;
@@ -30,7 +25,6 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
-import lib.ys.YSLog;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
@@ -42,20 +36,12 @@ import lib.ys.util.UIUtil;
 
 abstract public class BaseAuthLoginActivity extends BaseActivity {
 
-    private final int KInitVersion = 0; // 首次访问此接口，version = 0
-    private final int KLoginVideo = 1;
-
     private PLVideoTextureView mVideo;
     private View mLayoutBg;
 
-    private String mUrl;
-    private String mFilePath;
-    private String mFileName;
-
     @Override
     public void initData() {
-        mFileName = CacheUtil.getVideoLoginFileName(SpApp.inst().getLoginVideoVersion());
-        mFilePath = CacheUtil.getVideoCacheDir() + mFileName;
+        // do nothing
     }
 
     @Override
@@ -80,7 +66,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_protocol);
 
-        exeNetworkReq(KLoginVideo, UserAPI.loginVideo(SpApp.inst().getLoginVideoVersion()).build());
         // fixme:暂时使用铺满 https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk#6 可以改用
         /**{@link LiveView}*/
         mVideo.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
@@ -153,34 +138,8 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KLoginVideo) {
-            return JsonParser.ev(r.getText(), LoginVideo.class);
-        }
         return JsonParser.ev(r.getText(), Profile.class);
     }
-
-
-    @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        if (id == KLoginVideo) {
-            stopRefresh();
-            if (r.isSucceed()) {
-                LoginVideo data = (LoginVideo) r.getData();
-                int oldVersion = SpApp.inst().getLoginVideoVersion(); // 读取本地
-                int newVersion = data.getInt(TLoginVideo.version);
-                mUrl = data.getString(TLoginVideo.videoUrl);
-                YSLog.d(TAG, "onNetworkSuccess : newVersion = " + newVersion + " , oldVersion = " + oldVersion);
-                if (TextUtil.isNotEmpty(mUrl) && newVersion > oldVersion) {
-                    DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(newVersion))
-                            .newVersion(newVersion)
-                            .route(this);
-                }
-            } else {
-                onNetworkError(id, r.getError());
-            }
-        }
-    }
-
 
     @Override
     protected void onRestart() {
@@ -188,7 +147,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         //返回重新加载
         startPlay();
     }
-
 
     @Override
     protected void onStop() {
@@ -200,16 +158,14 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     }
 
     private void startPlay() {
-        if (TextUtil.isEmpty(mFilePath)) {
+        String filePath = CacheUtil.getVideoCacheDir() + CacheUtil.getVideoLoginFileName();
+        if (TextUtil.isEmpty(filePath)) {
             return;
         }
-        File file = new File(mFilePath);
+        File file = new File(filePath);
         if (!file.exists()) {
-            // 如果文件不存在，则还原到低版本
-            SpApp.inst().saveLoginVideoVersion(KInitVersion);
-            /*DownloadServRouter.create(DownReqType.login_video, mUrl, CacheUtil.getVideoLoginFileName(KInitVersion))
-                    .newVersion(KInitVersion)
-                    .route(this);*/
+            // 如果文件不存在
+            showView(mLayoutBg);
             return;
         }
 
@@ -217,8 +173,8 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
             return;
         }
 
-        prepared(mFilePath);
-        mVideo.setOnCompletionListener(mp -> prepared(mFilePath));
+        prepared(filePath);
+        mVideo.setOnCompletionListener(mp -> prepared(filePath));
     }
 
     private void prepared(String path) {
@@ -236,7 +192,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         if (type == NotifyType.login) {
             finish();
         } else if (type == NotifyType.login_video) {
-            mFilePath = CacheUtil.getVideoCacheDir() + data;
             startPlay();
         }
     }

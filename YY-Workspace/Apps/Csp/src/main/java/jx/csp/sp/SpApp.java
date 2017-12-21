@@ -3,7 +3,6 @@ package jx.csp.sp;
 import android.content.Context;
 
 import java.util.Observable;
-import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
 import jx.csp.constant.AppType;
@@ -19,7 +18,6 @@ import lib.ys.util.sp.SpBase;
 public class SpApp extends SpBase {
 
     private static final String KFileName = "sp_app";
-    public static final int KDefaultVersion = 0;
 
     private static SpApp mInst = null;
 
@@ -44,11 +42,9 @@ public class SpApp extends SpBase {
 
     public interface SpAppKey {
         String KUserName = "user_name";
-        String KAppUpdateTime = "app_update_time";
         String KUserEmail = "email";
         String KSystemLang = "sys_lang";
         String KAppType = "app_type";
-        String KLoginVideoVersion = "version";
         String KAdvert = "advert";
         String KGuide = "guide";
     }
@@ -92,46 +88,6 @@ public class SpApp extends SpBase {
      */
     public String getUserEmail() {
         return getString(SpAppKey.KUserEmail);
-    }
-
-    /**
-     * 保存登录视频的版本
-     *
-     * @param version
-     */
-    public void saveLoginVideoVersion(int version) {
-        save(SpAppKey.KLoginVideoVersion, version);
-    }
-
-    /**
-     * 获取版本
-     *
-     * @return
-     */
-    public int getLoginVideoVersion() {
-        return getInt(SpAppKey.KLoginVideoVersion, KDefaultVersion);
-    }
-
-    /**
-     * 是否需要检查app有没有更新, 暂定间隔为2天
-     *
-     * @return
-     */
-    public boolean needUpdateApp() {
-        long time = System.currentTimeMillis();
-        long diff = time - getLong(SpAppKey.KAppUpdateTime);
-        if (diff >= TimeUnit.DAYS.toMillis(2)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * 保存更新app刷新时间
-     */
-    public void updateAppRefreshTime() {
-        save(SpAppKey.KAppUpdateTime, System.currentTimeMillis());
     }
 
     /**

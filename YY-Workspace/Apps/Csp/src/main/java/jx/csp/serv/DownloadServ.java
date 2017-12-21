@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
-import jx.csp.sp.SpApp;
 import jx.csp.util.CacheUtil;
 import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
@@ -36,9 +35,6 @@ public class DownloadServ extends ServiceEx {
     @Arg
     String mFileName;
 
-    @Arg(opt = true)
-    int mNewVersion;
-
     @IntDef({
             DownReqType.login_video,
     })
@@ -61,7 +57,6 @@ public class DownloadServ extends ServiceEx {
     public void onNetworkSuccess(int id, IResult r) {
         switch (id) {
             case DownReqType.login_video: {
-                SpApp.inst().saveLoginVideoVersion(mNewVersion);
                 Notifier.inst().notify(NotifyType.login_video, mFileName);
             }
             break;

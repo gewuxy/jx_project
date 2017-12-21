@@ -53,7 +53,7 @@ public class CacheUtil extends CacheUtilEx {
         return mAudioCacheDir + courseId + File.separator + pageId + FileSuffix.amr;
     }
 
-    public static String getVideoLoginFileName(int version) {
-        return KVideoFileNameLogin + version + FileSuffix.mp4;
+    public static String getVideoLoginFileName() {
+        return KVideoFileNameLogin + FileSuffix.mp4;
     }
 }
