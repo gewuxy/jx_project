@@ -168,6 +168,7 @@
     <string name="over">結束</string>
     <string name="cancel_over">取消</string>
     <string name="share_meeting_playback">分享會議回放</string>
+    <string name="continue_live">繼續直播</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

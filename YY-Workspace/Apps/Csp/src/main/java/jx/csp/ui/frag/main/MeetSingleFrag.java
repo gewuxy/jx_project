@@ -98,7 +98,8 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                         mTvState.setText(R.string.recorded);
                     }
                     break;
-                    case PlayState.record: {
+                    case PlayState.record:
+                    case PlayState.stop: {
                         mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
                         mTvState.setText(R.string.on_record);
                     }
@@ -109,6 +110,11 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                         hideView(mDivider);
                     }
                     break;
+                    default:
+                        mTvState.setText(ConstantsEx.KEmpty);
+                        hideView(mTvCurrentPage);
+                        hideView(mDivider);
+                        break;
                 }
             }
             break;

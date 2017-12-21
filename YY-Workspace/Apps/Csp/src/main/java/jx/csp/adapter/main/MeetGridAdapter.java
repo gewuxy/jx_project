@@ -52,7 +52,8 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                         holder.getTvPlayState().setText(R.string.recorded);
                     }
                     break;
-                    case PlayState.record: {
+                    case PlayState.record:
+                    case PlayState.stop: {
                         holder.getTvCurrentPage().setText(item.getString(TMeet.playPage));
                         holder.getTvPlayState().setText(R.string.on_record);
                     }
@@ -63,6 +64,11 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                         goneView(holder.getVDivider());
                     }
                     break;
+                    default:
+                        holder.getTvPlayState().setText(ConstantsEx.KEmpty);
+                        goneView(holder.getTvCurrentPage());
+                        goneView(holder.getVDivider());
+                        break;
                 }
             }
             break;

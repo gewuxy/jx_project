@@ -83,7 +83,28 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             }
             break;
             case PlayType.live: {
-                exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
+                if (item.getInt(TMeet.liveState) == LiveState.live || item.getInt(TMeet.liveState) == LiveState.stop) {
+                    // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
+                    BtnVerticalDialog d = new BtnVerticalDialog(mContext);
+                    d.setBtnStyle(LinearLayout.VERTICAL);
+                    d.setTextHint(ResLoader.getString(R.string.choice_contents));
+                    d.addBlackButton(R.string.continue_live, view -> {
+                        // 先判断是否有人在直播音频
+                        exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
+                    });
+                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v ->
+                    {
+                        CommonDialog2 dialog = new CommonDialog2(mContext);
+                        dialog.setHint(R.string.over_meeting);
+                        dialog.addBlackButton(R.string.over, v1 ->
+                                CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
+                        dialog.addBlueButton(R.string.cancel_over);
+                        dialog.show();
+                    });
+                    d.show();
+                } else {
+                    exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
+                }
             }
             break;
             case PlayType.video: {

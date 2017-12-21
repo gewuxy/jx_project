@@ -168,6 +168,7 @@
     <string name="over">Confirm</string>
     <string name="cancel_over">Cancel</string>
     <string name="share_meeting_playback">Share meeting playback</string>
+    <string name="continue_live">Continue</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>

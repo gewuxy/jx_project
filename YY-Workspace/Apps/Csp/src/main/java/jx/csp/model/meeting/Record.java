@@ -18,13 +18,15 @@ public class Record extends EVal<TRecord> {
     @IntDef({
             PlayState.un_start,
             PlayState.record,
-            PlayState.end
+            PlayState.stop,
+            PlayState.end,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface PlayState {
         int un_start = 0; // 未开始
         int record = 1; // 正在录播中
-        int end = 2; // 已结束
+        int stop = 2; // 录播暂停
+        int end = 3; // 已结束
     }
 
     public enum TRecord {
