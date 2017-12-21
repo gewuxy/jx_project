@@ -45,7 +45,7 @@ android {
         release {
             keyAlias 'jx'
             keyPassword '123456'
-            storeFile file('./jx.keystore')
+            storeFile file('../../../jx.keystore')
             storePassword '123456'
         }
     }
