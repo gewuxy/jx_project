@@ -1,5 +1,8 @@
 package jx.csp.contact;
 
+import java.util.List;
+
+import jx.csp.model.VipPermission;
 import lib.jx.contract.IContract.Presenter;
 import lib.jx.contract.IContract.View;
 
@@ -15,12 +18,14 @@ public interface VipManageContract {
         /**
          * 设置会员数据
          *
-         * @param id
+         * @param packageId
          * @param packageStart
          * @param packageEnd
          * @param meetCount
          */
-        void setAdapterData(int id, long packageStart, long packageEnd, int meetCount);
+        void setPackageData(int packageId, long packageStart, long packageEnd, int meetCount);
+        
+        void setPermission(List<VipPermission> list);
     }
 
     interface P extends Presenter<V> {
