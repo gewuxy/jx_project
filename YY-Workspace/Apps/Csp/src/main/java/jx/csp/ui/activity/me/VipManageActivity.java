@@ -3,6 +3,7 @@ package jx.csp.ui.activity.me;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -83,6 +84,8 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
         super.setViews();
         refresh(RefreshWay.embed);
         mPresenter.checkPackage();
+
+        getScrollableView().setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
