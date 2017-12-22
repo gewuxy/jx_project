@@ -25,6 +25,7 @@ public class VipPackage extends EVal<TPackage>{
         usedMeetCount, //已使用会议数量
         hiddenMeetCount, // 套餐过期 隐藏的会议数,
         meetTotalCount, //会议总数
+        unlimited,      //是否无期限 0表示否 1表示是
 
         yearRmb,
         yearUsd,

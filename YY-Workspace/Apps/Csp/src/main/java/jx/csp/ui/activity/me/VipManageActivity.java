@@ -119,31 +119,36 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
-        public void setPackageData(int packageId, long packageStart, long packageEnd, int packageMeetTotalCount) {
-            if (LangType.en == SpApp.inst().getLangType()) {
+        public void setPackageData(int id, int unlimited, long startTime, long endTime, int meetTotalCount) {
+            if (LangType.en == SpApp.inst().getLangType() && mLayoutSpell != null) {
                 goneView(mLayoutSpell);
             }
 
             //设置会议总数
-            mTvMeetCount.setText(String.valueOf(packageMeetTotalCount));
-            switch (packageId) {
+            mTvMeetCount.setText(String.valueOf(meetTotalCount));
+            //设置有效期
+            if (unlimited == VipType.unlimited) {
+                if (LangType.en == SpApp.inst().getLangType()) {
+                    mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(startTime, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(endTime, TimeFormat.simple_ymd));
+                } else {
+                    mTvValidity.setText(TimeFormatter.milli(startTime, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(endTime, TimeFormat.simple_ymd));
+                }
+            }else {
+                mTvValidity.setText(R.string.vip_manage_time);
+            }
+            switch (id) {
                 case VipType.norm: {
                     //获取会议大于上限值,显示红色字体
-                    if (packageMeetTotalCount > 3) {
+                    if (meetTotalCount > 3) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
                 }
                 break;
                 case VipType.advanced: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
-                    if (LangType.en == SpApp.inst().getLangType()) {
-                        mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    } else {
-                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    }
 
                     //获取会议大于上限值,显示红色字体
-                    if (packageMeetTotalCount > 10) {
+                    if (meetTotalCount > 10) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
                     //设置会议上限值
@@ -153,11 +158,6 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                 break;
                 case VipType.profession: {
                     mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
-                    if (LangType.en == SpApp.inst().getLangType()) {
-                        mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    } else {
-                        mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
-                    }
 
                     //设置会议上限值
                     mTvLimit.setText(KMeetingInfinite);

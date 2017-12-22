@@ -18,12 +18,13 @@ public interface VipManageContract {
         /**
          * 设置会员数据
          *
-         * @param packageId
-         * @param packageStart
-         * @param packageEnd
-         * @param meetCount
+         * @param id 套餐id
+         * @param unlimited 是否无期限 0表示否 1表示是
+         * @param startTime  套餐开始时间
+         * @param endTime    套餐结束时间
+         * @param meetTotalCount 会议总数
          */
-        void setPackageData(int packageId, long packageStart, long packageEnd, int meetCount);
+        void setPackageData(int id, int unlimited, long startTime, long endTime, int meetTotalCount);
         
         void setPermission(List<VipPermission> list);
     }
