@@ -8,7 +8,11 @@
     android:orientation="vertical">
 
     <LinearLayout
-        style="@style/v.share">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/dialog_share_iv_wechat"
@@ -18,8 +22,13 @@
 
         <TextView
             android:id="@+id/dialog_share_tv_wechat"
-            style="@style/tv.share"
-            android:text="@string/wechat"/>
+            android:layout_width="59dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:gravity="center"
+            android:text="@string/wechat"
+            android:textColor="@color/text_333"
+            android:textSize="12dp"/>
 
     </LinearLayout>
 

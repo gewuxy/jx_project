@@ -9,10 +9,10 @@
     android:gravity="center">
 
     <TextView
-        style="@style/tv.login.foot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/have_agree_to"
+        android:textColor="@color/text_333"
         android:textSize="10dp"/>
 
     <TextView

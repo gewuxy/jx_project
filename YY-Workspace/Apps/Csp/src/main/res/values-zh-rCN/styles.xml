@@ -1,43 +1,4 @@
 <resources>
-    <!--登录-->
-    <style name="tv.third"/>
-
-    <style name="tv.third.login">
-        <item name="android:layout_width">280dp</item>
-        <item name="android:layout_height">44dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_7a8b9f</item>
-        <item name="android:textSize">16dp</item>
-
-    </style>
-
-    <style name="iv.login">
-        <item name="android:id">@id/form_iv</item>
-        <item name="android:layout_marginLeft">@dimen/margin</item>
-    </style>
-
-    <style name="tv.login"/>
-
-    <style name="tv.login.bottom">
-        <item name="android:gravity">center</item>
-        <item name="android:padding">5dp</item>
-        <item name="android:textColor">#FF888888</item>
-        <item name="android:textSize">13dp</item>
-    </style>
-
-    <style name="tv.agree"/>
-
-    <style name="tv.agree.protocol">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:text">@string/have_agree_to</item>
-        <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">10dp</item>
-    </style>
-
-    <style name="tv.login.foot">
-        <item name="android:textColor">@color/text_333</item>
-    </style>
 
     <style name="v.login"/>
 
@@ -51,7 +12,6 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/login_btn_selector_type_common</item>
-
     </style>
 
     <!-- 普通输入框样式 -->
@@ -79,32 +39,22 @@
         <item name="android:layout_marginRight">@dimen/form_margin_right</item>
     </style>
 
-    <style name="iv.flow">
-        <item name="android:layout_width">69dp</item>
-        <item name="android:height">40dp</item>
-        <item name="android:paddingBottom">9dp</item>
-        <item name="android:paddingTop">9dp</item>
-        <!--<item name="app:layout_columnWeight">1</item>--> <!--不支持-->
-    </style>
+    <style name="tv.login"/>
 
-    <style name="v.dialog">
-        <item name="android:layout_height">46dp</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
-    <!--分享-->
-    <style name="v.share">
-        <item name="android:layout_weight">0</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <style name="tv.share">
-        <item name="android:width">59dp</item>
+    <style name="tv.login.bottom">
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">11dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">#FF888888</item>
+        <item name="android:textSize">13dp</item>
+    </style>
+
+    <style name="tv.agree"/>
+
+    <style name="tv.agree.protocol">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:text">@string/have_agree_to</item>
         <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">12dp</item>
+        <item name="android:textSize">10dp</item>
     </style>
 
     <style name="tv.dialog"/>
@@ -119,6 +69,7 @@
     </style>
 
     <style name="tv.live"/>
+
     <style name="tv.live.video"/>
 
     <style name="tv.live.video.online">
@@ -134,10 +85,24 @@
     </style>
 
     <style name="iv.bg"/>
+
     <style name="iv.bg.login">
         <item name="android:layout_centerInParent">true</item>
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">62dp</item>
         <item name="android:src">@drawable/login_hui_logo</item>
+    </style>
+
+    <style name="iv.common">
+        <item name="android:id">@id/form_iv</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+    </style>
+
+    <style name="iv.flow">
+        <item name="android:layout_width">69dp</item>
+        <item name="android:height">40dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <!--<item name="app:layout_columnWeight">1</item>--> <!--不支持-->
     </style>
 </resources>
