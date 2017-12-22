@@ -59,6 +59,7 @@ public class NickNameActivity extends BaseMyMessageActivity {
         ViewUtil.limitInputCount(mEt, mLimit);
 
         mNickNamePresenter.onTextChangedListener(mEt);
+        mNickNamePresenter.onTextBlankListener(mEt);
     }
 
     @Override

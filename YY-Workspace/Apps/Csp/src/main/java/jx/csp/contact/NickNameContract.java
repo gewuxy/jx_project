@@ -48,5 +48,11 @@ public interface NickNameContract {
          */
         void onTextChangedListener(@NonNull EditText et);
 
+        /**
+         * 输入空格的监听
+         *
+         * @param et
+         */
+        void onTextBlankListener(@NonNull EditText et);
     }
 }
