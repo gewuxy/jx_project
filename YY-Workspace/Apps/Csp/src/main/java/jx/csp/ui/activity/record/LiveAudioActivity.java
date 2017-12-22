@@ -513,12 +513,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
         @Override
         public void onStopRefresh() {
-
+            stopRefresh();
         }
 
         @Override
-        public void setViewState(int state) {
-
-        }
+        public void setViewState(int state) {}
     }
 }

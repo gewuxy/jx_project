@@ -5,6 +5,7 @@ import jx.csp.adapter.VH.main.MeetGridVH;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import lib.ys.ConstantsEx;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
@@ -64,11 +65,12 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                         goneView(holder.getVDivider());
                     }
                     break;
-                    default:
+                    default:{
                         holder.getTvPlayState().setText(ConstantsEx.KEmpty);
                         goneView(holder.getTvCurrentPage());
                         goneView(holder.getVDivider());
                         break;
+                    }
                 }
             }
             break;
@@ -83,13 +85,13 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 long startTime = item.getLong(TMeet.startTime);
                 long endTime = item.getLong(TMeet.endTime);
                 long serverTime = item.getLong(TMeet.serverTime);
-
+                int liveState = item.getInt(TMeet.liveState);
                 if (startTime > serverTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < serverTime && endTime > serverTime) {
+                } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));

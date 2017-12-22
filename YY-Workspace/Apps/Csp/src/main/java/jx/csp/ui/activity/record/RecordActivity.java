@@ -547,13 +547,16 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
 
         @Override
-        public void onStopRefresh() {
-
+        public void finishRecord() {
+            finish();
         }
 
         @Override
-        public void setViewState(int state) {
-
+        public void onStopRefresh() {
+            stopRefresh();
         }
+
+        @Override
+        public void setViewState(int state) {}
     }
 }

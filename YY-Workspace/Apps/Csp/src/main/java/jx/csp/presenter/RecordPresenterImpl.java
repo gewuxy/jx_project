@@ -211,6 +211,8 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
                 getView().setTotalRecordTimeTv(Util.getSpecialTimeFormat(mTotalTime, "'", "''"));
             } else {
                 onNetworkError(id, r.getError());
+                getView().onStopRefresh();
+                getView().finishRecord();
             }
         }
     }

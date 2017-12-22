@@ -35,6 +35,8 @@ public interface RecordContract {
         void setVoiceLineState(int i);
 
         void goneViceLine();
+
+        void finishRecord();
     }
 
     interface P extends IContract.Presenter<V> {

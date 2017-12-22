@@ -12,6 +12,7 @@ import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
 import lib.jx.ui.frag.base.BaseFrag;
@@ -110,11 +111,12 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                         hideView(mDivider);
                     }
                     break;
-                    default:
+                    default: {
                         mTvState.setText(ConstantsEx.KEmpty);
                         hideView(mTvCurrentPage);
                         hideView(mDivider);
                         break;
+                    }
                 }
             }
             break;
@@ -128,12 +130,13 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 } else {
                     hideView(mIvLive);
                 }
+                int liveState = mMeet.getInt(TMeet.liveState);
                 if (startTime > serverTime) {
                     mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
                     mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if (startTime < serverTime && endTime > serverTime) {
+                } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
                     mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));

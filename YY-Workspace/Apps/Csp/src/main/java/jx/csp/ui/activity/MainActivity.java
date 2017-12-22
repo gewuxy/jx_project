@@ -17,6 +17,8 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
+import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.serv.CommonServ.ReqType;
@@ -347,8 +349,17 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.over_live: {
                 showToast(R.string.live_have_end);
+                // 修改数据源
+                String id = (String) data;
+                for (Meet meet : mGridFrag.getData()) {
+                    if (meet.getString(TMeet.id).equals(id)) {
+                        meet.put(TMeet.liveState, LiveState.end);
+                        meet.put(TMeet.playState, PlayState.end);
+                        mGridFrag.invalidate();
+                        break;
+                    }
+                }
                 // 显示分享会议回放提示
-//                String id = (String) data;
 //                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
 //                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
 //                // 5秒后隐藏分享会议回放提示

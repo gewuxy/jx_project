@@ -264,6 +264,8 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                 getView().setData((JoinMeeting) r.getData());
             } else {
                 onNetworkError(id, r.getError());
+                getView().onStopRefresh();
+                getView().finishLive();
             }
         } else {
             super.onNetworkSuccess(id, r);

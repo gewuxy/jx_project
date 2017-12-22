@@ -13,6 +13,7 @@ import jx.csp.R;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import lib.jx.ui.frag.base.BaseVPFrag;
@@ -102,7 +103,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                 mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 YSLog.d("position", "position");
                 if (getItem(position) instanceof MeetSingleFrag) {
-                    // 在进行中要有提示 通过时间判断
+                    // 在进行中要有提示 通过时间和状态判断
                     mMeet = ((MeetSingleFrag) (getItem(position))).getMeet();
                     if (mMeet == null) {
                         goneView(mLayoutLiveReminder);
@@ -124,7 +125,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
                             long startTime = mMeet.getLong(TMeet.startTime);
                             long endTime = mMeet.getLong(TMeet.endTime);
                             long serverTime = mMeet.getLong(TMeet.serverTime);
-                            if (startTime < serverTime && endTime > serverTime) {
+                            int liveState = mMeet.getInt(TMeet.liveState);
+                            if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
                                 YSLog.d(TAG, "直播会议进行中");
                                 showView(mLayoutLiveReminder);
                                 if (mListener != null) {
