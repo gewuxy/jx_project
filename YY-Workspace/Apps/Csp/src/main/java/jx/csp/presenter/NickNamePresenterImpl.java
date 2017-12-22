@@ -11,15 +11,11 @@ import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 
 /**
- * fixme : 暂时设置2个监听，合并setText会循环，导致报错（不知道怎么改）
- *
  * @auther Huoxuyu
  * @since 2017/11/22
  */
 
 public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V> implements NickNameContract.P {
-
-    private TextWatcher mWatcher;
 
     public NickNamePresenterImpl(V v) {
         super(v);
@@ -42,8 +38,15 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
 
             @Override
             public void afterTextChanged(Editable s) {
+                et.removeTextChangedListener(this);
+                String text = s.toString();
+                text = text.replaceAll(" ", "");
+
+                getView().forbidInputBlank(text);
                 getView().buttonStatus();
-                getView().setClearButton(String.valueOf(s));
+                getView().setClearButton(text);
+
+                et.addTextChangedListener(this);
             }
         });
 
@@ -51,31 +54,5 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
             // iv是否显示
             getView().setClearButton(Util.getEtString(et));
         });
-    }
-
-    @Override
-    public void onTextBlankListener(@NonNull EditText et) {
-        mWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = s.toString();
-                text = text.replaceAll(" ", "");
-
-                et.removeTextChangedListener(mWatcher);
-                getView().forbidInputBlank(text);
-                et.addTextChangedListener(mWatcher);
-            }
-        };
-        et.addTextChangedListener(mWatcher);
     }
 }
