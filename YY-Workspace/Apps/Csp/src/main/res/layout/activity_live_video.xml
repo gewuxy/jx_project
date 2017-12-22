@@ -168,7 +168,7 @@
         android:gravity="center_horizontal"
         android:lineSpacingExtra="6dp"
         android:text="@string/no_camera_permission"
-        android:textColor="@color/text_9b"
+        android:textColor="@color/text_888"
         android:textSize="12dp"
         android:visibility="gone"/>
 

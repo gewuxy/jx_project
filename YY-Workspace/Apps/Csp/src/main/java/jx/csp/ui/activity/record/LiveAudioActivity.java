@@ -493,8 +493,8 @@ public class LiveAudioActivity extends BaseRecordActivity {
         public void changeRecordIvRes() {
             mStopCountDown = true;
             mIvRecordState.setImageResource(R.drawable.record_selector_live_state_warm);
-            mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_d0011b));
-            mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_d0011b));
+            mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_e43939));
+            mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_e43939));
             if (mLiveState) {
                 mTvRecordState.setText(R.string.record_live_stop);
             }

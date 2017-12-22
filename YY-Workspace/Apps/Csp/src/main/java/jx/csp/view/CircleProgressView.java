@@ -18,7 +18,7 @@ public class CircleProgressView extends View {
 
     private static final int KLineW = 5; // 默认进度条宽度
     private static final int KDefaultBackColor = Color.parseColor("#dbdbdb"); // 默认进度条背景
-    private static final int KDefaultProgressColor = ResLoader.getColor(R.color.text_0882e7); // 默认进度条进度颜色
+    private static final int KDefaultProgressColor = ResLoader.getColor(R.color.text_167afe); // 默认进度条进度颜色
 
     // 画圆所在的距形区域
     private final RectF mRectF;

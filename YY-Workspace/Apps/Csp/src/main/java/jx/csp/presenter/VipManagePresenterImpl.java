@@ -54,8 +54,8 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
                 int packageId = vipPackage.getInt(TPackage.id);
                 long packageStart = vipPackage.getLong(TPackage.packageStart);
                 long packageEnd = vipPackage.getLong(TPackage.packageEnd);
-                int packageMeetCount = vipPackage.getInt(TPackage.usedMeetCount);
-                getView().setPackageData(packageId, packageStart, packageEnd, packageMeetCount);
+                int packageMeetTotalCount = vipPackage.getInt(TPackage.meetTotalCount);
+                getView().setPackageData(packageId, packageStart, packageEnd, packageMeetTotalCount);
 
                 List<VipPermission> ps = getAdapterData(packageId);
                 getView().setPermission(ps);

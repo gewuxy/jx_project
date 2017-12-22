@@ -12,14 +12,6 @@
         <item name="android:background">@drawable/login_btn_selector_type_common</item>
     </style>
 
-    <style name="tv.third.type">
-        <item name="android:layout_width">60dp</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:drawablePadding">9dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_838e9c</item>
-        <item name="android:textSize">14dp</item>
-    </style>
 
     <style name="iv.login">
         <item name="android:id">@id/form_iv</item>

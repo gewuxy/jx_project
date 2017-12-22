@@ -23,6 +23,8 @@ public class VipPackage extends EVal<TPackage>{
         limitMeets, //限制会议数量： 如果该参数为空且是专业版，显示为无限大即不限制会议数量
 
         usedMeetCount, //已使用会议数量
+        hiddenMeetCount, // 套餐过期 隐藏的会议数,
+        meetTotalCount, //会议总数
 
         yearRmb,
         yearUsd,
@@ -31,8 +33,6 @@ public class VipPackage extends EVal<TPackage>{
         monthUsd,
 
         expireDays, // 套餐即将过期天数
-
-        hiddenMeetCount, // 套餐过期 隐藏的会议数
         expireRemind, //套餐过期提醒
     }
 }

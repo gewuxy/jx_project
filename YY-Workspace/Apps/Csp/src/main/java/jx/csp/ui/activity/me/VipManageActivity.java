@@ -119,20 +119,19 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
-        public void setPackageData(int packageId, long packageStart, long packageEnd, int meetCount) {
+        public void setPackageData(int packageId, long packageStart, long packageEnd, int packageMeetTotalCount) {
             if (LangType.en == SpApp.inst().getLangType()) {
                 goneView(mLayoutSpell);
             }
 
-            String count = String.valueOf(meetCount);
+            //设置会议总数
+            mTvMeetCount.setText(String.valueOf(packageMeetTotalCount));
             switch (packageId) {
                 case VipType.norm: {
                     //获取会议大于上限值,显示红色字体
-                    if (meetCount > 3) {
+                    if (packageMeetTotalCount > 3) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
-                    //设置已使用会议数量
-                    mTvMeetCount.setText(count);
                 }
                 break;
                 case VipType.advanced: {
@@ -143,15 +142,13 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                         mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
-                    mTvVersion.setText(getString(R.string.vip_manage_advanced_version));
                     //获取会议大于上限值,显示红色字体
-                    if (meetCount > 10) {
+                    if (packageMeetTotalCount > 10) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
-                    //设置已使用会议数量
-                    mTvMeetCount.setText(count);
                     //设置会议上限值
                     mTvLimit.setText(KMeetingAdvancedLimit);
+                    mTvVersion.setText(getString(R.string.vip_manage_advanced_version));
                 }
                 break;
                 case VipType.profession: {
@@ -162,8 +159,6 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                         mTvValidity.setText(TimeFormatter.milli(packageStart, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(packageEnd, TimeFormat.simple_ymd));
                     }
 
-                    //设置已使用会议数量
-                    mTvMeetCount.setText(count);
                     //设置会议上限值
                     mTvLimit.setText(KMeetingInfinite);
                     mTvVersion.setText(getString(R.string.vip_manage_profession_version));

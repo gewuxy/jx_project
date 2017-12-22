@@ -58,7 +58,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="4dp"
                     android:text="00'00''"
-                    android:textColor="@color/text_7b7a80"
+                    android:textColor="@color/text_7a8b9f"
                     android:textSize="12dp"/>
 
                 <TextView

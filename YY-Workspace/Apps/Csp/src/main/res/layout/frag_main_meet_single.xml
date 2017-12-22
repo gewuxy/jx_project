@@ -67,7 +67,7 @@
                     android:ellipsize="end"
                     android:singleLine="true"
                     android:text="脑卒中的神经康复讨论"
-                    android:textColor="@color/text_343a4b"
+                    android:textColor="@color/text_333"
                     android:textSize="18dp"/>
 
                 <ImageView
@@ -104,7 +104,7 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginLeft="15dp"
                     android:text="03'26"
-                    android:textColor="@color/text_7b7a80"
+                    android:textColor="@color/text_7a8b9f"
                     android:textSize="12dp"/>
 
                 <TextView
@@ -138,7 +138,7 @@
                     android:layout_toRightOf="@id/slide_divider"
                     android:includeFontPadding="false"
                     android:text="21"
-                    android:textColor="@color/text_7b7a80"
+                    android:textColor="@color/text_7a8b9f"
                     android:textSize="12dp"/>
 
                 <TextView
