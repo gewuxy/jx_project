@@ -39,8 +39,6 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     private View mLayoutPageNum;
     private View mLayoutEmpty;
 
-    private Meet mMeet;
-
     private List<Meet> mMeets;
 
     private OnMeetVpListener mListener;
@@ -100,50 +98,7 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
             @Override
             public void onPageSelected(int position) {
-                mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
-                YSLog.d("position", "position");
-                if (getItem(position) instanceof MeetSingleFrag) {
-                    // 在进行中要有提示 通过时间和状态判断
-                    mMeet = ((MeetSingleFrag) (getItem(position))).getMeet();
-                    if (mMeet == null) {
-                        goneView(mLayoutLiveReminder);
-                        if (mListener != null) {
-                            mListener.replace(false);
-                        }
-                        return;
-                    }
-                    switch (mMeet.getInt(TMeet.playType)) {
-                        case PlayType.reb: {
-                            goneView(mLayoutLiveReminder);
-                            if (mListener != null) {
-                                mListener.replace(false);
-                            }
-                        }
-                        break;
-                        case PlayType.live:
-                        case PlayType.video: {
-                            long startTime = mMeet.getLong(TMeet.startTime);
-                            long endTime = mMeet.getLong(TMeet.endTime);
-                            long serverTime = mMeet.getLong(TMeet.serverTime);
-                            int liveState = mMeet.getInt(TMeet.liveState);
-                            if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
-                                YSLog.d(TAG, "直播会议进行中");
-                                showView(mLayoutLiveReminder);
-                                if (mListener != null) {
-                                    mListener.replace(true);
-                                }
-                                mTvReminder.setText(R.string.living);
-                            } else {
-                                YSLog.d(TAG, "直播会议不在进行中");
-                                goneView(mLayoutLiveReminder);
-                                if (mListener != null) {
-                                    mListener.replace(false);
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
+                pageSelected(position);
             }
 
             @Override
@@ -154,19 +109,90 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
         nativeInvalidate();
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
             @Override
             public void onGlobalLayout() {
                 ScaleTransformer t = new ScaleTransformer(KVpScale, Util.calcVpOffset(getViewPager().getPaddingLeft(), getViewPager().getWidth()));
                 setPageTransformer(false, t);
-
                 removeOnGlobalLayoutListener(this);
             }
+
         });
+    }
+
+    public void pageSelected(int position) {
+        mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
+        YSLog.d("position", "position");
+        if (mMeets == null || mMeets.isEmpty()) {
+            return;
+        }
+        // 在进行中要有提示 通过时间和状态判断
+        Meet meet = mMeets.get(position);
+        if (meet == null) {
+            goneView(mLayoutLiveReminder);
+            if (mListener != null) {
+                mListener.replace(false);
+            }
+            return;
+        }
+        switch (meet.getInt(TMeet.playType)) {
+            case PlayType.reb: {
+                goneView(mLayoutLiveReminder);
+                if (mListener != null) {
+                    mListener.replace(false);
+                }
+            }
+            break;
+            case PlayType.live:
+            case PlayType.video: {
+                if (reminder(position)) {
+                    YSLog.d(TAG, "直播会议进行中");
+                    showView(mLayoutLiveReminder);
+                    if (mListener != null) {
+                        mListener.replace(true);
+                    }
+                    mTvReminder.setText(R.string.living);
+                } else {
+                    YSLog.d(TAG, "直播会议不在进行中");
+                    goneView(mLayoutLiveReminder);
+                    if (mListener != null) {
+                        mListener.replace(false);
+                    }
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    protected MeetSingleFrag getItem(int position) {
+        return (MeetSingleFrag) super.getItem(position);
+    }
+
+    /**
+     * 直播是否在进行中
+     *
+     * @param position
+     * @return true 进行中
+     */
+    public boolean reminder(int position) {
+        if (position > getCount() || position < 0) {
+            return false;
+        }
+        Meet mMeet = mMeets.get(position);
+        if (mMeet == null) {
+            return false;
+        }
+        long startTime = mMeet.getLong(TMeet.startTime);
+        long endTime = mMeet.getLong(TMeet.endTime);
+        long serverTime = mMeet.getLong(TMeet.serverTime);
+        int liveState = mMeet.getInt(TMeet.liveState);
+        return (liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime);
     }
 
     @Override
     public void onClick(View v) {
-        ((MeetSingleFrag) (getItem(getCurrPosition()))).onMeetClick();
+        getItem(getCurrPosition()).onMeetClick();
     }
 
     public void setData(List<Meet> data) {
@@ -175,7 +201,11 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
 
     @Override
     public void setPosition(int position) {
-        setCurrPosition(position, false);
+        if (position == getPosition()) {
+            pageSelected(position);
+        } else {
+            setCurrPosition(position, false);
+        }
     }
 
     @Override
@@ -227,8 +257,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     @Override
     public void showSharePlayback(String id) {
         for (int i = 0; i < getData().size(); ++i) {
-            MeetSingleFrag frag = (MeetSingleFrag) getItem(i);
-            if (frag.getMeet().getString(TMeet.id).equals(id)) {
+            MeetSingleFrag frag = getItem(i);
+            if (mMeets.get(i).getString(TMeet.id).equals(id)) {
                 frag.showSharePlayback(id);
             }
         }
@@ -237,8 +267,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
     @Override
     public void goneSharePlayback(String id) {
         for (int i = 0; i < getData().size(); ++i) {
-            MeetSingleFrag frag = (MeetSingleFrag) getItem(i);
-            if (frag.getMeet().getString(TMeet.id).equals(id)) {
+            MeetSingleFrag frag = getItem(i);
+            if (mMeets.get(i).getString(TMeet.id).equals(id)) {
                 frag.goneSharePlayback(id);
             }
         }

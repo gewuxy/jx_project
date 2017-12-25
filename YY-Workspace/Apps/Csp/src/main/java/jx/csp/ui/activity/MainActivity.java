@@ -95,14 +95,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             if (mLayoutPast == null) {
                 return;
             }
-            boolean vis = View.VISIBLE == mLayoutPast.getVisibility();
-            if (vis) {
-                // 过期了
-                if (flag) {
-                    // 进行中显示优先
-                    goneView(mLayoutPast);
-                } else {
-                    showView(mLayoutPast);
+            if (flag) {
+                // 进行中显示优先
+                goneView(mLayoutPast);
+            } else {
+                VipPackage p = Profile.inst().get(TProfile.cspPackage);
+                if (p != null) {
+                    int num = p.getInt(TPackage.hiddenMeetCount);
+                    pastHint(num);
                 }
             }
         });
@@ -156,12 +156,26 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 setCurrPosition(KPageGrid, false);
                 mGridFrag.setPosition(mVpFrag.getPosition());
                 SpUser.inst().saveMainPage(KPageGrid);
+                if (p != null) {
+                    int num = p.getInt(TPackage.hiddenMeetCount);
+                    pastHint(num);
+                }
             } else {
                 // 卡片
                 mIvShift.setSelected(true);
                 setCurrPosition(KPageVp, false);
-                mVpFrag.setPosition(mGridFrag.getPosition());
+                int position = mGridFrag.getPosition();
+                mVpFrag.setPosition(position);
                 SpUser.inst().saveMainPage(KPageVp);
+                if (mVpFrag.reminder(position)) {
+                    // 进行中显示优先
+                    goneView(mLayoutPast);
+                } else {
+                    if (p != null) {
+                        int num = p.getInt(TPackage.hiddenMeetCount);
+                        pastHint(num);
+                    }
+                }
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -222,12 +236,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
         if (p != null) {
             int num = p.getInt(TPackage.hiddenMeetCount);
-            if (num > 0) {
-                mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
-                showView(mLayoutPast);
-            } else {
-                goneView(mLayoutPast);
-            }
+            pastHint(num);
         }
         LiveNotifier.inst().add(this);
     }
@@ -253,12 +262,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             VipPackage p = Profile.inst().get(TProfile.cspPackage);
             if (p != null) {
                 int num = p.getInt(TPackage.hiddenMeetCount);
-                if (num > 0) {
-                    mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
-                    showView(mLayoutPast);
-                } else {
-                    goneView(mLayoutPast);
-                }
+                pastHint(num);
                 int day = p.getInt(TPackage.expireDays);
                 if (day > 0) {
                     mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
@@ -268,6 +272,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
             }
             notify(NotifyType.profile_change);
+        }
+    }
+
+    /**
+     * 过期提醒
+     *
+     * @param num
+     */
+    private void pastHint(int num) {
+        if (num > 0) {
+            mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
+            showView(mLayoutPast);
+        } else {
+            goneView(mLayoutPast);
         }
     }
 
@@ -372,13 +390,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.meet_num: {
-                int num = (int) data;
-                if (num > 0) {
-                    mTvPast.setText(String.format(getString(R.string.overdue_reminder), num));
-                    showView(mLayoutPast);
-                } else {
-                    goneView(mLayoutPast);
+                boolean state = getCurrPosition() == KPageVp;
+                if (state) {
+                    // 数据来源于网格的,不重复刷新状态
+                    return;
                 }
+                int num = (int) data;
+                pastHint(num);
             }
             break;
         }
