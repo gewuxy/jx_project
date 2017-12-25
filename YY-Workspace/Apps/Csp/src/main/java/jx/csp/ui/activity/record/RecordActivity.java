@@ -61,7 +61,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
     private AnimationDrawable mAnimationRecord;
     private RecordPresenterImpl mRecordPresenter;
-    private int mWsPosition = 0;  // websocket接收到的页数
+    private int mWsPosition = -1;  // websocket接收到的页数
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
 
     @IntDef({

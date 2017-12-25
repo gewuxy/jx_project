@@ -331,6 +331,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
                         m.put(TMeet.id, copy.getInt(TCopy.id));
                         m.put(TMeet.title, copy.getString(TCopy.title));
+                        m.put(TMeet.livePage, 0);
+                        m.put(TMeet.playPage, 0);
                         // 复制的会议默认放到最前面 页面跳到最前面位置
                         mGridFrag.addItem(0, m);
                         mGridFrag.setPosition(0);

@@ -86,7 +86,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 long endTime = item.getLong(TMeet.endTime);
                 long serverTime = item.getLong(TMeet.serverTime);
                 int liveState = item.getInt(TMeet.liveState);
-                if (startTime > serverTime) {
+                if (liveState == LiveState.un_start || startTime > serverTime) {
                     holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
                     holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换

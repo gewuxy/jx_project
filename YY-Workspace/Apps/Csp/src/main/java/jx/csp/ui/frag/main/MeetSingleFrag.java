@@ -131,7 +131,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                     hideView(mIvLive);
                 }
                 int liveState = mMeet.getInt(TMeet.liveState);
-                if (startTime > serverTime) {
+                if (liveState == LiveState.un_start || startTime > serverTime) {
                     mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
                     mTvState.setText(R.string.solive);
                     //直播的开始时间转换
