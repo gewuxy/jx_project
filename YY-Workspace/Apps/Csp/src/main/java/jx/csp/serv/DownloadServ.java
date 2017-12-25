@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -47,6 +48,10 @@ public class DownloadServ extends ServiceEx {
     protected void onHandleIntent(@Nullable Intent intent) {
         switch (mType) {
             case DownReqType.login_video: {
+                File f = new File(CacheUtil.getVideoCacheDir() + mFileName);
+                if (f.exists()) {
+                    return;
+                }
                 exeNetworkReq(mType, UserAPI.downLoad(CacheUtil.getVideoCacheDir(), mFileName, mUrl).build());
             }
             break;

@@ -183,10 +183,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mPresenter.allowEnter();
     }
 
-    public Meet getMeet() {
-        return mMeet;
-    }
-
     public void notAllowEnter() {
         if (mPresenter == null) {
             YSLog.d(TAG, "vp enter p = null");
