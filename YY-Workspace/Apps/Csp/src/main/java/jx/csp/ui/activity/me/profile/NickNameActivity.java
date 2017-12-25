@@ -16,7 +16,7 @@ import lib.ys.util.view.ViewUtil;
 /**
  * 昵称
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/21
  */
 @Route

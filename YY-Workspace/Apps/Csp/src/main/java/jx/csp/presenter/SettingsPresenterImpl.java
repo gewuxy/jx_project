@@ -24,7 +24,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/26
  */
 

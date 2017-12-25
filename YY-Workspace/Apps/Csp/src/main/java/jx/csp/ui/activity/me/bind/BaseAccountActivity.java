@@ -24,7 +24,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/8
  */
 

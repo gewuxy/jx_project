@@ -7,7 +7,7 @@ import lib.jx.contract.IContract.Presenter;
 import lib.jx.contract.IContract.View;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/12
  */
 

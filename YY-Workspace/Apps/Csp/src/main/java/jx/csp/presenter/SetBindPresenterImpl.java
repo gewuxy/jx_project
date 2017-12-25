@@ -13,7 +13,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.util.LaunchUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/31
  */
 

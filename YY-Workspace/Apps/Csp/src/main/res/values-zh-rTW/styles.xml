@@ -1,16 +1,4 @@
 <resources>
-    <!--登录-->
-    <style name="tv.third"/>
-
-    <style name="tv.third.login">
-        <item name="android:layout_width">280dp</item>
-        <item name="android:layout_height">44dp</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/text_7a8b9f</item>
-        <item name="android:textSize">16dp</item>
-
-    </style>
 
     <style name="iv.login">
         <item name="android:id">@id/form_iv</item>
@@ -35,9 +23,6 @@
         <item name="android:textSize">10dp</item>
     </style>
 
-    <style name="tv.login.foot">
-        <item name="android:textColor">@color/text_333</item>
-    </style>
 
     <style name="v.login"/>
 

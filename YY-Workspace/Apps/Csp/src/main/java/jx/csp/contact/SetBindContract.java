@@ -4,7 +4,7 @@ import jx.csp.ui.activity.me.bind.BaseSetActivity.RelatedId;
 import lib.jx.contract.IContract;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/31
  */
 

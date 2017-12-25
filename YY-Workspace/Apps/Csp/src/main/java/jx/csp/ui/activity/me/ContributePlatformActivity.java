@@ -19,7 +19,7 @@ import lib.ys.ui.other.NavBar;
 /**
  * 投稿平台
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/28
  */
 @Route

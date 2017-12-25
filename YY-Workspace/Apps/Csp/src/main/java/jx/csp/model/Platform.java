@@ -6,7 +6,7 @@ import lib.ys.model.EVal;
 /**
  * 投稿平台
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/28
  */
 public class Platform extends EVal<TPlatformDetail> {

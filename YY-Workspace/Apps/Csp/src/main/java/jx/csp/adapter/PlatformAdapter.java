@@ -11,7 +11,7 @@ import lib.ys.adapter.AdapterEx;
 import lib.ys.network.image.shape.CircleRenderer;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/28
  */
 

@@ -13,7 +13,7 @@ import lib.jx.contract.BasePresenterImpl;
 /**
  * fixme : 暂时设置2个监听，合并setText会循环，导致报错（不知道怎么改）
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/22
  */
 

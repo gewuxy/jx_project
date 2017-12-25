@@ -6,7 +6,7 @@ import lib.ys.model.EVal;
 /**
  * 会员管理权限
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/8
  */
 

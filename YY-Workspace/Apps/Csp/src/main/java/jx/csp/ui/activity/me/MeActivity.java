@@ -26,7 +26,7 @@ import lib.ys.util.TextUtil;
 /**
  * 个人中心
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/21
  */
 

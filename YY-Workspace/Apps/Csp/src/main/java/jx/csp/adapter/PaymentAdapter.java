@@ -9,7 +9,7 @@ import jx.csp.model.Payment.TPayment;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/13
  */
 

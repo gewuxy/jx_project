@@ -20,7 +20,7 @@ import lib.ys.util.TextUtil;
 /**
  * 绑定手机号
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/26
  */
 public class BindPhoneActivity extends BaseSetActivity {

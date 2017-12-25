@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 流量金额
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/14
  */
 

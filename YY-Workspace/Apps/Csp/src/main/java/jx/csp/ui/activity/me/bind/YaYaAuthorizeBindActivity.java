@@ -4,7 +4,7 @@ import jx.csp.R;
 import jx.csp.ui.activity.login.BaseYaYaLoginActivity;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/30
  */
 

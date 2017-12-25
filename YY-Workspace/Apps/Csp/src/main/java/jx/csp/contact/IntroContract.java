@@ -5,7 +5,7 @@ import android.widget.EditText;
 import lib.jx.contract.IContract;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/22
  */
 

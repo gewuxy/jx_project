@@ -17,7 +17,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.util.bmp.BmpUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/27
  */
 

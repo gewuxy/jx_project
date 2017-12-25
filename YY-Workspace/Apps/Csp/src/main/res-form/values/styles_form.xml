@@ -68,7 +68,7 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="iv.form"></style>
+    <style name="iv.form"/>
 
     <style name="iv.form.clean">
         <item name="android:id">@id/form_iv_clean</item>

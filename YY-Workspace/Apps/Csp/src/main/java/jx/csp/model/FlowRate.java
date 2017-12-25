@@ -6,7 +6,7 @@ import lib.ys.model.EVal;
 /**
  * 流量管理(本地字段)
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/13
  */
 

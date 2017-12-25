@@ -7,7 +7,7 @@ import jx.csp.model.VipPermission.TVip;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/8
  */
 

@@ -10,7 +10,7 @@ import lib.jx.contract.BasePresenterImpl;
 import lib.ys.util.TextUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/22
  */
 

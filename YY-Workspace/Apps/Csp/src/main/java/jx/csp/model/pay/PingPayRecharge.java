@@ -4,7 +4,7 @@ import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import lib.ys.model.EVal;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/11
  */
 

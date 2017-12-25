@@ -10,7 +10,7 @@ import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/28
  */
 

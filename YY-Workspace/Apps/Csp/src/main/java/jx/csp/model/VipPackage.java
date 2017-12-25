@@ -4,7 +4,7 @@ import jx.csp.model.VipPackage.TPackage;
 import lib.ys.model.EVal;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/11
  */
 

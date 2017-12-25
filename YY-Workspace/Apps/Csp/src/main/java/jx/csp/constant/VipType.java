@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 /**
  * 会员套餐id
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/14
  */
 

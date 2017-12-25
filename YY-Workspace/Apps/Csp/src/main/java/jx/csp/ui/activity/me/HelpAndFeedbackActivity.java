@@ -27,7 +27,7 @@ import lib.ys.util.res.ResLoader;
 /**
  * 帮助与反馈
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/16
  */
 

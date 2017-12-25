@@ -4,7 +4,7 @@ import jx.csp.model.Profile.TProfile;
 import lib.jx.contract.IContract;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/27
  */
 

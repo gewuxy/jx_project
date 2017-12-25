@@ -10,7 +10,7 @@ import lib.network.model.interfaces.IResult;
 import lib.platform.Platform.Type;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/26
  */
 

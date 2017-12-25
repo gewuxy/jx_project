@@ -27,7 +27,7 @@ import lib.ys.YSLog;
 import lib.ys.util.TextUtil;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/26
  */
 
@@ -109,13 +109,13 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
 
     @Override
     public void saveNickName(@BindId int bindId, String nickName) {
-        List<BindInfo> infos = Profile.inst().getList(TProfile.bindInfoList);
-        if (infos == null) {
-            infos = new ArrayList<>();
+        List<BindInfo> infoList = Profile.inst().getList(TProfile.bindInfoList);
+        if (infoList == null) {
+            infoList = new ArrayList<>();
         }
 
         boolean flag = true;
-        for (BindInfo info : infos) {
+        for (BindInfo info : infoList) {
             if (info.getInt(TBindInfo.thirdPartyId) == bindId) {
                 info.put(TBindInfo.nickName, nickName);
                 flag = false;
@@ -126,10 +126,10 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
             BindInfo bindInfo = new BindInfo();
             bindInfo.put(TBindInfo.thirdPartyId, bindId);
             bindInfo.put(TBindInfo.nickName, nickName);
-            infos.add(bindInfo);
+            infoList.add(bindInfo);
         }
 
-        Profile.inst().put(TProfile.bindInfoList, infos);
+        Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
 
         switch (bindId) {

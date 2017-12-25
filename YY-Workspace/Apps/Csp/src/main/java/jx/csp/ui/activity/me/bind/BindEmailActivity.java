@@ -13,7 +13,7 @@ import lib.ys.util.TextUtil;
 /**
  * 认证邮箱
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/25
  */
 

@@ -29,7 +29,7 @@ import lib.ys.util.res.ResLoader;
 /**
  * 会员管理
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/11
  */
 

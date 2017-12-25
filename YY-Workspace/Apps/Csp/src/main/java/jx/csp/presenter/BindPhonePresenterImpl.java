@@ -18,7 +18,7 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/22
  */
 

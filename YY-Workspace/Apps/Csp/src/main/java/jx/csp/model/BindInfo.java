@@ -5,7 +5,7 @@ import jx.csp.model.BindInfo.TBindInfo;
 import lib.ys.model.EVal;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/10/31
  */
 

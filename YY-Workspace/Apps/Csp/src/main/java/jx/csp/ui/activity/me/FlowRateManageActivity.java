@@ -36,7 +36,7 @@ import pay.PingPay.PingPayChannel;
 /**
  * 流量管理
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/11/7
  */
 

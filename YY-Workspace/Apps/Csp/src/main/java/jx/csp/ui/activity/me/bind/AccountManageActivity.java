@@ -10,7 +10,7 @@ import jx.csp.model.form.Form;
 /**
  * 账号管理
  *
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/9/26
  */
 public class AccountManageActivity extends BaseAccountActivity {

@@ -8,7 +8,7 @@ import lib.jx.contract.IContract;
 /**
  * 流量管理
  *
- * @auther yuansui
+ * @auther HuoXuYu
  * @since 2017/10/24
  */
 public interface FlowRateContract {

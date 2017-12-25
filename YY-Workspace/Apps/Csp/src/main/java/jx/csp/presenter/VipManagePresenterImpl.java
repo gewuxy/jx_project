@@ -22,7 +22,7 @@ import lib.ys.util.res.ResLoader;
 import static lib.ys.util.res.ResLoader.getString;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/12
  */
 

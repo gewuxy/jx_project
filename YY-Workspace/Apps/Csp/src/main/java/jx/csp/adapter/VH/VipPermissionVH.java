@@ -8,7 +8,7 @@ import jx.csp.R;
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
 
 /**
- * @auther Huoxuyu
+ * @auther HuoXuYu
  * @since 2017/12/8
  */
 

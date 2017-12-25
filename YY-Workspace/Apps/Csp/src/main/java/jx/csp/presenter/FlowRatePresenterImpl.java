@@ -24,7 +24,7 @@ import pay.PayResult;
 import pay.PayResult.TPayResult;
 
 /**
- * @auther yuansui
+ * @auther HuoXuYu
  * @since 2017/10/24
  */
 
