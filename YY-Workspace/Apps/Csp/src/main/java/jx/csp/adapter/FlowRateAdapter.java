@@ -4,9 +4,10 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.FlowRateVH;
+import jx.csp.constant.LangType;
 import jx.csp.model.FlowRate;
 import jx.csp.model.FlowRate.TFlow;
-import jx.csp.util.Util;
+import jx.csp.sp.SpApp;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 
 /**
@@ -22,7 +23,7 @@ public class FlowRateAdapter extends RecyclerAdapterEx<FlowRate, FlowRateVH> {
         holder.getTvFlow().setText(item.getString(TFlow.flow).concat("G"));
         holder.getTvPrice().setText(item.getString(TFlow.price));
         holder.getTvCurrency().setText(item.getString(TFlow.currency));
-        if (Util.checkAppCn()) {
+        if (LangType.en == SpApp.inst().getLangType()) {
             goneView(holder.getTvPriceText());
         }
         View layout = holder.getItemLayout();
