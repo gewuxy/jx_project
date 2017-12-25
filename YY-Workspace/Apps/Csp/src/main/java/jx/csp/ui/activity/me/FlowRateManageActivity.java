@@ -12,8 +12,6 @@ import java.util.List;
 import jx.csp.R;
 import jx.csp.adapter.FlowRateAdapter;
 import jx.csp.adapter.PaymentAdapter;
-import jx.csp.constant.AppType;
-import jx.csp.constant.LangType;
 import jx.csp.constant.PayType;
 import jx.csp.constant.PriceValue;
 import jx.csp.contact.FlowRateContract;
@@ -24,7 +22,6 @@ import jx.csp.model.Payment.TPayment;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.FlowRatePresenterImpl;
-import jx.csp.sp.SpApp;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ConstantsEx;
@@ -104,7 +101,7 @@ public class FlowRateManageActivity extends BaseActivity {
         setOnClickListener(R.id.flow_rate_cny_currency);
         setOnClickListener(R.id.flow_rate_usd_currency);
 
-        if (AppType.inland == SpApp.inst().getAppType()) {
+        if (Util.checkAppCn()) {
             mViewCnyCurrency.setSelected(true);
         } else {
             mViewUsdCurrency.setSelected(true);
@@ -133,7 +130,7 @@ public class FlowRateManageActivity extends BaseActivity {
         switch (v.getId()) {
             case R.id.flow_rate_cny_currency:
             case R.id.flow_rate_usd_currency: {
-                if (LangType.cn_simplified == SpApp.inst().getLangType()) {
+                if (Util.checkAppCn()) {
                     if (v.getId() == mViewCnyCurrency.getId()) {
                         return;
                     }
@@ -186,7 +183,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
     private List<Payment> getPaymentData() {
         List<Payment> list = new ArrayList<>();
-        if (LangType.cn_simplified == SpApp.inst().getLangType()) {
+        if (Util.checkAppCn()) {
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
                 list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
                 list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
@@ -206,7 +203,7 @@ public class FlowRateManageActivity extends BaseActivity {
     }
 
     private List<FlowRate> getFlowData() {
-        if (LangType.cn_simplified == SpApp.inst().getLangType()) {
+        if (Util.checkAppCn()) {
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
                 return getCnyData();
             } else {
