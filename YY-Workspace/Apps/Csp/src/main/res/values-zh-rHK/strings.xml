@@ -169,6 +169,13 @@
     <string name="cancel_over">取消</string>
     <string name="share_meeting_playback">分享會議回放</string>
     <string name="continue_live">繼續直播</string>
+    <string name="have_new_version">發現新版本V%s</string>
+    <string name="remind_later">稍後提醒</string>
+    <string name="update_now">立即升級</string>
+    <string name="download_ing">正在下載</string>
+    <string name="already_download">已下載%d</string>
+    <string name="download_fail">下載失敗</string>
+    <string name="click_install">點擊安裝</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

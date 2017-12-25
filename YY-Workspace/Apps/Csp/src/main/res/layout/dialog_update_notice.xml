@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        app:corner_radius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="218dp"
+                android:src="@drawable/dialog_ic_update_notice"/>
+
+            <TextView
+                android:id="@+id/dialog_update_notice_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center"
+                android:text="@string/have_new_version"
+                android:textSize="18dp"
+                android:textColor="@color/text_167afe"/>
+
+            <TextView
+                android:id="@+id/dialog_update_notice_tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="19dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:lineSpacingExtra="7dp"
+                android:text="1.text"
+                android:textSize="16dp"
+                android:textColor="@color/text_7a8b9f"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/divider"/>
+
+            <LinearLayout
+                android:id="@+id/dialog_update_notice_btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:orientation="horizontal"/>
+
+        </LinearLayout>
+
+    </lib.ys.view.CornerView>
+
+</LinearLayout>

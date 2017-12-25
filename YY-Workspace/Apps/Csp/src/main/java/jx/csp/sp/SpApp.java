@@ -3,6 +3,7 @@ package jx.csp.sp;
 import android.content.Context;
 
 import java.util.Observable;
+import java.util.concurrent.TimeUnit;
 
 import jx.csp.App;
 import jx.csp.constant.AppType;
@@ -47,6 +48,7 @@ public class SpApp extends SpBase {
         String KAppType = "app_type";
         String KAdvert = "advert";
         String KGuide = "guide";
+        String KAppUpdateTime = "app_update_time";
     }
 
     @Override
@@ -126,5 +128,27 @@ public class SpApp extends SpBase {
      */
     public boolean getGuideState() {
         return getBoolean(SpAppKey.KGuide, true);
+    }
+
+    /**
+     * 是否需要检查app有没有新版本, 暂定间隔为1天
+     *
+     * @return
+     */
+    public boolean needCheckAppVersion() {
+        long time = System.currentTimeMillis();
+        long diff = time - getLong(SpAppKey.KAppUpdateTime);
+        if (diff >= TimeUnit.DAYS.toMillis(1)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 保存检查app版本信息时间
+     */
+    public void saveCheckAppVersionTime() {
+        save(SpAppKey.KAppUpdateTime, System.currentTimeMillis());
     }
 }

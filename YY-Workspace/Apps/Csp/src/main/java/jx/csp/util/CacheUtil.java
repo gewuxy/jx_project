@@ -16,6 +16,7 @@ public class CacheUtil extends CacheUtilEx {
     private static final String KUploadCacheDef = KHomeDir + "upload/tmp/";
     private static final String KAudioCacheDef = KHomeDir + "audio/";
     private static final String KVideoCacheDef = KHomeDir + "video/";
+    private static final String KApkCacheDef = KHomeDir + "apk/";
 
     private static final String KVideoFileNameLogin = "login";
 
@@ -23,6 +24,7 @@ public class CacheUtil extends CacheUtilEx {
     private static String mUploadCacheDir;
     private static String mAudioCacheDir;
     private static String mVideoCacheDir;
+    private static String mApkCacheDir;
 
     static {
         init(KHomeDir);
@@ -31,6 +33,7 @@ public class CacheUtil extends CacheUtilEx {
         mUploadCacheDir = makeDir(KUploadCacheDef);
         mAudioCacheDir = makeDir(KAudioCacheDef);
         mVideoCacheDir = makeDir(KVideoCacheDef);
+        mApkCacheDir = makeDir(KApkCacheDef);
     }
 
     public static String getBmpCacheDir() {
@@ -47,6 +50,10 @@ public class CacheUtil extends CacheUtilEx {
 
     public static String getVideoCacheDir() {
         return mVideoCacheDir;
+    }
+
+    public static String getApkCacheDir() {
+        return mApkCacheDir;
     }
 
     public static String getAudioPath(String courseId, int pageId) {

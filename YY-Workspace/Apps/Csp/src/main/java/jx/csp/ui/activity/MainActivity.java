@@ -8,7 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.App;
+import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.dialog.UpdateNoticeDialog;
+import jx.csp.model.CheckAppVersion;
+import jx.csp.model.CheckAppVersion.TCheckAppVersion;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.VipPackage;
@@ -20,9 +24,12 @@ import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
+import jx.csp.serv.DownloadApkServ;
+import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
@@ -59,6 +66,8 @@ import lib.ys.util.view.LayoutUtil;
 public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     private final int KCameraPermissionCode = 10;
+    private final int KUpdateProfileReqId = 1;
+    private final int KCheckAppVersionReqId = 2;
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
 //    private final int KGoneMsgWhat = 1;
@@ -230,7 +239,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         // 静默更新用户数据
         if (SpUser.inst().needUpdateProfile()) {
             YSLog.d(TAG, "更新个人数据");
-            exeNetworkReq(UserAPI.uploadProfileInfo().build());
+            exeNetworkReq(KUpdateProfileReqId, UserAPI.uploadProfileInfo().build());
+        }
+        // 检查是否有新版本app
+        if (SpApp.inst().needCheckAppVersion()) {
+            exeNetworkReq(KCheckAppVersionReqId, CommonAPI.checkAppVersion().build());
         }
 
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
@@ -250,28 +263,61 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.ev(resp.getText(), Profile.class);
+        if (id == KUpdateProfileReqId) {
+            return JsonParser.ev(resp.getText(), Profile.class);
+        } else {
+            return JsonParser.ev(resp.getText(), CheckAppVersion.class);
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        if (r.isSucceed()) {
-            YSLog.d(TAG, "个人数据更新成功");
-            SpUser.inst().updateProfileRefreshTime();
-            Profile.inst().update((Profile) r.getData());
-            VipPackage p = Profile.inst().get(TProfile.cspPackage);
-            if (p != null) {
-                int num = p.getInt(TPackage.hiddenMeetCount);
-                pastHint(num);
-                int day = p.getInt(TPackage.expireDays);
-                if (day > 0) {
-                    mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
-                    showView(mTvExpireRemind);
-                } else {
-                    goneView(mTvExpireRemind);
+        if (id == KUpdateProfileReqId) {
+            if (r.isSucceed()) {
+                YSLog.d(TAG, "个人数据更新成功");
+                SpUser.inst().updateProfileRefreshTime();
+                Profile.inst().update((Profile) r.getData());
+                VipPackage p = Profile.inst().get(TProfile.cspPackage);
+                if (p != null) {
+                    int num = p.getInt(TPackage.hiddenMeetCount);
+                    pastHint(num);
+                    int day = p.getInt(TPackage.expireDays);
+                    if (day > 0) {
+                        mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
+                        showView(mTvExpireRemind);
+                    } else {
+                        goneView(mTvExpireRemind);
+                    }
+                }
+                notify(NotifyType.profile_change);
+            }
+        } else {
+            if (r.isSucceed()) {
+                SpApp.inst().saveCheckAppVersionTime();
+                CheckAppVersion checkAppVer = (CheckAppVersion) r.getData();
+                if (checkAppVer != null) {
+                    UpdateNoticeDialog dialog = new UpdateNoticeDialog(this);
+                    dialog.setVersion(checkAppVer.getString(TCheckAppVersion.versionStr));
+                    dialog.setContent("1.测试电饭锅\n2.测试胡站\n3.测试小胡站\n4胡站要求加中文看效果\n5.测试小胡站\n6胡站要求加中文看效果");
+                    // 判断是否需要强制更新
+                    if (checkAppVer.getBoolean(TCheckAppVersion.forced)) {
+                        dialog.setCancelable(false);
+                        dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
+                            Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
+                            intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
+                            startService(intent);
+                        });
+                    } else {
+                        dialog.addButton(R.string.remind_later, R.color.text_af, null);
+                        dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
+                            Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
+                            intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
+                            startService(intent);
+                        });
+                    }
+                    dialog.show();
                 }
             }
-            notify(NotifyType.profile_change);
         }
     }
 

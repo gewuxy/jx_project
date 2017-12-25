@@ -385,6 +385,19 @@ public class NetworkApi {
         @Get
         @Url
         void scanQrCode();
+
+        /**
+         * 检查是否有新版本app
+         */
+        @Get("version/newly")
+        void checkAppVersion();
+
+        /**
+         * 下载apk
+         */
+        @DownloadFile
+        @Url
+        void downloadApk();
     }
 
     @Api

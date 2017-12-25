@@ -180,6 +180,7 @@
         <service android:name=".serv.CommonServ"/>
         <service android:name=".serv.DownloadServ"/>
         <service android:name=".serv.WebSocketServ"/>
+        <service android:name=".serv.DownloadApkServ"/>
 
         <!-- 极光推送 -->
         <receiver
