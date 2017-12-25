@@ -192,8 +192,11 @@ public class MeActivity extends BaseFormActivity {
 
         if (TextUtil.isNotEmpty(Profile.inst().getString(TProfile.mobile))) {
             mTvUserName.setText(Profile.inst().getString(TProfile.mobile));
+            //有手机号才展示，不然隐藏，令昵称居中显示
+            showView(mTvUserName);
         } else {
             mTvUserName.setText(Profile.inst().getString(TProfile.email));
+            showView(mTvUserName);
         }
     }
 }

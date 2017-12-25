@@ -50,6 +50,7 @@
                 android:singleLine="true"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/text_888"
+                android:visibility="gone"
                 android:textSize="12dp"/>
         </LinearLayout>
 

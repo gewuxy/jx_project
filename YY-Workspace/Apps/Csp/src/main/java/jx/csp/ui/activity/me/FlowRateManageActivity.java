@@ -12,6 +12,7 @@ import java.util.List;
 import jx.csp.R;
 import jx.csp.adapter.FlowRateAdapter;
 import jx.csp.adapter.PaymentAdapter;
+import jx.csp.constant.AppType;
 import jx.csp.constant.LangType;
 import jx.csp.constant.PayType;
 import jx.csp.constant.PriceValue;
@@ -103,7 +104,7 @@ public class FlowRateManageActivity extends BaseActivity {
         setOnClickListener(R.id.flow_rate_cny_currency);
         setOnClickListener(R.id.flow_rate_usd_currency);
 
-        if (LangType.cn_simplified == SpApp.inst().getLangType()) {
+        if (AppType.inland == SpApp.inst().getAppType()) {
             mViewCnyCurrency.setSelected(true);
         } else {
             mViewUsdCurrency.setSelected(true);
