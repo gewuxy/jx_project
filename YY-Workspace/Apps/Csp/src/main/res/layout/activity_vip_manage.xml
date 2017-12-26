@@ -8,13 +8,19 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/vip_layout_background"
         android:layout_width="match_parent"
         android:layout_height="182dp"
         android:layout_marginLeft="28dp"
         android:layout_marginRight="28dp"
         android:layout_marginTop="18dp"
-        android:background="@drawable/vip_ic_norm_card">
+        android:background="@drawable/vip_ic_card">
+
+        <ImageView
+            android:id="@+id/vip_iv_background"
+            android:layout_width="78dp"
+            android:layout_height="159dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/vip_ic_norm_card"/>
 
         <TextView
             android:id="@+id/vip_tv_versions"

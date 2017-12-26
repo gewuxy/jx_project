@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -38,8 +38,8 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     private final String KMeetingAdvancedLimit = "10";
     private final String KMeetingInfinite = "∞";
 
-    private RelativeLayout mLayoutCard;   //会员卡片
     private LinearLayout mLayoutSpell;
+    private ImageView mIvCard;   //会员卡片
 
     private TextView mTvValidity;   //有效期
     private TextView mTvMeetCount;  //会议已使用数量
@@ -69,7 +69,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     @Override
     public void findViews() {
         super.findViews();
-        mLayoutCard = findView(R.id.vip_layout_background);
+        mIvCard = findView(R.id.vip_iv_background);
 
         mTvValidity = findView(R.id.vip_tv_validity);
         mTvMeetCount = findView(R.id.vip_tv_meet_num);
@@ -145,7 +145,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                 }
                 break;
                 case VipType.advanced: {
-                    mLayoutCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
+                    mIvCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
 
                     //获取会议大于上限值,显示红色字体
                     if (meetTotalCount > 10) {
@@ -157,7 +157,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                 }
                 break;
                 case VipType.profession: {
-                    mLayoutCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
+                    mIvCard.setBackgroundResource(R.drawable.vip_ic_profession_card);
 
                     //设置会议上限值
                     mTvLimit.setText(KMeetingInfinite);
