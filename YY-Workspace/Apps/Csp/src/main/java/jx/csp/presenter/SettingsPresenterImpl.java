@@ -58,14 +58,15 @@ public class SettingsPresenterImpl extends BasePresenterImpl<SettingsContract.V>
                 }
             }
 
-            if (result) {
-                Util.runOnUIThread(() -> {
+            boolean r = result;
+            Util.runOnUIThread(() -> {
+                if (r) {
                     getView().refreshItem(id);
                     App.showToast(R.string.setting_clear_succeed);
-                });
-            } else {
-                App.showToast(R.string.setting_clear_error);
-            }
+                } else {
+                    App.showToast(R.string.setting_clear_error);
+                }
+            });
         });
     }
 
