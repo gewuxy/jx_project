@@ -119,15 +119,16 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     private class VipManageViewImpl implements VipManageContract.V {
 
         @Override
-        public void setPackageData(int id, int unlimited, long startTime, long endTime, int meetTotalCount) {
+        public void setPackageData(int id, boolean unlimited, long startTime, long endTime, int meetTotalCount) {
             if (LangType.en == SpApp.inst().getLangType() && mLayoutSpell != null) {
                 goneView(mLayoutSpell);
             }
 
             //设置会议总数
             mTvMeetCount.setText(String.valueOf(meetTotalCount));
-            //设置有效期
-            if (unlimited == VipType.unlimited) {
+            boolean unLimit = false;
+            //设置有效期,false为有限期，true为无限期
+            if (unlimited == unLimit) {
                 if (LangType.en == SpApp.inst().getLangType()) {
                     mTvValidity.setText(getString(R.string.vip_manage_form) + TimeFormatter.milli(startTime, TimeFormat.simple_ymd) + getString(R.string.vip_manage_to) + TimeFormatter.milli(endTime, TimeFormat.simple_ymd));
                 } else {

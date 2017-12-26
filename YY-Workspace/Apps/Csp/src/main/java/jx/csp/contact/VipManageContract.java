@@ -24,7 +24,7 @@ public interface VipManageContract {
          * @param endTime    套餐结束时间
          * @param meetTotalCount 会议总数
          */
-        void setPackageData(int id, int unlimited, long startTime, long endTime, int meetTotalCount);
+        void setPackageData(int id, boolean unlimited, long startTime, long endTime, int meetTotalCount);
         
         void setPermission(List<VipPermission> list);
     }

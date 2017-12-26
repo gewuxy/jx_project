@@ -13,16 +13,12 @@ import java.lang.annotation.RetentionPolicy;
  */
 
 @IntDef({
-        VipType.unlimited,
-
         VipType.norm,
         VipType.advanced,
         VipType.profession
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface VipType {
-    int unlimited = 0;   //有效期：是否无期限 0表示否 1表示是
-
     int norm = 1;       //标准版
     int advanced =2;    //高级版
     int profession = 3; //专业版

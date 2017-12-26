@@ -52,7 +52,7 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
                 onNetworkError(id, r.getError());
             } else {
                 int packageId = vipPackage.getInt(TPackage.id);
-                int unlimited = vipPackage.getInt(TPackage.unlimited);
+                boolean unlimited = vipPackage.getBoolean(TPackage.unlimited);
                 long startTime = vipPackage.getLong(TPackage.packageStart);
                 long endTime = vipPackage.getLong(TPackage.packageEnd);
                 int meetTotalCount = vipPackage.getInt(TPackage.meetTotalCount);
