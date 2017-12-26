@@ -30,11 +30,10 @@ import lib.ys.util.res.ResUtil.ResDefType;
 public class DownloadApkServ extends ServiceEx {
 
     //定义notification实用的ID
-    private final int NO_3 = 3;
+    private final int NotifyId = 1;
     private final String KFileName = "YaYa医师.apk";
 
     private String mUrl;
-    private Intent mIntent;
     private Builder mBuilder;
     private NotificationManager mManager;
 
@@ -43,20 +42,13 @@ public class DownloadApkServ extends ServiceEx {
         mUrl = intent.getStringExtra(Extra.KData);
         mBuilder = new Builder(this);
 
-        //点击安装
-        mIntent = new Intent(Intent.ACTION_VIEW);
-        mIntent.setDataAndType(Uri.fromFile(new File(CacheUtil.getUploadCacheDir() + KFileName)), "application/vnd.android.package-archive");
-        //利用PendingIntent来包装我们的intent对象,使其延迟跳转
-        PendingIntent intentPend = PendingIntent.getActivity(this, 0, mIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        mBuilder.setContentIntent(intentPend);
-
         mBuilder.setSmallIcon(ResLoader.getIdentifier(PackageUtil.getMetaValue("APP_ICON"), ResDefType.mipmap));
         mBuilder.setContentTitle("YaYa医师");
         mBuilder.setContentText("正在下载");
         mBuilder.setProgress(100, 0, false);
 
         mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mManager.notify(NO_3, mBuilder.build());
+        mManager.notify(NotifyId, mBuilder.build());
 
         exeNetworkReq(DataAPI.download(CacheUtil.getUploadCacheDir(), KFileName, mUrl).build());
     }
@@ -64,19 +56,26 @@ public class DownloadApkServ extends ServiceEx {
     @Override
     public void onNetworkProgress(int id, float progress, long totalSize) {
         int percent = (int) progress;
-        mBuilder.setAutoCancel(false);
-        mBuilder.setProgress(100, percent, false);
-        mBuilder.setContentText("已下载" + percent + "%");
-        mManager.notify(NO_3, mBuilder.build());
+        if (percent % 10 == 0) {
+            mBuilder.setAutoCancel(false);
+            mBuilder.setProgress(100, percent, false);
+            mBuilder.setContentText("已下载" + percent + "%");
+            mManager.notify(NotifyId, mBuilder.build());
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
+        //点击安装
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(new File(CacheUtil.getUploadCacheDir() + KFileName)), "application/vnd.android.package-archive");
+        PendingIntent intentPend = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentIntent(intentPend);
+
         mBuilder.setContentText("点击安装");
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-        //设置进度为不确定，用于模拟安装
-        mBuilder.setProgress(100, 100, true);
-        mManager.notify(NO_3, mBuilder.build());
+        mBuilder.setProgress(0, 0, false);
+        mManager.notify(NotifyId, mBuilder.build());
         stopSelf();
     }
 
@@ -87,8 +86,8 @@ public class DownloadApkServ extends ServiceEx {
         mBuilder.setAutoCancel(true);
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
         mBuilder.setContentText("下载失败");
-        mBuilder.setProgress(0, 0, true);
-        mManager.notify(NO_3, mBuilder.build());
+        mBuilder.setProgress(0, 0, false);
+        mManager.notify(NotifyId, mBuilder.build());
         stopSelf();
     }
 

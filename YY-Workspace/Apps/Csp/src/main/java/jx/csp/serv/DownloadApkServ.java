@@ -28,7 +28,7 @@ import lib.ys.service.ServiceEx;
 public class DownloadApkServ extends ServiceEx {
 
     //定义notification实用的ID
-    private final int NO_3 = 0;
+    private final int NotifyId = 0;
     private final String KFileName = "CSP.apk";
 
     private String mUrl;
@@ -46,7 +46,7 @@ public class DownloadApkServ extends ServiceEx {
         mBuilder.setProgress(100, 0, false);
 
         mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mManager.notify(NO_3, mBuilder.build());
+        mManager.notify(NotifyId, mBuilder.build());
 
         exeNetworkReq(CommonAPI.downloadApk(CacheUtil.getApkCacheDir(), KFileName, mUrl).build());
     }
@@ -55,36 +55,27 @@ public class DownloadApkServ extends ServiceEx {
     public void onNetworkProgress(int id, float progress, long totalSize) {
         int percent = (int) progress;
         YSLog.d(TAG, "onNetworkProgress = " + percent);
-        if (percent == 100) {
-            YSLog.d(TAG, "onNetworkProgress == 100 啦");
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(new File(CacheUtil.getApkCacheDir() + KFileName)), "application/vnd.android.package-archive");
-            // 利用PendingIntent来包装我们的intent对象
-            PendingIntent intentPend = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            mBuilder.setContentIntent(intentPend);
-            // mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-            mBuilder.setProgress(100, 100, false);
-            mBuilder.setContentText(getString(R.string.click_install));
-        } else {
+        if (percent % 10 == 0) {
             mBuilder.setAutoCancel(false);
             mBuilder.setProgress(100, percent, false);
             mBuilder.setContentText(String.format(getString(R.string.already_download), percent));
+            mManager.notify(NotifyId, mBuilder.build());
         }
-        mManager.notify(NO_3, mBuilder.build());
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        YSLog.d(TAG, "onNetworkSuccess");
+
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(new File(CacheUtil.getApkCacheDir() + KFileName)), "application/vnd.android.package-archive");
-        // 利用PendingIntent来包装我们的intent对象
-        PendingIntent intentPend = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        mBuilder.setContentIntent(intentPend);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
+
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
-        mBuilder.setProgress(100, 100, false);
+        mBuilder.setProgress(0, 0, false);
         mBuilder.setContentText(getString(R.string.click_install));
-        mManager.notify(NO_3, mBuilder.build());
+        mManager.notify(NotifyId, mBuilder.build());
+        YSLog.d(TAG, "onNetworkSuccess");
         stopSelf();
     }
 
@@ -97,7 +88,7 @@ public class DownloadApkServ extends ServiceEx {
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
         mBuilder.setContentText(getString(R.string.download_fail));
         mBuilder.setProgress(100, 0, false);
-        mManager.notify(NO_3, mBuilder.build());
+        mManager.notify(NotifyId, mBuilder.build());
         stopSelf();
     }
 }

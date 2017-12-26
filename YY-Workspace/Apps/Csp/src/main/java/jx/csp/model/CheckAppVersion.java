@@ -18,5 +18,6 @@ public class CheckAppVersion extends EVal<TCheckAppVersion> {
         fileSize,  // 更新包大小
         appType,  // 应用类型 例如 cspmeeting_cn
         forced,  // 是否强制更新
+        details,  // 更新的内容
     }
 }

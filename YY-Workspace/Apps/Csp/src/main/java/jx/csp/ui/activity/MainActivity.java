@@ -298,15 +298,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 if (checkAppVer != null) {
                     UpdateNoticeDialog dialog = new UpdateNoticeDialog(this);
                     dialog.setVersion(checkAppVer.getString(TCheckAppVersion.versionStr));
-                    dialog.setContent("1.测试电饭锅\n2.测试胡站\n3.测试小胡站\n4胡站要求加中文看效果\n5.测试小胡站\n6胡站要求加中文看效果");
+                    dialog.setContent(checkAppVer.getString(TCheckAppVersion.details));
                     // 判断是否需要强制更新
                     if (checkAppVer.getBoolean(TCheckAppVersion.forced)) {
-                        dialog.setCancelable(false);
                         dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
                             Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
                             intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
                             startService(intent);
                         });
+                        dialog.setCancelable(false);
                     } else {
                         dialog.addButton(R.string.remind_later, R.color.text_af, null);
                         dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {

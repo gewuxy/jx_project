@@ -172,10 +172,10 @@
     <string name="have_new_version">New version v%s released!</string>
     <string name="remind_later">Remind Later</string>
     <string name="update_now">Upgrade Now</string>
-    <string name="download_ing">正在下载</string>
-    <string name="already_download">已下载%d</string>
-    <string name="download_fail">下载失败</string>
-    <string name="click_install">点击安装</string>
+    <string name="download_ing">Downloading</string>
+    <string name="already_download">%d completed</string>
+    <string name="download_fail">Download failed</string>
+    <string name="click_install">Install</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>
