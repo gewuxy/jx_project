@@ -211,9 +211,9 @@ dependencies {
     implementation project(':YY-Workspace:Libs:LibJX')
     implementation project(':YY-Workspace:Libs:LibPay')
     implementation project(':YY-Workspace:Libs:LibJG')
-//    implementation project(':YY-Workspace:Libs:LibWX')
     implementation project(':YY-Workspace:Libs:LibPlatform')
     implementation project(':YY-Workspace:Libs:LibLive')
+    implementation project(':YY-Workspace:Libs:LibPdf')
     /**
      * other
      */

@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.me.unitnum;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,15 +7,15 @@ import android.widget.TextView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.ys.YSLog;
-import lib.ys.action.IntentAction;
-import lib.ys.model.FileSuffix;
-import lib.ys.ui.other.NavBar;
-import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.R;
 import jx.doctor.ui.activity.data.PDFActivityRouter;
 import jx.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
 import jx.doctor.util.Util;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.ys.YSLog;
+import lib.ys.action.IntentAction;
+import lib.ys.model.FileSuffix;
+import lib.ys.ui.other.NavBar;
 
 
 /**
@@ -86,7 +85,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
     @Override
     public void setViews() {
 
-        if (mFileSuffix.equals(FileSuffix.pdf)) {
+        if (FileSuffix.pdf.contains(mFileSuffix)) {
             mIv.setImageResource(R.drawable.open_data_ic_pdf);
             PDFActivityRouter.create(
                     mFilePath,
@@ -96,7 +95,7 @@ public class LaunchDownloadDataActivity extends BaseActivity {
                     mDataType
             ).route(this);
             finish();
-        } else if (mFileSuffix.equals(FileSuffix.ppt) || mFileSuffix.equals(FileSuffix.pptx)) {
+        } else if (FileSuffix.pptx.contains(mFileSuffix)) {
             mIv.setImageResource(R.drawable.open_data_ic_ppt);
         } else {
             mIv.setImageResource(R.drawable.open_data_ic_word);

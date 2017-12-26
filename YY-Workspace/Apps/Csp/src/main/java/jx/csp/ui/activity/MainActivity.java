@@ -242,9 +242,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             exeNetworkReq(KUpdateProfileReqId, UserAPI.uploadProfileInfo().build());
         }
         // 检查是否有新版本app
-        if (SpApp.inst().needCheckAppVersion()) {
-            exeNetworkReq(KCheckAppVersionReqId, CommonAPI.checkAppVersion().build());
-        }
+//        if (SpApp.inst().needCheckAppVersion()) {
+//        }
+        exeNetworkReq(KCheckAppVersionReqId, CommonAPI.checkAppVersion().build());
 
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
         if (p != null) {

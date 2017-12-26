@@ -149,6 +149,6 @@ public class SpApp extends SpBase {
      * 保存检查app版本信息时间
      */
     public void saveCheckAppVersionTime() {
-        save(SpAppKey.KAppUpdateTime, System.currentTimeMillis());
+        save(SpAppKey.KAppUpdateTime, System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2));
     }
 }
