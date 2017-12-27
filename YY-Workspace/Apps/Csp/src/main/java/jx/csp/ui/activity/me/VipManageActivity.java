@@ -37,6 +37,8 @@ import lib.ys.util.res.ResLoader;
 
 public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPermissionAdapter> {
 
+    private final int KNormLimit = 3;
+    private final int KAdvancedLimit = 10;
     private final String KMeetingAdvancedLimit = "10";
     private final String KMeetingInfinite = "∞";
 
@@ -157,7 +159,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
             switch (id) {
                 case VipType.norm: {
                     //获取会议大于上限值,显示红色字体
-                    if (meetTotalCount > 3) {
+                    if (meetTotalCount > KNormLimit) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
                 }
@@ -166,7 +168,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                     mIvCard.setBackgroundResource(R.drawable.vip_ic_advanced_card);
 
                     //获取会议大于上限值,显示红色字体
-                    if (meetTotalCount > 10) {
+                    if (meetTotalCount > KAdvancedLimit) {
                         mTvMeetCount.setTextColor(ResLoader.getColor(R.color.text_e43939));
                     }
                     //设置会议上限值
