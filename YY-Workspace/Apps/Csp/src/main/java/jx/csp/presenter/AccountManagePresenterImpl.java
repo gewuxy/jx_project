@@ -211,6 +211,22 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                 }
             }
             break;
+            case BindId.facebook: {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.facebook))) {
+                    saveNickName(id, mNickName);
+                } else {
+                    onUnBindSuccess(id, r);
+                }
+            }
+            break;
+            case BindId.twitter: {
+                if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.twitter))) {
+                    saveNickName(id, mNickName);
+                } else {
+                    onUnBindSuccess(id, r);
+                }
+            }
+            break;
             case BindId.yaya: {
                 onUnBindSuccess(id, r);
             }

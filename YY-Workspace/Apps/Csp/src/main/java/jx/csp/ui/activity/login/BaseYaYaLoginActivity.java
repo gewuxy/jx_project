@@ -239,11 +239,18 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         if (infoList == null) {
             infoList = new ArrayList<>();
         }
-        for (BindInfo list : infoList) {
-            if (list.getInt(TBindInfo.thirdPartyId) == BindId.yaya) {
-                list.put(TBindInfo.thirdPartyId, BindId.yaya);
-                list.put(TBindInfo.nickName, nickName);
+        boolean flag = true;
+        for (BindInfo info : infoList) {
+            if (info.getInt(TBindInfo.thirdPartyId) == BindId.yaya) {
+                info.put(TBindInfo.nickName, nickName);
+                flag = false;
             }
+        }
+        if (flag) {
+            BindInfo bindInfoList = new BindInfo();
+            bindInfoList.put(TBindInfo.thirdPartyId, BindId.yaya);
+            bindInfoList.put(TBindInfo.nickName, nickName);
+            infoList.add(bindInfoList);
         }
         Profile.inst().put(TProfile.bindInfoList, infoList);
         Profile.inst().saveToSp();
