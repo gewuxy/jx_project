@@ -209,6 +209,16 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
+    public void onlyStopRecord() {
+        mHandler.removeMessages(KStartLiveMsgWhat);
+        mHandler.removeMessages(KRecordMsgWhat);
+        if (mMediaRecorder != null) {
+            mMediaRecorder.stop();
+            mMediaRecorder.reset();
+        }
+    }
+
+    @Override
     public void uploadVideoPage(String courseId, String courseDetailId) {
         if (mLastSyncOrderState) {
             YSLog.d(TAG, "上页是视频 停留时间超过3秒 请求服务器发送直播指令");

@@ -112,6 +112,17 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
+    public void onlyStopRecord() {
+        if (mMediaRecorder != null) {
+            mMediaRecorder.stop();
+            mMediaRecorder.reset();
+        }
+        if (mCountDown != null) {
+            mCountDown.stop();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         mMediaRecorder = null;
         mMediaPlayer = null;

@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
@@ -35,6 +36,7 @@ import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
+import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
@@ -338,7 +340,11 @@ public class LiveAudioActivity extends BaseRecordActivity {
             Fragment f = getItem(getCurrPosition());
             if (mLiveState) {
                 if (f instanceof RecordImgFrag) {
-                    mLiveRecordPresenterImpl.stopLiveRecord();
+                    mLiveState = false;
+                    mLiveRecordPresenterImpl.onlyStopRecord();
+                    // 删除文件
+                    boolean b = FileUtil.delFile(new File(mFilePath));
+                    YSLog.d(TAG, "无网络后删除正在录制的文件是否成功 = " + b);
                 }
             }
             finish();

@@ -341,8 +341,12 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         if (type == TConnType.disconnect) {
             showToast(R.string.network_disabled);
             if (mRecordState) {
-                mRecordPresenter.stopRecord();
                 mRecordState = false;
+                mRecordPresenter.onlyStopRecord();
+                // 同时删除本地的音频
+                String audioFilePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+                boolean b = FileUtil.delFile(new File(audioFilePath));
+                YSLog.d(TAG, "无网络后删除正在录制的文件是否成功 = " + b);
             }
             finish();
         }

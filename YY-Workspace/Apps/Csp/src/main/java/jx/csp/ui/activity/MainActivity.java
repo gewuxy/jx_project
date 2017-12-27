@@ -442,6 +442,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     return;
                 }
                 int num = (int) data;
+                VipPackage p = Profile.inst().get(TProfile.cspPackage);
+                if (p != null) {
+                    p.put(TPackage.hiddenMeetCount, num);
+                }
                 pastHint(num);
             }
             break;

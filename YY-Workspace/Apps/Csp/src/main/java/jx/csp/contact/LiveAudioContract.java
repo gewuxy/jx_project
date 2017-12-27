@@ -67,6 +67,8 @@ public interface LiveAudioContract {
 
         void stopLiveRecord();
 
+        void onlyStopRecord();
+
         void uploadVideoPage(String courseId, String courseDetailId);
     }
 }

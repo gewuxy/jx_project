@@ -46,6 +46,7 @@ public interface RecordContract {
         void startRecord(String filePath, int pos);
 
         void stopRecord();
-    }
 
+        void onlyStopRecord();
+    }
 }
