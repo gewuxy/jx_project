@@ -2,12 +2,10 @@ package jx.csp.ui.activity;
 
 import android.content.Intent;
 
+import jx.csp.ui.activity.livevideo.LiveVideoActivity;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginActivity;
 import jx.csp.ui.activity.login.EmailLoginActivity;
-import jx.csp.ui.activity.me.FlowRateManageActivity;
-import jx.csp.ui.activity.me.MeActivity;
-import jx.csp.ui.activity.me.VipManageActivity;
 import lib.jx.test.BaseTestActivity;
 import lib.ys.YSLog;
 
@@ -22,17 +20,17 @@ public class TestActivity extends BaseTestActivity {
     public void initData() {
 
         add("首页", new Intent(this, MainActivity.class));
-        add("个人中心", new Intent(this, MeActivity.class));
         add("邮箱登录", new Intent(this, EmailLoginActivity.class));
         add("登录", new Intent(this, AuthLoginActivity.class));
         add("手机登录", new Intent(this, CaptchaLoginActivity.class));
-        add("流量管理", FlowRateManageActivity.class);
-        add("会员管理", VipManageActivity.class);
+        add("guide", GuideActivity.class);
+        add("live video", LiveVideoActivity.class);
+        //add("update notice dialog", view -> {});
 
         int[] A1 = new int[]{-1, 1, 3, 3, 3, 2, 1, 0};
-        solution1(A1);
+        //solution1(A1);
         int[] A2 = new int[]{1, 3, -3};
-        solution2(A2);
+        //solution2(A2);
     }
 
     public int solution1(int[] A) {
