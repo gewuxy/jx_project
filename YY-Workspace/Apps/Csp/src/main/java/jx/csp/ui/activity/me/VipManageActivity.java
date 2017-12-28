@@ -16,6 +16,7 @@ import jx.csp.constant.LangType;
 import jx.csp.constant.VipType;
 import jx.csp.contact.VipManageContract;
 import jx.csp.model.VipPackage;
+import jx.csp.model.VipPackage.TPackage;
 import jx.csp.model.VipPermission;
 import jx.csp.presenter.VipManagePresenterImpl;
 import jx.csp.sp.SpApp;
@@ -129,17 +130,17 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
         @Override
         public void setPackageData(VipPackage p) {
             // 设置会议总数
-            int meetTotalCount = p.getInt(VipPackage.TPackage.meetTotalCount);
+            int meetTotalCount = p.getInt(TPackage.meetTotalCount);
             mTvMeetCount.setText(String.valueOf(meetTotalCount));
 
             // 设置有效期,false为有限期，true为无限期
-            boolean unlimited = p.getBoolean(VipPackage.TPackage.unlimited);
+            boolean unlimited = p.getBoolean(TPackage.unlimited);
             String validity = ConstantsEx.KEmpty;
             if (unlimited) {
                 validity = getString(R.string.vip_manage_time);
             } else {
-                long startTime = p.getLong(VipPackage.TPackage.packageStart);
-                long endTime = p.getLong(VipPackage.TPackage.packageEnd);
+                long startTime = p.getLong(TPackage.packageStart);
+                long endTime = p.getLong(TPackage.packageEnd);
                 if (startTime == ConstantsEx.KInvalidValue || endTime == ConstantsEx.KInvalidValue) {
                     // 不返回当不限期
                     validity = getString(R.string.vip_manage_time);
@@ -147,15 +148,15 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
                     String start = TimeFormatter.milli(startTime, TimeFormat.simple_ymd);
                     String end = TimeFormatter.milli(endTime, TimeFormat.simple_ymd);
                     if (LangType.en == SpApp.inst().getLangType()) {
-                        validity = getString(R.string.vip_manage_form) + start + getString(R.string.vip_manage_to) + end;
+                        validity = String.format(getString(R.string.vip_manage_validity_time), start, end);
                     } else {
-                        validity = start + getString(R.string.vip_manage_to) + end;
+                        validity = String.format(getString(R.string.vip_manage_validity_time), start, end);
                     }
                 }
             }
             mTvValidity.setText(validity);
 
-            int id = p.getInt(VipPackage.TPackage.id);
+            int id = p.getInt(TPackage.id);
             switch (id) {
                 case VipType.norm: {
                     //获取会议大于上限值,显示红色字体
