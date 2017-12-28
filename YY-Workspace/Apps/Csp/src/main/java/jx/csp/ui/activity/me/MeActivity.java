@@ -12,12 +12,17 @@ import jx.csp.constant.FormType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.form.Form;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseFormActivity;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.shape.CircleRenderer;
 import lib.ys.ui.other.NavBar;
@@ -125,6 +130,9 @@ public class MeActivity extends BaseFormActivity {
         super.setViews();
         setOnClickListener(R.id.layout_me_header);
 
+        //更新用户数据
+        exeNetworkReq(UserAPI.uploadProfileInfo().build());
+
         changeUserName();
     }
 
@@ -170,6 +178,20 @@ public class MeActivity extends BaseFormActivity {
                 startActivity(HelpAndFeedbackActivity.class);
             }
             break;
+        }
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.ev(resp.getText(), Profile.class);
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        if (r.isSucceed()) {
+            YSLog.d(TAG, "个人数据更新成功");
+            Profile.inst().update((Profile) r.getData());
+            notify(NotifyType.profile_change);
         }
     }
 
