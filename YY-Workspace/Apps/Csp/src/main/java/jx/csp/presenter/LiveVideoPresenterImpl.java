@@ -56,8 +56,10 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void startLive(String rtmpUrl) {
+    public void startLive(String rtmpUrl, boolean mute) {
         PushManager.inst().startPush(rtmpUrl);
+        mMute = mute;
+        PushManager.inst().mute(mMute);
         getView().startLiveState();
     }
 
@@ -75,8 +77,8 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void mute() {
-        getView().setSilenceIvSelected(mMute);
         mMute = !mMute;
+        getView().setSilenceIvSelected(mMute);
         PushManager.inst().mute(mMute);
     }
 

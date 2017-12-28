@@ -296,26 +296,32 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 SpApp.inst().saveCheckAppVersionTime();
                 CheckAppVersion checkAppVer = (CheckAppVersion) r.getData();
                 if (checkAppVer != null) {
-                    UpdateNoticeDialog dialog = new UpdateNoticeDialog(this);
-                    dialog.setVersion(checkAppVer.getString(TCheckAppVersion.versionStr));
-                    dialog.setContent(checkAppVer.getString(TCheckAppVersion.details));
-                    // 判断是否需要强制更新
-                    if (checkAppVer.getBoolean(TCheckAppVersion.forced)) {
-                        dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
-                            Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
-                            intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
-                            startService(intent);
-                        });
-                        dialog.setCancelable(false);
-                    } else {
-                        dialog.addButton(R.string.remind_later, R.color.text_af, null);
-                        dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
-                            Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
-                            intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
-                            startService(intent);
-                        });
-                    }
-                    dialog.show();
+                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            UpdateNoticeDialog dialog = new UpdateNoticeDialog(MainActivity.this);
+                            dialog.setVersion(checkAppVer.getString(TCheckAppVersion.versionStr));
+                            dialog.setContent(checkAppVer.getString(TCheckAppVersion.details));
+                            // 判断是否需要强制更新
+                            if (checkAppVer.getBoolean(TCheckAppVersion.forced)) {
+                                dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
+                                    Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
+                                    intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
+                                    startService(intent);
+                                });
+                                dialog.setCancelable(false);
+                            } else {
+                                dialog.addButton(R.string.remind_later, R.color.text_af, null);
+                                dialog.addButton(R.string.update_now, R.color.text_167afe, v -> {
+                                    Intent intent = new Intent(MainActivity.this, DownloadApkServ.class);
+                                    intent.putExtra(Extra.KData, checkAppVer.getString(TCheckAppVersion.downLoadUrl));
+                                    startService(intent);
+                                });
+                            }
+                            dialog.show();
+                            removeOnGlobalLayoutListener(this);
+                        }
+                    });
                 }
             }
         }

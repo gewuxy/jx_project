@@ -176,7 +176,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 }
                 //判断直播时间是否到
                 if (mBeginCountDown) {
-                    mP.startLive(mPushUrl);
+                    mP.startLive(mPushUrl, mIvSilence.isSelected());
                 } else {
                     startCountDownAndLive();
                 }
@@ -192,7 +192,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                         mP.stopLive();
                         mLiveState = false;
                     } else {
-                        mP.startLive(mPushUrl);
+                        mP.startLive(mPushUrl, mIvSilence.isSelected());
                     }
                 } else {
                     startCountDownAndLive();
@@ -353,7 +353,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         if (mServerTime >= mStartTime) {
             mBeginCountDown = true;
             mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-            mP.startLive(mPushUrl);
+            mP.startLive(mPushUrl, mIvSilence.isSelected());
         } else {
             showToast(R.string.meeting_no_start_remain);
         }
