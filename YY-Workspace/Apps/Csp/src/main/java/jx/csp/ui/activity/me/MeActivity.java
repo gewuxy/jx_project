@@ -189,6 +189,7 @@ public class MeActivity extends BaseFormActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
+            Profile.inst().clear();
             YSLog.d(TAG, "个人数据更新成功");
             Profile.inst().update((Profile) r.getData());
             notify(NotifyType.profile_change);
