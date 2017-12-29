@@ -417,6 +417,17 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mIvAvatar.placeHolder(R.drawable.ic_default_user_header)
                         .url(Profile.inst().getString(TProfile.avatar))
                         .load();
+
+                VipPackage p = Profile.inst().get(TProfile.cspPackage);
+                if (p != null) {
+                    int day = p.getInt(TPackage.expireDays);
+                    if (day > 0) {
+                        mTvExpireRemind.setText(String.format(getString(R.string.will_reminder), day));
+                        showView(mTvExpireRemind);
+                    } else {
+                        goneView(mTvExpireRemind);
+                    }
+                }
             }
             break;
             case NotifyType.over_live: {
