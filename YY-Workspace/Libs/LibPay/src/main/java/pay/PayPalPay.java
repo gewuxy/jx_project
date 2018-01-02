@@ -32,9 +32,9 @@ import lib.jx.network.BaseJsonParser;
 public class PayPalPay {
 
     //正式线
-//    private static final String KHostUrl = "https://www.cspmeeting.com/api/charge/paypalCallback";
+    private static final String KHostUrl = "https://www.cspmeeting.com/api/charge/paypalCallback";
     //测试线
-    private static final String KHostUrl = "http://medcn.synology.me:8886/csp/api/charge/paypalCallback";
+//    private static final String KHostUrl = "http://medcn.synology.me:8886/csp/api/charge/paypalCallback";
 
     public static final String KExtraOrderId = "order_id";
     private static final int KRequestCodePayment = 1;
