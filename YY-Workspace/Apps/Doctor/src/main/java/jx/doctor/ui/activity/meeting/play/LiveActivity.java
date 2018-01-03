@@ -379,7 +379,13 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
             // 同步 fixme:待整理
             int position = mFragPpt.getCount() - 1;
             BaseCourseFrag f = mFragPpt.getItem(position);
+            if (f == null) {
+                return;
+            }
             Course c = f.getCourse();
+            if (c == null) {
+                return;
+            }
             boolean temp = c.getBoolean(TCourse.temp);
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");

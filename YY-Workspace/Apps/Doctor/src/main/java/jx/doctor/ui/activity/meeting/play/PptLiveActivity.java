@@ -5,7 +5,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import java.util.List;
 
 import inject.annotation.router.Route;
-import lib.ys.YSLog;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.PptBreviaryAdapter;
 import jx.doctor.model.meet.ppt.Course;
@@ -14,6 +13,7 @@ import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.ui.activity.meeting.play.contract.PptLiveContract;
 import jx.doctor.ui.activity.meeting.play.presenter.PptLivePresenterImpl;
 import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
+import lib.ys.YSLog;
 
 /**
  * ppt直播(无视频)
@@ -74,7 +74,13 @@ public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLi
         public void addCourse(Course course) {
             int position = getFragPpt().getCount() - 1;
             BaseCourseFrag f = getFragPpt().getItem(position);
+            if (f == null) {
+                return;
+            }
             Course c = f.getCourse();
+            if (c == null) {
+                return;
+            }
             boolean temp = c.getBoolean(TCourse.temp);
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");

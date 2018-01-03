@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.App;
@@ -35,9 +34,7 @@ import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
-import jx.csp.ui.frag.main.IMeetOpt;
 import jx.csp.ui.frag.main.MeetGridFrag;
-import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.LiveNotifier;
@@ -68,56 +65,24 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KCameraPermissionCode = 10;
     private final int KUpdateProfileReqId = 1;
     private final int KCheckAppVersionReqId = 2;
-    private final int KPageGrid = 0;
     private final int KPageVp = 1;
-//    private final int KGoneMsgWhat = 1;
 
     private TextView mTvExpireRemind; // 会员到期提醒
-    private ImageView mIvShift;
     private NetworkImageView mIvAvatar;
 
-    private MeetGridFrag mGridFrag;
-    private MeetVpFrag mVpFrag;
+    private MeetGridFrag mFragLive;
+    private MeetGridFrag mFragReb;
 
     private View mLayoutPast;
     private TextView mTvPast;
 
-//    @SuppressLint("HandlerLeak")
-//    private Handler mHandler = new Handler() {
-//
-//        @Override
-//        public void handleMessage(Message msg) {
-//            if (msg.what == KGoneMsgWhat) {
-//                YSLog.d(TAG, "接收到隐藏分享会议回放");
-//                ((IMeetOpt) getItem(KPageGrid)).goneSharePlayback(String.valueOf(msg.arg1));
-//                ((IMeetOpt) getItem(KPageVp)).goneSharePlayback(String.valueOf(msg.arg1));
-//            }
-//        }
-//    };
-
     @Override
     public void initData() {
-        mGridFrag = new MeetGridFrag();
-        mVpFrag = new MeetVpFrag();
+        mFragLive = new MeetGridFrag();
+        mFragReb = new MeetGridFrag();
 
-        mVpFrag.setListener(flag -> {
-            if (mLayoutPast == null) {
-                return;
-            }
-            if (flag) {
-                // 进行中显示优先
-                goneView(mLayoutPast);
-            } else {
-                VipPackage p = Profile.inst().get(TProfile.cspPackage);
-                if (p != null) {
-                    int num = p.getInt(TPackage.hiddenMeetCount);
-                    pastHint(num);
-                }
-            }
-        });
-
-        add(mGridFrag);
-        add(mVpFrag);
+        add(mFragLive);
+        add(mFragReb);
     }
 
     @Override
@@ -154,41 +119,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
         }
         bar.addViewMid(midView);
-
-        //添加右边布局
-        ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
-            boolean flag = getCurrPosition() == KPageGrid;
-            if (!flag) {
-                // 网格
-                mIvShift.setSelected(false);
-                // 跳转到九宫格Item，false表示没有切换效果,true是划过去的
-                setCurrPosition(KPageGrid, false);
-                mGridFrag.setPosition(mVpFrag.getPosition());
-                SpUser.inst().saveMainPage(KPageGrid);
-                if (p != null) {
-                    int num = p.getInt(TPackage.hiddenMeetCount);
-                    pastHint(num);
-                }
-            } else {
-                // 卡片
-                mIvShift.setSelected(true);
-                setCurrPosition(KPageVp, false);
-                int position = mGridFrag.getPosition();
-                mVpFrag.setPosition(position);
-                SpUser.inst().saveMainPage(KPageVp);
-                if (mVpFrag.reminder(position)) {
-                    // 进行中显示优先
-                    goneView(mLayoutPast);
-                } else {
-                    if (p != null) {
-                        int num = p.getInt(TPackage.hiddenMeetCount);
-                        pastHint(num);
-                    }
-                }
-            }
-        });
-        mIvShift = Util.getBarView(group, ImageView.class);
-        mIvShift.setSelected(false);
     }
 
     @Override
@@ -219,31 +149,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     .route(this);
         }
 
-        mGridFrag.setListener(data -> {
-            mVpFrag.setData(data);
-            mVpFrag.nativeInvalidate();
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    int page = SpUser.inst().getMainAcVpPage();
-                    if (page != 0) {
-                        setCurrPosition(page, false);
-                        mVpFrag.setPosition(0);
-                        mIvShift.setSelected(true);
-                    }
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
-        });
         // 静默更新用户数据
         if (SpUser.inst().needUpdateProfile()) {
             YSLog.d(TAG, "更新个人数据");
             exeNetworkReq(KUpdateProfileReqId, UserAPI.uploadProfileInfo().build());
         }
         // 检查是否有新版本app
-//        if (SpApp.inst().needCheckAppVersion()) {
-//        }
         exeNetworkReq(KCheckAppVersionReqId, CommonAPI.checkAppVersion().build());
 
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
@@ -275,9 +186,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         if (id == KUpdateProfileReqId) {
             if (r.isSucceed()) {
                 YSLog.d(TAG, "个人数据更新成功");
+                Profile profile = (Profile) r.getData();
+                Profile.inst().update(profile);
                 SpUser.inst().updateProfileRefreshTime();
-                Profile.inst().update((Profile) r.getData());
-                VipPackage p = Profile.inst().get(TProfile.cspPackage);
+                if (profile == null) {
+                    return;
+                }
+                VipPackage p = profile.get(TProfile.cspPackage);
                 if (p != null) {
                     int num = p.getInt(TPackage.hiddenMeetCount);
                     pastHint(num);
@@ -297,6 +212,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 CheckAppVersion checkAppVer = (CheckAppVersion) r.getData();
                 if (checkAppVer != null) {
                     addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
                         @Override
                         public void onGlobalLayout() {
                             UpdateNoticeDialog dialog = new UpdateNoticeDialog(MainActivity.this);
@@ -321,6 +237,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                             dialog.show();
                             removeOnGlobalLayoutListener(this);
                         }
+
                     });
                 }
             }
@@ -330,7 +247,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     /**
      * 过期提醒
      *
-     * @param num
+     * @param num 隐藏会议的数量
      */
     private void pastHint(int num) {
         if (num > 0) {
@@ -346,12 +263,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         switch (type) {
             case LiveNotifyType.accept: {
                 YSLog.d(TAG, "接收到同意进入指令");
-                ((IMeetOpt) getCurrItem()).allowEnter();
+                if (getCurrItem() instanceof MeetGridFrag) {
+                    ((MeetGridFrag) getCurrItem()).allowEnter();
+                }
             }
             break;
             case LiveNotifyType.reject: {
                 YSLog.d(TAG, "接收到拒绝进入指令");
-                ((IMeetOpt) getCurrItem()).notAllowEnter();
+                if (getCurrItem() instanceof MeetGridFrag) {
+                    ((MeetGridFrag) getCurrItem()).notAllowEnter();
+                }
             }
             break;
         }
@@ -379,14 +300,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             case NotifyType.delete_meeting_success: {
                 String str = (String) data;
                 YSLog.d(TAG, str + "删除接收通知");
-                for (Meet meet : mGridFrag.getData()) {
-                    if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
-                        mGridFrag.getData().remove(meet);
-                        mGridFrag.invalidate();
-                        break;
+                try {
+                    int id = Integer.valueOf(str);
+                    for (Meet meet : mFragLive.getData()) {
+                        if (id == meet.getInt(TMeet.id)) {
+                            mFragLive.getData().remove(meet);
+                            mFragLive.invalidate();
+                            break;
+                        }
                     }
+                    showToast(R.string.delete_success);
+                } catch (NumberFormatException e) {
+                    YSLog.d(TAG, "onNotify : " + e.getMessage());
                 }
-                showToast(R.string.delete_success);
+
             }
             break;
             case NotifyType.delete_meeting_fail: {
@@ -395,7 +322,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.copy_duplicate: {
                 Copy copy = (Copy) data;
-                for (Meet meet : mGridFrag.getData()) {
+                for (Meet meet : mFragLive.getData()) {
                     if (copy.getInt(TCopy.oldId) == meet.getInt(TMeet.id)) {
                         Meet m = (Meet) meet.clone();
                         m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
@@ -404,9 +331,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         m.put(TMeet.livePage, 0);
                         m.put(TMeet.playPage, 0);
                         // 复制的会议默认放到最前面 页面跳到最前面位置
-                        mGridFrag.addItem(0, m);
-                        mGridFrag.setPosition(0);
-                        mGridFrag.invalidate();
+                        mFragLive.addItem(0, m);
+                        mFragLive.setSelection(0);
+                        mFragLive.invalidate();
                         break;
                     }
                 }
@@ -434,22 +361,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 showToast(R.string.live_have_end);
                 // 修改数据源
                 String id = (String) data;
-                for (Meet meet : mGridFrag.getData()) {
+                for (Meet meet : mFragLive.getData()) {
                     if (meet.getString(TMeet.id).equals(id)) {
                         meet.put(TMeet.liveState, LiveState.end);
                         meet.put(TMeet.playState, PlayState.end);
-                        mGridFrag.invalidate();
+                        mFragLive.invalidate();
                         break;
                     }
                 }
-                // 显示分享会议回放提示
-//                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
-//                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
-//                // 5秒后隐藏分享会议回放提示
-//                Message msg = new Message();
-//                msg.what = KGoneMsgWhat;
-//                msg.arg1 = Integer.valueOf(id).intValue();
-//                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
             }
             break;
             case NotifyType.meet_num: {
