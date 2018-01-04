@@ -23,6 +23,7 @@ import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
 import jx.csp.network.NetworkApi;
+import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
@@ -56,7 +57,6 @@ public class ShareDialog extends BaseDialog {
     private String mCourseId;  // 会议id
     private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
-//    private Bitmap mCoverBmp;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -69,7 +69,6 @@ public class ShareDialog extends BaseDialog {
         mTitle = title + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
-//        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();
     }
@@ -114,13 +113,7 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                CommonDialog2 dialog = new CommonDialog2(getContext());
-                dialog.setHint(R.string.ensure_delete);
-                dialog.addBlueButton(R.string.confirm, v1 -> {
-                    CommonServRouter.create(ReqType.share_delete_meet).courseId(mCourseId).route(getContext());
-                });
-                dialog.addGrayButton(R.string.cancel);
-                dialog.show();
+                deleteMeet(mCourseId,getContext());
             }
             break;
             case R.id.dialog_share_tv_cancel: {
@@ -129,6 +122,18 @@ public class ShareDialog extends BaseDialog {
             break;
         }
         dismiss();
+    }
+
+    public static void deleteMeet(String courseId, Context context) {
+        CommonDialog2 d = new CommonDialog2(context);
+        d.setHint(R.string.ensure_delete);
+        d.addBlueButton(R.string.confirm, v1 ->
+                CommonServRouter.create(ReqType.share_delete_meet)
+                .courseId(courseId)
+                .route(context)
+        );
+        d.addGrayButton(R.string.cancel);
+        d.show();
     }
 
     /**
