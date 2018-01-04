@@ -49,7 +49,7 @@ public class GuideActivity extends BaseVpActivity {
                 mImgResArray = new int[]{R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
                 break;
             case cn:
-                mImgResArray = new int[]{R.drawable.guide_f1, R.drawable.guide_2, R.drawable.guide_3, R.drawable.guide_4};
+                mImgResArray = new int[]{R.drawable.guide_f1, R.drawable.guide_f2, R.drawable.guide_f3, R.drawable.guide_f4};
                 break;
         }
         for (int i = 0; i < mImgResArray.length; ++i) {

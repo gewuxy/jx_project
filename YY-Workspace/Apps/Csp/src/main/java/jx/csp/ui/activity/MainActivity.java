@@ -293,6 +293,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 } else {
                     intent = new Intent(this, AuthLoginOverseaActivity.class);
                 }
+                Profile.inst().clear();
                 startActivity(intent);
                 finish();
             }

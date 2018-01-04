@@ -139,7 +139,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 } else {
                     mRecordPresenter.startRecord(filePath, getCurrPosition());
                     // 隐藏播放按钮
-                    ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
+                    if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                        ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
+                    }
                     goneView(mVoiceLine);
                     changeRecordState(true);
                 }
@@ -465,7 +467,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
             // 判断第一页是不是视频
-            if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+            if (mCourseDetailList.size() > 0 && TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
                 mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
                 mIvRecordState.setClickable(false);
             }
