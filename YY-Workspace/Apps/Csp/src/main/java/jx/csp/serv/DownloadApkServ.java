@@ -1,5 +1,6 @@
 package jx.csp.serv;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -40,10 +41,12 @@ public class DownloadApkServ extends ServiceEx {
         mUrl = intent.getStringExtra(Extra.KData);
         mBuilder = new NotificationCompat.Builder(this);
 
+        mBuilder.mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
         mBuilder.setSmallIcon(R.mipmap.ic_launcher);
         mBuilder.setContentTitle(getString(R.string.app_name));
         mBuilder.setContentText(getString(R.string.download_ing));
         mBuilder.setProgress(100, 0, false);
+        mBuilder.setAutoCancel(true);
 
         mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mManager.notify(NotifyId, mBuilder.build());
@@ -56,7 +59,6 @@ public class DownloadApkServ extends ServiceEx {
         int percent = (int) progress;
         YSLog.d(TAG, "onNetworkProgress = " + percent);
         if (percent % 10 == 0) {
-            mBuilder.setAutoCancel(false);
             mBuilder.setProgress(100, percent, false);
             mBuilder.setContentText(String.format(getString(R.string.already_download), percent));
             mManager.notify(NotifyId, mBuilder.build());
@@ -84,7 +86,6 @@ public class DownloadApkServ extends ServiceEx {
         super.onNetworkError(id, error);
 
         YSLog.d(TAG, "onNetworkError");
-        mBuilder.setAutoCancel(true);
         mBuilder.setDefaults(NotificationCompat.DEFAULT_SOUND);//设置通知铃声
         mBuilder.setContentText(getString(R.string.download_fail));
         mBuilder.setProgress(100, 0, false);
