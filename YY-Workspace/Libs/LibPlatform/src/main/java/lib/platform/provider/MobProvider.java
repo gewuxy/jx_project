@@ -302,10 +302,11 @@ public class MobProvider implements Provider {
             break;
             case dingding: {
                 p = ShareSDK.getPlatform(Dingding.NAME);
-//                if (!p.isClientValid()) {
-//                    AppEx.showToast(R.string.dingding_check_app);
-//                    return;
-//                }
+                shareParams.setShareType(cn.sharesdk.framework.Platform.SHARE_WEBPAGE);
+                if (!p.isClientValid()) {
+                    AppEx.showToast(R.string.dingding_check_app);
+                    return;
+                }
             }
             break;
         }
