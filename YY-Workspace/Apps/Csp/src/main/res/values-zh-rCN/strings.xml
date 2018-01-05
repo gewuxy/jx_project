@@ -122,8 +122,11 @@
     <string name="Line">Line</string>
     <string name="LinkedIn">LinkedIn</string>
     <string name="SMS">SMS</string>
+    <string name="DingDing">钉钉</string>
     <string name="copy_link">复制链接</string>
-    <string name="contribute">立即投稿</string>
+    <string name="contribute">投稿</string>
+    <string name="preview">预览</string>
+    <string name="watch_pwd">观看密码</string>
     <string name="copy_ectype">复制副本</string>
     <string name="delete_speech">删除</string>
     <string name="share_success">分享成功</string>
@@ -307,4 +310,11 @@
     <string name="vip_manage_profession_version">专业版</string>
     <string name="vip_manage_app_name">讲</string>
 
+    <!-- 观看密码 -->
+    <string name="watch_setting_watch_pwd">设置观看密码</string>
+    <string name="watch_input_pwd">输入4 - 8位英文或数字密码</string>
+    <string name="watch_create">自动生成</string>
+    <string name="watch_tips">设置分享密码，通过H5观看链接需要填写正确密码后观看（不影响会议投稿）</string>
+    <string name="watch_tips2">密码设置成功，可通过“删除密码”的方式取消或重制观看密码</string>
+    <string name="watch_delete_pwd">删除密码</string>
 </resources>

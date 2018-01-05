@@ -120,6 +120,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
         }
 
@@ -141,6 +142,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
             //applicationIdSuffix ".en"
         }
@@ -163,6 +165,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
         }
 
@@ -184,6 +187,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
             //applicationIdSuffix ".en"
         }
@@ -206,6 +210,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
         }
 
@@ -227,6 +232,7 @@ android {
                     line_secret       : "8ae3221a628add950f2422dd8e76f0a9",
                     facebook_key      : "\\263615967498316",
                     facebook_secret   : "acaa41b6d8020e78320bd92f6f0abd80",
+                    dingding_id       : "dingoaut7jlflyrlatyuh0",
             ]
             //applicationIdSuffix ".en"
         }

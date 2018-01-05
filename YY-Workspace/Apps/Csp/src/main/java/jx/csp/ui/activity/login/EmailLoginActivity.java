@@ -12,6 +12,7 @@ import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.constant.FormType;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.CommonDialog3;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -144,14 +145,22 @@ public class EmailLoginActivity extends BaseLoginActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
+        boolean flag = false;
         if (r.isSucceed()) {
-            SpApp.inst().saveUserEmail(getEmail());
-            Profile.inst().update((Profile) r.getData());
-            SpUser.inst().updateProfileRefreshTime();
+            // FIXME: 2018/1/5 测试代码,非真实代码
+            if (flag) {
+                CommonDialog3 dialog3 = new CommonDialog3(this);
+                dialog3.addBlueButton(R.string.confirm);
+                dialog3.show();
+            }else {
+                SpApp.inst().saveUserEmail(getEmail());
+                Profile.inst().update((Profile) r.getData());
+                SpUser.inst().updateProfileRefreshTime();
 
-            notify(NotifyType.login);
-            startActivity(MainActivity.class);
-            finish();
+                notify(NotifyType.login);
+                startActivity(MainActivity.class);
+                finish();
+            }
         } else {
             onNetworkError(id, r.getError());
         }

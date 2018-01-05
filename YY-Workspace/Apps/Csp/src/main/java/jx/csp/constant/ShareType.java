@@ -19,7 +19,8 @@ import java.lang.annotation.RetentionPolicy;
         ShareType.whatsapp,
         ShareType.line,
         ShareType.sms,
-        ShareType.copy,
+        ShareType.dingding,
+        ShareType.contribute,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface ShareType {
@@ -33,5 +34,6 @@ public @interface ShareType {
     int whatsapp = 7;
     int line = 8;
     int sms = 9;
-    int copy = 10;
+    int dingding = 10;
+    int contribute = 11;
 }

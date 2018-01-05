@@ -31,24 +31,20 @@ import lib.jx.network.BaseJsonParser;
 
 public class PayPalPay {
 
-    //正式线
-    private static final String KHostUrl = "https://www.cspmeeting.com/api/charge/paypalCallback";
-    //测试线
-//    private static final String KHostUrl = "http://medcn.synology.me:8886/csp/api/charge/paypalCallback";
-
     public static final String KExtraOrderId = "order_id";
     private static final int KRequestCodePayment = 1;
     private static String mPaymentId;
 
+    // FIXME: 2018/1/3 打包前必须切换真实环境
     // PayPal真实环境
-    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
+//    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
     // paypal申请到的设备ID
-    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
+//    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
 
     // PayPal沙盒测试
-//    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     //paypal官方申请的沙盒设备ID
-//    private static final String KConfigClientId = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
+    private static final String KConfigClientId = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
 
     private static PayPalConfiguration mConfig = new PayPalConfiguration()
             .environment(KConfigEnvironment)
@@ -78,28 +74,9 @@ public class PayPalPay {
      * 开始执行支付操作
      *
      * @param context
-     * @param flow
+     * @param money
      */
-    public static void onPayPalPay(Context context, int flow) {
-        String money = null;
-        switch (flow) {
-            case 5: {
-                money = "1.75";
-            }
-            break;
-            case 25: {
-                money = "8.75";
-            }
-            break;
-            case 100: {
-                money = "35";
-            }
-            break;
-            case 500: {
-                money = "175";
-            }
-            break;
-        }
+    public static void onPayPalPay(Context context, String money) {
         PayPalPayment payment = new PayPalPayment(new BigDecimal(money), "USD", "money", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(context, PaymentActivity.class);
@@ -110,7 +87,7 @@ public class PayPalPay {
         ((Activity) context).startActivityForResult(intent, KRequestCodePayment);
     }
 
-    public static void onResult(int requestCode, int resultCode, Intent data, OnPayListener listener) {
+    public static void onResult(int requestCode, int resultCode, Intent data, OnPayListener listener, String url) {
         if (resultCode == Activity.RESULT_OK) {
             PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
             try {
@@ -122,7 +99,7 @@ public class PayPalPay {
             if (confirm != null) {
                 Network network = new Network("PayPal", null);
                 network.load(0,
-                        NetworkReq.newBuilder(KHostUrl)
+                        NetworkReq.newBuilder(url)
                                 .post()
                                 .param("paymentId", mPaymentId)
                                 .param("orderId", data.getStringExtra(KExtraOrderId))

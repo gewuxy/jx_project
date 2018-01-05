@@ -15,8 +15,9 @@ public enum SharePlatform {
     qq(ShareType.qq, R.drawable.share_ic_qq, getString(R.string.QQ)),
     linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin)),
     sina(ShareType.sina, R.drawable.share_ic_weibo, getString(R.string.weibo)),
+    dingding(ShareType.dingding, R.drawable.share_ic_copy, getString(R.string.DingDing)),
     sms(ShareType.sms, R.drawable.share_ic_message, getString(R.string.message)),
-    copy(ShareType.copy, R.drawable.share_ic_copy, getString(R.string.copy_link)),
+    contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute)),
 
     overseas_facebook(ShareType.facebook, R.drawable.share_ic_facebook, getString(R.string.facebook)),
     overseas_twitter(ShareType.twitter, R.drawable.share_ic_twitter, getString(R.string.twitter)),
@@ -24,7 +25,7 @@ public enum SharePlatform {
     overseas_line(ShareType.line, R.drawable.share_ic_line, getString(R.string.Line)),
     overseas_linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin)),
     overseas_sms(ShareType.sms, R.drawable.share_ic_sms, getString(R.string.SMS)),
-    overseas_copy(ShareType.copy, R.drawable.share_ic_copy, getString(R.string.copy_link));
+    overseas_contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute));
 
     private int mType;  // 分享平台类型
     private int mIcon; // 分享平台图像

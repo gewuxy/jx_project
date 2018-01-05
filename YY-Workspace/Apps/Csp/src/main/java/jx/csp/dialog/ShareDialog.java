@@ -16,18 +16,20 @@ import java.util.List;
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
+import jx.csp.adapter.main.ShareAdapter;
 import jx.csp.adapter.main.SharePlatformAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
+import jx.csp.constant.SharePreview;
+import jx.csp.constant.SharePreviewType;
 import jx.csp.constant.ShareType;
 import jx.csp.network.NetworkApi;
-import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.main.CopyDuplicateActivityRouter;
+import jx.csp.ui.activity.WatchPwdActivityRouter;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
@@ -57,6 +59,7 @@ public class ShareDialog extends BaseDialog {
     private String mCourseId;  // 会议id
     private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
+//    private Bitmap mCoverBmp;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -69,6 +72,7 @@ public class ShareDialog extends BaseDialog {
         mTitle = title + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
+//        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();
     }
@@ -87,14 +91,11 @@ public class ShareDialog extends BaseDialog {
     @Override
     public void findViews() {
         getPlatform();
+        getPlatform2();
     }
 
     @Override
     public void setViews() {
-
-        setOnClickListener(R.id.dialog_share_tv_contribute);
-        setOnClickListener(R.id.dialog_share_tv_copy_duplicate);
-        setOnClickListener(R.id.dialog_share_tv_delete);
         setOnClickListener(R.id.dialog_share_tv_cancel);
 
         setGravity(Gravity.BOTTOM);
@@ -102,38 +103,13 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
-            case R.id.dialog_share_tv_contribute: {
-                ContributePlatformActivityRouter.create(mCourseId).route(getContext());
-            }
-            break;
-            case R.id.dialog_share_tv_copy_duplicate: {
-                CopyDuplicateActivityRouter.create(mTitle, mCourseId).route(getContext());
-            }
-            break;
-            case R.id.dialog_share_tv_delete: {
-                deleteMeet(mCourseId,getContext());
-            }
-            break;
             case R.id.dialog_share_tv_cancel: {
-                // 不做处理
+
             }
             break;
         }
         dismiss();
-    }
-
-    public static void deleteMeet(String courseId, Context context) {
-        CommonDialog2 d = new CommonDialog2(context);
-        d.setHint(R.string.ensure_delete);
-        d.addBlueButton(R.string.confirm, v1 ->
-                CommonServRouter.create(ReqType.share_delete_meet)
-                .courseId(courseId)
-                .route(context)
-        );
-        d.addGrayButton(R.string.cancel);
-        d.show();
     }
 
     /**
@@ -183,7 +159,8 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.linkedin);
             sharePlatformList.add(SharePlatform.sina);
             sharePlatformList.add(SharePlatform.sms);
-            sharePlatformList.add(SharePlatform.copy);
+            sharePlatformList.add(SharePlatform.dingding);
+            sharePlatformList.add(SharePlatform.contribute);
         } else {
             sharePlatformList.add(SharePlatform.overseas_facebook);
             sharePlatformList.add(SharePlatform.overseas_twitter);
@@ -191,7 +168,7 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.overseas_line);
             sharePlatformList.add(SharePlatform.overseas_linkedin);
             sharePlatformList.add(SharePlatform.overseas_sms);
-            sharePlatformList.add(SharePlatform.overseas_copy);
+            sharePlatformList.add(SharePlatform.contribute);
         }
 
         adapter.setData(sharePlatformList);
@@ -223,31 +200,10 @@ public class ShareDialog extends BaseDialog {
                     .imageUrl(mCoverUrl)
                     .build();
             int type = adapter.getItemViewType(position);
-            if (type == ShareType.copy) {
-                //创建一个新的文本clip对象
-                ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
-                //把clip对象放在剪切板中
-                mClipboardManager.setPrimaryClip(clipData);
-                showToast(R.string.copy_success);
-            }
-//            else if (type == ShareType.sms) {
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                if (mCoverBmp == null) {
-//                    showToast("bitmap == null");
-//                    return;
-//                }
-//                Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(AppEx.getContext().getContentResolver(), mCoverBmp, null,null));
-//                intent.putExtra(Intent.EXTRA_STREAM, uri);// uri为你的附件的uri
-//                intent.putExtra("subject", mShareTitle); //彩信的主题
-//                //intent.putExtra("sms_body", ResLoader.getString(R.string.share_text)); //彩信中文字内容
-//                intent.putExtra(Intent.EXTRA_TEXT, ResLoader.getString(R.string.share_text) + mShareUrl);
-//                intent.setType("image/*");// 彩信附件类型
-//                intent.setClassName("com.android.mms","com.android.mms.ui.ComposeMessageActivity"); // ComposeMessageActivity  NewMessageActivity
-//                startActivity(intent);
-//            }
-            else {
-                Type t = Type.qq;
+            Type t = null;
+            if (type == ShareType.contribute) {
+                ContributePlatformActivityRouter.create(mCourseId).route(getContext());
+            } else {
                 switch (type) {
                     case ShareType.wechat: {
                         t = Type.wechat;
@@ -294,11 +250,65 @@ public class ShareDialog extends BaseDialog {
                         }
                     }
                     break;
+                    case ShareType.dingding: {
+                        t = Type.dingding;
+                    }
+                    break;
                 }
                 Platform.share(t, param, listener);
             }
-            dismiss();
         });
     }
-}
 
+    private void getPlatform2() {
+        GridView gridView = findView(R.id.share_gridview2);
+        ShareAdapter shareAdapter = new ShareAdapter();
+        List<SharePreview> list = new ArrayList<>();
+
+        list.add(SharePreview.preview);
+        list.add(SharePreview.pwd);
+        list.add(SharePreview.copy);
+        list.add(SharePreview.delete);
+
+        shareAdapter.setData(list);
+        gridView.setAdapter(shareAdapter);
+
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            int type = shareAdapter.getItemViewType(position);
+            switch (type) {
+                case SharePreviewType.preview: {
+
+                }
+                break;
+                case SharePreviewType.pwd: {
+                    WatchPwdActivityRouter.create(Integer.valueOf(mCourseId)).route(getContext());
+                }
+                break;
+                case SharePreviewType.copy: {
+                    //创建一个新的文本clip对象
+                    ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
+                    //把clip对象放在剪切板中
+                    mClipboardManager.setPrimaryClip(clipData);
+                    showToast(R.string.copy_success);
+                }
+                break;
+                case SharePreviewType.delete: {
+                    deleteMeet(mCourseId, getContext());
+                }
+                break;
+            }
+        });
+    }
+
+    public static void deleteMeet(String courseId, Context context) {
+        CommonDialog2 d = new CommonDialog2(context);
+        d.setHint(R.string.ensure_delete);
+        d.addBlueButton(R.string.confirm, v1 ->
+                CommonServRouter.create(ReqType.share_delete_meet)
+                        .courseId(courseId)
+                        .route(context)
+        );
+        d.addGrayButton(R.string.cancel);
+        d.show();
+    }
+}

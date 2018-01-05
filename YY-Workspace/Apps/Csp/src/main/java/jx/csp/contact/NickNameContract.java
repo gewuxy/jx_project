@@ -14,11 +14,6 @@ public interface NickNameContract {
 
     interface V extends IContract.View {
         /**
-         * 设置文本清除
-         */
-        void setTextClear();
-
-        /**
          * 禁止输入空格
          *
          * @param text
@@ -47,12 +42,5 @@ public interface NickNameContract {
          * @param et
          */
         void onTextChangedListener(@NonNull EditText et);
-
-        /**
-         * 输入空格的监听
-         *
-         * @param et
-         */
-        void onTextBlankListener(@NonNull EditText et);
     }
 }

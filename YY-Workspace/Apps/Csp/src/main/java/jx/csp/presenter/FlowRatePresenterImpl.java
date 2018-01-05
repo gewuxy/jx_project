@@ -13,6 +13,7 @@ import jx.csp.model.pay.PingPayRecharge;
 import jx.csp.model.pay.PingPayRecharge.TPingPayRecharge;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.PayAPI;
+import jx.csp.network.UrlUtil;
 import lib.jx.contract.BasePresenterImpl;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -29,6 +30,9 @@ import pay.PayResult.TPayResult;
  */
 
 public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V> implements FlowRateContract.P {
+
+    //回调接口
+    private static final String KHostUrl = UrlUtil.getBaseUrl() + "charge/paypalCallback";
 
     private final int KFlowConversion = 1024; //流量单位
     private final int KPingReqCode = 0;
@@ -70,7 +74,7 @@ public class FlowRatePresenterImpl extends BasePresenterImpl<FlowRateContract.V>
         payResult.put(TPayResult.resultCode, resultCode);
         payResult.put(TPayResult.data, data);
 
-        PayAction.onResult(payResult, new OnPayListener() {
+        PayAction.onResult(KHostUrl, payResult, new OnPayListener() {
 
             @Override
             public void onPaySuccess() {

@@ -6,6 +6,7 @@ import com.mob.MobSDK;
 
 import java.util.HashMap;
 
+import cn.sharesdk.dingding.friends.Dingding;
 import cn.sharesdk.facebook.Facebook;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.PlatformDb;
@@ -27,6 +28,7 @@ import lib.platform.listener.OnShareListener;
 import lib.platform.model.AuthParams;
 import lib.platform.model.ShareParams;
 import lib.ys.AppEx;
+import lib.ys.ConstantsEx;
 import lib.ys.util.PackageUtil;
 
 /**
@@ -45,6 +47,7 @@ public class MobProvider implements Provider {
         init(Type.linkedin, getVal("LINKIN_APIKEY"), getVal("LINKIN_SECRETKEY"));
         init(Type.line, getVal("LINE_ID"), getVal("LINE_SECRET"));
         init(Type.facebook, getVal("FACEBOOK_KEY"), getVal("FACEBOOK_SECRET"));
+        init(Type.dingding, getVal("DINGDING_ID"), ConstantsEx.KEmpty);
     }
 
     private String getVal(String key) {
@@ -131,6 +134,12 @@ public class MobProvider implements Provider {
             case whatsapp: {
                 name = WhatsApp.NAME;
                 id = "10";
+            }
+            break;
+            case dingding: {
+                name = Dingding.NAME;
+                id = "11";
+                hashMap.put("AppId", key);
             }
             break;
         }
@@ -289,6 +298,14 @@ public class MobProvider implements Provider {
                     AppEx.showToast(R.string.line_check_app);
                     return;
                 }
+            }
+            break;
+            case dingding: {
+                p = ShareSDK.getPlatform(Dingding.NAME);
+//                if (!p.isClientValid()) {
+//                    AppEx.showToast(R.string.dingding_check_app);
+//                    return;
+//                }
             }
             break;
         }

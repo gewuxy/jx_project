@@ -41,8 +41,16 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
 
             @Override
             public void afterTextChanged(Editable s) {
+                et.removeTextChangedListener(this);
+                //限制空格输入
+                String text = s.toString();
+                text = text.replaceAll(" ", "");
+                getView().forbidInputBlank(text);
+
                 getView().buttonStatus();
                 getView().setClearButton(String.valueOf(s));
+
+                et.addTextChangedListener(this);
             }
         });
 
@@ -50,31 +58,5 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
             // iv是否显示
             getView().setClearButton(Util.getEtString(et));
         });
-    }
-
-    @Override
-    public void onTextBlankListener(@NonNull EditText et) {
-        mWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String text = s.toString();
-                text = text.replaceAll(" ", "");
-
-                et.removeTextChangedListener(mWatcher);
-                getView().forbidInputBlank(text);
-                et.addTextChangedListener(mWatcher);
-            }
-        };
-        et.addTextChangedListener(mWatcher);
     }
 }

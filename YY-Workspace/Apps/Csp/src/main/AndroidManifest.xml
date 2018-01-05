@@ -47,6 +47,9 @@
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.WatchPwdActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 登录 -->
         <activity
@@ -175,6 +178,16 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <!--钉钉分享回调-->
+        <activity
+            android:name=".app.ddshare.DDShareActivity"
+            android:launchMode="singleInstance"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <!-- service -->
         <service android:name=".serv.CommonServ"/>
@@ -259,6 +272,9 @@
         <meta-data
             android:name="FACEBOOK_SECRET"
             android:value="${facebook_secret}"/>
+        <meta-data
+            android:name="DINGDING_ID"
+            android:value="${dingding_id}"/>
 
     </application>
 
