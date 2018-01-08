@@ -63,6 +63,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private RecordPresenterImpl mRecordPresenter;
     private int mWsPosition = -1;  // websocket接收到的页数
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
+    private String mAudioFilePath; // 正在录制的音频文件名字
 
     @IntDef({
             ScrollType.last,
@@ -129,15 +130,33 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                         ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
                     }
                 }
-                String filePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+                String filePath = CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+                String amrFilePath = null;
+                String mp3FilePath = null;
+                File f_amr = null;
+                File f_mp3 = null;
                 // 判断这页是否已经录制过 有可能是mp3文件
-                File f = new File(filePath);
-                String mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
-                File f3 = new File(mp3FilePath);
-                if ((f.exists() || f3.exists()) && SpUser.inst().showRecordAgainDialog()) {
-                    showRecordAgainDialog(filePath, mp3FilePath);
+                if (filePath.contains(AudioType.amr)) {
+                    // 是amr文件
+                    amrFilePath = filePath;
+                    f_amr = new File(amrFilePath);
+                    mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
+                    f_mp3 = new File(mp3FilePath);
+                    YSLog.d(TAG, "是amr文件");
+                }
+                if (filePath.contains(AudioType.mp3)) {
+                    // 是mp3文件
+                    mp3FilePath = filePath;
+                    f_mp3 = new File(mp3FilePath);
+                    amrFilePath = filePath.replace(AudioType.mp3, AudioType.amr);
+                    f_amr = new File(amrFilePath);
+                    YSLog.d(TAG, "是mp3文件");
+                }
+
+                if ((f_amr.exists() || f_mp3.exists()) && SpUser.inst().showRecordAgainDialog()) {
+                    showRecordAgainDialog(amrFilePath, mp3FilePath);
                 } else {
-                    mRecordPresenter.startRecord(filePath, getCurrPosition());
+                    mRecordPresenter.startRecord(amrFilePath, getCurrPosition());
                     // 隐藏播放按钮
                     if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                         ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
@@ -345,10 +364,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             if (mRecordState) {
                 mRecordState = false;
                 mRecordPresenter.onlyStopRecord();
-                // 同时删除本地的音频
-                String audioFilePath = CacheUtil.getAudioPath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
-                boolean b = FileUtil.delFile(new File(audioFilePath));
-                YSLog.d(TAG, "无网络后删除正在录制的文件是否成功 = " + b);
+                // 同时删除正在录制的本地音频
+                if (mAudioFilePath != null) {
+                    boolean b = FileUtil.delFile(new File(mAudioFilePath));
+                    YSLog.d(TAG, "无网络后删除正在录制的文件是否成功 = " + b);
+                }
             }
             finish();
         }
@@ -407,8 +427,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         CommonDialog dialog = new CommonDialog(this);
         android.view.View view = inflate(R.layout.dialog_record_common);
         dialog.addHintView(view);
-        CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_record_common_cb);
-        TextView tv = (TextView) view.findViewById(R.id.dialog_record_common_tv);
+        CheckBox checkBox = view.findViewById(R.id.dialog_record_common_cb);
+        TextView tv = view.findViewById(R.id.dialog_record_common_tv);
         tv.setText(R.string.record_again);
         dialog.addBlackButton(getString(R.string.affirm), v -> {
             if (checkBox.isChecked()) {
@@ -422,9 +442,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             // 如果存在MP3文件，重新录制要改变播放文件  要删除MP3文件
             if ((new File(mp3FilePath)).exists()) {
                 YSLog.d(TAG, "showRecordAgainDialog mp3 file path " + mp3FilePath);
-                if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                    ((RecordImgFrag) getItem(getCurrPosition())).setAudioFilePath(filePath);
-                }
+                ((RecordImgFrag) getItem(getCurrPosition())).setAudioFilePath(filePath);
                 FileUtil.delFile(new File(mp3FilePath));
             }
         });
@@ -450,11 +468,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
                 CourseDetail courseDetail = mCourseDetailList.get(i);
                 courseDetailIdArray.put(i, courseDetail.getString(TCourseDetail.id));
-                // 判断是视频还是图片 如果是图片的话看有没有以前的录制时间
+                // 判断是视频还是图片 如果是图片的话看有没有以前的录制音频
                 if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                     RecordImgFrag frag = RecordImgFragRouter
                             .create(courseDetail.getString(TCourseDetail.imgUrl))
-                            .audioFilePath(CacheUtil.getAudioPath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
+                            .audioFilePath(CacheUtil.createAudioFile(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                             .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
                             .route();
                     frag.setPlayerListener(mRecordPresenter);
@@ -505,6 +523,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mTvRecordState.setText("00:00");
             getViewPager().setScrollable(false);
             showView(mGestureView);
+        }
+
+        @Override
+        public void setAudioFilePath(String filePath) {
+            mAudioFilePath = filePath;
         }
 
         @Override

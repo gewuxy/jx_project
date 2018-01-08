@@ -67,6 +67,8 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
                 mUploadFilePathList.addLast(audioFilePath);
             }
             upload();
+        } else {
+            YSLog.d(TAG, "上传音频文件不存在");
         }
     }
 
