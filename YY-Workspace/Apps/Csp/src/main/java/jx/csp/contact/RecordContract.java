@@ -23,6 +23,8 @@ public interface RecordContract {
 
         void startRecordState();
 
+        void setAudioFilePath(String filePath);
+
         void stopRecordState();
 
         /**

@@ -89,8 +89,10 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             mCountDown.start(KCountDownTime);
+            getView().setAudioFilePath(filePath);
             getView().startRecordState();
         } catch (IOException e) {
+            YSLog.d(TAG, "record fail msg = " + e.getMessage());
             getView().showToast(R.string.record_fail);
         }
     }

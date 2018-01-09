@@ -292,7 +292,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
      * @param type
      */
     protected void uploadAudioFile(String courseId, int page, @PlayType int type) {
-        String audioFilePath = CacheUtil.getAudioPath(courseId, mCourseDetailList.get(page).getInt(TCourseDetail.id));
+        String audioFilePath = CacheUtil.getExistAudioFilePath(courseId, mCourseDetailList.get(page).getInt(TCourseDetail.id));
         uploadAudioFile(courseId, page, type, audioFilePath, 0);
     }
 
