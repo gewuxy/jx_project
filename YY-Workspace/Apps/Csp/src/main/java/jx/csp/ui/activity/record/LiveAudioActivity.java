@@ -167,9 +167,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 YSLog.d(TAG, "onPause的时候是视频 调用接口 视频 pos = " + getCurrPosition());
                 mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.id));
             }
-            mLiveState = false;
         }
-        mIvRecordState.setSelected(false);
     }
 
     @Override
@@ -224,7 +222,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
             if (mLiveState) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
-                mLiveState = false;
                 uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
@@ -239,7 +236,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     if (mLiveState) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
                         uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
-                        mLiveState = false;
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
                     mSendAcceptOrReject = true;
