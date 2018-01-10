@@ -46,12 +46,12 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     private MediaRecorder mMediaRecorder;
     private MediaPlayer mMediaPlayer;
 
-    private boolean mPlayState = false; // 是否在播放
     private long mTotalTime = 0; // 录制的总共时间 单位秒
     private long mTime; // 录制的时间 单位秒
     private CountDown mCountDown;
     private SparseArray<Integer> mRecordTimeArray;
     private int mPos; // 当前录制的ppt页面下标
+    private boolean mRecordState = false; // 录音状态
 
     public RecordPresenterImpl(V view) {
         super(view);
@@ -91,6 +91,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mCountDown.start(KCountDownTime);
             getView().setAudioFilePath(filePath);
             getView().startRecordState();
+            mRecordState = true;
         } catch (IOException e) {
             YSLog.d(TAG, "record fail msg = " + e.getMessage());
             getView().showToast(R.string.record_fail);
@@ -108,6 +109,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mMediaRecorder.stop();
             mMediaRecorder.reset();
         }
+        mRecordState = false;
         if (mCountDown != null) {
             mCountDown.stop();
         }
@@ -153,9 +155,8 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mCountDown.start(KCountDownTime);
             mMediaPlayer.setOnCompletionListener(mp -> {
                 frag.stopAnimation();
-                stopPlay();
+                getView().goneViceLine();
             });
-            mPlayState = true;
         } catch (IOException e) {
             getView().showToast(R.string.play_fail);
         }
@@ -164,7 +165,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void stopPlay() {
         if (mMediaPlayer != null) {
-            if (mPlayState) {
+            if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.stop();
                 getView().goneViceLine();
             }
@@ -173,7 +174,6 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         if (mCountDown != null) {
             mCountDown.stop();
         }
-        mPlayState = false;
     }
 
     @Override
@@ -182,18 +182,18 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mCountDown.start(KCountDownTime);
         }
         // 录制跟播放有不同的操作
-        if (mPlayState) {
-            int i = new Random().nextInt(20) + 5;
-            getView().setVoiceLineState(i);
-        } else {
+        if (mRecordState) {
             ++mTime;
             getView().setRecordTimeTv(Util.getSpecialTimeFormat(mTime, ":", ""));
+        }
+        if (mMediaPlayer.isPlaying()) {
+            int i = new Random().nextInt(20) + 5;
+            getView().setVoiceLineState(i);
         }
     }
 
     @Override
-    public void onCountDownErr() {
-    }
+    public void onCountDownErr() {}
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {

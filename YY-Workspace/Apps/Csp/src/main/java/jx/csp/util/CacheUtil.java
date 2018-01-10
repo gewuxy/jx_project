@@ -74,6 +74,7 @@ public class CacheUtil extends CacheUtilEx {
 
     public static String getExistAudioFilePath(String courseId, int pageId) {
         String basePath = mAudioCacheDir + courseId + File.separator + pageId;
+        FileUtil.ensureFileExist(basePath);
         File folder = new File(basePath);
         File[] files = folder.listFiles();
         if (files.length == 0) {
