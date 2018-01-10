@@ -91,27 +91,32 @@ public class RecordImgFrag extends BaseFrag {
         mAnimation = (AnimationDrawable) mIvAudio.getBackground();
         // 判断是否上传过音频，如果上传过再判断音频文件是否还存在，不存在就下载，下载下来的是mp3文件,下载完成显示播放按钮
         if (TextUtil.isNotEmpty(mAudioUrl)) {
-            File file = new File(mAudioFilePath);
-            YSLog.d(TAG, "audio already upload");
-            YSLog.d(TAG, "amr file path = " + mAudioFilePath + "  exist = " + file.exists());
-            if (file.exists()) {
+            // 文件有可能是amr或者mp3文件
+            String amrFilePath;
+            String mp3FilePath = null;
+            File f_amr = null;
+            File f_mp3 = null;
+            if (mAudioFilePath.contains(AudioType.amr)) {
+                amrFilePath = mAudioFilePath;
+                mp3FilePath = mAudioFilePath.replace(AudioType.amr, AudioType.mp3);
+                f_amr = new File(amrFilePath);
+                f_mp3 = new File(mp3FilePath);
+            }
+            if (mAudioFilePath.contains(AudioType.mp3)) {
+                mp3FilePath = mAudioFilePath;
+                amrFilePath = mAudioFilePath.replace(AudioType.mp3, AudioType.amr);
+                f_amr = new File(amrFilePath);
+                f_mp3 = new File(mp3FilePath);
+            }
+            if (f_amr.exists() || f_mp3.exists()) {
+                YSLog.d(TAG, "audio already upload");
                 showLayoutAudio();
             } else {
-                mAudioFilePath = mAudioFilePath.replace(AudioType.amr, AudioType.mp3);
-                YSLog.d(TAG, "mp3 file path = " + mAudioFilePath);
-                String filePath = mAudioFilePath.substring(0, mAudioFilePath.lastIndexOf(File.separator));
-                String fileName = mAudioFilePath.substring(mAudioFilePath.lastIndexOf(File.separator) + 1);
-                YSLog.d(TAG, "file path = " + filePath);
-                YSLog.d(TAG, "file name = " + fileName);
-                // 判断是否已经下载过
-                File f = new File(mAudioFilePath);
-                if (f.exists()) {
-                    showLayoutAudio();
-                    YSLog.d(TAG, "已经下载过MP3文件 " + fileName);
-                } else {
-                    YSLog.d(TAG, "现在下载MP3文件 " + fileName);
-                    exeNetworkReq(MeetingAPI.downloadAudio(filePath, fileName, mAudioUrl).build());
-                }
+                String filePath = mp3FilePath.substring(0, mAudioFilePath.lastIndexOf(File.separator));
+                String fileName = mp3FilePath.substring(mAudioFilePath.lastIndexOf(File.separator) + 1);
+                YSLog.d(TAG, "download file path = " + mp3FilePath);
+                YSLog.d(TAG, "现在下载MP3文件 " + fileName);
+                exeNetworkReq(MeetingAPI.downloadAudio(filePath, fileName, mAudioUrl).build());
             }
         }
     }
@@ -133,8 +138,8 @@ public class RecordImgFrag extends BaseFrag {
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        showLayoutAudio();
         super.onNetworkSuccess(id, r);
+        showLayoutAudio();
     }
 
     @Override

@@ -156,6 +156,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 if ((f_amr.exists() || f_mp3.exists()) && SpUser.inst().showRecordAgainDialog()) {
                     showRecordAgainDialog(amrFilePath, mp3FilePath);
                 } else {
+                    // 覆盖录制要删除以前的文件
+                    FileUtil.delFile(f_amr);
+                    FileUtil.delFile(f_mp3);
                     mRecordPresenter.startRecord(amrFilePath, getCurrPosition());
                     // 隐藏播放按钮
                     if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
@@ -374,13 +377,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
     }
 
-    protected void noPermissionState() {
+    private void noPermissionState() {
         showView(mTvStartRemain);
         mTvStartRemain.setText(R.string.no_record_permission);
         mIvRecordState.setClickable(false);
     }
 
-    protected void havePermissionState() {
+    private void havePermissionState() {
         initPhoneCallingListener();
         goneView(mTvStartRemain);
         mIvRecordState.setClickable(true);
@@ -472,7 +475,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 if (TextUtil.isEmpty(courseDetail.getString(TCourseDetail.videoUrl))) {
                     RecordImgFrag frag = RecordImgFragRouter
                             .create(courseDetail.getString(TCourseDetail.imgUrl))
-                            .audioFilePath(CacheUtil.createAudioFile(mCourseId, courseDetail.getInt(TCourseDetail.id)))
+                            .audioFilePath(CacheUtil.getExistAudioFilePath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                             .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
                             .route();
                     frag.setPlayerListener(mRecordPresenter);
