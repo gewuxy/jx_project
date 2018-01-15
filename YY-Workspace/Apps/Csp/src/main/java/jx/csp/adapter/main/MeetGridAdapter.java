@@ -1,5 +1,7 @@
 package jx.csp.adapter.main;
 
+import android.view.View;
+
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetGridVH;
 import jx.csp.model.main.Meet;
@@ -18,6 +20,16 @@ import lib.ys.util.TimeFormatter.TimeFormat;
  */
 
 public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
+
+    private OnAdapterLongClickListener mLongClickListener;
+
+    public interface OnAdapterLongClickListener {
+        void onLongClick(int position, View v);
+    }
+
+    public void setLongClickListener(OnAdapterLongClickListener longClickListener) {
+        mLongClickListener = longClickListener;
+    }
 
     @Override
     public int getConvertViewResId() {
@@ -40,6 +52,15 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
         setOnViewClickListener(position, holder.getItemLayout());
         setOnViewClickListener(position, holder.getIvShare());
         setOnViewClickListener(position, holder.getIvLive());
+
+        holder.getItemLayout().setOnLongClickListener(v -> {
+            if (mLongClickListener == null) {
+                return false;
+            } else {
+                mLongClickListener.onLongClick(position, v);
+                return true;
+            }
+        });
 
         showView(holder.getTvCurrentPage());
         showView(holder.getVDivider());

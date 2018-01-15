@@ -9,6 +9,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
+import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
@@ -80,6 +81,12 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         setOnClickListener(R.id.main_meet_single_iv_share);
         setOnClickListener(R.id.main_meet_single_layout);
         setOnClickListener(R.id.main_meet_single_iv_live);
+
+        findView(R.id.main_meet_single_layout).setOnLongClickListener(v -> {
+            String courseId = mMeet.getString(TMeet.id);
+            ShareDialog.deleteMeet(courseId, getContext());
+            return true;
+        });
 
         mIvCover.placeHolder(R.drawable.ic_default_main_vp)
                 .url(mMeet.getString(TMeet.coverUrl))

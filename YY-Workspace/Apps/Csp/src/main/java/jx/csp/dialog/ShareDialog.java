@@ -23,7 +23,6 @@ import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
 import jx.csp.network.NetworkApi;
-import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
@@ -113,7 +112,7 @@ public class ShareDialog extends BaseDialog {
             }
             break;
             case R.id.dialog_share_tv_delete: {
-                deleteMeet(mCourseId,getContext());
+                deleteMeet(mCourseId, getContext());
             }
             break;
             case R.id.dialog_share_tv_cancel: {
@@ -127,12 +126,12 @@ public class ShareDialog extends BaseDialog {
     public static void deleteMeet(String courseId, Context context) {
         CommonDialog2 d = new CommonDialog2(context);
         d.setHint(R.string.ensure_delete);
-        d.addBlueButton(R.string.confirm, v1 ->
+        d.addButton(R.string.cancel, R.color.text_333, null);
+        d.addButton(R.string.confirm, R.color.text_333, v1 ->
                 CommonServRouter.create(ReqType.share_delete_meet)
-                .courseId(courseId)
-                .route(context)
+                        .courseId(courseId)
+                        .route(context)
         );
-        d.addGrayButton(R.string.cancel);
         d.show();
     }
 
