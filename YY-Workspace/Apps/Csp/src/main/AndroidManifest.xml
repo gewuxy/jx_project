@@ -3,6 +3,7 @@
           package="jx.csp">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".App"
@@ -175,6 +176,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <activity
+            android:name=".ui.activity.JointAudioActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
 
         <!-- service -->
         <service android:name=".serv.CommonServ"/>

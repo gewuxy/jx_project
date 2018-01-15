@@ -18,7 +18,7 @@
     <color name="mask_bg">#4d000000</color>
 
     <!-- 直播状态的颜色 -->
-    <color name="live_circle_blue">#167afe</color>
+    <color name="live_circle_green">#ace400</color>
     <color name="live_circle_red">#d0011b</color>
 
     <!-- 透明度 -->
