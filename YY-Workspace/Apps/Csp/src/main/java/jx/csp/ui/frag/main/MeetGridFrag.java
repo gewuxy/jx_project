@@ -1,6 +1,7 @@
 package jx.csp.ui.frag.main;
 
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
 
@@ -12,6 +13,7 @@ import jx.csp.R;
 import jx.csp.adapter.main.MeetGridAdapter;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.main.MeetInfo;
 import jx.csp.model.main.MeetInfo.TMeetInfo;
 import jx.csp.network.JsonParser;
@@ -26,16 +28,23 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.ui.other.NavBar;
 
 /**
- * 首页网格的frag
+ * 首页九宫格的frag
  *
  * @auther WangLan
  * @since 2017/10/18
  */
 public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> implements
+        IMeetOpt,
         MeetContract.V,
         OnAdapterClickListener {
 
+    private OnMeetGridListener mListener;
+
     private MeetContract.P mPresenter;
+
+    public interface OnMeetGridListener {
+        void onMeetRefresh(List<Meet> data);
+    }
 
     @Override
     public void initData() {
@@ -44,7 +53,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     @Override
     public void initNavBar(NavBar bar) {
-        // no nav bar
     }
 
     @Override
@@ -61,26 +69,31 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     @Override
     public void getDataFromNet() {
-        // todo
         exeNetworkReq(MeetingAPI.meetingList(getOffset(), getLimit()).build());
     }
 
     @Override
     public IResult parseNetworkResponse(int id, String text) throws JSONException {
         Result<MeetInfo> info = JsonParser.ev(text, MeetInfo.class);
-
+        MeetInfo meetInfo = info.getData();
         Result<Meet> r = new Result<>();
         r.setCode(info.getCode());
-
-        MeetInfo meetInfo = info.getData();
         if (meetInfo != null) {
             int num = meetInfo.getInt(TMeetInfo.hideCount);
             runOnUIThread(() -> notify(NotifyType.meet_num, num));
             List<Meet> list = meetInfo.getList(TMeetInfo.list);
             r.setData(list);
         }
-
         return r;
+    }
+
+    @Override
+    public void onNetRefreshSuccess() {
+        super.onNetRefreshSuccess();
+
+        if (mListener != null) {
+            mListener.onMeetRefresh(getData());
+        }
     }
 
     @Override
@@ -108,14 +121,27 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         return inflate(R.layout.layout_main_empty_footer);
     }
 
-    @Override
-    public void onStopRefresh() {
-        stopRefresh();
+    public void setListener(OnMeetGridListener listener) {
+        mListener = listener;
     }
 
-    /**
-     * 允许进入会议
-     */
+    @Override
+    public void setPosition(int position) {
+        setSelection(position);
+    }
+
+    @Override
+    public int getPosition() {
+        RecyclerView rv = getScrollableView();
+        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
+        return l.findFirstVisibleItemPosition();
+    }
+
+    @Override
+    public void onStopRefresh() {
+    }
+
+    @Override
     public void allowEnter() {
         if (mPresenter == null) {
             YSLog.d(TAG, "grid enter p = null");
@@ -124,9 +150,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         mPresenter.allowEnter();
     }
 
-    /**
-     * 不允许进入会议
-     */
+    @Override
     public void notAllowEnter() {
         if (mPresenter == null) {
             YSLog.d(TAG, "grid noEnter p = null");
@@ -135,4 +159,32 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         mPresenter.notAllowEnter();
     }
 
+    @Override
+    public void showSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            Meet meet = getItem(i);
+            if (meet.getString(TMeet.id).equals(id)) {
+                getAdapter().showSharePlayback(i);
+            }
+        }
+    }
+
+    @Override
+    public void goneSharePlayback(String id) {
+        for (int i = 0; i < getData().size(); ++i) {
+            Meet meet = getItem(i);
+            if (meet.getString(TMeet.id).equals(id)) {
+                getAdapter().goneSharePlayback(i);
+            }
+        }
+    }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+
+        if (mListener != null) {
+            mListener.onMeetRefresh(getData());
+        }
+    }
 }
