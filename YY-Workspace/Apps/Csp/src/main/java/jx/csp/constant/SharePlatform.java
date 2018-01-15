@@ -25,7 +25,12 @@ public enum SharePlatform {
     overseas_line(ShareType.line, R.drawable.share_ic_line, getString(R.string.Line)),
     overseas_linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin)),
     overseas_sms(ShareType.sms, R.drawable.share_ic_sms, getString(R.string.SMS)),
-    overseas_contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute));
+    overseas_contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute)),
+
+    preview(ShareType.preview, R.drawable.share_ic_copy, getString(R.string.preview)),
+    pwd(ShareType.wathc_pwd, R.drawable.share_ic_copy, getString(R.string.watch_pwd)),
+    copy(ShareType.copy, R.drawable.share_ic_copy, getString(R.string.copy_link)),
+    delete(ShareType.delete, R.drawable.share_ic_copy, getString(R.string.delete_speech));
 
     private int mType;  // 分享平台类型
     private int mIcon; // 分享平台图像

@@ -27,6 +27,6 @@
             android:visibility="gone"
             android:text="还有5天到期"
             android:textSize="10dp"
-            android:textColor="@color/text_af"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 </LinearLayout>

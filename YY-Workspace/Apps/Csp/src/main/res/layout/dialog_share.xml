@@ -10,14 +10,15 @@
         android:id="@+id/layout_share"
         android:layout_width="match_parent"
         android:layout_height="207dp"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingTop="25dp">
 
         <GridView
             android:id="@+id/share_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:listSelector="@color/transparent"
             android:numColumns="4"
             android:verticalSpacing="31dp"/>
 
@@ -30,15 +31,16 @@
     <LinearLayout
         android:id="@+id/layout_share2"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical"
+        android:layout_height="110dp"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingTop="25dp">
 
         <GridView
             android:id="@+id/share_gridview2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:listSelector="@color/transparent"
             android:numColumns="4"
             android:verticalSpacing="31dp"/>
 

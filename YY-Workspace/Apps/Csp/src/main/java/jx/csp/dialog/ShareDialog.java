@@ -16,18 +16,13 @@ import java.util.List;
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
-import jx.csp.adapter.main.ShareAdapter;
 import jx.csp.adapter.main.SharePlatformAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
-import jx.csp.constant.SharePreview;
-import jx.csp.constant.SharePreviewType;
 import jx.csp.constant.ShareType;
 import jx.csp.network.NetworkApi;
-import jx.csp.serv.CommonServ.ReqType;
-import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.WatchPwdActivityRouter;
 import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
@@ -168,7 +163,7 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.overseas_line);
             sharePlatformList.add(SharePlatform.overseas_linkedin);
             sharePlatformList.add(SharePlatform.overseas_sms);
-            sharePlatformList.add(SharePlatform.contribute);
+            sharePlatformList.add(SharePlatform.overseas_contribute);
         }
 
         adapter.setData(sharePlatformList);
@@ -262,13 +257,13 @@ public class ShareDialog extends BaseDialog {
 
     private void getPlatform2() {
         GridView gridView = findView(R.id.share_gridview2);
-        ShareAdapter shareAdapter = new ShareAdapter();
-        List<SharePreview> list = new ArrayList<>();
+        SharePlatformAdapter shareAdapter = new SharePlatformAdapter();
+        List<SharePlatform> list = new ArrayList<>();
 
-        list.add(SharePreview.preview);
-        list.add(SharePreview.pwd);
-        list.add(SharePreview.copy);
-        list.add(SharePreview.delete);
+        list.add(SharePlatform.preview);
+        list.add(SharePlatform.pwd);
+        list.add(SharePlatform.copy);
+        list.add(SharePlatform.delete);
 
         shareAdapter.setData(list);
         gridView.setAdapter(shareAdapter);
@@ -276,15 +271,15 @@ public class ShareDialog extends BaseDialog {
         gridView.setOnItemClickListener((parent, view, position, id) -> {
             int type = shareAdapter.getItemViewType(position);
             switch (type) {
-                case SharePreviewType.preview: {
+                case ShareType.preview: {
 
                 }
                 break;
-                case SharePreviewType.pwd: {
+                case ShareType.wathc_pwd: {
                     WatchPwdActivityRouter.create(Integer.valueOf(mCourseId)).route(getContext());
                 }
                 break;
-                case SharePreviewType.copy: {
+                case ShareType.copy: {
                     //创建一个新的文本clip对象
                     ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
                     //把clip对象放在剪切板中
@@ -292,23 +287,13 @@ public class ShareDialog extends BaseDialog {
                     showToast(R.string.copy_success);
                 }
                 break;
-                case SharePreviewType.delete: {
-                    deleteMeet(mCourseId, getContext());
+                case ShareType.delete: {
+                    Util.deleteMeet(mCourseId, getContext());
                 }
                 break;
             }
         });
     }
 
-    public static void deleteMeet(String courseId, Context context) {
-        CommonDialog2 d = new CommonDialog2(context);
-        d.setHint(R.string.ensure_delete);
-        d.addBlueButton(R.string.confirm, v1 ->
-                CommonServRouter.create(ReqType.share_delete_meet)
-                        .courseId(courseId)
-                        .route(context)
-        );
-        d.addGrayButton(R.string.cancel);
-        d.show();
-    }
+
 }

@@ -12,7 +12,6 @@ import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.constant.FormType;
 import jx.csp.dialog.CommonDialog2;
-import jx.csp.dialog.CommonDialog3;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -21,6 +20,7 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.MainActivity;
+import jx.csp.util.Util;
 import lib.jx.network.BaseJsonParser.ErrorCode;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;
@@ -147,11 +147,9 @@ public class EmailLoginActivity extends BaseLoginActivity {
         stopRefresh();
         boolean flag = false;
         if (r.isSucceed()) {
-            // FIXME: 2018/1/5 测试代码,非真实代码
             if (flag) {
-                CommonDialog3 dialog3 = new CommonDialog3(this);
-                dialog3.addBlueButton(R.string.confirm);
-                dialog3.show();
+                // FIXME: 2018/1/5 测试代码,非真实代码
+                Util.getFreezeDialog(this);
             }else {
                 SpApp.inst().saveUserEmail(getEmail());
                 Profile.inst().update((Profile) r.getData());
