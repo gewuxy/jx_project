@@ -3,7 +3,7 @@
 
     <color name="app_bg">#f1f2f6</color>
 
-    <color name="app_nav_bar_bg">#ffffff</color>
+    <color name="app_nav_bar_bg">#3b3e46</color>
 
     <color name="nav_bar_text_focus">#64000000</color>
     <drawable name="nav_bar_bg_focus">#64000000</drawable>
@@ -45,6 +45,7 @@
     <color name="text_3c5a96">#3c5a96</color>
     <color name="text_59adeb">#59adeb</color>
     <color name="text_50fff">#50ffffff</color>
+    <color name="text_ace400">#ace400</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
