@@ -85,7 +85,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="19dp"
-                android:button="@drawable/login_selector_visible"
+                android:button="@drawable/pwd_selector_visible"
                 android:checked="true"
                 android:gravity="center"/>
 

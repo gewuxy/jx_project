@@ -100,6 +100,11 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
         setOnClickListener(R.id.yaya_login);
     }
 
+    @Override
+    protected boolean enableHideKeyboardWhenChangeFocus() {
+        return true;
+    }
+
     private void buttonChanged(EditText et, ImageView iv) {
         et.addTextChangedListener(new TextWatcher() {
             @Override

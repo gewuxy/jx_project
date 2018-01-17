@@ -26,7 +26,6 @@ import jx.csp.R;
 import jx.csp.constant.Constants;
 import jx.csp.constant.MetaValue;
 import jx.csp.dialog.CommonDialog2;
-import jx.csp.dialog.CommonDialog3;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import lib.jx.util.BaseUtil;
@@ -250,16 +249,5 @@ public class Util extends BaseUtil {
         );
         d.addGrayButton(R.string.cancel);
         d.show();
-    }
-
-    /**
-     * 账号冻结
-     *
-     * @param context
-     */
-    public static void getFreezeDialog(Context context) {
-        CommonDialog3 dialog3 = new CommonDialog3(context);
-        dialog3.addBlueButton(R.string.confirm);
-        dialog3.show();
     }
 }

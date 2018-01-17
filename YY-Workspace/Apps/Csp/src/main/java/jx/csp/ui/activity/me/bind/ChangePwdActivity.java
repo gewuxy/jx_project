@@ -27,7 +27,8 @@ public class ChangePwdActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.change_old_pwd)
                 .hint(R.string.setting_old_pwd)
-                .drawable(R.drawable.login_selector_visible)
+                .drawable(R.drawable.pwd_selector_visible)
+                .layout(R.layout.form_edit_bind_email_pwd)
                 .textWatcher(this)
                 .limit(KLengthMax));
 
@@ -35,7 +36,8 @@ public class ChangePwdActivity extends BaseSetActivity {
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.change_new_pwd)
                 .hint(R.string.setting_new_pwd)
-                .drawable(R.drawable.login_selector_visible)
+                .drawable(R.drawable.pwd_selector_visible)
+                .layout(R.layout.form_edit_bind_email_pwd)
                 .textWatcher(this)
                 .limit(KLengthMax));
     }

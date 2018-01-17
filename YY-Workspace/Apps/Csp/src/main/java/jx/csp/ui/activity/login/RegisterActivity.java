@@ -56,7 +56,7 @@ public class RegisterActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
-                .hint(R.string.email_address)
+                .hint(R.string.email)
                 .textWatcher(this)
                 .layout(R.layout.form_edit_email))
                 .drawable(R.drawable.login_ic_email);
@@ -64,14 +64,14 @@ public class RegisterActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
-                .hint(R.string.input_pwd)
+                .hint(R.string.pwd)
                 .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.nickname)
-                .hint(R.string.input_nickname)
+                .hint(R.string.my_message_nick_name)
                 .textWatcher(this)
                 .drawable(R.drawable.login_ic_nickname)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {

@@ -2,6 +2,7 @@ package jx.csp.ui.activity.login;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -49,6 +50,12 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
                 .textWatcher(this)
+                .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
+                    if (source.equals(" ")) {
+                        return "";
+                    }
+                    return null;
+                })
                 .drawable(R.drawable.login_ic_nickname));
         addItem(Form.create(FormType.divider_margin));
     }
@@ -66,6 +73,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
 
         setOnClickListener(R.id.protocol);
         showView(mLayout);
+        goneView(mTvWelcome);
     }
 
     @Override

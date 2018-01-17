@@ -8,30 +8,39 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
-import jx.csp.util.Util;
 import lib.jx.model.form.BaseForm;
 import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/7/24
  */
-abstract public class BaseLoginActivity extends BaseFormActivity implements TextWatcher {
+abstract public class BaseLoginActivity extends BaseFormActivity implements TextWatcher{
+
+    protected final int KPaddingLeft = 30;
 
     private TextView mTvSet;
+    protected TextView mTvWelcome;
 
     @Override
-    public final int getContentViewId() {
+    public int getContentViewId() {
         return R.layout.activity_base_login;
     }
 
     @Override
-    public final void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, getNavBarText(), this);
+    public void initNavBar(NavBar bar) {
+        bar.setBackgroundResource(R.color.transparent);
+        bar.addViewRight(R.drawable.default_ic_close, v -> finish());
+    }
+
+    @Override
+    protected TNavBarState getNavBarState() {
+        return TNavBarState.above;
     }
 
     @CallSuper
@@ -40,6 +49,7 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         super.findViews();
 
         mTvSet = findView(R.id.base_set_tv_set);
+        mTvWelcome = findView(R.id.login_tv_welcome);
     }
 
     @CallSuper

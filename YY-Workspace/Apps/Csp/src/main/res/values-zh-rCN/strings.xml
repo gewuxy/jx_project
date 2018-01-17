@@ -65,10 +65,10 @@
     <string name="login_title">CSP</string>
     <string name="login_wechat">微信登录</string>
     <string name="login_sina">微博登录</string>
-    <string name="login_jx">敬信数字平台登录</string>
+    <string name="login_jx">敬信</string>
     <string name="have_agree_to">登录即表示您已同意</string>
     <string name="protocol">《会讲服务协议》</string>
-    <string name="other_login_type">其他登录方式</string>
+    <string name="other_login_type">其他方式</string>
     <string name="Register_indicate_have_read">注册表示您已阅读，并同意</string>
     <string name="mobilephone">手机</string>
     <string name="email">邮箱</string>
@@ -79,9 +79,10 @@
     <string name="forget_pwd">忘记密码</string>
     <string name="email_address">输入邮箱地址</string>
     <string name="input_pwd">输入密码</string>
-    <string name="input_login_pwd">设置登录密码</string>
+    <string name="input_login_pwd">输入登录密码</string>
     <string name="input_phone_number">输入手机号</string>
     <string name="input_captcha">输入验证码</string>
+    <string name="captcha">验证码</string>
     <string name="input_nickname">输入昵称</string>
     <string name="confirm_login">确认登录</string>
     <string name="get_captcha">获取验证码</string>
@@ -99,8 +100,8 @@
     <string name="immediately_login">立即登录</string>
     <string name="input_special_symbol">不能包含非法字符</string>
     <string name="input_right_pwd_num">请输入6〜24位密码</string>
-    <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱，\n请设置密码后再重新登录</string>
-    <string name="active_email">激活账号邮件已发送至您的邮箱，请前往激活完成注册。</string>
+    <string name="reset_pwd_to_email">重置密码链接已发送至您的邮箱</string>
+    <string name="active_email">邮件已发送至您邮箱，请前往激活。</string>
     <string name="back_to_login">%ds 返回登录</string>
     <string name="visit_csp">使用敬信数字平台账号访问 CSPmeeting</string>
     <string name="username">用户名</string>

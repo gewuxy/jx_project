@@ -2,7 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/iv.form"
@@ -11,14 +12,14 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="52dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_marginLeft="@dimen/margin"
                 android:src="@drawable/login_ic_email"/>
 
@@ -31,8 +32,6 @@
             <ImageView
                 style="@style/iv.form.clean"/>
         </LinearLayout>
-
-
     </LinearLayout>
 
 </LinearLayout>

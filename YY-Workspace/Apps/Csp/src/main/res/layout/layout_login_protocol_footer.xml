@@ -4,15 +4,13 @@
     style="@style/v.login.foot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="27dp"
-    android:layout_marginTop="30dp"
     android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/have_agree_to"
-        android:textColor="@color/text_333"
+        android:textColor="@color/text_c6c5cb"
         android:textSize="10dp"/>
 
     <TextView
@@ -20,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/protocol"
-        android:textColor="@color/text_167afe"
+        android:textColor="@color/text_c6c5cb"
         android:textSize="10dp"/>
 
 </LinearLayout>

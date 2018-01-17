@@ -2,14 +2,7 @@ package jx.csp.ui.activity.login;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-
-import com.pili.pldroid.player.widget.PLVideoTextureView;
-import com.pili.pldroid.player.widget.PLVideoView;
-
-import java.io.File;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
@@ -18,7 +11,6 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.util.CacheUtil;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
@@ -26,7 +18,6 @@ import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
 
 /**
@@ -35,9 +26,6 @@ import lib.ys.util.UIUtil;
  */
 
 abstract public class BaseAuthLoginActivity extends BaseActivity {
-
-    private PLVideoTextureView mVideo;
-    private View mLayoutBg;
 
     @Override
     public void initData() {
@@ -52,8 +40,6 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     @CallSuper
     @Override
     public void findViews() {
-        mVideo = findView(getVideoViewId());
-        mLayoutBg = findView(getVideoBgId());
     }
 
     @SuppressLint("ResourceAsColor")
@@ -63,31 +49,13 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         UIUtil.setFlatBar(getWindow());
         getNavBar().setBackgroundColor(R.color.translucent);
 
-        setOnClickListener(R.id.login_mail);
         setOnClickListener(R.id.login_protocol);
-
-        // fixme:暂时使用铺满 https://developer.qiniu.com/pili/sdk/1210/the-android-client-sdk#6 可以改用
-        /**{@link LiveView}*/
-        mVideo.setDisplayAspectRatio(PLVideoView.ASPECT_RATIO_PAVED_PARENT);
-
-        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                startPlay();
-                removeOnGlobalLayoutListener(this);
-            }
-        });
     }
 
     @CallSuper
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.login_mail: {
-                startActivity(EmailLoginActivity.class);
-            }
-            break;
             case R.id.login_protocol: {
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
                         .route(this);
@@ -142,63 +110,10 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        //返回重新加载
-        startPlay();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //防止锁屏或者切出的时候，视频在播放
-        if (mVideo.isPlaying()) {
-            mVideo.stopPlayback();
-        }
-    }
-
-    private void startPlay() {
-        String filePath = CacheUtil.getVideoCacheDir() + CacheUtil.getVideoLoginFileName();
-        if (TextUtil.isEmpty(filePath)) {
-            return;
-        }
-        File file = new File(filePath);
-        if (!file.exists()) {
-            // 如果文件不存在
-            showView(mLayoutBg);
-            return;
-        }
-
-        if (mVideo == null) {
-            return;
-        }
-
-        prepared(filePath);
-        mVideo.setOnCompletionListener(mp -> prepared(filePath));
-    }
-
-    private void prepared(String path) {
-        mVideo.setVideoPath(path);
-        mVideo.setVolume(0, 0);
-        mVideo.setOnPreparedListener(plMediaPlayer -> {
-            if (mLayoutBg != null) {
-                goneView(mLayoutBg);
-            }
-        });
-    }
-
-    @Override
     public void onNotify(int type, Object data) {
         if (type == NotifyType.login) {
             finish();
-        } else if (type == NotifyType.login_video) {
-            startPlay();
         }
     }
 
-    @IdRes
-    abstract protected int getVideoViewId();
-
-    @IdRes
-    abstract protected int getVideoBgId();
 }

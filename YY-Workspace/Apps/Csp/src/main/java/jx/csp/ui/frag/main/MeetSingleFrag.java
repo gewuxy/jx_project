@@ -9,13 +9,13 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.MeetContract;
-import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
+import jx.csp.util.Util;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
@@ -84,7 +84,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
         findView(R.id.main_meet_single_layout).setOnLongClickListener(v -> {
             String courseId = mMeet.getString(TMeet.id);
-            ShareDialog.deleteMeet(courseId, getContext());
+            Util.deleteMeet(courseId, getContext());
             return true;
         });
 

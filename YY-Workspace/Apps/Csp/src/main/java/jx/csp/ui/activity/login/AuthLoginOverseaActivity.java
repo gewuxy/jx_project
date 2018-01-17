@@ -34,18 +34,8 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
 
         setOnClickListener(R.id.login_facebook);
         setOnClickListener(R.id.login_twitter);
-        setOnClickListener(R.id.login_mail);
-        setOnClickListener(R.id.login_jx);
-    }
-
-    @Override
-    protected int getVideoViewId() {
-        return R.id.login_oversea_video_view;
-    }
-
-    @Override
-    protected int getVideoBgId() {
-        return R.id.login_oversea_video_bg;
+        setOnClickListener(R.id.layout_login_email);
+        setOnClickListener(R.id.layout_login_jingxin);
     }
 
     @Override
@@ -61,7 +51,11 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
                 Platform.auth(Type.twitter, newListener(KIdTwitter, BindId.twitter));
             }
             break;
-            case R.id.login_jx: {
+            case R.id.layout_login_email: {
+                startActivity(EmailLoginActivity.class);
+            }
+            break;
+            case R.id.layout_login_jingxin: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;

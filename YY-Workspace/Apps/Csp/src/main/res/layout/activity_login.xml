@@ -1,112 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:scrollbars="none">
+    android:background="@drawable/login_ic_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="245dp">
-
-            <com.pili.pldroid.player.widget.PLVideoTextureView
-                android:id="@+id/login_video_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <View
-                    android:id="@+id/login_video_bg"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"
-                    android:visibility="gone"/>
-
-                <ImageView
-                    style="@style/iv.bg.login"/>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_ic_app_name"/>
 
         <LinearLayout
             android:id="@+id/layout_login_wechat"
             style="@style/v.login.btn"
-            android:layout_marginTop="35dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_wechat"
-                android:src="@drawable/login_ic_wechat"/>
+            android:layout_marginTop="68dp">
 
             <TextView
                 android:id="@+id/login_wechat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_wechat"
-                android:textColor="@color/text_7a8b9f"
+                android:textColor="@color/text_ace400"
                 android:textSize="16dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_login_sina"
+            android:id="@+id/layout_login_mobile"
             style="@style/v.login.btn"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_sina"
-                android:src="@drawable/login_ic_weibo"/>
+            android:layout_marginTop="28dp">
 
             <TextView
                 android:id="@+id/login_sina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/login_sina"
-                android:textColor="@color/text_7a8b9f"
+                android:text="手机登录"
+                android:textColor="@color/text_ace400"
                 android:textSize="16dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_login_jx"
-            style="@style/v.login.btn"
-            android:layout_marginTop="24dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@+id/login_jx"
-                android:src="@drawable/login_ic_jx"/>
-
-            <TextView
-                android:id="@+id/login_jx"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_jx"
-                android:textColor="@color/text_7a8b9f"
-                android:textSize="16dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="232dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="47dp"
-            android:layout_marginRight="47dp"
-            android:layout_marginTop="37dp">
+            android:layout_marginLeft="65dp"
+            android:layout_marginRight="65dp"
+            android:layout_marginTop="68dp">
 
             <include layout="@layout/layout_login_part_type"/>
 
@@ -119,22 +62,77 @@
             android:layout_marginTop="23dp"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/login_mobile"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/login_ic_mobile"/>
+            <LinearLayout
+                android:id="@+id/layout_login_weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/login_mail"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="50dp"
-                android:src="@drawable/login_ic_mail"/>
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="21dp"
+                    android:background="@drawable/login_ic_weibo"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/weibo"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_login_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="66dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="21dp"
+                    android:background="@drawable/login_ic_email2"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/email"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_login_jingxin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="66dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/login_ic_jingxin"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/login_jx"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"/>
+            </LinearLayout>
         </LinearLayout>
-
-        <include
-            layout="@layout/layout_login_protocol_footer"/>
-
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <include layout="@layout/layout_login_protocol_footer"/>
+    </LinearLayout>
+</RelativeLayout>

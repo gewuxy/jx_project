@@ -1,7 +1,6 @@
 package jx.csp.model.form.edit;
 
 import android.text.Editable;
-import android.widget.EditText;
 
 import jx.csp.R;
 import jx.csp.util.Util;
@@ -42,30 +41,12 @@ public class EditPhoneNumberForm extends EditForm {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        String str = s.toString();
-        if ((str.length() == 3 || str.length() == 8) && str.charAt(str.length() - 1) != ' ' && before > count) {
-            str = str.substring(0, str.length() - 1);
-
-            EditText et = getHolder().getEt();
-            et.setText(str);
-            et.setSelection(str.length());
-        }
-    }
-
-    @Override
     public void afterTextChanged(Editable s) {
         super.afterTextChanged(s);
         int length = s.length();
         if (mIsAdd) {
             String str = s.toString();
-            if (length == 3 || length == 8) {
-                String str1 = str + " "; //手动添加空格
-
-                EditText et = getHolder().getEt();
-                et.setText(str1);
-                et.setSelection(str1.length());
-            } else if (length == 13 && Util.isMobileCN(str)) {
+            if (length == 11 && Util.isMobileCN(str)) {
                 Notifier.inst().notify(NotifyType.fetch_message_captcha);
             }
         } else {

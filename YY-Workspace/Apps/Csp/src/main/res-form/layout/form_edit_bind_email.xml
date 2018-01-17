@@ -8,12 +8,6 @@
         style="@style/v.form"
         android:background="@drawable/white">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/form_ic_bind_email"
-            android:layout_marginLeft="@dimen/margin"/>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="52dp"
@@ -24,6 +18,9 @@
             <jx.csp.view.AutoCompleteEditText
                 android:id="@id/form_et"
                 style="@style/et.form.bind"
+                android:layout_marginLeft="@dimen/margin"
+                android:textColor="@color/text_333"
+                android:textColorHint="@color/text_9699A2"
                 android:layout_height="wrap_content"/>
 
             <ImageView

@@ -157,6 +157,7 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.dingding);
             sharePlatformList.add(SharePlatform.contribute);
         } else {
+            sharePlatformList.add(SharePlatform.wechat);
             sharePlatformList.add(SharePlatform.overseas_facebook);
             sharePlatformList.add(SharePlatform.overseas_twitter);
             sharePlatformList.add(SharePlatform.overseas_whatsapp);

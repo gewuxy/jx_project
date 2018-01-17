@@ -55,6 +55,12 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     @Override
+    public void setViews() {
+        super.setViews();
+        goneView(mTvWelcome);
+    }
+
+    @Override
     protected void toSet() {
         refresh(RefreshWay.dialog);
         exeNetworkReq(CommonAPI.findPwd(getEmail()).build());

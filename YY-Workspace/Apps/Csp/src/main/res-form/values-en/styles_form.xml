@@ -86,8 +86,8 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">@drawable/transparent</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/text_333</item>
-        <item name="android:textColorHint">@color/text_af</item>
+        <item name="android:textColor">@color/text_c6c5cb</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:textSize">@dimen/margin</item>
     </style>
 
@@ -95,7 +95,7 @@
         <item name="android:layout_marginLeft">12dp</item>
         <item name="android:layout_height">52dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:background">@drawable/white</item>
+        <item name="android:background">@color/transparent</item>
     </style>
 
 </resources>

@@ -20,7 +20,6 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.MainActivity;
-import jx.csp.util.Util;
 import lib.jx.network.BaseJsonParser.ErrorCode;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;
@@ -59,7 +58,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
-                .hint(R.string.email_address)
+                .hint(R.string.email)
                 .layout(R.layout.form_edit_email)
                 .textWatcher(this)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
@@ -77,7 +76,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
-                .hint(R.string.input_pwd)
+                .hint(R.string.pwd)
                 .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
@@ -145,20 +144,14 @@ public class EmailLoginActivity extends BaseLoginActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        boolean flag = false;
         if (r.isSucceed()) {
-            if (flag) {
-                // FIXME: 2018/1/5 测试代码,非真实代码
-                Util.getFreezeDialog(this);
-            }else {
-                SpApp.inst().saveUserEmail(getEmail());
-                Profile.inst().update((Profile) r.getData());
-                SpUser.inst().updateProfileRefreshTime();
+            SpApp.inst().saveUserEmail(getEmail());
+            Profile.inst().update((Profile) r.getData());
+            SpUser.inst().updateProfileRefreshTime();
 
-                notify(NotifyType.login);
-                startActivity(MainActivity.class);
-                finish();
-            }
+            notify(NotifyType.login);
+            startActivity(MainActivity.class);
+            finish();
         } else {
             onNetworkError(id, r.getError());
         }

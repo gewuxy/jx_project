@@ -89,11 +89,11 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     @Override
     public void setViews() {
         mScannerView.setOnScannerCompletionListener(this);
-        mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.btn_bg_blue));
+        mScannerView.setLaserFrameBoundColor(ResLoader.getColor(R.color.text_ace400));
         mScannerView.setDrawText(getString(R.string.aim_at_the_code), 12, Color.WHITE, true, 20);
         mScannerView.setLaserFrameSize(KFrameSize, KFrameSize);
         mScannerView.setLaserFrameTopMargin(KTopMargin);
-        mScannerView.setLaserColor(ResLoader.getColor(R.color.btn_bg_blue));
+        mScannerView.setLaserColor(ResLoader.getColor(R.color.text_ace400));
         mScannerView.setLaserLineResId(R.drawable.scan_ic_laser_line);
 
         addOnGlobalLayoutListener(new OnGlobalLayoutListener() {

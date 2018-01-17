@@ -82,6 +82,7 @@
     <string name="input_login_pwd">Password</string>
     <string name="input_phone_number">Phone number</string>
     <string name="input_captcha">Verification code</string>
+    <string name="captcha">Verification code</string>
     <string name="input_nickname">Your Name</string>
     <string name="confirm_login">Login</string>
     <string name="get_captcha">Security code</string>

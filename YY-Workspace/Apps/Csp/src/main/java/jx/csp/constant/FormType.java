@@ -15,6 +15,7 @@ import java.lang.annotation.RetentionPolicy;
         FormType.text_intent_bind,
         FormType.text_clear_cache,
 
+        FormType.divider,
         FormType.divider_margin,
         FormType.divider_large,
 
