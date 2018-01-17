@@ -28,7 +28,7 @@
     <string name="no_start">未開始</string>
     <string name="click_start_live">請點擊開始直播</string>
     <string name="live_fail">直播失敗</string>
-    <string name="no_camera_permission">攝像頭未開啟\n請確認是否授權成功</string>
+    <string name="no_camera_permission">攝像頭未開啟,\n請確認是否開啟授權</string>
     <string name="live_stop_remind_minute">還有%d分鐘，直播將自動關閉</string>
     <string name="live_stop_remind_second">還有%d秒，直播將自動關閉</string>
     <string name="live_stream_insufficient">流量不足，即將關閉視頻直播！</string>

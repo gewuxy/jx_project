@@ -3,7 +3,7 @@
 
     <color name="app_bg">#f1f2f6</color>
 
-    <color name="app_nav_bar_bg">#3B3E46</color>
+    <color name="app_nav_bar_bg">#3b3e46</color>
 
     <color name="nav_bar_text_focus">#64000000</color>
     <drawable name="nav_bar_bg_focus">#64000000</drawable>
@@ -18,7 +18,7 @@
     <color name="mask_bg">#4d000000</color>
 
     <!-- 直播状态的颜色 -->
-    <color name="live_circle_blue">#167afe</color>
+    <color name="live_circle_green">#ace400</color>
     <color name="live_circle_red">#d0011b</color>
 
     <!-- 透明度 -->
@@ -31,6 +31,7 @@
     <!-- 字体颜色 -->
     <color name="text_333">#333</color>
     <color name="text_888">#888</color>
+    <color name="text_9699A2">#9699A2</color>
     <color name="text_b3">#b3b3b3</color>
     <color name="text_666">#666666</color>
     <color name="text_af">#afafaf</color>
@@ -45,6 +46,7 @@
     <color name="text_3c5a96">#3c5a96</color>
     <color name="text_59adeb">#59adeb</color>
     <color name="text_50fff">#50ffffff</color>
+    <color name="text_ace400">#ace400</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
@@ -60,5 +62,9 @@
 
     <!--edt填充色-->
     <color name="edt_f3f6f8">#f3f6f8</color>
+
+    <color name="start_side">#282A30</color>
+    <color name="start_fill">#2B2F38</color>
+    <color name="start_select">#ACE400</color>
 
 </resources>
