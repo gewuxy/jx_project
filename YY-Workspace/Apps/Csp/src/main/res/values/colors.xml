@@ -29,7 +29,6 @@
     <color name="blue_alpha40">#663fa9f5</color>
 
     <!-- 字体颜色 -->
-    <color name="text_333">#333</color>
     <color name="text_888">#888</color>
     <color name="text_b3">#b3b3b3</color>
     <color name="text_666">#666666</color>
@@ -45,11 +44,12 @@
     <color name="text_3c5a96">#3c5a96</color>
     <color name="text_59adeb">#59adeb</color>
     <color name="text_50fff">#50ffffff</color>
+
+    <color name="text_333">#333</color>
     <color name="text_ace400">#ace400</color>
     <color name="text_c6c5cb">#c6c5cb</color>
     <color name="text_f2f2f4">#f2f2f4</color>
     <color name="text_9699A2">#9699a2</color>
-
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>

@@ -1,6 +1,5 @@
 package jx.csp.ui.frag.main;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,11 +12,9 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
-import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.presenter.MeetPresenterImpl;
 import jx.csp.util.Util;
 import lib.jx.ui.frag.base.BaseFrag;
-import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -37,10 +34,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     private ImageView mIvLive;
     private TextView mTvTitle;
     private TextView mTvTime;
-    private TextView mTvCurrentPage;
-    private View mDivider;
-    private TextView mTvTotalPage;
-    private TextView mTvState;
     private TextView mTvSharePlayback;
 
     @Arg
@@ -53,7 +46,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 
-    @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.frag_main_meet_single;
@@ -69,10 +61,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mTvTitle = findView(R.id.tv_title);
         mIvLive = findView(R.id.main_meet_single_iv_live);
         mTvTime = findView(R.id.tv_total_time);
-        mTvCurrentPage = findView(R.id.tv_current_page);
-        mDivider = findView(R.id.slide_divider);
-        mTvTotalPage = findView(R.id.tv_total_page);
-        mTvState = findView(R.id.tv_state);
         mTvSharePlayback = findView(R.id.frag_main_meet_single_tv_share_playback);
     }
 
@@ -94,37 +82,11 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 .load();
 
         mTvTitle.setText(mMeet.getString(TMeet.title));
-        mTvTotalPage.setText(mMeet.getString(TMeet.pageCount));
 
         switch (mMeet.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 hideView(mIvLive);
                 mTvTime.setText(mMeet.getString(TMeet.playTime));
-                switch (mMeet.getInt(TMeet.playState)) {
-                    case PlayState.un_start: {
-                        mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
-                        mTvState.setText(R.string.recorded);
-                    }
-                    break;
-                    case PlayState.record:
-                    case PlayState.stop: {
-                        mTvCurrentPage.setText(mMeet.getString(TMeet.playPage));
-                        mTvState.setText(R.string.on_record);
-                    }
-                    break;
-                    case PlayState.end: {
-                        mTvState.setText(ConstantsEx.KEmpty);
-                        hideView(mTvCurrentPage);
-                        hideView(mDivider);
-                    }
-                    break;
-                    default: {
-                        mTvState.setText(ConstantsEx.KEmpty);
-                        hideView(mTvCurrentPage);
-                        hideView(mDivider);
-                        break;
-                    }
-                }
             }
             break;
             case PlayType.live:
@@ -139,19 +101,11 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 }
                 int liveState = mMeet.getInt(TMeet.liveState);
                 if (liveState == LiveState.un_start || startTime > serverTime) {
-                    mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
-                    mTvState.setText(R.string.solive);
                     //直播的开始时间转换
                     mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
                 } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
-                    mTvCurrentPage.setText(mMeet.getString(TMeet.livePage));
-                    mTvState.setText(R.string.on_solive);
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 } else {
-                    mTvState.setText(ConstantsEx.KEmpty);
-                    mTvTime.setText(mMeet.getString(TMeet.playTime));
-                    hideView(mTvCurrentPage);
-                    hideView(mDivider);
                     hideView(mIvLive);
                 }
             }
@@ -205,7 +159,6 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
     public void showSharePlayback(String id) {
         if (mMeet.getString(TMeet.id).equals(id)) {
             showView(mTvSharePlayback);
-            goneView(mTvState);
         }
     }
 

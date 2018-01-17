@@ -150,7 +150,7 @@
     <string name="scan">扫一扫</string>
     <string name="aim_at_the_code">请对准二维码，耐心等待</string>
     <string name="fail_to_identify">无法识别此二维码</string>
-    <string name="ready">Ready！</string>
+    <string name="ready">请到网页添加讲本</string>
     <string name="copy_success">复制成功</string>
     <string name="main_record_dialog">另一台设备正在录播会议，继\n续可能中断该设备录播进度</string>
     <string name="main_live_dialog">另一台设备正在直播会议，继\n续可能中断该设备直播进度</string>
@@ -230,7 +230,7 @@
     <string name="setting_bind_email_succeed">发送成功</string>
     <string name="setting_bind_text">修改密码需绑定邮箱后才能继续操作</string>
     <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
-    
+
     <!-- 账号管理 -->
     <string name="account_manage">账号管理</string>
     <string name="account_not_bind">未绑定</string>

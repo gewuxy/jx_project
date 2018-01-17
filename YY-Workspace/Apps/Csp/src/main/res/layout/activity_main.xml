@@ -9,37 +9,22 @@
 
     <ImageView
         android:id="@+id/main_scan"
-        android:layout_width="74dp"
-        android:layout_height="74dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="68dp"
         android:src="@drawable/main_ic_scan"/>
 
     <!-- 过期提醒 -->
-    <LinearLayout
-        android:id="@+id/main_Layout_past"
+    <TextView
+        android:id="@+id/main_tv_past"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@color/pink_alpha60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_default_warning"/>
-
-        <TextView
-            android:id="@+id/main_tv_past"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:textColor="@color/white"
-            android:textSize="12dp"/>
-
-    </LinearLayout>
+        android:background="#2b2f38"
+        android:gravity="center"
+        android:textColor="@color/text_ace400"
+        android:textSize="12dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

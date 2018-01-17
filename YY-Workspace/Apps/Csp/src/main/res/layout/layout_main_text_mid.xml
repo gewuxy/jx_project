@@ -10,23 +10,23 @@
         android:id="@+id/main_layout_text_mid"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
-            android:textSize="17dp"
-            android:textColor="@color/nav_bar_text_selector"/>
+            android:textColor="@color/white"
+            android:textSize="17dp"/>
 
         <TextView
             android:id="@+id/main_tv_remind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:text="还有5天到期"
+            android:textColor="@color/text_ace400"
             android:textSize="10dp"
-            android:textColor="@color/white"/>
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

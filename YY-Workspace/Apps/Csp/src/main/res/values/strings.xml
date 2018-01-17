@@ -150,7 +150,7 @@
     <string name="scan">Scan</string>
     <string name="aim_at_the_code">Align QR Code within frame to scan</string>
     <string name="fail_to_identify">Fail to identify the QR code</string>
-    <string name="ready">Ready！</string>
+    <string name="ready">请到网页添加讲本</string>
     <string name="copy_success">Copy successfully!</string>
     <string name="main_record_dialog">Another device is recording. \nContinue could break off its \n recording progress</string>
     <string name="main_live_dialog">Another device is on air. \nContinue could break off its \n live progress</string>

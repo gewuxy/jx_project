@@ -47,7 +47,6 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 .load();
 
         holder.getTvTitle().setText(item.getString(TMeet.title));
-        holder.getTvTotalPage().setText(item.getString(TMeet.pageCount));
 
         setOnViewClickListener(position, holder.getItemLayout());
         setOnViewClickListener(position, holder.getIvShare());
@@ -62,37 +61,10 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
             }
         });
 
-        showView(holder.getTvCurrentPage());
-        showView(holder.getVDivider());
         switch (item.getInt(TMeet.playType)) {
             case PlayType.reb: {
                 holder.getTvTime().setText(item.getString(TMeet.playTime));
                 goneView(holder.getIvLive());
-                switch (item.getInt(TMeet.playState)) {
-                    case PlayState.un_start: {
-                        holder.getTvCurrentPage().setText(item.getString(TMeet.playPage));
-                        holder.getTvPlayState().setText(R.string.recorded);
-                    }
-                    break;
-                    case PlayState.record:
-                    case PlayState.stop: {
-                        holder.getTvCurrentPage().setText(item.getString(TMeet.playPage));
-                        holder.getTvPlayState().setText(R.string.on_record);
-                    }
-                    break;
-                    case PlayState.end: {
-                        holder.getTvPlayState().setText(ConstantsEx.KEmpty);
-                        goneView(holder.getTvCurrentPage());
-                        goneView(holder.getVDivider());
-                    }
-                    break;
-                    default:{
-                        holder.getTvPlayState().setText(ConstantsEx.KEmpty);
-                        goneView(holder.getTvCurrentPage());
-                        goneView(holder.getVDivider());
-                        break;
-                    }
-                }
             }
             break;
             case PlayType.live:
@@ -108,19 +80,12 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 long serverTime = item.getLong(TMeet.serverTime);
                 int liveState = item.getInt(TMeet.liveState);
                 if (liveState == LiveState.un_start || startTime > serverTime) {
-                    holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
-                    holder.getTvPlayState().setText(R.string.solive);
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
                 } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
-                    holder.getTvCurrentPage().setText(item.getString(TMeet.livePage));
-                    holder.getTvPlayState().setText(R.string.live);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 } else {
-                    goneView(holder.getTvCurrentPage());
-                    goneView(holder.getVDivider());
                     goneView(holder.getIvLive());
-                    holder.getTvPlayState().setText(ConstantsEx.KEmpty);
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 }
             }
@@ -133,7 +98,6 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
             return;
         }
         showView(getCacheVH(pos).getTvSharePlayback());
-        goneView(getCacheVH(pos).getTvPlayState());
     }
 
     public void goneSharePlayback(int pos) {

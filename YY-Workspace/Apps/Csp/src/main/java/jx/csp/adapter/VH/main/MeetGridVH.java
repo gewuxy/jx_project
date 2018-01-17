@@ -36,28 +36,12 @@ public class MeetGridVH extends RecyclerViewHolderEx {
         return getView(R.id.main_play_time);
     }
 
-    public TextView getTvCurrentPage() {
-        return getView(R.id.current_page);
-    }
-
-    public TextView getTvTotalPage() {
-        return getView(R.id.total_page);
-    }
-
-    public TextView getTvPlayState() {
-        return getView(R.id.current_state);
-    }
-
     public ImageView getIvLive() {
         return getView(R.id.main_meet_iv_live);
     }
 
     public ImageView getIvShare() {
         return getView(R.id.main_meet_iv_share);
-    }
-
-    public View getVDivider() {
-        return getView(R.id.square_divider);
     }
 
     public TextView getTvSharePlayback() {
