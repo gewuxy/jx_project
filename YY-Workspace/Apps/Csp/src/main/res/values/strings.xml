@@ -270,7 +270,7 @@
                                                 "Resource Platform".</string>
     <string name="contribute_confirm">Complete Contribution</string>
     <string name="contribute_platform_succeed">Contributed successfully</string>
-    <string name="contribute_not_submit_records_footer">- No Record -</string>
+    <string name="contribute_not_submit_records_footer">No Record</string>
     <string name="page_num">%s Page</string>
     <string name="solive">Live</string>
 

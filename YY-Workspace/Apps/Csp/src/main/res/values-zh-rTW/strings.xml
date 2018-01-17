@@ -267,7 +267,7 @@
     <string name="contribute_platform_hint_text">單位號需在“資源平台”打開\n“個投稿箱”功能才能接受投稿</string>
     <string name="contribute_confirm">確認投稿</string>
     <string name="contribute_platform_succeed">投稿成功</string>
-    <string name="contribute_not_submit_records_footer">- 無投稿記錄 -</string>
+    <string name="contribute_not_submit_records_footer">暫無投稿記錄</string>
     <string name="page_num">%s頁</string>
     <string name="solive">直播</string>
 

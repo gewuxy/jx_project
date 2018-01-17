@@ -28,6 +28,7 @@ public class FlowRateVH extends RecyclerViewHolderEx{
     public TextView getTvPrice(){
         return getView(R.id.flow_rate_tv_price);
     }
+
     public TextView getTvPriceText(){
         return getView(R.id.flow_rate_tv_price_text);
     }

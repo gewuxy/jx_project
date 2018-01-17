@@ -69,7 +69,7 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
             }
         });
-        mTv.setTextColor(ResLoader.getColor(R.color.text_167afe));
+        mTv.setTextColor(ResLoader.getColor(R.color.text_ace400));
     }
 
     @Override

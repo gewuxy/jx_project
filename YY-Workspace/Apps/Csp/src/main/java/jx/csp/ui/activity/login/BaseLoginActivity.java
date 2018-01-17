@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.login;
 
+import android.graphics.Rect;
 import android.support.annotation.CallSuper;
 import android.text.TextWatcher;
 import android.view.View;
@@ -121,6 +122,25 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
         } else {
             return ConstantsEx.KEmpty;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //获取当前屏幕内容的高度
+        getWindow().getDecorView().addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            //获取View可见区域的bottom
+            Rect rect = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+            if (bottom != 0 && oldBottom != 0 && bottom - rect.bottom <= 0) {
+                //隐藏
+                changeLocation(110);
+            } else {
+                //弹出
+                changeLocation(45);
+            }
+        });
     }
 
     protected void changeLocation(int topDp) {

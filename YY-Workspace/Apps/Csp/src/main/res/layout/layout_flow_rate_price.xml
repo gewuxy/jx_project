@@ -22,6 +22,7 @@
             android:id="@+id/flow_rate_tv_flow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:textColor="@color/text_333"
             android:textSize="@dimen/margin"/>
 
@@ -42,7 +43,8 @@
                 android:id="@+id/flow_rate_tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_167afe"
+                android:textStyle="bold"
+                android:textColor="@color/text_1fbedd"
                 android:textSize="14dp"/>
 
             <TextView
