@@ -111,11 +111,6 @@ public class RegisterActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.register);
-    }
-
-    @Override
     protected CharSequence getSetText() {
         return getString(R.string.immediately_register);
     }

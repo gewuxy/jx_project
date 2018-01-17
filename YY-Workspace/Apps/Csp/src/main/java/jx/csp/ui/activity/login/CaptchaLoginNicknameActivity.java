@@ -77,11 +77,6 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.captcha_login);
-    }
-
-    @Override
     protected CharSequence getSetText() {
         return getString(R.string.affirm);
     }

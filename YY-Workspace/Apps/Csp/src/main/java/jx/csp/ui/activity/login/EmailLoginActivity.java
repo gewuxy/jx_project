@@ -106,11 +106,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.email_login);
-    }
-
-    @Override
     protected CharSequence getSetText() {
         return getString(R.string.confirm_login);
     }

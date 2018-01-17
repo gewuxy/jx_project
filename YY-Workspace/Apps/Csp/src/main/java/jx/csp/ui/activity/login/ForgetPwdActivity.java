@@ -53,11 +53,6 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.find_pwd);
-    }
-
-    @Override
     protected CharSequence getSetText() {
         return getString(R.string.send_email);
     }
