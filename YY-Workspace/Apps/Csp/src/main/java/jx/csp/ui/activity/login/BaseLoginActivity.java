@@ -22,8 +22,6 @@ import lib.ys.ui.other.NavBar;
  */
 abstract public class BaseLoginActivity extends BaseFormActivity implements TextWatcher{
 
-    protected final int KPaddingLeft = 30;
-
     private TextView mTvSet;
     protected TextView mTvWelcome;
 

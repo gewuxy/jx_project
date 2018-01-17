@@ -66,6 +66,7 @@
                 android:id="@+id/layout_login_weibo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
@@ -85,19 +86,21 @@
             <LinearLayout
                 android:id="@+id/layout_login_email"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="3dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="66dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="21dp"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
                     android:background="@drawable/login_ic_email2"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="9dp"
                     android:text="@string/email"
                     android:textColor="@color/white"
                     android:textSize="11dp"/>
@@ -108,17 +111,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="66dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="21dp"
+                    android:layout_width="18dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/login_ic_jingxin"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/login_jx"
                     android:textColor="@color/white"
                     android:textSize="11dp"/>
@@ -129,9 +133,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="27dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="27dp">
 
         <include layout="@layout/layout_login_protocol_footer"/>
     </LinearLayout>

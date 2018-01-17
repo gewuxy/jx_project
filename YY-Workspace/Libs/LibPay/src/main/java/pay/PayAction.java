@@ -33,16 +33,16 @@ public class PayAction {
         PingPay.pay(activity, info);
     }
 
-    public static void startPayPalService(Context context){
-        PayPalPay.startPayPalService(context);
+    public static void startPayPalService(Context context, boolean isDebug) {
+        PayPalPay.startPayPalService(context, isDebug);
     }
 
-    public static void stopPayPalService(Context context){
+    public static void stopPayPalService(Context context) {
         PayPalPay.stopPayPalService(context);
     }
 
-    public static void payPalPay(Context context, String money){
-        PayPalPay.onPayPalPay(context, money);
+    public static void payPalPay(Context context, String money, boolean isDebug) {
+        PayPalPay.onPayPalPay(context, money, isDebug);
     }
 
 

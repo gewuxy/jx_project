@@ -70,7 +70,7 @@
     <string name="protocol">《會講服務協議》</string>
     <string name="other_login_type">其他</string>
     <string name="Register_indicate_have_read">註冊表示您已閱讀，並同意</string>
-    <string name="mobilephone">手機</string>
+    <string name="mobile">手機號</string>
     <string name="email">郵箱</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -86,12 +86,12 @@
     <string name="input_nickname">輸入暱稱</string>
     <string name="confirm_login">確認登錄</string>
     <string name="get_captcha">獲取驗證碼</string>
-    <string name="captcha_login">驗證碼登錄</string>
+    <string name="captcha_login">驗證登錄</string>
     <string name="find_pwd">找回密碼</string>
     <string name="send_email">發送驗證郵件</string>
     <string name="input_register_email">輸入註冊時的郵箱地址</string>
     <string name="register">註冊</string>
-    <string name="immediately_register">立即註冊</string>
+    <string name="immediately_register">確認註冊</string>
     <string name="pwd_err">密碼錯誤</string>
     <string name="get_captcha_frequently">獲取驗證碼次數頻繁,請稍後</string>
     <string name="send_captcha">已發送驗證碼</string>

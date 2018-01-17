@@ -7,10 +7,10 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 
 /**
@@ -48,7 +48,14 @@ public class SkipActivity extends BaseActivity implements OnCountDownListener {
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, mTitleText, this);
+        bar.addViewLeft(R.drawable.default_ic_close, v -> finish());
+        bar.addTextViewMid(mTitleText);
+        bar.setBackgroundResource(R.color.transparent);
+    }
+
+    @Override
+    protected TNavBarState getNavBarState() {
+        return TNavBarState.above;
     }
 
     @Override

@@ -10,8 +10,7 @@
 
         <lib.ys.network.image.NetworkImageView
             style="@style/iv.login"
-            android:layout_marginLeft="19dp"
-            android:layout_marginRight="2dp"/>
+            android:layout_marginLeft="@dimen/margin"/>
 
         <EditText
             android:id="@id/form_et"

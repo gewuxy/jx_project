@@ -37,27 +37,37 @@ public class PayPalPay {
 
     // FIXME: 2018/1/3 打包前必须切换真实环境
     // PayPal真实环境
-//    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
+    private static final String KConfigEnvironmentReal = PayPalConfiguration.ENVIRONMENT_PRODUCTION;
     // paypal申请到的设备ID
-//    private static final String KConfigClientId = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
+    private static final String KConfigClientIdReal = "ATVIu3HZHJ7ZVWPHPsjKbh7hJzduksrdYxwEQgdzibusZfFO2Cy8s4c0MU5f-XUnENZafVuVNINfMTqK";
 
     // PayPal沙盒测试
-    private static final String KConfigEnvironment = PayPalConfiguration.ENVIRONMENT_SANDBOX;
+    private static final String KConfigEnvironmentSandBox = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     //paypal官方申请的沙盒设备ID
-    private static final String KConfigClientId = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
+    private static final String KConfigClientIdSandBox = "ATBGjclV9GcygEwPz_58PUlxOvh0sJvC_Md3ZuTghMGlGIfQzgID_2zh93Ku44nMV6bcuGyoDvN3GHKv";
 
-    private static PayPalConfiguration mConfig = new PayPalConfiguration()
-            .environment(KConfigEnvironment)
-            .clientId(KConfigClientId);
+    //测试环境
+    private static PayPalConfiguration mConfigSandBox = new PayPalConfiguration()
+            .environment(KConfigEnvironmentSandBox)
+            .clientId(KConfigClientIdSandBox);
+
+    //真实环境
+    private static PayPalConfiguration mConfigReal = new PayPalConfiguration()
+            .environment(KConfigEnvironmentReal)
+            .clientId(KConfigClientIdReal);
 
     /**
      * 启动PayPal服务
      *
      * @param context
      */
-    public static void startPayPalService(Context context) {
+    public static void startPayPalService(Context context, boolean isDebug) {
         Intent intent = new Intent(context, PayPalService.class);
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfig);
+        if (isDebug) {
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigSandBox);
+        }else {
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigReal);
+        }
         context.startService(intent);
     }
 
@@ -76,12 +86,16 @@ public class PayPalPay {
      * @param context
      * @param money
      */
-    public static void onPayPalPay(Context context, String money) {
+    public static void onPayPalPay(Context context, String money, boolean isDebug) {
         PayPalPayment payment = new PayPalPayment(new BigDecimal(money), "USD", "money", PayPalPayment.PAYMENT_INTENT_SALE);
 
         Intent intent = new Intent(context, PaymentActivity.class);
         //发送相同的配置以恢复弹性
-        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfig);
+        if (isDebug) {
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigSandBox);
+        }else {
+            intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigReal);
+        }
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
 
         ((Activity) context).startActivityForResult(intent, KRequestCodePayment);

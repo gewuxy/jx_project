@@ -65,12 +65,13 @@
                 android:id="@+id/layout_login_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="21dp"
+                    android:layout_width="20dp"
+                    android:layout_height="16dp"
                     android:background="@drawable/login_ic_email2"/>
 
                 <TextView
@@ -91,8 +92,8 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="21dp"
+                    android:layout_width="18dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/login_ic_jingxin"/>
 
                 <TextView

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.adapter.FlowRateAdapter;
 import jx.csp.adapter.PaymentAdapter;
@@ -66,7 +67,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        PayAction.startPayPalService(this);
+        PayAction.startPayPalService(this, BuildConfig.DEBUG_NETWORK);
 
         mPricePosition = ConstantsEx.KInvalidValue;
         mPaymentPosition = ConstantsEx.KInvalidValue;
@@ -308,7 +309,7 @@ public class FlowRateManageActivity extends BaseActivity {
                 }
                 break;
             }
-            PayAction.payPalPay(FlowRateManageActivity.this, money);
+            PayAction.payPalPay(FlowRateManageActivity.this, money, BuildConfig.DEBUG_NETWORK);
         }
 
         @Override

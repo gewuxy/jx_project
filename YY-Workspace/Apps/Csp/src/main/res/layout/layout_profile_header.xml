@@ -28,6 +28,9 @@
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="18dp"/>
+            android:layout_marginRight="39dp"/>
+
+        <ImageView
+            style="@style/iv.arrow.align_right"/>
     </RelativeLayout>
 </LinearLayout>

@@ -71,9 +71,9 @@
 
     <style name="iv.form.clean">
         <item name="android:id">@id/form_iv_clean</item>
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:visibility">gone</item>
         <item name="android:src">@drawable/ic_default_clear</item>
         <item name="android:layout_marginRight">@dimen/margin</item>
