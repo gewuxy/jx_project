@@ -3,17 +3,21 @@ package jx.csp.ui.activity.login;
 import android.support.annotation.CallSuper;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
-import jx.csp.util.Util;
 import lib.jx.model.form.BaseForm;
 import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
+import lib.ys.fitter.Fitter;
+import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 
 /**
@@ -23,15 +27,24 @@ import lib.ys.ui.other.NavBar;
 abstract public class BaseLoginActivity extends BaseFormActivity implements TextWatcher {
 
     private TextView mTvSet;
+    protected TextView mTvWelcome;
+
+    private View mLayout;
 
     @Override
-    public final int getContentViewId() {
+    public int getContentViewId() {
         return R.layout.activity_base_login;
     }
 
     @Override
-    public final void initNavBar(NavBar bar) {
-        Util.addCloseIcon(bar, getNavBarText(), this);
+    public void initNavBar(NavBar bar) {
+        bar.setBackgroundResource(R.color.transparent);
+        bar.addViewRight(R.drawable.default_ic_close, v -> finish());
+    }
+
+    @Override
+    protected TNavBarState getNavBarState() {
+        return TNavBarState.above;
     }
 
     @CallSuper
@@ -39,7 +52,9 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     public void findViews() {
         super.findViews();
 
+        mLayout = findView(R.id.layout_btn);
         mTvSet = findView(R.id.base_set_tv_set);
+        mTvWelcome = findView(R.id.login_tv_welcome);
     }
 
     @CallSuper
@@ -83,13 +98,6 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     }
 
     /**
-     * 获取标题文本
-     *
-     * @return 标题的文本
-     */
-    abstract protected CharSequence getNavBarText();
-
-    /**
      * 获取按钮文本
      *
      * @return 按钮的文本
@@ -112,6 +120,19 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
             return form.getVal();
         } else {
             return ConstantsEx.KEmpty;
+        }
+    }
+
+    protected void changeLocation(int topDp) {
+        ViewGroup.LayoutParams params = mLayout.getLayoutParams();
+        if (params instanceof RelativeLayout.LayoutParams) {
+            RelativeLayout.LayoutParams p = (RelativeLayout.LayoutParams) params;
+            p.topMargin = Fitter.dp(topDp);
+            mLayout.setLayoutParams(params);
+        } else if (params instanceof LinearLayout.LayoutParams) {
+            LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) params;
+            p.topMargin = Fitter.dp(topDp);
+            mLayout.setLayoutParams(params);
         }
     }
 }

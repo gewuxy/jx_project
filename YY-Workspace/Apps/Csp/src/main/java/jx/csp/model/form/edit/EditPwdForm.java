@@ -18,7 +18,7 @@ import lib.ys.network.image.NetworkImageView;
  */
 public class EditPwdForm extends EditForm {
 
-    private boolean mFlag = true;//密码是否可见
+    private boolean mFlag = false;//密码是否可见
 
     @Override
     public int getContentViewResId() {

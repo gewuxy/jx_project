@@ -1,6 +1,7 @@
 package jx.csp.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.StringRes;
@@ -24,6 +25,9 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.constant.Constants;
 import jx.csp.constant.MetaValue;
+import jx.csp.dialog.CommonDialog2;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import lib.jx.util.BaseUtil;
 import lib.network.Network;
 import lib.ys.ui.other.NavBar;
@@ -213,23 +217,37 @@ public class Util extends BaseUtil {
      * @return
      */
     public static Bitmap getBitMBitmap(String urlPath) {
-
         final Bitmap[] map = {null};
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(urlPath);
-                    URLConnection conn = url.openConnection();
-                    conn.connect();
-                    InputStream in;
-                    in = conn.getInputStream();
-                    map[0] = BitmapFactory.decodeStream(in);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                URL url = new URL(urlPath);
+                URLConnection conn = url.openConnection();
+                conn.connect();
+                InputStream in;
+                in = conn.getInputStream();
+                map[0] = BitmapFactory.decodeStream(in);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
         return map[0];
+    }
+
+    /**
+     * 删除会议
+     *
+     * @param courseId
+     * @param context
+     */
+    public static void deleteMeet(String courseId, Context context) {
+        CommonDialog2 d = new CommonDialog2(context);
+        d.setHint(R.string.ensure_delete);
+        d.addBlueButton(R.string.confirm, v1 ->
+                CommonServRouter.create(ReqType.share_delete_meet)
+                        .courseId(courseId)
+                        .route(context)
+        );
+        d.addGrayButton(R.string.cancel);
+        d.show();
     }
 }

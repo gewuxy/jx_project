@@ -59,12 +59,16 @@ public class NickNameActivity extends BaseMyMessageActivity {
         ViewUtil.limitInputCount(mEt, mLimit);
 
         mNickNamePresenter.onTextChangedListener(mEt);
-        mNickNamePresenter.onTextBlankListener(mEt);
     }
 
     @Override
     public void onClick(View v) {
-        mNickNameView.setTextClear();
+        switch (v.getId()) {
+            case R.id.form_iv_clean: {
+                getEt().setText("");
+            }
+            break;
+        }
     }
 
     @Override
@@ -78,11 +82,6 @@ public class NickNameActivity extends BaseMyMessageActivity {
     }
 
     private class NickNameViewImpl extends MyMessageViewImpl implements NickNameContract.V {
-
-        @Override
-        public void setTextClear() {
-            getEt().setText("");
-        }
 
         @Override
         public void forbidInputBlank(String text) {

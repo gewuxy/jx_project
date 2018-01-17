@@ -3,16 +3,23 @@
     <!-- 通用 -->
     <item android:state_enabled="false">
         <shape>
-            <solid android:color="@color/btn_bg_blue_disabled"/>
+            <gradient
+                android:angle="90"
+                android:endColor="@color/btn_bg_black_disabled2"
+                android:startColor="@color/btn_bg_black_disabled"/>
             <corners android:radius="33dp"/>
         </shape>
     </item>
 
     <item android:state_enabled="true">
-        <ripple android:color="@color/btn_bg_blue_focus">
+        <ripple android:color="@color/btn_bg_black_focus">
             <item>
                 <shape>
-                    <solid android:color="@color/btn_bg_blue"/>
+                    <gradient
+                        android:angle="90"
+                        android:endColor="@color/btn_bg_black_above"
+                        android:centerColor="@color/btn_bg_black_mid"
+                        android:startColor="@color/btn_bg_black_below"/>
                     <corners android:radius="33dp"/>
                 </shape>
             </item>

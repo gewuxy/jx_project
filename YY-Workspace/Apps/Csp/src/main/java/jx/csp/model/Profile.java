@@ -6,6 +6,8 @@ import java.util.Observable;
 import jx.csp.constant.BindId;
 import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.model.meeting.WatchPwd;
+import jx.csp.model.meeting.WatchPwd.TWatchPwd;
 import jx.csp.sp.SpUser;
 import lib.ys.ConstantsEx;
 import lib.ys.impl.SingletonImpl;
@@ -45,6 +47,9 @@ public class Profile extends EVal<TProfile> implements ISingleton {
 
         @Bind(value = VipPackage.class)
         cspPackage,
+
+        @Bind(asList = WatchPwd.class)
+        watchPwdList,
     }
 
     private static Profile mInst = null;
@@ -89,6 +94,18 @@ public class Profile extends EVal<TProfile> implements ISingleton {
             for (BindInfo info : list) {
                 if (info.getInt(TBindInfo.thirdPartyId) == id) {
                     return info.getString(TBindInfo.nickName);
+                }
+            }
+        }
+        return ConstantsEx.KEmpty;
+    }
+
+    public String getWatchPwd(int id) {
+        List<WatchPwd> list = getList(TProfile.watchPwdList);
+        if (list != null) {
+            for (WatchPwd pwd : list) {
+                if (pwd.getInt(TWatchPwd.id) == id) {
+                    return pwd.getString(TWatchPwd.pwd);
                 }
             }
         }

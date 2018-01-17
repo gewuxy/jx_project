@@ -73,15 +73,16 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et_phone_number)
                 .related(RelatedId.phone_number)
-                .hint(R.string.input_phone_number)
+                .hint(R.string.mobile)
                 .textWatcher(this)
+                .layout(R.layout.form_edit_login_phone_number)
                 .drawable(R.drawable.login_ic_phone));
 
         addItem(Form.create(FormType.divider_margin));
 
         addItem(Form.create(FormType.et_captcha))
                 .related(RelatedId.captcha)
-                .hint(R.string.input_captcha)
+                .hint(R.string.captcha)
                 .textWatcher(this)
                 .textColorRes(R.color.bind_captcha_text_selector)
                 .drawable(R.drawable.login_ic_pwd)
@@ -109,13 +110,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.captcha_login);
-    }
-
-    @Override
     protected CharSequence getSetText() {
-        return getString(R.string.confirm_login);
+        return getString(R.string.captcha_login);
     }
 
     @Override

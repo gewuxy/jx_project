@@ -58,7 +58,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et)
                 .related(RelatedId.email)
-                .hint(R.string.email_address)
+                .hint(R.string.email)
                 .layout(R.layout.form_edit_email)
                 .textWatcher(this)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
@@ -76,7 +76,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
-                .hint(R.string.input_pwd)
+                .hint(R.string.pwd)
                 .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
         addItem(Form.create(FormType.divider_margin));
@@ -103,11 +103,6 @@ public class EmailLoginActivity extends BaseLoginActivity {
 
         showView(mLayout);
         showView(mLayoutRegister);
-    }
-
-    @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.email_login);
     }
 
     @Override

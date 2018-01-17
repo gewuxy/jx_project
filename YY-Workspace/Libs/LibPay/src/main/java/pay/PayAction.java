@@ -33,27 +33,30 @@ public class PayAction {
         PingPay.pay(activity, info);
     }
 
-    public static void startPayPalService(Context context){
-        PayPalPay.startPayPalService(context);
+    public static void startPayPalService(Context context, boolean isDebug) {
+        PayPalPay.startPayPalService(context, isDebug);
     }
 
-    public static void stopPayPalService(Context context){
+    public static void stopPayPalService(Context context) {
         PayPalPay.stopPayPalService(context);
     }
 
-    public static void payPalPay(Context context, int flow){
-        PayPalPay.onPayPalPay(context, flow);
+    public static void payPalPay(Context context, String money, boolean isDebug) {
+        PayPalPay.onPayPalPay(context, money, isDebug);
     }
 
 
-    public static void onResult(PayResult result, OnPayListener listener) {
+    public static void onResult(String url, PayResult result, OnPayListener listener) {
+        int requestCode = result.getInt(TPayResult.requestCode);
+        int resultCode = result.getInt(TPayResult.resultCode);
+        Intent data = (Intent) result.getObject(TPayResult.data);
         switch (result.getInt(TPayResult.type)) {
             case PayType.pingPP: {
-                PingPay.onResult(result.getInt(TPayResult.requestCode), result.getInt(TPayResult.resultCode), (Intent) result.getObject(TPayResult.data), listener);
+                PingPay.onResult(requestCode, resultCode, data, listener);
             }
             break;
             case PayType.payPal: {
-                PayPalPay.onResult(result.getInt(TPayResult.requestCode), result.getInt(TPayResult.resultCode), (Intent) result.getObject(TPayResult.data), listener);
+                PayPalPay.onResult(requestCode, resultCode, data, listener, url);
             }
             break;
             default: {

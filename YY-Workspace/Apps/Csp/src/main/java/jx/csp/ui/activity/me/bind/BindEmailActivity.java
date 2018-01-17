@@ -43,9 +43,10 @@ public class BindEmailActivity extends BaseSetActivity {
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_pwd)
                 .related(RelatedId.pwd)
+                .layout(R.layout.form_edit_bind_email_pwd)
                 .hint(R.string.input_login_pwd)
                 .textWatcher(this)
-                .drawable(R.drawable.login_selector_visible));
+                .drawable(R.drawable.pwd_selector_visible));
     }
 
     @Override

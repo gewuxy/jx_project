@@ -10,8 +10,8 @@
     <style name="tv.login.bottom">
         <item name="android:gravity">center</item>
         <item name="android:padding">5dp</item>
-        <item name="android:textColor">#FF888888</item>
-        <item name="android:textSize">13dp</item>
+        <item name="android:textColor">@color/text_c6c5cb</item>
+        <item name="android:textSize">14dp</item>
     </style>
 
     <style name="tv.agree"/>
@@ -19,7 +19,7 @@
     <style name="tv.agree.protocol">
         <item name="android:layout_gravity">center</item>
         <item name="android:text">@string/have_agree_to</item>
-        <item name="android:textColor">@color/text_333</item>
+        <item name="android:textColor">@color/text_c6c5cb</item>
         <item name="android:textSize">10dp</item>
     </style>
 
@@ -31,8 +31,8 @@
     </style>
 
     <style name="v.login.btn">
-        <item name="android:layout_width">280dp</item>
-        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_width">230dp</item>
+        <item name="android:layout_height">42dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/login_btn_selector_type_common</item>
@@ -45,10 +45,10 @@
         <item name="android:layout_height">52dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:paddingLeft">12dp</item>
-        <item name="android:background">@drawable/white</item>
-        <item name="android:textColor">@color/text_333</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/text_c6c5cb</item>
         <item name="android:textSize">@dimen/margin</item>
-        <item name="android:textColorHint">@color/text_af</item>
+        <item name="android:textColorHint">@color/white</item>
         <item name="android:singleLine">true</item>
     </style>
 

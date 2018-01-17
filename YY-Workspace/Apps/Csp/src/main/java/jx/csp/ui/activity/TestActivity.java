@@ -5,7 +5,12 @@ import android.content.Intent;
 import jx.csp.ui.activity.livevideo.LiveVideoActivity;
 import jx.csp.ui.activity.login.AuthLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginActivity;
+import jx.csp.ui.activity.login.CaptchaLoginNicknameActivity;
 import jx.csp.ui.activity.login.EmailLoginActivity;
+import jx.csp.ui.activity.login.SkipActivity;
+import jx.csp.ui.activity.me.bind.BindEmailActivity;
+import jx.csp.ui.activity.me.bind.BindPhoneActivity;
+import jx.csp.ui.activity.me.bind.ChangePwdActivity;
 import lib.jx.test.BaseTestActivity;
 import lib.ys.YSLog;
 
@@ -25,6 +30,11 @@ public class TestActivity extends BaseTestActivity {
         add("手机登录", new Intent(this, CaptchaLoginActivity.class));
         add("guide", GuideActivity.class);
         add("live video", LiveVideoActivity.class);
+        add("手机昵称", CaptchaLoginNicknameActivity.class);
+        add("注册跳转页面", SkipActivity.class);
+        add("手机绑定", BindPhoneActivity.class);
+        add("邮箱绑定", BindEmailActivity.class);
+        add("修改密码", ChangePwdActivity.class);
         //add("update notice dialog", view -> {});
 
         int[] A1 = new int[]{-1, 1, 3, 3, 3, 2, 1, 0};

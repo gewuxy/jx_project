@@ -2,11 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         style="@style/v.form"
-        android:background="@drawable/white">
+        android:background="@color/transparent">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -17,8 +18,9 @@
         <EditText
             android:id="@id/form_et"
             style="@style/et.common"
+            android:inputType="textPassword"
             android:paddingLeft="0dp"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="12dp"/>
 
         <ImageView style="@style/iv.form.clean"/>
 
@@ -26,8 +28,7 @@
             android:id="@id/form_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin"/>
-
+            android:layout_marginRight="22dp"/>
     </LinearLayout>
 
 </LinearLayout>

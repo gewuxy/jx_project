@@ -42,11 +42,10 @@ public class BindPhoneActivity extends BaseSetActivity {
                 .textWatcher(this)
                 .hint(R.string.input_phone_number));
 
-        addItem(Form.create(FormType.divider));
+        addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.et_captcha)
                 .related(RelatedId.bind_captcha)
                 .layout(R.layout.form_edit_captcha_bind_phone)
-                .drawable(R.drawable.login_ic_pwd)
                 .textColorRes(R.color.bind_captcha_text_selector)
                 .textWatcher(this)
                 .enable(false)

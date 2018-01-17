@@ -21,7 +21,7 @@
         android:layout_marginRight="29dp"
         android:layout_weight="0"
         android:text="@string/other_login_type"
-        android:textColor="@color/text_7a8b9f"
+        android:textColor="@color/text_f2f2f4"
         android:textSize="12dp"/>
 
     <View

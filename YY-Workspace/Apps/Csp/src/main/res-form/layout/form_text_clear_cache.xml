@@ -29,8 +29,10 @@
                 style="@style/tv.form"
                 android:text="@string/setting_clear"
                 android:textColor="@color/text_167afe"
-                android:layout_marginLeft="0dp"
-                />
+                android:layout_marginLeft="0dp"/>
+
+            <ImageView
+                style="@style/iv.arrow.align_right"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

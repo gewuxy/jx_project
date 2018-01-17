@@ -82,7 +82,6 @@ public class ProfileActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_margin));
         addItem(Form.create(FormType.text_intent)
                 .related(RelatedId.name)
-                .layout(R.layout.form_text_nick_name)
                 .name(R.string.my_message_nick_name)
                 .limit(18)
                 .intent(NickNameActivityRouter.newIntent(this, TProfile.nickName, false))

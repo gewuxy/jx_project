@@ -70,7 +70,7 @@
     <string name="protocol">CSPmeeting Terms of Service</string>
     <string name="other_login_type">or</string>
     <string name="Register_indicate_have_read">By tapping "Register Now", you agree to the</string>
-    <string name="mobilephone">Mobile</string>
+    <string name="mobile">Mobile</string>
     <string name="email">E-mail</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -82,6 +82,7 @@
     <string name="input_login_pwd">Password</string>
     <string name="input_phone_number">Phone number</string>
     <string name="input_captcha">Verification code</string>
+    <string name="captcha">Verification code</string>
     <string name="input_nickname">Your Name</string>
     <string name="confirm_login">Login</string>
     <string name="get_captcha">Security code</string>
@@ -122,8 +123,11 @@
     <string name="Line">Line</string>
     <string name="LinkedIn">LinkedIn</string>
     <string name="SMS">SMS</string>
+    <string name="DingDing">Dingding</string>
     <string name="copy_link">Copy Link</string>
     <string name="contribute">Contribute</string>
+    <string name="preview">Preview</string>
+    <string name="watch_pwd">WatchPassword</string>
     <string name="copy_ectype">Duplicate</string>
     <string name="delete_speech">Delete</string>
     <string name="share_success">Shared successfully</string>
@@ -146,7 +150,7 @@
     <string name="scan">Scan</string>
     <string name="aim_at_the_code">Align QR Code within frame to scan</string>
     <string name="fail_to_identify">Fail to identify the QR code</string>
-    <string name="ready">Ready！</string>
+    <string name="ready">请到网页添加讲本</string>
     <string name="copy_success">Copy successfully!</string>
     <string name="main_record_dialog">Another device is recording. \nContinue could break off its \n recording progress</string>
     <string name="main_live_dialog">Another device is on air. \nContinue could break off its \n live progress</string>
@@ -309,5 +313,13 @@
     <string name="vip_manage_advanced_version">Premium Edition</string>
     <string name="vip_manage_profession_version">Professional Edition</string>
     <string name="vip_manage_app_name">CSPmeeting</string>
+    
+    <!-- 观看密码 -->
+    <string name="watch_setting_watch_pwd">设置观看密码</string>
+    <string name="watch_input_pwd">输入4 - 8位英文或数字密码</string>
+    <string name="watch_create">自动生成</string>
+    <string name="watch_tips">设置分享密码，通过H5观看链接需要填写正确密码后观看（不影响会议投稿）</string>
+    <string name="watch_tips2">密码设置成功，可通过“删除密码”的方式取消或重制观看密码</string>
+    <string name="watch_delete_pwd">删除密码</string>
 
 </resources>

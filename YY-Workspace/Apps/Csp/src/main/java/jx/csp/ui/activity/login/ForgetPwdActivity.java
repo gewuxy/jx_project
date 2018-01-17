@@ -12,6 +12,7 @@ import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 
 /**
@@ -45,13 +46,21 @@ public class ForgetPwdActivity extends BaseLoginActivity {
     }
 
     @Override
-    protected CharSequence getNavBarText() {
-        return getString(R.string.find_pwd);
+    public void initNavBar(NavBar bar) {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> finish());
+        bar.addTextViewMid(getString(R.string.find_pwd));
+        bar.setBackgroundResource(R.color.transparent);
     }
 
     @Override
     protected CharSequence getSetText() {
         return getString(R.string.send_email);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+        goneView(mTvWelcome);
     }
 
     @Override

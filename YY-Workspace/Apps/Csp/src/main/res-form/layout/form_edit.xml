@@ -6,10 +6,11 @@
 
     <LinearLayout
         style="@style/v.form"
-        android:background="@drawable/white">
+        android:background="@drawable/transparent">
 
         <lib.ys.network.image.NetworkImageView
-            style="@style/iv.login"/>
+            style="@style/iv.login"
+            android:layout_marginLeft="@dimen/margin"/>
 
         <EditText
             android:id="@id/form_et"

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.adapter.FlowRateAdapter;
 import jx.csp.adapter.PaymentAdapter;
@@ -66,7 +67,7 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        PayAction.startPayPalService(this);
+        PayAction.startPayPalService(this, BuildConfig.DEBUG_NETWORK);
 
         mPricePosition = ConstantsEx.KInvalidValue;
         mPaymentPosition = ConstantsEx.KInvalidValue;
@@ -166,11 +167,11 @@ public class FlowRateManageActivity extends BaseActivity {
                         mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.wechat);
                     }
                     break;
-                    // FIXME: 2017/12/15 暂时不提供，后续版本再添加
-//                    case PayType.unionpay: {
-//                        mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.upacp);
-//                    }
-//                    break;
+                    // FIXME: 2017/12/15 暂时不提供，1.1.5版本再添加
+                    case PayType.unionpay: {
+                        mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.upacp);
+                    }
+                    break;
                     case PayType.paypal: {
                         mPresenter.confirmPay(KPayPalPayCode, mFlow, null);
                     }
@@ -187,6 +188,7 @@ public class FlowRateManageActivity extends BaseActivity {
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
                 list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
                 list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
+                list.add(new Payment(PayType.unionpay, R.drawable.flow_rate_ic_unionpay, false));
             } else {
                 list.add(new Payment(PayType.paypal, R.drawable.flow_rate_ic_paypal, true));
             }
@@ -196,12 +198,17 @@ public class FlowRateManageActivity extends BaseActivity {
             } else {
                 list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
                 list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
+                list.add(new Payment(PayType.unionpay, R.drawable.flow_rate_ic_unionpay, false));
             }
         }
         mPaymentPosition = 0;
         return list;
     }
 
+    /**
+     * 流量选择
+     * @return
+     */
     private List<FlowRate> getFlowData() {
         if (Util.checkAppCn()) {
             if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
@@ -283,7 +290,26 @@ public class FlowRateManageActivity extends BaseActivity {
         @Override
         public void setPayPalPay() {
             mReqCode = KPayPalPayCode;
-            PayAction.payPalPay(FlowRateManageActivity.this, mFlow);
+            String money = null;
+            switch (mFlow) {
+                case 5: {
+                    money = PriceValue.usdPrice1;
+                }
+                break;
+                case 25: {
+                    money = PriceValue.usdPrice2;
+                }
+                break;
+                case 100: {
+                    money = PriceValue.usdPrice3;
+                }
+                break;
+                case 500: {
+                    money = PriceValue.usdPrice4;
+                }
+                break;
+            }
+            PayAction.payPalPay(FlowRateManageActivity.this, money, BuildConfig.DEBUG_NETWORK);
         }
 
         @Override

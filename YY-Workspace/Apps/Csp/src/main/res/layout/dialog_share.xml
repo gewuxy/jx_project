@@ -10,14 +10,15 @@
         android:id="@+id/layout_share"
         android:layout_width="match_parent"
         android:layout_height="207dp"
-        android:orientation="vertical"
         android:gravity="center"
+        android:orientation="vertical"
         android:paddingTop="25dp">
 
         <GridView
             android:id="@+id/share_gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:listSelector="@color/transparent"
             android:numColumns="4"
             android:verticalSpacing="31dp"/>
 
@@ -27,29 +28,23 @@
         style="@style/divider"
         android:background="@color/color_db"/>
 
-    <TextView
-        android:id="@+id/dialog_share_tv_contribute"
-        style="@style/tv.dialog.share"
-        android:text="@string/contribute"/>
+    <LinearLayout
+        android:id="@+id/layout_share2"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="25dp">
 
-    <View
-        style="@style/divider"
-        android:background="@color/color_db"/>
+        <GridView
+            android:id="@+id/share_gridview2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:listSelector="@color/transparent"
+            android:numColumns="4"
+            android:verticalSpacing="31dp"/>
 
-    <TextView
-        android:id="@+id/dialog_share_tv_copy_duplicate"
-        style="@style/tv.dialog.share"
-        android:text="@string/copy_ectype"/>
-
-    <View
-        style="@style/divider"
-        android:background="@color/color_db"/>
-
-    <TextView
-        android:id="@+id/dialog_share_tv_delete"
-        style="@style/tv.dialog.share"
-        android:text="@string/delete_speech"
-        android:textColor="@color/text_e43939"/>
+    </LinearLayout>
 
     <View
         style="@style/divider"

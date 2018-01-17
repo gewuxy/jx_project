@@ -3,26 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/transparent">
 
     <LinearLayout
         style="@style/v.form"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="24dp">
+        android:layout_marginRight="@dimen/margin"
+        android:background="@color/transparent">
 
         <lib.ys.network.image.NetworkImageView
-            style="@style/iv.login"/>
+            style="@style/iv.login"
+            android:layout_marginLeft="@dimen/margin"/>
 
         <EditText
             android:id="@+id/form_et"
             style="@style/et.common"
             android:inputType="number"
-            android:singleLine="true"
-            android:maxLength="6"/>
+            android:maxLength="6"
+            android:singleLine="true"/>
 
-        <ImageView
-            style="@style/iv.form.clean"
-            android:layout_marginRight="0dp"/>
+        <ImageView style="@style/iv.form.clean"/>
 
         <lib.ys.view.CaptchaView
             android:id="@+id/form_tv_text"

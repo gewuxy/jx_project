@@ -26,7 +26,6 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
     private final int KIdWechatLogin = 3;
     private final int KIdSinaLogin = 4;
 
-
     @NonNull
     @Override
     public int getContentViewId() {
@@ -38,19 +37,10 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
         super.setViews();
 
         setOnClickListener(R.id.layout_login_wechat);
-        setOnClickListener(R.id.layout_login_sina);
-        setOnClickListener(R.id.login_mobile);
-        setOnClickListener(R.id.layout_login_jx);
-    }
-
-    @Override
-    protected int getVideoViewId() {
-        return R.id.login_video_view;
-    }
-
-    @Override
-    protected int getVideoBgId() {
-        return R.id.login_video_bg;
+        setOnClickListener(R.id.layout_login_weibo);
+        setOnClickListener(R.id.layout_login_mobile);
+        setOnClickListener(R.id.layout_login_email);
+        setOnClickListener(R.id.layout_login_jingxin);
     }
 
     @Override
@@ -64,17 +54,21 @@ public class AuthLoginActivity extends BaseAuthLoginActivity {
                 stopRefresh();
             }
             break;
-            case R.id.layout_login_sina: {
+            case R.id.layout_login_weibo: {
                 refresh(RefreshWay.dialog);
                 Platform.auth(Type.sina, newListener(KIdSinaLogin, BindId.sina));
                 stopRefresh();
             }
             break;
-            case R.id.login_mobile: {
+            case R.id.layout_login_mobile: {
                 startActivity(CaptchaLoginActivity.class);
             }
             break;
-            case R.id.layout_login_jx: {
+            case R.id.layout_login_email: {
+                startActivity(EmailLoginActivity.class);
+            }
+            break;
+            case R.id.layout_login_jingxin: {
                 startActivity(YaYaAuthorizeLoginActivity.class);
             }
             break;

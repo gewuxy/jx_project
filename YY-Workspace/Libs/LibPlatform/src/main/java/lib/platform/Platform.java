@@ -27,6 +27,7 @@ public class Platform {
         sms,
         facebook,
         whatsapp,
+        dingding,
     }
 
     private static Provider mProvider;

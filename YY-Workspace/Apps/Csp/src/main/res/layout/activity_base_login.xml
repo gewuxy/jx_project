@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/login_ic_background2"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -12,64 +12,44 @@
         android:id="@+id/layout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="38dp"
-        android:paddingRight="38dp">
+        android:layout_marginTop="110dp"
+        android:orientation="vertical">
 
-        <include layout="@layout/layout_form_items"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/login_tv_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="欢迎你"
+                android:textColor="@color/white"
+                android:textSize="28dp"
+                android:textStyle="bold"/>
+
+            <include layout="@layout/layout_form_items"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/base_set_tv_set"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="42dp"
-            android:background="@drawable/common_btn_selector_blue"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="15dp"/>
-    </LinearLayout>
+            style="@style/tv.common"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="32dp"
+            android:textSize="18dp"/>
 
-    <!-- 注册协议 -->
-    <LinearLayout
-        android:id="@+id/linea_layout_protocol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        style="@style/v.login.foot"
-        android:layout_marginBottom="27dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/have_agree_to"
-            style="@style/tv.agree.protocol"
-            android:text="@string/Register_indicate_have_read"/>
-
-        <TextView
-            android:id="@+id/service_agreement"
-            style="@style/tv.agree.protocol"
-            android:text="@string/protocol"
-            android:textColor="@color/text_167afe"/>
-    </LinearLayout>
-
-    <!-- 邮箱注册 -->
-    <LinearLayout
-        android:id="@+id/layout_email_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="27dp"
-        android:orientation="vertical"
-        android:visibility="gone">
-
+        <!-- 邮箱注册 -->
         <LinearLayout
             android:id="@+id/layout_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:gravity="center"
-            android:layout_marginTop="38dp"
             android:orientation="horizontal"
             android:visibility="gone">
 
@@ -90,24 +70,51 @@
                 android:layout_marginLeft="12dp"
                 android:text="@string/forget_pwd"/>
         </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="200dp"
-            style="@style/v.login.foot">
+    <!-- 注册协议 -->
+    <LinearLayout
+        android:id="@+id/linea_layout_protocol"
+        style="@style/v.login.foot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="27dp"
+        android:visibility="gone">
 
-            <TextView
-                android:id="@+id/agree_to"
-                style="@style/tv.agree.protocol"/>
+        <TextView
+            android:id="@+id/have_agree_to"
+            style="@style/tv.agree.protocol"
+            android:text="@string/Register_indicate_have_read"/>
 
-            <TextView
-                android:id="@+id/protocol"
-                style="@style/tv.agree.protocol"
-                android:text="@string/protocol"
-                android:textColor="@color/text_167afe"/>
-        </LinearLayout>
+        <TextView
+            android:id="@+id/service_agreement"
+            style="@style/tv.agree.protocol"
+            android:text="@string/protocol"/>
+    </LinearLayout>
+
+    <!-- 登录协议-->
+    <LinearLayout
+        android:id="@+id/layout_email_login"
+        style="@style/v.login.foot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="27dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/agree_to"
+            style="@style/tv.agree.protocol"/>
+
+        <TextView
+            android:id="@+id/protocol"
+            style="@style/tv.agree.protocol"
+            android:text="@string/protocol"/>
     </LinearLayout>
 
 </RelativeLayout>
