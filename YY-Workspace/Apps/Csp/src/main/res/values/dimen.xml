@@ -15,4 +15,6 @@
 
     <dimen name="main_vp_padding_horizontal">30dp</dimen>
 
+    <dimen name="start_thumb">28dp</dimen>
+
 </resources>

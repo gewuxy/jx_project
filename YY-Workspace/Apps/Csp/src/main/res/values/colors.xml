@@ -31,6 +31,7 @@
     <!-- 字体颜色 -->
     <color name="text_333">#333</color>
     <color name="text_888">#888</color>
+    <color name="text_9699A2">#9699A2</color>
     <color name="text_b3">#b3b3b3</color>
     <color name="text_666">#666666</color>
     <color name="text_af">#afafaf</color>
@@ -61,5 +62,9 @@
 
     <!--edt填充色-->
     <color name="edt_f3f6f8">#f3f6f8</color>
+
+    <color name="start_side">#282A30</color>
+    <color name="start_fill">#2B2F38</color>
+    <color name="start_select">#ACE400</color>
 
 </resources>
