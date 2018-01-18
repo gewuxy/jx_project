@@ -149,6 +149,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         });
         mIvShift = Util.getBarView(group, ImageView.class);
         mIvShift.setSelected(false);
+
+        Util.addDivider(bar);
     }
 
     @Override

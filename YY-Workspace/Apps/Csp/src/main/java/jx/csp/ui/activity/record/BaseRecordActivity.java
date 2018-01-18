@@ -110,6 +110,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl);
             dialog.show();
         });
+
+        Util.addDivider(bar);
     }
 
     @Override

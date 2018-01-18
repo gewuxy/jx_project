@@ -24,6 +24,7 @@ import jx.csp.network.NetworkApiDescriptor.CommonAPI;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
+import jx.csp.util.Util;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
@@ -78,6 +79,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         bar.setBackgroundResource(R.color.transparent);
         bar.addViewLeft(R.drawable.scan_ic_back, v -> finish());
         bar.addTextViewMid(getString(R.string.scan), R.color.white);
+        Util.addDivider(bar);
     }
 
     @Override

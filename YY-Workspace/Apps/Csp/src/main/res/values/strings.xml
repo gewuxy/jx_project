@@ -180,6 +180,7 @@
     <string name="already_download">%d completed</string>
     <string name="download_fail">Download failed</string>
     <string name="click_install">Install</string>
+    <string name="start_comment">星评</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>

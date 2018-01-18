@@ -14,6 +14,7 @@ import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.util.Util;
 import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
@@ -54,6 +55,7 @@ public class CopyDuplicateActivity extends BaseActivity {
     public void initNavBar(NavBar bar) {
         bar.addBackIcon(R.drawable.default_ic_close, this);
         bar.addTextViewMid(R.string.copy_ectype);
+        Util.addDivider(bar);
     }
 
     @Override

@@ -2,13 +2,13 @@ package lib.jx.ui.activity.base;
 
 import android.os.Bundle;
 
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.ui.activity.ActivityEx;
 import lib.jx.network.BaseJsonParser;
 import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.notify.Notifier.OnNotify;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.ui.activity.ActivityEx;
 
 /**
  * @author CaiXiang

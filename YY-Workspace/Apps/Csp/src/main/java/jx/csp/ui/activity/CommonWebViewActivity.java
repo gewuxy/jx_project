@@ -6,6 +6,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.util.UISetter;
+import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseWebViewActivity;
 import lib.ys.ui.other.NavBar;
 
@@ -36,6 +37,7 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
         bar.addBackIcon(R.drawable.nav_bar_ic_back, this);
 
         UISetter.setNavBarMidText(bar, mName, this);
+        Util.addDivider(bar);
     }
 
     @Override

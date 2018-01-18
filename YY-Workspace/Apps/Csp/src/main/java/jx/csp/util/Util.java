@@ -35,6 +35,7 @@ import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * @author CaiXiang
@@ -46,16 +47,24 @@ public class Util extends BaseUtil {
 
     public static void addBackIcon(NavBar n, final Activity act) {
         n.addBackIcon(R.drawable.nav_bar_ic_back, act);
+        addDivider(n);
     }
 
     public static void addBackIcon(NavBar n, CharSequence text, final Activity act) {
         n.addTextViewMid(text);
         n.addBackIcon(R.drawable.nav_bar_ic_back, act);
+        addDivider(n);
     }
 
     public static void addBackIcon(NavBar n, @StringRes int id, final Activity act) {
         n.addTextViewMid(id);
         n.addBackIcon(R.drawable.nav_bar_ic_back, act);
+        addDivider(n);
+    }
+
+    public static void addDivider(NavBar n) {
+        View d = View.inflate(n.getContext(), R.layout.layout_nav_bar_divider, null);
+        n.addView(d, LayoutUtil.getViewGroupParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
     }
 
     /**
