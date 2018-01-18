@@ -50,7 +50,7 @@
             android:layout_height="11dp"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="6dp"
-            android:background="@color/text_9699A2"/>
+            android:background="@color/text_9699a2"/>
 
         <TextView
             android:id="@+id/main_vp_tv_total_page"

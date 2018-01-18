@@ -49,13 +49,15 @@
     <color name="text_ace400">#ace400</color>
     <color name="text_c6c5cb">#c6c5cb</color>
     <color name="text_f2f2f4">#f2f2f4</color>
-    <color name="text_9699A2">#9699a2</color>
+    <color name="text_9699a2">#9699a2</color>
     <color name="text_1fbedd">#1fbedd</color>
+    <color name="text_787c86">#787c86</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>
     <color name="color_4e5462">#4e5462</color>
     <color name="color_33363c">#33363c</color>
+    <color name="color_282a30">#282A30</color>
 
     <!--分割线-->
     <color name="short_divider">#f1f1f1</color>
@@ -79,7 +81,6 @@
     <!--edt填充色-->
     <color name="edt_f3f6f8">#f3f6f8</color>
 
-    <color name="start_side">#282A30</color>
     <color name="start_fill">#2B2F38</color>
     <color name="start_select">#ACE400</color>
 

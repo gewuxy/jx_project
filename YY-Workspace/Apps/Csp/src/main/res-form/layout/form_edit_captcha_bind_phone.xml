@@ -15,7 +15,7 @@
             android:maxLength="6"
             android:singleLine="true"
             android:textColor="@color/text_333"
-            android:textColorHint="@color/text_9699A2"/>
+            android:textColorHint="@color/text_9699a2"/>
 
         <ImageView
             style="@style/iv.form.clean"

@@ -20,7 +20,7 @@
                 style="@style/et.form.bind"
                 android:layout_marginLeft="@dimen/margin"
                 android:textColor="@color/text_333"
-                android:textColorHint="@color/text_9699A2"
+                android:textColorHint="@color/text_9699a2"
                 android:layout_height="wrap_content"/>
 
             <ImageView

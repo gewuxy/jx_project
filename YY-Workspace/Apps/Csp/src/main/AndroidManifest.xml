@@ -98,6 +98,9 @@
             android:name=".ui.activity.main.ScanActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.activity.main.StartActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.activity.main.CopyDuplicateActivity"
             android:screenOrientation="portrait"/>
 
@@ -182,8 +185,8 @@
         <!--钉钉分享回调-->
         <activity
             android:name=".app.ddshare.DDShareActivity"
-            android:launchMode="singleInstance"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

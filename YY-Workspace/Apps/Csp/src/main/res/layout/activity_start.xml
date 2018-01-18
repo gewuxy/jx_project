@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_nav_bar_bg"
+    android:orientation="vertical">
+
+    <!-- 会将制作 -->
+    <RelativeLayout
+        android:id="@+id/start_layout_meet_default"
+        android:layout_width="147dp"
+        android:layout_height="117dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="165dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/start_default_ic_data_matrix"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="9dp"
+            android:text="@string/spread_your_insights"
+            android:textColor="@color/text_787c86"
+            android:textSize="14dp"/>
+    </RelativeLayout>
+
+    <!-- 二维码 -->
+    <LinearLayout
+        android:id="@+id/start_layout_data_matrix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="142dp"
+            android:layout_height="142dp"
+            android:background="@drawable/bg_iv_data_matrix"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <lib.ys.network.image.NetworkImageView
+                android:id="@+id/start_iv_data_matrix"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/data_matrix_grade"
+            android:textColor="@color/text_9699a2"
+            android:textSize="12dp"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/start_tv_finish"
+        android:layout_width="80dp"
+        android:layout_height="36dp"
+        android:layout_above="@+id/start_layout_all_time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/record_ic_time_remind_bg"
+        android:gravity="center"
+        android:textColor="@color/text_787c86"
+        android:textSize="12dp"/>
+
+    <LinearLayout
+        android:id="@id/start_layout_all_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="100dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_all_time"
+            android:textColor="@color/text_787c86"/>
+
+        <TextView
+            android:id="@+id/start_tv_all_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="03'26"
+            android:textColor="@color/text_787c86"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -181,6 +181,12 @@
     <string name="download_fail">下載失敗</string>
     <string name="click_install">點擊安裝</string>
     <string name="start_comment">星評</string>
+    <string name="start_finish">完成</string>
+    <string name="start_all_time">講本總時長</string>
+    <string name="data_matrix_grade">使用微信掃碼還可以評分喲～</string>
+    <string name="spread_your_insights">Spread your insights!</string>
+    <string name="reb_finish">錄播完成</string>
+    <string name="live_finish">直播完成</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

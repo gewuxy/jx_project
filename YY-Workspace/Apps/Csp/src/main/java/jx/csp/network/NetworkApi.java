@@ -337,6 +337,12 @@ public class NetworkApi {
         @Get("live/over")
         @Retry(count = 5, delay = 1000)
         void overLive(String courseId);
+
+        /**
+         * 会议星评状态
+         */
+        @Get("star/code")
+        void code(String courseId);
     }
 
     @Api("charge")

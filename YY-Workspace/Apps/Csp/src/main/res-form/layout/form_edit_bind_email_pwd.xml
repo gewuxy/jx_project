@@ -13,7 +13,7 @@
             style="@style/et.common"
             android:inputType="textPassword"
             android:textColor="@color/text_333"
-            android:textColorHint="@color/text_9699A2"
+            android:textColorHint="@color/text_9699a2"
             android:paddingLeft="0dp"
             android:layout_marginLeft="16dp"/>
 
