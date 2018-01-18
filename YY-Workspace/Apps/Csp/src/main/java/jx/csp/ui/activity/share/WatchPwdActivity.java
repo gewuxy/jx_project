@@ -1,4 +1,4 @@
-package jx.csp.ui.activity;
+package jx.csp.ui.activity.share;
 
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -10,22 +10,23 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.constant.WatchPwdType;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.model.meeting.WatchPwd;
 import jx.csp.model.meeting.WatchPwd.TWatchPwd;
 import jx.csp.network.JsonParser;
-import jx.csp.util.UISetter;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -35,10 +36,11 @@ import lib.ys.util.TextUtil;
  */
 @Route
 public class WatchPwdActivity extends BaseActivity {
-    private final int KHaveWatchPwd = 0;
     private final int KNoWatchPwd = 1;
+    private final int KExistingWatchPwd = 2;
 
-    private LinearLayout mLayoutPwd;
+    private LinearLayout mLayoutNoPwd;
+    private LinearLayout mLayoutExistingPwd;
     private EditText mEtPwd;
     private TextView mTvConfirm;
     private TextView mTvPwd;
@@ -64,7 +66,8 @@ public class WatchPwdActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mLayoutPwd = findView(R.id.watch_pwd_layout_pwd);
+        mLayoutNoPwd = findView(R.id.watch_pwd_layout_input_pwd);
+        mLayoutExistingPwd = findView(R.id.watch_pwd_layout_pwd);
         mEtPwd = findView(R.id.watch_pwd_et_pwd);
 
         mTvConfirm = findView(R.id.watch_pwd_tv_confirm);
@@ -82,7 +85,7 @@ public class WatchPwdActivity extends BaseActivity {
         //判断会议是否有密码
         mTvPwd.setText(Profile.inst().getWatchPwd(mCourseId));
         if (TextUtil.isNotEmpty(mTvPwd.getText().toString())) {
-            getPwdSetting();
+            getExistingPwdSetting();
         }
 
     }
@@ -91,67 +94,17 @@ public class WatchPwdActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.watch_pwd_tv_confirm: {
-                // FIXME: 2018/1/4 测试代码,不是真实逻辑,点击事件为接口
+                String id = String.valueOf(mCourseId);
+                refresh(RefreshWay.dialog);
                 if (TextUtil.isNotEmpty(getPwd())) {
-                    //无密码,点击为确认并保存
-                    List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    }
-
-                    boolean flag = true;
-                    for (WatchPwd pwd : list) {
-                        if (pwd.getInt(TWatchPwd.id) == mCourseId) {
-                            pwd.put(TWatchPwd.pwd, getPwd());
-                            flag = false;
-                        }
-                    }
-
-                    if (flag) {
-                        WatchPwd pwd = new WatchPwd();
-                        pwd.put(TWatchPwd.id, mCourseId);
-                        pwd.put(TWatchPwd.pwd, getPwd());
-                        list.add(pwd);
-                    }
-
-                    Profile.inst().put(TProfile.watchPwdList, list);
-                    Profile.inst().saveToSp();
-
-                    mTvPwd.setText(getPwd());
-                    mEtPwd.setText(ConstantsEx.KEmpty);
-                    getPwdSetting();
+                    exeNetworkReq(KNoWatchPwd, MeetingAPI.setPassword(id, WatchPwdType.setPwd, getPwd()).build());
                 } else {
-                    //有密码,点击为删除
-                    List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    }
-
-                    boolean flag = true;
-                    for (WatchPwd pwd : list) {
-                        if (pwd.getInt(TWatchPwd.id) == mCourseId) {
-                            list.clear();
-                            flag = false;
-                        }
-                    }
-
-                    if (flag) {
-                        WatchPwd pwd = new WatchPwd();
-                        pwd.put(TWatchPwd.id, ConstantsEx.KEmpty);
-                        pwd.put(TWatchPwd.pwd, ConstantsEx.KEmpty);
-                        list.add(pwd);
-                    }
-
-                    Profile.inst().put(TProfile.watchPwdList, list);
-                    Profile.inst().saveToSp();
-
-                    mTvPwd.setText(ConstantsEx.KEmpty);
-                    getUnPwdSetting();
+                    exeNetworkReq(KExistingWatchPwd, MeetingAPI.setPassword(id, WatchPwdType.delete, mTvPwd.getText().toString()).build());
                 }
             }
             break;
             case R.id.watch_pwd_tv_create: {
-                mEtPwd.setText(getStringRandom(8));
+                mEtPwd.setText(getStringRandom(4));
                 mEtPwd.setSelection(getPwd().length());
             }
             break;
@@ -167,43 +120,47 @@ public class WatchPwdActivity extends BaseActivity {
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
         switch (id) {
-            case KHaveWatchPwd: {
+            case KNoWatchPwd: {
                 //设置密码
                 if (r.isSucceed()) {
-                    List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    }
-
-                    boolean flag = true;
-                    for (WatchPwd pwd : list) {
-                        if (pwd.getInt(TWatchPwd.id) == mCourseId) {
-                            pwd.put(TWatchPwd.pwd, getPwd());
-                            flag = false;
+                    if (TextUtil.isNotEmpty(getPwd())) {
+                        //无密码,点击为确认并保存
+                        List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
+                        if (list == null) {
+                            list = new ArrayList<>();
                         }
+
+                        boolean flag = true;
+                        for (WatchPwd pwd : list) {
+                            if (pwd.getInt(TWatchPwd.id) == mCourseId) {
+                                pwd.put(TWatchPwd.pwd, getPwd());
+                                flag = false;
+                            }
+                        }
+
+                        if (flag) {
+                            WatchPwd pwd = new WatchPwd();
+                            pwd.put(TWatchPwd.id, mCourseId);
+                            pwd.put(TWatchPwd.pwd, getPwd());
+                            list.add(pwd);
+                        }
+
+                        Profile.inst().put(TProfile.watchPwdList, list);
+                        Profile.inst().saveToSp();
+
+                        mTvPwd.setText(getPwd());
+                        mEtPwd.setText(ConstantsEx.KEmpty);
+                        getExistingPwdSetting();
                     }
-
-                    if (flag) {
-                        WatchPwd pwd = new WatchPwd();
-                        pwd.put(TWatchPwd.id, mCourseId);
-                        pwd.put(TWatchPwd.pwd, getPwd());
-                        list.add(pwd);
-                    }
-
-                    Profile.inst().put(TProfile.watchPwdList, list);
-                    Profile.inst().saveToSp();
-
-                    mTvPwd.setText(getPwd());
-                    mEtPwd.setText(ConstantsEx.KEmpty);
-                    getPwdSetting();
                 } else {
                     onNetworkError(id, r.getError());
                 }
             }
             break;
-            case KNoWatchPwd: {
+            case KExistingWatchPwd: {
                 //删除密码
                 if (r.isSucceed()) {
+                    //有密码,点击为删除
                     List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
                     if (list == null) {
                         list = new ArrayList<>();
@@ -252,9 +209,9 @@ public class WatchPwdActivity extends BaseActivity {
     /**
      * 设置有密码的界面
      */
-    private void getPwdSetting() {
-        goneView(mLayoutPwd);
-        showView(mTvPwd);
+    private void getExistingPwdSetting() {
+        goneView(mLayoutNoPwd);
+        showView(mLayoutExistingPwd);
 
         mTvTips.setText(R.string.watch_tips2);
         mTvConfirm.setText(R.string.watch_delete_pwd);
@@ -265,8 +222,8 @@ public class WatchPwdActivity extends BaseActivity {
      * 设置无密码界面,须输入
      */
     private void getUnPwdSetting() {
-        goneView(mTvPwd);
-        showView(mLayoutPwd);
+        goneView(mLayoutExistingPwd);
+        showView(mLayoutNoPwd);
 
         mTvTips.setText(R.string.watch_tips);
         mTvConfirm.setText(R.string.confirm);
@@ -281,19 +238,8 @@ public class WatchPwdActivity extends BaseActivity {
      */
     public String getStringRandom(int length) {
         String val = "";
-        Random random = new Random();
-
         for (int i = 0; i < length; i++) {
-            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
-            //输出字母还是数字
-            if ("char".equalsIgnoreCase(charOrNum)) {
-                //输出是大写字母还是小写字母
-                //字母的ASCII码 : 65是大写A, 97是小写a
-                int temp = random.nextInt(2) % 2 == 0 ? 65 : 97;
-                val += (char) (random.nextInt(26) + temp);
-            } else if ("num".equalsIgnoreCase(charOrNum)) {
-                val += String.valueOf(random.nextInt(10));
-            }
+            val += String.valueOf((int) (Math.random() * 10));
         }
         return val;
     }
@@ -302,21 +248,18 @@ public class WatchPwdActivity extends BaseActivity {
      * 密码输入格式
      */
     private void getPwdChange() {
-        UISetter.setWatchPwdRange(mEtPwd);
         mEtPwd.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 3 && s.length() < 9) {
+                if (s.length() == 4) {
                     mTvConfirm.setEnabled(true);
                 } else {
                     mTvConfirm.setEnabled(false);

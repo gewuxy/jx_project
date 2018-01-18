@@ -16,6 +16,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.ui.activity.me.bind.AccountManageActivity;
 import jx.csp.ui.activity.me.bind.AccountManageEnActivity;
+import jx.csp.ui.activity.me.contribute.ContributeHistoryActivity;
 import jx.csp.ui.activity.me.profile.ProfileActivity;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;

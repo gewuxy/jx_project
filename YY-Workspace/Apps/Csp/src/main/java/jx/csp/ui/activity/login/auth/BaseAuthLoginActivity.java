@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.login;
+package jx.csp.ui.activity.login.auth;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.CallSuper;

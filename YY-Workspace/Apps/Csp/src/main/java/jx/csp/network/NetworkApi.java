@@ -314,11 +314,24 @@ public class NetworkApi {
         @Get("scan/callback")
         void scan(String courseId);
 
+        /**
+         * 删除会议
+         * @param id
+         */
         @Post("delete")
         void delete(String id);
 
         @Post("share/copy")
         void copy(String courseId, String title);
+
+        /**
+         * 会议设置观看密码
+         * @param id
+         * @param type
+         * @param password
+         */
+        @Post("set/password")
+        void setPassword(String id, String type, String password);
 
         /***
          * 进入会议检测

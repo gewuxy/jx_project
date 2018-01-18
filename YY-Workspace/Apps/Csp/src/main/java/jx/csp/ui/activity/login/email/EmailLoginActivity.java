@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.login;
+package jx.csp.ui.activity.login.email;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
@@ -20,6 +20,7 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.MainActivity;
+import jx.csp.ui.activity.login.BaseLoginActivity;
 import lib.jx.network.BaseJsonParser.ErrorCode;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkError;

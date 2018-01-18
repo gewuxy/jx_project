@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/watch_pwd_layout_pwd"
+        android:id="@+id/watch_pwd_layout_input_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -27,7 +27,10 @@
             android:id="@+id/watch_pwd_et_pwd"
             style="@style/et.common"
             android:hint="@string/watch_input_pwd"
-            android:maxLength="8"/>
+            android:maxLength="4"
+            android:inputType="number"
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_9699a2"/>
 
         <TextView
             android:id="@+id/watch_pwd_tv_create"
@@ -39,15 +42,25 @@
             android:textSize="@dimen/margin"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/watch_pwd_tv_pwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/text_333"
-        android:textSize="@dimen/margin"
-        android:visibility="gone"/>
+    <LinearLayout
+        android:id="@+id/watch_pwd_layout_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:background="@drawable/bg_tv_watch_pwd"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/watch_pwd_tv_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_333"
+            android:textSize="20dp"/>
+    </LinearLayout>
 
     <View style="@style/divider.form.match"/>
 
@@ -57,12 +70,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin"
         android:layout_marginRight="@dimen/margin"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="12dp"
         android:text="@string/watch_tips"/>
 
     <TextView
         android:id="@+id/watch_pwd_tv_confirm"
         style="@style/tv.common"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="38dp"
         android:enabled="false"
         android:text="@string/confirm"/>

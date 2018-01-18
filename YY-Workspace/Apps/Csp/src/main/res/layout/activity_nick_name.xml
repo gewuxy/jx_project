@@ -3,36 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/app_bg">
+    android:background="@color/app_bg"
+    android:orientation="vertical">
 
     <View style="@style/divider.form.large"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
+        android:background="@color/white"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="horizontal"
-        android:background="@color/white">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/form_ic_account"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:layout_gravity="center"/>
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/profile_et_name"
             style="@style/et.common"
+            android:layout_gravity="center"
             android:hint="@string/my_message_input_nick_name"
-            android:layout_gravity="center"/>
-
+            android:textColor="@color/text_333"
+            android:textColorHint="@color/text_9699a2"/>
 
         <ImageView
-            android:layout_gravity="center"
-            style="@style/iv.form.clean"/>
+            style="@style/iv.form.clean"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </LinearLayout>

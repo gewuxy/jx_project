@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.login;
+package jx.csp.ui.activity.login.moblie;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
@@ -24,6 +24,7 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.MainActivity;
+import jx.csp.ui.activity.login.BaseLoginActivity;
 import jx.csp.util.Util;
 import lib.jx.model.form.BaseForm;
 import lib.jx.notify.Notifier.NotifyType;

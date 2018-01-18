@@ -3,15 +3,16 @@ package jx.csp.ui.activity;
 import android.content.Intent;
 
 import jx.csp.ui.activity.livevideo.LiveVideoActivity;
-import jx.csp.ui.activity.login.AuthLoginActivity;
-import jx.csp.ui.activity.login.CaptchaLoginActivity;
-import jx.csp.ui.activity.login.CaptchaLoginNicknameActivity;
-import jx.csp.ui.activity.login.EmailLoginActivity;
+import jx.csp.ui.activity.login.auth.AuthLoginActivity;
+import jx.csp.ui.activity.login.moblie.CaptchaLoginActivity;
+import jx.csp.ui.activity.login.moblie.CaptchaLoginNicknameActivity;
+import jx.csp.ui.activity.login.email.EmailLoginActivity;
 import jx.csp.ui.activity.login.SkipActivity;
-import jx.csp.ui.activity.me.ContributePlatformActivity;
+import jx.csp.ui.activity.share.ContributePlatformActivity;
 import jx.csp.ui.activity.me.bind.BindEmailActivity;
 import jx.csp.ui.activity.me.bind.BindPhoneActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
+import jx.csp.ui.activity.share.WatchPwdActivity;
 import lib.jx.test.BaseTestActivity;
 import lib.ys.YSLog;
 
@@ -37,6 +38,7 @@ public class TestActivity extends BaseTestActivity {
         add("邮箱绑定", BindEmailActivity.class);
         add("修改密码", ChangePwdActivity.class);
         add("投稿平台", ContributePlatformActivity.class);
+        add("观看密码", WatchPwdActivity.class);
 
         //add("update notice dialog", view -> {});
 

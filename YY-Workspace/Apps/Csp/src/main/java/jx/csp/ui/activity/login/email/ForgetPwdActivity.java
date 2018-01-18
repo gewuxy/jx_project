@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.login;
+package jx.csp.ui.activity.login.email;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
@@ -10,6 +10,8 @@ import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
+import jx.csp.ui.activity.login.BaseLoginActivity;
+import jx.csp.ui.activity.login.SkipActivityRouter;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.other.NavBar;

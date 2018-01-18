@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.me.contribute;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;

@@ -6,7 +6,7 @@ import jx.csp.R;
 import jx.csp.adapter.VH.me.HistoryVH;
 import jx.csp.model.me.History;
 import jx.csp.model.me.History.THistory;
-import jx.csp.ui.activity.me.ContributeHistoryDetailActivityRouter;
+import jx.csp.ui.activity.me.contribute.ContributeHistoryDetailActivityRouter;
 import lib.ys.adapter.AdapterEx;
 
 /**

@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.login;
+package jx.csp.ui.activity.login.email;
 
 import android.support.annotation.IntDef;
 import android.text.Editable;
@@ -18,6 +18,8 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
+import jx.csp.ui.activity.login.BaseLoginActivity;
+import jx.csp.ui.activity.login.SkipActivityRouter;
 import jx.csp.util.Util;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;

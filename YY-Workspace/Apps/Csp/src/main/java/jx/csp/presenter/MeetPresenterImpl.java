@@ -142,24 +142,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onShareClick(Meet item) {
         mMeet = item;
-        ShareDialog shareDialog;
-
-        if (item.getInt(TMeet.playType) == PlayType.reb) {
-            shareDialog = new ShareDialog(mContext,
-                    item.getString(TMeet.id),
-                    item.getString(TMeet.title),
-                    item.getString(TMeet.coverUrl),
-                    PlayType.reb,
-                    PlayType.reb);
-
-        } else {
-            shareDialog = new ShareDialog(mContext,
-                    item.getString(TMeet.id),
-                    item.getString(TMeet.title),
-                    item.getString(TMeet.coverUrl),
-                    PlayType.live,
-                    item.getInt(TMeet.liveState));
-        }
+        ShareDialog shareDialog = new ShareDialog(mContext, mMeet);
         shareDialog.show();
     }
 

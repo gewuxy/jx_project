@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.me.contribute;
 
 import android.view.View;
 

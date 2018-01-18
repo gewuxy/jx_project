@@ -22,12 +22,14 @@ import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.WatchPwdActivityRouter;
-import jx.csp.ui.activity.me.ContributePlatformActivityRouter;
+import jx.csp.ui.activity.share.WatchPwdActivityRouter;
+import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
 import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
 import lib.platform.Platform;
@@ -63,16 +65,16 @@ public class ShareDialog extends BaseDialog {
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    public ShareDialog(Context context, String courseId, String title, String coverUrl, int playType, int liveState) {
+    public ShareDialog(Context context, Meet meet) {
         super(context);
 
-        mCourseId = courseId;
+        mCourseId = meet.getString(TMeet.id);
         // 复制的会议标题默认加  _复制
-        mTitle = title + getString(R.string.duplicate);
-        mShareTitle = String.format(title);
-        mCoverUrl = coverUrl;
-        mPlayType = playType;
-        mLiveState = liveState;
+        mTitle = meet.getString(TMeet.title) + getString(R.string.duplicate);
+        mShareTitle = String.format(meet.getString(TMeet.title));
+        mCoverUrl = meet.getString(TMeet.coverUrl);
+        mPlayType = meet.getInt(TMeet.playType);
+        mLiveState = meet.getInt(TMeet.liveState);
 //        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();

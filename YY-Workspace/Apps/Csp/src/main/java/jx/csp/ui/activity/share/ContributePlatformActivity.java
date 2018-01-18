@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.me;
+package jx.csp.ui.activity.share;
 
 import android.widget.TextView;
 
