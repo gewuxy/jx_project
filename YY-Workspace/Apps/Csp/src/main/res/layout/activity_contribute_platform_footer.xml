@@ -8,14 +8,15 @@
 
     <TextView
         android:id="@+id/contribute_tv_tips"
-        android:layout_width="224dp"
-        android:layout_height="91dp"
+        android:layout_width="281dp"
+        android:layout_height="34dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/margin"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_tv_tips"
         android:gravity="center"
         android:text="@string/contribute_platform_hint_text"
-        android:textColor="@color/white"
+        android:textColor="@color/text_ace400"
         android:visibility="gone"/>
 
     <TextView

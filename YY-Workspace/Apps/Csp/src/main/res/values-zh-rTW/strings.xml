@@ -271,7 +271,7 @@
     <string name="contribute_platform">投稿平台</string>
     <string name="contribute_history">投稿歷史</string>
     <string name="contribute_not_submit_records">無投稿記錄</string>
-    <string name="contribute_platform_hint_text">單位號需在“資源平台”打開\n“個投稿箱”功能才能接受投稿</string>
+    <string name="contribute_platform_hint_text">對方開通“投稿箱”功能才能接收到您的投稿</string>
     <string name="contribute_confirm">確認投稿</string>
     <string name="contribute_platform_succeed">投稿成功</string>
     <string name="contribute_not_submit_records_footer">暫無投稿記錄</string>

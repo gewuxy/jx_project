@@ -22,26 +22,27 @@ import java.lang.annotation.RetentionPolicy;
         ShareType.dingding,
         ShareType.contribute,
         ShareType.preview,
-        ShareType.wathc_pwd,
-        ShareType.copy,
+        ShareType.watch_pwd,
+        ShareType.copy_link,
         ShareType.delete,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface ShareType {
-    int wechat = 0;
-    int wechat_friend = 1;
-    int qq = 2;
-    int linkedin = 3;
-    int sina = 4;
-    int facebook = 5;
-    int twitter = 6;
-    int whatsapp = 7;
-    int line = 8;
-    int sms = 9;
-    int dingding = 10;
-    int contribute = 11;
-    int preview = 12;
-    int wathc_pwd = 13;
-    int copy = 14;
-    int delete = 15;
+    int wechat = 0;     //微信
+    int wechat_friend = 1;//微信朋友圈
+    int qq = 2;         //QQ
+    int linkedin = 3;   //领英
+    int sina = 4;       //微博
+    int facebook = 5;   //facebook
+    int twitter = 6;    //twitter
+    int whatsapp = 7;   //whatsapp
+    int line = 8;       //Line
+    int sms = 9;        //短信
+    int dingding = 10;  //钉钉
+    int contribute = 11;//投稿
+
+    int preview = 12;   //预览
+    int watch_pwd = 13; //观看密码
+    int copy_link = 14; //复制链接
+    int delete = 15;    //删除会议
 }

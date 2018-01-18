@@ -22,6 +22,8 @@ import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
 import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
+import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.WatchPwdActivityRouter;
@@ -44,7 +46,6 @@ import static lib.ys.util.res.ResLoader.getString;
  * @auther WangLan
  * @since 2017/10/12
  */
-
 public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
@@ -54,12 +55,15 @@ public class ShareDialog extends BaseDialog {
     private String mCourseId;  // 会议id
     private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
+
+    private int mPlayType;  //播放类型, 根据类型改变第二个gridView的视图
+    private int mLiveState;  //直播状态, 根据状态改变第一个gridView的视图
 //    private Bitmap mCoverBmp;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    public ShareDialog(Context context, String courseId, String title, String coverUrl) {
+    public ShareDialog(Context context, String courseId, String title, String coverUrl, int playType, int liveState) {
         super(context);
 
         mCourseId = courseId;
@@ -67,9 +71,13 @@ public class ShareDialog extends BaseDialog {
         mTitle = title + getString(R.string.duplicate);
         mShareTitle = String.format(title);
         mCoverUrl = coverUrl;
+        mPlayType = playType;
+        mLiveState = liveState;
 //        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();
+        getPlatform();
+        getPlatform2();
     }
 
     @Override
@@ -85,8 +93,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
-        getPlatform();
-        getPlatform2();
+
     }
 
     @Override
@@ -152,19 +159,23 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.wechat_moment);
             sharePlatformList.add(SharePlatform.qq);
             sharePlatformList.add(SharePlatform.linkedin);
+            sharePlatformList.add(SharePlatform.dingding);
             sharePlatformList.add(SharePlatform.sina);
             sharePlatformList.add(SharePlatform.sms);
-            sharePlatformList.add(SharePlatform.dingding);
-            sharePlatformList.add(SharePlatform.contribute);
         } else {
+            sharePlatformList.add(SharePlatform.twitter);
+            sharePlatformList.add(SharePlatform.whatsapp);
+            sharePlatformList.add(SharePlatform.line);
+            sharePlatformList.add(SharePlatform.linkedin);
+            sharePlatformList.add(SharePlatform.facebook);
             sharePlatformList.add(SharePlatform.wechat);
-            sharePlatformList.add(SharePlatform.overseas_facebook);
-            sharePlatformList.add(SharePlatform.overseas_twitter);
-            sharePlatformList.add(SharePlatform.overseas_whatsapp);
-            sharePlatformList.add(SharePlatform.overseas_line);
-            sharePlatformList.add(SharePlatform.overseas_linkedin);
-            sharePlatformList.add(SharePlatform.overseas_sms);
-            sharePlatformList.add(SharePlatform.overseas_contribute);
+            sharePlatformList.add(SharePlatform.sms);
+        }
+        //直播中投稿不可点击, 其他状态均可点击
+        if (mLiveState == LiveState.live) {
+            sharePlatformList.add(SharePlatform.unContribute);
+        } else {
+            sharePlatformList.add(SharePlatform.contribute);
         }
 
         adapter.setData(sharePlatformList);
@@ -198,7 +209,9 @@ public class ShareDialog extends BaseDialog {
             int type = adapter.getItemViewType(position);
             Type t = null;
             if (type == ShareType.contribute) {
-                ContributePlatformActivityRouter.create(mCourseId).route(getContext());
+                if (adapter.getItem(position).isClick()) {
+                    ContributePlatformActivityRouter.create(mCourseId).route(getContext());
+                }
             } else {
                 switch (type) {
                     case ShareType.wechat: {
@@ -261,10 +274,18 @@ public class ShareDialog extends BaseDialog {
         SharePlatformAdapter shareAdapter = new SharePlatformAdapter();
         List<SharePlatform> list = new ArrayList<>();
 
-        list.add(SharePlatform.preview);
-        list.add(SharePlatform.pwd);
-        list.add(SharePlatform.copy);
-        list.add(SharePlatform.delete);
+        //录播有预览, 直播没有预览
+        if (mPlayType == PlayType.reb) {
+            list.add(SharePlatform.preview);
+            list.add(SharePlatform.watch_pwd);
+            list.add(SharePlatform.copy_link);
+            list.add(SharePlatform.delete);
+        } else {
+            list.add(SharePlatform.watch_pwd);
+            list.add(SharePlatform.copy_link);
+            list.add(SharePlatform.delete);
+
+        }
 
         shareAdapter.setData(list);
         gridView.setAdapter(shareAdapter);
@@ -276,11 +297,11 @@ public class ShareDialog extends BaseDialog {
 
                 }
                 break;
-                case ShareType.wathc_pwd: {
+                case ShareType.watch_pwd: {
                     WatchPwdActivityRouter.create(Integer.valueOf(mCourseId)).route(getContext());
                 }
                 break;
-                case ShareType.copy: {
+                case ShareType.copy_link: {
                     //创建一个新的文本clip对象
                     ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
                     //把clip对象放在剪切板中
@@ -295,6 +316,5 @@ public class ShareDialog extends BaseDialog {
             }
         });
     }
-
 
 }

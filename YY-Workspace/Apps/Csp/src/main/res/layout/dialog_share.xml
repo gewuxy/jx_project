@@ -10,6 +10,8 @@
         android:id="@+id/layout_share"
         android:layout_width="match_parent"
         android:layout_height="207dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="25dp">
@@ -32,6 +34,8 @@
         android:id="@+id/layout_share2"
         android:layout_width="match_parent"
         android:layout_height="110dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingTop="25dp">

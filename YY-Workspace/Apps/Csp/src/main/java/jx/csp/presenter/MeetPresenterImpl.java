@@ -124,15 +124,14 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 });
                 // 判断是否需要显示结束直播按钮
                 if (item.getInt(TMeet.liveState) == LiveState.live || item.getInt(TMeet.liveState) == LiveState.stop) {
-                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v ->
-                            {
-                                CommonDialog2 dialog = new CommonDialog2(mContext);
-                                dialog.setHint(R.string.over_meeting);
-                                dialog.addBlackButton(R.string.over, v1 ->
-                                        CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-                                dialog.addBlueButton(R.string.cancel_over);
-                                dialog.show();
-                            });
+                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> {
+                        CommonDialog2 dialog = new CommonDialog2(mContext);
+                        dialog.setHint(R.string.over_meeting);
+                        dialog.addBlackButton(R.string.over, v1 ->
+                                CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
+                        dialog.addBlueButton(R.string.cancel_over);
+                        dialog.show();
+                    });
                 }
                 d.show();
             }
@@ -143,10 +142,24 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onShareClick(Meet item) {
         mMeet = item;
-        ShareDialog shareDialog = new ShareDialog(mContext,
-                item.getString(TMeet.id),
-                item.getString(TMeet.title),
-                item.getString(TMeet.coverUrl));
+        ShareDialog shareDialog;
+
+        if (item.getInt(TMeet.playType) == PlayType.reb) {
+            shareDialog = new ShareDialog(mContext,
+                    item.getString(TMeet.id),
+                    item.getString(TMeet.title),
+                    item.getString(TMeet.coverUrl),
+                    PlayType.reb,
+                    PlayType.reb);
+
+        } else {
+            shareDialog = new ShareDialog(mContext,
+                    item.getString(TMeet.id),
+                    item.getString(TMeet.title),
+                    item.getString(TMeet.coverUrl),
+                    PlayType.live,
+                    item.getInt(TMeet.liveState));
+        }
         shareDialog.show();
     }
 

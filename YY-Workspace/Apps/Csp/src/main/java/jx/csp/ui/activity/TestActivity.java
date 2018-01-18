@@ -8,6 +8,7 @@ import jx.csp.ui.activity.login.CaptchaLoginActivity;
 import jx.csp.ui.activity.login.CaptchaLoginNicknameActivity;
 import jx.csp.ui.activity.login.EmailLoginActivity;
 import jx.csp.ui.activity.login.SkipActivity;
+import jx.csp.ui.activity.me.ContributePlatformActivity;
 import jx.csp.ui.activity.me.bind.BindEmailActivity;
 import jx.csp.ui.activity.me.bind.BindPhoneActivity;
 import jx.csp.ui.activity.me.bind.ChangePwdActivity;
@@ -35,6 +36,8 @@ public class TestActivity extends BaseTestActivity {
         add("手机绑定", BindPhoneActivity.class);
         add("邮箱绑定", BindEmailActivity.class);
         add("修改密码", ChangePwdActivity.class);
+        add("投稿平台", ContributePlatformActivity.class);
+
         //add("update notice dialog", view -> {});
 
         int[] A1 = new int[]{-1, 1, 3, 3, 3, 2, 1, 0};

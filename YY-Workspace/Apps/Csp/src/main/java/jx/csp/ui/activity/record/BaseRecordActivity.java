@@ -17,7 +17,6 @@ import java.util.List;
 import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
-import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -107,8 +106,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-            ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl);
-            dialog.show();
+//            ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl, mPlayType, mLiveState);
+//            dialog.show();
         });
 
         Util.addDivider(bar);

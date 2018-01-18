@@ -10,36 +10,37 @@ import static lib.ys.util.res.ResLoader.getString;
  */
 
 public enum SharePlatform {
-    wechat(ShareType.wechat, R.drawable.share_ic_wechat, getString(R.string.wechat)),
-    wechat_moment(ShareType.wechat_friend, R.drawable.share_ic_moment, getString(R.string.moment)),
-    qq(ShareType.qq, R.drawable.share_ic_qq, getString(R.string.QQ)),
-    linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin)),
-    sina(ShareType.sina, R.drawable.share_ic_weibo, getString(R.string.weibo)),
-    dingding(ShareType.dingding, R.drawable.share_ic_copy, getString(R.string.DingDing)),
-    sms(ShareType.sms, R.drawable.share_ic_message, getString(R.string.message)),
-    contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute)),
 
-    overseas_facebook(ShareType.facebook, R.drawable.share_ic_facebook, getString(R.string.facebook)),
-    overseas_twitter(ShareType.twitter, R.drawable.share_ic_twitter, getString(R.string.twitter)),
-    overseas_whatsapp(ShareType.whatsapp, R.drawable.share_ic_whatsapp, getString(R.string.whatsapp)),
-    overseas_line(ShareType.line, R.drawable.share_ic_line, getString(R.string.Line)),
-    overseas_linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin)),
-    overseas_sms(ShareType.sms, R.drawable.share_ic_sms, getString(R.string.SMS)),
-    overseas_contribute(ShareType.contribute, R.drawable.share_ic_copy, getString(R.string.contribute)),
+    wechat(ShareType.wechat, R.drawable.share_ic_wechat, getString(R.string.wechat), true),
+    wechat_moment(ShareType.wechat_friend, R.drawable.share_ic_moment, getString(R.string.moment), true),
+    qq(ShareType.qq, R.drawable.share_ic_qq, getString(R.string.QQ), true),
+    linkedin(ShareType.linkedin, R.drawable.share_ic_linkedin, getString(R.string.linkedin), true),
+    sina(ShareType.sina, R.drawable.share_ic_weibo, getString(R.string.weibo), true),
+    dingding(ShareType.dingding, R.drawable.share_ic_dingding, getString(R.string.DingDing), true),
+    sms(ShareType.sms, R.drawable.share_ic_sms, getString(R.string.message), true),
+    contribute(ShareType.contribute, R.drawable.share_ic_contribute, getString(R.string.contribute), true),
+    unContribute(ShareType.contribute, R.drawable.share_ic_un_contribute, getString(R.string.contribute), false),
 
-    preview(ShareType.preview, R.drawable.share_ic_copy, getString(R.string.preview)),
-    pwd(ShareType.wathc_pwd, R.drawable.share_ic_copy, getString(R.string.watch_pwd)),
-    copy(ShareType.copy, R.drawable.share_ic_copy, getString(R.string.copy_link)),
-    delete(ShareType.delete, R.drawable.share_ic_copy, getString(R.string.delete_speech));
+    facebook(ShareType.facebook, R.drawable.share_ic_facebook, getString(R.string.facebook), true),
+    twitter(ShareType.twitter, R.drawable.share_ic_twitter, getString(R.string.twitter), true),
+    whatsapp(ShareType.whatsapp, R.drawable.share_ic_whatsapp, getString(R.string.whatsapp), true),
+    line(ShareType.line, R.drawable.share_ic_line, getString(R.string.Line), true),
+
+    preview(ShareType.preview, R.drawable.share_ic_preview, getString(R.string.preview), true),
+    watch_pwd(ShareType.watch_pwd, R.drawable.share_ic_watch_pwd, getString(R.string.watch_pwd), true),
+    copy_link(ShareType.copy_link, R.drawable.share_ic_copy_link, getString(R.string.copy_link), true),
+    delete(ShareType.delete, R.drawable.share_ic_delete, getString(R.string.delete_speech), true);
 
     private int mType;  // 分享平台类型
     private int mIcon; // 分享平台图像
     private String mPlatformName; // 分享平台名称
+    private boolean mIsClick;
 
-    SharePlatform(int type, int icon, String name) {
+    SharePlatform(int type, int icon, String name, boolean isClick) {
         mType = type;
         mIcon = icon;
         mPlatformName = name;
+        mIsClick = isClick;
     }
 
     public int type() {
@@ -52,5 +53,9 @@ public enum SharePlatform {
 
     public String platformName() {
         return mPlatformName;
+    }
+
+    public boolean isClick() {
+        return mIsClick;
     }
 }
