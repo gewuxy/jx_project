@@ -67,18 +67,18 @@ public class SpUser extends SpBase {
     }
 
     /**
-     * 判断是否需要显示跳转到下/上一页继续录制的dialog
+     * 判断是否需要显示滑动将无法续录的dialog
      *
      * @return
      */
-    public boolean showSkipPageDialog() {
+    public boolean showSlideDialog() {
         return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
     }
 
     /**
      * 保存状态
      */
-    public void neverShowSkipPageDialog() {
+    public void neverShowSlideDialog() {
         save(SpUserKey.KIsShowSkipToNextPageDialog, false);
     }
 
@@ -87,14 +87,14 @@ public class SpUser extends SpBase {
      *
      * @return
      */
-    public boolean showRecordAgainDialog() {
+    public boolean showRerecordingDialog() {
         return getBoolean(SpUserKey.KIsShowRecordAgainDialog, true);
     }
 
     /**
      * 保存状态
      */
-    public void neverShowRecordAgainDialog() {
+    public void neverShowRerecordingDialog() {
         save(SpUserKey.KIsShowRecordAgainDialog, false);
     }
 

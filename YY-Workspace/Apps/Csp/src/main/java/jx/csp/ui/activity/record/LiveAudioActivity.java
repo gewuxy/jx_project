@@ -91,7 +91,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
             noPermissionState();
         }
         showView(mLayoutOnline);
-        showView(mTvStartRemain);
         mIvRecordState.setBackgroundResource(R.drawable.record_selector_state);
         setOnClickListener(R.id.record_iv_state);
 
@@ -140,16 +139,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 startCountDownAndLive(filePath);
             }
         }
-    }
-
-    @Override
-    protected void skipToLast() {
-        setCurrPosition(getCurrPosition() - KOne);
-    }
-
-    @Override
-    protected void skipToNext() {
-        setCurrPosition(getCurrPosition() + KOne);
     }
 
     @Override
@@ -349,16 +338,11 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     private void havePermissionState() {
         initPhoneCallingListener();
-        goneView(mTvStartRemain);
         mIvRecordState.setClickable(true);
-        mIvVoiceState.setSelected(true);
     }
 
     private void noPermissionState() {
-        showView(mTvStartRemain);
-        mTvStartRemain.setText(R.string.no_record_permission);
         mIvRecordState.setClickable(false);
-        mIvVoiceState.setSelected(false);
     }
 
     private void startCountDownAndLive(String filePath) {
@@ -431,10 +415,8 @@ public class LiveAudioActivity extends BaseRecordActivity {
             if (mServerTime >= mStartTime) {
                 mBeginCountDown = true;
                 mLiveRecordPresenterImpl.startCountDown(mStartTime, mRealStopTime, mServerTime);
-                mTvStartRemain.setText(R.string.meeting_start_click_start_live);
             } else {
-                setNavBarMidText(mTitle);
-                mTvStartRemain.setText(R.string.meeting_no_start_remain);
+
             }
         }
 
@@ -445,12 +427,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
         @Override
         public void setLiveTime(String str) {
-            setNavBarMidText(str);
         }
 
         @Override
         public void startRecordState() {
-            goneView(mTvStartRemain);
             mLiveState = true;
             mIvRecordState.setSelected(true);
             if (mStopCountDown) {
@@ -463,7 +443,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
         @Override
         public void stopRecordState(int time) {
             mRecordTime = time;
-            showView(mTvStartRemain);
             mLiveState = false;
             mIvRecordState.setSelected(false);
             mTvRecordState.setText(R.string.record_live_start);
@@ -472,12 +451,12 @@ public class LiveAudioActivity extends BaseRecordActivity {
         @Override
         public void setCountDownRemain(boolean show, long l) {
             if (show) {
-                showView(mTvTimeRemain);
+                showView(mTvRemind);
             }
             if (l >= 60) {
-                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_minute), l / 60));
+                mTvRemind.setText(String.format(getString(R.string.live_stop_remind_minute), l / 60));
             } else {
-                mTvTimeRemain.setText(String.format(getString(R.string.live_stop_remind_second), l));
+                mTvRemind.setText(String.format(getString(R.string.live_stop_remind_second), l));
             }
         }
 
@@ -496,7 +475,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
             mStopCountDown = true;
             mIvRecordState.setImageResource(R.drawable.record_selector_live_state_warm);
             mTvRecordState.setTextColor(ResLoader.getColor(R.color.text_e43939));
-            mTvNavBar.setTextColor(ResLoader.getColor(R.color.text_e43939));
             if (mLiveState) {
                 mTvRecordState.setText(R.string.record_live_stop);
             }

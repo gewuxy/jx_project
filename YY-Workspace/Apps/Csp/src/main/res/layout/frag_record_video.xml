@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:background="@color/white">
+    android:background="@color/record_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="252dp"
+        android:layout_height="246dp"
         android:layout_centerInParent="true">
 
         <com.pili.pldroid.player.widget.PLVideoTextureView

@@ -4,37 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:background="@color/white">
+    android:background="@color/record_bg">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="252dp"
+        android:layout_height="246dp"
         android:layout_centerInParent="true">
 
         <lib.ys.network.image.NetworkImageView
-            android:id="@+id/frag_record_iv"
+            android:id="@+id/frag_record_img_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
-        <RelativeLayout
-            android:id="@+id/frag_record_audio_layout"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/bg_record_audio"
-            android:visibility="gone">
-
-            <ImageView
-                android:id="@+id/frag_record_iv_audio"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/animation_play_audio"/>
-
-        </RelativeLayout>
 
     </RelativeLayout>
 

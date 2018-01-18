@@ -47,7 +47,7 @@
     <string name="no_record_permission">請檢查是否開啟語音權限</string>
     <string name="skip_to_next_page">是否跳到下一頁繼續錄製?</string>
     <string name="skip_to_last_page">是否跳到上一頁繼續錄製?</string>
-    <string name="record_again">再次錄製將會覆蓋已有音頻</string>
+    <string name="rerecording_remind">重錄將覆蓋原有錄音</string>
     <string name="never_remain">不再提示</string>
     <string name="play_fail">播放失敗</string>
     <string name="record_fail">錄音失敗</string>
@@ -56,6 +56,15 @@
     <string name="continue_host">繼續主持</string>
     <string name="affirm_exit">確認退出(%ds)</string>
     <string name="join_fail">進入失敗</string>
+    <string name="record_time_remind">每張最長10分鐘</string>
+    <string name="audition">試聽</string>
+    <string name="record">錄製</string>
+    <string name="continue_record">續錄</string>
+    <string name="record_pause">錄製已暫停</string>
+    <string name="rerecording">重錄</string>
+    <string name="record_time_insufficient_remind">剩餘錄製時間不足2分鐘，注意控制時間哦</string>
+    <string name="record_ing_slide_remind">請錄製完成當前頁後再到下一頁</string>
+    <string name="slide_can_not_rerecording">滑動將無法續錄!</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳過</string>

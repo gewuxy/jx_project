@@ -47,7 +47,7 @@
     <string name="no_record_permission">Please re-check the authorization of microphone.</string>
     <string name="skip_to_next_page">Move to next page and continue to record?</string>
     <string name="skip_to_last_page">Move to last page and continue to record?</string>
-    <string name="record_again">Re-recording will replace the existing audio.</string>
+    <string name="rerecording_remind">重录将覆盖原有录音</string>
     <string name="never_remain">Don\'t show again.</string>
     <string name="play_fail">play failed</string>
     <string name="record_fail">record failed</string>
@@ -56,6 +56,15 @@
     <string name="continue_host">Retain Presidence</string>
     <string name="affirm_exit">Exit Now (%ds)</string>
     <string name="join_fail">Fail to enter</string>
+    <string name="record_time_remind">每张最长10分钟</string>
+    <string name="audition">试听</string>
+    <string name="record">录制</string>
+    <string name="continue_record">续录</string>
+    <string name="record_pause">录制已暂停</string>
+    <string name="rerecording">重录</string>
+    <string name="record_time_insufficient_remind">剩余录制时间不足2分钟，注意控制时间哦</string>
+    <string name="record_ing_slide_remind">请录制完成当前页后再到下一页</string>
+    <string name="slide_can_not_rerecording">滑动将无法续录!</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">Skip</string>

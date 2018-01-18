@@ -44,8 +44,7 @@ public class RecordVideoFrag extends BaseFrag {
     }
 
     @Override
-    public void initNavBar(NavBar bar) {
-    }
+    public void initNavBar(NavBar bar) {}
 
     @Override
     public void findViews() {
@@ -62,7 +61,7 @@ public class RecordVideoFrag extends BaseFrag {
         mIvBg.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
-                .resize(fit(328), fit(252))
+                .resize(fit(332), fit(246))
                 .load();
     }
 

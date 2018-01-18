@@ -16,27 +16,29 @@ public interface RecordContract {
 
         void setData(JoinMeeting joinMeeting);
 
-        /**
-         * 录制的总时间
-         */
-        void setTotalRecordTimeTv(String str);
-
         void startRecordState();
 
         void setAudioFilePath(String filePath);
 
-        void stopRecordState();
+        void setRecordDbLevel(int level);
 
-        /**
-         * 录制时间
-         */
-        void setRecordTimeTv(String str);
+        void stopRecordState(int pos, int time);
+
+        void playState();
+
+        void setSeekBarMax(int max);
+
+        void setSeekBarProgress(int progress);
+
+        void stopPlayState();
+
+        void setRecordTime(int time);
+
+        void setRecordTimeRemind();
+
+        void uploadJointAudio(String filePath, int pos);
 
         void showToast(@StringRes int id);
-
-        void setVoiceLineState(int i);
-
-        void goneViceLine();
 
         void finishRecord();
     }
@@ -45,10 +47,18 @@ public interface RecordContract {
 
         void getData(String courseId);
 
-        void startRecord(String filePath, int pos);
+        void startRecord(String filePath, int pos, int alreadyRecordTime);
 
         void stopRecord();
 
         void onlyStopRecord();
+
+        void jointAudio(String courseId, int pageId, int pos);
+
+        void startPlay(String filePath);
+
+        void mediaPlayProgress(int progress);
+
+        void stopPlay();
     }
 }

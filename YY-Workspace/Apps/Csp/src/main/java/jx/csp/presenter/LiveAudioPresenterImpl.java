@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
+import jx.csp.constant.AudioType;
 import jx.csp.contact.LiveAudioContract;
 import jx.csp.contact.LiveAudioContract.V;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;

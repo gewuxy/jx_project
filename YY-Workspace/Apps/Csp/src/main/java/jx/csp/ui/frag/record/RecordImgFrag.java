@@ -1,19 +1,14 @@
 package jx.csp.ui.frag.record;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import java.io.File;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.constant.AudioType;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.network.model.interfaces.IResult;
@@ -30,23 +25,7 @@ import lib.ys.util.TextUtil;
 @Route
 public class RecordImgFrag extends BaseFrag {
 
-    @StringDef({
-            AudioType.mp3,
-            AudioType.amr
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface AudioType {
-        String mp3 = "mp3";
-        String amr = "amr";
-    }
-
     private NetworkImageView mIv;
-    private ImageView mIvAudio;
-    private View mLayoutAudio;
-    private AnimationDrawable mAnimation;
-
-    private boolean mAnimationState = false; // 动画状态
-    private onMediaPlayerListener mListener;
 
     @Arg
     String mImgUrl;
@@ -74,21 +53,17 @@ public class RecordImgFrag extends BaseFrag {
 
     @Override
     public void findViews() {
-        mIv = findView(R.id.frag_record_iv);
-        mIvAudio = findView(R.id.frag_record_iv_audio);
-        mLayoutAudio = findView(R.id.frag_record_audio_layout);
+        mIv = findView(R.id.frag_record_img_iv);
     }
 
     @Override
     public void setViews() {
-        setOnClickListener(R.id.frag_record_audio_layout);
         mIv.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
-                .resize(fit(328), fit(252))
+                .resize(fit(332), fit(246))
                 .scaleType(ScaleType.FIT_CENTER)
                 .load();
-        mAnimation = (AnimationDrawable) mIvAudio.getBackground();
         // 判断是否上传过音频，如果上传过再判断音频文件是否还存在，不存在就下载，下载下来的是mp3文件,下载完成显示播放按钮
         if (TextUtil.isNotEmpty(mAudioUrl)) {
             // 文件有可能是amr或者mp3文件
@@ -110,7 +85,6 @@ public class RecordImgFrag extends BaseFrag {
             }
             if (f_amr.exists() || f_mp3.exists()) {
                 YSLog.d(TAG, "audio already upload");
-                showLayoutAudio();
             } else {
                 String filePath = mp3FilePath.substring(0, mAudioFilePath.lastIndexOf(File.separator));
                 String fileName = mp3FilePath.substring(mAudioFilePath.lastIndexOf(File.separator) + 1);
@@ -122,66 +96,7 @@ public class RecordImgFrag extends BaseFrag {
     }
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.frag_record_audio_layout) {
-            if (mAnimationState) {
-                mAnimation.stop();
-                mListener.stopPlay();
-                mAnimationState = false;
-            } else {
-                mAnimation.start();
-                mListener.startPlay(mAudioFilePath, this);
-                mAnimationState = true;
-            }
-        }
-    }
-
-    @Override
     public void onNetworkSuccess(int id, IResult r) {
         super.onNetworkSuccess(id, r);
-        showLayoutAudio();
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        onInvisible();
-    }
-
-    @Override
-    protected void onInvisible() {
-        if (mAnimationState) {
-            mAnimationState = false;
-            mAnimation.stop();
-            mListener.stopPlay();
-        }
-    }
-
-    public void setAudioFilePath(String filePath) {
-        mAudioFilePath = filePath;
-    }
-
-    public void showLayoutAudio() {
-        showView(mLayoutAudio);
-    }
-
-    public void goneLayoutAudio() {
-        goneView(mLayoutAudio);
-    }
-
-    public void stopAnimation() {
-        mAnimationState = false;
-        mAnimation.stop();
-    }
-
-    public interface onMediaPlayerListener {
-        void startPlay(String filePath, RecordImgFrag frag);
-
-        void stopPlay();
-    }
-
-    public void setPlayerListener(onMediaPlayerListener l) {
-        mListener = l;
-    }
-
 }

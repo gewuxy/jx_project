@@ -1,11 +1,16 @@
 package jx.csp.ui.activity.record;
 
+import android.app.Service;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Vibrator;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.CheckBox;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import java.io.File;
@@ -14,9 +19,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.constant.AudioType;
 import jx.csp.contact.RecordContract;
 import jx.csp.dialog.BtnVerticalDialog;
-import jx.csp.dialog.CommonDialog;
+import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.meeting.Course.PlayType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -30,7 +36,6 @@ import jx.csp.presenter.RecordPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.frag.record.RecordImgFrag;
-import jx.csp.ui.frag.record.RecordImgFrag.AudioType;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
@@ -43,6 +48,8 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
@@ -57,23 +64,21 @@ import lib.ys.util.res.ResLoader;
 public class RecordActivity extends BaseRecordActivity implements onGestureViewListener {
 
     private boolean mRecordState = false; // 是否在录制中
-    private boolean mShowVoiceLine = false; // 声波曲线是否显示
-    private boolean mShowSkipPageDialog = false; // 跳转的dialog是否在显示
+    private boolean mPlayState = false; // 是否在播放音频
     private AnimationDrawable mAnimationRecord;
     private RecordPresenterImpl mRecordPresenter;
     private int mWsPosition = -1;  // websocket接收到的页数
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
     private String mAudioFilePath; // 正在录制的音频文件名字
 
-    @IntDef({
-            ScrollType.last,
-            ScrollType.next,
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface ScrollType {
-        int last = 1;  // 上一页
-        int next = 2;  // 下一页
-    }
+    private final int BREATH_INTERVAL_TIME = 1500; // 设置呼吸灯时间间隔
+    private AlphaAnimation mAnimationFadeIn;
+    private AlphaAnimation mAnimationFadeOut;
+    private SparseArray<Integer> mRecordTimeArray;  // 每页ppt录制的音频时间
+    private boolean mSeekBarChange = false;  // 互斥变量，防止定时器与SeekBar拖动时进度冲突
+    private Vibrator mVibrator;  // 震动服务对象
+    private boolean mCanContinueRecord = false;  // 能否续录
+    private boolean mContinueRecord = false;  // 是否在续录
 
     @IntDef({
             OverType.no,
@@ -90,128 +95,188 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         super.initData();
 
         mRecordPresenter = new RecordPresenterImpl(new View());
+        mRecordTimeArray = new SparseArray<>();
+        //获取手机震动服务
+        mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setNavBarMidText("00'00''");
         // 检查录音权限
         if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
             havePermissionState();
         } else {
             noPermissionState();
         }
-        goneView(mLayoutOnline);
-        goneView(mIvVoiceState);
-        mTvRecordState.setText("");
-        mIvRecordState.setImageResource(R.drawable.animation_record);
-        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-        setOnClickListener(R.id.record_iv_state);
+
+        mAnimationFadeIn = new AlphaAnimation(0.2f, 1.0f);
+        mAnimationFadeIn.setDuration(BREATH_INTERVAL_TIME);
+        mAnimationFadeIn.setFillAfter(false);  //动画结束后不保持状态
+        mAnimationFadeOut = new AlphaAnimation(1.0f, 0.2f);
+        mAnimationFadeOut.setDuration(BREATH_INTERVAL_TIME);
+        mAnimationFadeOut.setFillAfter(false);
+        mAnimationFadeIn.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                if (mRecordState) {
+                    mIvRecordStateAlpha.startAnimation(mAnimationFadeOut);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+        });
+        mAnimationFadeOut.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                if (mRecordState) {
+                    mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+        });
+
         mGestureView.setGestureViewListener(this);
+        mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mSeekBarChange = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mRecordPresenter.mediaPlayProgress(seekBar.getProgress());
+                mSeekBarChange = false;
+            }
+        });
 
         //请求网络
         refresh(RefreshWay.dialog);
         mRecordPresenter.getData(mCourseId);
+
+        setOnClickListener(R.id.record_iv_state);
+        setOnClickListener(R.id.record_iv_audition);
+        setOnClickListener(R.id.record_iv_rerecording);
     }
 
     @Override
     public void onClick(int id) {
-        if (id == R.id.record_iv_state) {
-            if (mRecordState) {
-                mRecordPresenter.stopRecord();
-            } else {
-                // 在播放的时候点击录制，要先停止播放
-                if (mShowVoiceLine) {
-                    mRecordPresenter.stopPlay();
-                    if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                        ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
-                    }
-                }
-                String filePath = CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
-                String amrFilePath = null;
-                String mp3FilePath = null;
-                File f_amr = null;
-                File f_mp3 = null;
-                // 判断这页是否已经录制过 有可能是mp3文件
-                if (filePath.contains(AudioType.amr)) {
-                    // 是amr文件
-                    amrFilePath = filePath;
-                    f_amr = new File(amrFilePath);
-                    mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
-                    f_mp3 = new File(mp3FilePath);
-                    YSLog.d(TAG, "是amr文件");
-                }
-                if (filePath.contains(AudioType.mp3)) {
-                    // 是mp3文件
-                    mp3FilePath = filePath;
-                    f_mp3 = new File(mp3FilePath);
-                    amrFilePath = filePath.replace(AudioType.mp3, AudioType.amr);
-                    f_amr = new File(amrFilePath);
-                    YSLog.d(TAG, "是mp3文件");
-                }
-
-                if ((f_amr.exists() || f_mp3.exists()) && SpUser.inst().showRecordAgainDialog()) {
-                    showRecordAgainDialog(amrFilePath, mp3FilePath);
+        switch (id) {
+            case R.id.record_iv_state: {
+                if (mRecordState) {
+                    mRecordPresenter.stopRecord();
+                    showView(mTvRemind);
+                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                    mTvRemind.setText(R.string.record_pause);
+                    mTvRecordState.setText(R.string.continue_record);
+                    mCanContinueRecord = true;
                 } else {
-                    // 覆盖录制要删除以前的文件
-                    FileUtil.delFile(f_amr);
-                    FileUtil.delFile(f_mp3);
-                    mRecordPresenter.startRecord(amrFilePath, getCurrPosition());
-                    // 隐藏播放按钮
-                    if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                        ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
+                    // 在播放的时候点击录制，要先停止播放
+                    if (mPlayState) {
+                        mRecordPresenter.stopPlay();
                     }
-                    goneView(mVoiceLine);
+                    String filePath = CacheUtil.createAudioFile(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+                    mRecordPresenter.startRecord(filePath, getCurrPosition(), mRecordTimeArray.get(getCurrPosition()));
+                    mTvRecordState.setText(R.string.record);
                 }
             }
+            break;
+            case R.id.record_iv_audition: {
+                if (mPlayState) {
+                    mRecordPresenter.stopPlay();
+                } else {
+                    mRecordPresenter.startPlay(CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id)));
+                }
+            }
+            break;
+            case R.id.record_iv_rerecording: {
+                // 在播放的时候点击录制，要先停止播放
+                if (mPlayState) {
+                    mRecordPresenter.stopPlay();
+                }
+                CommonDialog2 dialog = new CommonDialog2(this);
+                dialog.setHint(R.string.rerecording_remind);
+                dialog.addButton(R.string.cancel, R.color.text_404356, null);
+                dialog.addBlackButton(R.string.affirm, v -> {
+                    // 重新录制 删除以前的音频文件
+                    mIvRecordState.setImageResource(R.drawable.animation_record);
+                    mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                    mIvRecordState.setClickable(true);
+
+                    String filePath = CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+                    String amrFilePath = null;
+                    String mp3FilePath = null;
+                    if (filePath.contains(AudioType.amr)) {
+                        // 是amr文件
+                        amrFilePath = filePath;
+                        mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
+                        YSLog.d(TAG, "重录 是amr文件");
+                    } else if (filePath.contains(AudioType.mp3)) {
+                        // 是mp3文件
+                        mp3FilePath = filePath;
+                        amrFilePath = filePath.replace(AudioType.mp3, AudioType.amr);
+                        YSLog.d(TAG, "重录 是mp3文件");
+                    }
+                    // 覆盖录制要删除以前的文件
+                    FileUtil.delFile(new File(amrFilePath));
+                    FileUtil.delFile(new File(mp3FilePath));
+                    mRecordPresenter.startRecord(amrFilePath, getCurrPosition(), 0);
+                });
+                dialog.show();
+            }
+            break;
         }
-    }
-
-    @Override
-    protected void skipToLast() {
-        moveLast();
-    }
-
-    @Override
-    protected void skipToNext() {
-        moveNext();
     }
 
     @Override
     public void moveLast() {
-        if (mRecordState) {
-            if (getCurrPosition() == 0) {
-                return;
-            }
-            if (SpUser.inst().showSkipPageDialog() && !mShowSkipPageDialog) {
-                mShowSkipPageDialog = true;
-                showSkipPageDialog(ScrollType.last);
-            } else {
-                mRecordPresenter.stopRecord();
-                setCurrPosition(getCurrPosition() - 1);
-            }
-        } else {
-            setCurrPosition(getCurrPosition() - 1);
+        if (getCurrPosition() == 0) {
+            return;
         }
+        moveOperation();
     }
 
     @Override
     public void moveNext() {
+        if (getCurrPosition() == (mCourseDetailList.size()) - KOne) {
+            return;
+        }
+        moveOperation();
+    }
+
+    private void moveOperation() {
         if (mRecordState) {
-            if (getCurrPosition() == (mCourseDetailList.size()) - KOne) {
-                return;
-            }
-            if (SpUser.inst().showSkipPageDialog() && !mShowSkipPageDialog) {
-                mShowSkipPageDialog = true;
-                showSkipPageDialog(ScrollType.next);
-            } else {
-                mRecordPresenter.stopRecord();
-                setCurrPosition(getCurrPosition() + 1);
-            }
-        } else {
-            setCurrPosition(getCurrPosition() + 1);
+            showToast(R.string.record_ing_slide_remind);
+        }
+        if (SpUser.inst().showSlideDialog() && mCanContinueRecord) {
+            CommonDialog2 dialog = new CommonDialog2(this);
+            dialog.setHint(R.string.slide_can_not_rerecording);
+            dialog.addBlackButton(R.string.ok, v -> {
+                getViewPager().setScrollable(true);
+                goneView(mGestureView);
+                SpUser.inst().neverShowSlideDialog();});
+            dialog.show();
         }
     }
 
@@ -236,24 +301,47 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         super.onDestroy();
 
         mRecordPresenter.onDestroy();
-        if (mAnimationRecord.isRunning()) {
-            mAnimationRecord.stop();
-        }
     }
 
     @Override
     protected void pageSelected(int position) {
+        mCanContinueRecord = false;
         //切换页面的时候如果在播放要停止
-        mRecordPresenter.stopPlay();
-        // 如果页面是视频页 要录音状态图片要变且不能点击
+        if (mPlayState) {
+            mRecordPresenter.stopPlay();
+        }
+        // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
         Fragment f = getItem(position);
         if (f instanceof RecordImgFrag) {
-            mIvRecordState.setImageResource(R.drawable.animation_record);
-            mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-            mIvRecordState.setClickable(true);
+            mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(position), TimeFormat.from_m));
+            mTvRecordState.setText(R.string.record);
+
+            // 判断是否已经录制过音频，改变按钮状态
+            String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
+            File folder = new File(basePath);
+            File[] files = folder.listFiles();
+            if (files.length == 0) {
+                showView(mTvRemind);
+                mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                mTvRemind.setText(R.string.record_time_remind);
+                mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+                mIvAudition.setClickable(false);
+                mIvRecordState.setImageResource(R.drawable.animation_record);
+                mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                mIvRecordState.setClickable(true);
+                mIvRerecording.setSelected(false);
+                mIvRerecording.setClickable(false);
+            } else {
+                hideView(mTvRemind);
+                mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                mIvAudition.setClickable(true);
+                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                mIvRecordState.setClickable(false);
+                mIvRerecording.setSelected(true);
+                mIvRerecording.setClickable(true);
+            }
         } else {
-            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
-            mIvRecordState.setClickable(false);
+            videoState();
         }
         if (position != mWsPosition) {
             notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
@@ -370,81 +458,23 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     }
 
     private void noPermissionState() {
-        showView(mTvStartRemain);
-        mTvStartRemain.setText(R.string.no_record_permission);
         mIvRecordState.setClickable(false);
     }
 
     private void havePermissionState() {
         initPhoneCallingListener();
-        goneView(mTvStartRemain);
         mIvRecordState.setClickable(true);
     }
 
-    /**
-     * 在录制中滑动，提示的dialog
-     */
-    private void showSkipPageDialog(@ScrollType int scrollType) {
-        CommonDialog dialog = new CommonDialog(this);
-        android.view.View view = inflate(R.layout.dialog_record_common);
-        dialog.addHintView(view);
-        CheckBox checkBox = view.findViewById(R.id.dialog_record_common_cb);
-        TextView tv = view.findViewById(R.id.dialog_record_common_tv);
-        if (scrollType == ScrollType.last) {
-            tv.setText(R.string.skip_to_last_page);
-        } else {
-            tv.setText(R.string.skip_to_next_page);
-        }
-        dialog.addBlackButton(getString(R.string.affirm), v -> {
-            if (checkBox.isChecked()) {
-                SpUser.inst().neverShowSkipPageDialog();
-            }
-            // 停止录音 跳到下/上一页
-            mShowSkipPageDialog = false;
-            mRecordPresenter.stopRecord();
-            if (scrollType == ScrollType.last) {
-                setCurrPosition(getCurrPosition() - 1);
-            } else {
-                setCurrPosition(getCurrPosition() + 1);
-            }
-        });
-        dialog.addBlueButton(R.string.cancel, v -> {
-            mShowSkipPageDialog = false;
-        });
-        dialog.show();
-    }
-
-    /**
-     * 再次录制时的dialog
-     */
-    private void showRecordAgainDialog(String filePath, String mp3FilePath) {
-        CommonDialog dialog = new CommonDialog(this);
-        android.view.View view = inflate(R.layout.dialog_record_common);
-        dialog.addHintView(view);
-        CheckBox checkBox = view.findViewById(R.id.dialog_record_common_cb);
-        TextView tv = view.findViewById(R.id.dialog_record_common_tv);
-        tv.setText(R.string.record_again);
-        dialog.addBlackButton(getString(R.string.affirm), v -> {
-            if (checkBox.isChecked()) {
-                SpUser.inst().neverShowRecordAgainDialog();
-            }
-            // 隐藏播放按钮
-            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                ((RecordImgFrag) getItem(getCurrPosition())).goneLayoutAudio();
-            }
-            goneView(mVoiceLine);
-            // 如果存在MP3文件，重新录制要改变播放文件  要删除MP3文件
-            if ((new File(mp3FilePath)).exists()) {
-                YSLog.d(TAG, "showRecordAgainDialog mp3 file path " + mp3FilePath);
-                if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                    ((RecordImgFrag) getItem(getCurrPosition())).setAudioFilePath(filePath);
-                }
-                FileUtil.delFile(new File(mp3FilePath));
-            }
-            mRecordPresenter.startRecord(filePath, getCurrPosition());
-        });
-        dialog.addBlueButton(R.string.cancel, null);
-        dialog.show();
+    private void videoState() {
+        hideView(mTvRemind);
+        mTvRecordTime.setText("00:00");
+        mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+        mIvAudition.setClickable(false);
+        mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+        mIvRecordState.setClickable(false);
+        mIvRerecording.setSelected(false);
+        mIvRerecording.setClickable(false);
     }
 
     private class View implements RecordContract.V {
@@ -468,19 +498,25 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                             .audioFilePath(CacheUtil.getExistAudioFilePath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                             .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
                             .route();
-                    frag.setPlayerListener(mRecordPresenter);
                     add(frag);
                 } else {
                     add(RecordVideoFragRouter
                             .create(courseDetail.getString(TCourseDetail.videoUrl), courseDetail.getString(TCourseDetail.imgUrl))
                             .route());
                 }
+                if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
+                    int duration = courseDetail.getInt(TCourseDetail.duration);
+                    mRecordTimeArray.put(i, duration);
+                } else {
+                    mRecordTimeArray.put(i, 0);
+                }
             }
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
-            // 判断第一页是不是视频
+            // 判断第一页是视频还是图片
             if (mCourseDetailList.size() > 0 && TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
-                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_click_state);
-                mIvRecordState.setClickable(false);
+                videoState();
+            } else if (mCourseDetailList.size() > 0 && TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
+                showView(mTvRemind);
             }
             // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -506,17 +542,24 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
 
         @Override
-        public void setTotalRecordTimeTv(String str) {
-            setNavBarMidText(str);
-        }
-
-        @Override
         public void startRecordState() {
+            if (mCanContinueRecord) {
+                mContinueRecord = true;
+            }
+            hideView(mTvRemind);
             mRecordState = true;
-            mAnimationRecord.start();
-            mTvRecordState.setText("00:00");
+            setRecordTime(0);
+            mAnimationRecord.selectDrawable(1);
+            showView(mIvRecordStateAlpha);
+            mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
+
             getViewPager().setScrollable(false);
             showView(mGestureView);
+
+            mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+            mIvAudition.setClickable(false);
+            mIvRerecording.setSelected(false);
+            mIvRerecording.setClickable(false);
         }
 
         @Override
@@ -525,51 +568,114 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
 
         @Override
-        public void stopRecordState() {
-            mRecordState = false;
-            mAnimationRecord.selectDrawable(0);
-            mAnimationRecord.stop();
-            //对应frag显示播放图标
-            RecordImgFrag frag = (RecordImgFrag) getItem(getCurrPosition());
-            frag.showLayoutAudio();
-            mTvRecordState.setText("");
-            getViewPager().setScrollable(true);
-            goneView(mGestureView);
-            // 停止录音的时候上传音频文件
-            uploadAudioFile(mCourseId, getCurrPosition(), PlayType.reb);
+        public void setRecordDbLevel(int level) {
+            mAnimationRecord.selectDrawable(level);
         }
 
         @Override
-        public void setRecordTimeTv(String str) {
-            mTvRecordState.setText(str);
+        public void stopRecordState(int pos, int time) {
+            // 保存录制的时间
+            if (mContinueRecord) {
+                time = time + mRecordTimeArray.get(getCurrPosition());
+                mRecordTimeArray.put(pos, time);
+            } else {
+                mRecordTimeArray.put(pos, time);
+            }
+            mRecordState = false;
+            mContinueRecord = false;
+            mAnimationRecord.selectDrawable(0);
+
+            if (SpUser.inst().showSlideDialog()) {
+                getViewPager().setScrollable(false);
+                showView(mGestureView);
+            } else {
+                getViewPager().setScrollable(true);
+                goneView(mGestureView);
+            }
+
+            //mIvRecordStateAlpha.clearAnimation();
+            goneView(mIvRecordStateAlpha);
+
+            mIvAudition.setImageResource(R.drawable.record_ic_audition);
+            mIvAudition.setClickable(true);
+            mIvRerecording.setSelected(true);
+            mIvRerecording.setClickable(true);
+            // 如果不是续录停止录音的时候上传音频文件 ，续录的话要拼接完音频文件再上传
+            if (mCanContinueRecord) {
+                mRecordPresenter.jointAudio(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id), getCurrPosition());
+            } else {
+                uploadAudioFile(mCourseId, getCurrPosition(), PlayType.reb);
+            }
+        }
+
+        @Override
+        public void playState() {
+            mPlayState = true;
+            mIvAudition.setImageResource(R.drawable.record_ic_audition_ing);
+            showView(mLayoutPlay);
+            mSeekBar.setProgress(0);
+            mTvPlayTime.setText("00:00");
+        }
+
+        @Override
+        public void setSeekBarMax(int max) {
+            mSeekBar.setMax(max);
+        }
+
+        @Override
+        public void setSeekBarProgress(int progress) {
+            if (!mSeekBarChange) {
+                mSeekBar.setProgress(progress);
+            }
+            mTvPlayTime.setText(TimeFormatter.milli(progress, TimeFormat.from_m));
+        }
+
+        @Override
+        public void stopPlayState() {
+            mPlayState = false;
+            mIvAudition.setImageResource(R.drawable.record_ic_audition);
+            goneView(mLayoutPlay);
+        }
+
+        @Override
+        public void setRecordTime(int time) {
+            if (mContinueRecord) {
+                time = time + mRecordTimeArray.get(getCurrPosition());
+                mTvRecordTime.setText(TimeFormatter.second(time, TimeFormat.from_m));
+            } else {
+                mTvRecordTime.setText(TimeFormatter.second(time, TimeFormat.from_m));
+            }
+        }
+
+        @Override
+        public void setRecordTimeRemind() {
+            showView(mTvRemind);
+            mTvRemind.setTextColor(ResLoader.getColor(R.color.text_ace400));
+            mTvRemind.setText(R.string.record_time_insufficient_remind);
+            // 设置震动周期，数组表示时间：等待+执行，单位是毫秒，下面操作代表:等待100，执行200，等待100，执行500，
+            // 后面的数字如果为-1代表不重复，只执行一次，其他代表会重复，0代表从数组的第0个位置开始
+            mVibrator.vibrate(new long[]{100, 300, 100, 800}, -1);
+        }
+
+        @Override
+        public void uploadJointAudio(String filePath, int pos) {
+            uploadAudioFile(mCourseId, pos, PlayType.reb, filePath, 0);
         }
 
         @Override
         public void showToast(int id) {
             if (mRecordState) {
-                stopRecordState();
-            } else {
+                mRecordState = false;
+                mAnimationRecord.selectDrawable(0);
+                getViewPager().setScrollable(true);
+                mIvRecordStateAlpha.clearAnimation();
+                goneView(mIvRecordStateAlpha);
+                goneView(mGestureView);
+            }
+            if (mPlayState) {
                 mRecordPresenter.stopPlay();
-                if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                    ((RecordImgFrag) getItem(getCurrPosition())).stopAnimation();
-                }
             }
             RecordActivity.this.showToast(id);
-        }
-
-        @Override
-        public void setVoiceLineState(int i) {
-            if (!mShowVoiceLine) {
-                showView(mVoiceLine);
-                mShowVoiceLine = !mShowVoiceLine;
-            }
-            mVoiceLine.setVolume(i);
-        }
-
-        @Override
-        public void goneViceLine() {
-            mShowVoiceLine = !mShowVoiceLine;
-            goneView(mVoiceLine);
         }
 
         @Override

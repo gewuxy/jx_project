@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.io.File;
@@ -33,7 +34,6 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
-import jx.csp.view.VoiceLineView;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
@@ -63,19 +63,23 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     private final int KDuration = 300; // 动画时长
     private final float KVpScale = 0.044f; // vp的缩放比例
 
-    protected TextView mTvNavBar;
-    protected TextView mTvTimeRemain;
     protected TextView mTvCurrentPage;
     protected TextView mTvTotalPage;
-    protected TextView mTvOnlineNum;
+    protected TextView mTvRemind;
+    protected TextView mTvRecordTime;
     protected TextView mTvRecordState;
-    protected TextView mTvStartRemain;
+    protected TextView mTvPlayTime;
+    protected TextView mTvOnlineNum;
 
-    protected ImageView mIvVoiceState;
+    protected ImageView mIvAudition;
     protected ImageView mIvRecordState;
-    protected VoiceLineView mVoiceLine;
-    protected View mLayoutOnline;
+    protected ImageView mIvRecordStateAlpha;
+    protected ImageView mIvRerecording;
+
     protected GestureView mGestureView;
+    protected SeekBar mSeekBar;
+    protected View mLayoutPlay;
+    protected View mLayoutOnline;
 
     protected List<CourseDetail> mCourseDetailList;
     protected AudioUploadPresenterImpl mAudioUploadPresenter;
@@ -105,6 +109,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
+        View view = inflate(R.layout.layout_base_record_nav_bar);
+        mTvCurrentPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_current_page);
+        mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
+        bar.addViewMid(view);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
 //            ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl, mPlayType, mLiveState);
 //            dialog.show();
@@ -122,17 +130,23 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     public void findViews() {
         super.findViews();
 
-        mTvTimeRemain = findView(R.id.record_tv_time_remain);
-        mTvCurrentPage = findView(R.id.record_tv_current_page);
-        mTvTotalPage = findView(R.id.record_tv_total_page);
-        mTvOnlineNum = findView(R.id.record_tv_online_num);
-        mTvRecordState = findView(R.id.record_tv_state);
-        mTvStartRemain = findView(R.id.record_tv_start_remain);
-        mIvVoiceState = findView(R.id.record_iv_voice_state);
-        mIvRecordState = findView(R.id.record_iv_state);
-        mVoiceLine = findView(R.id.record_voice_line);
-        mLayoutOnline = findView(R.id.record_online_layout);
         mGestureView = findView(R.id.gesture_view);
+
+        mTvRemind = findView(R.id.record_tv_remind);
+        mTvRecordTime = findView(R.id.record_tv_time);
+
+        mIvAudition = findView(R.id.record_iv_audition);
+        mIvRecordStateAlpha = findView(R.id.record_iv_state_alpha);
+        mIvRecordState = findView(R.id.record_iv_state);
+        mTvRecordState = findView(R.id.record_tv_state);
+        mIvRerecording = findView(R.id.record_iv_rerecording);
+
+        mSeekBar = findView(R.id.record_seek_bar);
+        mTvPlayTime = findView(R.id.record_tv_play_time);
+
+        mLayoutPlay = findView(R.id.record_play_layout);
+        mLayoutOnline = findView(R.id.record_online_layout);
+        mTvOnlineNum = findView(R.id.record_tv_online_num);
     }
 
     @CallSuper
@@ -142,9 +156,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
-
-        setOnClickListener(R.id.record_iv_last);
-        setOnClickListener(R.id.record_iv_next);
 
         setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -187,27 +198,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         if (getCount() == 0) {
             return;
         }
-        switch (v.getId()) {
-            case R.id.record_iv_last: {
-                if (getCurrPosition() < KOne) {
-                    showToast(R.string.first_page);
-                    return;
-                }
-                skipToLast();
-            }
-            break;
-            case R.id.record_iv_next: {
-                if (getCurrPosition() >= (mCourseDetailList.size() - KOne)) {
-                    showToast(R.string.last_page);
-                    return;
-                }
-                skipToNext();
-            }
-            break;
-            default:
-                onClick(v.getId());
-                break;
-        }
+        onClick(v.getId());
     }
 
     @Override
@@ -250,14 +241,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     public void onNotify(int type, Object data) {
         if (type == NotifyType.delete_meeting_success) {
             finish();
-        }
-    }
-
-    protected void setNavBarMidText(String str) {
-        if (mTvNavBar == null) {
-            mTvNavBar = getNavBar().addTextViewMid(str);
-        } else {
-            mTvNavBar.setText(str);
         }
     }
 
@@ -327,10 +310,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     abstract protected void onClick(int id);
 
     abstract protected void pageSelected(int position);
-
-    abstract protected void skipToLast();
-
-    abstract protected void skipToNext();
 
     abstract protected void onCallOffHooK();
 

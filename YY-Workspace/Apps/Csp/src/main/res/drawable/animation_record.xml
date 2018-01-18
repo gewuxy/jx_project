@@ -4,58 +4,25 @@
     android:oneshot="false">
 
     <item
-        android:drawable="@drawable/record_ic_01"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_0"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_02"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_1"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_03"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_2"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_04"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_3"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_05"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_4"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_06"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_5"
+        android:duration="200"/>
     <item
-        android:drawable="@drawable/record_ic_07"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_08"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_09"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_10"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_11"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_12"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_13"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_14"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_15"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_16"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_17"
-        android:duration="100"/>
-    <item
-        android:drawable="@drawable/record_ic_18"
-        android:duration="100"/>
+        android:drawable="@drawable/record_ic_6"
+        android:duration="200"/>
 
 </animation-list>

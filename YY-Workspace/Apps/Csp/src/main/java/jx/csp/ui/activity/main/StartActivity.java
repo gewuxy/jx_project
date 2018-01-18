@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.dialog.ShareDialog;
 import jx.csp.model.meeting.Code;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor;
@@ -71,8 +70,8 @@ public class StartActivity extends BaseActivity {
         bar.addTextViewMid(mStart ? R.string.start_comment : R.string.start_finish);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             // fixme:
-            ShareDialog d = new ShareDialog(StartActivity.this, mCourseId, "", "");
-            d.show();
+//            ShareDialog d = new ShareDialog(StartActivity.this, mCourseId, "", "");
+//            d.show();
         });
 
         Util.addDivider(bar);
