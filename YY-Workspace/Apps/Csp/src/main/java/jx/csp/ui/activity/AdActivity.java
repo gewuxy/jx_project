@@ -15,6 +15,7 @@ import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.util.Util;

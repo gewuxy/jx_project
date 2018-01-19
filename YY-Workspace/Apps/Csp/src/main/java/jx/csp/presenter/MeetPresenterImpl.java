@@ -2,7 +2,9 @@ package jx.csp.presenter;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import java.lang.annotation.Retention;
@@ -13,13 +15,14 @@ import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
 import jx.csp.dialog.BtnVerticalDialog;
+import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Course.PlayType;
-import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.model.meeting.Course.CourseType;
+import jx.csp.model.meeting.Live;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.DuplicateType;
 import jx.csp.model.meeting.Scan.TScan;
@@ -29,9 +32,11 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
+import jx.csp.ui.activity.main.StartActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -45,9 +50,8 @@ import lib.ys.util.res.ResLoader;
 
 public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> implements MeetContract.P {
 
-    private final int KJoinRecordCheckRedId = 1;
-    private final int KJoinLiveVideoCheckRedId = 2;
-    private boolean mJoinLiveVideo = false; // 是否进入直播间 为了区分PlayType.video的时候进入的是直播视频还是音频
+    private final int KRecordCheckId = 1;
+    private final int KVideoCheckId = 2;
 
     private Context mContext;
     private Meet mMeet;
@@ -77,65 +81,17 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         mWsClose = false;
         mMeet = item;
         switch (item.getInt(TMeet.playType)) {
-            case PlayType.reb: {
-                // 只需要判断是否有人在录播中  请求网络  不根据录播状态判断
-                exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
+            case CourseType.reb: {
+                // 判断是否有人在录播中
+                exeNetworkReq(KRecordCheckId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
             }
             break;
-            case PlayType.live: {
-                if (item.getInt(TMeet.liveState) == LiveState.live || item.getInt(TMeet.liveState) == LiveState.stop) {
-                    // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
-                    BtnVerticalDialog d = new BtnVerticalDialog(mContext);
-                    d.setBtnStyle(LinearLayout.VERTICAL);
-                    d.setTextHint(ResLoader.getString(R.string.choice_contents));
-                    d.addBlackButton(R.string.continue_live, view -> {
-                        // 先判断是否有人在直播音频
-                        exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
-                    });
-                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v ->
-                    {
-                        CommonDialog2 dialog = new CommonDialog2(mContext);
-                        dialog.setHint(R.string.over_meeting);
-                        dialog.addBlackButton(R.string.over, v1 ->
-                                CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-                        dialog.addBlackButton(R.string.cancel_over);
-                        dialog.show();
-                    });
-                    d.show();
-                } else {
-                    exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
-                }
+            case CourseType.ppt_live:
+            case CourseType.ppt_video_live: {
+                joinPpt(true);
             }
             break;
-            case PlayType.video: {
-                // 选择进入视频直播还是音频直播  中文版和英文版的dialog不一样
-                BtnVerticalDialog d = new BtnVerticalDialog(mContext);
-                d.setBtnStyle(LinearLayout.VERTICAL);
-                d.setTextHint(ResLoader.getString(R.string.choice_contents));
-                d.addBlackButton(R.string.explain_meeting, view -> {
-                    // 先判断是否有人在直播音频
-                    mJoinLiveVideo = false;
-                    exeNetworkReq(KJoinRecordCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
-                });
-                d.addBlackButton(R.string.live_video, view -> {
-                    // 先判断是否有人在直播视频
-                    mJoinLiveVideo = true;
-                    exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
-                });
-                // 判断是否需要显示结束直播按钮
-                if (item.getInt(TMeet.liveState) == LiveState.live || item.getInt(TMeet.liveState) == LiveState.stop) {
-                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> {
-                        CommonDialog2 dialog = new CommonDialog2(mContext);
-                        dialog.setHint(R.string.over_meeting);
-                        dialog.addBlackButton(R.string.over, v1 ->
-                                CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-                        dialog.addBlackButton(R.string.cancel_over);
-                        dialog.show();
-                    });
-                }
-                d.show();
-            }
-            break;
+
         }
     }
 
@@ -151,9 +107,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         // 先判断会议是否已经开始，再判断是否有人在直播视频
         mWsClose = false;
         mMeet = item;
-        mJoinLiveVideo = true;
-        exeNetworkReq(KJoinLiveVideoCheckRedId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.video).build());
+        joinVideo(true);
     }
+
 
     @Override
     public void allowEnter() {
@@ -162,7 +118,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             YSLog.d(TAG, "MeetPresenterImpl enter WebSocketServRouter.stop");
             WebSocketServRouter.stop(mContext);
         }
-        join();
+        joinPpt(false);
     }
 
     @Override
@@ -180,7 +136,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp r) throws Exception {
-        if (id == KJoinRecordCheckRedId || id == KJoinLiveVideoCheckRedId) {
+        if (id == KRecordCheckId || id == KVideoCheckId) {
             return JsonParser.ev(r.getText(), Scan.class);
         } else {
             return JsonParser.error(r.getText());
@@ -190,38 +146,30 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         switch (id) {
-            case KJoinRecordCheckRedId: {
+            case KRecordCheckId: {
                 if (r.isSucceed()) {
                     Scan scan = (Scan) r.getData();
                     mServerTime = scan.getLong(TScan.serverTime);
-                    long startTime = mMeet.getLong(TMeet.startTime);
-                    long endTime = mMeet.getLong(TMeet.endTime);
                     // 是否有人在直播或者录播
                     boolean state = scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(scan.getString(TScan.wsUrl));
                     // 先判断直播时间是否已经到了 录播不需要判断时间  再判断是否有人在录播或者直播
                     // 有人情况下要弹dialog 确定后连websocket
                     switch (mMeet.getInt(TMeet.playType)) {
-                        case PlayType.reb: {
+                        case CourseType.reb: {
                             if (state) {
                                 showDialog(ResLoader.getString(R.string.main_record_dialog), scan.getString(TScan.wsUrl));
                             } else {
                                 // 没人在的时候直接进入
-                                join();
+                                joinPpt(false);
                             }
                         }
                         break;
-                        case PlayType.live:
-                        case PlayType.video: {
-                            if (startTime > mServerTime) {
-                                showToast(R.string.live_not_start);
-                            } else if (startTime < mServerTime && endTime > mServerTime) {
-                                if (state) {
-                                    showDialog(ResLoader.getString(R.string.main_live_dialog), scan.getString(TScan.wsUrl));
-                                } else {
-                                    join();
-                                }
+                        case CourseType.ppt_live:
+                        case CourseType.ppt_video_live: {
+                            if (state) {
+                                showDialog(ResLoader.getString(R.string.main_live_dialog), scan.getString(TScan.wsUrl));
                             } else {
-                                showToast(R.string.live_have_end);
+                                joinPpt(false);
                             }
                         }
                         break;
@@ -231,35 +179,20 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 }
             }
             break;
-            case KJoinLiveVideoCheckRedId: {
+            case KVideoCheckId: {
                 if (r.isSucceed()) {
                     Scan scan = (Scan) r.getData();
                     mLiveRoomWsUrl = scan.getString(TScan.wsUrl);
                     mServerTime = scan.getLong(TScan.serverTime);
                     mPushUrl = scan.getString(TScan.pushUrl);
-                    long startTime = mMeet.getLong(TMeet.startTime);
-                    long endTime = mMeet.getLong(TMeet.endTime);
                     // 是否有人在直播
                     boolean state = scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(mLiveRoomWsUrl);
-                    if (startTime > mServerTime) {
-                        showToast(R.string.live_not_start);
-                    } else if (startTime < mServerTime && endTime > mServerTime) {
-                        if (state) {
-                            // 有人情况下要弹dialog 确定后连websocket
-                            showDialog(ResLoader.getString(R.string.main_live_dialog), mLiveRoomWsUrl);
-                        } else {
-                            // 没人在的时候直接进入直播间
-                            LiveVideoActivityRouter.create()
-                                    .courseId(mMeet.getString(TMeet.id))
-                                    .startTime(mMeet.getLong(TMeet.startTime))
-                                    .stopTime(mMeet.getLong(TMeet.endTime))
-                                    .serverTime(mServerTime)
-                                    .wsUrl(mLiveRoomWsUrl)
-                                    .pushUrl(mPushUrl)
-                                    .route(mContext);
-                        }
+                    if (state) {
+                        // 有人情况下要弹dialog 确定后连websocket
+                        showDialog(ResLoader.getString(R.string.main_live_dialog), mLiveRoomWsUrl);
                     } else {
-                        showToast(R.string.live_have_end);
+                        // 没人在的时候直接进入直播间
+                        joinVideo(false);
                     }
                 } else {
                     showToast(r.getError().getMessage());
@@ -269,6 +202,12 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         }
     }
 
+    /**
+     * 抢占询问
+     *
+     * @param hint  抢占ppt或视频
+     * @param wsUrl wsUrl
+     */
     private void showDialog(String hint, String wsUrl) {
         CommonDialog2 d = new CommonDialog2(mContext);
         d.setHint(hint);
@@ -288,52 +227,128 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             });
             mCountdownDialog.show();
         });
-        d.addBlackButton(R.string.cancel);
+        d.addBlueButton(R.string.cancel, null);
         d.show();
     }
 
-    private void join() {
+    /**
+     * 进入ppt
+     *
+     * @param needCheck 是否需要检查有没有人
+     */
+    private void joinPpt(boolean needCheck) {
         if (mCountdownDialog != null) {
             mCountdownDialog.dismiss();
         }
         switch (mMeet.getInt(TMeet.playType)) {
-            case PlayType.reb: {
+            case CourseType.reb: {
                 RecordActivityRouter.create(mMeet.getString(TMeet.id),
                         mMeet.getString(TMeet.coverUrl),
                         mMeet.getString(TMeet.title))
                         .route(mContext);
             }
             break;
-            case PlayType.live: {
-                LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
-                        mMeet.getString(TMeet.coverUrl),
-                        mMeet.getString(TMeet.title))
-                        .startTime(mMeet.getLong(TMeet.startTime))
-                        .stopTime(mMeet.getLong(TMeet.endTime))
-                        .route(mContext);
-            }
-            break;
-            case PlayType.video: {
-                if (mJoinLiveVideo) {
-                    LiveVideoActivityRouter.create()
-                            .courseId(mMeet.getString(TMeet.id))
-                            .startTime(mMeet.getLong(TMeet.startTime))
-                            .stopTime(mMeet.getLong(TMeet.endTime))
-                            .serverTime(mServerTime)
-                            .wsUrl(mLiveRoomWsUrl)
-                            .pushUrl(mPushUrl)
-                            .route(mContext);
-                } else {
+            case CourseType.ppt_live:
+            case CourseType.ppt_video_live: {
+                if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start || !needCheck) {
                     LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
                             mMeet.getString(TMeet.coverUrl),
                             mMeet.getString(TMeet.title))
                             .startTime(mMeet.getLong(TMeet.startTime))
                             .stopTime(mMeet.getLong(TMeet.endTime))
                             .route(mContext);
+                } else {
+                    liveAction(mMeet, l -> {
+                        // 判断是否有人在直播中
+                        exeNetworkReq(KRecordCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.ppt).build());
+                    });
                 }
             }
             break;
         }
+    }
+
+    /**
+     * 进入视频
+     *
+     * @param needCheck 是否需要检查有没有人
+     */
+    private void joinVideo(boolean needCheck) {
+        if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
+            CommonDialog d = new CommonDialog(mContext);
+            d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
+            d.addButton(R.string.cancel, R.color.text_333, null);
+            d.addButton(R.string.live_start, R.color.text_333, l -> {
+                mMeet.put(TMeet.liveState, Live.LiveState.live);
+                Notifier.inst().notify(Notifier.NotifyType.start_live, mMeet.getString(TMeet.id));
+                // 立即直播
+                LiveVideoActivityRouter.create()
+                        .courseId(mMeet.getString(TMeet.id))
+                        .startTime(mMeet.getLong(TMeet.startTime))
+                        .stopTime(mMeet.getLong(TMeet.endTime))
+                        .serverTime(mServerTime)
+                        .wsUrl(mLiveRoomWsUrl)
+                        .pushUrl(mPushUrl)
+                        .route(mContext);
+            });
+            d.show();
+        } else {
+            if (needCheck) {
+                exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
+            } else {
+                LiveVideoActivityRouter.create()
+                        .courseId(mMeet.getString(TMeet.id))
+                        .startTime(mMeet.getLong(TMeet.startTime))
+                        .stopTime(mMeet.getLong(TMeet.endTime))
+                        .serverTime(mServerTime)
+                        .wsUrl(mLiveRoomWsUrl)
+                        .pushUrl(mPushUrl)
+                        .route(mContext);
+            }
+        }
+    }
+
+    /**
+     * 选择直播操作
+     *
+     * @param item meet
+     */
+    private void liveAction(Meet item, @Nullable View.OnClickListener l) {
+        int liveState = mMeet.getInt(TMeet.liveState);
+        boolean startState = item.getBoolean(TMeet.starRateFlag);
+        if (liveState == Live.LiveState.end || liveState == Live.LiveState.start) {
+            StartActivityRouter.create(item)
+                    .route(mContext);
+        } else {
+            // 选择进入直播  中文版和英文版的dialog不一样
+            BtnVerticalDialog d = new BtnVerticalDialog(mContext);
+            d.setBtnStyle(LinearLayout.VERTICAL);
+            d.setTextHint(ResLoader.getString(R.string.choice_contents));
+            d.addBlackButton(R.string.live_continue, l);
+            // 判断是否需要显示结束直播按钮
+            if (startState && liveState != Live.LiveState.un_start) {
+                d.addButton(R.string.start_start, R.color.text_e43939, v ->
+                        StartActivityRouter.create(item)
+                                .route(mContext));
+            } else {
+                d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> toEndMeet(item));
+            }
+            d.show();
+        }
+    }
+
+    /**
+     * 结束会议
+     *
+     * @param item meet
+     */
+    private void toEndMeet(Meet item) {
+        CommonDialog2 dialog = new CommonDialog2(mContext);
+        dialog.setHint(R.string.over_meeting);
+        dialog.addBlackButton(R.string.over, v1 ->
+                CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
+        dialog.addBlueButton(R.string.cancel_over, null);
+        dialog.show();
     }
 
     private void showToast(@StringRes int... ids) {

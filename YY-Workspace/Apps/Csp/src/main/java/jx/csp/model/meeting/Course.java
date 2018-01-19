@@ -17,15 +17,15 @@ public class Course extends EVal<TCourse> {
 
     //播放类型
     @IntDef({
-            PlayType.reb,
-            PlayType.live,
-            PlayType.video
+            CourseType.reb,
+            CourseType.ppt_live,
+            CourseType.ppt_video_live
     })
     @Retention(RetentionPolicy.SOURCE)
-    public @interface PlayType {
+    public @interface CourseType {
         int reb = 0; // 录播
-        int live = 1; // ppt直播
-        int video = 2; // 视频直播
+        int ppt_live = 1; // ppt直播
+        int ppt_video_live = 2; // ppt + 视频直播
     }
 
     public enum TCourse {
@@ -33,7 +33,7 @@ public class Course extends EVal<TCourse> {
         title, // 课件标题
 
         /**
-         * {@link  PlayType}
+         * {@link  CourseType}
          */
         playType, // 播放类型
 

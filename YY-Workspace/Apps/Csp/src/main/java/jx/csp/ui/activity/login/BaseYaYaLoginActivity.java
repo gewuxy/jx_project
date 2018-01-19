@@ -23,7 +23,7 @@ import jx.csp.model.Profile.TProfile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.MainActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;

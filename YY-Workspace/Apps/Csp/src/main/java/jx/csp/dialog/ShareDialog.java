@@ -24,7 +24,7 @@ import jx.csp.constant.SharePlatform;
 import jx.csp.constant.ShareType;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
@@ -277,7 +277,7 @@ public class ShareDialog extends BaseDialog {
         List<SharePlatform> list = new ArrayList<>();
 
         //录播有预览, 直播没有预览
-        if (mPlayType == PlayType.reb) {
+        if (mPlayType == CourseType.reb) {
             list.add(SharePlatform.preview);
             list.add(SharePlatform.watch_pwd);
             list.add(SharePlatform.copy_link);

@@ -10,7 +10,7 @@ import jx.csp.R;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.presenter.MeetPresenterImpl;
 import jx.csp.util.Util;
@@ -20,6 +20,7 @@ import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 首页左右滑动列表的单个frag
@@ -84,17 +85,18 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
         mTvTitle.setText(mMeet.getString(TMeet.title));
 
         switch (mMeet.getInt(TMeet.playType)) {
-            case PlayType.reb: {
+            case CourseType.reb: {
                 hideView(mIvLive);
                 mTvTime.setText(mMeet.getString(TMeet.playTime));
+                mTvTime.setTextColor(ResLoader.getColor(R.color.text_9699a2));
             }
             break;
-            case PlayType.live:
-            case PlayType.video: {
+            case CourseType.ppt_live:
+            case CourseType.ppt_video_live: {
                 long startTime = mMeet.getLong(TMeet.startTime);
                 long endTime = mMeet.getLong(TMeet.endTime);
                 long serverTime = mMeet.getLong(TMeet.serverTime);
-                if (mMeet.getInt(TMeet.playType) == PlayType.video) {
+                if (mMeet.getInt(TMeet.playType) == CourseType.ppt_video_live) {
                     showView(mIvLive);
                 } else {
                     hideView(mIvLive);
@@ -103,11 +105,10 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                 if (liveState == LiveState.un_start || startTime > serverTime) {
                     //直播的开始时间转换
                     mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
-                    mTvTime.setText(mMeet.getString(TMeet.playTime));
                 } else {
-                    hideView(mIvLive);
+                    mTvTime.setText(mMeet.getString(TMeet.playTime));
                 }
+                mTvTime.setTextColor(ResLoader.getColor(R.color.text_1fbedd));
             }
             break;
         }

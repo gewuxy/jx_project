@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="136dp"
         android:orientation="horizontal">
 
         <TextView
@@ -97,10 +97,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="03'26"
+            android:text="00'00''"
             android:textColor="@color/text_787c86"
             android:textStyle="bold"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/start_tv_live_end"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="65dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginRight="65dp"
+        android:background="@drawable/bg_btn_live_end_selector"
+        android:gravity="center"
+        android:text="@string/live_end"
+        android:textColor="@color/bg_tv_live_end_selector"/>
 
 </RelativeLayout>

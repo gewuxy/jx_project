@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 import jx.csp.contact.AudioUploadContract;
 import jx.csp.contact.AudioUploadContract.V;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.contract.BasePresenterImpl;
@@ -50,7 +50,7 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
             YSLog.d(TAG, "upload audioFile bytes = " + bytes.length);
             // 直播时小于三秒的音频不上传并且删除文件
             YSLog.d(TAG, "音频文件的时间 = " + time + "秒");
-            if (type == PlayType.live && time < 3) {
+            if (type == CourseType.ppt_live && time < 3) {
                 YSLog.d(TAG, "直播 小于三秒的音频不上传且删除对应文件");
                 FileUtil.delFile(file);
                 return;
@@ -63,7 +63,7 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
                     .file(bytes)
                     .build();
             mUploadList.addLast(req);
-            if (type == PlayType.live || type == PlayType.video) {
+            if (type == CourseType.ppt_live || type == CourseType.ppt_video_live) {
                 mUploadFilePathList.addLast(audioFilePath);
             }
             upload();

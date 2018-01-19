@@ -4,7 +4,7 @@ import jx.csp.R;
 import jx.csp.adapter.VH.me.HistoryDetailVH;
 import jx.csp.model.me.HistoryDetail;
 import jx.csp.model.me.HistoryDetail.THistoryDetail;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import lib.ys.adapter.AdapterEx;
 import lib.ys.util.res.ResLoader;
 
@@ -36,7 +36,7 @@ public class HistoryDetailAdapter extends AdapterEx<HistoryDetail, HistoryDetail
                 .load();
         holder.getTvTitle().setText(item.getString(THistoryDetail.title));
         holder.getTvPaper().setText(s);
-        if (item.getInt(THistoryDetail.playType) == PlayType.reb) {
+        if (item.getInt(THistoryDetail.playType) == CourseType.reb) {
             holder.getTvState().setText(ResLoader.getString(R.string.recorded));
 
             if (seconds > 60) {

@@ -12,7 +12,7 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
@@ -136,15 +136,15 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
             return;
         }
         switch (meet.getInt(TMeet.playType)) {
-            case PlayType.reb: {
+            case CourseType.reb: {
                 goneView(mLayoutLiveReminder);
                 if (mListener != null) {
                     mListener.replace(false);
                 }
             }
             break;
-            case PlayType.live:
-            case PlayType.video: {
+            case CourseType.ppt_live:
+            case CourseType.ppt_video_live: {
                 if (reminder(position)) {
                     YSLog.d(TAG, "直播会议进行中");
                     showView(mLayoutLiveReminder);

@@ -5,8 +5,8 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import lib.ys.model.NotifierEx;
 import lib.jx.notify.Notifier.OnNotify;
+import lib.ys.model.NotifierEx;
 
 /**
  * 全局通知, 支持任意行为和数据
@@ -59,6 +59,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.delete_meeting_fail,
             NotifyType.copy_duplicate,
             NotifyType.over_live,
+            NotifyType.start_live,
 
             NotifyType.login_video,
             NotifyType.meet_num,
@@ -215,6 +216,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 结束直播成功
          */
         int over_live = 37;
+
+        /**
+         * 开始直播
+         */
+        int start_live = 38;
 
         int login_video = 50;
 

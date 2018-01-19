@@ -23,7 +23,7 @@ import jx.csp.constant.AudioType;
 import jx.csp.contact.RecordContract;
 import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -604,7 +604,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             if (mCanContinueRecord) {
                 mRecordPresenter.jointAudio(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id), getCurrPosition());
             } else {
-                uploadAudioFile(mCourseId, getCurrPosition(), PlayType.reb);
+                uploadAudioFile(mCourseId, getCurrPosition(), CourseType.reb);
             }
         }
 
@@ -659,7 +659,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void uploadJointAudio(String filePath, int pos) {
-            uploadAudioFile(mCourseId, pos, PlayType.reb, filePath, 0);
+            uploadAudioFile(mCourseId, pos, CourseType.reb, filePath, 0);
         }
 
         @Override

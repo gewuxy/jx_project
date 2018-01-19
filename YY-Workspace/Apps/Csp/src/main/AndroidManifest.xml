@@ -91,7 +91,7 @@
 
         <!-- 首页 -->
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity

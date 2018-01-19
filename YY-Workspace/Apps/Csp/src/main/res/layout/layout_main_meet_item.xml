@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="00'00''"
+                    android:textStyle="bold"
                     android:textColor="@color/text_7a8b9f"
                     android:textSize="12dp"/>
 

@@ -29,7 +29,7 @@ public class Scan extends EVal<TScan> {
         courseId,
 
         /**
-         * {@link Course.PlayType}
+         * {@link Course.CourseType}
          */
         playType,
         duplicate,  // 	是否有重复登录  0表示没有 1表示有

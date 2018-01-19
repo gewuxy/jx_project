@@ -12,6 +12,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.ui.frag.GuideFragRouter;

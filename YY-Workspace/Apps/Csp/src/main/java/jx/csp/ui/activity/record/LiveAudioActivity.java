@@ -14,7 +14,7 @@ import jx.csp.R;
 import jx.csp.contact.LiveAudioContract;
 import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -114,7 +114,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     // 如果停止的时候是在音频页面要上传音频
                     if (f instanceof RecordImgFrag) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
-                        uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                        uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
                     } else {
                         mView.stopRecordState(0);
                         YSLog.d(TAG, "暂停的时候是视频 调用接口 视频 pos = " + getCurrPosition());
@@ -150,7 +150,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             Fragment f = getItem(getCurrPosition());
             if (f instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
-                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
             } else {
                 mView.stopRecordState(0);
                 YSLog.d(TAG, "onPause的时候是视频 调用接口 视频 pos = " + getCurrPosition());
@@ -176,7 +176,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             if (f1 instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
                 // 上传上一页的音频 确保存在
-                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
             } else {
                 YSLog.d(TAG, "翻页上一页是视频 调用接口 视频 last pos = " + mLastPage);
                 mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(mLastPage).getString(TCourseDetail.id));
@@ -211,7 +211,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
             if (mLiveState) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
-                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
             }
             notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
             mSendAcceptOrReject = true;
@@ -224,7 +224,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 if (remainCount == 0) {
                     if (mLiveState) {
                         mLiveRecordPresenterImpl.stopLiveRecord();
-                        uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                        uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
                     }
                     notifyServ(LiveNotifyType.send_msg, WsOrderType.accept);
                     mSendAcceptOrReject = true;
@@ -255,7 +255,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             // 判断当前页是不是视频
             if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
                 mLiveRecordPresenterImpl.stopLiveRecord();
-                uploadAudioFile(mCourseId, mLastPage, PlayType.live, mAudioFilePath, mRecordTime);
+                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
             } else {
                 mView.stopRecordState(0);
             }
@@ -462,7 +462,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
         @Override
         public void joinUploadRank(String audioFilePath, int time) {
-            uploadAudioFile(mCourseId, getCurrPosition(), PlayType.live, audioFilePath, time);
+            uploadAudioFile(mCourseId, getCurrPosition(), CourseType.ppt_live, audioFilePath, time);
         }
 
         @Override

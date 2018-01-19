@@ -166,7 +166,7 @@
     <string name="main_record_dialog">另一台設備正在錄播會議，繼\n續可能中斷該設備錄播進度</string>
     <string name="main_live_dialog">另一台設備正在直播會議，繼\n續可能中斷該設備直播進度</string>
     <string name="confirm_continue">確定繼續</string>
-    <string name="choice_contents">請選擇您要進行的內容？</string>
+    <string name="choice_contents">請選擇您要進行的內容</string>
     <string name="explain_meeting">講解會議</string>
     <string name="live_video">視頻直播</string>
     <string name="live_not_start">直播還沒開始，請稍等</string>
@@ -198,6 +198,10 @@
     <string name="spread_your_insights">Spread your insights!</string>
     <string name="reb_finish">錄播完成</string>
     <string name="live_finish">直播完成</string>
+    <string name="live_continue">繼續直播</string>
+    <string name="start_start">開啟星評</string>
+    <string name="live_start">立即直播</string>
+    <string name="live_end">結束直播</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

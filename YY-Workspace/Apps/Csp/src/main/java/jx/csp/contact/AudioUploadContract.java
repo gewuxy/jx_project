@@ -2,7 +2,7 @@ package jx.csp.contact;
 
 import android.util.SparseArray;
 
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import lib.jx.contract.IContract;
 
 /**
@@ -19,6 +19,6 @@ public interface AudioUploadContract {
 
         void setCourseDetailIdArray(SparseArray<String> courseDetailIdArray);
 
-        void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath, int time);
+        void uploadAudioFile(String courseId, int page, @CourseType int type, String audioFilePath, int time);
     }
 }

@@ -15,7 +15,7 @@ import com.mylhyl.zxing.scanner.common.Scanner;
 
 import jx.csp.App.NavBarVal;
 import jx.csp.R;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Scan;
 import jx.csp.model.meeting.Scan.DuplicateType;
 import jx.csp.model.meeting.Scan.TScan;
@@ -223,7 +223,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     }
 
     protected void joinRecord() {
-        if (mScan.getInt(TScan.playType) == PlayType.reb) {
+        if (mScan.getInt(TScan.playType) == CourseType.reb) {
             //录播
             RecordActivityRouter.create(mScan.getString(TScan.courseId),
                     mScan.getString(TScan.coverUrl),

@@ -1,11 +1,16 @@
-package jx.csp.ui.activity;
+package jx.csp.ui.activity.main;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import jx.csp.Extra;
 import jx.csp.R;
@@ -32,7 +37,6 @@ import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
-import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
@@ -396,7 +400,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.over_live: {
-                showToast(R.string.live_have_end);
+                ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+                if (list != null && list.size() > 0) {
+                    ComponentName cpn = list.get(0).topActivity;
+                    if (getLocalClassName().equals(cpn.getClassName())) {
+                        showToast(R.string.live_have_end);
+                    }
+                }
                 // 修改数据源
                 String id = (String) data;
                 for (Meet meet : mGridFrag.getData()) {
@@ -415,6 +426,17 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 //                msg.what = KGoneMsgWhat;
 //                msg.arg1 = Integer.valueOf(id).intValue();
 //                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
+            }
+            break;
+            case NotifyType.start_live: {
+                String id = (String) data;
+                for (Meet meet : mGridFrag.getData()) {
+                    if (meet.getString(TMeet.id).equals(id)) {
+                        meet.put(TMeet.liveState, LiveState.live);
+                        mGridFrag.invalidate();
+                        break;
+                    }
+                }
             }
             break;
             case NotifyType.meet_num: {

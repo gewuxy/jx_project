@@ -6,13 +6,12 @@ import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetGridVH;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
-import jx.csp.model.meeting.Record.PlayState;
-import lib.ys.ConstantsEx;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
+import lib.ys.util.res.ResLoader;
 
 /**
  * @auther WangLan
@@ -62,14 +61,15 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
         });
 
         switch (item.getInt(TMeet.playType)) {
-            case PlayType.reb: {
+            case CourseType.reb: {
                 holder.getTvTime().setText(item.getString(TMeet.playTime));
+                holder.getTvTime().setTextColor(ResLoader.getColor(R.color.text_9699a2));
                 goneView(holder.getIvLive());
             }
             break;
-            case PlayType.live:
-            case PlayType.video: {
-                if (item.getInt(TMeet.playType) == PlayType.video) {
+            case CourseType.ppt_live:
+            case CourseType.ppt_video_live: {
+                if (item.getInt(TMeet.playType) == CourseType.ppt_video_live) {
                     showView(holder.getIvLive());
                 } else {
                     goneView(holder.getIvLive());
@@ -82,12 +82,10 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 if (liveState == LiveState.un_start || startTime > serverTime) {
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
-                } else if ((liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime)) {
-                    holder.getTvTime().setText(item.getString(TMeet.playTime));
-                } else {
-                    goneView(holder.getIvLive());
+                }  else {
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 }
+                holder.getTvTime().setTextColor(ResLoader.getColor(R.color.text_1fbedd));
             }
             break;
         }

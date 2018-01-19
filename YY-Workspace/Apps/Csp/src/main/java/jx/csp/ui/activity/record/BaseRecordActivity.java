@@ -18,7 +18,7 @@ import java.util.List;
 import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
-import jx.csp.model.meeting.Course.PlayType;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
 import jx.csp.model.meeting.WebSocketMsg;
@@ -275,12 +275,12 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
      * @param page
      * @param type
      */
-    protected void uploadAudioFile(String courseId, int page, @PlayType int type) {
+    protected void uploadAudioFile(String courseId, int page, @CourseType int type) {
         String audioFilePath = CacheUtil.getExistAudioFilePath(courseId, mCourseDetailList.get(page).getInt(TCourseDetail.id));
         uploadAudioFile(courseId, page, type, audioFilePath, 0);
     }
 
-    protected void uploadAudioFile(String courseId, int page, @PlayType int type, String audioFilePath, int time) {
+    protected void uploadAudioFile(String courseId, int page, @CourseType int type, String audioFilePath, int time) {
         mAudioUploadPresenter.uploadAudioFile(courseId, page, type, audioFilePath, time);
     }
 
