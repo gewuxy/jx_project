@@ -254,8 +254,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
                             mMeet.getString(TMeet.coverUrl),
                             mMeet.getString(TMeet.title))
-                            .startTime(mMeet.getLong(TMeet.startTime))
-                            .stopTime(mMeet.getLong(TMeet.endTime))
                             .route(mContext);
                 } else {
                     liveAction(mMeet, l -> {

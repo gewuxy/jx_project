@@ -233,8 +233,6 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             LiveAudioActivityRouter.create(mScan.getString(TScan.courseId),
                     mScan.getString(TScan.coverUrl),
                     mScan.getString(TScan.title))
-                    .startTime(mScan.getLong(TScan.startTime))
-                    .stopTime(mScan.getLong(TScan.endTime))
                     .route(this);
         }
         finish();
