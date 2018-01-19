@@ -32,7 +32,6 @@
     <string name="live_stop_remind_minute">还有%d分钟，直播将自动关闭</string>
     <string name="live_stop_remind_second">还有%d秒，直播将自动关闭</string>
     <string name="live_stream_insufficient">流量不足，即将关闭视频直播！</string>
-    <string name="record_live_insufficient">流量不足，即将关闭视频直播\n请登录网站充值</string>
     <string name="recharge">充值</string>
     <string name="ok">知道了</string>
     <string name="exit_success">退出成功</string>
@@ -44,7 +43,7 @@
     <string name="record_live_stop">结束直播</string>
     <string name="meeting_no_start_remain">请在会议时间内进行直播</string>
     <string name="meeting_start_click_start_live">会议已经开始，请点击开始直播</string>
-    <string name="no_record_permission">请检查是否开启语音权限</string>
+    <string name="no_record_permission">声音权限已关闭，请到设置开启声音\n权限。</string>
     <string name="skip_to_next_page">是否跳到下一页继续录制?</string>
     <string name="skip_to_last_page">是否跳到上一页继续录制?</string>
     <string name="rerecording_remind">重录将覆盖原有录音</string>
@@ -65,6 +64,10 @@
     <string name="record_time_insufficient_remind">剩余录制时间不足2分钟，注意控制时间哦</string>
     <string name="record_ing_slide_remind">请录制完成当前页后再到下一页</string>
     <string name="slide_can_not_rerecording">滑动将无法续录!</string>
+    <string name="record_ing">录音中...</string>
+    <string name="dialog_title_hint">提示</string>
+    <string name="return_home">返回首页</string>
+    <string name="to_open_permission">去开启</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>

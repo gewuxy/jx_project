@@ -57,6 +57,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
+
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -296,6 +297,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             }
             if (remainCount == 0) {
                 stopRecord();
+                getView().canNotContinueRecordState();
             }
         }
     }

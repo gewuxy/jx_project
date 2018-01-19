@@ -38,7 +38,8 @@
             android:screenOrientation="landscape"/>
         <activity
             android:name=".ui.activity.record.RecordActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.activity.record.LiveAudioActivity"
             android:screenOrientation="portrait"/>

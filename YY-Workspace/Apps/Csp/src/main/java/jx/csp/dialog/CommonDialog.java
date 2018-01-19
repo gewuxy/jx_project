@@ -122,7 +122,7 @@ public class CommonDialog extends BaseDialog {
         tv.setGravity(Gravity.CENTER);
         tv.setText(text);
         tv.setTextColor(ResLoader.getColor(resId));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(16));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(18));
         tv.setOnClickListener(v -> {
             if (l != null) {
                 l.onClick(v);
@@ -139,31 +139,23 @@ public class CommonDialog extends BaseDialog {
     }
 
     /**
-     * 按钮颜色为167afe
-     */
-    public TextView addBlueButton(@StringRes int strRes, @Nullable OnClickListener l) {
-        return addButton(getContext().getString(strRes), R.color.text_167afe, l);
-    }
-
-    /**
      * 按钮颜色为333,且没有点击事件的
      */
-    public void addBlackButton(@StringRes int strRes) {
-        addButton(getContext().getString(strRes), R.color.text_333, null);
+    public TextView addBlackButton(@StringRes int strRes) {
+        return addButton(getContext().getString(strRes), R.color.text_333, null);
     }
 
     /**
      * 按钮颜色为333333,有点击事件
      */
-    public void addBlackButton(String text, @Nullable OnClickListener l) {
-        addButton(text, R.color.text_333, l);
+    public TextView addBlackButton(String text, @Nullable OnClickListener l) {
+        return addButton(text, R.color.text_333, l);
     }
 
     /**
      * 按钮颜色为333333,有点击事件
      */
-    public void addBlackButton(@StringRes int id, @Nullable OnClickListener l) {
-        addButton(getContext().getString(id), R.color.text_333, l);
+    public TextView addBlackButton(@StringRes int id, @Nullable OnClickListener l) {
+        return addButton(getContext().getString(id), R.color.text_333, l);
     }
-
 }

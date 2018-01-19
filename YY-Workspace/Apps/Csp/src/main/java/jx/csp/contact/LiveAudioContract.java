@@ -61,8 +61,6 @@ public interface LiveAudioContract {
 
         void setWsPos(int pos);
 
-        void startCountDown(long startTime, long stopTime, long serverTime);
-
         void startLiveRecord(String filePath);
 
         void stopLiveRecord();

@@ -370,7 +370,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             sendWsMsg(WsOrderType.reject);
             countDown.stop();
         });
-        TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
+        TextView tv = dialog.addBlackButton(R.string.affirm_exit, view -> {
             // 如果在直播要先暂停，再退出页面
             if (mLiveState) {
                 mP.stopLive();

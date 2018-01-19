@@ -42,5 +42,4 @@ public class CommonDialog2 extends CommonDialog {
     public void setHint(@StringRes int id) {
         mTvHint.setText(id);
     }
-
 }

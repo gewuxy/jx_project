@@ -1,13 +1,19 @@
 package jx.csp.ui.activity.record;
 
 import android.app.Service;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.CallSuper;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,8 +22,10 @@ import java.io.File;
 import java.util.List;
 
 import inject.annotation.router.Arg;
+import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
+import jx.csp.dialog.CommonDialog1;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -39,11 +47,14 @@ import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseVpActivity;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 
 /**
  * 录音页面
@@ -57,11 +68,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         OnConnectListener,
         AudioUploadContract.V {
 
-    protected final int KMicroPermissionCode = 10;
+    private final int KMicroPermissionCode = 10;
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
     private final float KVpScale = 0.044f; // vp的缩放比例
+    protected final int KBreathIntervalTime = 1500; // 设置呼吸灯时间间隔
+    protected final int KNotifyId = 1;
 
     protected TextView mTvCurrentPage;
     protected TextView mTvTotalPage;
@@ -78,6 +91,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected GestureView mGestureView;
     protected SeekBar mSeekBar;
+    protected View mLayoutTvRecordState;
     protected View mLayoutPlay;
     protected View mLayoutOnline;
 
@@ -86,6 +100,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
     private ScaleTransformer mTransformer;
+
+    protected boolean mRecordPermissionState = false;  // 是否有录音权限
+
+    protected AlphaAnimation mAnimationFadeIn;
+    protected AlphaAnimation mAnimationFadeOut;
 
     @Arg
     String mCourseId;  // 课程id
@@ -145,6 +164,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         mTvPlayTime = findView(R.id.record_tv_play_time);
 
         mLayoutPlay = findView(R.id.record_play_layout);
+        mLayoutTvRecordState = findView(R.id.record_state_tv_layout);
         mLayoutOnline = findView(R.id.record_online_layout);
         mTvOnlineNum = findView(R.id.record_tv_online_num);
     }
@@ -153,6 +173,15 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     @Override
     public void setViews() {
         super.setViews();
+
+        // 检查录音权限
+        if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
+            havePermissionState();
+            mRecordPermissionState = true;
+        } else {
+            noPermissionState();
+            mRecordPermissionState = false;
+        }
 
         setOffscreenPageLimit(KVpSize);
         setScrollDuration(KDuration);
@@ -184,6 +213,43 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             }
         });
         LiveNotifier.inst().add(this);
+
+        mAnimationFadeIn = new AlphaAnimation(0.2f, 1.0f);
+        mAnimationFadeIn.setDuration(KBreathIntervalTime);
+        mAnimationFadeIn.setFillAfter(false);  //动画结束后不保持状态
+        mAnimationFadeOut = new AlphaAnimation(1.0f, 0.2f);
+        mAnimationFadeOut.setDuration(KBreathIntervalTime);
+        mAnimationFadeOut.setFillAfter(false);
+        mAnimationFadeIn.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                startAnimationFadeOut();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+        });
+        mAnimationFadeOut.setAnimationListener(new Animation.AnimationListener() {
+
+            @Override
+            public void onAnimationEnd(Animation arg0) {
+                startAnimationFadeIn();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation arg0) {
+            }
+
+            @Override
+            public void onAnimationStart(Animation arg0) {
+            }
+        });
     }
 
     @Override
@@ -244,6 +310,24 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         }
     }
 
+    @Override
+    public void onPermissionResult(int code, int result) {
+        if (code == KMicroPermissionCode) {
+            switch (result) {
+                case PermissionResult.granted:
+                    havePermissionState();
+                    mRecordPermissionState = true;
+                    break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    noPermissionState();
+                    mRecordPermissionState = false;
+                }
+                break;
+            }
+        }
+    }
+
     public void initPhoneCallingListener() {
         mPhoneStateListener = new PhoneStateListener() {
 
@@ -256,16 +340,42 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                         break;
                     case TelephonyManager.CALL_STATE_RINGING:
                         YSLog.d(TAG, "call state ringing " + state);
+                        onCallRinging();
                         break;
                     case TelephonyManager.CALL_STATE_OFFHOOK:
                         YSLog.d(TAG, "call state off hook " + state);
-                        onCallOffHooK();
                         break;
                 }
             }
         };
         TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+    }
+
+    protected void noRecordPermissionDialog() {
+        CommonDialog1 dialog = new CommonDialog1(this);
+        dialog.setTitle(R.string.dialog_title_hint);
+        dialog.setContent(R.string.no_record_permission);
+        dialog.addBlackButton(R.string.return_home, v -> finish());
+        dialog.addBlackButton(R.string.to_open_permission, v -> {
+            try {
+                // 应用详情页面
+                Intent i = new Intent();
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.setAction(ConstantsEx.KSystemSetting);
+                Uri uri = Uri.fromParts(ConstantsEx.KPackage, App.getContext().getPackageName(), null);
+                i.setData(uri);
+                App.getContext().startActivity(i);
+            } catch (Exception e) {
+                // 设置页面
+                Log.e(TAG, Log.getStackTraceString(e));
+                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                App.getContext().startActivity(intent);
+            }
+        });
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     /**
@@ -307,11 +417,19 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         LiveNotifier.inst().notify(type, msg.toJson());
     }
 
+    abstract protected void havePermissionState();
+
+    abstract protected void noPermissionState();
+
     abstract protected void onClick(int id);
 
     abstract protected void pageSelected(int position);
 
-    abstract protected void onCallOffHooK();
+    abstract protected void onCallRinging();
 
     abstract protected void switchDevice();
+
+    abstract protected void startAnimationFadeIn();
+
+    abstract protected void startAnimationFadeOut();
 }

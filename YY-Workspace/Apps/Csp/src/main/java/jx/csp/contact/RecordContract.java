@@ -24,6 +24,8 @@ public interface RecordContract {
 
         void stopRecordState(int pos, int time);
 
+        void canNotContinueRecordState();
+
         void playState();
 
         void setSeekBarMax(int max);

@@ -1,14 +1,18 @@
 package jx.csp.ui.activity.record;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Vibrator;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -18,11 +22,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Route;
+import jx.csp.App;
 import jx.csp.R;
 import jx.csp.constant.AudioType;
 import jx.csp.contact.RecordContract;
 import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.model.RecordUnusualState;
+import jx.csp.model.RecordUnusualState.TRecordUnusualState;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -50,8 +57,6 @@ import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
-import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
 
 /**
@@ -71,12 +76,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
     private String mAudioFilePath; // 正在录制的音频文件名字
 
-    private final int BREATH_INTERVAL_TIME = 1500; // 设置呼吸灯时间间隔
-    private AlphaAnimation mAnimationFadeIn;
-    private AlphaAnimation mAnimationFadeOut;
     private SparseArray<Integer> mRecordTimeArray;  // 每页ppt录制的音频时间
     private boolean mSeekBarChange = false;  // 互斥变量，防止定时器与SeekBar拖动时进度冲突
     private Vibrator mVibrator;  // 震动服务对象
+    private NotificationCompat.Builder mBuilder;
+    private NotificationManager mManager;
     private boolean mCanContinueRecord = false;  // 能否续录
     private boolean mContinueRecord = false;  // 是否在续录
 
@@ -96,6 +100,18 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         mRecordPresenter = new RecordPresenterImpl(new View());
         mRecordTimeArray = new SparseArray<>();
+
+        mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setContentTitle(getString(R.string.app_name));
+        mBuilder.setContentText(getString(R.string.record_ing));
+        mBuilder.setAutoCancel(false);
+        Intent intent = new Intent(App.getContext(), RecordActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
+        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
         //获取手机震动服务
         mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
     }
@@ -103,54 +119,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     @Override
     public void setViews() {
         super.setViews();
-
-        // 检查录音权限
-        if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
-            havePermissionState();
-        } else {
-            noPermissionState();
-        }
-
-        mAnimationFadeIn = new AlphaAnimation(0.2f, 1.0f);
-        mAnimationFadeIn.setDuration(BREATH_INTERVAL_TIME);
-        mAnimationFadeIn.setFillAfter(false);  //动画结束后不保持状态
-        mAnimationFadeOut = new AlphaAnimation(1.0f, 0.2f);
-        mAnimationFadeOut.setDuration(BREATH_INTERVAL_TIME);
-        mAnimationFadeOut.setFillAfter(false);
-        mAnimationFadeIn.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-                if (mRecordState) {
-                    mIvRecordStateAlpha.startAnimation(mAnimationFadeOut);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation arg0) {
-            }
-
-            @Override
-            public void onAnimationStart(Animation arg0) {
-            }
-        });
-        mAnimationFadeOut.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationEnd(Animation arg0) {
-                if (mRecordState) {
-                    mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
-                }
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation arg0) {
-            }
-
-            @Override
-            public void onAnimationStart(Animation arg0) {
-            }
-        });
 
         mGestureView.setGestureViewListener(this);
         mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -174,6 +142,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         //请求网络
         refresh(RefreshWay.dialog);
         mRecordPresenter.getData(mCourseId);
+
+        RecordUnusualState.inst().put(TRecordUnusualState.courseId, mCourseId);
+        RecordUnusualState.inst().saveToSp();
 
         setOnClickListener(R.id.record_iv_state);
         setOnClickListener(R.id.record_iv_audition);
@@ -281,7 +252,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     }
 
     @Override
-    protected void onCallOffHooK() {
+    protected void onCallRinging() {
         if (mRecordState) {
             mRecordPresenter.stopRecord();
         }
@@ -291,8 +262,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     protected void onPause() {
         super.onPause();
 
-        if (mRecordState) {
-            mRecordPresenter.stopRecord();
+        if (mPlayState) {
+            mRecordPresenter.stopPlay();
         }
     }
 
@@ -305,46 +276,53 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     protected void pageSelected(int position) {
-        mCanContinueRecord = false;
-        //切换页面的时候如果在播放要停止
-        if (mPlayState) {
-            mRecordPresenter.stopPlay();
-        }
-        // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
-        Fragment f = getItem(position);
-        if (f instanceof RecordImgFrag) {
-            mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(position), TimeFormat.from_m));
-            mTvRecordState.setText(R.string.record);
+        if (mRecordPermissionState) {
+            mCanContinueRecord = false;
+            //切换页面的时候如果在播放要停止
+            if (mPlayState) {
+                mRecordPresenter.stopPlay();
+            }
+            // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
+            Fragment f = getItem(position);
+            if (f instanceof RecordImgFrag) {
+                mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(position), TimeFormat.from_m));
+                mTvRecordState.setText(R.string.record);
 
-            // 判断是否已经录制过音频，改变按钮状态
-            String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
-            File folder = new File(basePath);
-            File[] files = folder.listFiles();
-            if (files.length == 0) {
-                showView(mTvRemind);
-                mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
-                mTvRemind.setText(R.string.record_time_remind);
-                mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
-                mIvAudition.setClickable(false);
-                mIvRecordState.setImageResource(R.drawable.animation_record);
-                mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-                mIvRecordState.setClickable(true);
-                mIvRerecording.setSelected(false);
-                mIvRerecording.setClickable(false);
+                // 判断是否已经录制过音频，改变按钮状态
+                String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
+                File folder = new File(basePath);
+                File[] files = folder.listFiles();
+                if (files.length == 0) {
+                    showView(mTvRemind);
+                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                    mTvRemind.setText(R.string.record_time_remind);
+                    mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+                    mIvAudition.setClickable(false);
+                    mIvRecordState.setImageResource(R.drawable.animation_record);
+                    mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                    mIvRecordState.setClickable(true);
+                    mIvRerecording.setSelected(false);
+                    mIvRerecording.setClickable(false);
+                } else {
+                    hideView(mTvRemind);
+                    mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                    mIvAudition.setClickable(true);
+                    mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                    mIvRecordState.setClickable(false);
+                    mIvRerecording.setSelected(true);
+                    mIvRerecording.setClickable(true);
+                }
             } else {
-                hideView(mTvRemind);
-                mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                mIvAudition.setClickable(true);
-                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
-                mIvRecordState.setClickable(false);
-                mIvRerecording.setSelected(true);
-                mIvRerecording.setClickable(true);
+                videoState();
+            }
+            if (position != mWsPosition) {
+                notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
             }
         } else {
-            videoState();
-        }
-        if (position != mWsPosition) {
-            notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
+            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+            mIvRecordState.setClickable(false);
+            mIvRerecording.setSelected(false);
+            mIvRerecording.setClickable(false);
         }
     }
 
@@ -359,7 +337,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             notifyServ(LiveNotifyType.send_msg, WsOrderType.reject);
             countDown.stop();
         });
-        TextView tv = dialog.addBlueButton(R.string.affirm_exit, view -> {
+        TextView tv = dialog.addBlackButton(R.string.affirm_exit, view -> {
             // 如果在直播要先暂停录音，然后上传音频，再退出页面
             if (mRecordState) {
                 mRecordPresenter.stopRecord();
@@ -401,6 +379,20 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         dialog.show();
     }
 
+    @Override
+    protected void startAnimationFadeIn() {
+        if (mRecordState) {
+            mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
+        }
+    }
+
+    @Override
+    protected void startAnimationFadeOut() {
+        if (mRecordState) {
+            mIvRecordStateAlpha.startAnimation(mAnimationFadeOut);
+        }
+    }
+
     // 接收websocket的指令
     @Override
     public void onLiveNotify(int type, Object data) {
@@ -424,22 +416,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     }
 
     @Override
-    public void onPermissionResult(int code, int result) {
-        if (code == KMicroPermissionCode) {
-            switch (result) {
-                case PermissionResult.granted:
-                    havePermissionState();
-                    break;
-                case PermissionResult.denied:
-                case PermissionResult.never_ask: {
-                    noPermissionState();
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
     public void onConnectChanged(TConnType type) {
         YSLog.d(TAG, "onConnectChanged type = " + type);
         // 没有网络时的处理
@@ -457,11 +433,18 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
     }
 
-    private void noPermissionState() {
+    @Override
+    public void noPermissionState() {
+        mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
         mIvRecordState.setClickable(false);
+        mIvRerecording.setSelected(false);
+        mIvRerecording.setClickable(false);
+
+        noRecordPermissionDialog();
     }
 
-    private void havePermissionState() {
+    @Override
+    public void havePermissionState() {
         initPhoneCallingListener();
         mIvRecordState.setClickable(true);
     }
@@ -552,14 +535,20 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mAnimationRecord.selectDrawable(1);
             showView(mIvRecordStateAlpha);
             mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
-
-            getViewPager().setScrollable(false);
-            showView(mGestureView);
-
             mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
             mIvAudition.setClickable(false);
             mIvRerecording.setSelected(false);
             mIvRerecording.setClickable(false);
+
+            mManager.notify(KNotifyId, mBuilder.build());
+
+            getViewPager().setScrollable(false);
+            showView(mGestureView);
+
+            RecordUnusualState.inst().put(TRecordUnusualState.page, getCurrPosition());
+            RecordUnusualState.inst().put(TRecordUnusualState.pageId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
+            RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, true);
+            RecordUnusualState.inst().saveToSp();
         }
 
         @Override
@@ -584,6 +573,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mRecordState = false;
             mContinueRecord = false;
             mAnimationRecord.selectDrawable(0);
+            mManager.cancel(KNotifyId);
 
             if (SpUser.inst().showSlideDialog()) {
                 getViewPager().setScrollable(false);
@@ -593,7 +583,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 goneView(mGestureView);
             }
 
-            //mIvRecordStateAlpha.clearAnimation();
+            mIvRecordStateAlpha.clearAnimation();
             goneView(mIvRecordStateAlpha);
 
             mIvAudition.setImageResource(R.drawable.record_ic_audition);
@@ -606,6 +596,17 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             } else {
                 uploadAudioFile(mCourseId, getCurrPosition(), CourseType.reb);
             }
+
+            RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+            RecordUnusualState.inst().saveToSp();
+        }
+
+        @Override
+        public void canNotContinueRecordState() {
+            mCanContinueRecord = false;
+            goneView(mTvRemind);
+            mTvRecordState.setText(R.string.record);
+            mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
         }
 
         @Override
