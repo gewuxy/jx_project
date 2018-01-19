@@ -344,6 +344,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 } else {
                     intent = new Intent(this, AuthLoginOverseaActivity.class);
                 }
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 Profile.inst().clear();
                 startActivity(intent);
                 finish();

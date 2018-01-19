@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="提示"
+        android:text="@string/remain"
         android:textColor="@color/text_333"
         android:textSize="18dp"/>
 
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="点“立即直播”后将立即开始直播。"
+        android:text="@string/live_start_hint"
         android:textColor="@color/text_888"
         android:textSize="15dp"/>
 

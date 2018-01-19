@@ -8,6 +8,8 @@ import lib.jx.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
+    int KAccountFrozen = 103;
+
     String KVideoUrl = "http://139.199.170.178/cspvideo/login_background_video.mp4";
 
     interface PageConstants {
@@ -16,4 +18,5 @@ public interface Constants extends BaseConstants {
     }
 
     String KAppTypeCn = "cn";
+    String KData = "data";
 }

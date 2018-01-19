@@ -325,14 +325,27 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             d.addBlackButton(R.string.live_continue, l);
             // 判断是否需要显示结束直播按钮
             if (startState && liveState != Live.LiveState.un_start) {
-                d.addButton(R.string.start_start, R.color.text_e43939, v ->
-                        StartActivityRouter.create(item)
-                                .route(mContext));
+                d.addButton(R.string.start_start, R.color.text_e43939, v -> toStart(item));
             } else {
                 d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> toEndMeet(item));
             }
             d.show();
         }
+    }
+
+    /**
+     * 开启星评
+     *
+     * @param item meet
+     */
+    private void toStart(Meet item) {
+        CommonDialog2 dialog = new CommonDialog2(mContext);
+        dialog.setHint(R.string.start_start_hint);
+        dialog.addBlackButton(R.string.over, v1 ->
+                StartActivityRouter.create(item)
+                        .route(mContext));
+        dialog.addBlackButton(R.string.cancel_over, null);
+        dialog.show();
     }
 
     /**

@@ -6,6 +6,8 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
+import jx.csp.constant.Constants;
+import jx.csp.dialog.CommonDialog1;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
@@ -18,6 +20,7 @@ import lib.network.model.interfaces.IResult;
 import lib.platform.listener.OnAuthListener;
 import lib.platform.model.AuthParams;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 import lib.ys.util.UIUtil;
 
 /**
@@ -27,9 +30,11 @@ import lib.ys.util.UIUtil;
 
 abstract public class BaseAuthLoginActivity extends BaseActivity {
 
+    private String mFrozen;
+
     @Override
     public void initData() {
-        // do nothing
+        mFrozen = getIntent().getStringExtra(Constants.KData);
     }
 
     @Override
@@ -50,6 +55,9 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         getNavBar().setBackgroundColor(R.color.translucent);
 
         setOnClickListener(R.id.login_protocol);
+        if (TextUtil.isNotEmpty(mFrozen)) {
+            frozenDialog(mFrozen);
+        }
     }
 
     @CallSuper
@@ -114,6 +122,14 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
         if (type == NotifyType.login) {
             finish();
         }
+    }
+
+    protected void frozenDialog(String s) {
+        CommonDialog1 d = new CommonDialog1(BaseAuthLoginActivity.this);
+        d.setTitle(R.string.account_frozen);
+        d.setContent(s);
+        d.addButton(R.string.confirm, R.color.black, null);
+        d.show();
     }
 
 }

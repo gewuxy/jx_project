@@ -21,6 +21,8 @@
     <string name="toast_hint_select">Please select</string>
     <string name="toast_hint_upload">Please upload</string>
     <string name="second_unit">s</string>
+    <string name="account_frozen">账号冻结</string>
+    <string name="remain">hint</string>
 
     <!-- 直播间 -->
     <string name="online">Audience(s)</string>
@@ -204,7 +206,10 @@
     <string name="live_continue">继续直播</string>
     <string name="start_start">开启星评</string>
     <string name="live_start">立即直播</string>
+    <string name="live_start_hint">点“立即直播”后将立即开始直播。</string>
     <string name="live_end">结束直播</string>
+    <string name="live_end_hint">结束后将停止星评操作</string>
+    <string name="start_start_hint">启动星评将停止直播，是否确认？</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>

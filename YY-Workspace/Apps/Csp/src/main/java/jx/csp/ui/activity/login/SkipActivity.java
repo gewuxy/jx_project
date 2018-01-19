@@ -11,6 +11,7 @@ import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
+import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 
@@ -80,6 +81,11 @@ public class SkipActivity extends BaseActivity implements OnCountDownListener {
             }
             break;
         }
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        super.onNetworkSuccess(id, r);
     }
 
     @Override

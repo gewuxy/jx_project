@@ -1,5 +1,6 @@
 package lib.jx.contract;
 
+import lib.jx.network.BaseJsonParser;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
@@ -8,8 +9,8 @@ import lib.network.model.interfaces.OnNetworkListener;
 import lib.ys.AppEx;
 import lib.ys.YSLog;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.ui.interfaces.listener.onInterceptNetListener;
 import lib.ys.ui.interfaces.opt.INetworkOpt;
-import lib.jx.network.BaseJsonParser;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
@@ -61,6 +62,16 @@ abstract public class BasePresenterImpl<V extends IContract.View> implements
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         // 只解析错误信息
         return BaseJsonParser.error(resp.getText());
+    }
+
+    @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        onInterceptNetListener listener = AppEx.getConfig().getInterceptNetListener();
+        if (listener != null) {
+            return listener.onIntercept(r);
+        } else {
+            return false;
+        }
     }
 
     @Override

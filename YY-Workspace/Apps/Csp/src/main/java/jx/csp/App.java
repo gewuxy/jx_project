@@ -1,6 +1,8 @@
 package jx.csp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.StrictMode;
@@ -13,18 +15,22 @@ import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.Constants.PageConstants;
 import jx.csp.constant.LangType;
+import jx.csp.model.Profile;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
 import jx.csp.serv.DownloadServ.DownReqType;
 import jx.csp.serv.DownloadServRouter;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.login.auth.AuthLoginActivity;
+import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
 import lib.jx.BaseApp;
 import lib.network.NetworkConfig;
+import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
@@ -35,6 +41,7 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.ui.interfaces.listener.onInterceptNetListener;
 import lib.ys.util.TextUtil;
 
 /**
@@ -62,6 +69,7 @@ public class App extends BaseApp {
         return AppConfig.newBuilder()
                 .bgColorRes(R.color.app_bg)
                 .enableFlatBar(false)
+                .listener(new AccountFrozen())
                 .initRefreshWay(RefreshWay.embed)
                 .enableSwipeFinish(BuildConfig.SWIPE_BACK_ENABLE)
                 .build();
@@ -206,5 +214,42 @@ public class App extends BaseApp {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    /**
+     * 账号冻结
+     */
+    private class AccountFrozen implements onInterceptNetListener {
+
+        @Override
+        public boolean onIntercept(IResult r, Object... o) {
+            if (r.getCode() == Constants.KAccountFrozen) {
+                Intent intent;
+                if (Util.checkAppCn()) {
+                    intent = new Intent(getContext(), AuthLoginActivity.class);
+                } else {
+                    intent = new Intent(getContext(), AuthLoginOverseaActivity.class);
+                }
+                intent.putExtra(Constants.KData, r.getMessage());
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Profile.inst().clear();
+                if (o != null) {
+                    if (o[0] instanceof Activity) {
+                        Activity a = (Activity) o[0];
+                        a.finish();
+                    } else if (o[0] instanceof android.app.Fragment) {
+                        android.app.Fragment f = (android.app.Fragment) o[0];
+                        f.getActivity().finish();
+                    } else if (o[0] instanceof android.support.v4.app.Fragment) {
+                        android.support.v4.app.Fragment f = (android.support.v4.app.Fragment) o[0];
+                        f.getActivity().finish();
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 }

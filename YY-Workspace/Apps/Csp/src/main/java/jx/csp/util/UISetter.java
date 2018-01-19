@@ -52,4 +52,8 @@ public class UISetter {
         tv.setText(fileName);
         bar.addViewMid(v);
     }
+
+    public static void showFrozenDialog() {
+
+    }
 }

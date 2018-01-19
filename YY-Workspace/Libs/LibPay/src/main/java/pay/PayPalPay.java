@@ -14,13 +14,15 @@ import org.json.JSONException;
 
 import java.math.BigDecimal;
 
+import lib.jx.network.BaseJsonParser;
 import lib.network.Network;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.network.model.interfaces.OnNetworkListener;
-import lib.jx.network.BaseJsonParser;
+import lib.ys.AppEx;
+import lib.ys.ui.interfaces.listener.onInterceptNetListener;
 
 /**
  * PayPal
@@ -65,7 +67,7 @@ public class PayPalPay {
         Intent intent = new Intent(context, PayPalService.class);
         if (isDebug) {
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigSandBox);
-        }else {
+        } else {
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigReal);
         }
         context.startService(intent);
@@ -93,7 +95,7 @@ public class PayPalPay {
         //发送相同的配置以恢复弹性
         if (isDebug) {
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigSandBox);
-        }else {
+        } else {
             intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, mConfigReal);
         }
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
@@ -131,6 +133,16 @@ public class PayPalPay {
                                     listener.onPaySuccess();
                                 } else {
                                     onNetworkError(id, r.getError());
+                                }
+                            }
+
+                            @Override
+                            public boolean interceptNetSuccess(int id, IResult r) {
+                                onInterceptNetListener listener = AppEx.getConfig().getInterceptNetListener();
+                                if (listener != null) {
+                                    return listener.onIntercept(r);
+                                } else {
+                                    return false;
                                 }
                             }
 
