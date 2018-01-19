@@ -82,6 +82,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         MeetInfo meetInfo = info.getData();
         Result<Meet> r = new Result<>();
         r.setCode(info.getCode());
+        r.setMessage(info.getMessage());
         if (meetInfo != null) {
             int num = meetInfo.getInt(TMeetInfo.hideCount);
             runOnUIThread(() -> notify(NotifyType.meet_num, num));

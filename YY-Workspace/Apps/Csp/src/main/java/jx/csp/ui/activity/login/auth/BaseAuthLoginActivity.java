@@ -3,6 +3,7 @@ package jx.csp.ui.activity.login.auth;
 import android.annotation.SuppressLint;
 import android.support.annotation.CallSuper;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
@@ -56,7 +57,14 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
         setOnClickListener(R.id.login_protocol);
         if (TextUtil.isNotEmpty(mFrozen)) {
-            frozenDialog(mFrozen);
+            // fixme：
+            addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    frozenDialog(mFrozen);
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
         }
     }
 

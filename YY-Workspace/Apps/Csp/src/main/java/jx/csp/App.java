@@ -230,7 +230,7 @@ public class App extends BaseApp {
                 } else {
                     intent = new Intent(getContext(), AuthLoginOverseaActivity.class);
                 }
-                intent.putExtra(Constants.KData, r.getMessage());
+                intent.putExtra(Constants.KData, r.getError().getMessage());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 Profile.inst().clear();
