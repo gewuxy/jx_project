@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center"
         android:orientation="vertical">
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="请确认手机号码"
+            android:text="@string/confirm_captcha"
             android:textColor="@color/text_333"
             android:textSize="19dp"/>
 
@@ -26,16 +26,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="我们将发送短信验证码到这个号码"
-            android:textColor="@color/text_666"
+            android:text="@string/send_sms_captcha"
+            android:textColor="@color/text_333"
             android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/captcha_tv_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="135 6001 4782"
-            android:textColor="@color/text_167afe"
+            android:textColor="@color/text_333"
             android:textSize="15dp"/>
 
     </LinearLayout>

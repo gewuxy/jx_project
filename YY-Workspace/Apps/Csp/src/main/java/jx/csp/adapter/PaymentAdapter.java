@@ -1,7 +1,5 @@
 package jx.csp.adapter;
 
-import android.view.View;
-
 import jx.csp.R;
 import jx.csp.adapter.VH.PaymentVH;
 import jx.csp.model.Payment;
@@ -19,9 +17,8 @@ public class PaymentAdapter extends RecyclerAdapterEx<Payment, PaymentVH>{
     protected void refreshView(int position, PaymentVH holder) {
         Payment item = getItem(position);
         holder.getIvPayment().setImageResource(item.getInt(TPayment.image));
-        View layout = holder.getItemLayout();
-        layout.setSelected(item.getBoolean(TPayment.select));
-        setOnViewClickListener(position, layout);
+        holder.getItemView().setSelected(item.getBoolean(TPayment.select));
+        setOnViewClickListener(position, holder.getItemLayout());
     }
 
     @Override

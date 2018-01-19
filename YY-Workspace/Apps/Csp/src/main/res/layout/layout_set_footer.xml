@@ -11,7 +11,5 @@
     <TextView
         android:id="@+id/base_set_tv_set"
         style="@style/tv.common"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
         android:layout_marginTop="@dimen/form_height_common"/>
 </LinearLayout>

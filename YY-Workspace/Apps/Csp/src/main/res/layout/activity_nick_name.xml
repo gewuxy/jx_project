@@ -20,9 +20,7 @@
             android:id="@+id/profile_et_name"
             style="@style/et.common"
             android:layout_gravity="center"
-            android:hint="@string/my_message_input_nick_name"
-            android:textColor="@color/text_333"
-            android:textColorHint="@color/text_9699a2"/>
+            android:hint="@string/my_message_input_nick_name"/>
 
         <ImageView
             style="@style/iv.form.clean"

@@ -16,8 +16,7 @@
 
         <EditText
             android:id="@id/form_et"
-            style="@style/et.common"
-            android:inputType="number"
+            style="@style/et.common.login"
             android:maxLength="11"/>
 
         <ImageView style="@style/iv.form.clean"/>

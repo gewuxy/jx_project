@@ -120,6 +120,8 @@
     <string name="Login_with_Twitter">Twitter登錄</string>
     <string name="auth_success">授權成功</string>
     <string name="auth_fail">授權失敗</string>
+    <string name="confirm_captcha">請確認手機號碼</string>
+    <string name="send_sms_captcha">將發送短信驗證碼到這個號碼</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>
@@ -239,13 +241,11 @@
     <string name="setting_change_pwd_succeed">密碼修改成功</string>
     <!-- 设置 绑定邮箱-->
     <string name="setting_bind_email">綁定郵箱</string>
-    <string name="setting_change_pwd_bind_email">綁定郵箱</string>
-    <string name="setting_input_email_address">輸入郵箱地址</string>
-    <string name="setting_change_email_address">更換郵箱地址</string>
-    <string name="setting_certification_email">認證郵箱</string>
+    <string name="setting_input_email_address">輸入郵箱</string>
+    <string name="setting_change_email_address">更換郵箱</string>
     <string name="setting_bind_email_succeed">發送成功</string>
-    <string name="setting_bind_text">修改密碼需綁定郵箱後才能繼續操作</string>
-    <string name="setting_certification_text">認證鏈接已發送，請查收郵件</string>
+    <string name="setting_bind_text">需要先綁定郵箱才能修改密碼</string>
+    <string name="setting_certification_text">郵件已發送，請查收</string>
 
     <!-- 账号管理 -->
     <string name="account_manage">賬號管理</string>
@@ -295,8 +295,8 @@
     <string name="flow_rate_surplus">剩餘流量</string>
     <string name="flow_rate_unit">元</string>
     <string name="flow_rate_unit_en">美元</string>
-    <string name="flow_rate_currency">支付幣種</string>
-    <string name="flow_rate_currency_cny">人民幣</string>
+    <string name="flow_rate_currency_en">美元支付</string>
+    <string name="flow_rate_currency_cny">人民幣支付</string>
     <string name="flow_rate_payment">支付方式</string>
     <string name="flow_rate_price">售價</string>
 
@@ -311,7 +311,7 @@
     <!-- 会员管理 -->
     <string name="vip_manage_meeting_num">會議數量</string>
     <string name="vip_manage_validity">有效期</string>
-    <string name="vip_manage_permission">使用權限</string>
+    <string name="vip_manage_permission">你的權益</string>
     <string name="vip_manage_record">投屏錄播</string>
     <string name="vip_manage_live">投屏直播</string>
     <string name="vip_manage_three_meeting">3個會議</string>

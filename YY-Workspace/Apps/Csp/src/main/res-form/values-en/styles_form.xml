@@ -56,7 +56,7 @@
 
     <style name="tv.form.name">
         <item name="android:id">@id/form_tv_name</item>
-        <item name="android:textColor">@color/text_888</item>
+        <item name="android:textColor">@color/text_333</item>
         <item name="android:layout_weight">0</item>
     </style>
 

@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="录播"
-                    android:textColor="@color/text_167afe"
+                    android:textColor="@color/text_9699a2"
                     android:textSize="14dp"/>
 
                 <View
@@ -63,7 +63,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_toRightOf="@+id/play_state"
                     android:text="75'15"
-                    android:textColor="@color/text_b3"
+                    android:textColor="@color/text_9699a2"
                     android:textSize="14dp"/>
 
                 <View
@@ -82,7 +82,7 @@
                     android:layout_marginLeft="21dp"
                     android:layout_toRightOf="@+id/play_time"
                     android:text="160页"
-                    android:textColor="@color/text_b3"
+                    android:textColor="@color/text_9699a2"
                     android:textSize="14dp"/>
             </RelativeLayout>
         </LinearLayout>

@@ -75,6 +75,7 @@ public class RegisterActivity extends BaseLoginActivity {
                 .related(RelatedId.nickname)
                 .hint(R.string.my_message_nick_name)
                 .textWatcher(this)
+                .layout(R.layout.form_edit_nickname)
                 .drawable(R.drawable.login_ic_nickname)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
                     if (source.equals(" ")) {
@@ -146,8 +147,8 @@ public class RegisterActivity extends BaseLoginActivity {
             if (r.getCode() == KReturnCode) {
                 CommonDialog2 d = new CommonDialog2(this);
                 d.setHint(getString(R.string.email_have_been_register));
-                d.addGrayButton(R.string.immediately_login, v -> finish());
-                d.addBlueButton(R.string.cancel);
+                d.addBlackButton(R.string.immediately_login, v -> finish());
+                d.addBlackButton(R.string.cancel);
                 d.show();
                 return;
             }

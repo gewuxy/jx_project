@@ -8,8 +8,6 @@
     <TextView
         android:id="@+id/setting_tv_exit_account"
         style="@style/tv.common"
-        android:layout_marginRight="@dimen/margin"
-        android:layout_marginLeft="@dimen/margin"
         android:layout_marginTop="@dimen/form_height_common"
         android:text="@string/setting_exit_account"/>
 

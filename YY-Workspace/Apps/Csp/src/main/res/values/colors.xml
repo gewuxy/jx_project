@@ -38,21 +38,15 @@
     <color name="text_af">#afafaf</color>
     <color name="text_167afe">#167afe</color>
     <color name="text_7a8b9f">#7a8b9f</color>
-    <color name="text_507a8b9f">#507a8b9f</color>
     <color name="text_e43939">#e43939</color>
-    <color name="text_a4b3c6">#a4b3c6</color>
     <color name="text_3fa9f5">#3fa9f5</color>
     <color name="text_focus">#3998db</color>
-    <color name="text_dce3ea">#dce3ea</color>
-    <color name="text_3c5a96">#3c5a96</color>
-    <color name="text_59adeb">#59adeb</color>
-    <color name="text_50fff">#50ffffff</color>
 
+    <!--以下是1.1.5新增颜色-->
     <color name="text_ace400">#ace400</color>
     <color name="text_787c86">#787c86</color>
     <color name="text_c6c5cb">#c6c5cb</color>
     <color name="text_f2f2f4">#f2f2f4</color>
-    <color name="text_9699A2">#9699a2</color>
     <color name="text_404356">#404356</color>
     <color name="text_9699a2">#9699a2</color>
     <color name="text_1fbedd">#1fbedd</color>

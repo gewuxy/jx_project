@@ -10,7 +10,7 @@
         android:layout_width="99dp"
         android:layout_height="101dp"
         android:layout_marginTop="117dp"
-        android:src="@drawable/history_ic_empty"/>
+        android:src="@drawable/main_ic_empty"/>
 
     <TextView
         android:id="@+id/empty_footer_tv"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="@string/contribute_not_submit_records_footer"
-        android:textColor="@color/text_a4b3c6"
+        android:textColor="@color/text_c6c5cb"
         android:textSize="18dp"/>
 
 </LinearLayout>

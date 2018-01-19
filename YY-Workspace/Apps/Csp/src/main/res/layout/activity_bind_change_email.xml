@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="90dp"
         android:src="@drawable/ic_default_authentication_link_send"/>
 
     <TextView
@@ -18,7 +18,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="67dp"
         android:text="@string/setting_certification_text"
-        android:textColor="@color/text_888"
+        android:textColor="@color/text_404356"
         android:textSize="@dimen/margin"/>
 
     <TextView

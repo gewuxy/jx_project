@@ -42,7 +42,7 @@
             android:layout_marginBottom="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
             android:text="@string/vip_manage_app_name"
-            android:textColor="@color/text_50fff"
+            android:textColor="@color/text_ace400"
             android:textSize="17dp"/>
 
         <LinearLayout
@@ -60,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hui"
-                android:textColor="@color/text_50fff"
+                android:textColor="@color/text_ace400"
                 android:textSize="9dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会"
-                android:textColor="@color/text_50fff"
+                android:textColor="@color/text_ace400"
                 android:textSize="17dp"/>
         </LinearLayout>
     </RelativeLayout>
@@ -99,7 +99,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/divider"
                 android:text="0"
-                android:textColor="@color/text_167afe"
+                android:textColor="@color/text_1fbedd"
                 android:textSize="@dimen/margin"/>
 
             <View
@@ -115,10 +115,11 @@
                 android:id="@+id/vip_tv_meet_limit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin"
                 android:text="3"
-                android:textColor="@color/text_af"
+                android:textColor="@color/text_c6c5cb"
                 android:textSize="@dimen/margin"/>
         </RelativeLayout>
 
@@ -144,7 +145,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin"
                 android:text="@string/vip_manage_time"
-                android:textColor="@color/text_af"
+                android:textColor="@color/text_c6c5cb"
                 android:textSize="@dimen/margin"/>
         </RelativeLayout>
 

@@ -11,11 +11,7 @@
         <EditText
             android:id="@+id/form_et"
             style="@style/et.common"
-            android:inputType="number"
-            android:maxLength="6"
-            android:singleLine="true"
-            android:textColor="@color/text_333"
-            android:textColorHint="@color/text_9699a2"/>
+            android:maxLength="6"/>
 
         <ImageView
             style="@style/iv.form.clean"

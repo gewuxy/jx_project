@@ -73,27 +73,27 @@ public class VipManagePresenterImpl extends BasePresenterImpl<VipManageContract.
         List<VipPermission> list = new ArrayList<>();
         switch (id) {
             case VipType.norm: {
-                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_record));
-                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_live));
-                list.add(new VipPermission(getString(R.string.vip_manage_three_meeting), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_meet_num));
-                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_507a8b9f), R.drawable.vip_ic_un_advertising));
-                list.add(new VipPermission(getString(R.string.vip_manage_close_watermark), ResLoader.getColor(R.color.text_507a8b9f), R.drawable.vip_ic_un_watermark));
+                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_record));
+                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_live));
+                list.add(new VipPermission(getString(R.string.vip_manage_three_meeting), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_meet_num));
+                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_9699a2), R.drawable.vip_ic_un_advertising));
+                list.add(new VipPermission(getString(R.string.vip_manage_close_watermark), ResLoader.getColor(R.color.text_9699a2), R.drawable.vip_ic_un_watermark));
             }
             break;
             case VipType.advanced: {
-                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_record));
-                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_live));
-                list.add(new VipPermission(getString(R.string.vip_manage_ten_meeting), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_meet_num));
-                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_advertising));
-                list.add(new VipPermission(getString(R.string.vip_manage_close_watermark), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_watermark));
+                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_record));
+                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_live));
+                list.add(new VipPermission(getString(R.string.vip_manage_ten_meeting), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_meet_num));
+                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_advertising));
+                list.add(new VipPermission(getString(R.string.vip_manage_close_watermark), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_watermark));
             }
             break;
             case VipType.profession: {
-                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_record));
-                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_live));
-                list.add(new VipPermission(getString(R.string.vip_manage_infinite_meeting), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_meet_num));
-                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_advertising));
-                list.add(new VipPermission(getString(R.string.vip_manage_custom_watermark), ResLoader.getColor(R.color.text_7a8b9f), R.drawable.vip_ic_watermark));
+                list.add(new VipPermission(getString(R.string.vip_manage_record), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_record));
+                list.add(new VipPermission(getString(R.string.vip_manage_live), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_live));
+                list.add(new VipPermission(getString(R.string.vip_manage_infinite_meeting), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_meet_num));
+                list.add(new VipPermission(getString(R.string.vip_manage_advertising), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_advertising));
+                list.add(new VipPermission(getString(R.string.vip_manage_custom_watermark), ResLoader.getColor(R.color.text_404356), R.drawable.vip_ic_watermark));
             }
             break;
         }

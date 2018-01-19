@@ -20,4 +20,6 @@ public class PaymentVH extends RecyclerViewHolderEx{
     public View getItemLayout() {return getView(R.id.flow_rate_layout_payment);}
 
     public ImageView getIvPayment() {return getView(R.id.flow_rate_iv_payment);}
+
+    public View getItemView() {return getView(R.id.flow_rate_underline);}
 }

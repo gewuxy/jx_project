@@ -22,7 +22,6 @@
     <TextView
         android:id="@+id/contribute_tv_platform"
         style="@style/tv.common"
-        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/margin"
         android:text="@string/contribute_confirm"/>

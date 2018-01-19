@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/flow_rate_price"
-                android:textColor="@color/text_888"
+                android:textColor="@color/text_9699a2"
                 android:textSize="14dp"/>
 
             <TextView
@@ -51,7 +51,7 @@
                 android:id="@+id/flow_rate_tv_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_888"
+                android:textColor="@color/text_9699a2"
                 android:textSize="14dp"/>
         </LinearLayout>
     </LinearLayout>

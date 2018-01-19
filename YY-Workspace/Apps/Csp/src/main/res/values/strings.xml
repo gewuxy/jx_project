@@ -120,6 +120,8 @@
     <string name="Login_with_Twitter">Login with Twitter</string>
     <string name="auth_success">Authorized successfully</string>
     <string name="auth_fail">Fail to authorize</string>
+    <string name="confirm_captcha">请确认手机号码</string>
+    <string name="send_sms_captcha">将发送短信验证码到这个号码</string>
 
     <!--分享-->
     <string name="wechat">Wechat</string>
@@ -239,10 +241,8 @@
     <string name="setting_change_pwd_succeed">Change Password Successfully</string>
     <!-- 设置 绑定邮箱-->
     <string name="setting_bind_email">E-mail Binding</string>
-    <string name="setting_change_pwd_bind_email">Bind E-mail Address</string>
     <string name="setting_input_email_address">E-mail Address</string>
     <string name="setting_change_email_address">Change E-mail Address</string>
-    <string name="setting_certification_email">Verify E-mail Address</string>
     <string name="setting_bind_email_succeed">Send Successfully</string>
     <string name="setting_bind_text">Please bind your e-mail address before changing the password.</string>
     <string name="setting_certification_text">Verification link has been sent. \nPlease check your e-mail.</string>
@@ -298,7 +298,7 @@
     <string name="flow_rate_surplus">Network Flow Balance</string>
     <string name="flow_rate_unit">CNY</string>
     <string name="flow_rate_unit_en">USD</string>
-    <string name="flow_rate_currency">Currency</string>
+    <string name="flow_rate_currency_en">USD</string>
     <string name="flow_rate_currency_cny">CNY</string>
     <string name="flow_rate_payment">Mode of Payment</string>
     <string name="flow_rate_price">Price</string>

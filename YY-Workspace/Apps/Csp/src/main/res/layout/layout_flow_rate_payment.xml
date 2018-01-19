@@ -9,13 +9,19 @@
         android:id="@+id/flow_rate_layout_payment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@drawable/flow_rate_selector">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/flow_rate_iv_payment"
             style="@style/iv.flow"
             android:src="@drawable/flow_rate_ic_alipay"/>
+
+        <View
+            android:id="@+id/flow_rate_underline"
+            android:layout_width="70dp"
+            android:layout_height="2dp"
+            android:background="@drawable/flow_rate_selector"/>
 
     </LinearLayout>
 

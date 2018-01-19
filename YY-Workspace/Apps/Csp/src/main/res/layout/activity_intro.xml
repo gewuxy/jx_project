@@ -30,8 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:textColor="@color/text_333"
-            android:textColorHint="@color/text_9699a2"
             android:singleLine="false"
             android:padding="@dimen/margin"
             android:gravity="top"

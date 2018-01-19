@@ -51,6 +51,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
                 .related(RelatedId.nickname)
                 .hint(R.string.input_nickname)
                 .textWatcher(this)
+                .layout(R.layout.form_edit_nickname)
                 .input((InputFilter) (source, start, end, dest, dstart, dend) -> {
                     if (source.equals(" ")) {
                         return "";

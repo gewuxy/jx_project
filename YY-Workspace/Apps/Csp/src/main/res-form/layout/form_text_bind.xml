@@ -35,6 +35,8 @@
                 style="@style/tv.form.text"
                 android:gravity="center|right"
                 android:layout_width="0dp"
+                android:textColor="@color/text_9699a2"
+                android:textColorHint="@color/text_1fbedd"
                 android:layout_weight="1"
                 android:layout_marginRight="@dimen/margin"/>
         </LinearLayout>
