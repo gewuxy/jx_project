@@ -76,11 +76,6 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
         Util.addBackIcon(bar, getNavBarText(), this);
     }
 
-    @Override
-    protected boolean enableHideKeyboardWhenChangeFocus() {
-        return true;
-    }
-
     @CallSuper
     @Override
     public void setViews() {

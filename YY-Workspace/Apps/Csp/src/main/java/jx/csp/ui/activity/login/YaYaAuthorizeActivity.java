@@ -40,7 +40,7 @@ import lib.ys.util.TextUtil;
  * @since 2017/9/29
  */
 
-abstract public class BaseYaYaLoginActivity extends BaseActivity {
+public class YaYaAuthorizeActivity extends BaseActivity {
 
     private final int KIdAuthorizeLogin = 0;
     private final int KIdLogin = 1;
@@ -69,6 +69,7 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     @Override
     public void initNavBar(NavBar bar) {
         Util.addCloseIcon(bar, null, this);
+        bar.setBackgroundResource(R.color.white);
     }
 
     @Override
@@ -85,7 +86,15 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     @Override
     public void setViews() {
         mTvLogin.setEnabled(false);
-        mTvLogin.setText(getSetText());
+        if (Profile.inst().isLogin()) {
+            mTvLogin.setText(R.string.account_confirm_bind);
+        } else {
+            mTvLogin.setText(R.string.authorization_login);
+            mEtUsername.setText(SpApp.inst().getUserName());
+            mEtUsername.setSelection(SpApp.inst().getUserName().length());
+            // 清空用户信息
+            Profile.inst().clear();
+        }
 
         setPwdVisible(mEtPwd, mCbVisiblePwd);
 
@@ -269,12 +278,5 @@ abstract public class BaseYaYaLoginActivity extends BaseActivity {
     public String getPwd() {
         return Util.getEtString(mEtPwd);
     }
-
-    /**
-     * 获取按钮文本
-     *
-     * @return 按钮的文本
-     */
-    abstract protected CharSequence getSetText();
 
 }

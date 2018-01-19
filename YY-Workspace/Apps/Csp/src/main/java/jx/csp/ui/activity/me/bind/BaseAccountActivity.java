@@ -14,6 +14,7 @@ import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.presenter.AccountManagePresenterImpl;
+import jx.csp.ui.activity.login.YaYaAuthorizeActivity;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseFormActivity;
@@ -96,7 +97,7 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
             break;
             case RelatedId.bind_jingxin: {
                 if (TextUtil.isEmpty(Profile.inst().getBindNickName(BindId.yaya))) {
-                    startActivity(YaYaAuthorizeBindActivity.class);
+                    startActivity(YaYaAuthorizeActivity.class);
                 } else {
                     mView.showUnBindDialog(BindId.yaya, getString(R.string.account_unbind_yaya));
                 }

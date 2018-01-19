@@ -8,8 +8,8 @@ import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.login.YaYaAuthorizeActivity;
 import jx.csp.ui.activity.login.email.EmailLoginActivity;
-import jx.csp.ui.activity.login.YaYaAuthorizeLoginActivity;
 import lib.network.model.interfaces.IResult;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
@@ -58,7 +58,7 @@ public class AuthLoginOverseaActivity extends BaseAuthLoginActivity {
             }
             break;
             case R.id.layout_login_jingxin: {
-                startActivity(YaYaAuthorizeLoginActivity.class);
+                startActivity(YaYaAuthorizeActivity.class);
             }
             break;
         }
