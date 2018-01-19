@@ -285,7 +285,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 if (!mIsReceiveFlowInsufficient) {
                     CommonDialog2 dialog = new CommonDialog2(this);
                     dialog.setHint(R.string.record_live_insufficient);
-                    dialog.addBlueButton(R.string.ok);
+                    dialog.addBlackButton(R.string.ok);
                     dialog.show();
                     mIsReceiveFlowInsufficient = true;
                 }

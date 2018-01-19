@@ -7,6 +7,7 @@ import android.widget.TextView;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
@@ -51,6 +52,7 @@ public class SkipActivity extends BaseActivity implements OnCountDownListener {
         bar.addViewLeft(R.drawable.default_ic_close, v -> finish());
         bar.addTextViewMid(mTitleText);
         bar.setBackgroundResource(R.color.transparent);
+        Util.addDivider(bar);
     }
 
     @Override

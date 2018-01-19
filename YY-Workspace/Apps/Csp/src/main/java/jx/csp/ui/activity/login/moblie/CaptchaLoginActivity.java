@@ -139,8 +139,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
                     CommonDialog dialog = new CommonDialog(this);
                     dialog.addHintView(view);
-                    dialog.addGrayButton(R.string.cancel);
-                    dialog.addBlueButton(getString(R.string.well), v1 -> {
+                    dialog.addBlackButton(R.string.cancel);
+                    dialog.addBlackButton(getString(R.string.well), v1 -> {
                         mCount++;
                         YSLog.d("mCount:", mCount + "");
                         if (mCount == 1) {

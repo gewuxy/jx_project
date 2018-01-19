@@ -98,7 +98,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         dialog.setHint(R.string.over_meeting);
                         dialog.addBlackButton(R.string.over, v1 ->
                                 CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-                        dialog.addBlueButton(R.string.cancel_over);
+                        dialog.addBlackButton(R.string.cancel_over);
                         dialog.show();
                     });
                     d.show();
@@ -129,7 +129,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         dialog.setHint(R.string.over_meeting);
                         dialog.addBlackButton(R.string.over, v1 ->
                                 CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-                        dialog.addBlueButton(R.string.cancel_over);
+                        dialog.addBlackButton(R.string.cancel_over);
                         dialog.show();
                     });
                 }
@@ -288,7 +288,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             });
             mCountdownDialog.show();
         });
-        d.addBlueButton(R.string.cancel);
+        d.addBlackButton(R.string.cancel);
         d.show();
     }
 

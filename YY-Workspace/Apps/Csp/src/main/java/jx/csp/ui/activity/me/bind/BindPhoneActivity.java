@@ -59,7 +59,7 @@ public class BindPhoneActivity extends BaseSetActivity {
 
     @Override
     protected CharSequence getSetText() {
-        return getString(R.string.account_confirm_bind);
+        return getString(R.string.account_bind_phone);
     }
 
     @NonNull
@@ -118,8 +118,8 @@ public class BindPhoneActivity extends BaseSetActivity {
 
             CommonDialog dialog = new CommonDialog(BindPhoneActivity.this);
             dialog.addHintView(captcha);
-            dialog.addGrayButton(R.string.cancel);
-            dialog.addBlueButton(R.string.well, v1 -> {
+            dialog.addBlackButton(R.string.cancel);
+            dialog.addBlackButton(R.string.well, v1 -> {
                 mPhonePresenter.checkCaptcha();
             });
             dialog.show();

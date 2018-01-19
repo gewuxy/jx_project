@@ -161,8 +161,8 @@ public class EmailLoginActivity extends BaseLoginActivity {
             if (mCount > 5 && mCount < 8) {
                 CommonDialog2 dialog = new CommonDialog2(this);
                 dialog.setHint(getString(R.string.pwd_err));
-                dialog.addGrayButton(R.string.cancel);
-                dialog.addBlueButton(getString(R.string.find_pwd), v1 -> {
+                dialog.addBlackButton(R.string.cancel);
+                dialog.addBlackButton(getString(R.string.find_pwd), v1 -> {
                     startActivity(ForgetPwdActivity.class);
                 });
                 dialog.show();

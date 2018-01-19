@@ -204,8 +204,8 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
         public void showConfirmUnBindDialog(CharSequence hint, OnClickListener l) {
             CommonDialog2 d = new CommonDialog2(BaseAccountActivity.this);
             d.setHint(hint);
-            d.addButton(R.string.confirm, R.color.text_333, l);
-            d.addBlueButton(R.string.cancel);
+            d.addBlackButton(R.string.cancel);
+            d.addBlackButton(R.string.confirm, l);
             d.show();
         }
 

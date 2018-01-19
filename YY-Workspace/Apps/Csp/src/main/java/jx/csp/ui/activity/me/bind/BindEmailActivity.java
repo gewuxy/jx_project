@@ -56,7 +56,7 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     protected CharSequence getSetText() {
-        return getString(R.string.setting_certification_email);
+        return getString(R.string.setting_bind_email);
     }
 
     @Override

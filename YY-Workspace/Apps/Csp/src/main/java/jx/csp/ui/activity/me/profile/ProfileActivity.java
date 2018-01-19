@@ -41,8 +41,6 @@ import lib.ys.util.res.ResLoader;
 
 public class ProfileActivity extends BaseFormActivity {
 
-    private final int KColorNormal = R.color.text_333;
-
     private final int KCodeAlbum = 1001;
     private final int KCodePhotograph = 1002;
     private final int KCodeClipImage = 1003;
@@ -183,9 +181,9 @@ public class ProfileActivity extends BaseFormActivity {
                 }
             });
 
-            dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(KColorNormal));
-            dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(KColorNormal));
-            dialog.addItem(getString(R.string.cancel), ResLoader.getColor(KColorNormal));
+            dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(R.color.text_333));
+            dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(R.color.text_333));
+            dialog.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
             dialog.show();
         }
 

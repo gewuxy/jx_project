@@ -251,12 +251,12 @@ public class Util extends BaseUtil {
     public static void deleteMeet(String courseId, Context context) {
         CommonDialog2 d = new CommonDialog2(context);
         d.setHint(R.string.ensure_delete);
-        d.addBlueButton(R.string.confirm, v1 ->
+        d.addBlackButton(R.string.confirm, v1 ->
                 CommonServRouter.create(ReqType.share_delete_meet)
                         .courseId(courseId)
                         .route(context)
         );
-        d.addGrayButton(R.string.cancel);
+        d.addBlackButton(R.string.cancel);
         d.show();
     }
 }

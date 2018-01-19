@@ -28,9 +28,6 @@ import lib.ys.util.res.ResLoader;
 
 public class SettingsActivity extends BaseFormActivity {
 
-    private final int KColorNormal = R.color.text_666;
-    private final int KColorCancel = R.color.text_167afe;
-
     private SettingsContract.P mPresenter;
     private SettingsContract.V mView;
 
@@ -129,8 +126,8 @@ public class SettingsActivity extends BaseFormActivity {
                     mPresenter.clearCache(id, folderPath);
                 }
             });
-            d.addItem(getString(resId), ResLoader.getColor(KColorNormal));
-            d.addItem(getString(R.string.cancel), ResLoader.getColor(KColorCancel));
+            d.addItem(getString(resId), ResLoader.getColor(R.color.text_333));
+            d.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
             d.show();
         }
 
@@ -148,7 +145,7 @@ public class SettingsActivity extends BaseFormActivity {
             d.addBlackButton(R.string.setting_exit, v -> {
                 mPresenter.logout(SettingsActivity.this);
             });
-            d.addBlueButton(R.string.cancel);
+            d.addBlackButton(R.string.cancel);
             d.show();
 
         }
