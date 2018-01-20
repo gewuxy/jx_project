@@ -1,10 +1,14 @@
 package jx.csp.ui.activity.record;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.CallSuper;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -26,6 +30,8 @@ import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
 import jx.csp.dialog.CommonDialog1;
+import jx.csp.dialog.ShareDialog;
+import jx.csp.model.main.Meet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.CourseDetail;
 import jx.csp.model.meeting.CourseDetail.TCourseDetail;
@@ -103,15 +109,15 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected boolean mRecordPermissionState = false;  // 是否有录音权限
 
+    protected NotificationCompat.Builder mBuilder;
+    protected NotificationManager mManager;
+
     protected AlphaAnimation mAnimationFadeIn;
     protected AlphaAnimation mAnimationFadeOut;
+    protected Meet mShareArguments;
 
     @Arg
     String mCourseId;  // 课程id
-    @Arg
-    String mCoverUrl;  // 分享封面地址
-    @Arg
-    String mTitle;  // 会议标题
 
     @CallSuper
     @Override
@@ -123,6 +129,14 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         mConnectionReceiver = new ConnectionReceiver(this);
         mConnectionReceiver.setListener(this);
         mAudioUploadPresenter = new AudioUploadPresenterImpl(this);
+
+        mBuilder = new NotificationCompat.Builder(this);
+        mBuilder.mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setContentTitle(getString(R.string.app_name));
+        mBuilder.setContentText(getString(R.string.record_ing));
+        mBuilder.setAutoCancel(false);
+        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
@@ -133,10 +147,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
         bar.addViewMid(view);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-//            ShareDialog dialog = new ShareDialog(this, mCourseId, mTitle, mCoverUrl, mPlayType, mLiveState);
-//            dialog.show();
+            if (mShareArguments != null) {
+                ShareDialog dialog = new ShareDialog(this, mShareArguments);
+                dialog.show();
+            }
         });
-
         Util.addDivider(bar);
     }
 
@@ -300,8 +315,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     }
 
     @Override
-    public void onStopRefresh() {
-    }
+    public void onStopRefresh() {}
 
     @Override
     public void onNotify(int type, Object data) {

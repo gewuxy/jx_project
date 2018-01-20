@@ -55,12 +55,10 @@ public class ShareDialog extends BaseDialog {
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题要拼接
     private String mCourseId;  // 会议id
-    private String mTitle; // 会议标题
     private String mCoverUrl; // 分享的图片url
 
-    private int mPlayType;  //播放类型, 根据类型改变第二个gridView的视图
+    private int mCourseType;  //播放类型, 根据类型改变第二个gridView的视图
     private int mLiveState;  //直播状态, 根据状态改变第一个gridView的视图
-//    private Bitmap mCoverBmp;
 
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
@@ -69,13 +67,10 @@ public class ShareDialog extends BaseDialog {
         super(context);
 
         mCourseId = meet.getString(TMeet.id);
-        // 复制的会议标题默认加  _复制
-        mTitle = meet.getString(TMeet.title) + getString(R.string.duplicate);
         mShareTitle = String.format(meet.getString(TMeet.title));
         mCoverUrl = meet.getString(TMeet.coverUrl);
-        mPlayType = meet.getInt(TMeet.playType);
+        mCourseType = meet.getInt(TMeet.playType);
         mLiveState = meet.getInt(TMeet.liveState);
-//        mCoverBmp = Util.getBitMBitmap(mCoverUrl);
 
         shareSignature();
         getPlatform();
@@ -94,25 +89,16 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void findViews() {
-
-    }
+    public void findViews() {}
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.dialog_share_tv_cancel);
-
         setGravity(Gravity.BOTTOM);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.dialog_share_tv_cancel: {
-
-            }
-            break;
-        }
         dismiss();
     }
 
@@ -277,7 +263,7 @@ public class ShareDialog extends BaseDialog {
         List<SharePlatform> list = new ArrayList<>();
 
         //录播有预览, 直播没有预览
-        if (mPlayType == CourseType.reb) {
+        if (mCourseType == CourseType.reb) {
             list.add(SharePlatform.preview);
             list.add(SharePlatform.watch_pwd);
             list.add(SharePlatform.copy_link);
@@ -318,5 +304,4 @@ public class ShareDialog extends BaseDialog {
             }
         });
     }
-
 }

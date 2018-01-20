@@ -65,24 +65,21 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     @Arg(opt = true)
     long mStartTime;
     @Arg(opt = true)
-    long mStopTime;
-    @Arg(opt = true)
     long mServerTime;
     @Arg(opt = true)
     String mWsUrl;
     @Arg(opt = true)
     String mPushUrl;
 
-    // 实际结束时间比结束时间多15分钟
-    private long mRealStopTime;
+    private long mEndTime;
     private LiveVideoContract.P mP;
-    private boolean mBeginCountDown = false;  // 是否开始倒计时,直播时间到了才开始
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private boolean mIsFlowInsufficient = false; // 流量是否不足 同时出现时间不足和流量不足的情况优先显示流量不足的提示；但在时间耗尽，流量还有的情况依旧结束直播
     private boolean mIsShowRemainingTimeTv = false; // 倒计时或者流量不足提示是否显示
     private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
+    private int mLiveTime = 0;  // 直播的时间
 
     @Override
     public void initData() {
@@ -90,12 +87,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
 
-//        mStartTime = System.currentTimeMillis();
-//        mServerTime = System.currentTimeMillis() + 60 * 1000;
-//        mStopTime = System.currentTimeMillis() + 60 * 60 * 1000;
-//        mPushUrl = "rtmp://17932.livepush.myqcloud.com/live/17932_14520?txTime=5A3542FF&bizid=17932&txSecret=177fff775234140e7b5d2d7f32e4ada1";
-
-        mRealStopTime = mStopTime + TimeUnit.MINUTES.toMillis(15);
+        mEndTime = mStartTime + TimeUnit.DAYS.toMillis(1);
+        mLiveTime = (int) ((mServerTime - mStartTime) / 1000);
         mConnectionReceiver = new ConnectionReceiver(this);
         mConnectionReceiver.setListener(this);
     }
@@ -107,7 +100,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     }
 
     @Override
-    public void initNavBar(NavBar bar) {}
+    public void initNavBar(NavBar bar) {
+    }
 
     @Override
     public void findViews() {
@@ -137,11 +131,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         setOnClickListener(R.id.live_iv_switch_camera);
         setOnClickListener(R.id.live_tv_start);
         setOnClickListener(R.id.live_iv_live);
-        //判断是否需要开始倒计时
-        if (mServerTime >= mStartTime) {
-            mBeginCountDown = true;
-            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-        }
+
+        mTvLiveTime.setText(Util.getSpecialTimeFormat(mLiveTime, "'", "''"));
+        mP.startCountDown(mEndTime - mServerTime);
         // 连接websocket
         if (mWsUrl != null) {
             WebSocketServRouter.create(mWsUrl).route(this);
@@ -157,7 +149,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             case R.id.live_iv_back: {
                 if (mLiveState) {
                     mP.stopLive();
-                    mLiveState = false;
                 }
                 finish();
             }
@@ -174,28 +165,17 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 if (Util.noNetwork()) {
                     return;
                 }
-                //判断直播时间是否到
-                if (mBeginCountDown) {
-                    mP.startLive(mPushUrl, mIvSilence.isSelected());
-                } else {
-                    startCountDownAndLive();
-                }
+                mP.startLive(mPushUrl, mIvSilence.isSelected());
             }
             break;
             case R.id.live_iv_live: {
                 if (Util.noNetwork()) {
                     return;
                 }
-                //判断直播时间是否到 mTvStart是否已经隐藏
-                if (mBeginCountDown) {
-                    if (mLiveState) {
-                        mP.stopLive();
-                        mLiveState = false;
-                    } else {
-                        mP.startLive(mPushUrl, mIvSilence.isSelected());
-                    }
+                if (mLiveState) {
+                    mP.stopLive();
                 } else {
-                    startCountDownAndLive();
+                    mP.startLive(mPushUrl, mIvSilence.isSelected());
                 }
             }
             break;
@@ -349,16 +329,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
-    protected void startCountDownAndLive() {
-        if (mServerTime >= mStartTime) {
-            mBeginCountDown = true;
-            mP.startCountDown(mStartTime, mRealStopTime, mServerTime);
-            mP.startLive(mPushUrl, mIvSilence.isSelected());
-        } else {
-            showToast(R.string.meeting_no_start_remain);
-        }
-    }
-
     private void switchLiveDevice() {
         mSendAcceptOrReject = false;
         YSLog.d(TAG, "直播间是否切换直播设备");
@@ -424,8 +394,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     private class View implements LiveVideoContract.V {
 
         @Override
-        public void setLiveTime(String s) {
-            mTvLiveTime.setText(s);
+        public void setLiveTime() {
+            ++mLiveTime;
+            mTvLiveTime.setText(Util.getSpecialTimeFormat(mLiveTime, "'", "''"));
         }
 
         @Override
@@ -491,9 +462,11 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         }
 
         @Override
-        public void onStopRefresh() {}
+        public void onStopRefresh() {
+        }
 
         @Override
-        public void setViewState(int state) {}
+        public void setViewState(int state) {
+        }
     }
 }

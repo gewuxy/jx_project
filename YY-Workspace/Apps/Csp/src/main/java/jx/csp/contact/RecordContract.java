@@ -36,7 +36,7 @@ public interface RecordContract {
 
         void setRecordTime(int time);
 
-        void setRecordTimeRemind();
+        void setRecordTimeRemind(int minute);
 
         void uploadJointAudio(String filePath, int pos);
 

@@ -13,9 +13,9 @@ public interface LiveVideoContract {
 
     interface V extends IContract.View {
 
-        void setLiveTime(String s);
+        void setLiveTime();
 
-        void setCountDownRemind(int i);
+        void setCountDownRemind(int time);
 
         void startLiveState();
 
@@ -34,7 +34,7 @@ public interface LiveVideoContract {
 
         void initLive(Context context, LiveView liveView);
 
-        void startCountDown(long startTime, long stopTime, long serverTime);
+        void startCountDown(long time);
 
         void startLive(String rtmpUrl, boolean mute);
 

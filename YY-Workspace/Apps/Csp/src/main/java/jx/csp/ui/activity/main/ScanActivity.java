@@ -225,15 +225,9 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     protected void joinRecord() {
         if (mScan.getInt(TScan.playType) == CourseType.reb) {
             //录播
-            RecordActivityRouter.create(mScan.getString(TScan.courseId),
-                    mScan.getString(TScan.coverUrl),
-                    mScan.getString(TScan.title))
-                    .route(this);
+            RecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
         } else {
-            LiveAudioActivityRouter.create(mScan.getString(TScan.courseId),
-                    mScan.getString(TScan.coverUrl),
-                    mScan.getString(TScan.title))
-                    .route(this);
+            LiveAudioActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
         }
         finish();
     }

@@ -18,19 +18,11 @@ public interface LiveAudioContract {
 
         void sendSyncInstruction(int pos);
 
-        /**
-         * 直播的时间
-         */
-        void setLiveTime(String str);
+        void setLiveTime();
 
         void startRecordState();
 
         void stopRecordState(int time);
-
-        /**
-         * 直播倒计时
-         */
-        void setCountDownRemain(boolean show, long l);
 
         /**
          * 一页录音的时间超过15分钟时，先上传15分钟的音频 加入上传音频列队
@@ -44,7 +36,7 @@ public interface LiveAudioContract {
          */
         void setAudioFilePath(String filePath);
 
-        void changeRecordIvRes();
+        void setLiveStopRemind(int minute);
 
         void showToast(@StringRes int id);
 
@@ -57,6 +49,8 @@ public interface LiveAudioContract {
 
         void startLive(String courseId, String videoUrl, String imgUrl, int firstClk, int pageNum);
 
+        void setLiveState(boolean state);
+
         void changePage(int pos);
 
         void setWsPos(int pos);
@@ -68,5 +62,9 @@ public interface LiveAudioContract {
         void onlyStopRecord();
 
         void uploadVideoPage(String courseId, String courseDetailId);
+
+        void startCountDown(int time);
+
+        void stopCountDown();
     }
 }

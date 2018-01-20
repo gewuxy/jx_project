@@ -132,7 +132,7 @@ public class Util extends BaseUtil {
     /**
      * 得到指定格式的时间字符串
      *
-     * @param l
+     * @param l  单位 秒
      * @param mFormat 分后面的字符
      * @param sFormat 秒后面的字符
      * @return

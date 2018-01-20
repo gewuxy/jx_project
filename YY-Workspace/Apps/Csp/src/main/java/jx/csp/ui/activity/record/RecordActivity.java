@@ -1,16 +1,12 @@
 package jx.csp.ui.activity.record;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Vibrator;
 import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.SeekBar;
@@ -30,6 +26,9 @@ import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.RecordUnusualState;
 import jx.csp.model.RecordUnusualState.TRecordUnusualState;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Course.TCourse;
 import jx.csp.model.meeting.CourseDetail;
@@ -79,8 +78,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private SparseArray<Integer> mRecordTimeArray;  // 每页ppt录制的音频时间
     private boolean mSeekBarChange = false;  // 互斥变量，防止定时器与SeekBar拖动时进度冲突
     private Vibrator mVibrator;  // 震动服务对象
-    private NotificationCompat.Builder mBuilder;
-    private NotificationManager mManager;
+
     private boolean mCanContinueRecord = false;  // 能否续录
     private boolean mContinueRecord = false;  // 是否在续录
 
@@ -101,19 +99,12 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         mRecordPresenter = new RecordPresenterImpl(new View());
         mRecordTimeArray = new SparseArray<>();
 
-        mBuilder = new NotificationCompat.Builder(this);
-        mBuilder.mNotification.flags |= Notification.FLAG_ONGOING_EVENT;
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setContentTitle(getString(R.string.app_name));
+        //获取手机震动服务
+        mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
         mBuilder.setContentText(getString(R.string.record_ing));
-        mBuilder.setAutoCancel(false);
         Intent intent = new Intent(App.getContext(), RecordActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         mBuilder.setContentIntent(pendingIntent);
-        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        //获取手机震动服务
-        mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -468,7 +459,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
             mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
             SparseArray<String> courseDetailIdArray = new SparseArray<>();
-            mTitle = joinMeeting.get(TJoinMeeting.course).getString(TCourse.title);
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
 
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
@@ -522,6 +512,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             if (TextUtil.isNotEmpty(wsUrl)) {
                 WebSocketServRouter.create(wsUrl).route(RecordActivity.this);
             }
+            // 拼接分享参数
+            mShareArguments = new Meet();
+            mShareArguments.put(TMeet.id, mCourseId);
+            mShareArguments.put(TMeet.title, ((Course)joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
+            mShareArguments.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
+            mShareArguments.put(TMeet.playType, CourseType.reb);
+            mShareArguments.put(TMeet.playState, ((Record)joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
         }
 
         @Override
@@ -604,7 +601,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         @Override
         public void canNotContinueRecordState() {
             mCanContinueRecord = false;
-            goneView(mTvRemind);
+            hideView(mTvRemind);
+            mTvRecordTime.setText("10:00");
             mTvRecordState.setText(R.string.record);
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
         }
@@ -649,13 +647,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
 
         @Override
-        public void setRecordTimeRemind() {
+        public void setRecordTimeRemind(int minute) {
             showView(mTvRemind);
             mTvRemind.setTextColor(ResLoader.getColor(R.color.text_ace400));
-            mTvRemind.setText(R.string.record_time_insufficient_remind);
+            mTvRemind.setText(String.format(getString(R.string.record_time_insufficient_remind), minute));
             // 设置震动周期，数组表示时间：等待+执行，单位是毫秒，下面操作代表:等待100，执行200，等待100，执行500，
             // 后面的数字如果为-1代表不重复，只执行一次，其他代表会重复，0代表从数组的第0个位置开始
-            mVibrator.vibrate(new long[]{100, 300, 100, 800}, -1);
+            mVibrator.vibrate(new long[]{100, 200, 100, 600}, -1);
         }
 
         @Override

@@ -26,7 +26,7 @@
 
     <!-- 直播间 -->
     <string name="online">在線</string>
-    <string name="live">直播中</string>
+    <string name="live">直播中...</string>
     <string name="no_start">未開始</string>
     <string name="click_start_live">請點擊開始直播</string>
     <string name="live_fail">直播失敗</string>
@@ -37,6 +37,11 @@
     <string name="recharge">充值</string>
     <string name="ok">知道了</string>
     <string name="exit_success">退出成功</string>
+    <string name="live_will_pause">直播將暫停</string>
+    <string name="click_start_live_audio">準備好了?點擊開始直播</string>
+    <string name="audio_live_stop_remind">直播將在%d分鐘後結束</string>
+    <string name="click_start_live_now_start_live">點“立即直播”後將立即開始直播。</string>
+    <string name="start_live_now">立即直播</string>
 
     <!-- 录音 -->
     <string name="first_page">已是第一頁</string>
@@ -63,7 +68,7 @@
     <string name="continue_record">續錄</string>
     <string name="record_pause">錄製已暫停</string>
     <string name="rerecording">重錄</string>
-    <string name="record_time_insufficient_remind">剩餘錄製時間不足2分鐘，注意控制時間哦</string>
+    <string name="record_time_insufficient_remind">剩餘錄製時間不足%d分鐘，注意控制時間哦</string>
     <string name="record_ing_slide_remind">請錄製完成當前頁後再到下一頁</string>
     <string name="slide_can_not_rerecording">滑動將無法續錄!</string>
     <string name="record_ing">錄音中...</string>

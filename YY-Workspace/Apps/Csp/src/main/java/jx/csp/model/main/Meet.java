@@ -44,7 +44,5 @@ public class Meet extends EVal<TMeet> {
         serverTime, // 服务器当前时间
 
         starRateFlag,// true 是否开启星评
-
     }
-
 }

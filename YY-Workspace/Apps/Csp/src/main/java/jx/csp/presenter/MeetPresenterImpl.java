@@ -242,19 +242,13 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         }
         switch (mMeet.getInt(TMeet.playType)) {
             case CourseType.reb: {
-                RecordActivityRouter.create(mMeet.getString(TMeet.id),
-                        mMeet.getString(TMeet.coverUrl),
-                        mMeet.getString(TMeet.title))
-                        .route(mContext);
+                RecordActivityRouter.create(mMeet.getString(TMeet.id)).route(mContext);
             }
             break;
             case CourseType.ppt_live:
             case CourseType.ppt_video_live: {
                 if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start || !needCheck) {
-                    LiveAudioActivityRouter.create(mMeet.getString(TMeet.id),
-                            mMeet.getString(TMeet.coverUrl),
-                            mMeet.getString(TMeet.title))
-                            .route(mContext);
+                    LiveAudioActivityRouter.create(mMeet.getString(TMeet.id)).route(mContext);
                 } else {
                     liveAction(mMeet, l -> {
                         // 判断是否有人在直播中
@@ -283,7 +277,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 LiveVideoActivityRouter.create()
                         .courseId(mMeet.getString(TMeet.id))
                         .startTime(mMeet.getLong(TMeet.startTime))
-                        .stopTime(mMeet.getLong(TMeet.endTime))
                         .serverTime(mServerTime)
                         .wsUrl(mLiveRoomWsUrl)
                         .pushUrl(mPushUrl)
@@ -297,7 +290,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 LiveVideoActivityRouter.create()
                         .courseId(mMeet.getString(TMeet.id))
                         .startTime(mMeet.getLong(TMeet.startTime))
-                        .stopTime(mMeet.getLong(TMeet.endTime))
                         .serverTime(mServerTime)
                         .wsUrl(mLiveRoomWsUrl)
                         .pushUrl(mPushUrl)

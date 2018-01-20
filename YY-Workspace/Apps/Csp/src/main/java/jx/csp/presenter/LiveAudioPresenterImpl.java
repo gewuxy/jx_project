@@ -39,19 +39,19 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     private final int KJoinMeetingReqId = 1;
     private final int KStartLiveReqId = 2;  // 开始直播
     private final int KUploadVideoPage = 3;  // 视频页翻页时调用的
-    private final int  KCountDownTime = (int) TimeUnit.MINUTES.toMillis(15); // 开始倒计时的分钟数
+    private final int KCountDownTime = (int) TimeUnit.MINUTES.toMillis(15); // 开始倒计时的分钟数
     private final int KRecordMsgWhat = 1;
     private final int KSendSyncMsgWhat = 2; // 发送同步指令
     private final int KStartLiveMsgWhat = 3; // 点击开始直播的时候延时3秒请求服务器发送同步指令
     private MediaRecorder mMediaRecorder;
     private CountDown mCountDown;
-    private boolean mShowCountDownRemainTv = false; // 倒计时的Tv是否显示
     private boolean mOverFifteen = false;  // 是否在录制超过15分钟的音频
     private int mNum = 0;
     private String mFilePath;
     private int mWsPosition = -1;  // websocket接收到的页数
     private int mTime = 0; // 每页ppt录制的时间 单位秒
     private boolean mLastSyncOrderState = false;  // 上一页的同步指令是否已经发送
+    private boolean mLiveState = false;  // 是否在直播
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -139,6 +139,11 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
+    public void setLiveState(boolean state) {
+        mLiveState = state;
+    }
+
+    @Override
     public void changePage(int pos) {
         // 先去除mHandler的对应消息，再延时发送消息
         mLastSyncOrderState = false;
@@ -219,27 +224,49 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
+    public void startCountDown(int time) {
+        mTime = 0;
+        mCountDown.start(time);
+    }
+
+    @Override
+    public void stopCountDown() {
+        if (mCountDown != null) {
+            mCountDown.stop();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         mMediaRecorder = null;
         if (mCountDown != null) {
             mCountDown.recycle();
         }
         mHandler.removeCallbacksAndMessages(null);
+        stopCountDown();
     }
 
     @Override
     public void onCountDown(long remainCount) {
+        if (mLiveState) {
+            ++mTime;
+            getView().setLiveTime();
+            if (remainCount <= TimeUnit.MINUTES.toSeconds(5)) {
+                if (remainCount > 240 && remainCount <= 300) {
+                    getView().setLiveStopRemind(5);
+                } else if (remainCount > 180 && remainCount <= 240) {
+                    getView().setLiveStopRemind(4);
+                } else if (remainCount > 120 && remainCount <= 180) {
+                    getView().setLiveStopRemind(3);
+                } else if (remainCount > 60 && remainCount <= 120) {
+                    getView().setLiveStopRemind(2);
+                } else {
+                    getView().setLiveStopRemind(1);
+                }
+            }
+        }
         if (remainCount == 0) {
             getView().finishLive();
-        }
-        ++mTime;
-        //getView().setLiveTime(Util.getSpecialTimeFormat(time, "'", "''"));
-        if (remainCount <= KCountDownTime) {
-            if (!mShowCountDownRemainTv) {
-                mShowCountDownRemainTv = !mShowCountDownRemainTv;
-                getView().changeRecordIvRes();
-            }
-            getView().setCountDownRemain(mShowCountDownRemainTv, remainCount);
         }
     }
 

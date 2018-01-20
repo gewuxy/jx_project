@@ -39,7 +39,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         RecordContract.P,
         CountDown.OnCountDownListener {
 
-    private final int KCountDownTime = (int) TimeUnit.MINUTES.toSeconds(10);
+    private final int KCountDownTime = (int) TimeUnit.MINUTES.toSeconds(3);
     private final int KJoinMeetingReqId = 10;
     private final int KMsgWhatPlayProgress = 1;  // 音频播放进度
     private final int KMsgWhatAmplitude = 2;  // 声音的分贝
@@ -53,7 +53,8 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     private CountDown mCountDown;
     private int mPos; // 当前录制的ppt页面下标
     private boolean mRecordState = false; // 录音状态
-    private boolean mShowRecordTimeRemind = false; // 是否显示时间不足提醒
+    private boolean mOneMinuteRemind = false; // 是否显示时间不足1分钟提醒
+    private boolean mTwoMinuteRemind = false; // 是否显示时间不足2分钟提醒
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -104,10 +105,11 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             mMediaRecorder.prepare();
             mMediaRecorder.start();
             mCountDown.start(KCountDownTime - alreadyRecordTime);
-            mShowRecordTimeRemind = false;
             getView().setAudioFilePath(filePath);
             getView().startRecordState();
             mRecordState = true;
+            mOneMinuteRemind = false;
+            mTwoMinuteRemind = false;
             getAmplitude();
         } catch (IOException e) {
             YSLog.d(TAG, "record fail msg = " + e.getMessage());
@@ -291,9 +293,13 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         if (mRecordState) {
             ++mTime;
             getView().setRecordTime(mTime);
-            if (remainCount <= TimeUnit.MINUTES.toSeconds(2) && !mShowRecordTimeRemind) {
-                getView().setRecordTimeRemind();
-                mShowRecordTimeRemind = true;
+            if (remainCount <= TimeUnit.MINUTES.toSeconds(2) && !mTwoMinuteRemind) {
+                getView().setRecordTimeRemind(2);
+                mTwoMinuteRemind = true;
+            }
+            if (remainCount <= TimeUnit.MINUTES.toSeconds(1) && !mOneMinuteRemind) {
+                getView().setRecordTimeRemind(1);
+                mOneMinuteRemind = true;
             }
             if (remainCount == 0) {
                 stopRecord();
