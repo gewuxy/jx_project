@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.dialog.CommonDialog1;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -53,7 +54,17 @@ public class UISetter {
         bar.addViewMid(v);
     }
 
-    public static void showFrozenDialog() {
-
+    /**
+     * 弹出账号冻结对话框
+     *
+     * @param s 冻结内容
+     * @param c 上下文
+     */
+    public static void showFrozenDialog(String s, Context c) {
+        CommonDialog1 d = new CommonDialog1(c);
+        d.setTitle(R.string.account_frozen);
+        d.setContent(s);
+        d.addButton(R.string.confirm, R.color.black, null);
+        d.show();
     }
 }

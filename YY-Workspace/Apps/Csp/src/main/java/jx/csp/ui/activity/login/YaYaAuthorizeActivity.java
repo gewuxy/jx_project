@@ -16,6 +16,7 @@ import java.util.List;
 
 import jx.csp.R;
 import jx.csp.constant.BindId;
+import jx.csp.constant.Constants;
 import jx.csp.model.BindInfo;
 import jx.csp.model.BindInfo.TBindInfo;
 import jx.csp.model.Profile;
@@ -194,6 +195,17 @@ public class YaYaAuthorizeActivity extends BaseActivity {
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Profile.class);
+    }
+
+    @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        if (r.getCode() == Constants.KAccountFrozen) {
+            stopRefresh();
+            UISetter.showFrozenDialog(r.getMessage(), YaYaAuthorizeActivity.this);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

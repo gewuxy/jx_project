@@ -8,12 +8,12 @@ import android.view.ViewTreeObserver;
 import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.constant.Constants;
-import jx.csp.dialog.CommonDialog1;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
+import jx.csp.util.UISetter;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
@@ -57,11 +57,10 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
 
         setOnClickListener(R.id.login_protocol);
         if (TextUtil.isNotEmpty(mFrozen)) {
-            // fixme：
             addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    frozenDialog(mFrozen);
+                    UISetter.showFrozenDialog(mFrozen, BaseAuthLoginActivity.this);
                     removeOnGlobalLayoutListener(this);
                 }
             });
@@ -126,18 +125,21 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     }
 
     @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        if (r.getCode() == Constants.KAccountFrozen) {
+            stopRefresh();
+            UISetter.showFrozenDialog(r.getMessage(), BaseAuthLoginActivity.this);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void onNotify(int type, Object data) {
         if (type == NotifyType.login) {
             finish();
         }
-    }
-
-    protected void frozenDialog(String s) {
-        CommonDialog1 d = new CommonDialog1(BaseAuthLoginActivity.this);
-        d.setTitle(R.string.account_frozen);
-        d.setContent(s);
-        d.addButton(R.string.confirm, R.color.black, null);
-        d.show();
     }
 
 }

@@ -10,8 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
+import jx.csp.ui.activity.login.email.EmailLoginActivity;
+import jx.csp.util.UISetter;
 import lib.jx.model.form.BaseForm;
 import lib.jx.ui.activity.base.BaseFormActivity;
 import lib.network.model.NetworkResp;
@@ -76,6 +79,17 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
                 toSet();
             }
             break;
+        }
+    }
+
+    @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        if (r.getCode() == Constants.KAccountFrozen) {
+            stopRefresh();
+            UISetter.showFrozenDialog(r.getMessage(), BaseLoginActivity.this);
+            return true;
+        } else {
+            return false;
         }
     }
 

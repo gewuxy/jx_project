@@ -8,7 +8,9 @@ import android.view.View;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.csp.App;
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.constant.FormType;
 import jx.csp.model.Profile;
 import jx.csp.model.form.Form;
@@ -19,6 +21,7 @@ import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.BaseLoginActivity;
+import jx.csp.util.UISetter;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -104,6 +107,17 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         return JsonParser.ev(resp.getText(), Profile.class);
+    }
+
+    @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        if (r.getCode() == Constants.KAccountFrozen) {
+            App.AccountFrozen frozen = new App.AccountFrozen();
+            frozen.onIntercept(r, CaptchaLoginNicknameActivity.this);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

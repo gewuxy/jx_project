@@ -41,7 +41,9 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
+import lib.ys.ui.activity.ActivityEx;
 import lib.ys.ui.interfaces.listener.onInterceptNetListener;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.TextUtil;
 
 /**
@@ -219,7 +221,7 @@ public class App extends BaseApp {
     /**
      * 账号冻结
      */
-    private class AccountFrozen implements onInterceptNetListener {
+    public static class AccountFrozen implements onInterceptNetListener {
 
         @Override
         public boolean onIntercept(IResult r, Object... o) {
@@ -232,18 +234,25 @@ public class App extends BaseApp {
                 }
                 intent.putExtra(Constants.KData, r.getError().getMessage());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                LaunchUtil.startActivity(intent);
                 Profile.inst().clear();
                 if (o != null) {
+                    Activity a = null;
                     if (o[0] instanceof Activity) {
-                        Activity a = (Activity) o[0];
-                        a.finish();
+                        a = (Activity) o[0];
                     } else if (o[0] instanceof android.app.Fragment) {
                         android.app.Fragment f = (android.app.Fragment) o[0];
-                        f.getActivity().finish();
+                        a = f.getActivity();
                     } else if (o[0] instanceof android.support.v4.app.Fragment) {
                         android.support.v4.app.Fragment f = (android.support.v4.app.Fragment) o[0];
-                        f.getActivity().finish();
+                        a = f.getActivity();
+                    }
+                    if (a != null) {
+                        if (a instanceof ActivityEx) {
+                            ActivityEx aEx = (ActivityEx) a;
+                            aEx.stopRefresh(); // 防止泄露
+                        }
+                        a.finish();
                     }
                 }
                 return true;
