@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.record;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
@@ -58,7 +60,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     private LiveAudioPresenterImpl mLiveRecordPresenterImpl;
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
-    private boolean mLiveStopRemind = false; // 结束直播提醒
     private boolean mIsReceiveFlowInsufficient = false; // 是否已经收到过流量不足警告
     private int mLastPage = 0; // 上一页的位置
     private int mFirstClickStart = 1; // 是否第一次点击开始直播  0表示不是 1表示是
@@ -69,10 +70,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
     private int mRecordTime = 0; // 每页ppt录制的时间
     private int mLiveTotalTime = 0;  // 直播的总时长
     private boolean mAlreadyLive = false;  // 直播是否已经开始过
-    private boolean mStarState = false;  // 是否有星评
-
-    private long mServerTime; // 服务器时间
-    private long mStartTime;  // 开始时间
 
     @Override
     public void initData() {
@@ -303,6 +300,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
     }
 
     // 接收websocket的指令
+    @SuppressLint("SwitchIntDef")
     @Override
     public void onLiveNotify(int type, Object data) {
         switch (type) {
@@ -377,7 +375,12 @@ public class LiveAudioActivity extends BaseRecordActivity {
         public void setData(JoinMeeting joinMeeting) {
             stopRefresh();
             String wsUrl = joinMeeting.getString(TJoinMeeting.wsUrl);
-            mCourseDetailList = joinMeeting.get(TJoinMeeting.course).getList(TCourse.details);
+            Course c = joinMeeting.get(TJoinMeeting.course);
+            if (c != null) {
+                mCourseDetailList = c.getList(TCourse.details);
+            } else {
+                mCourseDetailList = new ArrayList<>();
+            }
             SparseArray<String> courseDetailIdArray = new SparseArray<>();
             mTvTotalPage.setText(String.valueOf(mCourseDetailList.size()));
             for (int i = 0; i < mCourseDetailList.size(); ++i) {
@@ -421,14 +424,14 @@ public class LiveAudioActivity extends BaseRecordActivity {
             mShareArguments.put(TMeet.playType, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getInt(TCourse.playType));
             Live live = ((Live) joinMeeting.getObject(TJoinMeeting.live));
             mShareArguments.put(TMeet.liveState, live.getInt(TLive.liveState));
-            mAlreadyLive = live.getInt(TLive.liveState) == LiveState.un_start ? false : true;
+            mAlreadyLive = live.getInt(TLive.liveState) != LiveState.un_start;
             YSLog.d(TAG, " liveState = " + live.getInt(TLive.liveState));
 
-            mServerTime = joinMeeting.getLong(TJoinMeeting.serverTime);
-            mStartTime = live.getLong(TLive.startTime);
+            long serverTime = joinMeeting.getLong(TJoinMeeting.serverTime);
+            long startTime = live.getLong(TLive.startTime);
 
             if (mAlreadyLive) {
-                mLiveTotalTime = (int) ((mServerTime - mStartTime) / 1000);
+                mLiveTotalTime = (int) ((serverTime - startTime) / 1000);
                 mTvRecordTime.setText(Util.getSpecialTimeFormat(mLiveTotalTime, ":", ""));
             } else {
                 showView(mTvRemind);
@@ -437,7 +440,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             YSLog.d(TAG, "直播是否已经开始过 = " + mAlreadyLive);
             YSLog.d(TAG, "mLiveTotalTime = " + mLiveTotalTime);
 
-            int countDownTime = (int) ((((mStartTime + TimeUnit.DAYS.toMillis(1)) - mServerTime) / 1000));
+            int countDownTime = (int) ((((startTime + TimeUnit.DAYS.toMillis(1)) - serverTime) / 1000));
             if (countDownTime >= 0) {
                 mLiveRecordPresenterImpl.startCountDown(countDownTime);
             }
@@ -457,7 +460,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         @Override
         public void startRecordState() {
             mLiveState = true;
-            mLiveRecordPresenterImpl.setLiveState(mLiveState);
+            mLiveRecordPresenterImpl.setLiveState(true);
             mIvRecordState.setSelected(true);
             showView(mIvRecordStateAlpha);
             mIvRecordStateAlpha.startAnimation(mAnimationFadeIn);
@@ -468,7 +471,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         public void stopRecordState(int time) {
             mRecordTime = time;
             mLiveState = false;
-            mLiveRecordPresenterImpl.setLiveState(mLiveState);
+            mLiveRecordPresenterImpl.setLiveState(false);
             mIvRecordState.setSelected(false);
             mIvRecordStateAlpha.clearAnimation();
             goneView(mIvRecordStateAlpha);

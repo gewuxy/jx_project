@@ -86,21 +86,20 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
         switch (mMeet.getInt(TMeet.playType)) {
             case CourseType.reb: {
-                hideView(mIvLive);
                 mTvTime.setText(mMeet.getString(TMeet.playTime));
                 mTvTime.setTextColor(ResLoader.getColor(R.color.text_9699a2));
+                goneView(mIvLive);
             }
             break;
             case CourseType.ppt_live:
             case CourseType.ppt_video_live: {
-                long startTime = mMeet.getLong(TMeet.startTime);
-                long endTime = mMeet.getLong(TMeet.endTime);
-                long serverTime = mMeet.getLong(TMeet.serverTime);
                 if (mMeet.getInt(TMeet.playType) == CourseType.ppt_video_live) {
                     showView(mIvLive);
                 } else {
-                    hideView(mIvLive);
+                    goneView(mIvLive);
                 }
+                long startTime = mMeet.getLong(TMeet.startTime);
+                long serverTime = mMeet.getLong(TMeet.serverTime);
                 int liveState = mMeet.getInt(TMeet.liveState);
                 if (liveState == LiveState.un_start || startTime > serverTime) {
                     //直播的开始时间转换

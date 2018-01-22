@@ -76,7 +76,6 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 }
 
                 long startTime = item.getLong(TMeet.startTime);
-                long endTime = item.getLong(TMeet.endTime);
                 long serverTime = item.getLong(TMeet.serverTime);
                 int liveState = item.getInt(TMeet.liveState);
                 if (liveState == LiveState.un_start || startTime > serverTime) {
