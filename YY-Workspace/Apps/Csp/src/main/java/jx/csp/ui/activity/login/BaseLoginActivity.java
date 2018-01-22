@@ -3,6 +3,7 @@ package jx.csp.ui.activity.login;
 import android.graphics.Rect;
 import android.support.annotation.CallSuper;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,7 +14,6 @@ import jx.csp.R;
 import jx.csp.constant.Constants;
 import jx.csp.model.Profile;
 import jx.csp.network.JsonParser;
-import jx.csp.ui.activity.login.email.EmailLoginActivity;
 import jx.csp.util.UISetter;
 import lib.jx.model.form.BaseForm;
 import lib.jx.ui.activity.base.BaseFormActivity;
@@ -142,17 +142,21 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
     protected void onResume() {
         super.onResume();
 
-        //获取当前屏幕内容的高度
-        getWindow().getDecorView().addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-            //获取View可见区域的bottom
-            Rect rect = new Rect();
-            getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-            if (bottom != 0 && oldBottom != 0 && bottom - rect.bottom <= 0) {
-                //隐藏
-                changeLocation(110);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int screenHeight = displayMetrics.heightPixels;
+
+        mLayout.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            Rect r = new Rect();
+            mLayout.getWindowVisibleDisplayFrame(r);
+            int keyboardHeight = screenHeight - r.bottom;
+            //界面高度高于150视为键盘弹起
+            if (keyboardHeight >= 150) {
+                //键盘弹起
+                changeLocation(40);
             } else {
-                //弹出
-                changeLocation(45);
+                //键盘收起
+                changeLocation(110);
             }
         });
     }
