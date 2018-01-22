@@ -9,6 +9,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import jx.csp.R;
+import jx.csp.model.main.Meet;
+import jx.csp.ui.activity.main.StartActivityRouter;
+import jx.csp.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -19,6 +22,8 @@ public class StartBar extends RelativeLayout {
     private StartThumb mStartThumb;
     private SeekBar mSeekBar;
     private TextView mTvStart;
+
+    private Meet mMeet;
 
     public StartBar(Context context) {
         this(context, null);
@@ -54,6 +59,15 @@ public class StartBar extends RelativeLayout {
     }
 
     /**
+     * 跳转需要的数据
+     *
+     * @param meet 会议信息
+     */
+    public void setMeet(Meet meet) {
+        mMeet = meet;
+    }
+
+    /**
      * 设置滑块
      *
      * @param resId 滑块的id
@@ -68,7 +82,16 @@ public class StartBar extends RelativeLayout {
      * @param startListener Listener
      */
     public void setStartListener(StartThumb.OnStartListener startListener) {
-        mStartThumb.setStartListener(startListener);
+        mStartThumb.setStartListener(() -> {
+            if (startListener != null) {
+                startListener.onClick();
+            }
+            if (mMeet != null) {
+                StartActivityRouter.create(mMeet).route(getContext());
+            }
+
+            Util.runOnUIThread(this::restoration, 300);
+        });
     }
 
     /**

@@ -275,6 +275,11 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     }
 
     @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        return false;
+    }
+
+    @Override
     public void onNetworkSuccess(int id, IResult r) {
         if (getListener() != null) {
             getListener().onFuncNormal();

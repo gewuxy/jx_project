@@ -2,6 +2,8 @@ package jx.csp.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -29,18 +31,23 @@ public class StartThumb extends RelativeLayout {
     }
 
     private final float KHalf = 2;
-//    private final long KDuration = 300L;
+    private final int KDuration = 1;
 
     private float mRadius;
     private int mSize;
 
-    private float mLocation;
     private NetworkImageView mImageView;
 
     private OnScrollListener mListener;
     private OnStartListener mStartListener;
 
     private boolean mScroll;
+
+    private int mTarget; // 目标位置
+    private float mLocation; // 抬手位置
+    private float mOne; // 一次移动距离
+
+    private Handler mHandler;
 
     public StartThumb(Context context) {
         this(context, null);
@@ -59,8 +66,27 @@ public class StartThumb extends RelativeLayout {
     private void init() {
         mSize = Fitter.dimen(R.dimen.start_thumb);
         mRadius = mSize / KHalf;
-        mLocation = mRadius;
         mScroll = true;
+        mHandler = new Handler(msg -> {
+            int count = (int) msg.obj;
+            float location;
+            if (mLocation < mTarget) {
+                // 右移
+                location = mLocation + count * mOne;
+            } else {
+                // 左移
+                location = mLocation - count * mOne;
+            }
+            if (location > 0 && location < getMeasuredWidth()) {
+                // 没到头
+                Message m = Message.obtain();
+                m.obj = count + 1;
+                mHandler.sendMessageDelayed(m, KDuration);
+            }
+            setLocation(location);
+
+            return true;
+        });
 
         mImageView = new NetworkImageView(getContext());
         addView(mImageView, mSize, LayoutUtil.MATCH_PARENT);
@@ -86,18 +112,29 @@ public class StartThumb extends RelativeLayout {
     }
 
     public void setLocation(float location) {
+        float fixX;
         if (location <= 0) {
-            mLocation = 0;
+            fixX = 0;
         } else if (location > getMeasuredWidth() - mSize) {
-            mLocation = getMeasuredWidth() - mSize;
+            fixX = getMeasuredWidth() - mSize;
+            if (mStartListener != null) {
+                mStartListener.onClick();
+            }
         } else {
-            mLocation = location;
+            fixX = location;
         }
-        AnimateUtil.translate(mImageView, mLocation, (getMeasuredHeight() - mSize) / KHalf, 0);
+        AnimateUtil.translate(mImageView, fixX, (getMeasuredHeight() - mSize) / KHalf, 0);
         if (mListener != null) {
-            mListener.progress((int) ((mLocation + mRadius) / getMeasuredWidth() * 100));
+            mListener.progress((int) ((fixX + mRadius) / getMeasuredWidth() * 100));
         }
         invalidate();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        mOne = (int) (getMeasuredWidth() / 100.0f);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -122,18 +159,30 @@ public class StartThumb extends RelativeLayout {
                     return true;
                 }
                 float x = event.getX();
+                mLocation = x;
                 if (x > getMeasuredWidth() / KHalf) {
                     x = getMeasuredWidth();
                 } else {
                     x = 0;
                 }
-                setLocation(x);
-                if (x == getMeasuredWidth() && mStartListener != null) {
-                    mStartListener.onClick();
-                }
+                mTarget = (int) x;
+
+                Message m = Message.obtain();
+                m.obj = 1;
+                mHandler.sendMessageDelayed(m, KDuration);
             }
             break;
         }
         return true;
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
 }
