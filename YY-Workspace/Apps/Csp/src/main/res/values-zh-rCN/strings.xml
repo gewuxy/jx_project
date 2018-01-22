@@ -155,8 +155,8 @@
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失败</string>
     <string name="share_cancel">分享取消</string>
-    <string name="share_title">我正在用CSPmeeting讲《%s》</string>
-    <string name="share_text">用手机讲PPT，随讲随录随分享，你的智慧将被更多人看见！</string>
+    <string name="share_title">会讲 | %s</string>
+    <string name="share_text">用会讲，做有声PPT，随讲随录随分享</string>
     <string name="ensure_delete">确认删除？</string>
     <string name="wx_check_app">您尚未安装微信客户端</string>
     <string name="whatsapp_check_app">您尚未安装whatsapp客户端</string>
