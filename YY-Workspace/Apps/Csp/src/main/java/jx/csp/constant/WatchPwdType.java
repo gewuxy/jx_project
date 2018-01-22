@@ -15,6 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface WatchPwdType {
-    String setPwd = "1";
-    String delete = "2";
+    String setPwd = "1";    //设置密码
+    String delete = "2";    //删除密码
 }
