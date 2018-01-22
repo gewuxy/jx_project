@@ -438,7 +438,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
             YSLog.d(TAG, "mLiveTotalTime = " + mLiveTotalTime);
 
             int countDownTime = (int) ((((mStartTime + TimeUnit.DAYS.toMillis(1)) - mServerTime) / 1000));
-            mLiveRecordPresenterImpl.startCountDown(countDownTime);
+            if (countDownTime >= 0) {
+                mLiveRecordPresenterImpl.startCountDown(countDownTime);
+            }
         }
 
         @Override

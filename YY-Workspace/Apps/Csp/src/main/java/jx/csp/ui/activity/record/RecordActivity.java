@@ -237,7 +237,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             dialog.addBlackButton(R.string.ok, v -> {
                 getViewPager().setScrollable(true);
                 goneView(mGestureView);
-                SpUser.inst().neverShowSlideDialog();});
+                SpUser.inst().neverShowSlideDialog();
+            });
             dialog.show();
         }
     }
@@ -515,10 +516,12 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             // 拼接分享参数
             mShareArguments = new Meet();
             mShareArguments.put(TMeet.id, mCourseId);
-            mShareArguments.put(TMeet.title, ((Course)joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
-            mShareArguments.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
+            mShareArguments.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
+            if (mCourseDetailList != null && mCourseDetailList.size() > 0) {
+                mShareArguments.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
+            }
             mShareArguments.put(TMeet.playType, CourseType.reb);
-            mShareArguments.put(TMeet.playState, ((Record)joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
+            mShareArguments.put(TMeet.playState, ((Record) joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
         }
 
         @Override
@@ -688,6 +691,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         }
 
         @Override
-        public void setViewState(int state) {}
+        public void setViewState(int state) {
+        }
     }
 }
