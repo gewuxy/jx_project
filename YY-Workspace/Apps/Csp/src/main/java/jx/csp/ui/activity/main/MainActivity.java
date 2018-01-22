@@ -14,11 +14,15 @@ import java.util.List;
 
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.dialog.CommonDialog1;
+import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.UpdateNoticeDialog;
 import jx.csp.model.CheckAppVersion;
 import jx.csp.model.CheckAppVersion.TCheckAppVersion;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
+import jx.csp.model.RecordUnusualState;
+import jx.csp.model.RecordUnusualState.TRecordUnusualState;
 import jx.csp.model.VipPackage;
 import jx.csp.model.VipPackage.TPackage;
 import jx.csp.model.main.Meet;
@@ -27,17 +31,23 @@ import jx.csp.model.meeting.Copy;
 import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
+import jx.csp.model.meeting.Scan;
+import jx.csp.model.meeting.Scan.DuplicateType;
+import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.DownloadApkServ;
+import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.MeActivity;
+import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.ui.frag.main.MeetGridFrag;
 import jx.csp.ui.frag.main.MeetVpFrag;
 import jx.csp.util.Util;
@@ -68,16 +78,18 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KCameraPermissionCode = 10;
     private final int KUpdateProfileReqId = 1;
     private final int KCheckAppVersionReqId = 2;
+    private final int KJoinRecordCheckReqId = 3;
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
 
     private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
+    private TextView mTvPast;
 
     private MeetGridFrag mGridFrag;
     private MeetVpFrag mVpFrag;
 
-    private TextView mTvPast;
+    private CountdownDialog mCountdownDialog;
 
     @Override
     public void initData() {
@@ -206,13 +218,35 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             YSLog.d(TAG, "更新个人数据");
             exeNetworkReq(KUpdateProfileReqId, UserAPI.uploadProfileInfo().build());
         }
-        // 检查是否有新版本app
-//        if (SpApp.inst().needCheckAppVersion()) {
-//        }
+
         exeNetworkReq(KCheckAppVersionReqId, CommonAPI.checkAppVersion().build());
 
         pastHint(Profile.inst().get(TProfile.cspPackage));
         LiveNotifier.inst().add(this);
+
+        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // 判断是否有录音异常退出记录
+                if (RecordUnusualState.inst().getUnusualExitState()) {
+                    CommonDialog1 dialog = new CommonDialog1(MainActivity.this);
+                    dialog.setTitle(R.string.home_continue_record);
+                    dialog.setContent(R.string.home_continue_record_content);
+                    dialog.addBlackButton(R.string.save, v -> {
+                        RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+                        RecordUnusualState.inst().saveToSp();
+                    });
+                    dialog.addBlackButton(R.string.home_continue_record, v -> {
+                        // 先判断这个会议是否有人在录音
+                        exeNetworkReq(KJoinRecordCheckReqId, MeetingAPI.joinCheck(RecordUnusualState.inst().getString(TRecordUnusualState.courseId), 0).build());
+                    });
+                    dialog.show();
+                    // 上传音频
+                    CommonServRouter.create(ReqType.upload_audio).route(MainActivity.this);
+                }
+                removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     @Override
@@ -226,6 +260,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KUpdateProfileReqId) {
             return JsonParser.ev(resp.getText(), Profile.class);
+        } else if (id == KJoinRecordCheckReqId) {
+            return JsonParser.ev(resp.getText(), Scan.class);
         } else {
             return JsonParser.ev(resp.getText(), CheckAppVersion.class);
         }
@@ -254,6 +290,37 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     }
                 }
                 notify(NotifyType.profile_change);
+            }
+        } else if (id == KJoinRecordCheckReqId) {
+            if (r.isSucceed()) {
+                Scan scan = (Scan) r.getData();
+                // 是否有人在直播或者录播
+                boolean state = scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(scan.getString(TScan.wsUrl));
+                // 先判断直播时间是否已经到了 录播不需要判断时间  再判断是否有人在录播或者直播
+                // 有人情况下要弹dialog 确定后连websocket
+                if (state) {
+                    CommonDialog1 dialog = new CommonDialog1(this);
+                    dialog.setTitle(R.string.home_continue_record);
+                    dialog.setContent(R.string.main_record_dialog);
+                    dialog.addBlackButton(R.string.confirm_continue, v -> {
+                        WebSocketServRouter.create(scan.getString(TScan.wsUrl)).route(MainActivity.this);
+                        // 倒计时结束没有收到websocket默认进入会议
+                        mCountdownDialog = new CountdownDialog(MainActivity.this, 15);
+                        mCountdownDialog.setOnDismissListener(dialogInterface -> {
+                            WebSocketServRouter.stop(MainActivity.this);
+                            mCountdownDialog.stopCountDown();
+                        });
+                        mCountdownDialog.show();
+                    });
+                    dialog.addBlackButton(R.string.cancel);
+                    dialog.show();
+                } else {
+                    RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+                    RecordUnusualState.inst().saveToSp();
+                    RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
+                }
+            } else {
+                showToast(r.getError().getMessage());
             }
         } else {
             if (r.isSucceed()) {
@@ -314,15 +381,33 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         switch (type) {
             case LiveNotifyType.accept: {
                 YSLog.d(TAG, "接收到同意进入指令");
-                if (getCurrItem() instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getCurrItem()).allowEnter();
+                if (RecordUnusualState.inst().getUnusualExitState()) {
+                    WebSocketServRouter.stop(this);
+                    if (mCountdownDialog !=null && mCountdownDialog.isShowing()) {
+                        mCountdownDialog.dismiss();
+                    }
+                    RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
+                } else {
+                    if (getCurrItem() instanceof MeetGridFrag) {
+                        ((MeetGridFrag) getCurrItem()).allowEnter();
+                    }
                 }
             }
             break;
             case LiveNotifyType.reject: {
                 YSLog.d(TAG, "接收到拒绝进入指令");
-                if (getCurrItem() instanceof MeetGridFrag) {
-                    ((MeetGridFrag) getCurrItem()).notAllowEnter();
+                if (RecordUnusualState.inst().getUnusualExitState()) {
+                    WebSocketServRouter.stop(this);
+                    RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+                    RecordUnusualState.inst().saveToSp();
+                    if (mCountdownDialog !=null && mCountdownDialog.isShowing()) {
+                        mCountdownDialog.dismiss();
+                    }
+                    RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
+                } else {
+                    if (getCurrItem() instanceof MeetGridFrag) {
+                        ((MeetGridFrag) getCurrItem()).notAllowEnter();
+                    }
                 }
             }
             break;
@@ -419,14 +504,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         break;
                     }
                 }
-                // 显示分享会议回放提示
-//                ((IMeetOpt) getItem(KPageGrid)).showSharePlayback(id);
-//                ((IMeetOpt) getItem(KPageVp)).showSharePlayback(id);
-//                // 5秒后隐藏分享会议回放提示
-//                Message msg = new Message();
-//                msg.what = KGoneMsgWhat;
-//                msg.arg1 = Integer.valueOf(id).intValue();
-//                mHandler.sendMessageDelayed(msg, TimeUnit.SECONDS.toMillis(5));
             }
             break;
             case NotifyType.start_live: {

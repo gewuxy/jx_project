@@ -15,6 +15,7 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveVideoContract;
 import jx.csp.dialog.BtnVerticalDialog;
+import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
@@ -70,6 +71,8 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     String mWsUrl;
     @Arg(opt = true)
     String mPushUrl;
+    @Arg(opt = true)
+    int mLiveVideoState;
 
     private long mEndTime;
     private LiveVideoContract.P mP;
@@ -87,8 +90,16 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mP = new LiveVideoPresenterImpl(new View());
 
+        if (mLiveVideoState == LiveState.un_start) {
+            mStartTime = mServerTime;
+        } else {
+            mLiveTime = (int) ((mServerTime - mStartTime) / 1000);
+        }
         mEndTime = mStartTime + TimeUnit.DAYS.toMillis(1);
-        mLiveTime = (int) ((mServerTime - mStartTime) / 1000);
+        YSLog.d(TAG, "mServerTime = " + mServerTime);
+        YSLog.d(TAG, "mStartTime = " + mStartTime);
+        YSLog.d(TAG, "mEndTime = " + mEndTime);
+        YSLog.d(TAG, "mLiveTime = " + mLiveTime);
         mConnectionReceiver = new ConnectionReceiver(this);
         mConnectionReceiver.setListener(this);
     }

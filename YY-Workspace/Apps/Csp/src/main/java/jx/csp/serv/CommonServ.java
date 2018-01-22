@@ -6,19 +6,24 @@ import android.support.annotation.Nullable;
 
 import org.json.JSONException;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
+import jx.csp.model.RecordUnusualState;
+import jx.csp.model.RecordUnusualState.TRecordUnusualState;
 import jx.csp.model.login.Advert;
+import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.AdvertAPI;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.util.CacheUtil;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
@@ -26,6 +31,7 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
+import lib.ys.util.FileUtil;
 
 /**
  * @auther Huoxuyu
@@ -71,6 +77,7 @@ public class CommonServ extends ServiceEx {
             ReqType.share_delete_meet,
             ReqType.advert,
             ReqType.over_live,
+            ReqType.upload_audio,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -80,6 +87,7 @@ public class CommonServ extends ServiceEx {
         int share_delete_meet = 4;
         int advert = 5;
         int over_live = 6;
+        int upload_audio = 7;
     }
 
     @Override
@@ -107,6 +115,23 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.over_live: {
                 exeNetworkReq(mType, MeetingAPI.overLive(mCourseId).build());
+            }
+            break;
+            case ReqType.upload_audio: {
+                String filePath = CacheUtil.getExistAudioFilePath(RecordUnusualState.inst().getString(TRecordUnusualState.courseId),
+                        RecordUnusualState.inst().getInt(TRecordUnusualState.pageId));
+                if ((new File(filePath)).exists()) {
+                    byte[] bytes = FileUtil.fileToBytes(filePath);
+                    exeNetworkReq(mType, MeetingAPI.uploadAudio()
+                            .courseId(RecordUnusualState.inst().getString(TRecordUnusualState.courseId))
+                            .pageNum(RecordUnusualState.inst().getInt(TRecordUnusualState.page))
+                            .detailId(RecordUnusualState.inst().getString(TRecordUnusualState.pageId))
+                            .playType(CourseType.reb)
+                            .file(bytes)
+                            .build());
+                } else {
+                    YSLog.d(TAG, "上传音频不存在");
+                }
             }
             break;
         }
@@ -180,6 +205,16 @@ public class CommonServ extends ServiceEx {
                     Notifier.inst().notify(NotifyType.over_live, mCourseId);
                 } else {
                     YSLog.d(TAG, "结束直播失败重试");
+                    retryNetworkRequest(id);
+                }
+            }
+            break;
+            case ReqType.upload_audio: {
+                if (r.isSucceed()) {
+                    YSLog.d(TAG, "音频上传成功");
+                } else {
+                    YSLog.d(TAG, "音频上传失败");
+                    // 上传失败就重试
                     retryNetworkRequest(id);
                 }
             }

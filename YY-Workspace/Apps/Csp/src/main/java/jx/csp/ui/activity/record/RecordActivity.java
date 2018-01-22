@@ -486,27 +486,66 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 }
             }
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
-            // 判断第一页是视频还是图片
-            if (mCourseDetailList.size() > 0 && TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
-                videoState();
-            } else if (mCourseDetailList.size() > 0 && TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
-                showView(mTvRemind);
-            }
-            // 判断以前是否录制过以及是否录制完成 没有录制完成的话进入上一次离开的页面
+
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
                 public void onGlobalLayout() {
-                    Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
-                    if (record != null) {
-                        int page = record.getInt(TRecord.playPage);
-                        if (page > 0) {
-                            setCurrPosition(page, false);
+                    // 先判断以前是否有异常退出过，如果异常退出了跳转到异常退出时的页面，否则跳转到以前退出时的页面
+                    if (RecordUnusualState.inst().getUnusualExitState()
+                            && mCourseId.equals(RecordUnusualState.inst().getString(TRecordUnusualState.courseId))
+                            && RecordUnusualState.inst().getString(TRecordUnusualState.pageId)
+                            .equals(mCourseDetailList.get(RecordUnusualState.inst().getInt(TRecordUnusualState.page)).getString(TCourseDetail.id))) {
+
+                        setCurrPosition(RecordUnusualState.inst().getInt(TRecordUnusualState.page), false);
+                        mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                        mIvAudition.setClickable(true);
+                        mIvRecordState.setImageResource(R.drawable.animation_record);
+                        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                        mIvRecordState.setClickable(true);
+                        mTvRecordState.setText(R.string.continue_record);
+                        mIvRerecording.setClickable(true);
+                        mIvRerecording.setSelected(true);
+
+                        RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+                        RecordUnusualState.inst().saveToSp();
+                    } else {
+                        Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
+                        if (record != null) {
+                            int page = record.getInt(TRecord.playPage);
+                            YSLog.d(TAG, "上次退出录音时所在页面 page = " + page);
+                            if (page == 0 && mCourseDetailList.size() > 0) {
+                                // 判断第一页是视频还是图片
+                                if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+                                    videoState();
+                                } else {
+                                    // 判断第一页是否已经录制过
+                                    if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
+                                        YSLog.d(TAG, "第一页没有录制过");
+                                        showView(mTvRemind);
+                                        mIvRecordState.setImageResource(R.drawable.animation_record);
+                                        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                                        mIvRecordState.setClickable(true);
+                                    } else {
+                                        YSLog.d(TAG, "第一页已经录制过");
+                                        mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));
+                                        mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                                        mIvAudition.setClickable(true);
+                                        mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                                        mIvRecordState.setClickable(false);
+                                        mIvRerecording.setSelected(true);
+                                        mIvRerecording.setClickable(true);
+                                    }
+                                }
+                            } else if (page > 0 && mCourseDetailList.size() > 0) {
+                                setCurrPosition(page, false);
+                            }
                         }
                     }
                     removeOnGlobalLayoutListener(this);
                 }
             });
+
 
             invalidate();
             // 链接websocket

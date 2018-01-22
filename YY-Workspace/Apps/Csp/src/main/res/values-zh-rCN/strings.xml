@@ -26,7 +26,7 @@
 
     <!-- 直播间 -->
     <string name="online">在线</string>
-    <string name="live">直播中...</string>
+    <string name="live">直播中</string>
     <string name="no_start">未开始</string>
     <string name="click_start_live">请点击开始直播</string>
     <string name="live_fail">直播失败</string>
@@ -174,8 +174,8 @@
     <string name="fail_to_identify">无法识别此二维码</string>
     <string name="ready">请到网页添加讲本</string>
     <string name="copy_success">复制成功</string>
-    <string name="main_record_dialog">另一台设备正在录播会议，继\n续可能中断该设备录播进度</string>
-    <string name="main_live_dialog">另一台设备正在直播会议，继\n续可能中断该设备直播进度</string>
+    <string name="main_record_dialog">另一台设备正在录播会议，继续可能\n中断该设备录播进度</string>
+    <string name="main_live_dialog">另一台设备正在直播会议，继续可能\n中断该设备直播进度</string>
     <string name="main_record_continue">继续录制</string>
     <string name="confirm_continue">确定继续</string>
     <string name="choice_contents">请选择您要进行的内容</string>

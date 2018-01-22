@@ -92,7 +92,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 joinPpt(true);
             }
             break;
-
         }
     }
 
@@ -282,6 +281,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         .serverTime(mServerTime)
                         .wsUrl(mLiveRoomWsUrl)
                         .pushUrl(mPushUrl)
+                        .liveVideoState(mMeet.getInt(TMeet.liveState))
                         .route(mContext);
             });
             d.show();
@@ -295,6 +295,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         .serverTime(mServerTime)
                         .wsUrl(mLiveRoomWsUrl)
                         .pushUrl(mPushUrl)
+                        .liveVideoState(mMeet.getInt(TMeet.liveState))
                         .route(mContext);
             }
         }

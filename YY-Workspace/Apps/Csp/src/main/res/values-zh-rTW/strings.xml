@@ -26,7 +26,7 @@
 
     <!-- 直播间 -->
     <string name="online">在線</string>
-    <string name="live">直播中...</string>
+    <string name="live">直播中</string>
     <string name="no_start">未開始</string>
     <string name="click_start_live">請點擊開始直播</string>
     <string name="live_fail">直播失敗</string>
@@ -174,8 +174,8 @@
     <string name="fail_to_identify">無法識別此二維碼</string>
     <string name="ready">請到網頁添加講本</string>
     <string name="copy_success">複製成功</string>
-    <string name="main_record_dialog">另一台設備正在錄播會議，繼\n續可能中斷該設備錄播進度</string>
-    <string name="main_live_dialog">另一台設備正在直播會議，繼\n續可能中斷該設備直播進度</string>
+    <string name="main_record_dialog">另一台設備正在錄播會議，繼續可能\n中斷該設備錄播進度</string>
+    <string name="main_live_dialog">另一台設備正在直播會議，繼續可能\n中斷該設備直播進度</string>
     <string name="main_record_continue">繼續錄製</string>
     <string name="confirm_continue">確定繼續</string>
     <string name="choice_contents">請選擇您要進行的內容</string>
@@ -217,6 +217,9 @@
     <string name="live_end">結束直播</string>
     <string name="live_end_hint">結束後將停止星評操作</string>
     <string name="start_start_hint">啟動星評將停止直播，是否確認？</string>
+    <string name="home_continue_record">繼續錄製</string>
+    <string name="home_continue_record_content">系統檢測到上次錄製時意外退出，是\n否繼續？</string>
+    <string name="save">保存</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>

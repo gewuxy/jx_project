@@ -158,7 +158,7 @@
         <SeekBar
             android:id="@+id/record_seek_bar"
             android:layout_width="280dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/record_tv_play_time"
             android:layout_marginLeft="40dp"

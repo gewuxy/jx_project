@@ -70,6 +70,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
     private int mRecordTime = 0; // 每页ppt录制的时间
     private int mLiveTotalTime = 0;  // 直播的总时长
     private boolean mAlreadyLive = false;  // 直播是否已经开始过
+    private boolean mStarState = false;  // 是否有星评
 
     @Override
     public void initData() {
@@ -428,14 +429,16 @@ public class LiveAudioActivity extends BaseRecordActivity {
             YSLog.d(TAG, " liveState = " + live.getInt(TLive.liveState));
 
             long serverTime = joinMeeting.getLong(TJoinMeeting.serverTime);
-            long startTime = live.getLong(TLive.startTime);
+            long startTime;
 
             if (mAlreadyLive) {
+                startTime = live.getLong(TLive.startTime);
                 mLiveTotalTime = (int) ((serverTime - startTime) / 1000);
                 mTvRecordTime.setText(Util.getSpecialTimeFormat(mLiveTotalTime, ":", ""));
             } else {
                 showView(mTvRemind);
                 mTvRemind.setText(R.string.click_start_live_audio);
+                startTime = serverTime;
             }
             YSLog.d(TAG, "直播是否已经开始过 = " + mAlreadyLive);
             YSLog.d(TAG, "mLiveTotalTime = " + mLiveTotalTime);

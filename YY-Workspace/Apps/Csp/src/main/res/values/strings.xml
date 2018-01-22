@@ -26,7 +26,7 @@
 
     <!-- 直播间 -->
     <string name="online">Audience(s)</string>
-    <string name="live">On Air...</string>
+    <string name="live">On Air</string>
     <string name="no_start">Not Started</string>
     <string name="click_start_live">The meeting has begun.\nPlease start your live stream.</string>
     <string name="live_fail">Live Stream Failed</string>
@@ -217,6 +217,9 @@
     <string name="live_end">结束直播</string>
     <string name="live_end_hint">结束后将停止星评操作</string>
     <string name="start_start_hint">启动星评将停止直播，是否确认？</string>
+    <string name="home_continue_record">继续录制</string>
+    <string name="home_continue_record_content">系统检测到上次录制时意外退出，是\n否继续？</string>
+    <string name="save">保存</string>
 
     <!-- 个人中心 -->
     <string name="person_center">Profile</string>
