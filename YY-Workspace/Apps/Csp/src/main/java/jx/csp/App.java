@@ -225,7 +225,7 @@ public class App extends BaseApp {
 
         @Override
         public boolean onIntercept(IResult r, Object... o) {
-            if (r.getCode() == Constants.KAccountFrozen) {
+            if (r != null && r.getCode() == Constants.KAccountFrozen) {
                 Intent intent;
                 if (Util.checkAppCn()) {
                     intent = new Intent(getContext(), AuthLoginActivity.class);

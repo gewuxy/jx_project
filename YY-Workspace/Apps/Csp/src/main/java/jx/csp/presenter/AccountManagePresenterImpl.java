@@ -59,7 +59,6 @@ public class AccountManagePresenterImpl extends BasePresenterImpl<AccountManageC
                     bind(bindId, userId, mNickName, userGender, icon);
                 }
 
-                App.showToast(R.string.account_authorization_success);
             }
 
             @Override
