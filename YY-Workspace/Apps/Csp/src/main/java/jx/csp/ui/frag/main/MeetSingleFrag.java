@@ -13,7 +13,7 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.presenter.MeetPresenterImpl;
-import jx.csp.util.Util;
+import jx.csp.util.UISetter;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.YSLog;
 import lib.ys.network.image.NetworkImageView;
@@ -73,7 +73,7 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
 
         findView(R.id.main_meet_single_layout).setOnLongClickListener(v -> {
             String courseId = mMeet.getString(TMeet.id);
-            Util.deleteMeet(courseId, getContext());
+            UISetter.showDeleteMeet(courseId, getContext());
             return true;
         });
 

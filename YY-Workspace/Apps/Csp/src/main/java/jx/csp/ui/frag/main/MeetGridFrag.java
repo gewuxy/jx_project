@@ -19,7 +19,7 @@ import jx.csp.model.main.MeetInfo.TMeetInfo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
-import jx.csp.util.Util;
+import jx.csp.util.UISetter;
 import lib.jx.network.Result;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
@@ -124,7 +124,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     @Override
     public void onLongClick(int position, View v) {
         String courseId = getItem(position).getString(TMeet.id);
-        Util.deleteMeet(courseId, getContext());
+        UISetter.showDeleteMeet(courseId, getContext());
     }
 
     @Override

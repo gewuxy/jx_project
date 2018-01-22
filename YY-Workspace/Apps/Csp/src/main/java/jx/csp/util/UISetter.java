@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import jx.csp.R;
 import jx.csp.dialog.CommonDialog1;
+import jx.csp.dialog.CommonDialog2;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -65,6 +68,24 @@ public class UISetter {
         d.setTitle(R.string.account_frozen);
         d.setContent(s);
         d.addButton(R.string.confirm, R.color.black, null);
+        d.show();
+    }
+
+    /**
+     * 删除会议
+     *
+     * @param courseId
+     * @param context
+     */
+    public static void showDeleteMeet(String courseId, Context context) {
+        CommonDialog2 d = new CommonDialog2(context);
+        d.setHint(R.string.ensure_delete);
+        d.addBlackButton(R.string.confirm, v1 ->
+                CommonServRouter.create(ReqType.share_delete_meet)
+                        .courseId(courseId)
+                        .route(context)
+        );
+        d.addBlackButton(R.string.cancel);
         d.show();
     }
 }

@@ -132,6 +132,7 @@
     <string name="auth_fail">授权失败</string>
     <string name="confirm_captcha">请确认手机号码</string>
     <string name="send_sms_captcha">将发送短信验证码到这个号码</string>
+    <string name="login_welcome">欢迎你</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>

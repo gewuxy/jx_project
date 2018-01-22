@@ -30,6 +30,7 @@ import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
+import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
 import lib.platform.Platform;
@@ -89,7 +90,8 @@ public class ShareDialog extends BaseDialog {
     }
 
     @Override
-    public void findViews() {}
+    public void findViews() {
+    }
 
     @Override
     public void setViews() {
@@ -159,11 +161,16 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.wechat);
             sharePlatformList.add(SharePlatform.sms);
         }
-        //直播中投稿不可点击, 其他状态均可点击
-        if (mLiveState == LiveState.live) {
-            sharePlatformList.add(SharePlatform.unContribute);
-        } else {
+        if (mCourseType == CourseType.reb) {
             sharePlatformList.add(SharePlatform.contribute);
+        } else {
+            //直播中投稿不可点击, 其他状态均可点击
+            if (mLiveState == LiveState.live) {
+                sharePlatformList.add(SharePlatform.unContribute);
+            } else {
+                sharePlatformList.add(SharePlatform.contribute);
+            }
+
         }
 
         adapter.setData(sharePlatformList);
@@ -298,7 +305,7 @@ public class ShareDialog extends BaseDialog {
                 }
                 break;
                 case ShareType.delete: {
-                    Util.deleteMeet(mCourseId, getContext());
+                    UISetter.showDeleteMeet(mCourseId, getContext());
                 }
                 break;
             }
