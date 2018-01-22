@@ -28,8 +28,8 @@ import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
+import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
@@ -40,7 +40,6 @@ import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionChecker;
-import lib.ys.util.res.ResLoader;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static lib.ys.util.res.ResLoader.getString;
@@ -57,6 +56,7 @@ public class ShareDialog extends BaseDialog {
     private String mShareTitle; // 分享的标题要拼接
     private String mCourseId;  // 会议id
     private String mCoverUrl; // 分享的图片url
+    private String mMeetInfo; // 分享的会议简介
 
     private int mCourseType;  //播放类型, 根据类型改变第二个gridView的视图
     private int mLiveState;  //直播状态, 根据状态改变第一个gridView的视图
@@ -68,7 +68,8 @@ public class ShareDialog extends BaseDialog {
         super(context);
 
         mCourseId = meet.getString(TMeet.id);
-        mShareTitle = String.format(meet.getString(TMeet.title));
+        mShareTitle = String.format(getString(R.string.share_title), meet.getString(TMeet.title));
+        mMeetInfo = meet.getString(TMeet.info);
         mCoverUrl = meet.getString(TMeet.coverUrl);
         mCourseType = meet.getInt(TMeet.playType);
         mLiveState = meet.getInt(TMeet.liveState);
@@ -197,7 +198,7 @@ public class ShareDialog extends BaseDialog {
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
             ShareParams param = ShareParams.newBuilder()
                     .title(mShareTitle)
-                    .text(ResLoader.getString(R.string.share_text))
+                    .text(mMeetInfo)
                     .url(mShareUrl)
                     .imageUrl(mCoverUrl)
                     .build();
