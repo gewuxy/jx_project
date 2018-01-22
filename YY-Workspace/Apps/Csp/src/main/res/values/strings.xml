@@ -176,6 +176,7 @@
     <string name="copy_success">Copy successfully!</string>
     <string name="main_record_dialog">Another device is recording. \nContinue could break off its \n recording progress</string>
     <string name="main_live_dialog">Another device is on air. \nContinue could break off its \n live progress</string>
+    <string name="main_record_continue">继续录制</string>
     <string name="confirm_continue">Yes</string>
     <string name="choice_contents">I would like to...</string>
     <string name="explain_meeting">Deliver my lecture</string>

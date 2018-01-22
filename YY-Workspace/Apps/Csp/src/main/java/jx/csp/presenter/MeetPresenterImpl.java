@@ -16,6 +16,7 @@ import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
 import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog;
+import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.ShareDialog;
@@ -209,8 +210,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
      * @param wsUrl wsUrl
      */
     private void showDialog(String hint, String wsUrl) {
-        CommonDialog2 d = new CommonDialog2(mContext);
-        d.setHint(hint);
+        CommonDialog1 d = new CommonDialog1(mContext);
+        d.setTitle(R.string.main_record_continue);
+        d.setContent(hint);
         d.addBlackButton(R.string.confirm_continue, view -> {
             WebSocketServRouter.create(wsUrl).route(mContext);
             if (mCountdownDialog == null) {
@@ -333,10 +335,10 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void toStart(Meet item) {
         CommonDialog2 dialog = new CommonDialog2(mContext);
         dialog.setHint(R.string.start_start_hint);
+        dialog.addBlackButton(R.string.cancel_over, null);
         dialog.addBlackButton(R.string.over, v1 ->
                 StartActivityRouter.create(item)
                         .route(mContext));
-        dialog.addBlackButton(R.string.cancel_over, null);
         dialog.show();
     }
 
@@ -348,9 +350,9 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void toEndMeet(Meet item) {
         CommonDialog2 dialog = new CommonDialog2(mContext);
         dialog.setHint(R.string.over_meeting);
+        dialog.addBlackButton(R.string.cancel_over, null);
         dialog.addBlackButton(R.string.over, v1 ->
                 CommonServRouter.create(ReqType.over_live).courseId(item.getString(TMeet.id)).route(mContext));
-        dialog.addBlackButton(R.string.cancel_over, null);
         dialog.show();
     }
 

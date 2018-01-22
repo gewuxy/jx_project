@@ -176,6 +176,7 @@
     <string name="copy_success">複製成功</string>
     <string name="main_record_dialog">另一台設備正在錄播會議，繼\n續可能中斷該設備錄播進度</string>
     <string name="main_live_dialog">另一台設備正在直播會議，繼\n續可能中斷該設備直播進度</string>
+    <string name="main_record_continue">繼續錄製</string>
     <string name="confirm_continue">確定繼續</string>
     <string name="choice_contents">請選擇您要進行的內容</string>
     <string name="explain_meeting">講解會議</string>

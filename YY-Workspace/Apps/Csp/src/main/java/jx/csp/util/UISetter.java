@@ -80,12 +80,12 @@ public class UISetter {
     public static void showDeleteMeet(String courseId, Context context) {
         CommonDialog2 d = new CommonDialog2(context);
         d.setHint(R.string.ensure_delete);
+        d.addBlackButton(R.string.cancel);
         d.addBlackButton(R.string.confirm, v1 ->
                 CommonServRouter.create(ReqType.share_delete_meet)
                         .courseId(courseId)
                         .route(context)
         );
-        d.addBlackButton(R.string.cancel);
         d.show();
     }
 }
