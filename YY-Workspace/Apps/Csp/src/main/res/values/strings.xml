@@ -34,7 +34,6 @@
     <string name="live_stop_remind_minute">Live stream will be over in %d minutes</string>
     <string name="live_stop_remind_second">Live stream will be over in %d seconds</string>
     <string name="live_stream_insufficient">Video live stream is closing due to network flow insufficiency</string>
-    <string name="recharge">Recharge</string>
     <string name="ok">OK</string>
     <string name="exit_success">Exit Successfully</string>
     <string name="live_will_pause">直播将暂停</string>
@@ -44,17 +43,9 @@
     <string name="start_live_now">立即直播</string>
 
     <!-- 录音 -->
-    <string name="first_page">No more pages ahead</string>
-    <string name="last_page">No more pages behind</string>
-    <string name="record_live_start">Start Live Stream</string>
     <string name="record_live_stop">End Live Stream</string>
-    <string name="meeting_no_start_remain">Please proceed your live stream within the time set</string>
-    <string name="meeting_start_click_start_live">The meeting has begun. Please start your live.</string>
     <string name="no_record_permission">Please re-check the authorization of microphone.</string>
-    <string name="skip_to_next_page">Move to next page and continue to record?</string>
-    <string name="skip_to_last_page">Move to last page and continue to record?</string>
     <string name="rerecording_remind">重录将覆盖原有录音</string>
-    <string name="never_remain">Don\'t show again.</string>
     <string name="play_fail">play failed</string>
     <string name="record_fail">record failed</string>
     <string name="switch_live_record_device">Another device is trying to preside at your meeting!</string>
@@ -76,6 +67,7 @@
     <string name="return_home">返回首页</string>
     <string name="to_open_permission">去开启</string>
     <string name="slide_end">滑动结束</string>
+    <string name="start_star">开启星评</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">Skip</string>
@@ -213,7 +205,6 @@
     <string name="reb_finish">录播完成</string>
     <string name="live_finish">直播完成</string>
     <string name="live_continue">继续直播</string>
-    <string name="start_star">开启星评</string>
     <string name="live_start">立即直播</string>
     <string name="live_start_hint">点“立即直播”后将立即开始直播。</string>
     <string name="live_end">结束直播</string>

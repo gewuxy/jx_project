@@ -34,7 +34,6 @@
     <string name="live_stop_remind_minute">還有%d分鐘，直播將自動關閉</string>
     <string name="live_stop_remind_second">還有%d秒，直播將自動關閉</string>
     <string name="live_stream_insufficient">流量不足，即將關閉視頻直播！</string>
-    <string name="recharge">充值</string>
     <string name="ok">知道了</string>
     <string name="exit_success">退出成功</string>
     <string name="live_will_pause">直播將暫停</string>
@@ -44,17 +43,9 @@
     <string name="start_live_now">立即直播</string>
 
     <!-- 录音 -->
-    <string name="first_page">已是第一頁</string>
-    <string name="last_page">已是最後一頁</string>
-    <string name="record_live_start">開始直播</string>
     <string name="record_live_stop">結束直播</string>
-    <string name="meeting_no_start_remain">請在會議時間內進行直播</string>
-    <string name="meeting_start_click_start_live">會議已經開始，請點擊開始直播</string>
     <string name="no_record_permission">聲音權限已關閉，請到設置開啟聲音\n權限。</string>
-    <string name="skip_to_next_page">是否跳到下一頁繼續錄製?</string>
-    <string name="skip_to_last_page">是否跳到上一頁繼續錄製?</string>
     <string name="rerecording_remind">重錄將覆蓋原有錄音</string>
-    <string name="never_remain">不再提示</string>
     <string name="play_fail">播放失敗</string>
     <string name="record_fail">錄音失敗</string>
     <string name="switch_live_record_device">有另一台設備嘗試主持直播!</string>
@@ -76,6 +67,7 @@
     <string name="return_home">返回首頁</string>
     <string name="to_open_permission">去開啟</string>
     <string name="slide_end">滑動結束</string>
+    <string name="start_star">開啟星評</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳過</string>
@@ -213,7 +205,6 @@
     <string name="reb_finish">錄播完成</string>
     <string name="live_finish">直播完成</string>
     <string name="live_continue">繼續直播</string>
-    <string name="start_star">開啟星評</string>
     <string name="live_start">立即直播</string>
     <string name="live_start_hint">”點”立即直播”後將立即開始直播。</string>
     <string name="live_end">結束直播</string>
