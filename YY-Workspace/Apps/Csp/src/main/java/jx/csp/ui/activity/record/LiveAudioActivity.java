@@ -42,6 +42,7 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
@@ -171,8 +172,18 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        String[] s = (mTvRecordTime.getText().toString()).split(":");
+        StringBuffer sb = new StringBuffer();
+        if (s.length == 2) {
+            sb.append(s[0])
+                    .append("'")
+                    .append(s[1])
+                    .append("''");
+            YSLog.d(TAG, "sb = " + sb.toString());
+            notify(NotifyType.total_time, sb.toString());
+        }
 
+        super.onDestroy();
         mLiveRecordPresenterImpl.onDestroy();
     }
 

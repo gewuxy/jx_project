@@ -13,7 +13,6 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
 import jx.csp.App;
@@ -46,8 +45,10 @@ import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
+import jx.csp.util.Util;
 import jx.csp.view.GestureView.onGestureViewListener;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
@@ -145,7 +146,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             for (int i = 0; i < mRecordTimeArray.size(); ++i) {
                 totalTime += mRecordTimeArray.get(i);
             }
-            mShareAndStarArg.put(TMeet.playTime, totalTime * TimeUnit.SECONDS.toMillis(1));
+            mShareAndStarArg.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
             StarActivityRouter.create(mShareAndStarArg).route(RecordActivity.this);
             mStarBar.restoration();
             finish();
@@ -271,8 +272,12 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     protected void onDestroy() {
+        int totalTime = 0;
+        for (int i = 0; i < mRecordTimeArray.size(); ++i) {
+            totalTime += mRecordTimeArray.get(i);
+        }
+        notify(NotifyType.total_time, Util.getSpecialTimeFormat(totalTime, "'", "''"));
         super.onDestroy();
-
         mRecordPresenter.onDestroy();
     }
 

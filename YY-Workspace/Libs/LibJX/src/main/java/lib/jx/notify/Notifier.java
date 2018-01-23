@@ -62,6 +62,7 @@ public class Notifier extends NotifierEx<OnNotify> {
 
             NotifyType.login_video,
             NotifyType.meet_num,
+            NotifyType.total_time,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -219,6 +220,8 @@ public class Notifier extends NotifierEx<OnNotify> {
         int login_video = 50;
 
         int meet_num = 51;
+
+        int total_time = 52;
     }
 
     public interface OnNotify {
