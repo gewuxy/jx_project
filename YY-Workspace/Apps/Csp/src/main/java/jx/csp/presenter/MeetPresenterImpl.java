@@ -85,15 +85,36 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         switch (item.getInt(TMeet.playType)) {
             case CourseType.reb: {
                 // 判断是否有人在录播中
-                exeNetworkReq(KRecordCheckId, MeetingAPI.joinCheck(item.getString(TMeet.id), LiveType.ppt).build());
+                checkPpt();
             }
             break;
             case CourseType.ppt_live:
             case CourseType.ppt_video_live: {
-                joinPpt(true);
+                if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
+                    checkPpt();
+                } else {
+                    joinPpt(true);
+                }
             }
             break;
+        }
+    }
 
+    @Override
+    public void onLiveClick(Meet item) {
+        mIsVideo = true;
+        mWsClose = false;
+        mMeet = item;
+        if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
+            // 会议未开始
+            CommonDialog d = new CommonDialog(mContext);
+            d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
+            d.addButton(R.string.cancel, R.color.text_333, null);
+            // 再判断是否有人在直播视频
+            d.addButton(R.string.live_start, R.color.text_333, l -> checkVideo());
+            d.show();
+        } else {
+            joinVideo(true);
         }
     }
 
@@ -103,24 +124,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         ShareDialog shareDialog = new ShareDialog(mContext, mMeet);
         shareDialog.show();
     }
-
-    @Override
-    public void onLiveClick(Meet item) {
-        // 先判断会议是否已经开始，再判断是否有人在直播视频
-        mIsVideo = true;
-        mWsClose = false;
-        mMeet = item;
-        if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
-            CommonDialog d = new CommonDialog(mContext);
-            d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
-            d.addButton(R.string.cancel, R.color.text_333, null);
-            d.addButton(R.string.live_start, R.color.text_333, l -> joinVideo(true));
-            d.show();
-        } else {
-            joinVideo(true);
-        }
-    }
-
 
     @Override
     public void allowEnter() {
@@ -169,25 +172,20 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                     boolean state = scan.getInt(TScan.duplicate) == DuplicateType.yes && TextUtil.isNotEmpty(scan.getString(TScan.wsUrl));
                     // 先判断直播时间是否已经到了 录播不需要判断时间  再判断是否有人在录播或者直播
                     // 有人情况下要弹dialog 确定后连websocket
-                    switch (mMeet.getInt(TMeet.playType)) {
-                        case CourseType.reb: {
-                            if (state) {
+                    if (state) {
+                        switch (mMeet.getInt(TMeet.playType)) {
+                            case CourseType.reb: {
                                 showDialog(ResLoader.getString(R.string.main_record_dialog), scan.getString(TScan.wsUrl));
-                            } else {
-                                // 没人在的时候直接进入
-                                joinPpt(false);
                             }
-                        }
-                        break;
-                        case CourseType.ppt_live:
-                        case CourseType.ppt_video_live: {
-                            if (state) {
+                            break;
+                            case CourseType.ppt_live:
+                            case CourseType.ppt_video_live: {
                                 showDialog(ResLoader.getString(R.string.main_live_dialog), scan.getString(TScan.wsUrl));
-                            } else {
-                                joinPpt(false);
                             }
+                            break;
                         }
-                        break;
+                    } else {
+                        joinPpt(false);
                     }
                 } else {
                     showToast(r.getError().getMessage());
@@ -243,7 +241,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             });
             mCountdownDialog.show();
         });
-        d.addBlackButton(R.string.cancel, null);
+        d.addBlackButton(R.string.cancel);
         d.show();
     }
 
@@ -263,13 +261,10 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             break;
             case CourseType.ppt_live:
             case CourseType.ppt_video_live: {
-                if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start || !needCheck) {
-                    LiveAudioActivityRouter.create(mMeet.getString(TMeet.id)).route(mContext);
+                if (needCheck) {
+                    liveAction(mMeet, l -> checkPpt());
                 } else {
-                    liveAction(mMeet, l -> {
-                        // 判断是否有人在直播中
-                        exeNetworkReq(KRecordCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.ppt).build());
-                    });
+                    LiveAudioActivityRouter.create(mMeet.getString(TMeet.id)).route(mContext);
                 }
             }
             break;
@@ -282,8 +277,12 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
      * @param needCheck 是否需要检查有没有人
      */
     private void joinVideo(boolean needCheck) {
+        if (mCountdownDialog != null) {
+            mCountdownDialog.dismiss();
+        }
         if (needCheck) {
-            exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
+            // 判断是否有人在直播中
+            liveAction(mMeet, l -> checkVideo());
         } else {
             // 立即直播
             LiveVideoActivityRouter.create()
@@ -298,29 +297,48 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     }
 
     /**
+     * 检查Ppt
+     */
+    private void checkPpt() {
+        exeNetworkReq(KRecordCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.ppt).build());
+    }
+
+    /**
+     * 检查视频
+     */
+    private void checkVideo() {
+        exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
+    }
+
+    /**
      * 选择直播操作
      *
      * @param item meet
      */
     private void liveAction(Meet item, @Nullable View.OnClickListener l) {
         int liveState = mMeet.getInt(TMeet.liveState);
-        boolean startState = item.getBoolean(TMeet.starRateFlag);
-        if (liveState == Live.LiveState.end || liveState == Live.LiveState.star) {
-            StarActivityRouter.create(item)
-                    .route(mContext);
-        } else {
-            // 选择进入直播  中文版和英文版的dialog不一样
-            BtnVerticalDialog d = new BtnVerticalDialog(mContext);
-            d.setBtnStyle(LinearLayout.VERTICAL);
-            d.setTextHint(ResLoader.getString(R.string.choice_contents));
-            d.addBlackButton(R.string.live_continue, l);
-            // 判断是否需要显示结束直播按钮
-            if (startState && liveState != Live.LiveState.un_start) {
-                d.addButton(R.string.start_star, R.color.text_e43939, v -> toStart(item));
-            } else {
-                d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> toEndMeet(item));
+        switch (liveState) {
+            case Live.LiveState.live:
+            case Live.LiveState.stop: {
+                // 选择进入直播  中文版和英文版的dialog不一样
+                BtnVerticalDialog d = new BtnVerticalDialog(mContext);
+                d.setBtnStyle(LinearLayout.VERTICAL);
+                d.setTextHint(ResLoader.getString(R.string.choice_contents));
+                d.addBlackButton(R.string.live_continue, l);
+                // 判断是否需要显示结束直播按钮
+                if (item.getBoolean(TMeet.starRateFlag)) {
+                    d.addButton(R.string.start_star, R.color.text_e43939, v -> toStart(item));
+                } else {
+                    d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> toEndMeet(item));
+                }
+                d.show();
             }
-            d.show();
+            break;
+            case Live.LiveState.end:
+            case Live.LiveState.star: {
+                StarActivityRouter.create(item).route(mContext);
+            }
+            break;
         }
     }
 

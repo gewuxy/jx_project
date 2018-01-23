@@ -124,10 +124,10 @@ public class CommonDialog extends BaseDialog {
         tv.setTextColor(ResLoader.getColor(resId));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, Fitter.dp(18));
         tv.setOnClickListener(v -> {
+            dismiss();
             if (l != null) {
                 l.onClick(v);
             }
-            dismiss();
         });
 
         addButtons(tv);
