@@ -142,7 +142,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     dialog.setContent(R.string.click_start_live_now_start_live);
                     dialog.addBlackButton(R.string.cancel);
                     dialog.addBlackButton(R.string.start_live_now, v -> {
-                        Notifier.inst().notify(Notifier.NotifyType.start_live, mCourseId);
+                        notify(Notifier.NotifyType.start_live, mCourseId);
                         hideView(mTvRemind);
                         mAlreadyLive = true;
                         startLiveOperation(f, filePath);

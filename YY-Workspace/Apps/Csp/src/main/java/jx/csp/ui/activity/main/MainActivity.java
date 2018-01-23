@@ -27,8 +27,6 @@ import jx.csp.model.VipPackage;
 import jx.csp.model.VipPackage.TPackage;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
-import jx.csp.model.meeting.Copy;
-import jx.csp.model.meeting.Copy.TCopy;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.Record.PlayState;
 import jx.csp.model.meeting.Scan;
@@ -450,26 +448,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.delete_meeting_fail: {
                 showToast((String) data);
-            }
-            break;
-            case NotifyType.copy_duplicate: {
-                Copy copy = (Copy) data;
-                for (Meet meet : mGridFrag.getData()) {
-                    if (copy.getInt(TCopy.oldId) == meet.getInt(TMeet.id)) {
-                        Meet m = (Meet) meet.clone();
-                        m.put(TMeet.title, m.getString(TMeet.title) + getString(R.string.duplicate));
-                        m.put(TMeet.id, copy.getInt(TCopy.id));
-                        m.put(TMeet.title, copy.getString(TCopy.title));
-                        m.put(TMeet.livePage, 0);
-                        m.put(TMeet.playPage, 0);
-                        // 复制的会议默认放到最前面 页面跳到最前面位置
-                        mGridFrag.addItem(0, m);
-                        mGridFrag.setPosition(0);
-                        mGridFrag.invalidate();
-                        break;
-                    }
-                }
-                showToast(R.string.copy_duplicate_success);
             }
             break;
             case NotifyType.profile_change: {

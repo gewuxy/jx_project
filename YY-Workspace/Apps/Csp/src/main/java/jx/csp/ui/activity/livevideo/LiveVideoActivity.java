@@ -97,6 +97,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         } else {
             mLiveTime = (int) ((mServerTime - mStartTime) / 1000);
         }
+        if (mStartTime > mServerTime) {
+            mStartTime = mServerTime;
+        }
         mEndTime = mStartTime + TimeUnit.DAYS.toMillis(1);
         YSLog.d(TAG, "mServerTime = " + TimeFormatter.milli(mServerTime, TimeFormat.from_y_24));
         YSLog.d(TAG, "mStartTime = " + TimeFormatter.milli(mStartTime, TimeFormat.from_y_24));

@@ -11,6 +11,7 @@ import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
 import lib.live.LiveListener;
@@ -62,6 +63,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     public void startLive(String courseId, String rtmpUrl, boolean mute, int liveState) {
         if (liveState == LiveState.un_start) {
             exeNetworkReq(KStartLiveReqId, MeetingAPI.liveVideoStart(courseId).build());
+            Notifier.inst().notify(Notifier.NotifyType.start_live, courseId);
         }
         mLiveState = true;
         PushManager.inst().startPush(rtmpUrl);
