@@ -14,7 +14,12 @@
             android:layout_height="2dp"
             android:layout_alignParentBottom="true"
             android:background="@color/color_33363c"/>
-    </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#4C4F56"/>
+    </RelativeLayout>
 
 </LinearLayout>
