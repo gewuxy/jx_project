@@ -37,7 +37,6 @@ import jx.csp.ui.activity.main.StartActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.jx.contract.BasePresenterImpl;
-import lib.jx.notify.Notifier;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -59,6 +58,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private CountdownDialog mCountdownDialog;
     private String mLiveRoomWsUrl;  // 视频直播的websocket地址
     private boolean mWsClose = false; // web socket 是否已经关闭
+    private boolean mIsVideo = false; // 视频还是ppt
     private long mServerTime;
     private String mPushUrl;
 
@@ -79,6 +79,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
 
     @Override
     public void onMeetClick(Meet item) {
+        mIsVideo = false;
         mWsClose = false;
         mMeet = item;
         switch (item.getInt(TMeet.playType)) {
@@ -92,6 +93,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 joinPpt(true);
             }
             break;
+
         }
     }
 
@@ -105,6 +107,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onLiveClick(Meet item) {
         // 先判断会议是否已经开始，再判断是否有人在直播视频
+        mIsVideo = true;
         mWsClose = false;
         mMeet = item;
         joinVideo(true);
@@ -118,7 +121,11 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             YSLog.d(TAG, "MeetPresenterImpl enter WebSocketServRouter.stop");
             WebSocketServRouter.stop(mContext);
         }
-        joinPpt(false);
+        if (mIsVideo) {
+            joinVideo(false);
+        } else {
+            joinPpt(false);
+        }
     }
 
     @Override
@@ -271,33 +278,31 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             CommonDialog d = new CommonDialog(mContext);
             d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
             d.addButton(R.string.cancel, R.color.text_333, null);
-            d.addButton(R.string.live_start, R.color.text_333, l -> {
-                mMeet.put(TMeet.liveState, Live.LiveState.live);
-                Notifier.inst().notify(Notifier.NotifyType.start_live, mMeet.getString(TMeet.id));
-                // 立即直播
-                LiveVideoActivityRouter.create()
-                        .courseId(mMeet.getString(TMeet.id))
-                        .startTime(mMeet.getLong(TMeet.startTime))
-                        .serverTime(mServerTime)
-                        .wsUrl(mLiveRoomWsUrl)
-                        .pushUrl(mPushUrl)
-                        .liveVideoState(mMeet.getInt(TMeet.liveState))
-                        .route(mContext);
-            });
+            d.addButton(R.string.live_start, R.color.text_333, l -> checkVideo(needCheck));
             d.show();
         } else {
-            if (needCheck) {
-                exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
-            } else {
-                LiveVideoActivityRouter.create()
-                        .courseId(mMeet.getString(TMeet.id))
-                        .startTime(mMeet.getLong(TMeet.startTime))
-                        .serverTime(mServerTime)
-                        .wsUrl(mLiveRoomWsUrl)
-                        .pushUrl(mPushUrl)
-                        .liveVideoState(mMeet.getInt(TMeet.liveState))
-                        .route(mContext);
-            }
+            checkVideo(needCheck);
+        }
+    }
+
+    /**
+     * 检查有没有人
+     *
+     * @param needCheck 是否需要检查
+     */
+    private void checkVideo(boolean needCheck) {
+        if (needCheck) {
+            exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
+        } else {
+            // 立即直播
+            LiveVideoActivityRouter.create()
+                    .courseId(mMeet.getString(TMeet.id))
+                    .startTime(mMeet.getLong(TMeet.startTime))
+                    .serverTime(mServerTime)
+                    .wsUrl(mLiveRoomWsUrl)
+                    .pushUrl(mPushUrl)
+                    .liveVideoState(mMeet.getInt(TMeet.liveState))
+                    .route(mContext);
         }
     }
 
