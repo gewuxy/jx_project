@@ -27,6 +27,7 @@
             android:id="@+id/watch_pwd_et_pwd"
             style="@style/et.common"
             android:hint="@string/watch_input_pwd"
+            android:inputType="number"
             android:maxLength="4"/>
 
         <TextView
