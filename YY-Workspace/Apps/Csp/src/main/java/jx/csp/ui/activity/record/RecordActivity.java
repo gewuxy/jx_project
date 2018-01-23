@@ -322,7 +322,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 totalTime += mRecordTimeArray.get(i);
             }
             mShareAndStarArg.put(TMeet.playTime, totalTime);
-            mStarBar.setMeet(mShareAndStarArg);
         }
     }
 

@@ -195,7 +195,8 @@ public class StarActivity extends BaseActivity {
 
             // 星评二维码
             boolean startStatus = c.getBoolean(Code.TCode.starStatus);
-            if (startStatus) {
+            if (startStatus && mMeet.getInt(Meet.TMeet.liveState) != Live.LiveState.end) {
+                // 有星评且未结束
                 mIvDataMatrix.url(c.getString(Code.TCode.startCodeUrl))
                         .listener(new NetworkImageListener() {
 

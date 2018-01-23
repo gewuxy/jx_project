@@ -19,7 +19,7 @@ public class Live extends EVal<TLive> {
             LiveState.un_start,
             LiveState.live,
             LiveState.stop,
-            LiveState.start,
+            LiveState.star,
             LiveState.end
     })
     @Retention(RetentionPolicy.SOURCE)
@@ -27,7 +27,7 @@ public class Live extends EVal<TLive> {
         int un_start = 0; // 未开始
         int live = 1; // 正在直播中
         int stop = 2; // 已暂停
-        int start = 3; // 星评
+        int star = 3; // 星评
         int end = 4; // 已结束
     }
 

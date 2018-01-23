@@ -77,11 +77,15 @@ public class StarThumb extends RelativeLayout {
                 // 左移
                 location = mLocation - count * mOne;
             }
-            if (location > 0 && location < getMeasuredWidth()) {
+            if (location > 0 && location < getMeasuredWidth() - mSize) {
                 // 没到头
                 Message m = Message.obtain();
                 m.obj = count + 1;
                 mHandler.sendMessageDelayed(m, KDuration);
+            } else {
+                if (location > getMeasuredWidth() / KHalf && mStartListener != null) {
+                    mStartListener.onClick();
+                }
             }
             setLocation(location);
 
@@ -90,6 +94,22 @@ public class StarThumb extends RelativeLayout {
 
         mImageView = new NetworkImageView(getContext());
         addView(mImageView, mSize, LayoutUtil.MATCH_PARENT);
+    }
+
+    public void setLocation(float location) {
+        float fixX;
+        if (location <= 0) {
+            fixX = 0;
+        } else if (location > getMeasuredWidth() - mSize) {
+            fixX = getMeasuredWidth() - mSize;
+        } else {
+            fixX = location;
+        }
+        AnimateUtil.translate(mImageView, fixX, (getMeasuredHeight() - mSize) / KHalf, 0);
+        if (mListener != null) {
+            mListener.progress((int) ((fixX + mRadius) / getMeasuredWidth() * 100));
+        }
+        invalidate();
     }
 
     public void setListener(OnScrollListener listener) {
@@ -109,25 +129,6 @@ public class StarThumb extends RelativeLayout {
         mImageView.res(resId)
                 .renderer(new CircleRenderer())
                 .load();
-    }
-
-    public void setLocation(float location) {
-        float fixX;
-        if (location <= 0) {
-            fixX = 0;
-        } else if (location > getMeasuredWidth() - mSize) {
-            fixX = getMeasuredWidth() - mSize;
-            if (mStartListener != null) {
-                mStartListener.onClick();
-            }
-        } else {
-            fixX = location;
-        }
-        AnimateUtil.translate(mImageView, fixX, (getMeasuredHeight() - mSize) / KHalf, 0);
-        if (mListener != null) {
-            mListener.progress((int) ((fixX + mRadius) / getMeasuredWidth() * 100));
-        }
-        invalidate();
     }
 
     @Override
@@ -160,7 +161,7 @@ public class StarThumb extends RelativeLayout {
                 }
                 float x = event.getX();
                 mLocation = x;
-                if (x > getMeasuredWidth() / KHalf) {
+                if (x > getMeasuredWidth() / KHalf - mSize) {
                     x = getMeasuredWidth();
                 } else {
                     x = 0;

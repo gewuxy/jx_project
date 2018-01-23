@@ -9,7 +9,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import jx.csp.R;
-import jx.csp.model.main.Meet;
+import jx.csp.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -20,8 +20,6 @@ public class StarBar extends RelativeLayout {
     private StarThumb mStarThumb;
     private SeekBar mSeekBar;
     private TextView mTvStar;
-
-    private Meet mMeet;
 
     public StarBar(Context context) {
         this(context, null);
@@ -57,15 +55,6 @@ public class StarBar extends RelativeLayout {
     }
 
     /**
-     * 跳转需要的数据
-     *
-     * @param meet 会议信息
-     */
-    public void setMeet(Meet meet) {
-        mMeet = meet;
-    }
-
-    /**
      * 设置滑块
      *
      * @param resId 滑块的id
@@ -80,7 +69,12 @@ public class StarBar extends RelativeLayout {
      * @param startListener Listener
      */
     public void setStartListener(StarThumb.OnStartListener startListener) {
-        mStarThumb.setStartListener(startListener);
+        if (startListener != null) {
+            mStarThumb.setStartListener(() -> {
+                startListener.onClick();
+                Util.runOnUIThread(this::restoration, 300);
+            });
+        }
     }
 
     /**

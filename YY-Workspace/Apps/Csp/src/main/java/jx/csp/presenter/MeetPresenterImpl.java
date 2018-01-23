@@ -305,7 +305,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     private void liveAction(Meet item, @Nullable View.OnClickListener l) {
         int liveState = mMeet.getInt(TMeet.liveState);
         boolean startState = item.getBoolean(TMeet.starRateFlag);
-        if (liveState == Live.LiveState.end || liveState == Live.LiveState.start) {
+        if (liveState == Live.LiveState.end || liveState == Live.LiveState.star) {
             StarActivityRouter.create(item)
                     .route(mContext);
         } else {
