@@ -133,6 +133,7 @@
     <string name="confirm_captcha">請確認手機號碼</string>
     <string name="send_sms_captcha">將發送短信驗證碼到這個號碼</string>
     <string name="login_welcome">歡迎你</string>
+    <string name="login_moblie">手機登錄</string>
 
     <!--分享-->
     <string name="wechat">微信好友</string>

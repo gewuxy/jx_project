@@ -39,7 +39,7 @@
                 android:id="@+id/login_sina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机登录"
+                android:text="@string/login_moblie"
                 android:textColor="@color/text_ace400"
                 android:textSize="16dp"/>
         </LinearLayout>
