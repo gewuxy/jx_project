@@ -7,8 +7,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -24,7 +22,6 @@ import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
-import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig;
 import lib.ys.network.image.ImageInfo;
 import lib.ys.network.image.NetworkImageListener;
@@ -67,7 +64,13 @@ public class StarActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addBackIcon(R.drawable.default_ic_close, this);
+        bar.addViewLeft(R.drawable.default_ic_close, null, l -> {
+            if (mTvLive.getVisibility() == View.VISIBLE) {
+                mTvLive.performClick();
+            } else {
+                finish();
+            }
+        });
         boolean start = mMeet.getBoolean(Meet.TMeet.starRateFlag);
         bar.addTextViewMid(start ? R.string.start_comment : R.string.start_finish);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
@@ -110,6 +113,7 @@ public class StarActivity extends BaseActivity {
                             .route(StarActivity.this);
                     showView(mTvFinish);
                     goneView(mTvLive);
+                    startState(false);
                     changeTimeLocation(100);
                 });
                 d.show();
@@ -145,6 +149,23 @@ public class StarActivity extends BaseActivity {
             mP.getDataFromNet();
         }
         return true;
+    }
+
+    /**
+     * 星评关闭
+     *
+     * @param flag true 展示二维码, false 展示会讲制作
+     */
+    private void startState(boolean flag) {
+        stopRefresh();
+        setViewState(DecorViewEx.ViewState.normal);
+        if (flag) {
+            goneView(mLayoutDefault);
+            showView(mLayoutDataMatrix);
+        } else {
+            showView(mLayoutDefault);
+            goneView(mLayoutDataMatrix);
+        }
     }
 
     private class StarContractViewImpl implements StarContract.V {
@@ -187,7 +208,7 @@ public class StarActivity extends BaseActivity {
 
                 @Override
                 public void onGlobalLayout() {
-                    mTvAll.setText(formatTime(time));
+                    mTvAll.setText(Util.getSpecialTimeFormat(time, "'", "\""));
                     removeOnGlobalLayoutListener(this);
                 }
 
@@ -226,38 +247,5 @@ public class StarActivity extends BaseActivity {
             StarActivity.this.setViewState(state);
         }
 
-        /**
-         * 星评关闭
-         *
-         * @param flag true 展示二维码, false 展示会讲制作
-         */
-        private void startState(boolean flag) {
-            stopRefresh();
-            setViewState(DecorViewEx.ViewState.normal);
-            if (flag) {
-                goneView(mLayoutDefault);
-                showView(mLayoutDataMatrix);
-            } else {
-                showView(mLayoutDefault);
-                goneView(mLayoutDataMatrix);
-            }
-        }
-
-        /**
-         * 格式化时间
-         *
-         * @param time 时间
-         * @return xx'xx"
-         */
-        private String formatTime(long time) {
-            long min = time / TimeUnit.MINUTES.toMillis(1);
-            long sec = time % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
-            return (min > 9 ? ConstantsEx.KEmpty : "0") +
-                    min +
-                    "'" +
-                    (sec > 9 ? ConstantsEx.KEmpty : "0") +
-                    sec +
-                    "\"";
-        }
     }
 }
