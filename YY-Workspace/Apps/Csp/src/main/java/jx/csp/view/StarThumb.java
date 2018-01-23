@@ -20,7 +20,7 @@ import lib.ys.util.view.LayoutUtil;
  * @auther : GuoXuan
  * @since : 2018/1/16
  */
-public class StartThumb extends RelativeLayout {
+public class StarThumb extends RelativeLayout {
 
     public interface OnScrollListener {
         void progress(int x);
@@ -49,15 +49,15 @@ public class StartThumb extends RelativeLayout {
 
     private Handler mHandler;
 
-    public StartThumb(Context context) {
+    public StarThumb(Context context) {
         this(context, null);
     }
 
-    public StartThumb(Context context, AttributeSet attrs) {
+    public StarThumb(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public StartThumb(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StarThumb(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         init();

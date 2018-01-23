@@ -43,11 +43,13 @@ import jx.csp.presenter.AudioUploadPresenterImpl;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
+import jx.csp.ui.activity.main.StarActivityRouter;
 import jx.csp.ui.activity.record.RecordActivity.OverType;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
 import jx.csp.view.GestureView;
+import jx.csp.view.StarBar;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
@@ -97,6 +99,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected GestureView mGestureView;
     protected SeekBar mSeekBar;
+    protected StarBar mStarBar;
     protected View mLayoutTvRecordState;
     protected View mLayoutPlay;
     protected View mLayoutOnline;
@@ -114,7 +117,9 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected AlphaAnimation mAnimationFadeIn;
     protected AlphaAnimation mAnimationFadeOut;
-    protected Meet mShareArguments;
+    protected Meet mShareAndStarArg;
+
+    protected boolean mStarState = false;  // 是否有星评
 
     @Arg
     String mCourseId;  // 课程id
@@ -147,8 +152,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
         bar.addViewMid(view);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-            if (mShareArguments != null) {
-                ShareDialog dialog = new ShareDialog(this, mShareArguments);
+            if (mShareAndStarArg != null) {
+                ShareDialog dialog = new ShareDialog(this, mShareAndStarArg);
                 dialog.show();
             }
         });
@@ -177,6 +182,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
         mSeekBar = findView(R.id.record_seek_bar);
         mTvPlayTime = findView(R.id.record_tv_play_time);
+        mStarBar = findView(R.id.record_star_bar);
 
         mLayoutPlay = findView(R.id.record_play_layout);
         mLayoutTvRecordState = findView(R.id.record_state_tv_layout);
@@ -210,6 +216,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             @Override
             public void onPageSelected(int position) {
                 mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
+                if (position == (mCourseDetailList.size() - 1)) {
+                    showView(mStarBar);
+                } else {
+                    goneView(mStarBar);
+                }
                 pageSelected(position);
             }
 
@@ -264,6 +275,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             @Override
             public void onAnimationStart(Animation arg0) {
             }
+        });
+
+        mStarBar.setStartListener(() -> {
+            StarActivityRouter.create(mShareAndStarArg).route(BaseRecordActivity.this);
+            mStarBar.restoration();
         });
     }
 

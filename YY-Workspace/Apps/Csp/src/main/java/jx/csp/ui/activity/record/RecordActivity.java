@@ -316,6 +316,14 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mIvRerecording.setSelected(false);
             mIvRerecording.setClickable(false);
         }
+        if (position == (mCourseDetailList.size() - 1)) {
+            int totalTime = 0;
+            for (int i = 0; i < mRecordTimeArray.size(); ++i) {
+                totalTime += mRecordTimeArray.get(i);
+            }
+            mShareAndStarArg.put(TMeet.playTime, totalTime);
+            mStarBar.setMeet(mShareAndStarArg);
+        }
     }
 
     @Override
@@ -487,6 +495,26 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
 
+
+            invalidate();
+            // 链接websocket
+            if (TextUtil.isNotEmpty(wsUrl)) {
+                WebSocketServRouter.create(wsUrl).route(RecordActivity.this);
+            }
+            // 拼接分享参数
+            mShareAndStarArg = new Meet();
+            mShareAndStarArg.put(TMeet.id, mCourseId);
+            mShareAndStarArg.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
+            if (mCourseDetailList != null && mCourseDetailList.size() > 0) {
+                mShareAndStarArg.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
+            }
+            mShareAndStarArg.put(TMeet.playType, CourseType.reb);
+            mShareAndStarArg.put(TMeet.playState, ((Record) joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
+
+            mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
+            mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
+            //mShareAndStarArg.put(TMeet.startTime, );
+
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
@@ -542,25 +570,16 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                             }
                         }
                     }
+                    if (mStarState) {
+                        mStarBar.setText(getString(R.string.start_star));
+                        mStarBar.setThumb(R.drawable.record_ic_have_star);
+                    } else {
+                        mStarBar.setText(getString(R.string.slide_end));
+                        mStarBar.setThumb(R.drawable.record_ic_no_star);
+                    }
                     removeOnGlobalLayoutListener(this);
                 }
             });
-
-
-            invalidate();
-            // 链接websocket
-            if (TextUtil.isNotEmpty(wsUrl)) {
-                WebSocketServRouter.create(wsUrl).route(RecordActivity.this);
-            }
-            // 拼接分享参数
-            mShareArguments = new Meet();
-            mShareArguments.put(TMeet.id, mCourseId);
-            mShareArguments.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
-            if (mCourseDetailList != null && mCourseDetailList.size() > 0) {
-                mShareArguments.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
-            }
-            mShareArguments.put(TMeet.playType, CourseType.reb);
-            mShareArguments.put(TMeet.playState, ((Record) joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
         }
 
         @Override

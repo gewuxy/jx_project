@@ -7,7 +7,7 @@ import lib.jx.contract.IContract;
  * @auther : GuoXuan
  * @since : 2018/1/19
  */
-public interface StartContract {
+public interface StarContract {
 
     interface V extends IContract.View {
 

@@ -12,14 +12,14 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
-import jx.csp.contact.StartContract;
+import jx.csp.contact.StarContract;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.meeting.Code;
 import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Live;
-import jx.csp.presenter.StartPresenterImpl;
+import jx.csp.presenter.StarPresenterImpl;
 import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.util.Util;
@@ -39,7 +39,7 @@ import lib.ys.ui.other.NavBar;
  * @since : 2018/1/17
  */
 @Route
-public class StartActivity extends BaseActivity {
+public class StarActivity extends BaseActivity {
 
     @Arg
     Meet mMeet;
@@ -52,17 +52,17 @@ public class StartActivity extends BaseActivity {
     private View mTvLive;
     private View mLayoutTime;
 
-    private StartContract.P mP;
+    private StarContract.P mP;
 
     @Override
     public void initData() {
-        StartContract.V v = new StartContractViewImpl();
-        mP = new StartPresenterImpl(v, mMeet);
+        StarContract.V v = new StarContractViewImpl();
+        mP = new StarPresenterImpl(v, mMeet);
     }
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_start;
+        return R.layout.activity_star;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class StartActivity extends BaseActivity {
         boolean start = mMeet.getBoolean(Meet.TMeet.starRateFlag);
         bar.addTextViewMid(start ? R.string.start_comment : R.string.start_finish);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
-            ShareDialog d = new ShareDialog(StartActivity.this, mMeet);
+            ShareDialog d = new ShareDialog(StarActivity.this, mMeet);
             d.show();
         });
 
@@ -80,13 +80,13 @@ public class StartActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mLayoutDefault = findView(R.id.start_layout_meet_default);
-        mLayoutDataMatrix = findView(R.id.start_layout_data_matrix);
-        mLayoutTime = findView(R.id.start_layout_all_time);
-        mIvDataMatrix = findView(R.id.start_iv_data_matrix);
-        mTvFinish = findView(R.id.start_tv_finish);
-        mTvAll = findView(R.id.start_tv_all_time);
-        mTvLive = findView(R.id.start_tv_live_end);
+        mLayoutDefault = findView(R.id.star_layout_meet_default);
+        mLayoutDataMatrix = findView(R.id.star_layout_data_matrix);
+        mLayoutTime = findView(R.id.star_layout_all_time);
+        mIvDataMatrix = findView(R.id.star_iv_data_matrix);
+        mTvFinish = findView(R.id.star_tv_finish);
+        mTvAll = findView(R.id.star_tv_all_time);
+        mTvLive = findView(R.id.star_tv_live_end);
     }
 
     @Override
@@ -100,14 +100,14 @@ public class StartActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.start_tv_live_end: {
+            case R.id.star_tv_live_end: {
                 CommonDialog d = new CommonDialog(this);
                 d.addHintView(inflate(R.layout.layout_live_end));
                 d.addButton(R.string.cancel, R.color.text_333, null);
                 d.addButton(R.string.affirm, R.color.text_333, l -> {
                     CommonServRouter.create(CommonServ.ReqType.over_live)
                             .courseId(mMeet.getString(Meet.TMeet.id))
-                            .route(StartActivity.this);
+                            .route(StarActivity.this);
                     showView(mTvFinish);
                     goneView(mTvLive);
                     changeTimeLocation(100);
@@ -147,7 +147,7 @@ public class StartActivity extends BaseActivity {
         return true;
     }
 
-    private class StartContractViewImpl implements StartContract.V {
+    private class StarContractViewImpl implements StarContract.V {
 
         @Override
         public void setReb(boolean reb) {
@@ -222,7 +222,7 @@ public class StartActivity extends BaseActivity {
 
         @Override
         public void setViewState(int state) {
-            StartActivity.this.setViewState(state);
+            StarActivity.this.setViewState(state);
         }
 
         /**

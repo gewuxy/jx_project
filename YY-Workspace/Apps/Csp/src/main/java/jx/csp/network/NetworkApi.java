@@ -243,6 +243,15 @@ public class NetworkApi {
         void start(String courseId, String videoUrl, String imgUrl, int firstClk, int pageNum);
 
         /**
+         * 开始视频直播 未开始的会议第一次点击调用
+         *
+         * @param courseId
+         */
+        @Get("live/video/start")
+        @Retry(count = 5, delay = 1000)
+        void liveVideoStart(String courseId);
+
+        /**
          * 同步指令
          *
          * @param courseId

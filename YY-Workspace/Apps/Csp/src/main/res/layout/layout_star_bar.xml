@@ -19,7 +19,7 @@
         android:thumbOffset="-1dp"/>
 
     <TextView
-        android:id="@+id/start_tv"
+        android:id="@+id/star_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -28,8 +28,8 @@
         android:textColor="@color/text_9699a2"
         android:textSize="10dp"/>
 
-    <jx.csp.view.StartThumb
-        android:id="@+id/start_thumb"
+    <jx.csp.view.StarThumb
+        android:id="@+id/star_thumb"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"

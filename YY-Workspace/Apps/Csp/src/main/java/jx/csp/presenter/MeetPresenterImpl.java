@@ -33,7 +33,7 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
-import jx.csp.ui.activity.main.StartActivityRouter;
+import jx.csp.ui.activity.main.StarActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.jx.contract.BasePresenterImpl;
@@ -306,7 +306,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         int liveState = mMeet.getInt(TMeet.liveState);
         boolean startState = item.getBoolean(TMeet.starRateFlag);
         if (liveState == Live.LiveState.end || liveState == Live.LiveState.start) {
-            StartActivityRouter.create(item)
+            StarActivityRouter.create(item)
                     .route(mContext);
         } else {
             // 选择进入直播  中文版和英文版的dialog不一样
@@ -316,7 +316,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
             d.addBlackButton(R.string.live_continue, l);
             // 判断是否需要显示结束直播按钮
             if (startState && liveState != Live.LiveState.un_start) {
-                d.addButton(R.string.start_start, R.color.text_e43939, v -> toStart(item));
+                d.addButton(R.string.start_star, R.color.text_e43939, v -> toStart(item));
             } else {
                 d.addButton(R.string.record_live_stop, R.color.text_e43939, v -> toEndMeet(item));
             }
@@ -334,7 +334,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         dialog.setHint(R.string.start_start_hint);
         dialog.addBlackButton(R.string.cancel_over, null);
         dialog.addBlackButton(R.string.over, v1 ->
-                StartActivityRouter.create(item)
+                StarActivityRouter.create(item)
                         .route(mContext));
         dialog.show();
     }

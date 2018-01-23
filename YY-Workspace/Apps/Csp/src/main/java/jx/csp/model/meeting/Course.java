@@ -31,6 +31,7 @@ public class Course extends EVal<TCourse> {
     public enum TCourse {
         id, // 课件ID
         title, // 课件标题
+        starRateFlag, // 是否开启星评，true表示开启
 
         /**
          * {@link  CourseType}

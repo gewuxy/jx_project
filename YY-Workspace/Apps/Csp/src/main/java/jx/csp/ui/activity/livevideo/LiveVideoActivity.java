@@ -35,6 +35,8 @@ import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
 import lib.ys.util.res.ResLoader;
@@ -96,10 +98,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             mLiveTime = (int) ((mServerTime - mStartTime) / 1000);
         }
         mEndTime = mStartTime + TimeUnit.DAYS.toMillis(1);
-        YSLog.d(TAG, "mServerTime = " + mServerTime);
-        YSLog.d(TAG, "mStartTime = " + mStartTime);
-        YSLog.d(TAG, "mEndTime = " + mEndTime);
-        YSLog.d(TAG, "mLiveTime = " + mLiveTime);
+        YSLog.d(TAG, "mServerTime = " + TimeFormatter.milli(mServerTime, TimeFormat.from_y_24));
+        YSLog.d(TAG, "mStartTime = " + TimeFormatter.milli(mStartTime, TimeFormat.from_y_24));
+        YSLog.d(TAG, "mEndTime = " + TimeFormatter.milli(mEndTime, TimeFormat.from_y_24));
         mConnectionReceiver = new ConnectionReceiver(this);
         mConnectionReceiver.setListener(this);
     }
@@ -144,7 +145,12 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         setOnClickListener(R.id.live_iv_live);
 
         mTvLiveTime.setText(Util.getSpecialTimeFormat(mLiveTime, "'", "''"));
-        mP.startCountDown(mEndTime - mServerTime);
+        long countDownTime = mEndTime - mServerTime;
+        YSLog.d(TAG, "mEndTime - mServerTime = " + countDownTime);
+        if (countDownTime > 0) {
+            mP.startCountDown(countDownTime);
+        }
+
         // 连接websocket
         if (mWsUrl != null) {
             WebSocketServRouter.create(mWsUrl).route(this);
@@ -176,7 +182,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 if (Util.noNetwork()) {
                     return;
                 }
-                mP.startLive(mPushUrl, mIvSilence.isSelected());
+                mP.startLive(mCourseId, mPushUrl, mIvSilence.isSelected(), mLiveVideoState);
             }
             break;
             case R.id.live_iv_live: {
@@ -186,7 +192,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 if (mLiveState) {
                     mP.stopLive();
                 } else {
-                    mP.startLive(mPushUrl, mIvSilence.isSelected());
+                    mP.startLive(mCourseId, mPushUrl, mIvSilence.isSelected(), mLiveVideoState);
                 }
             }
             break;
@@ -432,6 +438,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
             mTvState.setText(R.string.live);
             mIvState.setSelected(mLiveState);
             mIvLive.setSelected(mLiveState);
+            if (mLiveVideoState == LiveState.un_start) {
+                mLiveVideoState = LiveState.live;
+            }
         }
 
         @Override

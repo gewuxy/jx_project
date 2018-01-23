@@ -75,6 +75,7 @@
     <string name="dialog_title_hint">提示</string>
     <string name="return_home">返回首頁</string>
     <string name="to_open_permission">去開啟</string>
+    <string name="slide_end">滑動結束</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳過</string>
@@ -212,7 +213,7 @@
     <string name="reb_finish">錄播完成</string>
     <string name="live_finish">直播完成</string>
     <string name="live_continue">繼續直播</string>
-    <string name="start_start">開啟星評</string>
+    <string name="start_star">開啟星評</string>
     <string name="live_start">立即直播</string>
     <string name="live_start_hint">”點”立即直播”後將立即開始直播。</string>
     <string name="live_end">結束直播</string>

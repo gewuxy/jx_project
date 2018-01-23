@@ -100,7 +100,7 @@
             android:name=".ui.activity.main.ScanActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.StartActivity"
+            android:name=".ui.activity.main.StarActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 个人中心 -->

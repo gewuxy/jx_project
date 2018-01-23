@@ -7,12 +7,18 @@ import java.util.concurrent.TimeUnit;
 
 import jx.csp.contact.LiveVideoContract;
 import jx.csp.contact.LiveVideoContract.V;
+import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
 import lib.live.LiveListener;
 import lib.live.LiveView;
 import lib.live.push.PushManager;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
 
 /**
  * @author CaiXiang
@@ -25,6 +31,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     private final String TAG = "LiveVideoPresenterImpl";
     private final int KCountDownTime = 15;  // 开始倒计时的分钟数
+    private final int KStartLiveReqId = 1;
 
     private boolean mUseFrontCamera = false;
     private boolean mMute = false;
@@ -52,7 +59,10 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
     }
 
     @Override
-    public void startLive(String rtmpUrl, boolean mute) {
+    public void startLive(String courseId, String rtmpUrl, boolean mute, int liveState) {
+        if (liveState == LiveState.un_start) {
+            exeNetworkReq(KStartLiveReqId, MeetingAPI.liveVideoStart(courseId).build());
+        }
         mLiveState = true;
         PushManager.inst().startPush(rtmpUrl);
         mMute = mute;
@@ -104,6 +114,23 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void onCountDownErr() {}
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        if (id == KStartLiveReqId) {
+            if (r.isSucceed()) {
+                YSLog.d(TAG, "视频直播开始成功");
+            } else {
+                YSLog.d(TAG, "视频直播开始失败， 重试");
+                retryNetworkRequest(id);
+            }
+        }
+    }
 
     private class MyPushListener extends LiveListener {
 

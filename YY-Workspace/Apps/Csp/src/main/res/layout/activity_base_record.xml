@@ -215,4 +215,14 @@
 
     </RelativeLayout>
 
+    <jx.csp.view.StarBar
+        android:id="@+id/record_star_bar"
+        android:layout_width="94dp"
+        android:layout_height="@dimen/start_thumb"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="27dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"/>
+
 </RelativeLayout>

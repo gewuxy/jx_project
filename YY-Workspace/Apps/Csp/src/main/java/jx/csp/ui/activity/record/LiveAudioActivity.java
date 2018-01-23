@@ -40,6 +40,7 @@ import jx.csp.ui.frag.record.RecordVideoFragRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
+import lib.jx.notify.Notifier;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
 import lib.ys.YSLog;
@@ -70,7 +71,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
     private int mRecordTime = 0; // 每页ppt录制的时间
     private int mLiveTotalTime = 0;  // 直播的总时长
     private boolean mAlreadyLive = false;  // 直播是否已经开始过
-    private boolean mStarState = false;  // 是否有星评
 
     @Override
     public void initData() {
@@ -135,6 +135,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     dialog.setContent(R.string.click_start_live_now_start_live);
                     dialog.addBlackButton(R.string.cancel);
                     dialog.addBlackButton(R.string.start_live_now, v -> {
+                        Notifier.inst().notify(Notifier.NotifyType.start_live, mCourseId);
                         hideView(mTvRemind);
                         mAlreadyLive = true;
                         startLiveOperation(f, filePath);
@@ -159,24 +160,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 mFirstClickStart, getCurrPosition());
         mFirstClickStart = 0;
         YSLog.d(TAG, "点击开始直播,延时3s请求服务器发同步指令" + getCurrPosition());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-//        if (mLiveState) {
-//            // 判断当前页面是视频还是ppt
-//            Fragment f = getItem(getCurrPosition());
-//            if (f instanceof RecordImgFrag) {
-//                mLiveRecordPresenterImpl.stopLiveRecord();
-//                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
-//            } else {
-//                mView.stopRecordState(0);
-//                YSLog.d(TAG, "onPause的时候是视频 调用接口 视频 pos = " + getCurrPosition());
-//                mLiveRecordPresenterImpl.uploadVideoPage(mCourseId, mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.id));
-//            }
-//        }
     }
 
     @Override
@@ -399,34 +382,23 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 }
             }
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
-            // 先判断以前是否直播过，直播过的话要跳到对应的页面
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-                @Override
-                public void onGlobalLayout() {
-                    Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
-                    int page = live.getInt(TLive.livePage);
-                    if (page != 0) {
-                        setCurrPosition(page, false);
-                    }
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
-            invalidate();
             // 链接websocket
             if (TextUtil.isNotEmpty(wsUrl)) {
                 WebSocketServRouter.create(wsUrl).route(LiveAudioActivity.this);
             }
-            // 拼接分享参数
-            mShareArguments = new Meet();
-            mShareArguments.put(TMeet.id, mCourseId);
-            mShareArguments.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
-            mShareArguments.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
-            mShareArguments.put(TMeet.playType, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getInt(TCourse.playType));
+            // 拼接分享和星评参数
+            mShareAndStarArg = new Meet();
+            mShareAndStarArg.put(TMeet.id, mCourseId);
+            mShareAndStarArg.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
+            mShareAndStarArg.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
+            mShareAndStarArg.put(TMeet.playType, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getInt(TCourse.playType));
             Live live = ((Live) joinMeeting.getObject(TJoinMeeting.live));
-            mShareArguments.put(TMeet.liveState, live.getInt(TLive.liveState));
+            mShareAndStarArg.put(TMeet.liveState, live.getInt(TLive.liveState));
             mAlreadyLive = live.getInt(TLive.liveState) != LiveState.un_start;
+            mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
             YSLog.d(TAG, " liveState = " + live.getInt(TLive.liveState));
+            mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
 
             long serverTime = joinMeeting.getLong(TJoinMeeting.serverTime);
             long startTime;
@@ -440,6 +412,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 mTvRemind.setText(R.string.click_start_live_audio);
                 startTime = serverTime;
             }
+            mShareAndStarArg.put(TMeet.startTime, startTime);
             YSLog.d(TAG, "直播是否已经开始过 = " + mAlreadyLive);
             YSLog.d(TAG, "mLiveTotalTime = " + mLiveTotalTime);
 
@@ -447,6 +420,29 @@ public class LiveAudioActivity extends BaseRecordActivity {
             if (countDownTime >= 0) {
                 mLiveRecordPresenterImpl.startCountDown(countDownTime);
             }
+
+            // 先判断以前是否直播过，直播过的话要跳到对应的页面
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
+                    int page = live.getInt(TLive.livePage);
+                    if (page > 0) {
+                        setCurrPosition(page, false);
+                    }
+                    if (mStarState) {
+                        mStarBar.setText(getString(R.string.start_star));
+                        mStarBar.setThumb(R.drawable.record_ic_have_star);
+                    } else {
+                        mStarBar.setText(getString(R.string.slide_end));
+                        mStarBar.setThumb(R.drawable.record_ic_no_star);
+                    }
+                    mStarBar.setMeet(mShareAndStarArg);
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
+            invalidate();
         }
 
         @Override

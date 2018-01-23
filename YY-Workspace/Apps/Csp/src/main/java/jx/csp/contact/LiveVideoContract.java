@@ -36,7 +36,7 @@ public interface LiveVideoContract {
 
         void startCountDown(long time);
 
-        void startLive(String rtmpUrl, boolean mute);
+        void startLive(String courseId, String rtmpUrl, boolean mute, int liveState);
 
         void stopLive();
 

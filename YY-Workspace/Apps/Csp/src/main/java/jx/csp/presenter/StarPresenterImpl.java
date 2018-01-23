@@ -1,6 +1,6 @@
 package jx.csp.presenter;
 
-import jx.csp.contact.StartContract;
+import jx.csp.contact.StarContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.meeting.Code;
 import jx.csp.model.meeting.Course;
@@ -16,11 +16,11 @@ import lib.ys.ui.decor.DecorViewEx;
  * @auther : GuoXuan
  * @since : 2018/1/19
  */
-public class StartPresenterImpl extends BasePresenterImpl<StartContract.V> implements StartContract.P {
+public class StarPresenterImpl extends BasePresenterImpl<StarContract.V> implements StarContract.P {
 
     private Meet mMeet;
 
-    public StartPresenterImpl(StartContract.V v, Meet meet) {
+    public StarPresenterImpl(StarContract.V v, Meet meet) {
         super(v);
         mMeet = meet;
     }
