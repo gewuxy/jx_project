@@ -1,6 +1,5 @@
 package jx.csp.ui.activity.main;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -18,6 +17,7 @@ import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.meeting.Code;
+import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Live;
 import jx.csp.presenter.StartPresenterImpl;
 import jx.csp.serv.CommonServ;
@@ -53,15 +53,13 @@ public class StartActivity extends BaseActivity {
     private View mLayoutTime;
 
     private StartContract.P mP;
-    private StartContract.V mV;
 
     @Override
     public void initData() {
-        mV = new StartContractViewImpl();
-        mP = new StartPresenterImpl(mV, mMeet);
+        StartContract.V v = new StartContractViewImpl();
+        mP = new StartPresenterImpl(v, mMeet);
     }
 
-    @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_start;
@@ -171,18 +169,31 @@ public class StartActivity extends BaseActivity {
 
         @Override
         public void onNetworkSuccess(Code c) {
-            long serverTime = c.getLong(Code.TCode.serverTime);
-            if (serverTime > mMeet.getLong(Meet.TMeet.startTime)) {
-                addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                    @Override
-                    public void onGlobalLayout() {
-                        mTvAll.setText(formatTime(serverTime - mMeet.getLong(Meet.TMeet.startTime)));
-                        removeOnGlobalLayoutListener(this);
-                    }
-
-                });
+            // 讲本时长
+            long time;
+            if (mMeet.getInt(Meet.TMeet.playType) == Course.CourseType.reb) {
+                // 录播
+                time = mMeet.getLong(Meet.TMeet.playTime);
+            } else {
+                // 直播
+                long serverTime = c.getLong(Code.TCode.serverTime);
+                if (serverTime > mMeet.getLong(Meet.TMeet.startTime)) {
+                    time = serverTime - mMeet.getLong(Meet.TMeet.startTime);
+                } else {
+                    time = 0;
+                }
             }
+            addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+                @Override
+                public void onGlobalLayout() {
+                    mTvAll.setText(formatTime(time));
+                    removeOnGlobalLayoutListener(this);
+                }
+
+            });
+
+            // 星评二维码
             boolean startStatus = c.getBoolean(Code.TCode.starStatus);
             if (startStatus) {
                 mIvDataMatrix.url(c.getString(Code.TCode.startCodeUrl))
@@ -240,14 +251,12 @@ public class StartActivity extends BaseActivity {
         private String formatTime(long time) {
             long min = time / TimeUnit.MINUTES.toMillis(1);
             long sec = time % TimeUnit.MINUTES.toMillis(1) / TimeUnit.SECONDS.toMillis(1);
-            return new StringBuffer()
-                    .append(min > 9 ? ConstantsEx.KEmpty : "0")
-                    .append(min)
-                    .append("'")
-                    .append(sec > 9 ? ConstantsEx.KEmpty : "0")
-                    .append(sec)
-                    .append("\"")
-                    .toString();
+            return (min > 9 ? ConstantsEx.KEmpty : "0") +
+                    min +
+                    "'" +
+                    (sec > 9 ? ConstantsEx.KEmpty : "0") +
+                    sec +
+                    "\"";
         }
     }
 }
