@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/record_bg">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/divider_record"/>
-
     <lib.ys.view.pager.ViewPagerEx
         android:id="@+id/vp"
         android:layout_width="match_parent"

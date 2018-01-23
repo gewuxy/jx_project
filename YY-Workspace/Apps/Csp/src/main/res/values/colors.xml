@@ -14,7 +14,6 @@
     <drawable name="item_foreground_focus">#64e8e8e8</drawable>
 
     <color name="divider">#f1f2f6</color>
-    <color name="divider_record">#33363c</color>
 
     <!--mask模糊-->
     <color name="mask_bg">#4d000000</color>

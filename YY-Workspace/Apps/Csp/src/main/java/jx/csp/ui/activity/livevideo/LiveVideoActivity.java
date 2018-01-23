@@ -147,7 +147,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         mTvLiveTime.setText(Util.getSpecialTimeFormat(mLiveTime, "'", "''"));
         long countDownTime = mEndTime - mServerTime;
         YSLog.d(TAG, "mEndTime - mServerTime = " + countDownTime);
-        if (countDownTime > 0) {
+        if (countDownTime >= 0) {
             mP.startCountDown(countDownTime);
         }
 

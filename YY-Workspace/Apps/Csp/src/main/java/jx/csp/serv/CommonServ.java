@@ -58,6 +58,7 @@ public class CommonServ extends ServiceEx {
 
     @Arg(opt = true)
     int mOverType;
+
     @Arg(opt = true)
     String mUrl;
 

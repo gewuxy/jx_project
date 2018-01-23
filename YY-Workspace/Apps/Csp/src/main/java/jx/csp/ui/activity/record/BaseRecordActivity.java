@@ -40,11 +40,7 @@ import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.AudioUploadPresenterImpl;
-import jx.csp.serv.CommonServ.ReqType;
-import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.main.StarActivityRouter;
-import jx.csp.ui.activity.record.RecordActivity.OverType;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.ScaleTransformer;
 import jx.csp.util.Util;
@@ -276,11 +272,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             public void onAnimationStart(Animation arg0) {
             }
         });
-
-        mStarBar.setStartListener(() -> {
-            StarActivityRouter.create(mShareAndStarArg).route(BaseRecordActivity.this);
-            mStarBar.restoration();
-        });
     }
 
     @Override
@@ -319,15 +310,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         LiveNotifier.inst().remove(this);
         WebSocketServRouter.stop(this);
         YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
-        int overType = OverType.no;
-        if (mCourseDetailList != null && getCurrPosition() == (mCourseDetailList.size() - KOne)) {
-            overType = OverType.over;
-        }
-        CommonServRouter.create(ReqType.exit_record)
-                .courseId(mCourseId)
-                .pageNum(getCurrPosition())
-                .overType(overType)
-                .route(this);
     }
 
     @Override

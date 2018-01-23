@@ -161,7 +161,7 @@ public class StarThumb extends RelativeLayout {
                 }
                 float x = event.getX();
                 mLocation = x;
-                if (x > getMeasuredWidth() / KHalf - mSize) {
+                if (x > (getMeasuredWidth() - mSize) / KHalf) {
                     x = getMeasuredWidth();
                 } else {
                     x = 0;

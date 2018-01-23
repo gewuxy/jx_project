@@ -34,6 +34,7 @@ import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.LiveAudioPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
+import jx.csp.ui.activity.main.StarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
@@ -98,6 +99,12 @@ public class LiveAudioActivity extends BaseRecordActivity {
         //请求网络
         refresh(RefreshWay.dialog);
         mLiveRecordPresenterImpl.getData(mCourseId);
+
+        mStarBar.setStartListener(() -> {
+            StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
+            mStarBar.restoration();
+            mView.finishLive();
+        });
     }
 
     @Override

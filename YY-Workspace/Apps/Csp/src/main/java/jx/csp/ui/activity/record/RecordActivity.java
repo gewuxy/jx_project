@@ -5,7 +5,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Vibrator;
-import android.support.annotation.IntDef;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -14,8 +13,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import java.io.File;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
+import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
 import jx.csp.App;
@@ -39,8 +37,11 @@ import jx.csp.model.meeting.Record;
 import jx.csp.model.meeting.Record.TRecord;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.RecordPresenterImpl;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.main.StarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
@@ -81,16 +82,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     private boolean mCanContinueRecord = false;  // 能否续录
     private boolean mContinueRecord = false;  // 是否在续录
-
-    @IntDef({
-            OverType.no,
-            OverType.over
-    })
-    @Retention(RetentionPolicy.SOURCE)
-    @interface OverType {
-        int no = 0; // 没有结束
-        int over = 1; // 结束
-    }
 
     @Override
     public void initData() {
@@ -140,6 +131,25 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         setOnClickListener(R.id.record_iv_state);
         setOnClickListener(R.id.record_iv_audition);
         setOnClickListener(R.id.record_iv_rerecording);
+
+        mStarBar.setStartListener(() -> {
+            CommonServRouter.create(ReqType.exit_record)
+                    .courseId(mCourseId)
+                    .pageNum(getCurrPosition())
+                    .overType(1)  //  录播结束的标记位
+                    .route(this);
+            if (mRecordState) {
+                mRecordPresenter.stopRecord();
+            }
+            int totalTime = 0;
+            for (int i = 0; i < mRecordTimeArray.size(); ++i) {
+                totalTime += mRecordTimeArray.get(i);
+            }
+            mShareAndStarArg.put(TMeet.playTime, totalTime * TimeUnit.SECONDS.toMillis(1));
+            StarActivityRouter.create(mShareAndStarArg).route(RecordActivity.this);
+            mStarBar.restoration();
+            finish();
+        });
     }
 
     @Override
@@ -315,13 +325,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mIvRecordState.setClickable(false);
             mIvRerecording.setSelected(false);
             mIvRerecording.setClickable(false);
-        }
-        if (position == (mCourseDetailList.size() - 1)) {
-            int totalTime = 0;
-            for (int i = 0; i < mRecordTimeArray.size(); ++i) {
-                totalTime += mRecordTimeArray.get(i);
-            }
-            mShareAndStarArg.put(TMeet.playTime, totalTime);
         }
     }
 
@@ -512,7 +515,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
             mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
-            //mShareAndStarArg.put(TMeet.startTime, );
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
