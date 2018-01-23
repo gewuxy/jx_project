@@ -110,7 +110,15 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         mIsVideo = true;
         mWsClose = false;
         mMeet = item;
-        joinVideo(true);
+        if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
+            CommonDialog d = new CommonDialog(mContext);
+            d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
+            d.addButton(R.string.cancel, R.color.text_333, null);
+            d.addButton(R.string.live_start, R.color.text_333, l -> joinVideo(true));
+            d.show();
+        } else {
+            joinVideo(true);
+        }
     }
 
 
@@ -274,23 +282,6 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
      * @param needCheck 是否需要检查有没有人
      */
     private void joinVideo(boolean needCheck) {
-        if (mMeet.getInt(TMeet.liveState) == Live.LiveState.un_start) {
-            CommonDialog d = new CommonDialog(mContext);
-            d.addHintView(View.inflate(mContext, R.layout.layout_live_hint, null));
-            d.addButton(R.string.cancel, R.color.text_333, null);
-            d.addButton(R.string.live_start, R.color.text_333, l -> checkVideo(needCheck));
-            d.show();
-        } else {
-            checkVideo(needCheck);
-        }
-    }
-
-    /**
-     * 检查有没有人
-     *
-     * @param needCheck 是否需要检查
-     */
-    private void checkVideo(boolean needCheck) {
         if (needCheck) {
             exeNetworkReq(KVideoCheckId, MeetingAPI.joinCheck(mMeet.getString(TMeet.id), LiveType.video).build());
         } else {
