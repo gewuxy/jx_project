@@ -40,6 +40,8 @@ import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderFrom;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.AudioUploadPresenterImpl;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.ScaleTransformer;
@@ -310,6 +312,11 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         LiveNotifier.inst().remove(this);
         WebSocketServRouter.stop(this);
         YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
+        CommonServRouter.create(ReqType.exit_record)
+                .courseId(mCourseId)
+                .pageNum(getCurrPosition())
+                .overType(0)
+                .route(this);
     }
 
     @Override
