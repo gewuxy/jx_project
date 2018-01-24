@@ -1,6 +1,5 @@
 <resources>
 
-
     <style name="iv.login">
         <item name="android:id">@id/form_iv</item>
         <item name="android:layout_marginLeft">@dimen/margin</item>
@@ -28,7 +27,7 @@
     <style name="v.login"/>
 
     <style name="v.login.foot">
-        <item name="android:orientation">vertical</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="v.login.btn">
@@ -37,6 +36,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/login_btn_selector_type_common</item>
+
     </style>
 
     <!-- 普通输入框样式 -->
@@ -47,8 +47,8 @@
         <item name="android:paddingLeft">12dp</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:textColor">@color/text_333</item>
-        <item name="android:textSize">@dimen/margin</item>
         <item name="android:textColorHint">@color/text_9699a2</item>
+        <item name="android:textSize">@dimen/margin</item>
         <item name="android:singleLine">true</item>
     </style>
 
@@ -71,8 +71,8 @@
     </style>
 
     <style name="v.dialog">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:orientation">horizontal</item>
     </style>
 
     <!--分享-->
@@ -83,9 +83,9 @@
     </style>
 
     <style name="tv.share">
-        <item name="android:layout_marginTop">11dp</item>
-        <item name="android:gravity">center</item>
         <item name="android:width">59dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">11dp</item>
         <item name="android:textColor">@color/text_333</item>
         <item name="android:textSize">12dp</item>
     </style>
@@ -106,23 +106,23 @@
     <style name="tv.live.video"/>
 
     <style name="tv.live.video.online">
-        <item name="android:textSize">11dp</item>
-        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:textSize">8dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
     </style>
 
     <style name="tv.live.video.start">
-        <item name="android:textSize">14dp</item>
-        <item name="android:paddingBottom">20dp</item>
-        <item name="android:paddingLeft">20dp</item>
-        <item name="android:paddingRight">20dp</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:paddingBottom">17dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
     </style>
 
     <style name="iv.bg"/>
 
     <style name="iv.bg.login">
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:layout_width">180dp</item>
-        <item name="android:layout_height">42dp</item>
-        <item name="android:src">@drawable/login_csp_logo</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">62dp</item>
+        <item name="android:src">@drawable/login_hui_logo</item>
     </style>
 </resources>

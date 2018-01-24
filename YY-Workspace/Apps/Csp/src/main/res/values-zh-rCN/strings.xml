@@ -204,6 +204,9 @@
     <string name="live_end">结束直播</string>
     <string name="live_end_hint">结束后将停止星评操作</string>
     <string name="start_start_hint">启动星评将停止直播，是否确认？</string>
+    <string name="home_continue_record">继续录制</string>
+    <string name="home_continue_record_content">系统检测到上次录制时意外退出，是\n否继续？</string>
+    <string name="save">保存</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
