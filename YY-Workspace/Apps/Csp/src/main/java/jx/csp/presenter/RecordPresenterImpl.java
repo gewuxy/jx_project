@@ -113,6 +113,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             getAmplitude();
         } catch (IOException e) {
             YSLog.d(TAG, "record fail msg = " + e.getMessage());
+            mRecordState = false;
             getView().showToast(R.string.record_fail);
         }
     }

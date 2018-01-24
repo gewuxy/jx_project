@@ -39,7 +39,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     private final int KJoinMeetingReqId = 1;
     private final int KStartLiveReqId = 2;  // 开始直播
     private final int KUploadVideoPage = 3;  // 视频页翻页时调用的
-    private final int KCountDownTime = (int) TimeUnit.MINUTES.toMillis(15); // 开始倒计时的分钟数
+    private final int KAudioMaxRecordTime = (int) TimeUnit.MINUTES.toMillis(10); // 每页ppt最长的录制时长
     private final int KRecordMsgWhat = 1;
     private final int KSendSyncMsgWhat = 2; // 发送同步指令
     private final int KStartLiveMsgWhat = 3; // 点击开始直播的时候延时3秒请求服务器发送同步指令
@@ -64,7 +64,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                     // 先暂停录音，然后再开始录音，上传这15m的音频
                     mOverFifteen = true;
                     stopLiveRecord();
-                    getView().joinUploadRank(mFilePath, (int) TimeUnit.MINUTES.toSeconds(15));
+                    getView().joinUploadRank(mFilePath, (int) TimeUnit.MINUTES.toSeconds(10));
                     // 截取文件路径不包括后缀
                     String str;
                     if (mNum > 0) {
@@ -78,7 +78,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                     String newFilePath = str + "-" + mNum + "." + AudioType.amr;
                     YSLog.d(TAG, "newFilePath = " + newFilePath);
                     startLiveRecord(newFilePath);
-                    mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KCountDownTime);
+                    mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
                 }
                 break;
                 case KSendSyncMsgWhat: {
@@ -181,8 +181,8 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
             YSLog.d(TAG, "startRecord time = " + System.currentTimeMillis());
             getView().setAudioFilePath(mFilePath);
             getView().startRecordState();
-            // 直播的时候每页只能录音15分钟，到15分钟的时候要要先上传这15分钟的音频
-            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KCountDownTime);
+            // 直播的时候每页只能录音10分钟，到10分钟的时候要要先上传这15分钟的音频
+            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
         } catch (IOException e) {
             getView().showToast(R.string.record_fail);
         }

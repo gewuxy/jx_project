@@ -238,6 +238,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                         // 先判断这个会议是否有人在录音
                         exeNetworkReq(KJoinRecordCheckReqId, MeetingAPI.joinCheck(RecordUnusualState.inst().getString(TRecordUnusualState.courseId), 0).build());
                     });
+                    dialog.setCancelable(false);
                     dialog.show();
                     // 上传音频
                     CommonServRouter.create(ReqType.upload_audio).route(MainActivity.this);
