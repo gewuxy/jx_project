@@ -237,7 +237,7 @@ public class WatchPwdActivity extends BaseActivity {
      * @return
      */
     public String getStringRandom(int length) {
-        String val = "";
+        String val = ConstantsEx.KEmpty;
         for (int i = 0; i < length; i++) {
             val += String.valueOf((int) (Math.random() * 10));
         }

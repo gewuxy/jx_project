@@ -7,6 +7,7 @@
 
     <LinearLayout
         style="@style/v.form"
+        android:layout_height="38dp"
         android:layout_marginRight="@dimen/margin"
         android:background="@color/transparent">
 

@@ -73,14 +73,15 @@ public class EmailLoginActivity extends BaseLoginActivity {
                     return null;
                 })
                 .text(SpApp.inst().getUserEmail()));
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
+        addItem(Form.create(FormType.divider_large_login));
 
         addItem(Form.create(FormType.et_pwd))
                 .related(RelatedId.pwd)
                 .hint(R.string.pwd)
                 .textWatcher(this)
                 .drawable(R.drawable.login_selector_visible);
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
     }
 
     @Override

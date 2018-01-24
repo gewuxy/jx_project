@@ -6,6 +6,7 @@
 
     <LinearLayout
         style="@style/v.form"
+        android:layout_height="38dp"
         android:background="@drawable/transparent">
 
         <lib.ys.network.image.NetworkImageView

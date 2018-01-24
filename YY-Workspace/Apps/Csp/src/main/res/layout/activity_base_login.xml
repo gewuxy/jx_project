@@ -65,7 +65,7 @@
                 android:id="@+id/login_tv_forget_pwd"
                 style="@style/tv.login.bottom"
                 android:layout_marginLeft="12dp"
-                android:text="@string/forget_pwd"/>
+                android:text="@string/find_pwd"/>
         </LinearLayout>
     </LinearLayout>
 

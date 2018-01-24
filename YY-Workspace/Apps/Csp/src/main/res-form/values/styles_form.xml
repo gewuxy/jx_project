@@ -18,6 +18,15 @@
         <item name="android:id">@id/form_divider</item>
     </style>
 
+    <style name="divider.form.login">
+        <item name="android:background">@color/color_4e5462</item>
+    </style>
+
+    <style name="divider.form.login.large">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
     <style name="divider.form.large">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_height">@dimen/margin_large</item>

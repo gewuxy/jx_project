@@ -23,8 +23,8 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.BaseLoginActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.jx.model.form.BaseForm;
 import lib.jx.notify.Notifier.NotifyType;
@@ -78,8 +78,8 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 .textWatcher(this)
                 .layout(R.layout.form_edit_login_phone_number)
                 .drawable(R.drawable.login_ic_phone));
-
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
+        addItem(Form.create(FormType.divider_large_login));
 
         addItem(Form.create(FormType.et_captcha))
                 .related(RelatedId.captcha)
@@ -89,7 +89,7 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
                 .drawable(R.drawable.login_ic_pwd)
                 .enable(false);
 
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
     }
 
     @Override

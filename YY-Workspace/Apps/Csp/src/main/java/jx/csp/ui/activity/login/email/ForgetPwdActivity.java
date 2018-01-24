@@ -45,7 +45,7 @@ public class ForgetPwdActivity extends BaseLoginActivity {
                 .layout(R.layout.form_edit_email))
                 .textWatcher(this)
                 .drawable(R.drawable.login_ic_email);
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
     }
 
     @Override

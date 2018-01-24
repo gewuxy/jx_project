@@ -19,9 +19,8 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.BaseLoginActivity;
-import jx.csp.util.UISetter;
+import jx.csp.ui.activity.main.MainActivity;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -62,7 +61,7 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
                     return null;
                 })
                 .drawable(R.drawable.login_ic_nickname));
-        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.divider_margin_login));
     }
 
     @Override

@@ -115,7 +115,7 @@
     <string name="reset_pwd_to_email">重置密碼鏈接已發送至您的郵箱</string>
     <string name="active_email">郵件已發送至您郵箱，請前往激活。</string>
     <string name="back_to_login">%ds 返回登錄</string>
-    <string name="visit_csp">使用敬信數字平台賬號訪問 CSPmeeting</string>
+    <string name="visit_csp">使用敬信數字平台賬號訪問 會講</string>
     <string name="username">用戶名</string>
     <string name="pwd">密碼</string>
     <string name="authorization_login">授權並登錄</string>

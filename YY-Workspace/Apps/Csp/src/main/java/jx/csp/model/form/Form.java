@@ -3,6 +3,8 @@ package jx.csp.model.form;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.divider.DividerForm;
 import jx.csp.model.form.divider.DividerLargeForm;
+import jx.csp.model.form.divider.DividerLargeLoginForm;
+import jx.csp.model.form.divider.DividerMarginLoginForm;
 import jx.csp.model.form.divider.DividerMarginForm;
 import jx.csp.model.form.edit.EditCaptchaForm;
 import jx.csp.model.form.edit.EditForm;
@@ -54,6 +56,14 @@ public class Form {
             break;
             case FormType.divider_large: {
                 form = new DividerLargeForm();
+            }
+            break;
+            case FormType.divider_margin_login: {
+                form = new DividerMarginLoginForm();
+            }
+            break;
+            case FormType.divider_large_login: {
+                form = new DividerLargeLoginForm();
             }
             break;
             case FormType.et: {
