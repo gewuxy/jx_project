@@ -161,7 +161,7 @@ public class App extends BaseApp {
     @NonNull
     private LangType getLangType() {
         Locale l = Locale.getDefault();
-        LangType langType = LangType.en;
+        LangType langType = LangType.cn_simplified;
         String language = l.getLanguage();
         /** {@link Locale#CHINESE}*/
         final String zh = "zh";
