@@ -28,6 +28,7 @@ import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
 import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
@@ -295,7 +296,7 @@ public class ShareDialog extends BaseDialog implements OnNotify{
             int type = shareAdapter.getItemViewType(position);
             switch (type) {
                 case ShareType.preview: {
-
+                    CommonWebViewActivityRouter.create(mShareUrl).route(getContext());
                 }
                 break;
                 case ShareType.watch_pwd: {
