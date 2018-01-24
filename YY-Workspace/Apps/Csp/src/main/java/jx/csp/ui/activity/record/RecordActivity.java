@@ -276,7 +276,10 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         for (int i = 0; i < mRecordTimeArray.size(); ++i) {
             totalTime += mRecordTimeArray.get(i);
         }
-        notify(NotifyType.total_time, Util.getSpecialTimeFormat(totalTime, "'", "''"));
+        Meet meet = new Meet();
+        meet.put(TMeet.id, mCourseId);
+        meet.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
+        notify(NotifyType.total_time, meet);
         super.onDestroy();
         mRecordPresenter.onDestroy();
     }

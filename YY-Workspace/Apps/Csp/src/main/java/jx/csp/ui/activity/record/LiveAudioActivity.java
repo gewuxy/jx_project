@@ -180,7 +180,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
                     .append(s[1])
                     .append("''");
             YSLog.d(TAG, "sb = " + sb.toString());
-            notify(NotifyType.total_time, sb.toString());
+            Meet meet = new Meet();
+            meet.put(TMeet.id, mCourseId);
+            meet.put(TMeet.playTime, sb.toString());
+            notify(NotifyType.total_time, meet);
         }
 
         super.onDestroy();

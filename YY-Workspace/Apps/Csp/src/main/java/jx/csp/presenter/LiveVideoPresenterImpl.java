@@ -139,6 +139,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
         @Override
         public void onPushFail() {
             PushManager.inst().stopPush();
+            mLiveState = false;
             getView().liveFailState();
         }
 
