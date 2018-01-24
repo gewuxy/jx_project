@@ -509,6 +509,21 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 pastHint(p);
             }
             break;
+            case NotifyType.total_time: {
+                if (data instanceof Meet) {
+                    Meet m = (Meet) data;
+                    String id = m.getString(TMeet.id);
+                    String time = m.getString(TMeet.playTime);
+                    for (Meet meet : mGridFrag.getData()) {
+                        if (meet.getString(TMeet.id).equals(id)) {
+                            meet.put(TMeet.playTime, time);
+                            mGridFrag.invalidate();
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
         }
     }
 

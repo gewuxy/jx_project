@@ -28,6 +28,7 @@ import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 
 /**
  * 星评界面
@@ -48,6 +49,7 @@ public class StarActivity extends BaseActivity {
     private NetworkImageView mIvDataMatrix;
     private View mTvLive;
     private View mLayoutTime;
+    private View mBarLeft;
 
     private StarContract.P mP;
 
@@ -64,7 +66,7 @@ public class StarActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.drawable.default_ic_close, null, l -> {
+        mBarLeft = bar.addViewLeft(R.drawable.default_ic_close, null, l -> {
             if (mTvLive.getVisibility() == View.VISIBLE) {
                 mTvLive.performClick();
             } else {
@@ -151,6 +153,11 @@ public class StarActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        mBarLeft.performClick();
+    }
+
     /**
      * 星评关闭
      *
@@ -191,24 +198,30 @@ public class StarActivity extends BaseActivity {
         @Override
         public void onNetworkSuccess(Code c) {
             // 讲本时长
-            long time;
+            String time = null;
             if (mMeet.getInt(Meet.TMeet.playType) == Course.CourseType.reb) {
+                String pTime = mMeet.getString(Meet.TMeet.playTime);
                 // 录播
-                time = mMeet.getLong(Meet.TMeet.playTime);
+                if (TextUtil.isNotEmpty(pTime)) {
+                    time = pTime;
+                }
             } else {
                 // 直播
                 long serverTime = c.getLong(Code.TCode.serverTime);
                 if (serverTime > mMeet.getLong(Meet.TMeet.startTime)) {
-                    time = serverTime - mMeet.getLong(Meet.TMeet.startTime);
-                } else {
-                    time = 0;
+                    long t = serverTime - mMeet.getLong(Meet.TMeet.startTime);
+                    time = Util.getSpecialTimeFormat(t, "'", "\"");
                 }
             }
+            if (TextUtil.isEmpty(time)) {
+                time = Util.getSpecialTimeFormat(0, "'", "\"");
+            }
+            String timeFinal = time;
             addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
                 @Override
                 public void onGlobalLayout() {
-                    mTvAll.setText(Util.getSpecialTimeFormat(time, "'", "\""));
+                    mTvAll.setText(timeFinal);
                     removeOnGlobalLayoutListener(this);
                 }
 
