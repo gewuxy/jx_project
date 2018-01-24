@@ -461,6 +461,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
                         mStarBar.setText(getString(R.string.slide_end));
                         mStarBar.setThumb(R.drawable.record_ic_no_star);
                     }
+                    if (mCourseDetailList.size() == 1) {
+                        showView(mStarBar);
+                    }
                     removeOnGlobalLayoutListener(this);
                 }
             });

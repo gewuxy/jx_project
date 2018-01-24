@@ -588,6 +588,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                         mStarBar.setText(getString(R.string.slide_end));
                         mStarBar.setThumb(R.drawable.record_ic_no_star);
                     }
+                    if (mCourseDetailList.size() == 1) {
+                        showView(mStarBar);
+                    }
                     removeOnGlobalLayoutListener(this);
                 }
             });
