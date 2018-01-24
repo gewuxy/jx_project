@@ -102,6 +102,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
         mLiveRecordPresenterImpl.getData(mCourseId);
 
         mStarBar.setStartListener(() -> {
+            mSlideFinish = true;
             StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
             mStarBar.restoration();
             mView.finishLive();
@@ -420,6 +421,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
             YSLog.d(TAG, " liveState = " + live.getInt(TLive.liveState));
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
+            mShareAndStarArg.put(TMeet.password, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
 
             long serverTime = joinMeeting.getLong(TJoinMeeting.serverTime);
             long startTime;

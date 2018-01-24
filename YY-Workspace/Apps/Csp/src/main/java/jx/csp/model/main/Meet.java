@@ -43,6 +43,7 @@ public class Meet extends EVal<TMeet> {
         playState, // 录播状态
         serverTime, // 服务器当前时间
 
-        starRateFlag,// true 是否开启星评
+        starRateFlag, // true 是否开启星评
+        password,  // 会议观看密码
     }
 }

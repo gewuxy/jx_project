@@ -27,7 +27,8 @@
         <lib.ys.network.image.NetworkImageView
             android:id="@+id/frag_record_video_iv_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
 
         <ImageView
             android:id="@+id/frag_record_video_iv_play"

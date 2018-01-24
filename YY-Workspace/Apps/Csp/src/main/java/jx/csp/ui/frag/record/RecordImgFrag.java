@@ -1,7 +1,7 @@
 package jx.csp.ui.frag.record;
 
 import android.support.annotation.NonNull;
-import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout.LayoutParams;
 
 import java.io.File;
 
@@ -39,6 +39,9 @@ public class RecordImgFrag extends BaseFrag {
     @Arg(opt = true)
     String mAudioUrl;
 
+    private float mCrown; // 图片的宽高比
+    private int mIvHeight;  // 图片高度
+
     @Override
     public void initData() {
     }
@@ -66,13 +69,21 @@ public class RecordImgFrag extends BaseFrag {
                 .listener(new NetworkImageListener() {
                     @Override
                     public void onImageSet(ImageInfo info) {
-                        // FIXME:
                         int height = info.getHeight();
                         int width = info.getWidth();
+                        mCrown = (width * 1.0f) / height;
+                        YSLog.d(TAG, "图片宽高比 = " + mCrown);
+                        mIvHeight = (int) (332 / mCrown);
+                        YSLog.d(TAG, "图片高度 = " + mIvHeight);
+                        if (mIvHeight > 246) {
+                            mIvHeight = 246;
+                        }
+                        LayoutParams params = (LayoutParams) mIv.getLayoutParams();
+                        params.height = fit(mIvHeight);
+                        mIv.setLayoutParams(params);
                     }
                 })
-                .resize(fit(332), fit(246))
-                .scaleType(ScaleType.FIT_CENTER)
+                .resize(fit(332), fit(mIvHeight))
                 .load();
         // 判断是否上传过音频，如果上传过再判断音频文件是否还存在，不存在就下载，下载下来的是mp3文件,下载完成显示播放按钮
         if (TextUtil.isNotEmpty(mAudioUrl)) {

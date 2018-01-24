@@ -3,6 +3,7 @@ package jx.csp.ui.frag.record;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
@@ -12,6 +13,8 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.YSLog;
+import lib.ys.network.image.ImageInfo;
+import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.shape.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -27,6 +30,8 @@ public class RecordVideoFrag extends BaseFrag {
     private ImageView mIvPlay;
     private NetworkImageView mIvBg;
     private View mVideoStop;
+    private float mCrown; // 图片的宽高比
+    private int mIvHeight;  // 图片高度
 
     @Arg
     String mVideoUrl;   // http://139.199.170.178/course/14078/video/17062416023914941915.mp4
@@ -61,7 +66,24 @@ public class RecordVideoFrag extends BaseFrag {
         mIvBg.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
-                .resize(fit(332), fit(246))
+                .listener(new NetworkImageListener() {
+                    @Override
+                    public void onImageSet(ImageInfo info) {
+                        int height = info.getHeight();
+                        int width = info.getWidth();
+                        mCrown = (width * 1.0f) / height;
+                        YSLog.d(TAG, "图片宽高比 = " + mCrown);
+                        mIvHeight = (int) (332 / mCrown);
+                        YSLog.d(TAG, "图片高度 = " + mIvHeight);
+                        if (mIvHeight > 246) {
+                            mIvHeight = 246;
+                        }
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIvBg.getLayoutParams();
+                        params.height = fit(mIvHeight);
+                        mIvBg.setLayoutParams(params);
+                    }
+                })
+                .resize(fit(332), fit(mIvHeight))
                 .load();
     }
 

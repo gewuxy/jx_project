@@ -134,6 +134,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         setOnClickListener(R.id.record_iv_rerecording);
 
         mStarBar.setStartListener(() -> {
+            mSlideFinish = true;
             CommonServRouter.create(ReqType.exit_record)
                     .courseId(mCourseId)
                     .pageNum(getCurrPosition())
@@ -523,6 +524,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
             mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
+            mShareAndStarArg.put(TMeet.password, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 

@@ -78,7 +78,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
-    private final float KVpScale = 0.044f; // vp的缩放比例
+    private final float KVpScale = 0.038f; // vp的缩放比例
     protected final int KBreathIntervalTime = 1500; // 设置呼吸灯时间间隔
     protected final int KNotifyId = 1;
 
@@ -118,6 +118,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     protected Meet mShareAndStarArg;
 
     protected boolean mStarState = false;  // 是否有星评
+    protected boolean mSlideFinish = false;  // 是否滑动结束
 
     @Arg
     String mCourseId;  // 课程id
@@ -312,11 +313,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         LiveNotifier.inst().remove(this);
         WebSocketServRouter.stop(this);
         YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
-        CommonServRouter.create(ReqType.exit_record)
-                .courseId(mCourseId)
-                .pageNum(getCurrPosition())
-                .overType(0)
-                .route(this);
+        if (!mSlideFinish) {
+            CommonServRouter.create(ReqType.exit_record)
+                    .courseId(mCourseId)
+                    .pageNum(getCurrPosition())
+                    .overType(0)
+                    .route(this);
+        }
     }
 
     @Override
