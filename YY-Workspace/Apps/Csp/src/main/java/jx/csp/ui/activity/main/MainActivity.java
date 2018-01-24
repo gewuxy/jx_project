@@ -382,7 +382,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 YSLog.d(TAG, "接收到同意进入指令");
                 if (RecordUnusualState.inst().getUnusualExitState()) {
                     WebSocketServRouter.stop(this);
-                    if (mCountdownDialog !=null && mCountdownDialog.isShowing()) {
+                    if (mCountdownDialog != null && mCountdownDialog.isShowing()) {
                         mCountdownDialog.dismiss();
                     }
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
@@ -399,7 +399,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     WebSocketServRouter.stop(this);
                     RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
                     RecordUnusualState.inst().saveToSp();
-                    if (mCountdownDialog !=null && mCountdownDialog.isShowing()) {
+                    if (mCountdownDialog != null && mCountdownDialog.isShowing()) {
                         mCountdownDialog.dismiss();
                     }
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
@@ -466,11 +466,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.over_live: {
                 ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-                List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
-                if (list != null && list.size() > 0) {
-                    ComponentName cpn = list.get(0).topActivity;
-                    if (getLocalClassName().equals(cpn.getClassName())) {
-                        showToast(R.string.live_have_end);
+                if (am != null) {
+                    List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+                    if (list != null && list.size() > 0) {
+                        ComponentName cpn = list.get(0).topActivity;
+                        if (getLocalClassName().equals(cpn.getClassName())) {
+                            showToast(R.string.live_have_end);
+                        }
                     }
                 }
                 // 修改数据源

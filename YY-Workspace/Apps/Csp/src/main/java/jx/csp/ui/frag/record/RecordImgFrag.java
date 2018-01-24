@@ -13,6 +13,8 @@ import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
+import lib.ys.network.image.ImageInfo;
+import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.shape.CornerRenderer;
 import lib.ys.ui.other.NavBar;
@@ -61,6 +63,14 @@ public class RecordImgFrag extends BaseFrag {
         mIv.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
+                .listener(new NetworkImageListener() {
+                    @Override
+                    public void onImageSet(ImageInfo info) {
+                        // FIXME:
+                        int height = info.getHeight();
+                        int width = info.getWidth();
+                    }
+                })
                 .resize(fit(332), fit(246))
                 .scaleType(ScaleType.FIT_CENTER)
                 .load();
