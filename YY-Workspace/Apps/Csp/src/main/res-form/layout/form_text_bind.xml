@@ -15,8 +15,8 @@
 
             <lib.ys.network.image.NetworkImageView
                 android:id="@id/form_iv"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:layout_marginLeft="@dimen/margin"/>
 
             <TextView
@@ -37,8 +37,7 @@
                 android:layout_width="0dp"
                 android:textColor="@color/text_9699a2"
                 android:textColorHint="@color/text_1fbedd"
-                android:layout_weight="1"
-                android:layout_marginRight="@dimen/margin"/>
+                android:layout_weight="1"/>
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

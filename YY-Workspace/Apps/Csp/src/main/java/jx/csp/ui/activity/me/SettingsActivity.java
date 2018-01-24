@@ -53,8 +53,6 @@ public class SettingsActivity extends BaseFormActivity {
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
                 .related(RelatedId.change_password)
-                .layout(R.layout.form_text_me)
-                .drawable(R.drawable.form_ic_setting_lock)
                 .name(R.string.setting_change_pwd));
 
         addItem(Form.create(FormType.divider_large));

@@ -4,7 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/layout_sr_scrollable_list"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <lib.ys.view.swipeRefresh.SRListLayout
+            android:id="@id/layout_scrollable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent"
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:listSelector="@drawable/transparent"
+            android:scrollingCache="false"/>
+
+        <RelativeLayout
+            android:id="@id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </RelativeLayout>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/contribute_tv_tips"
