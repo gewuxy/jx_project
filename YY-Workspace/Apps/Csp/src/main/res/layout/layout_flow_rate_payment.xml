@@ -14,13 +14,15 @@
 
         <ImageView
             android:id="@+id/flow_rate_iv_payment"
-            style="@style/iv.flow"
+            android:layout_width="93dp"
+            android:layout_height="27dp"
             android:src="@drawable/flow_rate_ic_alipay"/>
 
         <View
             android:id="@+id/flow_rate_underline"
             android:layout_width="70dp"
             android:layout_height="2dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/flow_rate_selector"/>
 
     </LinearLayout>

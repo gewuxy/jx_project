@@ -39,8 +39,8 @@
 
     <style name="iv.arrow">
         <item name="android:id">@id/form_iv_arrow</item>
-        <item name="android:layout_width">10dp</item>
-        <item name="android:layout_height">@dimen/margin</item>
+        <item name="android:layout_width">14dp</item>
+        <item name="android:layout_height">14dp</item>
         <item name="android:src">@drawable/form_ic_arrow_right</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_gravity">center_vertical</item>

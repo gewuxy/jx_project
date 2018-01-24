@@ -527,6 +527,21 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
             }
             break;
+            case NotifyType.meet_watch_pwd: {
+                if (data instanceof Meet) {
+                    Meet m = (Meet) data;
+                    String id = m.getString(TMeet.id);
+                    String password = m.getString(TMeet.password);
+                    for (Meet meet : mGridFrag.getData()) {
+                        if (meet.getString(TMeet.id).equals(id)) {
+                            meet.put(TMeet.password, password);
+                            mGridFrag.invalidate();
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
         }
     }
 

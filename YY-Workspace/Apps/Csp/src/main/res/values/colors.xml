@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="app_bg">#f1f2f6</color>
+    <color name="app_bg">#f2f2f4</color>
 
     <color name="app_nav_bar_bg">#3b3e46</color>
     <color name="record_bg">#3b3e46</color>

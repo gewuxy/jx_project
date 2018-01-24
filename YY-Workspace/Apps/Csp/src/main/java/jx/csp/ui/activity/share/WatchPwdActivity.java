@@ -8,20 +8,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.constant.WatchPwdType;
-import jx.csp.model.Profile;
-import jx.csp.model.Profile.TProfile;
-import jx.csp.model.meeting.WatchPwd;
-import jx.csp.model.meeting.WatchPwd.TWatchPwd;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -47,7 +43,9 @@ public class WatchPwdActivity extends BaseActivity {
     private TextView mTvTips;
 
     @Arg
-    int mCourseId;
+    String mCourseId;
+    @Arg
+    String mWatchPwd;
 
     @Override
     public void initData() {
@@ -83,9 +81,12 @@ public class WatchPwdActivity extends BaseActivity {
         //密码输入格式
         getPwdChange();
         //判断会议是否有密码
-        mTvPwd.setText(Profile.inst().getWatchPwd(mCourseId));
-        if (TextUtil.isNotEmpty(mTvPwd.getText().toString())) {
+        if (TextUtil.isNotEmpty(mWatchPwd)) {
+            mTvPwd.setText(mWatchPwd);
             getExistingPwdSetting();
+        } else {
+            mTvPwd.setText(ConstantsEx.KEmpty);
+            getUnPwdSetting();
         }
 
     }
@@ -94,12 +95,11 @@ public class WatchPwdActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.watch_pwd_tv_confirm: {
-                String id = String.valueOf(mCourseId);
                 refresh(RefreshWay.dialog);
                 if (TextUtil.isNotEmpty(getPwd())) {
-                    exeNetworkReq(KNoWatchPwd, MeetingAPI.setPassword(id, WatchPwdType.setPwd, getPwd()).build());
+                    exeNetworkReq(KNoWatchPwd, MeetingAPI.setPassword(mCourseId, WatchPwdType.setPwd, getPwd()).build());
                 } else {
-                    exeNetworkReq(KExistingWatchPwd, MeetingAPI.setPassword(id, WatchPwdType.delete, mTvPwd.getText().toString()).build());
+                    exeNetworkReq(KExistingWatchPwd, MeetingAPI.setPassword(mCourseId, WatchPwdType.delete, mTvPwd.getText().toString()).build());
                 }
             }
             break;
@@ -119,39 +119,19 @@ public class WatchPwdActivity extends BaseActivity {
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
+        Meet meet = new Meet();
         switch (id) {
             case KNoWatchPwd: {
                 //设置密码
                 if (r.isSucceed()) {
-                    if (TextUtil.isNotEmpty(getPwd())) {
-                        //无密码,点击为确认并保存
-                        List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
-                        if (list == null) {
-                            list = new ArrayList<>();
-                        }
+                    //无密码,点击为确认并保存
+                    meet.put(TMeet.id, mCourseId);
+                    meet.put(TMeet.password, getPwd());
+                    notify(NotifyType.meet_watch_pwd, meet);
 
-                        boolean flag = true;
-                        for (WatchPwd pwd : list) {
-                            if (pwd.getInt(TWatchPwd.id) == mCourseId) {
-                                pwd.put(TWatchPwd.pwd, getPwd());
-                                flag = false;
-                            }
-                        }
-
-                        if (flag) {
-                            WatchPwd pwd = new WatchPwd();
-                            pwd.put(TWatchPwd.id, mCourseId);
-                            pwd.put(TWatchPwd.pwd, getPwd());
-                            list.add(pwd);
-                        }
-
-                        Profile.inst().put(TProfile.watchPwdList, list);
-                        Profile.inst().saveToSp();
-
-                        mTvPwd.setText(getPwd());
-                        mEtPwd.setText(ConstantsEx.KEmpty);
-                        getExistingPwdSetting();
-                    }
+                    mTvPwd.setText(getPwd());
+                    mEtPwd.setText(ConstantsEx.KEmpty);
+                    getExistingPwdSetting();
                 } else {
                     onNetworkError(id, r.getError());
                 }
@@ -161,28 +141,9 @@ public class WatchPwdActivity extends BaseActivity {
                 //删除密码
                 if (r.isSucceed()) {
                     //有密码,点击为删除
-                    List<WatchPwd> list = Profile.inst().getList(TProfile.watchPwdList);
-                    if (list == null) {
-                        list = new ArrayList<>();
-                    }
-
-                    boolean flag = true;
-                    for (WatchPwd pwd : list) {
-                        if (pwd.getInt(TWatchPwd.id) == mCourseId) {
-                            list.clear();
-                            flag = false;
-                        }
-                    }
-
-                    if (flag) {
-                        WatchPwd pwd = new WatchPwd();
-                        pwd.put(TWatchPwd.id, ConstantsEx.KEmpty);
-                        pwd.put(TWatchPwd.pwd, ConstantsEx.KEmpty);
-                        list.add(pwd);
-                    }
-
-                    Profile.inst().put(TProfile.watchPwdList, list);
-                    Profile.inst().saveToSp();
+                    meet.put(TMeet.id, mCourseId);
+                    meet.put(TMeet.password, ConstantsEx.KEmpty);
+                    notify(NotifyType.meet_watch_pwd, meet);
 
                     mTvPwd.setText(ConstantsEx.KEmpty);
                     getUnPwdSetting();
