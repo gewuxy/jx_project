@@ -310,6 +310,14 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 }
             }
             break;
+            case LiveNotifyType.live_end: {
+                // 结束直播指令
+                if (mLiveState) {
+                    mP.stopLive();
+                }
+                finish();
+            }
+            break;
         }
     }
 
