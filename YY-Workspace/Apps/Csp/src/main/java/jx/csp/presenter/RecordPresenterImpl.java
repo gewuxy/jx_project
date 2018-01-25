@@ -39,7 +39,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         RecordContract.P,
         CountDown.OnCountDownListener {
 
-    private final int KCountDownTime = (int) TimeUnit.MINUTES.toSeconds(3);
+    private final int KMaxRecordTime = (int) TimeUnit.MINUTES.toSeconds(10);
     private final int KJoinMeetingReqId = 10;
     private final int KMsgWhatPlayProgress = 1;  // 音频播放进度
     private final int KMsgWhatAmplitude = 2;  // 声音的分贝
@@ -104,7 +104,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         try {
             mMediaRecorder.prepare();
             mMediaRecorder.start();
-            mCountDown.start(KCountDownTime - alreadyRecordTime);
+            mCountDown.start(KMaxRecordTime - alreadyRecordTime);
             getView().setAudioFilePath(filePath);
             getView().startRecordState();
             mRecordState = true;

@@ -40,7 +40,7 @@ import jx.csp.presenter.RecordPresenterImpl;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.sp.SpUser;
+import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.main.StarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
@@ -252,13 +252,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         if (mRecordState) {
             showToast(R.string.record_ing_slide_remind);
         }
-        if (SpUser.inst().showSlideDialog() && mCanContinueRecord) {
+        if (SpApp.inst().showSlideDialog() && mCanContinueRecord) {
             CommonDialog2 dialog = new CommonDialog2(this);
             dialog.setHint(R.string.slide_can_not_rerecording);
             dialog.addBlackButton(R.string.ok, v -> {
                 getViewPager().setScrollable(true);
                 goneView(mGestureView);
-                SpUser.inst().neverShowSlideDialog();
+                SpApp.inst().neverShowSlideDialog();
             });
             dialog.show();
         }
@@ -665,7 +665,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mAnimationRecord.selectDrawable(0);
             mManager.cancel(KNotifyId);
 
-            if (SpUser.inst().showSlideDialog()) {
+            if (SpApp.inst().showSlideDialog()) {
                 getViewPager().setScrollable(false);
                 showView(mGestureView);
             } else {

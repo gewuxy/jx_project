@@ -23,7 +23,6 @@ public class SpUser extends SpBase {
 
     public interface SpUserKey {
         String KProfileUpdateTime = "update_time";
-        String KIsShowSkipToNextPageDialog = "show_skip_to_next_page_dialog";
         String KIsShowRecordAgainDialog = "show_record_again_dialog";
         String KMainVpPage = "main_ac_vp_page";
     }
@@ -64,22 +63,6 @@ public class SpUser extends SpBase {
         } else {
             return false;
         }
-    }
-
-    /**
-     * 判断是否需要显示滑动将无法续录的dialog
-     *
-     * @return
-     */
-    public boolean showSlideDialog() {
-        return getBoolean(SpUserKey.KIsShowSkipToNextPageDialog, true);
-    }
-
-    /**
-     * 保存状态
-     */
-    public void neverShowSlideDialog() {
-        save(SpUserKey.KIsShowSkipToNextPageDialog, false);
     }
 
     /**

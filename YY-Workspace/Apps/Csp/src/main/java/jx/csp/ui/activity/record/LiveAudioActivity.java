@@ -50,6 +50,8 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 import lib.ys.util.res.ResLoader;
 
 /**
@@ -103,9 +105,8 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
         mStarBar.setStartListener(() -> {
             mSlideFinish = true;
-            StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
             mStarBar.restoration();
-            mView.finishLive();
+            mView.finishLive(true);
         });
     }
 
@@ -429,6 +430,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
             if (mAlreadyLive) {
                 startTime = live.getLong(TLive.startTime);
                 mLiveTotalTime = (int) ((serverTime - startTime) / 1000);
+                if (mLiveTotalTime < 0) {
+                    mLiveTotalTime = 0;
+                }
                 mTvRecordTime.setText(Util.getSpecialTimeFormat(mLiveTotalTime, ":", ""));
             } else {
                 showView(mTvRemind);
@@ -438,6 +442,9 @@ public class LiveAudioActivity extends BaseRecordActivity {
             mShareAndStarArg.put(TMeet.startTime, startTime);
             YSLog.d(TAG, "直播是否已经开始过 = " + mAlreadyLive);
             YSLog.d(TAG, "mLiveTotalTime = " + mLiveTotalTime);
+
+            YSLog.d(TAG, "mServerTime = " + TimeFormatter.milli(serverTime, TimeFormat.from_y_24));
+            YSLog.d(TAG, "mStartTime = " + TimeFormatter.milli(startTime, TimeFormat.from_y_24));
 
             int countDownTime = (int) ((((startTime + TimeUnit.DAYS.toMillis(1)) - serverTime) / 1000));
             if (countDownTime >= 0) {
@@ -526,10 +533,15 @@ public class LiveAudioActivity extends BaseRecordActivity {
         }
 
         @Override
-        public void finishLive() {
+        public void finishLive(boolean toStar) {
             if (mLiveState && getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                mLiveRecordPresenterImpl.stopLiveRecord();
-                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
+                if (mLiveState) {
+                    mLiveRecordPresenterImpl.stopLiveRecord();
+                    uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
+                }
+            }
+            if (toStar) {
+                StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
             }
             finish();
         }

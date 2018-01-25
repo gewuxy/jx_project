@@ -266,7 +266,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
             }
         }
         if (remainCount == 0) {
-            getView().finishLive();
+            getView().finishLive(true);
         }
     }
 
@@ -291,7 +291,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
             } else {
                 onNetworkError(id, r.getError());
                 getView().onStopRefresh();
-                getView().finishLive();
+                getView().finishLive(false);
             }
         } else {
             super.onNetworkSuccess(id, r);

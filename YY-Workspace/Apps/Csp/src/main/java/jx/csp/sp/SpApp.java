@@ -49,6 +49,7 @@ public class SpApp extends SpBase {
         String KAdvert = "advert";
         String KGuide = "guide";
         String KAppUpdateTime = "app_update_time";
+        String KShowSlideDialog = "show_slide_dialog";
     }
 
     @Override
@@ -128,6 +129,22 @@ public class SpApp extends SpBase {
      */
     public boolean getGuideState() {
         return getBoolean(SpAppKey.KGuide, true);
+    }
+
+    /**
+     * 判断是否需要显示滑动将无法续录的dialog
+     *
+     * @return
+     */
+    public boolean showSlideDialog() {
+        return getBoolean(SpAppKey.KShowSlideDialog, true);
+    }
+
+    /**
+     * 保存状态
+     */
+    public void neverShowSlideDialog() {
+        save(SpAppKey.KShowSlideDialog, false);
     }
 
     /**

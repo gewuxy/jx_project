@@ -320,6 +320,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                     .overType(0)
                     .route(this);
         }
+
     }
 
     @Override

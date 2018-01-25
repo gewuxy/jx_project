@@ -40,7 +40,7 @@ public interface LiveAudioContract {
 
         void showToast(@StringRes int id);
 
-        void finishLive();
+        void finishLive(boolean toStar);
     }
 
     interface P extends IContract.Presenter<V> {
