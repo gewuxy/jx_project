@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,7 +43,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     private final String KMeetingInfinite = "∞";
 
     private LinearLayout mLayoutSpell;
-    private ImageView mIvCard;   //会员卡片
+    private View mIvCard;   //会员卡片
 
     private TextView mTvValidity;   //有效期
     private TextView mTvMeetCount;  //会议已使用数量
@@ -74,7 +73,7 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
     @Override
     public void findViews() {
         super.findViews();
-        mIvCard = findView(R.id.vip_iv_background);
+        mIvCard = findView(R.id.vip_card_background);
 
         mTvValidity = findView(R.id.vip_tv_validity);
         mTvMeetCount = findView(R.id.vip_tv_meet_num);

@@ -53,7 +53,7 @@ import static lib.ys.util.res.ResLoader.getString;
  * @auther WangLan
  * @since 2017/10/12
  */
-public class ShareDialog extends BaseDialog implements OnNotify{
+public class ShareDialog extends BaseDialog implements OnNotify {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
@@ -202,14 +202,25 @@ public class ShareDialog extends BaseDialog implements OnNotify{
         };
 
         gridView.setOnItemClickListener((adapterView, view, position, l) -> {
-            ShareParams param = ShareParams.newBuilder()
-                    .title(mShareTitle)
-                    .text(ResLoader.getString(R.string.share_text))
-                    .url(mShareUrl)
-                    .imageUrl(mCoverUrl)
-                    .build();
             int type = adapter.getItemViewType(position);
             Type t = null;
+            ShareParams param;
+            if (type == ShareType.sms) {
+                param = ShareParams.newBuilder()
+                        .title(mShareTitle)
+                        .text(ResLoader.getString(R.string.share_text))
+                        .url(mShareUrl)
+                        .build();
+
+            } else {
+                param = ShareParams.newBuilder()
+                        .title(mShareTitle)
+                        .text(ResLoader.getString(R.string.share_text))
+                        .url(mShareUrl)
+                        .imageUrl(mCoverUrl)
+                        .build();
+
+            }
             if (type == ShareType.contribute) {
                 if (adapter.getItem(position).isClick()) {
                     ContributePlatformActivityRouter.create(mCourseId).route(getContext());
