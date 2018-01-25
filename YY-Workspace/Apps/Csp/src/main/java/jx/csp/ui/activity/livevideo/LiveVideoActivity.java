@@ -15,8 +15,6 @@ import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.contact.LiveVideoContract;
 import jx.csp.dialog.BtnVerticalDialog;
-import jx.csp.model.main.Meet;
-import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.model.meeting.WebSocketMsg;
 import jx.csp.model.meeting.WebSocketMsg.TWebSocketMsg;
@@ -28,7 +26,6 @@ import jx.csp.util.Util;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
-import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
@@ -225,20 +222,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
 
     @Override
     protected void onDestroy() {
-        String[] s = (mTvLiveTime.getText().toString()).split("'");
-        StringBuffer sb = new StringBuffer();
-        if (s.length == 2) {
-            sb.append(s[0])
-                    .append("'")
-                    .append(s[1])
-                    .append("''");
-            YSLog.d(TAG, "sb = " + sb.toString());
-            Meet meet = new Meet();
-            meet.put(TMeet.id, mCourseId);
-            meet.put(TMeet.playTime, sb.toString());
-            notify(NotifyType.total_time, meet);
-        }
-
         super.onDestroy();
         LiveNotifier.inst().remove(this);
 
