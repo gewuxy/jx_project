@@ -193,6 +193,17 @@ public class LiveAudioActivity extends BaseRecordActivity {
     }
 
     @Override
+    protected void shareOperation() {
+        if (mLiveState) {
+            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                mLiveRecordPresenterImpl.stopLiveRecord();
+                // 上传上一页的音频 确保存在
+                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
+            }
+        }
+    }
+
+    @Override
     protected void pageSelected(int position) {
         if (mRecordPermissionState) {
             // 在直播的时候翻页要先停止录音然后上传音频文件，再重新开始录音

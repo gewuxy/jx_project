@@ -268,6 +268,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     protected void onCallRinging() {
         if (mRecordState) {
             mRecordPresenter.stopRecord();
+            showView(mTvRemind);
+            mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+            mTvRemind.setText(R.string.record_pause);
+            mTvRecordState.setText(R.string.continue_record);
+            mCanContinueRecord = true;
         }
     }
 
@@ -290,8 +295,23 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         meet.put(TMeet.id, mCourseId);
         meet.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
         notify(NotifyType.total_time, meet);
+        if (mRecordState) {
+            mRecordPresenter.stopRecord();
+        }
         super.onDestroy();
         mRecordPresenter.onDestroy();
+    }
+
+    @Override
+    protected void shareOperation() {
+        if (mRecordState) {
+            mRecordPresenter.stopRecord();
+            showView(mTvRemind);
+            mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+            mTvRemind.setText(R.string.record_pause);
+            mTvRecordState.setText(R.string.continue_record);
+            mCanContinueRecord = true;
+        }
     }
 
     @Override
@@ -583,6 +603,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                                         mIvRecordState.setImageResource(R.drawable.animation_record);
                                         mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
                                         mIvRecordState.setClickable(true);
+                                        mIvAudition.setClickable(false);
+                                        mIvRerecording.setSelected(false);
+                                        mIvRerecording.setClickable(false);
                                     } else {
                                         YSLog.d(TAG, "第一页已经录制过");
                                         mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));

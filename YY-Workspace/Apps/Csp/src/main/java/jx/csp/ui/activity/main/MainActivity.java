@@ -314,8 +314,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     dialog.addBlackButton(R.string.cancel);
                     dialog.show();
                 } else {
-                    RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
-                    RecordUnusualState.inst().saveToSp();
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
                 }
             } else {

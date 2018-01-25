@@ -152,6 +152,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         bar.addViewMid(view);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             if (mShareAndStarArg != null) {
+                shareOperation();
                 ShareDialog dialog = new ShareDialog(this, mShareAndStarArg);
                 dialog.show();
             }
@@ -439,6 +440,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         msg.put(TWebSocketMsg.videoUrl, mCourseDetailList.get(position).getString(TCourseDetail.videoUrl));
         LiveNotifier.inst().notify(type, msg.toJson());
     }
+
+    abstract protected void shareOperation();
 
     abstract protected void havePermissionState();
 
