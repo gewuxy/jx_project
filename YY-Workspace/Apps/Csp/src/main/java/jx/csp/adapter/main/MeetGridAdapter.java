@@ -76,11 +76,10 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 }
 
                 long startTime = item.getLong(TMeet.startTime);
-                long serverTime = item.getLong(TMeet.serverTime);
                 int liveState = item.getInt(TMeet.liveState);
-                if (liveState == LiveState.un_start || startTime > serverTime) {
+                if (liveState == LiveState.un_start) {
                     //直播未开始状态的开始时间转换
-                    holder.getTvTime().setText(TimeFormatter.milli(item.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
+                    holder.getTvTime().setText(TimeFormatter.milli(startTime, TimeFormat.form_MM_dd_24));
                 }  else {
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 }

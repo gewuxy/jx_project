@@ -99,11 +99,10 @@ public class MeetSingleFrag extends BaseFrag implements MeetContract.V {
                     goneView(mIvLive);
                 }
                 long startTime = mMeet.getLong(TMeet.startTime);
-                long serverTime = mMeet.getLong(TMeet.serverTime);
                 int liveState = mMeet.getInt(TMeet.liveState);
-                if (liveState == LiveState.un_start || startTime > serverTime) {
+                if (liveState == LiveState.un_start ) {
                     //直播的开始时间转换
-                    mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
+                    mTvTime.setText(TimeFormatter.milli(startTime, TimeFormat.form_MM_dd_24));
                 } else {
                     mTvTime.setText(mMeet.getString(TMeet.playTime));
                 }

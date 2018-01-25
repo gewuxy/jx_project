@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
-            android:textColor="@color/text_167afe"
+            android:textColor="@color/text_9699a2"
             android:textSize="14dp"/>
 
         <View
@@ -50,7 +50,7 @@
             android:layout_height="11dp"
             android:layout_marginBottom="3dp"
             android:layout_marginLeft="6dp"
-            android:background="@color/text_9699a2"/>
+            android:background="@color/text_333"/>
 
         <TextView
             android:id="@+id/main_vp_tv_total_page"

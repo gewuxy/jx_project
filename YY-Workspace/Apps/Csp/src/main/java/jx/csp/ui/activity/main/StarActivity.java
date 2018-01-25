@@ -98,6 +98,7 @@ public class StarActivity extends BaseActivity {
     public void setViews() {
         mP.setPlayState();
 
+        getDecorView().setBackgroundResource(R.color.app_nav_bar_bg);
         refresh(AppConfig.RefreshWay.embed);
         mP.getDataFromNet();
     }
@@ -113,10 +114,8 @@ public class StarActivity extends BaseActivity {
                     CommonServRouter.create(CommonServ.ReqType.over_live)
                             .courseId(mMeet.getString(Meet.TMeet.id))
                             .route(StarActivity.this);
-                    showView(mTvFinish);
-                    goneView(mTvLive);
+                    noStar();
                     startState(false);
-                    changeTimeLocation(100);
                 });
                 d.show();
             }
@@ -124,6 +123,20 @@ public class StarActivity extends BaseActivity {
 
         }
 
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(AppConfig.RefreshWay.embed);
+            mP.getDataFromNet();
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        mBarLeft.performClick();
     }
 
     /**
@@ -144,20 +157,6 @@ public class StarActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            refresh(AppConfig.RefreshWay.embed);
-            mP.getDataFromNet();
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        mBarLeft.performClick();
-    }
-
     /**
      * 星评关闭
      *
@@ -175,6 +174,15 @@ public class StarActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 无星评状态
+     */
+    private void noStar() {
+        showView(mTvFinish);
+        goneView(mTvLive);
+        changeTimeLocation(100);
+    }
+
     private class StarContractViewImpl implements StarContract.V {
 
         @Override
@@ -184,9 +192,7 @@ public class StarActivity extends BaseActivity {
             int liveState = mMeet.getInt(Meet.TMeet.liveState);
             if (reb || liveState == Live.LiveState.end) {
                 // 录播或直播结束
-                showView(mTvFinish);
-                goneView(mTvLive);
-                changeTimeLocation(100);
+                noStar();
             } else {
                 goneView(mTvFinish);
                 showView(mTvLive);
@@ -229,7 +235,7 @@ public class StarActivity extends BaseActivity {
 
             // 星评二维码
             boolean startStatus = c.getBoolean(Code.TCode.starStatus);
-            if (startStatus && mMeet.getInt(Meet.TMeet.liveState) != Live.LiveState.end) {
+            if (startStatus && mMeet.getInt(Meet.TMeet.liveState) == Live.LiveState.star) {
                 // 有星评且未结束
                 mIvDataMatrix.url(c.getString(Code.TCode.startCodeUrl))
                         .listener(new NetworkImageListener() {
@@ -246,6 +252,13 @@ public class StarActivity extends BaseActivity {
                         })
                         .load();
             } else {
+                // 没有星评
+                if (mMeet.getInt(Meet.TMeet.liveState) == Live.LiveState.star) {
+                    CommonServRouter.create(CommonServ.ReqType.over_live)
+                            .courseId(mMeet.getString(Meet.TMeet.id))
+                            .route(StarActivity.this);
+                }
+                noStar();
                 startState(false);
             }
         }

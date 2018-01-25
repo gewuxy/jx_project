@@ -183,11 +183,8 @@ public class MeetVpFrag extends BaseVPFrag implements IMeetOpt {
         if (mMeet == null) {
             return false;
         }
-        long startTime = mMeet.getLong(TMeet.startTime);
-        long endTime = mMeet.getLong(TMeet.endTime);
-        long serverTime = mMeet.getLong(TMeet.serverTime);
         int liveState = mMeet.getInt(TMeet.liveState);
-        return (liveState == LiveState.live || liveState == LiveState.stop) && (startTime < serverTime && endTime > serverTime);
+        return (liveState == LiveState.live || liveState == LiveState.stop);
     }
 
     @Override
