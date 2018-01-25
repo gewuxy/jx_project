@@ -72,9 +72,7 @@ public class RecordVideoFrag extends BaseFrag {
                         int height = info.getHeight();
                         int width = info.getWidth();
                         mCrown = (width * 1.0f) / height;
-                        YSLog.d(TAG, "图片宽高比 = " + mCrown);
                         mIvHeight = (int) (332 / mCrown);
-                        YSLog.d(TAG, "图片高度 = " + mIvHeight);
                         if (mIvHeight > 246) {
                             mIvHeight = 246;
                         }

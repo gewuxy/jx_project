@@ -13,6 +13,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
 import jx.csp.App;
@@ -71,6 +72,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     private boolean mRecordState = false; // 是否在录制中
     private boolean mPlayState = false; // 是否在播放音频
+    private boolean mPlayPause = false; // 播放暂停状态
     private AnimationDrawable mAnimationRecord;
     private RecordPresenterImpl mRecordPresenter;
     private int mWsPosition = -1;  // websocket接收到的页数
@@ -167,9 +169,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     mCanContinueRecord = true;
                 } else {
                     // 在播放的时候点击录制，要先停止播放
-                    if (mPlayState) {
-                        mRecordPresenter.stopPlay();
-                    }
+                    stopPlayOperation();
                     String filePath = CacheUtil.createAudioFile(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
                     mRecordPresenter.startRecord(filePath, getCurrPosition(), mRecordTimeArray.get(getCurrPosition()));
                     mTvRecordState.setText(R.string.record);
@@ -178,21 +178,30 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             break;
             case R.id.record_iv_audition: {
                 if (mPlayState) {
-                    mRecordPresenter.stopPlay();
+                    mRecordPresenter.pausePlay();
+                    mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                    mPlayState = false;
+                    mPlayPause = true;
                 } else {
-                    mRecordPresenter.startPlay(CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id)));
+                    if (mPlayPause) {
+                        mRecordPresenter.continuePlay(mSeekBar.getProgress());
+                        mIvAudition.setImageResource(R.drawable.record_ic_audition_ing);
+                        mPlayState = true;
+                        mPlayPause = false;
+                    } else {
+                        mRecordPresenter.startPlay(CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id)));
+                    }
                 }
             }
             break;
             case R.id.record_iv_rerecording: {
-                // 在播放的时候点击录制，要先停止播放
-                if (mPlayState) {
-                    mRecordPresenter.stopPlay();
-                }
                 CommonDialog2 dialog = new CommonDialog2(this);
                 dialog.setHint(R.string.rerecording_remind);
                 dialog.addButton(R.string.cancel, R.color.text_404356, null);
                 dialog.addBlackButton(R.string.affirm, v -> {
+                    stopPlayOperation();
+                    mTvRecordTime.setText("00:00");
+                    mRecordTimeArray.put(getCurrPosition(), 0);
                     // 重新录制 删除以前的音频文件
                     mIvRecordState.setImageResource(R.drawable.animation_record);
                     mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
@@ -267,7 +276,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         super.onPause();
 
         if (mPlayState) {
-            mRecordPresenter.stopPlay();
+            mRecordPresenter.pausePlay();
         }
     }
 
@@ -289,10 +298,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     protected void pageSelected(int position) {
         if (mRecordPermissionState) {
             mCanContinueRecord = false;
-            //切换页面的时候如果在播放要停止
-            if (mPlayState) {
-                mRecordPresenter.stopPlay();
-            }
+            stopPlayOperation();
             // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
             Fragment f = getItem(position);
             if (f instanceof RecordImgFrag) {
@@ -471,6 +477,17 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         mIvRerecording.setClickable(false);
     }
 
+    // 切换页面,录制,重录的时候如果在播放要停止,修改一些状态
+    private void stopPlayOperation() {
+        if (mPlayState) {
+            mRecordPresenter.stopPlay();
+        }
+        if (mPlayPause) {
+            mPlayPause = false;
+        }
+        goneView(mLayoutPlay);
+    }
+
     private class View implements RecordContract.V {
 
         @Override
@@ -525,6 +542,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
             mShareAndStarArg.put(TMeet.password, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
+            YSLog.d(TAG, "观看密码 = " + ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
@@ -694,6 +712,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         @Override
         public void setSeekBarMax(int max) {
             mSeekBar.setMax(max);
+            mRecordTimeArray.put(getCurrPosition(), (int) (max / TimeUnit.SECONDS.toMillis(1)));
+            mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(getCurrPosition()), TimeFormat.from_m));
         }
 
         @Override
@@ -708,7 +728,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         public void stopPlayState() {
             mPlayState = false;
             mIvAudition.setImageResource(R.drawable.record_ic_audition);
-            goneView(mLayoutPlay);
         }
 
         @Override
@@ -728,7 +747,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mTvRemind.setText(String.format(getString(R.string.record_time_insufficient_remind), minute));
             // 设置震动周期，数组表示时间：等待+执行，单位是毫秒，下面操作代表:等待100，执行200，等待100，执行500，
             // 后面的数字如果为-1代表不重复，只执行一次，其他代表会重复，0代表从数组的第0个位置开始
-            mVibrator.vibrate(new long[]{100, 200, 100, 600}, -1);
+            mVibrator.vibrate(new long[]{100, 200, 100, 500}, -1);
         }
 
         @Override
@@ -748,6 +767,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
             if (mPlayState) {
                 mRecordPresenter.stopPlay();
+                goneView(mLayoutPlay);
             }
             RecordActivity.this.showToast(id);
         }

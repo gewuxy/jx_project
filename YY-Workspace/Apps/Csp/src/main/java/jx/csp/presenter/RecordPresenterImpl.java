@@ -244,17 +244,12 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         if (!soundFile.exists()) {
             return;
         }
-        if (mCountDown == null) {
-            mCountDown = new CountDown();
-            mCountDown.setListener(this);
-        }
         try {
             mMediaPlayer.reset();
             mMediaPlayer.setDataSource(soundFile.getAbsolutePath());
             //同步准备
             mMediaPlayer.prepare();
             mMediaPlayer.start();
-            mCountDown.start(KCountDownTime);
             getView().setSeekBarMax(mMediaPlayer.getDuration());
             mHandler.sendEmptyMessageDelayed(KMsgWhatPlayProgress, KPlayUIUpdateTime);
             getView().playState();
@@ -271,6 +266,24 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     @Override
     public void mediaPlayProgress(int progress) {
         mMediaPlayer.seekTo(progress);
+        getView().setSeekBarProgress(mMediaPlayer.getCurrentPosition());
+    }
+
+    @Override
+    public void pausePlay() {
+        if (mMediaPlayer != null) {
+            if (mMediaPlayer.isPlaying()) {
+                mMediaPlayer.pause();
+            }
+        }
+        mHandler.removeMessages(KMsgWhatPlayProgress);
+    }
+
+    @Override
+    public void continuePlay(int progress) {
+        mMediaPlayer.seekTo(progress);
+        mMediaPlayer.start();
+        mHandler.sendEmptyMessageDelayed(KMsgWhatPlayProgress, KPlayUIUpdateTime);
     }
 
     @Override
@@ -279,14 +292,10 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         if (mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {
                 mMediaPlayer.stop();
-
             }
             mMediaPlayer.reset();
         }
         getView().stopPlayState();
-        if (mCountDown != null) {
-            mCountDown.stop();
-        }
     }
 
     @Override

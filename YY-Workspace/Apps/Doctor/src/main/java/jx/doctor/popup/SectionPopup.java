@@ -1,7 +1,6 @@
 package jx.doctor.popup;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -13,6 +12,12 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import jx.doctor.R;
+import jx.doctor.adapter.meeting.MeetingSectionAdapter;
+import jx.doctor.model.meet.MeetingDepartment;
+import jx.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
+import jx.doctor.network.JsonParser;
+import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -21,12 +26,6 @@ import lib.ys.fitter.Fitter;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.listener.OnRetryClickListener;
 import lib.ys.ui.other.PopupWindowEx;
-import jx.doctor.R;
-import jx.doctor.adapter.meeting.MeetingSectionAdapter;
-import jx.doctor.model.meet.MeetingDepartment;
-import jx.doctor.model.meet.MeetingDepartment.TMeetingDepartment;
-import jx.doctor.network.JsonParser;
-import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 
 /**
  * @auther yuansui
@@ -111,6 +110,11 @@ public class SectionPopup extends PopupWindowEx implements OnItemClickListener, 
         } else {
             setViewState(ViewState.error);
         }
+    }
+
+    @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        return false;
     }
 
     @Override

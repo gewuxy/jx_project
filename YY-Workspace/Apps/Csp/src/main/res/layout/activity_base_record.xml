@@ -160,7 +160,7 @@
             android:maxHeight="2dp"
             android:minHeight="2dp"
             android:progressDrawable="@drawable/bg_seek_bar_record"
-            android:thumb="@drawable/live_video_circle_green"/>
+            android:thumb="@drawable/record_seek_bar_thumb"/>
 
         <TextView
             android:id="@+id/record_tv_play_time"

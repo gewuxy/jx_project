@@ -61,6 +61,10 @@ public interface RecordContract {
 
         void mediaPlayProgress(int progress);
 
+        void pausePlay();
+
+        void continuePlay(int progress);
+
         void stopPlay();
     }
 }
