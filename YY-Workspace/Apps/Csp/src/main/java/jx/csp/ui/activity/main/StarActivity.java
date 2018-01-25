@@ -115,7 +115,7 @@ public class StarActivity extends BaseActivity {
                             .courseId(mMeet.getString(Meet.TMeet.id))
                             .route(StarActivity.this);
                     noStar();
-                    startState(false);
+                    starState(false);
                 });
                 d.show();
             }
@@ -162,7 +162,7 @@ public class StarActivity extends BaseActivity {
      *
      * @param flag true 展示二维码, false 展示会讲制作
      */
-    private void startState(boolean flag) {
+    private void starState(boolean flag) {
         stopRefresh();
         setViewState(DecorViewEx.ViewState.normal);
         if (flag) {
@@ -235,31 +235,35 @@ public class StarActivity extends BaseActivity {
 
             // 星评二维码
             boolean startStatus = c.getBoolean(Code.TCode.starStatus);
-            if (startStatus && mMeet.getInt(Meet.TMeet.liveState) == Live.LiveState.star) {
-                // 有星评且未结束
-                mIvDataMatrix.url(c.getString(Code.TCode.startCodeUrl))
-                        .listener(new NetworkImageListener() {
+            if (startStatus) {
+                // 有星评
+                if (mMeet.getInt(Meet.TMeet.liveState) != Live.LiveState.end) {
+                    mIvDataMatrix.url(c.getString(Code.TCode.startCodeUrl))
+                            .listener(new NetworkImageListener() {
 
-                            @Override
-                            public void onImageSet(ImageInfo info) {
-                                startState(true);
-                            }
+                                @Override
+                                public void onImageSet(ImageInfo info) {
+                                    starState(true);
+                                }
 
-                            @Override
-                            public void onFailure() {
-                                startState(false);
-                            }
-                        })
-                        .load();
+                                @Override
+                                public void onFailure() {
+                                    starState(false);
+                                }
+                            })
+                            .load();
+                } else {
+                    starState(false);
+                }
             } else {
                 // 没有星评
-                if (mMeet.getInt(Meet.TMeet.liveState) == Live.LiveState.star) {
+                if (mMeet.getInt(Meet.TMeet.liveState) != Live.LiveState.end) {
                     CommonServRouter.create(CommonServ.ReqType.over_live)
                             .courseId(mMeet.getString(Meet.TMeet.id))
                             .route(StarActivity.this);
                 }
                 noStar();
-                startState(false);
+                starState(false);
             }
         }
 
