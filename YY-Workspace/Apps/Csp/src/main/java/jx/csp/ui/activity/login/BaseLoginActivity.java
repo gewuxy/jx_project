@@ -110,6 +110,7 @@ abstract public class BaseLoginActivity extends BaseFormActivity implements Text
      */
     protected final void setChanged(boolean enabled) {
         mTvSet.setEnabled(enabled);
+        mTvSet.setSelected(enabled);
     }
 
     /**

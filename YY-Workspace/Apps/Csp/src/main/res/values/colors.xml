@@ -49,6 +49,8 @@
     <color name="text_404356">#404356</color>
     <color name="text_9699a2">#9699a2</color>
     <color name="text_1fbedd">#1fbedd</color>
+    <color name="text_50fff">#50ffffff</color>
+    <color name="text_f1f2f6">#f1f2f6</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>

@@ -313,6 +313,7 @@ public class ShareDialog extends BaseDialog implements OnNotify{
                 break;
                 case ShareType.delete: {
                     UISetter.showDeleteMeet(mCourseId, getContext());
+                    dismiss();
                 }
                 break;
             }

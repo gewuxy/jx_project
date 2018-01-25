@@ -14,13 +14,6 @@ public interface NickNameContract {
 
     interface V extends IContract.View {
         /**
-         * 禁止输入空格
-         *
-         * @param text
-         */
-        void forbidInputBlank(String text);
-
-        /**
          * 按钮的状态
          */
         void buttonStatus();

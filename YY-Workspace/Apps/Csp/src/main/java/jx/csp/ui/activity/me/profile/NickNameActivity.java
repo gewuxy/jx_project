@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.me.profile;
 
 import android.support.annotation.NonNull;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,6 +58,13 @@ public class NickNameActivity extends BaseMyMessageActivity {
         super.setViews();
         setOnClickListener(R.id.form_iv_clean);
         ViewUtil.limitInputCount(mEt, mLimit);
+        getEt().setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
+            if (source.equals(" ")) {
+                return "";
+            } else {
+                return null;
+            }
+        }});
 
         mNickNamePresenter.onTextChangedListener(mEt);
     }
@@ -82,12 +90,6 @@ public class NickNameActivity extends BaseMyMessageActivity {
     }
 
     private class NickNameViewImpl extends MyMessageViewImpl implements NickNameContract.V {
-
-        @Override
-        public void forbidInputBlank(String text) {
-            getEt().setText(text);
-            getEt().setSelection(text.length());
-        }
 
         @Override
         public void buttonStatus() {

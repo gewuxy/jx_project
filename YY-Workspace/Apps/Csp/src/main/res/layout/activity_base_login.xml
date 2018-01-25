@@ -38,6 +38,7 @@
         <TextView
             android:id="@+id/base_set_tv_set"
             style="@style/tv.common"
+            android:textColor="@color/login_tv_selector"
             android:layout_marginTop="32dp"/>
 
         <!-- 邮箱注册 -->

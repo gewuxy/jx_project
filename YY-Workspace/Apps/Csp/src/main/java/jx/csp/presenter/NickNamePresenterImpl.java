@@ -11,7 +11,6 @@ import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 
 /**
- *
  * @auther HuoXuYu
  * @since 2017/11/22
  */
@@ -41,16 +40,9 @@ public class NickNamePresenterImpl extends BasePresenterImpl<NickNameContract.V>
 
             @Override
             public void afterTextChanged(Editable s) {
-                et.removeTextChangedListener(this);
-                //限制空格输入
-                String text = s.toString();
-                text = text.replaceAll(" ", "");
-                getView().forbidInputBlank(text);
-
                 getView().buttonStatus();
                 getView().setClearButton(String.valueOf(s));
 
-                et.addTextChangedListener(this);
             }
         });
 
