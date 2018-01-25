@@ -7,6 +7,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -216,7 +218,7 @@ public class StarActivity extends BaseActivity {
                 long serverTime = c.getLong(Code.TCode.serverTime);
                 if (serverTime > mMeet.getLong(Meet.TMeet.startTime)) {
                     long t = serverTime - mMeet.getLong(Meet.TMeet.startTime);
-                    time = Util.getSpecialTimeFormat(t, "'", "\"");
+                    time = Util.getSpecialTimeFormat(t / TimeUnit.SECONDS.toMillis(1), "'", "\"");
                 }
             }
             if (TextUtil.isEmpty(time)) {
