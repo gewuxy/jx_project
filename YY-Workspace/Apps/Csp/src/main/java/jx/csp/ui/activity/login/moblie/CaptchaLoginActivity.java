@@ -220,13 +220,14 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
 
     @Override
     public void onNotify(@NotifyType int type, Object data) {
-        BaseForm form = getRelatedItem(RelatedId.captcha);
         if (type == NotifyType.logout) {
             finish();
         } else if (type == NotifyType.fetch_message_captcha) {
+            BaseForm form = getRelatedItem(RelatedId.captcha);
             form.enable(true);
             refreshItem(form); // 发送了Notify,fetch_message_captcha
         } else if (type == NotifyType.disable_fetch_message_captcha) {
+            BaseForm form = getRelatedItem(RelatedId.captcha);
             form.enable(false);
             refreshItem(form);
         }
