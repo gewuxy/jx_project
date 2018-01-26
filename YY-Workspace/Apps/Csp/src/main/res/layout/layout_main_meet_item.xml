@@ -8,9 +8,11 @@
 
     <!--不能使用margin top属性, 会导致CornerView底部圆角无法绘制-->
     <View
+        android:id="@+id/main_meet_divider_top"
         style="@style/divider"
         android:layout_height="16dp"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent"
+        android:visibility="gone"/>
 
     <lib.ys.view.CornerView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -68,9 +70,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="00'00''"
-                    android:textStyle="bold"
                     android:textColor="@color/text_7a8b9f"
-                    android:textSize="12dp"/>
+                    android:textSize="12dp"
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:id="@+id/main_meet_iv_share"
@@ -105,5 +107,10 @@
         </RelativeLayout>
 
     </lib.ys.view.CornerView>
+
+    <View
+        style="@style/divider"
+        android:layout_height="16dp"
+        android:background="@color/transparent"/>
 
 </LinearLayout>

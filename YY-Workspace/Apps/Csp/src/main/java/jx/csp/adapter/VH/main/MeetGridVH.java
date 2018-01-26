@@ -24,6 +24,10 @@ public class MeetGridVH extends RecyclerViewHolderEx {
         return getView(R.id.main_meet_layout);
     }
 
+    public View getDividerTop() {
+        return getView(R.id.main_meet_divider_top);
+    }
+
     public NetworkImageView getIvHead() {
         return getView(R.id.iv_head);
     }

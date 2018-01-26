@@ -20,6 +20,8 @@ import lib.ys.util.res.ResLoader;
 
 public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
 
+    public static final int KSpanCount = 2;
+
     private OnAdapterLongClickListener mLongClickListener;
 
     public interface OnAdapterLongClickListener {
@@ -37,6 +39,10 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
 
     @Override
     protected void refreshView(int position, MeetGridVH holder) {
+        if (position < KSpanCount) {
+            showView(holder.getDividerTop());
+        }
+
         Meet item = getItem(position);
 
         holder.getIvHead()
@@ -80,7 +86,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
                 if (liveState == LiveState.un_start) {
                     //直播未开始状态的开始时间转换
                     holder.getTvTime().setText(TimeFormatter.milli(startTime, TimeFormat.form_MM_dd_24));
-                }  else {
+                } else {
                     holder.getTvTime().setText(item.getString(TMeet.playTime));
                 }
                 holder.getTvTime().setTextColor(ResLoader.getColor(R.color.text_1fbedd));

@@ -68,7 +68,7 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     @Override
     protected LayoutManager initLayoutManager() {
-        return new GridLayoutManager(getContext(), 2);
+        return new GridLayoutManager(getContext(), MeetGridAdapter.KSpanCount);
     }
 
     @Override

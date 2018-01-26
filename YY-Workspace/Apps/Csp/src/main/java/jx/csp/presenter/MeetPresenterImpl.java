@@ -188,7 +188,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         joinPpt(false);
                     }
                 } else {
-                    showToast(r.getError().getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;
@@ -208,7 +208,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         joinVideo(false);
                     }
                 } else {
-                    showToast(r.getError().getMessage());
+                    onNetworkError(id, r.getError());
                 }
             }
             break;

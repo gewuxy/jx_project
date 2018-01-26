@@ -275,6 +275,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 Profile.inst().update(profile);
                 SpUser.inst().updateProfileRefreshTime();
                 if (profile == null) {
+                    onNetworkError(id, r.getError());
                     return;
                 }
                 VipPackage p = profile.get(TProfile.cspPackage);
@@ -289,6 +290,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     }
                 }
                 notify(NotifyType.profile_change);
+            } else {
+                onNetworkError(id, r.getError());
             }
         } else if (id == KJoinRecordCheckReqId) {
             if (r.isSucceed()) {
@@ -317,7 +320,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
                 }
             } else {
-                showToast(r.getError().getMessage());
+                onNetworkError(id, r.getError());
             }
         } else {
             if (r.isSucceed()) {
