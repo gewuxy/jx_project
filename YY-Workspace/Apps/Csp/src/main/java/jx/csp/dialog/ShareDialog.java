@@ -34,9 +34,6 @@ import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.notify.Notifier.OnNotify;
 import lib.platform.Platform;
 import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
@@ -53,7 +50,7 @@ import static lib.ys.util.res.ResLoader.getString;
  * @auther WangLan
  * @since 2017/10/12
  */
-public class ShareDialog extends BaseDialog implements OnNotify {
+public class ShareDialog extends BaseDialog{
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
@@ -61,24 +58,21 @@ public class ShareDialog extends BaseDialog implements OnNotify {
     private String mShareTitle; // 分享的标题要拼接
     private String mCourseId;  // 会议id
     private String mCoverUrl; // 分享的图片url
-    private String mWatchPwd;
 
     private int mCourseType;  //播放类型, 根据类型改变第二个gridView的视图
-    private int mLiveState;  //直播状态, 根据状态改变第一个gridView的视图
 
+    private int mLiveState;  //直播状态, 根据状态改变第一个gridView的视图
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
     public ShareDialog(Context context, Meet meet) {
         super(context);
-        Notifier.inst().add(this);
 
         mCourseId = meet.getString(TMeet.id);
         mShareTitle = String.format(getString(R.string.share_title), meet.getString(TMeet.title));
         mCoverUrl = meet.getString(TMeet.coverUrl);
         mCourseType = meet.getInt(TMeet.playType);
         mLiveState = meet.getInt(TMeet.liveState);
-        mWatchPwd = meet.getString(TMeet.password);
 
         shareSignature();
         getPlatform();
@@ -311,7 +305,7 @@ public class ShareDialog extends BaseDialog implements OnNotify {
                 }
                 break;
                 case ShareType.watch_pwd: {
-                    WatchPwdActivityRouter.create(mCourseId, mWatchPwd).route(getContext(), 0);
+                    WatchPwdActivityRouter.create(mCourseId).route(getContext(), 0);
                 }
                 break;
                 case ShareType.copy_link: {
@@ -331,22 +325,4 @@ public class ShareDialog extends BaseDialog implements OnNotify {
         });
     }
 
-    @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.meet_watch_pwd) {
-            if (data instanceof Meet) {
-                Meet meet = (Meet) data;
-                mWatchPwd = meet.getString(TMeet.password);
-                if (meet.getString(TMeet.id).equals(mCourseId)) {
-                    meet.put(TMeet.password, mWatchPwd);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-        Notifier.inst().remove(this);
-    }
 }

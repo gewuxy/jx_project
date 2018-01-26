@@ -342,6 +342,14 @@ public class NetworkApi {
         @Post("set/password")
         void setPassword(String id, String type, String password);
 
+        /**
+         *  获取会议密码
+         * @param id
+         */
+        @Get("get/password")
+        void getPassword(String id);
+
+
         /***
          * 进入会议检测
          *

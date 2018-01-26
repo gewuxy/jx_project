@@ -12,12 +12,11 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.constant.WatchPwdType;
-import jx.csp.model.main.Meet;
-import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.MeetPwd;
+import jx.csp.model.meeting.MeetPwd.TMeetPwd;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.Util;
-import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -34,6 +33,7 @@ import lib.ys.util.TextUtil;
 public class WatchPwdActivity extends BaseActivity {
     private final int KNoWatchPwd = 1;
     private final int KExistingWatchPwd = 2;
+    private final int KGetPassword = 3;
 
     private LinearLayout mLayoutNoPwd;
     private LinearLayout mLayoutExistingPwd;
@@ -44,8 +44,6 @@ public class WatchPwdActivity extends BaseActivity {
 
     @Arg
     String mCourseId;
-    @Arg
-    String mWatchPwd;
 
     @Override
     public void initData() {
@@ -78,17 +76,11 @@ public class WatchPwdActivity extends BaseActivity {
         setOnClickListener(R.id.watch_pwd_tv_confirm);
         setOnClickListener(R.id.watch_pwd_tv_create);
 
+        //即时获取会议密码
+        refresh(RefreshWay.dialog);
+        exeNetworkReq(KGetPassword, MeetingAPI.getPassword(mCourseId).build());
         //密码输入格式
         getPwdChange();
-        //判断会议是否有密码
-        if (TextUtil.isNotEmpty(mWatchPwd)) {
-            mTvPwd.setText(mWatchPwd);
-            getExistingPwdSetting();
-        } else {
-            mTvPwd.setText(ConstantsEx.KEmpty);
-            getUnPwdSetting();
-        }
-
     }
 
     @Override
@@ -113,24 +105,21 @@ public class WatchPwdActivity extends BaseActivity {
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        return JsonParser.error(resp.getText());
+        if (id == KGetPassword) {
+            return JsonParser.ev(resp.getText(), MeetPwd.class);
+        } else {
+            return JsonParser.error(resp.getText());
+        }
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        Meet meet = new Meet();
         switch (id) {
             case KNoWatchPwd: {
                 //设置密码
                 if (r.isSucceed()) {
-                    //无密码,点击为确认并保存
-                    meet.put(TMeet.id, mCourseId);
-                    meet.put(TMeet.password, getPwd());
-                    notify(NotifyType.meet_watch_pwd, meet);
-
                     mTvPwd.setText(getPwd());
-                    mEtPwd.setText(ConstantsEx.KEmpty);
                     getExistingPwdSetting();
                 } else {
                     onNetworkError(id, r.getError());
@@ -140,13 +129,22 @@ public class WatchPwdActivity extends BaseActivity {
             case KExistingWatchPwd: {
                 //删除密码
                 if (r.isSucceed()) {
-                    //有密码,点击为删除
-                    meet.put(TMeet.id, mCourseId);
-                    meet.put(TMeet.password, ConstantsEx.KEmpty);
-                    notify(NotifyType.meet_watch_pwd, meet);
-
-                    mTvPwd.setText(ConstantsEx.KEmpty);
                     getUnPwdSetting();
+                } else {
+                    onNetworkError(id, r.getError());
+                }
+            }
+            break;
+            case KGetPassword: {
+                if (r.isSucceed()) {
+                    MeetPwd pwd = (MeetPwd) r.getData();
+                    String password = pwd.getString(TMeetPwd.password);
+                    if (TextUtil.isEmpty(password)) {
+                        getUnPwdSetting();
+                    } else {
+                        mTvPwd.setText(password);
+                        getExistingPwdSetting();
+                    }
                 } else {
                     onNetworkError(id, r.getError());
                 }
@@ -174,6 +172,7 @@ public class WatchPwdActivity extends BaseActivity {
         goneView(mLayoutNoPwd);
         showView(mLayoutExistingPwd);
 
+        mEtPwd.setText(ConstantsEx.KEmpty);
         mTvTips.setText(R.string.watch_tips2);
         mTvConfirm.setText(R.string.watch_delete_pwd);
         mTvConfirm.setEnabled(true);
@@ -186,6 +185,7 @@ public class WatchPwdActivity extends BaseActivity {
         goneView(mLayoutExistingPwd);
         showView(mLayoutNoPwd);
 
+        mTvPwd.setText(ConstantsEx.KEmpty);
         mTvTips.setText(R.string.watch_tips);
         mTvConfirm.setText(R.string.confirm);
         mTvConfirm.setEnabled(false);
