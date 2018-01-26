@@ -550,6 +550,11 @@ public class NetPlayer implements
     }
 
     @Override
+    public boolean interceptNetSuccess(int id, IResult r) {
+        return false;
+    }
+
+    @Override
     public void onNetworkError(int id, NetworkError error) {
         YSLog.d(TAG, "onNetworkError:remove=" + id);
         // 删除 文件 和 内存记录
