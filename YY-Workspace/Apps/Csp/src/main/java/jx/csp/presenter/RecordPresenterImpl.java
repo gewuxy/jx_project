@@ -355,13 +355,13 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
             int dbLevel;
             if (db >= 90) {
                 dbLevel = 6;
-            } else if (db >= 80 && db < 90 ) {
+            } else if (db >= 85 && db < 90 ) {
                 dbLevel = 5;
-            } else if (db >= 70 && db < 80) {
+            } else if (db >= 80 && db < 85) {
                 dbLevel = 4;
-            } else if (db >= 60 && db < 70) {
+            } else if (db >= 70 && db < 80) {
                 dbLevel = 3;
-            } else if (db >= 50 && db < 60) {
+            } else if (db >= 60 && db < 70) {
                 dbLevel = 2;
             } else {
                 dbLevel = 1;
