@@ -295,9 +295,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         meet.put(TMeet.id, mCourseId);
         meet.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
         notify(NotifyType.total_time, meet);
-        if (mRecordState) {
-            mRecordPresenter.stopRecord();
-        }
         super.onDestroy();
         mRecordPresenter.onDestroy();
     }
@@ -552,38 +549,41 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             // 拼接分享参数
             mShareAndStarArg = new Meet();
             mShareAndStarArg.put(TMeet.id, mCourseId);
-            mShareAndStarArg.put(TMeet.title, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.title));
+            Course course = joinMeeting.get(TJoinMeeting.course);
+            mShareAndStarArg.put(TMeet.title, course.getString(TCourse.title));
             if (mCourseDetailList != null && mCourseDetailList.size() > 0) {
                 mShareAndStarArg.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
             }
             mShareAndStarArg.put(TMeet.playType, CourseType.reb);
-            mShareAndStarArg.put(TMeet.playState, ((Record) joinMeeting.getObject(TJoinMeeting.record)).getInt(TRecord.playState));
+            mShareAndStarArg.put(TMeet.playState, (joinMeeting.get(TJoinMeeting.record)).getInt(TRecord.playState));
 
-            mStarState = ((Course) joinMeeting.getObject(TJoinMeeting.course)).getBoolean(TCourse.starRateFlag);
+            mStarState = course.getBoolean(TCourse.starRateFlag);
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
-            mShareAndStarArg.put(TMeet.password, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
-            YSLog.d(TAG, "观看密码 = " + ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
+            mShareAndStarArg.put(TMeet.password, course.getString(TCourse.password));
+            YSLog.d(TAG, "观看密码 = " + course.getString(TCourse.password));
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
                 public void onGlobalLayout() {
                     // 先判断以前是否有异常退出过，如果异常退出了跳转到异常退出时的页面，否则跳转到以前退出时的页面
-                    if (RecordUnusualState.inst().getUnusualExitState()
-                            && mCourseId.equals(RecordUnusualState.inst().getString(TRecordUnusualState.courseId))
-                            && RecordUnusualState.inst().getString(TRecordUnusualState.pageId)
-                            .equals(mCourseDetailList.get(RecordUnusualState.inst().getInt(TRecordUnusualState.page)).getString(TCourseDetail.id))) {
-
-                        setCurrPosition(RecordUnusualState.inst().getInt(TRecordUnusualState.page), false);
-                        mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                        mIvAudition.setClickable(true);
-                        mIvRecordState.setImageResource(R.drawable.animation_record);
-                        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-                        mIvRecordState.setClickable(true);
-                        mTvRecordState.setText(R.string.continue_record);
-                        mIvRerecording.setClickable(true);
-                        mIvRerecording.setSelected(true);
-
+                    if (RecordUnusualState.inst().getUnusualExitState()) {
+                        String pageId = RecordUnusualState.inst().getString(TRecordUnusualState.pageId);
+                        for (int i = 0; i < mCourseDetailList.size(); ++i) {
+                            String id = mCourseDetailList.get(i).getString(TCourseDetail.id);
+                            if (pageId.equals(id)) {
+                                setCurrPosition(i, false);
+                                mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                                mIvAudition.setClickable(true);
+                                mIvRecordState.setImageResource(R.drawable.animation_record);
+                                mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                                mIvRecordState.setClickable(true);
+                                mTvRecordState.setText(R.string.continue_record);
+                                mIvRerecording.setClickable(true);
+                                mIvRerecording.setSelected(true);
+                                break;
+                            }
+                        }
                         RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
                         RecordUnusualState.inst().saveToSp();
                     } else {
@@ -719,8 +719,10 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mCanContinueRecord = false;
             hideView(mTvRemind);
             mTvRecordTime.setText("10:00");
+            mRecordTimeArray.put(getCurrPosition(), (int)TimeUnit.MINUTES.toSeconds(10));
             mTvRecordState.setText(R.string.record);
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+            mIvRecordState.setClickable(false);
         }
 
         @Override
