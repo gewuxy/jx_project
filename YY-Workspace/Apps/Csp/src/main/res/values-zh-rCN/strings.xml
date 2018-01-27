@@ -318,14 +318,14 @@
     <string name="help_and_feedback_email_subject">CSPMeeting--意见反馈</string>
 
     <!-- 会员管理 -->
-    <string name="vip_manage_meeting_num">会议数量</string>
+    <string name="vip_manage_meeting_num">讲本数量</string>
     <string name="vip_manage_validity">有效期</string>
     <string name="vip_manage_permission">你的权益</string>
     <string name="vip_manage_record">投屏录播</string>
     <string name="vip_manage_live">投屏直播</string>
-    <string name="vip_manage_three_meeting">3个会议</string>
-    <string name="vip_manage_ten_meeting">10个会议</string>
-    <string name="vip_manage_infinite_meeting">无限会议</string>
+    <string name="vip_manage_three_meeting">3个讲本</string>
+    <string name="vip_manage_ten_meeting">10个讲本</string>
+    <string name="vip_manage_infinite_meeting">无限讲本</string>
     <string name="vip_manage_advertising">无广告</string>
     <string name="vip_manage_close_watermark">水印开关</string>
     <string name="vip_manage_custom_watermark">自定义水印</string>
