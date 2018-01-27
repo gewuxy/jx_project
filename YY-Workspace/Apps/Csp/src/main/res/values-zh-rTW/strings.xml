@@ -340,7 +340,7 @@
     <string name="watch_setting_watch_pwd">觀看密碼</string>
     <string name="watch_input_pwd">輸入4位數字密碼</string>
     <string name="watch_create">自動生成</string>
-    <string name="watch_tips">設置分享密碼，通過H5觀看鏈接需要填寫正確密碼後觀看（不影響會議投稿）</string>
+    <string name="watch_tips">設置觀看密碼，通過觀看鏈接需要填寫正確密碼才可觀看（不影響投稿）</string>
     <string name="watch_tips2">密碼設置成功，可通過“取消密碼”的方式取消或重製觀看密碼</string>
     <string name="watch_delete_pwd">取消密碼</string>
 </resources>
