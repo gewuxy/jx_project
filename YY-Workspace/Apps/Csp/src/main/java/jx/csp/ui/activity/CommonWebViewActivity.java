@@ -8,6 +8,7 @@ import jx.csp.R;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseWebViewActivity;
+import lib.ys.ui.interfaces.impl.WebOption;
 import lib.ys.ui.other.NavBar;
 
 /**
@@ -45,4 +46,11 @@ public class CommonWebViewActivity extends BaseWebViewActivity {
         loadUrl(mUrl, mHeaders);
     }
 
+    @Override
+    public WebOption getOption() {
+        return createOptionBuilder()
+                .enableScale(true)
+                .enablePlayGesture(false)
+                .build();
+    }
 }

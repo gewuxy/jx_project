@@ -1,12 +1,12 @@
 package lib.jx.ui.activity.base;
 
-
 import lib.ys.action.IntentAction;
 import lib.ys.ui.activity.WebViewActivityEx;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.impl.WebOption;
 import lib.jx.model.WebAction;
 import lib.jx.model.WebAction.TWebAction;
+import lib.ys.ui.interfaces.impl.WebOptionBuilder;
 
 /**
  * @author CaiXiang
@@ -27,6 +27,20 @@ abstract public class BaseWebViewActivity extends WebViewActivityEx {
 
     @Override
     public WebOption getOption() {
+        return createOptionBuilder()
+                .build();
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            setViewState(ViewState.loading);
+            loadUrl(mFailingUrl);
+        }
+        return true;
+    }
+
+    protected final WebOptionBuilder createOptionBuilder() {
         return WebOption.newBuilder()
                 .onSuccess((view, url) -> setViewState(ViewState.normal))
                 .onError((view, errorCode, description, failingUrl) -> {
@@ -50,16 +64,6 @@ abstract public class BaseWebViewActivity extends WebViewActivityEx {
                         view.loadUrl(url);
                     }
                     return true;
-                })
-                .build();
-    }
-
-    @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            setViewState(ViewState.loading);
-            loadUrl(mFailingUrl);
-        }
-        return true;
+                });
     }
 }
