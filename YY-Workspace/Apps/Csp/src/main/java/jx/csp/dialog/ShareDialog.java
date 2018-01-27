@@ -3,7 +3,6 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.GridView;
@@ -39,8 +38,6 @@ import lib.platform.Platform.Type;
 import lib.platform.listener.OnShareListener;
 import lib.platform.model.ShareParams;
 import lib.ys.YSLog;
-import lib.ys.util.permission.Permission;
-import lib.ys.util.permission.PermissionChecker;
 import lib.ys.util.res.ResLoader;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
@@ -50,7 +47,7 @@ import static lib.ys.util.res.ResLoader.getString;
  * @auther WangLan
  * @since 2017/10/12
  */
-public class ShareDialog extends BaseDialog{
+public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
@@ -84,7 +81,6 @@ public class ShareDialog extends BaseDialog{
         mClipboardManager = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
     }
 
-    @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.dialog_share;
@@ -120,7 +116,7 @@ public class ShareDialog extends BaseDialog{
             appType = AppType.overseas;
         }
 
-        StringBuffer paramBuffer = new StringBuffer();
+        StringBuilder paramBuffer = new StringBuilder();
         paramBuffer.append("id=")
                 .append(mCourseId)
                 .append("&_local=")
@@ -205,7 +201,6 @@ public class ShareDialog extends BaseDialog{
                         .text(ResLoader.getString(R.string.share_text))
                         .url(mShareUrl)
                         .build();
-
             } else {
                 param = ShareParams.newBuilder()
                         .title(mShareTitle)
@@ -213,7 +208,6 @@ public class ShareDialog extends BaseDialog{
                         .url(mShareUrl)
                         .imageUrl(mCoverUrl)
                         .build();
-
             }
             if (type == ShareType.contribute) {
                 if (adapter.getItem(position).isClick()) {
@@ -258,12 +252,10 @@ public class ShareDialog extends BaseDialog{
                     }
                     break;
                     case ShareType.sms: {
-                        if (PermissionChecker.allow(getContext(), Permission.sms, Permission.storage)) {
-                            t = Type.sms;
-                        } else {
-                            showToast(getString(R.string.user_message_permission));
-                            return;
-                        }
+                        /**
+                         * @deprecated 暂无图片故不需要短信权限
+                         */
+                        t = Type.sms;
                     }
                     break;
                     case ShareType.dingding: {
@@ -271,7 +263,9 @@ public class ShareDialog extends BaseDialog{
                     }
                     break;
                 }
-                Platform.share(t, param, listener);
+                if (t != null) {
+                    Platform.share(t, param, listener);
+                }
             }
         });
     }
