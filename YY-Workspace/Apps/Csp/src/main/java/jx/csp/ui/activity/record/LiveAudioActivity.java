@@ -380,7 +380,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
     @Override
     public void noPermissionState() {
         mIvRecordState.setClickable(false);
-        noRecordPermissionDialog();
     }
 
     private void pauseLiveDialog(Fragment f, boolean finish) {

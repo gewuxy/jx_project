@@ -120,6 +120,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     protected boolean mStarState = false;  // 是否有星评
     protected boolean mSlideFinish = false;  // 是否滑动结束
 
+    protected boolean mIsSet = false;  // 是否去设置
+
     @Arg
     String mCourseId;  // 课程id
 
@@ -282,6 +284,25 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         super.onResume();
 
         mConnectionReceiver.register();
+
+        if (mIsSet) {
+            mIsSet = false;
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // 检查录音权限
+                    if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
+                        havePermissionState();
+                        mRecordPermissionState = true;
+                    } else {
+                        noPermissionState();
+                        mRecordPermissionState = false;
+                    }
+                    removeOnGlobalLayoutListener(this);
+
+                }
+            });
+        }
     }
 
     @Override
@@ -324,7 +345,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     }
 
     @Override
-    public void onStopRefresh() {}
+    public void onStopRefresh() {
+    }
 
     @Override
     public void onNotify(int type, Object data) {
@@ -344,6 +366,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
                     noPermissionState();
+                    noRecordPermissionDialog();
                     mRecordPermissionState = false;
                 }
                 break;
@@ -381,6 +404,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         dialog.setContent(R.string.no_record_permission);
         dialog.addBlackButton(R.string.return_home, v -> finish());
         dialog.addBlackButton(R.string.to_open_permission, v -> {
+            mIsSet = true;
             try {
                 // 应用详情页面
                 Intent i = new Intent();

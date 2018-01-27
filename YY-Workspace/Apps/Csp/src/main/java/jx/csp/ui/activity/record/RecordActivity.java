@@ -464,8 +464,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         mIvRecordState.setClickable(false);
         mIvRerecording.setSelected(false);
         mIvRerecording.setClickable(false);
-
-        noRecordPermissionDialog();
     }
 
     @Override
