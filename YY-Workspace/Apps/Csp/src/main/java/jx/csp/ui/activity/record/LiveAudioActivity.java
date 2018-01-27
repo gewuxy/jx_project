@@ -188,17 +188,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
     }
 
     @Override
-    protected void shareOperation() {
-        if (mLiveState) {
-            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
-                mLiveRecordPresenterImpl.stopLiveRecord(true);
-                // 上传上一页的音频 确保存在
-                uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
-            }
-        }
-    }
-
-    @Override
     protected void pageSelected(int position) {
         YSLog.d(TAG, "page change time start = " + System.currentTimeMillis());
         if (mRecordPermissionState) {

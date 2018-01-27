@@ -295,20 +295,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         meet.put(TMeet.id, mCourseId);
         meet.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
         notify(NotifyType.total_time, meet);
-        super.onDestroy();
-        mRecordPresenter.onDestroy();
-    }
-
-    @Override
-    protected void shareOperation() {
         if (mRecordState) {
             mRecordPresenter.stopRecord();
-            showView(mTvRemind);
-            mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
-            mTvRemind.setText(R.string.record_pause);
-            mTvRecordState.setText(R.string.continue_record);
-            mCanContinueRecord = true;
         }
+        super.onDestroy();
+        mRecordPresenter.onDestroy();
     }
 
     @Override
