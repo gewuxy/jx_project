@@ -12,18 +12,12 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.constant.WatchPwdType;
-import jx.csp.model.meeting.MeetPwd;
-import jx.csp.model.meeting.MeetPwd.TMeetPwd;
-import jx.csp.network.JsonParser;
-import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.contact.WatchPwdContract;
+import jx.csp.presenter.WatchPwdPresenterImpl;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -33,10 +27,6 @@ import lib.ys.util.TextUtil;
  */
 @Route
 public class WatchPwdActivity extends BaseActivity {
-    private final int KNoWatchPwd = 1;
-    private final int KExistingWatchPwd = 2;
-    private final int KGetPassword = 3;
-
     private LinearLayout mLayoutNoPwd;
     private LinearLayout mLayoutExistingPwd;
     private EditText mEtPwd;
@@ -47,8 +37,13 @@ public class WatchPwdActivity extends BaseActivity {
     @Arg
     String mCourseId;
 
+    private WatchPwdContract.V mView;
+    private WatchPwdContract.P mPresenter;
+
     @Override
     public void initData() {
+        mView = new WatchPwdViewImpl();
+        mPresenter = new WatchPwdPresenterImpl(mView);
     }
 
     @NonNull
@@ -80,7 +75,7 @@ public class WatchPwdActivity extends BaseActivity {
 
         //即时获取会议密码
         refresh(RefreshWay.embed);
-        exeNetworkReq(KGetPassword, MeetingAPI.getPassword(mCourseId).build());
+        mPresenter.getPassword(WatchPwdType.getPwd, mCourseId, null);
         //密码输入格式
         getPwdChange();
     }
@@ -89,7 +84,7 @@ public class WatchPwdActivity extends BaseActivity {
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
             refresh(RefreshWay.embed);
-            exeNetworkReq(KGetPassword, MeetingAPI.getPassword(mCourseId).build());
+            mPresenter.getPassword(WatchPwdType.getPwd, mCourseId, null);
         }
         return true;
     }
@@ -100,77 +95,17 @@ public class WatchPwdActivity extends BaseActivity {
             case R.id.watch_pwd_tv_confirm: {
                 refresh(RefreshWay.dialog);
                 if (TextUtil.isNotEmpty(getPwd())) {
-                    exeNetworkReq(KNoWatchPwd, MeetingAPI.setPassword(mCourseId, WatchPwdType.setPwd, getPwd()).build());
+                    mPresenter.getPassword(WatchPwdType.setPwd, mCourseId, getPwd());
                 } else {
-                    exeNetworkReq(KExistingWatchPwd, MeetingAPI.setPassword(mCourseId, WatchPwdType.delete, mTvPwd.getText().toString()).build());
+                    mPresenter.getPassword(WatchPwdType.delete, mCourseId, mTvPwd.getText().toString());
                 }
             }
             break;
             case R.id.watch_pwd_tv_create: {
-                mEtPwd.setText(getStringRandom(4));
+                mEtPwd.setText(mPresenter.getRandomPwd(4));
                 mEtPwd.setSelection(getPwd().length());
             }
             break;
-        }
-    }
-
-    @Override
-    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        if (id == KGetPassword) {
-            return JsonParser.ev(resp.getText(), MeetPwd.class);
-        } else {
-            return JsonParser.error(resp.getText());
-        }
-    }
-
-    @Override
-    public void onNetworkSuccess(int id, IResult r) {
-        stopRefresh();
-        switch (id) {
-            case KNoWatchPwd: {
-                //设置密码
-                if (r.isSucceed()) {
-                    mTvPwd.setText(getPwd());
-                    getExistingPwdSetting();
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
-            break;
-            case KExistingWatchPwd: {
-                //删除密码
-                if (r.isSucceed()) {
-                    getUnPwdSetting();
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
-            break;
-            case KGetPassword: {
-                if (r.isSucceed()) {
-                    setViewState(ViewState.normal);
-                    MeetPwd pwd = (MeetPwd) r.getData();
-                    String password = pwd.getString(TMeetPwd.password);
-                    if (TextUtil.isEmpty(password)) {
-                        getUnPwdSetting();
-                    } else {
-                        mTvPwd.setText(password);
-                        getExistingPwdSetting();
-                    }
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void onNetworkError(int id, NetworkError error) {
-        super.onNetworkError(id, error);
-
-        if (id == KGetPassword) {
-            setViewState(ViewState.error);
         }
     }
 
@@ -184,46 +119,6 @@ public class WatchPwdActivity extends BaseActivity {
     @Override
     protected boolean enableHideKeyboardWhenChangeFocus() {
         return true;
-    }
-
-    /**
-     * 设置有密码的界面
-     */
-    private void getExistingPwdSetting() {
-        goneView(mLayoutNoPwd);
-        showView(mLayoutExistingPwd);
-
-        mEtPwd.setText(ConstantsEx.KEmpty);
-        mTvTips.setText(R.string.watch_tips2);
-        mTvConfirm.setText(R.string.watch_delete_pwd);
-        mTvConfirm.setEnabled(true);
-    }
-
-    /**
-     * 设置无密码界面,须输入
-     */
-    private void getUnPwdSetting() {
-        goneView(mLayoutExistingPwd);
-        showView(mLayoutNoPwd);
-
-        mTvPwd.setText(ConstantsEx.KEmpty);
-        mTvTips.setText(R.string.watch_tips);
-        mTvConfirm.setText(R.string.confirm);
-        mTvConfirm.setEnabled(false);
-    }
-
-    /**
-     * 生成随机数
-     *
-     * @param length 生成length位随机数
-     * @return
-     */
-    public String getStringRandom(int length) {
-        String val = ConstantsEx.KEmpty;
-        for (int i = 0; i < length; i++) {
-            val += String.valueOf((int) (Math.random() * 10));
-        }
-        return val;
     }
 
     /**
@@ -248,5 +143,45 @@ public class WatchPwdActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private class WatchPwdViewImpl implements WatchPwdContract.V {
+
+        @Override
+        public void setExistingPwd() {
+            goneView(mLayoutNoPwd);
+            showView(mLayoutExistingPwd);
+
+            mEtPwd.setText(ConstantsEx.KEmpty);
+            mTvTips.setText(R.string.watch_tips2);
+            mTvConfirm.setText(R.string.watch_delete_pwd);
+            mTvConfirm.setEnabled(true);
+        }
+
+        @Override
+        public void setUnPwd() {
+            goneView(mLayoutExistingPwd);
+            showView(mLayoutNoPwd);
+
+            mTvPwd.setText(ConstantsEx.KEmpty);
+            mTvTips.setText(R.string.watch_tips);
+            mTvConfirm.setText(R.string.confirm);
+            mTvConfirm.setEnabled(false);
+        }
+
+        @Override
+        public void setPwdText(String password) {
+            mTvPwd.setText(password);
+        }
+
+        @Override
+        public void onStopRefresh() {
+            stopRefresh();
+        }
+
+        @Override
+        public void setViewState(int state) {
+            WatchPwdActivity.this.setViewState(state);
+        }
     }
 }

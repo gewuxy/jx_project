@@ -11,10 +11,12 @@ import java.lang.annotation.RetentionPolicy;
  */
 @StringDef({
         WatchPwdType.setPwd,
-        WatchPwdType.delete
+        WatchPwdType.delete,
+        WatchPwdType.getPwd,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface WatchPwdType {
     String setPwd = "1";    //设置密码
     String delete = "2";    //删除密码
+    String getPwd = "3";    //即时获取密码
 }
