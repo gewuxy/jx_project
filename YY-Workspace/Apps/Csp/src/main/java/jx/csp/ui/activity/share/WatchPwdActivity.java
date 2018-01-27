@@ -18,10 +18,12 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
 import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
 
@@ -77,10 +79,19 @@ public class WatchPwdActivity extends BaseActivity {
         setOnClickListener(R.id.watch_pwd_tv_create);
 
         //即时获取会议密码
-        refresh(RefreshWay.dialog);
+        refresh(RefreshWay.embed);
         exeNetworkReq(KGetPassword, MeetingAPI.getPassword(mCourseId).build());
         //密码输入格式
         getPwdChange();
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(RefreshWay.embed);
+            exeNetworkReq(KGetPassword, MeetingAPI.getPassword(mCourseId).build());
+        }
+        return true;
     }
 
     @Override
@@ -137,6 +148,7 @@ public class WatchPwdActivity extends BaseActivity {
             break;
             case KGetPassword: {
                 if (r.isSucceed()) {
+                    setViewState(ViewState.normal);
                     MeetPwd pwd = (MeetPwd) r.getData();
                     String password = pwd.getString(TMeetPwd.password);
                     if (TextUtil.isEmpty(password)) {
@@ -150,6 +162,15 @@ public class WatchPwdActivity extends BaseActivity {
                 }
             }
             break;
+        }
+    }
+
+    @Override
+    public void onNetworkError(int id, NetworkError error) {
+        super.onNetworkError(id, error);
+
+        if (id == KGetPassword) {
+            setViewState(ViewState.error);
         }
     }
 
