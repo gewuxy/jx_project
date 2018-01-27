@@ -55,6 +55,7 @@ import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseVpActivity;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
+import lib.ys.network.image.NetworkImageView;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
@@ -216,6 +217,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
             @Override
             public void onPageSelected(int position) {
+                NetworkImageView.clearMemoryCache(BaseRecordActivity.this);
                 mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 if (position == (mCourseDetailList.size() - 1)) {
                     showView(mStarBar);
