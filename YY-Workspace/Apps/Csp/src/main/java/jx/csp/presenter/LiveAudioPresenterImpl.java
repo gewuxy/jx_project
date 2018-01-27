@@ -205,7 +205,6 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         Util.runOnSubThread(() -> {
             if (mMediaRecorder != null) {
                 mMediaRecorder.stop();
-                mMediaRecorder.reset();
                 YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
             }
             if (!mOverFifteen) {

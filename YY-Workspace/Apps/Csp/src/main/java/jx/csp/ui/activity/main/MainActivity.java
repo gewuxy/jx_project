@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.main;
 
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -378,6 +379,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
+        if (!activityTop()) {
+            return;
+        }
         switch (type) {
             case LiveNotifyType.accept: {
                 YSLog.d(TAG, "接收到同意进入指令");
@@ -466,15 +470,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.over_live: {
-                ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-                if (am != null) {
-                    List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
-                    if (list != null && list.size() > 0) {
-                        ComponentName cpn = list.get(0).topActivity;
-                        if (getLocalClassName().equals(cpn.getClassName())) {
-                            showToast(R.string.live_have_end);
-                        }
-                    }
+                if (activityTop()) {
+                    showToast(R.string.live_have_end);
                 }
                 // 修改数据源
                 String id = (String) data;
@@ -529,6 +526,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
         }
+    }
+
+    private boolean activityTop() {
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        if (am != null) {
+            List<RunningTaskInfo> list = am.getRunningTasks(1);
+            if (list != null && list.size() > 0) {
+                ComponentName cpn = list.get(0).topActivity;
+                if (getLocalClassName().equals(cpn.getClassName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override

@@ -40,7 +40,8 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         CountDown.OnCountDownListener {
 
     private final int KMaxRecordTime = (int) TimeUnit.MINUTES.toSeconds(10);
-    private final int KJoinMeetingReqId = 10;
+    private final int KJoinMeetingReqId = 1;
+    private final int KDeleteAudioReqId = 2;
     private final int KMsgWhatPlayProgress = 1;  // 音频播放进度
     private final int KMsgWhatAmplitude = 2;  // 声音的分贝
     private final int KPlayUIUpdateTime = 500;  // 音频播放UI更新时间
@@ -124,7 +125,6 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
         getView().stopRecordState(mPos, mTime);
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
-            mMediaRecorder.reset();
         }
         mRecordState = false;
         if (mCountDown != null) {
@@ -136,7 +136,7 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
     public void onlyStopRecord() {
         if (mMediaRecorder != null) {
             mMediaRecorder.stop();
-            mMediaRecorder.reset();
+            mMediaRecorder.release();
         }
         if (mCountDown != null) {
             mCountDown.stop();
@@ -226,6 +226,11 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
                 }
             }
         }
+    }
+
+    @Override
+    public void deleteAudio(String detailId) {
+        exeNetworkReq(KDeleteAudioReqId, MeetingAPI.deleteAudio(detailId).build());
     }
 
     @Override
@@ -340,6 +345,12 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
                 onNetworkError(id, r.getError());
                 getView().onStopRefresh();
                 getView().finishRecord();
+            }
+        } else {
+            if (r.isSucceed()) {
+                YSLog.d(TAG, "音频删除成功");
+            } else {
+                retryNetworkRequest(id);
             }
         }
     }

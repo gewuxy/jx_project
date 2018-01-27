@@ -294,12 +294,12 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                     if (checkPermission(KMicroPermissionCode, Permission.micro_phone)) {
                         havePermissionState();
                         mRecordPermissionState = true;
+                        refreshView();
                     } else {
                         noPermissionState();
                         mRecordPermissionState = false;
                     }
                     removeOnGlobalLayoutListener(this);
-
                 }
             });
         }
@@ -467,6 +467,8 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     abstract protected void havePermissionState();
 
     abstract protected void noPermissionState();
+
+    abstract protected void refreshView();
 
     abstract protected void onClick(int id);
 

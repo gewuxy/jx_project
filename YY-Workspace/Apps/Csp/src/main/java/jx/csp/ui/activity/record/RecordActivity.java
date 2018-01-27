@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import inject.annotation.router.Route;
 import jx.csp.App;
 import jx.csp.R;
-import jx.csp.constant.AudioType;
 import jx.csp.contact.RecordContract;
 import jx.csp.dialog.BtnVerticalDialog;
 import jx.csp.dialog.CommonDialog2;
@@ -200,31 +199,23 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 dialog.addButton(R.string.cancel, R.color.text_404356, null);
                 dialog.addBlackButton(R.string.affirm, v -> {
                     stopPlayOperation();
+                    showView(mTvRemind);
+                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                    mTvRemind.setText(R.string.record_time_remind);
                     mTvRecordTime.setText("00:00");
                     mRecordTimeArray.put(getCurrPosition(), 0);
-                    // 重新录制 删除以前的音频文件
+                    mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+                    mIvAudition.setClickable(false);
+                    mIvRerecording.setSelected(false);
+                    mIvRerecording.setClickable(false);
+
                     mIvRecordState.setImageResource(R.drawable.animation_record);
                     mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
                     mIvRecordState.setClickable(true);
-
+                    // 删除以前的音频文件
                     String filePath = CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id));
-                    String amrFilePath = null;
-                    String mp3FilePath = null;
-                    if (filePath.contains(AudioType.amr)) {
-                        // 是amr文件
-                        amrFilePath = filePath;
-                        mp3FilePath = filePath.replace(AudioType.amr, AudioType.mp3);
-                        YSLog.d(TAG, "重录 是amr文件");
-                    } else if (filePath.contains(AudioType.mp3)) {
-                        // 是mp3文件
-                        mp3FilePath = filePath;
-                        amrFilePath = filePath.replace(AudioType.mp3, AudioType.amr);
-                        YSLog.d(TAG, "重录 是mp3文件");
-                    }
-                    // 覆盖录制要删除以前的文件
-                    FileUtil.delFile(new File(amrFilePath));
-                    FileUtil.delFile(new File(mp3FilePath));
-                    mRecordPresenter.startRecord(amrFilePath, getCurrPosition(), 0);
+                    FileUtil.delFile(new File(filePath));
+                    mRecordPresenter.deleteAudio(mCourseDetailList.get(getCurrPosition()).getString(TCourseDetail.id));
                 });
                 dialog.show();
             }
@@ -307,39 +298,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
         if (mRecordPermissionState) {
             mCanContinueRecord = false;
             stopPlayOperation();
-            // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
-            Fragment f = getItem(position);
-            if (f instanceof RecordImgFrag) {
-                mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(position), TimeFormat.from_m));
-                mTvRecordState.setText(R.string.record);
-
-                // 判断是否已经录制过音频，改变按钮状态
-                String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
-                File folder = new File(basePath);
-                File[] files = folder.listFiles();
-                if (files.length == 0) {
-                    showView(mTvRemind);
-                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
-                    mTvRemind.setText(R.string.record_time_remind);
-                    mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
-                    mIvAudition.setClickable(false);
-                    mIvRecordState.setImageResource(R.drawable.animation_record);
-                    mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-                    mIvRecordState.setClickable(true);
-                    mIvRerecording.setSelected(false);
-                    mIvRerecording.setClickable(false);
-                } else {
-                    hideView(mTvRemind);
-                    mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                    mIvAudition.setClickable(true);
-                    mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
-                    mIvRecordState.setClickable(false);
-                    mIvRerecording.setSelected(true);
-                    mIvRerecording.setClickable(true);
-                }
-            } else {
-                videoState();
-            }
+            changeViewState(position);
             if (position != mWsPosition) {
                 notifyServ(LiveNotifyType.send_msg, position, WsOrderType.sync);
             }
@@ -348,6 +307,41 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mIvRecordState.setClickable(false);
             mIvRerecording.setSelected(false);
             mIvRerecording.setClickable(false);
+        }
+    }
+
+    // 如果页面是视频页 录音状态，试听，重录图片要变且不能点击
+    private void changeViewState(int position) {
+        Fragment f = getItem(position);
+        if (f instanceof RecordImgFrag) {
+            mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(position), TimeFormat.from_m));
+            mTvRecordState.setText(R.string.record);
+            // 判断是否已经录制过音频，改变按钮状态
+            String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
+            File folder = new File(basePath);
+            File[] files = folder.listFiles();
+            if (files.length == 0) {
+                showView(mTvRemind);
+                mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                mTvRemind.setText(R.string.record_time_remind);
+                mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
+                mIvAudition.setClickable(false);
+                mIvRecordState.setImageResource(R.drawable.animation_record);
+                mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                mIvRecordState.setClickable(true);
+                mIvRerecording.setSelected(false);
+                mIvRerecording.setClickable(false);
+            } else {
+                hideView(mTvRemind);
+                mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                mIvAudition.setClickable(true);
+                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                mIvRecordState.setClickable(false);
+                mIvRerecording.setSelected(true);
+                mIvRerecording.setClickable(true);
+            }
+        } else {
+            videoState();
         }
     }
 
@@ -467,9 +461,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     }
 
     @Override
+    protected void refreshView() {
+        changeViewState(getCurrPosition());
+    }
+
+    @Override
     public void havePermissionState() {
         initPhoneCallingListener();
-        mIvRecordState.setClickable(true);
     }
 
     private void videoState() {

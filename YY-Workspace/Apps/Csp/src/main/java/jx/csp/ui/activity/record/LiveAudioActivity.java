@@ -173,7 +173,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             meet.put(TMeet.playTime, sb.toString());
             notify(NotifyType.total_time, meet);
         }
-
+        FileUtil.delFile(new File(CacheUtil.getAudioCacheDir() + mCourseId));
         super.onDestroy();
         mLiveRecordPresenterImpl.onDestroy();
     }
@@ -380,6 +380,10 @@ public class LiveAudioActivity extends BaseRecordActivity {
     @Override
     public void noPermissionState() {
         mIvRecordState.setClickable(false);
+    }
+
+    @Override
+    protected void refreshView() {
     }
 
     private void pauseLiveDialog(Fragment f, boolean finish) {

@@ -57,6 +57,8 @@ public interface RecordContract {
 
         void jointAudio(String courseId, int pageId, int pos);
 
+        void deleteAudio(String detailId);
+
         void startPlay(String filePath);
 
         void mediaPlayProgress(int progress);

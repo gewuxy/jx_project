@@ -328,7 +328,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         hideView(mTvStart);
         showView(mTvNoCameraPermission);
         mIvLive.setClickable(false);
-        mTvState.setText(R.string.live_fail);
+        mTvState.setText(R.string.no_start);
     }
 
     public void initPhoneCallingListener() {

@@ -288,6 +288,13 @@ public class NetworkApi {
         void downloadAudio();
 
         /**
+         * 删除音频
+         */
+        @Get("delete/audio")
+        @Retry(count = 5, delay = 1000)
+        void deleteAudio(String detailId);
+
+        /**
          * 退出录播/直播页面
          *
          * @param courseId
