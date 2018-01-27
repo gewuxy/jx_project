@@ -74,7 +74,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private boolean mPlayState = false; // 是否在播放音频
     private boolean mPlayPause = false; // 播放暂停状态
     private AnimationDrawable mAnimationRecord;
-    private RecordPresenterImpl mRecordPresenter;
+    private RecordContract.P mRecordPresenter;
     private int mWsPosition = -1;  // websocket接收到的页数
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
     private String mAudioFilePath; // 正在录制的音频文件名字
@@ -538,10 +538,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     mRecordTimeArray.put(i, 0);
                 }
             }
+            invalidate();
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
 
-
-            invalidate();
             // 链接websocket
             if (TextUtil.isNotEmpty(wsUrl)) {
                 WebSocketServRouter.create(wsUrl).route(RecordActivity.this);
@@ -581,6 +580,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                                 mTvRecordState.setText(R.string.continue_record);
                                 mIvRerecording.setClickable(true);
                                 mIvRerecording.setSelected(true);
+                                mCanContinueRecord = true;
                                 break;
                             }
                         }
@@ -716,6 +716,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void canNotContinueRecordState() {
+            getViewPager().setScrollable(true);
+            goneView(mGestureView);
             mCanContinueRecord = false;
             hideView(mTvRemind);
             mTvRecordTime.setText("10:00");
@@ -809,6 +811,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
         @Override
         public void setViewState(int state) {
+            RecordActivity.this.setViewState(state);
         }
     }
 }

@@ -22,7 +22,9 @@ public interface LiveAudioContract {
 
         void startRecordState();
 
-        void stopRecordState(int time);
+        void stopRecordState();
+
+        void setRecordTime(int time);
 
         /**
          * 一页录音的时间超过15分钟时，先上传15分钟的音频 加入上传音频列队
@@ -55,11 +57,9 @@ public interface LiveAudioContract {
 
         void setWsPos(int pos);
 
-        void startLiveRecord(String filePath);
+        void startLiveRecord(String filePath, boolean changeState);
 
-        void stopLiveRecord();
-
-        void onlyStopRecord();
+        void stopLiveRecord(boolean changeState);
 
         void uploadVideoPage(String courseId, String courseDetailId);
 

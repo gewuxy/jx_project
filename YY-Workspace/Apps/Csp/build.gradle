@@ -9,8 +9,8 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 113
-        versionName "1.1.3"
+        versionCode 1132
+        versionName "1.1.32"
 
         multiDexEnabled true
 

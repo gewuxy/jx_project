@@ -145,7 +145,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, this);
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> onBackPressed());
         View view = inflate(R.layout.layout_base_record_nav_bar);
         mTvCurrentPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_current_page);
         mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
