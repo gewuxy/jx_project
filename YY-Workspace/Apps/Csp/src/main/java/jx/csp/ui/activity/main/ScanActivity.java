@@ -33,6 +33,7 @@ import lib.jx.util.CountDown.OnCountDownListener;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
+import lib.ys.config.AppConfig;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
@@ -192,6 +193,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             if (mScan.getInt(TScan.duplicate) == DuplicateType.no) {
                 joinRecord();
             } else {
+                refresh(AppConfig.RefreshWay.dialog);
                 String wsUrl = mScan.getString(TScan.wsUrl);
                 if (TextUtil.isNotEmpty(wsUrl)) {
                     WebSocketServRouter.create(wsUrl).route(this);
@@ -206,14 +208,17 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
     public void onLiveNotify(int type, Object data) {
         switch (type) {
             case LiveNotifyType.accept: {
+                stopRefresh();
                 WebSocketServRouter.stop(this);
                 YSLog.d(TAG, "scan activity accept WebSocketServRouter.stop");
                 joinRecord();
             }
             break;
             case LiveNotifyType.reject: {
+                stopRefresh();
                 WebSocketServRouter.stop(this);
                 YSLog.d(TAG, "scan activity reject WebSocketServRouter.stop");
+                finish();
                 showToast(R.string.join_fail);
             }
             break;
