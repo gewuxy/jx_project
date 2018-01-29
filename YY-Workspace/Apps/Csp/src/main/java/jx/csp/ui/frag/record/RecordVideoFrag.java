@@ -29,6 +29,7 @@ public class RecordVideoFrag extends BaseFrag {
     private PLVideoTextureView mTextureView;
     private ImageView mIvPlay;
     private NetworkImageView mIvBg;
+    private ImageView mIvBgDefault;
     private View mVideoStop;
     private float mCrown; // 图片的宽高比
     private int mIvHeight;  // 图片高度
@@ -56,6 +57,7 @@ public class RecordVideoFrag extends BaseFrag {
         mTextureView = findView(R.id.frag_record_video_texture_view);
         mIvPlay = findView(R.id.frag_record_video_iv_play);
         mIvBg = findView(R.id.frag_record_video_iv_bg);
+        mIvBgDefault = findView(R.id.frag_record_video_iv_bg_default);
         mVideoStop = findView(R.id.frag_record_video_stop);
     }
 
@@ -63,8 +65,7 @@ public class RecordVideoFrag extends BaseFrag {
     public void setViews() {
         setOnClickListener(R.id.frag_record_video_iv_play);
         setOnClickListener(R.id.frag_record_video_stop);
-        mIvBg.placeHolder(R.drawable.ic_default_record)
-                .renderer(new CornerRenderer(fit(5)))
+        mIvBg.renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
                 .listener(new NetworkImageListener() {
                     @Override
@@ -79,6 +80,7 @@ public class RecordVideoFrag extends BaseFrag {
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIvBg.getLayoutParams();
                         params.height = fit(mIvHeight);
                         mIvBg.setLayoutParams(params);
+                        goneView(mIvBgDefault);
                     }
                 })
                 .resize(fit(332), fit(mIvHeight))

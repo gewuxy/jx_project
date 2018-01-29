@@ -31,6 +31,12 @@
             android:layout_centerInParent="true"/>
 
         <ImageView
+            android:id="@+id/frag_record_video_iv_bg_default"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_default_record"/>
+
+        <ImageView
             android:id="@+id/frag_record_video_iv_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
