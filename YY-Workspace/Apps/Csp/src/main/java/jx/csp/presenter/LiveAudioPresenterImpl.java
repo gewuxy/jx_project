@@ -53,6 +53,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     private int mTime = 0; // 每页ppt录制的时间 单位秒
     private boolean mLastSyncOrderState = false;  // 上一页的同步指令是否已经发送
     private boolean mLiveState = false;  // 是否在直播
+    private boolean mRecordState = false;  // 是否录音
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -178,7 +179,10 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
             mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_WB);
             try {
                 mMediaRecorder.prepare();
-                mMediaRecorder.start();
+                if (!mRecordState) {
+                    mMediaRecorder.start();
+                    mRecordState = true;
+                }
                 mTime = 0;
                 YSLog.d(TAG, "startRecord time = " + System.currentTimeMillis());
                 Util.runOnUIThread(() -> {
@@ -190,9 +194,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                     mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
                 });
             } catch (IOException e) {
-                Util.runOnUIThread(() -> {
-                    getView().showToast(R.string.record_fail);
-                });
+                Util.runOnUIThread(() -> getView().showToast(R.string.record_fail));
             }
         });
     }
@@ -203,8 +205,9 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         mHandler.removeMessages(KRecordMsgWhat);
         getView().setRecordTime(mTime);
         Util.runOnSubThread(() -> {
-            if (mMediaRecorder != null) {
+            if (mMediaRecorder != null && mRecordState) {
                 mMediaRecorder.stop();
+                mRecordState = false;
                 YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
             }
             if (!mOverFifteen) {
