@@ -268,15 +268,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (mPlayState) {
-            mRecordPresenter.pausePlay();
-        }
-    }
-
-    @Override
     protected void onDestroy() {
         int totalTime = 0;
         for (int i = 0; i < mRecordTimeArray.size(); ++i) {

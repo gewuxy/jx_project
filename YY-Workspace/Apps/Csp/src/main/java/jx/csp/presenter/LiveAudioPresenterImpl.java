@@ -19,7 +19,6 @@ import jx.csp.contact.LiveAudioContract.V;
 import jx.csp.model.meeting.JoinMeeting;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
@@ -50,6 +49,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
     private int mNum = 0;
     private String mFilePath;
     private int mWsPosition = -1;  // websocket接收到的页数
+    private int mPos = -2;  // ppt的当前页数
     private int mTime = 0; // 每页ppt录制的时间 单位秒
     private boolean mLastSyncOrderState = false;  // 上一页的同步指令是否已经发送
     private boolean mLiveState = false;  // 是否在直播
@@ -62,10 +62,11 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case KRecordMsgWhat: {
-                    YSLog.d(TAG, "收到15m倒计时结束指令");
-                    // 先暂停录音，然后再开始录音，上传这15m的音频
+                    YSLog.d(TAG, "收到10分钟倒计时结束指令");
+                    // 先暂停录音，然后再开始录音，上传这10m的音频
                     mOverFifteen = true;
                     stopLiveRecord(false);
+                    YSLog.d(TAG, "上传音频文件的名字 = " + mFilePath);
                     getView().joinUploadRank(mFilePath, (int) TimeUnit.MINUTES.toSeconds(10));
                     // 截取文件路径不包括后缀
                     String str;
@@ -80,7 +81,8 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                     String newFilePath = str + "-" + mNum + "." + AudioType.amr;
                     YSLog.d(TAG, "newFilePath = " + newFilePath);
                     startLiveRecord(newFilePath, false);
-                    mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
+                    // 重新推送一张当前页数的ppt
+                    changePage(mPos);
                 }
                 break;
                 case KSendSyncMsgWhat: {
@@ -126,6 +128,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void startLive(String courseId, String videoUrl, String imgUrl, int firstClk, int pageNum) {
+        mPos = pageNum;
         // 先去除mHandler的对应消息，再延时发送消息
         mHandler.removeMessages(KStartLiveMsgWhat);
         Message msg = new Message();
@@ -147,6 +150,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void changePage(int pos) {
+        mPos = pos;
         // 先去除mHandler的对应消息，再延时发送消息
         mLastSyncOrderState = false;
         mHandler.removeMessages(KSendSyncMsgWhat);
@@ -163,40 +167,38 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void startLiveRecord(String filePath, boolean changeState) {
+        YSLog.d(TAG, "录音音频文件的名字 = " + filePath);
         mHandler.removeMessages(KRecordMsgWhat);
-        Util.runOnSubThread(() -> {
-            if (!filePath.contains("-")) {
-                YSLog.d(TAG, "不包含“-”, 上一段录制时间没有超过15分钟");
-                mOverFifteen = false;
-                mNum = 0;
-            }
-            mFilePath = filePath;
-            File file = new File(filePath);
-            mMediaRecorder.reset();
-            mMediaRecorder.setOutputFile(file.getAbsolutePath());
-            mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            mMediaRecorder.setOutputFormat(OutputFormat.AMR_WB);
-            mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_WB);
-            try {
+        mFilePath = filePath;
+
+        if (!filePath.contains("-")) {
+            YSLog.d(TAG, "不包含“-”, 上一段录制时间没有超过10分钟");
+            mOverFifteen = false;
+            mNum = 0;
+        }
+        try {
+            if (!mRecordState) {
+                mMediaRecorder.reset();
+                File file = new File(filePath);
+                mMediaRecorder.setOutputFile(file.getAbsolutePath());
+                mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                mMediaRecorder.setOutputFormat(OutputFormat.AMR_WB);
+                mMediaRecorder.setAudioEncoder(AudioEncoder.AMR_WB);
                 mMediaRecorder.prepare();
-                if (!mRecordState) {
-                    mMediaRecorder.start();
-                    mRecordState = true;
-                }
-                mTime = 0;
-                YSLog.d(TAG, "startRecord time = " + System.currentTimeMillis());
-                Util.runOnUIThread(() -> {
-                    getView().setAudioFilePath(mFilePath);
-                    if (changeState) {
-                        getView().startRecordState();
-                    }
-                    // 直播的时候每页只能录音10分钟，到10分钟的时候要要先上传这15分钟的音频
-                    mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
-                });
-            } catch (IOException e) {
-                Util.runOnUIThread(() -> getView().showToast(R.string.record_fail));
+                mMediaRecorder.start();
+                mRecordState = true;
             }
-        });
+            mTime = 0;
+            YSLog.d(TAG, "startRecord time = " + System.currentTimeMillis());
+            getView().setAudioFilePath(mFilePath);
+            if (changeState) {
+                getView().startRecordState();
+            }
+            // 直播的时候每页只能录音10分钟，到10分钟的时候要要先上传这15分钟的音频
+            mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
+        } catch (IOException e) {
+            getView().showToast(R.string.record_fail);
+        }
     }
 
     @Override
@@ -204,16 +206,14 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         mHandler.removeMessages(KStartLiveMsgWhat);
         mHandler.removeMessages(KRecordMsgWhat);
         getView().setRecordTime(mTime);
-        Util.runOnSubThread(() -> {
-            if (mMediaRecorder != null && mRecordState) {
-                mMediaRecorder.stop();
-                mRecordState = false;
-                YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
-            }
-            if (!mOverFifteen) {
-                mNum = 0;
-            }
-        });
+        if (mMediaRecorder != null && mRecordState) {
+            mMediaRecorder.stop();
+            mRecordState = false;
+            YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
+        }
+        if (!mOverFifteen) {
+            mNum = 0;
+        }
         if (changeState) {
             getView().stopRecordState();
         }

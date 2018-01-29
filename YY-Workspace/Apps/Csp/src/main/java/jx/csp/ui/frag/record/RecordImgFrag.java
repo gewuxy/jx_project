@@ -28,6 +28,7 @@ import lib.ys.util.TextUtil;
 public class RecordImgFrag extends BaseFrag {
 
     private NetworkImageView mIv;
+    private NetworkImageView mIvBg;
 
     @Arg
     String mImgUrl;
@@ -59,12 +60,15 @@ public class RecordImgFrag extends BaseFrag {
     @Override
     public void findViews() {
         mIv = findView(R.id.frag_record_img_iv);
+        mIvBg = findView(R.id.frag_record_img_iv_bg);
     }
 
     @Override
     public void setViews() {
-        mIv.placeHolder(R.drawable.ic_default_record)
+        mIvBg.placeHolder(R.drawable.ic_default_record)
                 .renderer(new CornerRenderer(fit(5)))
+                .load();
+        mIv.renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
                 .listener(new NetworkImageListener() {
                     @Override
@@ -79,6 +83,7 @@ public class RecordImgFrag extends BaseFrag {
                         LayoutParams params = (LayoutParams) mIv.getLayoutParams();
                         params.height = fit(mIvHeight);
                         mIv.setLayoutParams(params);
+                        goneView(mIvBg);
                     }
                 })
                 .resize(fit(332), fit(mIvHeight))

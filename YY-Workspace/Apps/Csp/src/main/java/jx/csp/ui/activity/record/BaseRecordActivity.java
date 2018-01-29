@@ -55,7 +55,6 @@ import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseVpActivity;
 import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
-import lib.ys.network.image.NetworkImageView;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.ui.other.NavBar;
@@ -217,7 +216,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
             @Override
             public void onPageSelected(int position) {
-                NetworkImageView.clearMemoryCache(BaseRecordActivity.this);
+                //NetworkImageView.clearMemoryCache(BaseRecordActivity.this);
                 mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 if (position == (mCourseDetailList.size() - 1)) {
                     showView(mStarBar);
@@ -279,13 +278,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
             public void onAnimationStart(Animation arg0) {
             }
         });
+
+        mConnectionReceiver.register();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        mConnectionReceiver.register();
 
         if (mIsSet) {
             mIsSet = false;
@@ -315,16 +314,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         onClick(v.getId());
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        // 注销服务
-        if (mConnectionReceiver != null) {
-            mConnectionReceiver.unRegister();
-        }
-    }
-
     @CallSuper
     @Override
     protected void onDestroy() {
@@ -343,7 +332,10 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                     .overType(0)
                     .route(this);
         }
-
+        // 注销服务
+        if (mConnectionReceiver != null) {
+            mConnectionReceiver.unRegister();
+        }
     }
 
     @Override

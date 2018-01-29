@@ -10,7 +10,6 @@ import jx.csp.contact.AudioUploadContract.V;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.util.Util;
 import lib.jx.contract.BasePresenterImpl;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
@@ -44,35 +43,33 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
 
     @Override
     public void uploadAudioFile(String courseId, int page, int type, String audioFilePath, int time) {
-        Util.runOnSubThread(() -> {
-            File file = new File(audioFilePath);
-            if (file.exists()) {
-                byte[] bytes = FileUtil.fileToBytes(audioFilePath);
-                YSLog.d(TAG, "upload audioFilePath = " + audioFilePath);
-                YSLog.d(TAG, "upload audioFile bytes = " + bytes.length);
-                // 直播时小于三秒的音频不上传并且删除文件
-                YSLog.d(TAG, "音频文件的时间 = " + time + "秒");
-                if (type == CourseType.ppt_live && time < 3) {
-                    YSLog.d(TAG, "直播 小于三秒的音频不上传且删除对应文件");
-                    FileUtil.delFile(file);
-                    return;
-                }
-                NetworkReq req = MeetingAPI.uploadAudio()
-                        .courseId(courseId)
-                        .detailId(mCourseDetailIdArray.get(page))
-                        .pageNum(page)
-                        .playType(type)
-                        .file(bytes)
-                        .build();
-                mUploadList.addLast(req);
-                if (type == CourseType.ppt_live || type == CourseType.ppt_video_live) {
-                    mUploadFilePathList.addLast(audioFilePath);
-                }
-                upload();
-            } else {
-                YSLog.d(TAG, "上传音频文件不存在");
+        File file = new File(audioFilePath);
+        if (file.exists()) {
+            byte[] bytes = FileUtil.fileToBytes(audioFilePath);
+            YSLog.d(TAG, "upload audioFilePath = " + audioFilePath);
+            YSLog.d(TAG, "upload audioFile bytes = " + bytes.length);
+            // 直播时小于三秒的音频不上传并且删除文件
+            YSLog.d(TAG, "音频文件的时间 = " + time + "秒");
+            if (type == CourseType.ppt_live && time < 3) {
+                YSLog.d(TAG, "直播 小于三秒的音频不上传且删除对应文件");
+                FileUtil.delFile(file);
+                return;
             }
-        });
+            NetworkReq req = MeetingAPI.uploadAudio()
+                    .courseId(courseId)
+                    .detailId(mCourseDetailIdArray.get(page))
+                    .pageNum(page)
+                    .playType(type)
+                    .file(bytes)
+                    .build();
+            mUploadList.addLast(req);
+            if (type == CourseType.ppt_live || type == CourseType.ppt_video_live) {
+                mUploadFilePathList.addLast(audioFilePath);
+            }
+            upload();
+        } else {
+            YSLog.d(TAG, "上传音频文件不存在");
+        }
     }
 
     private void upload() {
@@ -96,12 +93,13 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             YSLog.d(TAG, "直播音频文件上传成功，从上传列表这个移除任务");
-            mUploadList.removeFirst();
             if (mUploadFilePathList != null && mUploadFilePathList.size() > 0) {
+                YSLog.d(TAG, "直播音频文件上传成功，删除对应文件路径 = " + mUploadFilePathList.getFirst());
                 boolean b = FileUtil.delFile(new File(mUploadFilePathList.getFirst()));
-                YSLog.d(TAG, "直播音频文件上传成功，删除对应文件成功？ = " + b);
+                YSLog.d(TAG, "删除对应文件成功？ = " + b);
                 mUploadFilePathList.removeFirst();
             }
+            mUploadList.removeFirst();
             mUploadState = false;
             upload();
         } else {
