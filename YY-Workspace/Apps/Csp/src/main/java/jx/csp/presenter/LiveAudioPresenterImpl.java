@@ -244,10 +244,10 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void onDestroy() {
-        mMediaRecorder = null;
         if (mCountDown != null) {
             mCountDown.recycle();
         }
+        mMediaRecorder = null;
         mHandler.removeCallbacksAndMessages(null);
         stopCountDown();
     }

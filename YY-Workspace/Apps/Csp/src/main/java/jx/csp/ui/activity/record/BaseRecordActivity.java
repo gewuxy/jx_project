@@ -77,7 +77,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     private final int KMicroPermissionCode = 10;
     protected final int KOne = 1;
     private final int KVpSize = 3; // Vp缓存的数量
-    private final int KDuration = 300; // 动画时长
+    private final int KDuration = 50; // 动画时长
     private final float KVpScale = 0.038f; // vp的缩放比例
     protected final int KBreathIntervalTime = 1500; // 设置呼吸灯时间间隔
     protected final int KNotifyId = 1;

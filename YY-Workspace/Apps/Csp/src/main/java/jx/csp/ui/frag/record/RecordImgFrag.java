@@ -1,6 +1,7 @@
 package jx.csp.ui.frag.record;
 
 import android.support.annotation.NonNull;
+import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 
 import java.io.File;
@@ -28,7 +29,7 @@ import lib.ys.util.TextUtil;
 public class RecordImgFrag extends BaseFrag {
 
     private NetworkImageView mIv;
-    private NetworkImageView mIvBg;
+    private ImageView mIvBg;
 
     @Arg
     String mImgUrl;
@@ -65,9 +66,6 @@ public class RecordImgFrag extends BaseFrag {
 
     @Override
     public void setViews() {
-        mIvBg.placeHolder(R.drawable.ic_default_record)
-                .renderer(new CornerRenderer(fit(5)))
-                .load();
         mIv.renderer(new CornerRenderer(fit(5)))
                 .url(mImgUrl)
                 .listener(new NetworkImageListener() {
