@@ -161,13 +161,12 @@ public class ShareDialog extends BaseDialog {
         if (mCourseType == CourseType.reb) {
             sharePlatformList.add(SharePlatform.contribute);
         } else {
-            //直播未开始不可投稿
+            //直播开始不可投稿
             if (mLiveState == LiveState.un_start) {
                 sharePlatformList.add(SharePlatform.contribute);
             } else {
                 sharePlatformList.add(SharePlatform.unContribute);
             }
-
         }
 
         adapter.setData(sharePlatformList);
