@@ -155,10 +155,10 @@
     <string name="affirm_copy">確認複製</string>
 
     <!--首页-->
-    <string name="overdue_reminder">已隱藏%d個會議，請在WEB端登錄查看</string>
+    <string name="overdue_reminder">已隱藏%d個講本，請在WEB端登錄查看</string>
     <string name="will_reminder">還有%d天到期</string>
-    <string name="living">直播會議正在進行中...</string>
-    <string name="playing">錄播會議正在進行中...</string>
+    <string name="living">直播進行中...</string>
+    <string name="playing">錄播進行中...</string>
     <string name="click_continue">點擊繼續</string>
     <string name="scan">掃一掃</string>
     <string name="aim_at_the_code">請對準二維碼，耐心等待</string>
@@ -178,7 +178,7 @@
     <string name="service_agreement_oversea">CSPmeeting服務協議</string>
     <string name="service_agreement">會講服務協議</string>
     <string name="click_again_exit">繼續點擊返回將關閉App</string>
-    <string name="over_meeting">是否結束會議?</string>
+    <string name="over_meeting">是否結束直播/錄播?</string>
     <string name="over">結束</string>
     <string name="cancel_over">取消</string>
     <string name="share_meeting_playback">分享會議回放</string>
