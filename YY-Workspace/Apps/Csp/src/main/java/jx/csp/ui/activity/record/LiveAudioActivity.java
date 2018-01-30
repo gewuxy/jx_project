@@ -343,8 +343,15 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 }
             }
             break;
-            case LiveNotifyType.reject: {
-                YSLog.d(TAG, "录音页面-接收到拒绝进入指令");
+            case LiveNotifyType.live_end: {
+                YSLog.d(TAG, "直播音频页面-接收到直播结束指令");
+                if (mLiveState) {
+                    // 判断当前页是不是PPT
+                    if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                        mLiveRecordPresenterImpl.stopLiveRecord(false);
+                        uploadAudioFile(mCourseId, mLastPage, CourseType.ppt_live, mAudioFilePath, mRecordTime);
+                    }
+                }
                 finish();
             }
             break;

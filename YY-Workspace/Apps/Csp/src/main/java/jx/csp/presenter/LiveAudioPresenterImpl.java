@@ -167,10 +167,9 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void startLiveRecord(String filePath, boolean changeState) {
-        YSLog.d(TAG, "录音音频文件的名字 = " + filePath);
         mHandler.removeMessages(KRecordMsgWhat);
+        YSLog.d(TAG, "录音音频文件的名字 = " + filePath);
         mFilePath = filePath;
-
         if (!filePath.contains("-")) {
             YSLog.d(TAG, "不包含“-”, 上一段录制时间没有超过10分钟");
             mOverFifteen = false;

@@ -204,6 +204,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     mTvRemind.setText(R.string.record_time_remind);
                     mTvRecordTime.setText("00:00");
                     mRecordTimeArray.put(getCurrPosition(), 0);
+                    mTvRecordState.setText(R.string.record);
                     mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
                     mIvAudition.setClickable(false);
                     mIvRerecording.setSelected(false);
@@ -415,11 +416,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             break;
             case LiveNotifyType.inquired: {
                 switchDevice();
-            }
-            break;
-            case LiveNotifyType.reject: {
-                YSLog.d(TAG, "直播音频页面-接收到拒绝进入指令");
-                finish();
             }
             break;
         }
