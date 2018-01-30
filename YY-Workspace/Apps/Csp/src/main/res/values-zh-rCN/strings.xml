@@ -165,7 +165,7 @@
     <string name="click_continue">点击继续</string>
     <string name="scan">扫一扫</string>
     <string name="aim_at_the_code">请对准二维码，耐心等待</string>
-    <string name="fail_to_identify">无法识别此二维码</string>
+    <string name="fail_to_identify">请扫取会讲二维码</string>
     <string name="ready">请到网页添加讲本</string>
     <string name="copy_success">复制成功</string>
     <string name="main_record_dialog">另一台设备正在录播会议，继续可能\n中断该设备录播进度</string>

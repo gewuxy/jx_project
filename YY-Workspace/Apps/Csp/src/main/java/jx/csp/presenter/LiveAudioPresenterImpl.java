@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.Message;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import jx.csp.R;
@@ -131,7 +130,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         mPos = pageNum;
         // 先去除mHandler的对应消息，再延时发送消息
         mHandler.removeMessages(KStartLiveMsgWhat);
-        Message msg = new Message();
+        Message msg = Message.obtain();
         msg.what = KStartLiveMsgWhat;
         Bundle bundle = new Bundle();
         bundle.putString("courseId", courseId);
@@ -195,7 +194,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
             }
             // 直播的时候每页只能录音10分钟，到10分钟的时候要要先上传这15分钟的音频
             mHandler.sendEmptyMessageDelayed(KRecordMsgWhat, KAudioMaxRecordTime);
-        } catch (IOException e) {
+        } catch (Exception e) {
             getView().showToast(R.string.record_fail);
         }
     }
@@ -206,7 +205,12 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
         mHandler.removeMessages(KRecordMsgWhat);
         getView().setRecordTime(mTime);
         if (mMediaRecorder != null && mRecordState) {
-            mMediaRecorder.stop();
+            try {
+                mMediaRecorder.stop();
+            } catch (Exception e) {
+                mMediaRecorder.release();
+                mMediaRecorder = new MediaRecorder();
+            }
             mRecordState = false;
             YSLog.d(TAG, "stopRecord time = " + System.currentTimeMillis());
         }

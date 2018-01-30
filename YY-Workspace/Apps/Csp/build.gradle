@@ -9,7 +9,7 @@ android {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.compileSdk
 
-        versionCode 115
+        versionCode 1150
         versionName "1.1.5"
 
         multiDexEnabled true

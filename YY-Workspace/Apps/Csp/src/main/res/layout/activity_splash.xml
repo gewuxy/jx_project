@@ -14,20 +14,11 @@
         android:src="@drawable/splash_ic_bg"/>
 
     <ImageView
-        android:id="@+id/start_bg_en"
-        android:layout_width="161dp"
-        android:layout_height="107dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:src="@drawable/splash_ic_bg_en"
-        android:visibility="gone"/>
-
-    <ImageView
-        android:layout_width="123dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="27dp"
-        android:src="@drawable/splash_ic_logo"/>
+        android:layout_marginBottom="41dp"
+        android:src="@mipmap/ic_launcher"/>
 
 </RelativeLayout>

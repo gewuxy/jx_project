@@ -165,7 +165,7 @@
     <string name="click_continue">點擊繼續</string>
     <string name="scan">掃一掃</string>
     <string name="aim_at_the_code">請對準二維碼，耐心等待</string>
-    <string name="fail_to_identify">無法識別此二維碼</string>
+    <string name="fail_to_identify">請掃取會講二維碼</string>
     <string name="ready">請到網頁添加講本</string>
     <string name="copy_success">複製成功</string>
     <string name="main_record_dialog">另一台設備正在錄播會議，繼續可能\n中斷該設備錄播進度</string>

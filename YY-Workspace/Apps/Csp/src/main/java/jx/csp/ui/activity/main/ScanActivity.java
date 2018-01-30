@@ -21,6 +21,7 @@ import jx.csp.model.meeting.Scan.DuplicateType;
 import jx.csp.model.meeting.Scan.TScan;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.CommonAPI;
+import jx.csp.network.UrlUtil;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
@@ -170,14 +171,24 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
 
         ParsedResultType type = parsedResult.getType();
         switch (type) {
-            case ADDRESSBOOK:
-                break;
             case URI: {
                 String url = parsedResult.toString();
-                exeNetworkReq(CommonAPI.scanQrCode(url).build());
+                if(url.contains(UrlUtil.getBaseUrl())) {
+                    exeNetworkReq(CommonAPI.scanQrCode(url).build());
+                } else {
+                    showToast(R.string.fail_to_identify);
+                }
                 break;
             }
+            default: {
+                showToast(R.string.fail_to_identify);
+            }
+            break;
         }
+        if (mCountDown != null) {
+            mCountDown.start(KDelayTime);
+        }
+        mScannerView.onResume();
     }
 
     @Override
