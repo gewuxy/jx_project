@@ -8,7 +8,7 @@
     <string name="sr_list_header_hint_loading">加載中…</string>
     <string name="network_click_retry">網絡加載出錯, 點擊屏幕重試</string>
     <string name="toast_network_abort">加載失敗</string>
-    <string name="connect_timeout">超時，請檢查當前網絡</string>
+    <string name="connect_timeout">請求超時，請檢查當前網絡</string>
     <string name="network_disabled">當前網絡不可用，請檢查網絡配置</string>
     <string name="user_photo_permission">請開啟拍照權限</string>
     <string name="user_album_permission">請開啟查看相冊權限</string>
@@ -74,22 +74,19 @@
     <string name="start_experience">立即體驗</string>
 
     <!--登录-->
-    <string name="login_title">CSP</string>
     <string name="login_wechat">微信登錄</string>
-    <string name="login_sina">微博登錄</string>
     <string name="login_jx">敬信</string>
     <string name="have_agree_to">登錄即表示您已同意</string>
     <string name="protocol">《會講服務協議》</string>
+    <string name="protocol_oversea">《CSPmeeting服務協議》</string>
     <string name="other_login_type">其他</string>
     <string name="Register_indicate_have_read">註冊表示您已閱讀，並同意</string>
     <string name="mobile">手機號</string>
     <string name="email">郵箱</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
-    <string name="email_login">郵箱登錄</string>
     <string name="to_register">我要註冊</string>
     <string name="forget_pwd">忘記密碼</string>
-    <string name="email_address">輸入郵箱地址</string>
     <string name="input_pwd">輸入密碼</string>
     <string name="input_login_pwd">輸入登錄密碼</string>
     <string name="input_phone_number">輸入手機號</string>
@@ -101,7 +98,7 @@
     <string name="captcha_login">驗證登錄</string>
     <string name="find_pwd">找回密碼</string>
     <string name="send_email">發送驗證郵件</string>
-    <string name="input_register_email">輸入註冊時的郵箱地址</string>
+    <string name="input_register_email">請輸入註冊時使用的郵箱</string>
     <string name="register">註冊</string>
     <string name="immediately_register">確認註冊</string>
     <string name="pwd_err">密碼錯誤</string>
@@ -113,7 +110,7 @@
     <string name="input_special_symbol">请不要输入特殊字符</string>
     <string name="input_right_pwd_num">請輸入6〜24位密碼</string>
     <string name="reset_pwd_to_email">重置密碼鏈接已發送至您的郵箱</string>
-    <string name="active_email">郵件已發送至您郵箱，請前往激活。</string>
+    <string name="active_email">郵件已發送至您郵箱，請前往激活</string>
     <string name="back_to_login">%ds 返回登錄</string>
     <string name="visit_csp">使用敬信數字平台賬號訪問 會講</string>
     <string name="username">用戶名</string>
@@ -178,7 +175,8 @@
     <string name="live_have_end">直播已結束</string>
     <string name="recorded">錄播</string>
     <string name="delete_success">刪除成功</string>
-    <string name="service_agreement">CSPmeeting服务协议</string>
+    <string name="service_agreement_oversea">CSPmeeting服務協議</string>
+    <string name="service_agreement">會講服務協議</string>
     <string name="click_again_exit">繼續點擊返回將關閉App</string>
     <string name="over_meeting">是否結束會議?</string>
     <string name="over">結束</string>
@@ -221,11 +219,9 @@
     <string name="my_message">我的信息</string>
     <string name="my_message_intro">簡介</string>
     <string name="my_message_person_intro">個人簡介</string>
-    <string name="my_message_input_person_intro">輸入個人簡介</string>
     <string name="my_message_intro_unit">%1$d</string>
     <string name="my_message_nick_name">暱稱</string>
     <string name="my_message_no_input">未輸入</string>
-    <string name="my_message_input_nick_name">暱稱</string>
     <string name="my_message_save">保存</string>
     <string name="my_message_save_success">保存成功</string>
     <string name="my_message_save_as_blank">不可保存為空</string>
@@ -237,7 +233,7 @@
     <string name="setting_clear_img_cache">清理圖片緩存</string>
     <string name="setting_clear_sound_cache">清理音頻緩存</string>
     <string name="setting_clear">清除</string>
-    <string name="setting_exit_current_account">確定退出當前賬號</string>
+    <string name="setting_exit_current_account">退出當前賬號</string>
     <string name="setting_exit_account">退出登錄</string>
     <string name="setting_exit">退出</string>
     <string name="setting_clear_succeed">清理成功</string>

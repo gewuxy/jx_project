@@ -33,7 +33,7 @@
             android:singleLine="false"
             android:padding="@dimen/margin"
             android:gravity="top"
-            android:hint="@string/my_message_input_person_intro"
+            android:hint="@string/my_message_person_intro"
             android:maxLength="600"
             android:scrollbars="vertical"/>
     </RelativeLayout>

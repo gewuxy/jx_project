@@ -14,6 +14,7 @@ import jx.csp.network.NetworkApiDescriptor.UserAPI;
 import jx.csp.network.UrlUtil;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.UISetter;
+import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.network.model.NetworkResp;
@@ -72,7 +73,13 @@ abstract public class BaseAuthLoginActivity extends BaseActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_protocol: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
+                String agreement;
+                if (Util.checkAppCn()) {
+                    agreement = getString(R.string.service_agreement);
+                }else {
+                    agreement = getString(R.string.service_agreement_oversea);
+                }
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(agreement)
                         .route(this);
             }
             break;

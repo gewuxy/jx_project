@@ -4,6 +4,7 @@ import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.TextView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,6 +52,7 @@ public class RegisterActivity extends BaseLoginActivity {
     private final int KReturnCode = 101; // 邮箱已经注册后台返回值
 
     private View mLayout;
+    private TextView mAgreement;
 
     @Override
     public void initData() {
@@ -93,11 +95,17 @@ public class RegisterActivity extends BaseLoginActivity {
     public void findViews() {
         super.findViews();
         mLayout = findView(R.id.linea_layout_protocol);
+        mAgreement = findView(R.id.service_agreement);
     }
 
     @Override
     public void setViews() {
         super.setViews();
+        if (Util.checkAppCn()) {
+            mAgreement.setText(R.string.protocol);
+        }else {
+            mAgreement.setText(R.string.protocol_oversea);
+        }
 
         setOnClickListener(R.id.service_agreement);
 
@@ -109,7 +117,13 @@ public class RegisterActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.service_agreement: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement)).route(this);
+                String agreement;
+                if (Util.checkAppCn()) {
+                    agreement = getString(R.string.service_agreement);
+                }else {
+                    agreement = getString(R.string.service_agreement_oversea);
+                }
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(agreement).route(this);
             }
             break;
         }

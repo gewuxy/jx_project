@@ -21,6 +21,7 @@ import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.login.BaseLoginActivity;
 import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -90,7 +91,13 @@ public class CaptchaLoginNicknameActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.protocol: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
+                String agreement;
+                if (Util.checkAppCn()) {
+                    agreement = getString(R.string.service_agreement);
+                }else {
+                    agreement = getString(R.string.service_agreement_oversea);
+                }
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(agreement)
                         .route(this);
             }
             break;

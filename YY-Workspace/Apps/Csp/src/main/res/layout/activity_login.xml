@@ -135,8 +135,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_marginBottom="27dp">
 
-        <include layout="@layout/layout_login_protocol_footer"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/have_agree_to"
+            android:textColor="@color/text_c6c5cb"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:id="@+id/login_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/protocol"
+            android:textColor="@color/text_c6c5cb"
+            android:textSize="10dp"/>
+
     </LinearLayout>
 </RelativeLayout>

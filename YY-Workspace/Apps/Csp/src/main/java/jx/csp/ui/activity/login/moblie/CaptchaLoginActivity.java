@@ -120,7 +120,13 @@ public class CaptchaLoginActivity extends BaseLoginActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.protocol: {
-                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(getString(R.string.service_agreement))
+                String agreement;
+                if (Util.checkAppCn()) {
+                    agreement = getString(R.string.service_agreement);
+                }else {
+                    agreement = getString(R.string.service_agreement_oversea);
+                }
+                CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(agreement)
                         .route(this);
             }
             break;
