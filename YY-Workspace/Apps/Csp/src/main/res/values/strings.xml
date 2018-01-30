@@ -61,7 +61,7 @@
     <string name="rerecording">重录</string>
     <string name="record_time_insufficient_remind">剩余录制时间不足%d分钟，注意控制时间哦</string>
     <string name="record_ing_slide_remind">请录制完成当前页后再到下一页</string>
-    <string name="slide_can_not_rerecording">滑动将无法续录!</string>
+    <string name="slide_can_not_rerecording">滑动将无法继续录制!</string>
     <string name="record_ing">录音中...</string>
     <string name="dialog_title_hint">提示</string>
     <string name="return_home">返回首页</string>

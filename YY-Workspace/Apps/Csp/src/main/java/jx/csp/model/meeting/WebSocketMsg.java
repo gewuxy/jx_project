@@ -39,6 +39,8 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
             WsOrderType.flow_insufficient,
             WsOrderType.flow_run_out_of,
             WsOrderType.flow_sufficient,
+            WsOrderType.open_star,
+            WsOrderType.live_end,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface WsOrderType {
@@ -52,6 +54,8 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
         int flow_insufficient = 7;
         int flow_run_out_of = 8;
         int flow_sufficient = 9;
+        int open_star = 13;
+        int live_end = 14;
     }
 
     public enum TWebSocketMsg {
@@ -59,7 +63,7 @@ public class WebSocketMsg extends EVal<TWebSocketMsg> {
         /**
          * {@link WsOrderType}
          */
-        order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录 6直播间人数 7流量不足预警 8流量耗尽通知 9流量充足
+        order,    //  0表示直播指令 1同步指令 2表示踢人指令 3表示拒绝被 4接受被踢 5存在重复登录 6直播间人数 7流量不足预警 8流量耗尽通知 9流量充足 13开启星评 14直播结束
         orderFrom,  // app  web
         pageNum,  // 页面下标 0开始
         sid, // 会话ID
