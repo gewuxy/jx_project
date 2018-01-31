@@ -529,7 +529,12 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 mShareAndStarArg.put(TMeet.coverUrl, mCourseDetailList.get(0).getString(TCourseDetail.imgUrl));
             }
             mShareAndStarArg.put(TMeet.playType, CourseType.reb);
-            mShareAndStarArg.put(TMeet.playState, (joinMeeting.get(TJoinMeeting.record)).getInt(TRecord.playState));
+            Record record = joinMeeting.get(TJoinMeeting.record);
+            if (record == null) {
+                mShareAndStarArg.put(TMeet.playState, Record.PlayState.un_start);
+            } else {
+                mShareAndStarArg.put(TMeet.playState, record.getInt(TRecord.playState));
+            }
 
             mStarState = course.getBoolean(TCourse.starRateFlag);
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
@@ -696,7 +701,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mCanContinueRecord = false;
             hideView(mTvRemind);
             mTvRecordTime.setText("10:00");
-            mRecordTimeArray.put(getCurrPosition(), (int)TimeUnit.MINUTES.toSeconds(10));
+            mRecordTimeArray.put(getCurrPosition(), (int) TimeUnit.MINUTES.toSeconds(10));
             mTvRecordState.setText(R.string.record);
             mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
             mIvRecordState.setClickable(false);
