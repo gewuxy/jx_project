@@ -14,6 +14,7 @@ import com.mylhyl.zxing.scanner.ScannerView;
 import com.mylhyl.zxing.scanner.common.Scanner;
 
 import jx.csp.App.NavBarVal;
+import jx.csp.BuildConfig;
 import jx.csp.R;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Scan;
@@ -173,7 +174,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         switch (type) {
             case URI: {
                 String url = parsedResult.toString();
-                if(url.contains(UrlUtil.getBaseUrl())) {
+                if (isJxUrl(url)) {
                     exeNetworkReq(CommonAPI.scanQrCode(url).build());
                 } else {
                     showToast(R.string.fail_to_identify);
@@ -236,7 +237,7 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
         }
     }
 
-    protected void joinRecord() {
+    private void joinRecord() {
         if (mScan.getInt(TScan.playType) == CourseType.reb) {
             //录播
             RecordActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
@@ -244,5 +245,17 @@ public class ScanActivity extends BaseActivity implements OnScannerCompletionLis
             LiveAudioActivityRouter.create(mScan.getString(TScan.courseId)).route(this);
         }
         finish();
+    }
+
+    private boolean isJxUrl(String url) {
+        String baseUrl = UrlUtil.getBaseUrl();
+        String[] split = baseUrl.split("/");
+        String domain;
+        if (split != null && split.length > 2) {
+            domain = split[2];
+        } else {
+            domain = BuildConfig.DEBUG_NETWORK ? "medcn.synology.me" : "www.cspmeeting.com";
+        }
+        return url.contains(domain);
     }
 }
