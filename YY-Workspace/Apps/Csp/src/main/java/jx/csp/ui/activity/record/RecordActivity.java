@@ -243,14 +243,15 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private void moveOperation() {
         if (mRecordState) {
             showToast(R.string.record_ing_slide_remind);
+            return;
         }
         if (SpApp.inst().showSlideDialog() && mCanContinueRecord) {
             CommonDialog2 dialog = new CommonDialog2(this);
             dialog.setHint(R.string.slide_can_not_rerecording);
             dialog.addBlackButton(R.string.ok, v -> {
+                SpApp.inst().neverShowSlideDialog();
                 getViewPager().setScrollable(true);
                 goneView(mGestureView);
-                SpApp.inst().neverShowSlideDialog();
             });
             dialog.show();
         }
@@ -748,7 +749,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mTvRemind.setText(String.format(getString(R.string.record_time_insufficient_remind), minute));
             // 设置震动周期，数组表示时间：等待+执行，单位是毫秒，下面操作代表:等待100，执行200，等待100，执行500，
             // 后面的数字如果为-1代表不重复，只执行一次，其他代表会重复，0代表从数组的第0个位置开始
-            mVibrator.vibrate(new long[]{100, 200, 100, 500}, -1);
+            mVibrator.vibrate(new long[]{100, 150, 100, 500}, -1);
         }
 
         @Override
