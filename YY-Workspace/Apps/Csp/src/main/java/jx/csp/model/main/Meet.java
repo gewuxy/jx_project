@@ -1,5 +1,7 @@
 package jx.csp.model.main;
 
+import jx.csp.constant.FiltrateType;
+import jx.csp.constant.SourceType;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
@@ -45,5 +47,29 @@ public class Meet extends EVal<TMeet> {
 
         starRateFlag, // true 是否开启星评
         password,  // 会议观看密码
+
+        /**
+         * {@link SourceType}
+         */
+        sourceType, // 课件来源
+    }
+
+    @FiltrateType
+    public int getType() {
+        @FiltrateType int type = FiltrateType.ppt;
+        switch (getInt(TMeet.sourceType)) {
+            case SourceType.yaya:
+            case SourceType.ppt:
+            case SourceType.card:
+            case SourceType.red_packet: {
+                type = FiltrateType.ppt;
+            }
+            break;
+            case SourceType.photo: {
+                type = FiltrateType.photo;
+            }
+            break;
+        }
+        return type;
     }
 }

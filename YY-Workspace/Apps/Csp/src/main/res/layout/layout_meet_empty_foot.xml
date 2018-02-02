@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ppt的空布局 -->
+    <RelativeLayout
+        android:id="@+id/empty_footer_ppt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include layout="@layout/layout_empty_foot"/>
+    </RelativeLayout>
+
+    <!-- 照片的空布局 -->
+    <LinearLayout
+        android:id="@+id/empty_footer_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--不能使用margin top属性, 会导致CornerView底部圆角无法绘制-->
+        <View
+            style="@style/divider"
+            android:layout_height="16dp"
+            android:background="@color/transparent"/>
+
+        <lib.ys.view.CornerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            app:corner_foreground="@drawable/item_foreground_selector"
+            app:corner_radius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="238dp"
+                android:background="@color/white">
+
+                <View
+                    android:layout_width="252dp"
+                    android:layout_height="174dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/bg_main_empty"/>
+
+                <ImageView
+                    android:id="@+id/main_empty_iv"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/item_selector"
+                    android:padding="5dp"
+                    android:src="@drawable/main_ic_add"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/main_empty_iv"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/add_meet"
+                    android:textColor="@color/text_9699a2"
+                    android:textSize="14dp"/>
+
+            </RelativeLayout>
+        </lib.ys.view.CornerView>
+
+        <View
+            style="@style/divider"
+            android:layout_height="16dp"
+            android:background="@color/transparent"/>
+
+    </LinearLayout>
+</RelativeLayout>

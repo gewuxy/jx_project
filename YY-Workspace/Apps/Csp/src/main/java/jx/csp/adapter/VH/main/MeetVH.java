@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import jx.csp.R;
 import lib.ys.adapter.VH.RecyclerViewHolderEx;
+import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 
 /**
@@ -14,41 +15,42 @@ import lib.ys.network.image.NetworkImageView;
  * @since 2017/10/18
  */
 
-public class MeetGridVH extends RecyclerViewHolderEx {
+public class MeetVH extends ViewHolderEx {
 
-    public MeetGridVH(@NonNull View convertView) {
+    public MeetVH(@NonNull View convertView) {
         super(convertView);
     }
 
+    public View getItem() {
+        return getView(R.id.meet_item);
+    }
+
     public View getItemLayout() {
-        return getView(R.id.main_meet_layout);
+        return getView(R.id.meet_item_no_divider);
     }
 
     public View getDividerTop() {
-        return getView(R.id.main_meet_divider_top);
+        return getView(R.id.meet_item_divider_top);
     }
 
     public NetworkImageView getIvHead() {
-        return getView(R.id.iv_head);
+        return getView(R.id.meet_item_iv_head);
     }
 
     public TextView getTvTitle() {
-        return getView(R.id.tv_title);
+        return getView(R.id.meet_item_tv_title);
     }
 
     public TextView getTvTime() {
-        return getView(R.id.main_play_time);
+        return getView(R.id.meet_item_play_time);
     }
 
     public ImageView getIvLive() {
-        return getView(R.id.main_meet_iv_live);
+        return getView(R.id.meet_item_iv_live);
     }
 
     public ImageView getIvShare() {
-        return getView(R.id.main_meet_iv_share);
+        return getView(R.id.meet_item_iv_share);
     }
 
-    public TextView getTvSharePlayback() {
-        return getView(R.id.frag_main_meet_vp_tv_share_playback);
-    }
 }

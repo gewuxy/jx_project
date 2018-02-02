@@ -15,6 +15,7 @@ import java.util.List;
 
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.constant.FiltrateType;
 import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.UpdateNoticeDialog;
@@ -47,8 +48,9 @@ import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.activity.record.RecordActivityRouter;
-import jx.csp.ui.frag.main.MeetGridFrag;
-import jx.csp.ui.frag.main.MeetVpFrag;
+import jx.csp.ui.frag.main.MeetCardFrag;
+import jx.csp.ui.frag.main.MeetFrag;
+import jx.csp.ui.frag.main.MeetListFrag;
 import jx.csp.util.Util;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.LiveNotifier;
@@ -81,34 +83,28 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private final int KPageGrid = 0;
     private final int KPageVp = 1;
 
+    private View mMidView;
+    private TextView mTvTitle;
     private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
     private TextView mTvPast;
 
-    private MeetGridFrag mGridFrag;
-    private MeetVpFrag mVpFrag;
+    private MeetCardFrag mCardFrag;
+    private MeetListFrag mListFrag;
 
     private CountdownDialog mCountdownDialog;
 
+    @FiltrateType
+    public static int mFiltrateType;
+
     @Override
     public void initData() {
-        mGridFrag = new MeetGridFrag();
-        mVpFrag = new MeetVpFrag();
+        mCardFrag = new MeetCardFrag();
+        add(mCardFrag);
+        mListFrag = new MeetListFrag();
+        add(mListFrag);
 
-        mVpFrag.setListener(flag -> {
-            if (mTvPast == null) {
-                return;
-            }
-            if (flag) {
-                // 进行中显示优先
-                goneView(mTvPast);
-            } else {
-                pastHint(Profile.inst().get(TProfile.cspPackage));
-            }
-        });
-
-        add(mGridFrag);
-        add(mVpFrag);
+        mFiltrateType = FiltrateType.all;
     }
 
     @Override
@@ -122,8 +118,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         bar.addViewLeft(R.drawable.ic_default_user_header, null, v -> startActivity(MeActivity.class));
 
         //添加中间布局
-        View midView = inflate(R.layout.layout_main_text_mid);
-        mTvExpireRemind = midView.findViewById(R.id.main_tv_remind);
+        View view = inflate(R.layout.layout_main_text_mid);
+        mMidView = view.findViewById(R.id.main_layout_text_mid);
+        mTvTitle = view.findViewById(R.id.main_tv_title);
+        mTvExpireRemind = view.findViewById(R.id.main_tv_remind);
         VipPackage p = Profile.inst().get(TProfile.cspPackage);
         if (p != null) {
             int day = p.getInt(TPackage.expireDays);
@@ -134,7 +132,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 goneView(mTvExpireRemind);
             }
         }
-        bar.addViewMid(midView);
+        bar.addViewMid(view);
 
         //添加右边布局
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
@@ -144,22 +142,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mIvShift.setSelected(false);
                 // 跳转到九宫格Item，false表示没有切换效果,true是划过去的
                 setCurrPosition(KPageGrid, false);
-                mGridFrag.setPosition(mVpFrag.getPosition());
+                mCardFrag.setData(mListFrag.getData());
+                mCardFrag.thisRefresh();
                 SpUser.inst().saveMainPage(KPageGrid);
-                pastHint(Profile.inst().get(TProfile.cspPackage));
             } else {
                 // 卡片
                 mIvShift.setSelected(true);
                 setCurrPosition(KPageVp, false);
-                int position = mGridFrag.getPosition();
-                mVpFrag.setPosition(position);
                 SpUser.inst().saveMainPage(KPageVp);
-                if (mVpFrag.reminder(position)) {
-                    // 进行中显示优先
-                    goneView(mTvPast);
-                } else {
-                    pastHint(Profile.inst().get(TProfile.cspPackage));
-                }
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -180,6 +170,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         super.setViews();
 
         setOnClickListener(R.id.main_scan);
+        setOnClickListener(mMidView);
 
         // 不能左右滑动
         setScrollable(false);
@@ -195,9 +186,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     .route(this);
         }
 
-        mGridFrag.setListener(data -> {
-            mVpFrag.setData(data);
-            mVpFrag.nativeInvalidate();
+        mCardFrag.setListener(data -> {
+            mListFrag.setData(data);
+            mListFrag.invalidate();
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
@@ -205,7 +196,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     int page = SpUser.inst().getMainAcVpPage();
                     if (page != 0) {
                         setCurrPosition(page, false);
-                        mVpFrag.setPosition(0);
                         mIvShift.setSelected(true);
                     }
                     removeOnGlobalLayoutListener(this);
@@ -251,9 +241,30 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onClick(View v) {
-        if (checkPermission(KCameraPermissionCode, Permission.camera)) {
-            startActivity(ScanActivity.class);
+        switch (v.getId()) {
+            case R.id.main_scan: {
+                if (checkPermission(KCameraPermissionCode, Permission.camera)) {
+                    startActivity(ScanActivity.class);
+                }
+            }
+            break;
+            case R.id.main_layout_text_mid: {
+                if (mFiltrateType == FiltrateType.all) {
+                    mFiltrateType = FiltrateType.ppt;
+                    mTvTitle.setText("PPT");
+                } else if (mFiltrateType == FiltrateType.ppt) {
+                    mFiltrateType = FiltrateType.photo;
+                    mTvTitle.setText(R.string.photo);
+                } else {
+                    mFiltrateType = FiltrateType.all;
+                    mTvTitle.setText(R.string.app_name);
+                }
+                mCardFrag.invalidate();
+            }
+            break;
         }
+
+
     }
 
     @Override
@@ -392,8 +403,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     }
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
                 } else {
-                    if (getCurrItem() instanceof MeetGridFrag) {
-                        ((MeetGridFrag) getCurrItem()).allowEnter();
+                    if (getCurrItem() instanceof MeetFrag) {
+                        ((MeetFrag) getCurrItem()).allowEnter();
                     }
                 }
             }
@@ -409,8 +420,8 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     }
                     RecordActivityRouter.create(RecordUnusualState.inst().getString(TRecordUnusualState.courseId)).route(MainActivity.this);
                 } else {
-                    if (getCurrItem() instanceof MeetGridFrag) {
-                        ((MeetGridFrag) getCurrItem()).notAllowEnter();
+                    if (getCurrItem() instanceof MeetFrag) {
+                        ((MeetFrag) getCurrItem()).notAllowEnter();
                     }
                 }
             }
@@ -442,10 +453,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             case NotifyType.delete_meeting_success: {
                 String str = (String) data;
                 YSLog.d(TAG, str + "删除接收通知");
-                for (Meet meet : mGridFrag.getData()) {
+                for (Meet meet : mCardFrag.getData()) {
                     if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
-                        mGridFrag.getData().remove(meet);
-                        mGridFrag.invalidate();
+                        mCardFrag.getData().remove(meet);
+                        mCardFrag.invalidate();
                         break;
                     }
                 }
@@ -475,11 +486,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
                 // 修改数据源
                 String id = (String) data;
-                for (Meet meet : mGridFrag.getData()) {
+                for (Meet meet : mCardFrag.getData()) {
                     if (meet.getString(TMeet.id).equals(id)) {
                         meet.put(TMeet.liveState, LiveState.end);
                         meet.put(TMeet.playState, PlayState.end);
-                        mGridFrag.invalidate();
+                        mCardFrag.invalidate();
                         break;
                     }
                 }
@@ -487,10 +498,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             break;
             case NotifyType.start_live: {
                 String id = (String) data;
-                for (Meet meet : mGridFrag.getData()) {
+                for (Meet meet : mCardFrag.getData()) {
                     if (meet.getString(TMeet.id).equals(id)) {
                         meet.put(TMeet.liveState, LiveState.live);
-                        mGridFrag.invalidate();
+                        mCardFrag.invalidate();
                         break;
                     }
                 }
@@ -515,10 +526,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                     Meet m = (Meet) data;
                     String id = m.getString(TMeet.id);
                     String time = m.getString(TMeet.playTime);
-                    for (Meet meet : mGridFrag.getData()) {
+                    for (Meet meet : mCardFrag.getData()) {
                         if (meet.getString(TMeet.id).equals(id)) {
                             meet.put(TMeet.playTime, time);
-                            mGridFrag.invalidate();
+                            mCardFrag.invalidate();
                             break;
                         }
                     }

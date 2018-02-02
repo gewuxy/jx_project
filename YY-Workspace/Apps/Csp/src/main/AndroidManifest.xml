@@ -38,12 +38,12 @@
             android:screenOrientation="landscape"/>
         <activity
             android:name=".ui.activity.record.RecordActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.record.LiveAudioActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.CommonWebViewActivity"
             android:screenOrientation="portrait"/>
@@ -92,6 +92,9 @@
             android:windowSoftInputMode="adjustPan"/>
 
         <!-- 首页 -->
+        <activity
+            android:name=".ui.activity.main.ChoicePhotoActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:launchMode="singleTask"

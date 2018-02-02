@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <lib.ys.view.swipeRefresh.SRRecyclerLayout
+        android:id="@id/layout_scrollable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent"
+        android:divider="@drawable/divider"
+        android:dividerHeight="@dimen/divider_height_1px"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@drawable/transparent"
+        android:scrollingCache="false"/>
+
+    <FrameLayout
+        android:id="@id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:id="@+id/layout_empty_ppt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/layout_empty_foot"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layout_empty_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/layout_meet_empty_foot"/>
+        </FrameLayout>
+
+    </FrameLayout>
+
+</FrameLayout>

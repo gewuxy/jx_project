@@ -24,5 +24,4 @@
         android:textColor="@color/text_c6c5cb"
         android:textSize="15dp"/>
 
-
 </RelativeLayout>

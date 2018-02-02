@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/meet_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/meet_item_no_divider"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/item_selector"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginTop="9dp">
+
+                <lib.ys.network.image.NetworkImageView
+                    android:id="@+id/meet_item_iv_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/meet_item_iv_live"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/main_ic_live"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_marginTop="9dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/meet_item_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="9dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="脑卒中的神经康复客服看看"
+                    android:textColor="@color/text_333"
+                    android:textSize="16dp"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/meet_item_play_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:text="00'00''"
+                        android:textColor="@color/text_9699a2"
+                        android:textSize="14dp"
+                        android:textStyle="bold"/>
+
+                    <ImageView
+                        android:id="@+id/meet_item_iv_ppt"
+                        android:layout_width="27dp"
+                        android:layout_height="12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="11dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@id/meet_item_play_time"
+                        android:src="@drawable/main_ic_ppt"/>
+
+                    <ImageView
+                        android:id="@+id/meet_item_iv_share"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/nav_bar_selector"
+                        android:padding="5dp"
+                        android:src="@drawable/main_ic_share"/>
+
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</LinearLayout>

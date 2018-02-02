@@ -205,6 +205,8 @@
     <string name="home_continue_record">继续录制</string>
     <string name="home_continue_record_content">系统检测到上次录制时意外退出，是\n否继续？</string>
     <string name="save">保存</string>
+    <string name="photo">照片</string>
+    <string name="add_meet">新建讲本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

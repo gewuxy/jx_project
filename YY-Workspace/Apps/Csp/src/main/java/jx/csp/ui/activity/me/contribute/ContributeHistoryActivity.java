@@ -48,7 +48,7 @@ public class ContributeHistoryActivity extends BaseSRListActivity<History, Histo
 
     @Override
     public View createEmptyFooterView() {
-        return inflate(R.layout.layout_main_empty_footer);
+        return inflate(R.layout.layout_empty_foot);
     }
 
     @Override

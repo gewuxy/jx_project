@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/meet_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!--不能使用margin top属性, 会导致CornerView底部圆角无法绘制-->
+        <View
+            android:id="@+id/meet_item_divider_top"
+            style="@style/divider"
+            android:layout_height="16dp"
+            android:background="@color/transparent"
+            android:visibility="gone"/>
+
+        <lib.ys.view.CornerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/meet_item_no_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginRight="@dimen/margin"
+            app:corner_foreground="@drawable/item_foreground_selector"
+            app:corner_radius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="238dp"
+                android:background="@color/white">
+
+                <lib.ys.network.image.NetworkImageView
+                    android:id="@+id/meet_item_iv_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"/>
+
+                <ImageView
+                    android:id="@+id/meet_item_iv_live"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="1dp"
+                    android:padding="5dp"
+                    android:src="@drawable/main_ic_live"/>
+
+                <TextView
+                    android:id="@+id/meet_item_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/meet_item_iv_head"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="end"
+                    android:includeFontPadding="false"
+                    android:singleLine="true"
+                    android:text="脑卒中的神经康复客服看看"
+                    android:textColor="@color/text_333"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/meet_item_play_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="@dimen/margin"
+                    android:includeFontPadding="false"
+                    android:text="00'00''"
+                    android:textColor="@color/text_7a8b9f"
+                    android:textSize="12dp"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/meet_item_iv_ppt"
+                    android:layout_width="27dp"
+                    android:layout_height="12dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/meet_item_play_time"
+                    android:src="@drawable/main_ic_ppt"/>
+
+                <ImageView
+                    android:id="@+id/meet_item_iv_share"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="@dimen/margin"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/nav_bar_selector"
+                    android:src="@drawable/main_ic_share"/>
+
+            </RelativeLayout>
+        </lib.ys.view.CornerView>
+
+        <View
+            style="@style/divider"
+            android:layout_height="16dp"
+            android:background="@color/transparent"/>
+
+    </LinearLayout>
+</LinearLayout>

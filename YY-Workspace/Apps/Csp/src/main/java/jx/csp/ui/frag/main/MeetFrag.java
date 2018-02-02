@@ -1,8 +1,6 @@
 package jx.csp.ui.frag.main;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.LayoutManager;
+import android.support.annotation.CallSuper;
 import android.view.View;
 
 import org.json.JSONException;
@@ -10,7 +8,8 @@ import org.json.JSONException;
 import java.util.List;
 
 import jx.csp.R;
-import jx.csp.adapter.main.MeetGridAdapter;
+import jx.csp.adapter.main.MeetAdapter;
+import jx.csp.constant.FiltrateType;
 import jx.csp.contact.MeetContract;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
@@ -19,10 +18,11 @@ import jx.csp.model.main.MeetInfo.TMeetInfo;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import lib.jx.network.Result;
 import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.frag.base.BaseSRRecyclerFrag;
+import lib.jx.ui.frag.base.BaseSRListFrag;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx;
@@ -34,15 +34,18 @@ import lib.ys.ui.other.NavBar;
  * @auther WangLan
  * @since 2017/10/18
  */
-public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> implements
+public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> implements
         IMeetOpt,
         MeetContract.V,
         MultiAdapterEx.OnAdapterClickListener,
-        MeetGridAdapter.OnAdapterLongClickListener {
+        MeetAdapter.OnAdapterLongClickListener {
 
     private OnMeetGridListener mListener;
 
     private MeetContract.P mPresenter;
+    private View mViewEmpty; // 只是加到footer里(自己控制显示隐藏)
+    private View mViewEmptyPpt;
+    private View mViewEmptyPhoto;
 
     public interface OnMeetGridListener {
         void onMeetRefresh(List<Meet> data);
@@ -64,11 +67,6 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
         setOnAdapterClickListener(this);
         getAdapter().setLongClickListener(this);
-    }
-
-    @Override
-    protected LayoutManager initLayoutManager() {
-        return new GridLayoutManager(getContext(), MeetGridAdapter.KSpanCount);
     }
 
     @Override
@@ -106,15 +104,15 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         Meet item = getItem(position);
 
         switch (v.getId()) {
-            case R.id.main_meet_layout: {
+            case R.id.meet_item_no_divider: {
                 mPresenter.onMeetClick(item);
             }
             break;
-            case R.id.main_meet_iv_share: {
+            case R.id.meet_item_iv_share: {
                 mPresenter.onShareClick(item);
             }
             break;
-            case R.id.main_meet_iv_live: {
+            case R.id.meet_item_iv_live: {
                 mPresenter.onLiveClick(item);
             }
             break;
@@ -129,23 +127,15 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
 
     @Override
     public View createEmptyFooterView() {
-        return inflate(R.layout.layout_main_empty_footer);
+        // FIXME
+        mViewEmpty = inflate(R.layout.layout_meet_empty_foot);
+        mViewEmptyPpt = mViewEmpty.findViewById(R.id.empty_footer_ppt);
+        mViewEmptyPhoto = mViewEmpty.findViewById(R.id.empty_footer_photo);
+        return mViewEmpty;
     }
 
     public void setListener(OnMeetGridListener listener) {
         mListener = listener;
-    }
-
-    @Override
-    public void setPosition(int position) {
-        setSelection(position);
-    }
-
-    @Override
-    public int getPosition() {
-        RecyclerView rv = getScrollableView();
-        GridLayoutManager l = (GridLayoutManager) rv.getLayoutManager();
-        return l.findFirstVisibleItemPosition();
     }
 
     @Override
@@ -171,25 +161,39 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
     }
 
     @Override
-    public void showSharePlayback(String id) {
-        for (int i = 0; i < getData().size(); ++i) {
-            Meet meet = getItem(i);
-            if (meet.getString(TMeet.id).equals(id)) {
-                getAdapter().showSharePlayback(i);
-            }
+    public void onDataSetChanged() {
+        if (MainActivity.mFiltrateType == FiltrateType.ppt) {
+            showView(mViewEmptyPpt);
+            goneView(mViewEmptyPhoto);
+        } else {
+            goneView(mViewEmptyPpt);
+            showView(mViewEmptyPhoto);
         }
+
+        super.onDataSetChanged();
+/*
+        if (getData() == null || getData().isEmpty()) {
+            hideFooterView();
+            showView(mViewEmpty);
+        } else {
+            for (Meet meet : getData()) {
+                if (meet.getType() == MainActivity.mFiltrateType || MainActivity.mFiltrateType == FiltrateType.all) {
+                    showFooterView();
+                    goneView(mViewEmpty);
+                    return;
+                }
+            }
+            hideFooterView();
+            showView(mViewEmpty);
+        }*/
     }
 
     @Override
-    public void goneSharePlayback(String id) {
-        for (int i = 0; i < getData().size(); ++i) {
-            Meet meet = getItem(i);
-            if (meet.getString(TMeet.id).equals(id)) {
-                getAdapter().goneSharePlayback(i);
-            }
-        }
+    protected String getEmptyText() {
+        return getString(R.string.ready);
     }
 
+    @CallSuper
     @Override
     public void invalidate() {
         super.invalidate();
@@ -197,5 +201,12 @@ public class MeetGridFrag extends BaseSRRecyclerFrag<Meet, MeetGridAdapter> impl
         if (mListener != null) {
             mListener.onMeetRefresh(getData());
         }
+    }
+
+    /**
+     * 不通知其他刷新
+     */
+    public void thisRefresh() {
+        super.invalidate();
     }
 }

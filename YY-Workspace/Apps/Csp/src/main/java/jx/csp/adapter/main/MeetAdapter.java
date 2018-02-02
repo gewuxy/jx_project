@@ -3,11 +3,14 @@ package jx.csp.adapter.main;
 import android.view.View;
 
 import jx.csp.R;
-import jx.csp.adapter.VH.main.MeetGridVH;
+import jx.csp.adapter.VH.main.MeetVH;
+import jx.csp.constant.FiltrateType;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.ui.activity.main.MainActivity;
+import lib.ys.adapter.AdapterEx;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
@@ -18,9 +21,7 @@ import lib.ys.util.res.ResLoader;
  * @since 2017/10/18
  */
 
-public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
-
-    public static final int KSpanCount = 2;
+public class MeetAdapter extends AdapterEx<Meet, MeetVH> {
 
     private OnAdapterLongClickListener mLongClickListener;
 
@@ -34,22 +35,21 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
 
     @Override
     public int getConvertViewResId() {
-        return R.layout.layout_main_meet_item;
+        return R.layout.layout_main_meet_card_item;
     }
 
     @Override
-    protected void refreshView(int position, MeetGridVH holder) {
-        if (position < KSpanCount) {
-            showView(holder.getDividerTop());
+    protected void refreshView(int position, MeetVH holder) {
+        if (MainActivity.mFiltrateType != FiltrateType.all) {
+            int type = getItem(position).getType();
+            if (type != MainActivity.mFiltrateType) {
+                goneView(holder.getItem());
+                return;
+            }
         }
-
+        showView(holder.getItem());
+        meetItemRefresh(position, holder);
         Meet item = getItem(position);
-
-        holder.getIvHead()
-                .placeHolder(R.drawable.ic_default_main_grid)
-                .url(item.getString(TMeet.coverUrl))
-                .resize(fit(160), fit(110))
-                .load();
 
         holder.getTvTitle().setText(item.getString(TMeet.title));
 
@@ -95,17 +95,7 @@ public class MeetGridAdapter extends RecyclerAdapterEx<Meet, MeetGridVH> {
         }
     }
 
-    public void showSharePlayback(int pos) {
-        if (getCacheVH(pos) == null) {
-            return;
-        }
-        showView(getCacheVH(pos).getTvSharePlayback());
+    protected void meetItemRefresh(int position, MeetVH holder) {
     }
 
-    public void goneSharePlayback(int pos) {
-        if (getCacheVH(pos) == null) {
-            return;
-        }
-        goneView(getCacheVH(pos).getTvSharePlayback());
-    }
 }

@@ -6,15 +6,8 @@ package jx.csp.ui.frag.main;
  */
 
 public interface IMeetOpt {
-    void setPosition(int position);
-
-    int getPosition();
 
     void allowEnter();
 
     void notAllowEnter();
-
-    void showSharePlayback(String id);
-
-    void goneSharePlayback(String id);
 }
