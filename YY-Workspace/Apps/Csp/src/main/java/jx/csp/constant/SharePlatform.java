@@ -29,7 +29,8 @@ public enum SharePlatform {
     preview(ShareType.preview, R.drawable.share_ic_preview, getString(R.string.preview), true),
     watch_pwd(ShareType.watch_pwd, R.drawable.share_ic_watch_pwd, getString(R.string.watch_pwd), true),
     copy_link(ShareType.copy_link, R.drawable.share_ic_copy_link, getString(R.string.copy_link), true),
-    delete(ShareType.delete, R.drawable.share_ic_delete, getString(R.string.delete_speech), true);
+    delete(ShareType.delete, R.drawable.share_ic_delete, getString(R.string.delete_speech), true),
+    editor(ShareType.editor, R.drawable.share_ic_editor, getString(R.string.editor), true);
 
     private int mType;  // 分享平台类型
     private int mIcon; // 分享平台图像

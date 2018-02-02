@@ -25,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
         ShareType.watch_pwd,
         ShareType.copy_link,
         ShareType.delete,
+        ShareType.editor,
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface ShareType {
@@ -45,4 +46,6 @@ public @interface ShareType {
     int watch_pwd = 13; //观看密码
     int copy_link = 14; //复制链接
     int delete = 15;    //删除会议
+
+    int editor = 16;    //编辑
 }

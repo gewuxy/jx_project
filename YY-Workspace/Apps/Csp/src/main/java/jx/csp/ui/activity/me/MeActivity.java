@@ -49,6 +49,7 @@ public class MeActivity extends BaseFormActivity {
             RelatedId.setting,
             RelatedId.help_and_feedback,
             RelatedId.vip,
+            RelatedId.guide,
     })
     @Retention(RetentionPolicy.SOURCE)
     private @interface RelatedId {
@@ -58,6 +59,7 @@ public class MeActivity extends BaseFormActivity {
         int setting = 3;
         int help_and_feedback = 4;
         int vip = 5;
+        int guide = 6;
     }
 
     @Override
@@ -100,6 +102,13 @@ public class MeActivity extends BaseFormActivity {
                 .related(RelatedId.setting));
 
         addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text)
+                .drawable(R.drawable.form_ic_guide)
+                .layout(R.layout.form_text_me)
+                .name(R.string.person_center_guide)
+                .related(RelatedId.guide));
+
+        addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
                 .drawable(R.drawable.form_ic_help_and_feedback)
                 .layout(R.layout.form_text_me)
@@ -177,6 +186,10 @@ public class MeActivity extends BaseFormActivity {
             break;
             case RelatedId.help_and_feedback: {
                 startActivity(HelpAndFeedbackActivity.class);
+            }
+            break;
+            case RelatedId.guide: {
+
             }
             break;
         }

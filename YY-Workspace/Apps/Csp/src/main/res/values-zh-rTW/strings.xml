@@ -143,6 +143,7 @@
     <string name="watch_pwd">觀看密碼</string>
     <string name="copy_ectype">複製副本</string>
     <string name="delete_speech">刪除</string>
+    <string name="editor">編輯</string>
     <string name="share_success">分享成功</string>
     <string name="share_fail">分享失敗</string>
     <string name="share_cancel">分享取消</string>
@@ -216,6 +217,7 @@
     <string name="person_center_vip_manage">會員管理</string>
     <string name="person_center_account_manage">賬號管理</string>
     <string name="person_center_help_and_feedback">幫助與反饋</string>
+    <string name="person_center_guide">新手指引</string>
 
     <!-- 我的信息 -->
     <string name="my_message">我的信息</string>

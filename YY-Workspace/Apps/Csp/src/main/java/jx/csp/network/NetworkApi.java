@@ -380,6 +380,27 @@ public class NetworkApi {
          */
         @Get("star/code")
         void code(String courseId);
+
+        /**
+         * 获取主题和背景音乐
+         *
+         * @param type 不传或者传0时，获取主题，传1获取背景音乐
+         */
+        @Get("mini/image/music")
+        void editor(int type);
+
+        @Post("upload/picture")
+        void picture(int courseId, int file, int sort);
+
+        /**
+         * 完善或修改课件标题，主题，背景音乐
+         * @param courseId 课件id
+         * @param title 课件标题
+         * @param imgId 课件主题id,修改课件时如果没有修改主题，可以不传
+         * @param musicId   课件背景音乐id,修改课件时如果没有修改背景音乐，可以不传
+         */
+        @Post("mini/update")
+        void updateMini(int courseId, String title, int imgId, int musicId);
     }
 
     @Api("charge")

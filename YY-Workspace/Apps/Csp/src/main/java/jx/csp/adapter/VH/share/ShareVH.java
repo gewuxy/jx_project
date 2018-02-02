@@ -1,26 +1,25 @@
-package jx.csp.adapter.VH.main;
+package jx.csp.adapter.VH.share;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.R;
-import lib.ys.adapter.VH.ViewHolderEx;
+import lib.ys.adapter.VH.RecyclerViewHolderEx;
 
 /**
- * @auther WangLan
- * @since 2017/11/8
+ * @auther HuoXuYu
+ * @since 2018/2/1
  */
 
-public class ShareVH extends ViewHolderEx {
+public class ShareVH extends RecyclerViewHolderEx{
 
-    public ShareVH(@NonNull View convertView) {
-        super(convertView);
+    public ShareVH(View itemView) {
+        super(itemView);
     }
 
     public View getItemLayout() {
-        return getView(R.layout.layout_dialog_share_pltatform_item);
+        return getView(R.id.dialog_layout_share);
     }
 
     public ImageView getIvIcon() {

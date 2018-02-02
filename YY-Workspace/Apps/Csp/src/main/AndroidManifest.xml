@@ -53,6 +53,10 @@
         <activity
             android:name=".ui.activity.share.WatchPwdActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.share.EditorActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
 
         <!-- 登录 -->
         <activity

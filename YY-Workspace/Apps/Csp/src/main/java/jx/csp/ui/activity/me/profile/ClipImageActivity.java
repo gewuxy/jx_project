@@ -32,10 +32,9 @@ public class ClipImageActivity extends BaseClipImageActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.setBackgroundResource(R.color.white);
         Util.addBackIcon(bar, R.string.person_center_avatar, this);
         TextView tv = bar.addTextViewRight(R.string.confirm, v -> clip());
-        tv.setTextColor(ResLoader.getColor(R.color.text_167afe));
+        tv.setTextColor(ResLoader.getColor(R.color.text_ace400));
     }
 
     @Override

@@ -167,7 +167,6 @@ public class FlowRateManageActivity extends BaseActivity {
                         mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.wechat);
                     }
                     break;
-                    // FIXME: 2017/12/15 暂时不提供，1.1.5版本再添加
                     case PayType.unionpay: {
                         mPresenter.confirmPay(KPingReqCode, mFlow, PingPayChannel.upacp);
                     }

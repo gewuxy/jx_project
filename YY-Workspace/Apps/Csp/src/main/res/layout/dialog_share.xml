@@ -7,52 +7,43 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layout_share"
-        android:layout_width="match_parent"
-        android:layout_height="235dp"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="25dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/share_gridview"
+        <lib.ys.view.recycler.WrapRecyclerView
+            android:id="@+id/share_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:listSelector="@color/transparent"
-            android:numColumns="4"
-            android:verticalSpacing="29dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
 
+        <View
+            style="@style/divider"
+            android:layout_marginTop="30dp"
+            android:background="@color/color_db"/>
     </LinearLayout>
-
-    <View
-        style="@style/divider"
-        android:background="@color/color_db"/>
 
     <LinearLayout
-        android:id="@+id/layout_share2"
-        android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginLeft="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="25dp">
+        android:id="@+id/share_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/share_gridview2"
+        <lib.ys.view.recycler.WrapRecyclerView
+            android:id="@+id/share_rv2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:listSelector="@color/transparent"
-            android:numColumns="4"
-            android:verticalSpacing="29dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"/>
 
+        <View
+            style="@style/divider"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@color/color_db"/>
     </LinearLayout>
-
-    <View
-        style="@style/divider"
-        android:background="@color/color_db"/>
 
     <TextView
         android:id="@+id/dialog_share_tv_cancel"

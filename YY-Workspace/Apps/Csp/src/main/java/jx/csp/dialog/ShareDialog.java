@@ -3,9 +3,10 @@ package jx.csp.dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.GridView;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -15,7 +16,7 @@ import java.util.List;
 import inject.annotation.network.Descriptor;
 import jx.csp.BuildConfig;
 import jx.csp.R;
-import jx.csp.adapter.main.SharePlatformAdapter;
+import jx.csp.adapter.share.SharePlatformAdapter;
 import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
 import jx.csp.constant.LangType;
@@ -29,6 +30,7 @@ import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
+import jx.csp.ui.activity.share.EditorActivityRouter;
 import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -51,6 +53,8 @@ public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
+    private Meet mMeet;
+    private View mLayout;
     private String mShareUrl; // 分享的Url
     private String mShareTitle; // 分享的标题要拼接
     private String mCourseId;  // 会议id
@@ -65,6 +69,7 @@ public class ShareDialog extends BaseDialog {
     public ShareDialog(Context context, Meet meet) {
         super(context);
 
+        mMeet = meet;
         mCourseId = meet.getString(TMeet.id);
         mShareTitle = String.format(getString(R.string.share_title), meet.getString(TMeet.title));
         mCoverUrl = meet.getString(TMeet.coverUrl);
@@ -88,6 +93,7 @@ public class ShareDialog extends BaseDialog {
 
     @Override
     public void findViews() {
+        mLayout = findView(R.id.share_layout);
     }
 
     @Override
@@ -138,9 +144,14 @@ public class ShareDialog extends BaseDialog {
      * 根据海内外不同平台动态添加
      */
     private void getPlatform() {
-        GridView gridView = findView(R.id.share_gridview);
+        RecyclerView recyclerView = findView(R.id.share_rv);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
+
         SharePlatformAdapter adapter = new SharePlatformAdapter();
         List<SharePlatform> sharePlatformList = new ArrayList<>();
+
         if (Util.checkAppCn()) {
             sharePlatformList.add(SharePlatform.wechat);
             sharePlatformList.add(SharePlatform.wechat_moment);
@@ -158,6 +169,7 @@ public class ShareDialog extends BaseDialog {
             sharePlatformList.add(SharePlatform.wechat);
             sharePlatformList.add(SharePlatform.sms);
         }
+
         if (mCourseType == CourseType.reb) {
             sharePlatformList.add(SharePlatform.contribute);
         } else {
@@ -168,9 +180,6 @@ public class ShareDialog extends BaseDialog {
                 sharePlatformList.add(SharePlatform.unContribute);
             }
         }
-
-        adapter.setData(sharePlatformList);
-        gridView.setAdapter(adapter);
 
         OnShareListener listener = new OnShareListener() {
 
@@ -190,8 +199,11 @@ public class ShareDialog extends BaseDialog {
             }
         };
 
-        gridView.setOnItemClickListener((adapterView, view, position, l) -> {
-            int type = adapter.getItemViewType(position);
+        adapter.setData(sharePlatformList);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(position -> {
+            int type = adapter.getItem(position).type();
             Type t = null;
             ShareParams param;
             if (type == ShareType.sms) {
@@ -270,28 +282,33 @@ public class ShareDialog extends BaseDialog {
     }
 
     private void getPlatform2() {
-        GridView gridView = findView(R.id.share_gridview2);
-        SharePlatformAdapter shareAdapter = new SharePlatformAdapter();
+        RecyclerView recyclerView = findView(R.id.share_rv2);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(manager);
+
+        SharePlatformAdapter adapter = new SharePlatformAdapter();
         List<SharePlatform> list = new ArrayList<>();
 
         //录播有预览, 直播没有预览
         if (mCourseType == CourseType.reb) {
             list.add(SharePlatform.preview);
             list.add(SharePlatform.watch_pwd);
-            list.add(SharePlatform.copy_link);
+            list.add(SharePlatform.editor);
             list.add(SharePlatform.delete);
+            list.add(SharePlatform.copy_link);
         } else {
             list.add(SharePlatform.watch_pwd);
-            list.add(SharePlatform.copy_link);
             list.add(SharePlatform.delete);
+            list.add(SharePlatform.copy_link);
 
         }
 
-        shareAdapter.setData(list);
-        gridView.setAdapter(shareAdapter);
+        adapter.setData(list);
+        recyclerView.setAdapter(adapter);
 
-        gridView.setOnItemClickListener((parent, view, position, id) -> {
-            int type = shareAdapter.getItemViewType(position);
+        adapter.setOnItemClickListener(position -> {
+            int type = adapter.getItem(position).type();
             switch (type) {
                 case ShareType.preview: {
                     CommonWebViewActivityRouter.create(mShareUrl).route(getContext());
@@ -311,6 +328,11 @@ public class ShareDialog extends BaseDialog {
                 break;
                 case ShareType.delete: {
                     UISetter.showDeleteMeet(mCourseId, getContext());
+                    dismiss();
+                }
+                break;
+                case ShareType.editor: {
+                    EditorActivityRouter.create(true).meet(mMeet).route(getContext());
                     dismiss();
                 }
                 break;

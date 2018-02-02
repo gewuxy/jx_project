@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="328dp"
+        android:layout_height="484dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        app:corner_radius="6dp">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/preview_iv_theme"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/preview_iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:layout_marginTop="68dp"/>
+    </lib.ys.view.CornerView>
+
+    <ImageView
+        android:id="@+id/preview_iv_cancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="38dp"
+        android:src="@drawable/ic_preview_cancel"/>
+
+</LinearLayout>
