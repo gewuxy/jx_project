@@ -1,10 +1,10 @@
 package jx.csp.ui.frag.main;
 
-import android.support.annotation.CallSuper;
 import android.view.View;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.R;
@@ -15,10 +15,11 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.main.MeetInfo;
 import jx.csp.model.main.MeetInfo.TMeetInfo;
+import jx.csp.model.meeting.Live;
+import jx.csp.model.meeting.Record;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.presenter.MeetPresenterImpl;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.UISetter;
 import lib.jx.network.Result;
 import lib.jx.notify.Notifier.NotifyType;
@@ -40,19 +41,48 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
         MultiAdapterEx.OnAdapterClickListener,
         MeetAdapter.OnAdapterLongClickListener {
 
-    private OnMeetGridListener mListener;
-
     private MeetContract.P mPresenter;
-    private View mViewEmpty; // 只是加到footer里(自己控制显示隐藏)
     private View mViewEmptyPpt;
     private View mViewEmptyPhoto;
 
-    public interface OnMeetGridListener {
-        void onMeetRefresh(List<Meet> data);
+    @FiltrateType
+    private int mFiltrateType;
+    private List<Meet> mAllMeets; // 全部数据
+    private List<Meet> mPhotoMeets;
+    private List<Meet> mPptMeets;
+
+    public void setFiltrateType(@FiltrateType int type) {
+        mFiltrateType = type;
+        if (mFiltrateType == FiltrateType.ppt) {
+            showView(mViewEmptyPpt);
+            goneView(mViewEmptyPhoto);
+        } else {
+            goneView(mViewEmptyPpt);
+            showView(mViewEmptyPhoto);
+        }
+        removeAll();
+        invalidate();
+        switch (mFiltrateType) {
+            case FiltrateType.ppt: {
+                nativeSetDate(new ArrayList<>(mPptMeets));
+            }
+            break;
+            case FiltrateType.photo: {
+                nativeSetDate(new ArrayList<>(mPhotoMeets));
+            }
+            break;
+            case FiltrateType.all:
+            default: {
+                nativeSetDate(new ArrayList<>(mAllMeets));
+            }
+            break;
+        }
+        invalidate();
     }
 
     @Override
     public void initData() {
+        mFiltrateType = FiltrateType.all;
         mPresenter = new MeetPresenterImpl(this, getContext());
     }
 
@@ -65,6 +95,7 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
     public void setViews() {
         super.setViews();
 
+        setDividerHeight(0);
         setOnAdapterClickListener(this);
         getAdapter().setLongClickListener(this);
     }
@@ -84,19 +115,25 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
         if (meetInfo != null) {
             int num = meetInfo.getInt(TMeetInfo.hideCount);
             runOnUIThread(() -> notify(NotifyType.meet_num, num));
-            List<Meet> list = meetInfo.getList(TMeetInfo.list);
-            r.setData(list);
+            List<Meet> meets = meetInfo.getList(TMeetInfo.list);
+            changeAll(meets);
+            switch (mFiltrateType) {
+                case FiltrateType.ppt: {
+                    r.setData(new ArrayList<>(mPptMeets));
+                }
+                break;
+                case FiltrateType.photo: {
+                    r.setData(new ArrayList<>(mPhotoMeets));
+                }
+                break;
+                case FiltrateType.all:
+                default: {
+                    r.setData(new ArrayList<>(mAllMeets));
+                }
+                break;
+            }
         }
         return r;
-    }
-
-    @Override
-    public void onNetRefreshSuccess() {
-        super.onNetRefreshSuccess();
-
-        if (mListener != null) {
-            mListener.onMeetRefresh(getData());
-        }
     }
 
     @Override
@@ -127,15 +164,10 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
 
     @Override
     public View createEmptyFooterView() {
-        // FIXME
-        mViewEmpty = inflate(R.layout.layout_meet_empty_foot);
-        mViewEmptyPpt = mViewEmpty.findViewById(R.id.empty_footer_ppt);
-        mViewEmptyPhoto = mViewEmpty.findViewById(R.id.empty_footer_photo);
-        return mViewEmpty;
-    }
-
-    public void setListener(OnMeetGridListener listener) {
-        mListener = listener;
+        View viewEmpty = inflate(R.layout.layout_meet_empty_foot);
+        mViewEmptyPpt = viewEmpty.findViewById(R.id.empty_footer_ppt);
+        mViewEmptyPhoto = viewEmpty.findViewById(R.id.empty_footer_photo);
+        return viewEmpty;
     }
 
     @Override
@@ -161,52 +193,119 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
     }
 
     @Override
-    public void onDataSetChanged() {
-        if (MainActivity.mFiltrateType == FiltrateType.ppt) {
-            showView(mViewEmptyPpt);
-            goneView(mViewEmptyPhoto);
-        } else {
-            goneView(mViewEmptyPpt);
-            showView(mViewEmptyPhoto);
-        }
-
-        super.onDataSetChanged();
-/*
-        if (getData() == null || getData().isEmpty()) {
-            hideFooterView();
-            showView(mViewEmpty);
-        } else {
-            for (Meet meet : getData()) {
-                if (meet.getType() == MainActivity.mFiltrateType || MainActivity.mFiltrateType == FiltrateType.all) {
-                    showFooterView();
-                    goneView(mViewEmpty);
-                    return;
-                }
-            }
-            hideFooterView();
-            showView(mViewEmpty);
-        }*/
-    }
-
-    @Override
     protected String getEmptyText() {
         return getString(R.string.ready);
     }
 
-    @CallSuper
+    /**
+     * 用{@link MeetFrag#setAllMeets}
+     */
+    @Deprecated
     @Override
-    public void invalidate() {
-        super.invalidate();
+    public void setData(List<Meet> list) {
+    }
 
-        if (mListener != null) {
-            mListener.onMeetRefresh(getData());
+    private void nativeSetDate(List<Meet> list) {
+        super.setData(list);
+    }
+
+    public void setAllMeets(List<Meet> meets) {
+        changeAll(meets);
+    }
+
+    public List<Meet> getAllMeets() {
+        return mAllMeets;
+    }
+
+    private void changeAll(List<Meet> meets) {
+        if (meets != null) {
+            mAllMeets = new ArrayList<>();
+            mPhotoMeets = new ArrayList<>();
+            mPptMeets = new ArrayList<>();
+            for (Meet meet : meets) {
+                switch (meet.getType()) {
+                    case FiltrateType.ppt: {
+                        mPptMeets.add(meet);
+                        mAllMeets.add(meet);
+                    }
+                    break;
+                    case FiltrateType.photo: {
+                        mPhotoMeets.add(meet);
+                        mAllMeets.add(meet);
+                    }
+                    break;
+                }
+            }
+        } else {
+            mAllMeets = new ArrayList<>();
+            mPhotoMeets = new ArrayList<>();
+            mPptMeets = new ArrayList<>();
         }
     }
 
-    /**
-     * 不通知其他刷新
-     */
-    public void thisRefresh() {
-        super.invalidate();
+    @Override
+    public void onNotify(int type, Object data) {
+        switch (type) {
+            case NotifyType.delete_meeting_success: {
+                if (data instanceof String) {
+                    String str = (String) data;
+                    YSLog.d(TAG, str + "删除接收通知");
+                    for (Meet meet : mAllMeets) {
+                        if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
+                            mAllMeets.remove(meet);
+                            changeAll(mAllMeets);
+                            setFiltrateType(mFiltrateType);
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+            case NotifyType.over_live: {
+                if (data instanceof String) {
+                    String id = (String) data;
+                    for (Meet meet : mAllMeets) {
+                        if (meet.getString(TMeet.id).equals(id)) {
+                            meet.put(TMeet.liveState, Live.LiveState.end);
+                            meet.put(TMeet.playState, Record.PlayState.end);
+                            changeAll(mAllMeets);
+                            setFiltrateType(mFiltrateType);
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+            case NotifyType.start_live: {
+                if (data instanceof String) {
+                    String id = (String) data;
+                    for (Meet meet : mAllMeets) {
+                        if (meet.getString(TMeet.id).equals(id)) {
+                            meet.put(TMeet.liveState, Live.LiveState.live);
+                            changeAll(mAllMeets);
+                            setFiltrateType(mFiltrateType);
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+            case NotifyType.total_time: {
+                if (data instanceof Meet) {
+                    Meet m = (Meet) data;
+                    String id = m.getString(TMeet.id);
+                    String time = m.getString(TMeet.playTime);
+                    for (Meet meet : mAllMeets) {
+                        if (meet.getString(TMeet.id).equals(id)) {
+                            meet.put(TMeet.playTime, time);
+                            changeAll(mAllMeets);
+                            setFiltrateType(mFiltrateType);
+                            break;
+                        }
+                    }
+                }
+            }
+            break;
+        }
     }
 }

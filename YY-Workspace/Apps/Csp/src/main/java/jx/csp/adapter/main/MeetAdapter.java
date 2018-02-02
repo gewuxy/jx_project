@@ -4,14 +4,11 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetVH;
-import jx.csp.constant.FiltrateType;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
-import jx.csp.ui.activity.main.MainActivity;
 import lib.ys.adapter.AdapterEx;
-import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
 import lib.ys.util.res.ResLoader;
@@ -40,14 +37,6 @@ public class MeetAdapter extends AdapterEx<Meet, MeetVH> {
 
     @Override
     protected void refreshView(int position, MeetVH holder) {
-        if (MainActivity.mFiltrateType != FiltrateType.all) {
-            int type = getItem(position).getType();
-            if (type != MainActivity.mFiltrateType) {
-                goneView(holder.getItem());
-                return;
-            }
-        }
-        showView(holder.getItem());
         meetItemRefresh(position, holder);
         Meet item = getItem(position);
 

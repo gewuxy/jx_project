@@ -1,7 +1,5 @@
 package jx.csp.adapter.main;
 
-import android.widget.ImageView;
-
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetVH;
 import jx.csp.model.main.Meet;
@@ -12,12 +10,6 @@ import jx.csp.model.main.Meet;
  */
 public class MeetCardAdapter extends MeetAdapter {
 
-    private boolean mNeedShow = true;
-
-    public void setNeedShow() {
-        mNeedShow = true;
-    }
-
     @Override
     public int getConvertViewResId() {
         return R.layout.layout_main_meet_card_item;
@@ -25,9 +17,8 @@ public class MeetCardAdapter extends MeetAdapter {
 
     @Override
     protected void meetItemRefresh(int position, MeetVH holder) {
-        if (mNeedShow) {
+        if (position == 0) {
             showView(holder.getDividerTop());
-            mNeedShow = false;
         } else {
             goneView(holder.getDividerTop());
         }

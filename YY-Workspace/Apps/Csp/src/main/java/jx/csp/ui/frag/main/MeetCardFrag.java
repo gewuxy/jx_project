@@ -12,24 +12,4 @@ import jx.csp.adapter.main.MeetCardAdapter;
 @Route
 public class MeetCardFrag extends MeetFrag<MeetCardAdapter> {
 
-    @Override
-    public void onSwipeRefreshAction() {
-        super.onSwipeRefreshAction();
-
-        getAdapter().setNeedShow();
-    }
-
-    @Override
-    public void invalidate() {
-        super.invalidate();
-
-        getAdapter().setNeedShow();
-    }
-
-    @Override
-    public void thisRefresh() {
-        super.thisRefresh();
-
-        getAdapter().setNeedShow();
-    }
 }
