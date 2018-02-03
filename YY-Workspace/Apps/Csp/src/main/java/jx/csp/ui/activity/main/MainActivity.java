@@ -2,9 +2,11 @@ package jx.csp.ui.activity.main;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -48,6 +50,8 @@ import jx.csp.ui.frag.main.MeetCardFrag;
 import jx.csp.ui.frag.main.MeetFrag;
 import jx.csp.ui.frag.main.MeetListFrag;
 import jx.csp.util.Util;
+import jx.csp.view.ArcMenu;
+import jx.csp.view.ArcMenu.Status;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
@@ -84,11 +88,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
     private TextView mTvPast;
+    private ArcMenu mArcMenu;
 
     private MeetCardFrag mCardFrag;
     private MeetListFrag mListFrag;
 
     private CountdownDialog mCountdownDialog;
+    private Vibrator mVibrator;
 
     @FiltrateType
     public int mFiltrateType;
@@ -160,13 +166,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         super.findViews();
 
         mTvPast = findView(R.id.main_tv_past);
+        mArcMenu = findView(R.id.arc_menu);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(R.id.main_scan);
         setOnClickListener(mMidView);
 
         // 不能左右滑动
@@ -222,17 +228,36 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 removeOnGlobalLayoutListener(this);
             }
         });
+
+        mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
+        mArcMenu.setmOnMenuItemClickListener((view, pos) -> {
+            switch (pos) {
+                case 0: {
+                    showToast("0");
+                }
+                break;
+                case 1: {
+                    showToast("1");
+                }
+                break;
+                case 2: {
+                    if (checkPermission(KCameraPermissionCode, Permission.camera)) {
+                        startActivity(ScanActivity.class);
+                    }
+                }
+                break;
+            }
+        });
+        mArcMenu.setStatusChange(status -> {
+            if (status == Status.OPEN) {
+                mVibrator.vibrate(new long[]{0, 50}, -1);
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.main_scan: {
-                if (checkPermission(KCameraPermissionCode, Permission.camera)) {
-                    startActivity(ScanActivity.class);
-                }
-            }
-            break;
             case R.id.main_layout_text_mid: {
                 if (mFiltrateType == FiltrateType.all) {
                     mFiltrateType = FiltrateType.ppt;
@@ -249,8 +274,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
         }
-
-
     }
 
     @Override

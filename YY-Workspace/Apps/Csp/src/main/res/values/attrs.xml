@@ -39,4 +39,22 @@
         </attr>
     </declare-styleable>
 
+    <attr name="position">
+        <enum name="left_top" value="0" />
+        <enum name="right_top" value="1" />
+        <enum name="right_bottom" value="2" />
+        <enum name="left_bottom" value="3" />
+        <enum name="center_bottom" value="4" />
+    </attr>
+    <attr name="radius" format="dimension"></attr>
+    <attr name="fromDegrees" format="float|reference" />
+    <attr name="toDegrees" format="float|reference" />
+
+    <declare-styleable name="ArcMenu">
+        <attr name="position" />
+        <attr name="radius"/>
+        <attr name="fromDegrees"/>
+        <attr name="toDegrees"/>
+    </declare-styleable>
+
 </resources>

@@ -59,7 +59,7 @@
     <string name="continue_record">续录</string>
     <string name="record_pause">录制已暂停</string>
     <string name="rerecording">重录</string>
-    <string name="record_time_insufficient_remind">剩余录制时间不足%d分钟，注意控制时间哦</string>
+    <string name="record_time_insufficient_remind">剩余录制时间不足%d分钟</string>
     <string name="record_ing_slide_remind">请录制完成当前页后再到下一页</string>
     <string name="slide_can_not_rerecording">滑动将无法继续录制!</string>
     <string name="record_ing">录音中...</string>
@@ -68,6 +68,7 @@
     <string name="to_open_permission">去开启</string>
     <string name="slide_end">滑动结束</string>
     <string name="start_star">开启星评</string>
+    <string name="record_last_page_remind">结束录制后可以添加配乐、选择主题和预览哦</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>

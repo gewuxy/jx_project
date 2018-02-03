@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:background="@color/record_bg">
 
+    <TextView
+        android:id="@+id/record_tv_last_page_remind"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="@string/record_last_page_remind"
+        android:textSize="12dp"
+        android:textColor="@color/text_ace400"
+        android:background="#2b2f38"
+        android:visibility="gone"/>
+
     <lib.ys.view.pager.ViewPagerEx
         android:id="@+id/vp"
         android:layout_width="match_parent"
@@ -153,11 +164,11 @@
 
         <SeekBar
             android:id="@+id/record_seek_bar"
-            android:layout_width="280dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/record_tv_play_time"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="35dp"
             android:maxHeight="2dp"
             android:minHeight="2dp"
             android:progressDrawable="@drawable/bg_seek_bar_record"
@@ -169,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="52dp"
+            android:layout_marginRight="38dp"
             android:text="00:00"
             android:textSize="11dp"
             android:textColor="@color/text_787c86"/>

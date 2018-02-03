@@ -288,6 +288,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     protected void pageSelected(int position) {
+        if (position == (mCourseDetailList.size() - 1)) {
+            showView(mTvLastPageRemind);
+        } else {
+            goneView(mTvLastPageRemind);
+        }
         if (mRecordPermissionState) {
             mCanContinueRecord = false;
             stopPlayOperation();
@@ -611,6 +616,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     }
                     if (mCourseDetailList.size() == 1) {
                         showView(mStarBar);
+                        showView(mTvLastPageRemind);
                     }
                     removeOnGlobalLayoutListener(this);
                 }

@@ -84,6 +84,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected TextView mTvCurrentPage;
     protected TextView mTvTotalPage;
+    protected TextView mTvLastPageRemind;
     protected TextView mTvRemind;
     protected TextView mTvRecordTime;
     protected TextView mTvRecordState;
@@ -170,6 +171,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     public void findViews() {
         super.findViews();
 
+        mTvLastPageRemind = findView(R.id.record_tv_last_page_remind);
         mGestureView = findView(R.id.gesture_view);
 
         mTvRemind = findView(R.id.record_tv_remind);
