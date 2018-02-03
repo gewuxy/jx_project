@@ -218,7 +218,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
             @Override
             public void onPageSelected(int position) {
-                //NetworkImageView.clearMemoryCache(BaseRecordActivity.this);
                 mTvCurrentPage.setText(String.valueOf(getCurrPosition() + KOne));
                 if (position == (mCourseDetailList.size() - 1)) {
                     showView(mStarBar);

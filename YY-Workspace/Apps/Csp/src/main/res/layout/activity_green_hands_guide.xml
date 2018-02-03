@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/record_bg"
+    android:orientation="vertical">
+
+    <lib.ys.view.pager.ViewPagerEx
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="246dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"/>
+
+    <TextView
+        android:id="@+id/green_hands_guide_tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/record_tv_remind"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="49dp"
+        android:text="00:00"
+        android:textColor="@color/text_c6c5cb"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:src="@drawable/record_ic_state_bg"/>
+
+        <ImageView
+            android:id="@+id/green_hands_guide_iv_state_alpha"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:src="@drawable/record_ic_state_alpha"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/green_hands_guide_iv_state"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:clickable="false"
+            android:src="@drawable/green_hands_guide_state_selector"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

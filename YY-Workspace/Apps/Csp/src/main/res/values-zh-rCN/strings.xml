@@ -223,6 +223,9 @@
     <string name="person_center_help_and_feedback">帮助与反馈</string>
     <string name="person_center_guide">新手指引</string>
 
+    <!--新手指引-->
+    <string name="join_green_hands_guide">进入新手指引</string>
+
     <!-- 我的信息 -->
     <string name="my_message">我的信息</string>
     <string name="my_message_intro">简介</string>

@@ -172,6 +172,13 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
 
+        <activity
+            android:name=".ui.activity.me.ActionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.GreenHandsGuideActivity"
+            android:screenOrientation="portrait"/>
+
         <!-- 我的信息 -->
         <activity
             android:name=".ui.activity.me.profile.ProfileActivity"
@@ -209,6 +216,10 @@
         <service android:name=".serv.DownloadServ"/>
         <service android:name=".serv.WebSocketServ"/>
         <service android:name=".serv.DownloadApkServ"/>
+
+        <activity
+            android:name=".ui.activity.TestMainUIActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 极光推送 -->
         <receiver

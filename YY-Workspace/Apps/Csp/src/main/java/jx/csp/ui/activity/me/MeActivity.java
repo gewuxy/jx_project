@@ -189,7 +189,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.guide: {
-
+                startActivity(ActionActivity.class);
             }
             break;
         }

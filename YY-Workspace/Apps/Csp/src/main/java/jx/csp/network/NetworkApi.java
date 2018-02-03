@@ -356,7 +356,6 @@ public class NetworkApi {
         @Get("get/password")
         void getPassword(String id);
 
-
         /***
          * 进入会议检测
          *
@@ -401,6 +400,12 @@ public class NetworkApi {
          */
         @Post("mini/update")
         void updateMini(int courseId, String title, int imgId, int musicId);
+
+        /**
+         * 获取新手引导会议
+         */
+        @Get("tourist/list")
+        void guide();
     }
 
     @Api("charge")
@@ -462,6 +467,12 @@ public class NetworkApi {
         @DownloadFile
         @Url
         void downloadApk();
+
+        /**
+         * 活动列表  目前是进入新手指导
+         */
+        @Get("activity/list")
+        void action();
     }
 
     @Api
