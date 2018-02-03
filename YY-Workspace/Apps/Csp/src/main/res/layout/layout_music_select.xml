@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/music_iv_play_state"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="@dimen/margin"
+            android:background="@drawable/music_selector_play_state"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/music_tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="这里放音乐名字"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/margin"/>
+
+            <TextView
+                android:id="@+id/music_tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="00''00''"
+                android:textColor="@color/text_9699a2"/>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/music_iv_select"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="@dimen/margin"
+            android:background="@drawable/music_iv_state"/>
+    </LinearLayout>
+
+    <View style="@style/divider.form.match"/>
+
+</LinearLayout>

@@ -26,7 +26,7 @@ public class ShareEditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
 
         holder.getItemIv().placeHolder(R.drawable.ic_default_main_grid)
                 .url(item.getString(TTheme.imgUrl))
-                .renderer(new CornerRenderer(8))
+                .renderer(new CornerRenderer())
                 .load();
 
         TextView text = holder.getItemText();

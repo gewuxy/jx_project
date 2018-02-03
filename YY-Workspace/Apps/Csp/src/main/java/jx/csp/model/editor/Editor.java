@@ -13,9 +13,15 @@ import lib.ys.model.EVal;
 public class Editor extends EVal<TEditor> {
 
     public enum TEditor {
+        /**
+         * 主题列表
+         */
         @Bind(asList = Theme.class)
         imageList,
 
+        /**
+         * 背景音乐列表
+         */
         @Bind(asList = Music.class)
         musicList,
     }

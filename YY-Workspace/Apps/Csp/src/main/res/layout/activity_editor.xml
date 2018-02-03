@@ -101,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:background="@color/white"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/editor_music_name"

@@ -53,6 +53,7 @@ public class ShareDialog extends BaseDialog {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
+    private boolean mShareView; //新手指引进入为false，其他均为true
     private Meet mMeet;
     private View mLayout;
     private String mShareUrl; // 分享的Url
@@ -66,10 +67,11 @@ public class ShareDialog extends BaseDialog {
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    public ShareDialog(Context context, Meet meet) {
+    public ShareDialog(Context context, Meet meet, boolean b) {
         super(context);
 
         mMeet = meet;
+        mShareView = b;
         mCourseId = meet.getString(TMeet.id);
         mShareTitle = String.format(getString(R.string.share_title), meet.getString(TMeet.title));
         mCoverUrl = meet.getString(TMeet.coverUrl);
@@ -77,8 +79,13 @@ public class ShareDialog extends BaseDialog {
         mLiveState = meet.getInt(TMeet.liveState);
 
         shareSignature();
-        getPlatform();
-        getPlatform2();
+        if (mShareView) {
+            getPlatform();
+            getPlatform2();
+        } else {
+            getPlatform();
+            goneView(mLayout);
+        }
     }
 
     @Override
@@ -152,32 +159,55 @@ public class ShareDialog extends BaseDialog {
         SharePlatformAdapter adapter = new SharePlatformAdapter();
         List<SharePlatform> sharePlatformList = new ArrayList<>();
 
-        if (Util.checkAppCn()) {
-            sharePlatformList.add(SharePlatform.wechat);
-            sharePlatformList.add(SharePlatform.wechat_moment);
-            sharePlatformList.add(SharePlatform.qq);
-            sharePlatformList.add(SharePlatform.linkedin);
-            sharePlatformList.add(SharePlatform.dingding);
-            sharePlatformList.add(SharePlatform.sina);
-            sharePlatformList.add(SharePlatform.sms);
-        } else {
-            sharePlatformList.add(SharePlatform.twitter);
-            sharePlatformList.add(SharePlatform.whatsapp);
-            sharePlatformList.add(SharePlatform.line);
-            sharePlatformList.add(SharePlatform.linkedin);
-            sharePlatformList.add(SharePlatform.facebook);
-            sharePlatformList.add(SharePlatform.wechat);
-            sharePlatformList.add(SharePlatform.sms);
-        }
+        if (mShareView) {
+            if (Util.checkAppCn()) {
+                sharePlatformList.add(SharePlatform.wechat);
+                sharePlatformList.add(SharePlatform.wechat_moment);
+                sharePlatformList.add(SharePlatform.qq);
+                sharePlatformList.add(SharePlatform.linkedin);
+                sharePlatformList.add(SharePlatform.dingding);
+                sharePlatformList.add(SharePlatform.sina);
+                sharePlatformList.add(SharePlatform.sms);
+            } else {
+                sharePlatformList.add(SharePlatform.twitter);
+                sharePlatformList.add(SharePlatform.whatsapp);
+                sharePlatformList.add(SharePlatform.line);
+                sharePlatformList.add(SharePlatform.linkedin);
+                sharePlatformList.add(SharePlatform.facebook);
+                sharePlatformList.add(SharePlatform.wechat);
+                sharePlatformList.add(SharePlatform.sms);
+            }
 
-        if (mCourseType == CourseType.reb) {
-            sharePlatformList.add(SharePlatform.contribute);
-        } else {
-            //直播开始不可投稿
-            if (mLiveState == LiveState.un_start) {
+            if (mCourseType == CourseType.reb) {
                 sharePlatformList.add(SharePlatform.contribute);
             } else {
-                sharePlatformList.add(SharePlatform.unContribute);
+                //直播开始不可投稿
+                if (mLiveState == LiveState.un_start) {
+                    sharePlatformList.add(SharePlatform.contribute);
+                } else {
+                    sharePlatformList.add(SharePlatform.unContribute);
+                }
+            }
+
+        } else {
+            if (Util.checkAppCn()) {
+                sharePlatformList.add(SharePlatform.wechat);
+                sharePlatformList.add(SharePlatform.wechat_moment);
+                sharePlatformList.add(SharePlatform.qq);
+                sharePlatformList.add(SharePlatform.linkedin);
+                sharePlatformList.add(SharePlatform.dingding);
+                sharePlatformList.add(SharePlatform.sina);
+                sharePlatformList.add(SharePlatform.sms);
+                sharePlatformList.add(SharePlatform.copy_link);
+            } else {
+                sharePlatformList.add(SharePlatform.twitter);
+                sharePlatformList.add(SharePlatform.whatsapp);
+                sharePlatformList.add(SharePlatform.line);
+                sharePlatformList.add(SharePlatform.linkedin);
+                sharePlatformList.add(SharePlatform.facebook);
+                sharePlatformList.add(SharePlatform.wechat);
+                sharePlatformList.add(SharePlatform.sms);
+                sharePlatformList.add(SharePlatform.copy_link);
             }
         }
 
@@ -271,6 +301,14 @@ public class ShareDialog extends BaseDialog {
                     break;
                     case ShareType.dingding: {
                         t = Type.dingding;
+                    }
+                    break;
+                    case ShareType.copy_link: {
+                        //创建一个新的文本clip对象
+                        ClipData clipData = ClipData.newPlainText("Simple test", mShareUrl);
+                        //把clip对象放在剪切板中
+                        mClipboardManager.setPrimaryClip(clipData);
+                        showToast(R.string.copy_success);
                     }
                     break;
                 }

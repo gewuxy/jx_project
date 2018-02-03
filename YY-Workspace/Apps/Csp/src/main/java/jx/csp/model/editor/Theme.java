@@ -11,10 +11,10 @@ import lib.ys.model.EVal;
 public class Theme extends EVal<TTheme>{
 
     public enum TTheme {
-        id,
-        imgName,
-        imgSize,
-        imgUrl,
+        id,         // 主题id
+        imgName,    //主题名称
+        imgSize,    //主题大小
+        imgUrl,     //主题地址
 
         select,
     }

@@ -121,7 +121,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
     @Override
     public void onShareClick(Meet item) {
         mMeet = item;
-        ShareDialog shareDialog = new ShareDialog(mContext, mMeet);
+        ShareDialog shareDialog = new ShareDialog(mContext, mMeet, true);
         shareDialog.show();
     }
 

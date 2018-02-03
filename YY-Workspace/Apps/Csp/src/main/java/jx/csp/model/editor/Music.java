@@ -11,10 +11,12 @@ import lib.ys.model.EVal;
 public class Music extends EVal<TMusic>{
 
     public enum TMusic {
-        id,
-        name,
-        duration,
-        size,
-        url
+        id,     //背景音乐id
+        name,   //背景音乐名称
+        duration,   //背景音乐时长
+        size,       //背景音乐大小
+        url,        //背景音乐地址
+
+        select, //本地字段,播放按钮的选择
     }
 }

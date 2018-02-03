@@ -155,7 +155,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         bar.addViewMid(view);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             if (mShareAndStarArg != null) {
-                ShareDialog dialog = new ShareDialog(this, mShareAndStarArg);
+                ShareDialog dialog = new ShareDialog(this, mShareAndStarArg, true);
                 dialog.show();
             }
         });
