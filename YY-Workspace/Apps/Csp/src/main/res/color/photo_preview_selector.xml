@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- PreviewActivity的navBar右上角按钮的选择器 -->
+    <item android:color="@color/text_9699a2" android:state_selected="false"/>
+    <item android:color="@color/black" android:state_selected="true"/>
+</selector>

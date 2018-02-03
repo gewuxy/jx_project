@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- photo_item 右上角的选择按钮 -->
+    <item android:drawable="@drawable/photo_ic_select" android:state_selected="true"/>
+    <item android:drawable="@drawable/photo_ic_no_select" android:state_selected="false"/>
+</selector>

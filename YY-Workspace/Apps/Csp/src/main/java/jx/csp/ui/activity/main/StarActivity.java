@@ -76,7 +76,7 @@ public class StarActivity extends BaseActivity {
             }
         });
         boolean start = mMeet.getBoolean(Meet.TMeet.starRateFlag);
-        bar.addTextViewMid(start ? R.string.start_comment : R.string.start_finish);
+        bar.addTextViewMid(start ? R.string.start_comment : R.string.finish);
         bar.addViewRight(R.drawable.share_ic_share, v -> {
             ShareDialog d = new ShareDialog(StarActivity.this, mMeet, true);
             d.show();
