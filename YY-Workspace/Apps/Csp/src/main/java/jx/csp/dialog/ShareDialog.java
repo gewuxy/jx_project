@@ -67,6 +67,10 @@ public class ShareDialog extends BaseDialog {
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
+    public ShareDialog(Context context, Meet meet){
+        this(context, meet, true);
+    }
+
     public ShareDialog(Context context, Meet meet, boolean b) {
         super(context);
 

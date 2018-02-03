@@ -143,6 +143,8 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
             mEt.setText(mMeet.getString(TMeet.title));
         } else {
             mEt.setText(ConstantsEx.KEmpty);
+            mTvSaveBook.setEnabled(false);
+            mTvVideo.setEnabled(false);
         }
 
         mEt.addTextChangedListener(new TextWatcher() {

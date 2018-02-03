@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <lib.ys.view.CornerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        app:corner_radius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="392dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:gravity="center"
+                android:text="@string/guide_title"
+                android:textColor="@color/text_404356"
+                android:textSize="@dimen/margin"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="222dp"
+                android:layout_marginLeft="@dimen/margin"
+                android:layout_marginRight="@dimen/margin"
+                android:layout_marginTop="28dp"
+                android:src="@drawable/dialog_ic_update_notice"/>
+
+            <TextView
+                android:id="@+id/guide_watch"
+                android:layout_width="129dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/guide_btn_selector_purple"
+                android:gravity="center"
+                android:text="@string/guide_watch"
+                android:textColor="@color/white"
+                android:textSize="@dimen/margin"/>
+        </LinearLayout>
+    </lib.ys.view.CornerView>
+
+    <ImageView
+        android:id="@+id/guide_cancel"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="38dp"
+        android:src="@drawable/ic_preview_cancel"/>
+
+</LinearLayout>

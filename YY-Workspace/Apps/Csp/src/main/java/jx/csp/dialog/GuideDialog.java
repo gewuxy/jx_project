@@ -7,54 +7,59 @@ import android.view.View;
 
 import jx.csp.R;
 import lib.jx.dialog.BaseDialog;
-import lib.ys.network.image.NetworkImageView;
 
 /**
- * 编辑页面的预览
+ * 新手指引
  *
  * @auther HuoXuYu
- * @since 2018/2/2
+ * @since 2018/2/3
  */
 
-public class PreviewDialog extends BaseDialog {
+public class GuideDialog extends BaseDialog {
 
-    private NetworkImageView mIvTheme;
-    private NetworkImageView mIvPhoto;
-
-    public PreviewDialog(Context context, String theme, String photo) {
+    public GuideDialog(Context context) {
         super(context);
-
-        mIvTheme.url(theme).load();
-        mIvPhoto.url(photo).load();
     }
 
     @Override
     public void initData() {
+
     }
 
     @NonNull
     @Override
     public int getContentViewId() {
-        return R.layout.dialog_preview;
+        return R.layout.dialog_guide;
     }
 
     @Override
     public void findViews() {
-        mIvTheme = findView(R.id.preview_iv_theme);
-        mIvPhoto = findView(R.id.preview_iv_photo);
+        findView(R.id.guide_cancel);
+        findView(R.id.guide_watch);
     }
 
     @Override
     public void setViews() {
-        setOnClickListener(R.id.preview_iv_cancel);
+        setOnClickListener(R.id.guide_cancel);
+        setOnClickListener(R.id.guide_watch);
+
         setGravity(Gravity.CENTER);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.preview_iv_cancel: {
+            case R.id.guide_cancel: {
+                setCancelable(false);
                 dismiss();
+            }
+            break;
+            case R.id.guide_watch: {
+                dismiss();
+
+                FunctionGuideDialog dialog = new FunctionGuideDialog(getContext());
+                dialog.setCancelable(false);
+                dialog.show();
             }
             break;
         }

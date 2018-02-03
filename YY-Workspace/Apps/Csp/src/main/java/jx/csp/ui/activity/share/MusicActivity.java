@@ -5,6 +5,7 @@ import android.content.Intent;
 import java.util.List;
 
 import jx.csp.Extra;
+import jx.csp.R;
 import jx.csp.adapter.MusicAdapter;
 import jx.csp.adapter.MusicAdapter.OnPlayStateListener;
 import jx.csp.constant.MusicType;
@@ -21,6 +22,8 @@ import lib.network.model.interfaces.IResult;
 import lib.ys.ui.other.NavBar;
 
 /**
+ * 背景音乐
+ *
  * @auther HuoXuYu
  * @since 2018/2/3
  */
@@ -33,7 +36,7 @@ public class MusicActivity extends BaseSRListActivity<Music, MusicAdapter> imple
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, "添加音乐", this);
+        Util.addBackIcon(bar, R.string.editor_music, this);
     }
 
     @Override

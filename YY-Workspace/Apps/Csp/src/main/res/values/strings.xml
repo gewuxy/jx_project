@@ -350,4 +350,16 @@
     <string name="watch_tips">设置观看密码，通过观看链接需要填写正确密码才可观看（不影响投稿）</string>
     <string name="watch_tips2">密码设置成功，可通过“取消密码”的方式取消或重制观看密码</string>
     <string name="watch_delete_pwd">取消密码</string>
+
+    <!-- 编辑 -->
+    <string name="editor_title_hint">请输入标题</string>
+    <string name="editor_select_theme">选择主题(非必选)</string>
+    <string name="editor_select_music">背景音乐(非必选)</string>
+    <string name="editor_music_more">更多</string>
+    <string name="editor_music">添加音乐</string>
+    <string name="editor_save_book">保存讲本</string>
+    <string name="editor_video">继续录音</string>
+
+    <string name="guide_title">【新手指引】你好，会讲</string>
+    <string name="guide_watch">点击观看</string>
 </resources>

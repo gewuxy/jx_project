@@ -21,8 +21,8 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:gravity="center"
-            android:text="保存讲本"
-            android:textColor="@color/black"
+            android:text="@string/editor_save_book"
+            android:textColor="@color/editor_text_selector"
             android:textSize="@dimen/margin"/>
 
         <TextView
@@ -30,10 +30,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textColor="@color/white"
             android:background="@drawable/editor_btn_black"
             android:gravity="center"
-            android:text="继续录音"
+            android:text="@string/editor_video"
+            android:textColor="@color/white"
             android:textSize="@dimen/margin"/>
     </LinearLayout>
 </LinearLayout>

@@ -77,6 +77,11 @@
     <color name="btn_bg_black_disabled">#50202432</color>
     <color name="btn_bg_black_disabled2">#507b7790</color>
 
+    <!-- 新手指引的按钮颜色-->
+    <color name="btn_bg_purple_above">#7b7790</color>
+    <color name="btn_bg_purple_mid">#6a677e</color>
+    <color name="btn_bg_purple_below">#4e4c5f</color>
+
     <!--edt填充色-->
     <color name="edt_f3f6f8">#f3f6f8</color>
     <color name="start_fill">#2B2F38</color>

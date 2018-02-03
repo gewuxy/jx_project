@@ -21,7 +21,7 @@
             style="@style/et.common"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
-            android:hint="请输入标题"/>
+            android:hint="@string/editor_title_hint"/>
 
         <ImageView
             style="@style/iv.form.clean"
@@ -40,7 +40,7 @@
             android:layout_height="52dp"
             android:layout_marginLeft="@dimen/margin"
             android:gravity="center_vertical"
-            android:text="选择主题(非必选)"
+            android:text="@string/editor_select_theme"
             android:textColor="@color/text_333"
             android:textSize="@dimen/margin"/>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin"
-            android:text="背景音乐(非必选)"
+            android:text="@string/editor_select_music"
             android:textColor="@color/text_333"
             android:textSize="@dimen/margin"/>
 
@@ -80,7 +80,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="34dp"
-            android:text="更多"
+            android:text="@string/editor_music_more"
             android:textColor="@color/text_9699a2"
             android:textSize="@dimen/margin"/>
 
