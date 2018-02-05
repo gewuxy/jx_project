@@ -405,10 +405,10 @@ public class NetworkApi {
                         @Query(opt = true) int musicId);
 
         /**
-         * 获取新手引导会议
+         * 获取新手指引会议
          */
-        @Get("tourist/list")
-        void guide();
+        @Get("tourist/view")
+        void greenHandsGuide(String courseId);
     }
 
     @Api("charge")

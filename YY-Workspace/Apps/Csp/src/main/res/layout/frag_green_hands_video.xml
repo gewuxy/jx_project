@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/record_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="246dp"
+        android:layout_centerInParent="true">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/frag_green_hands_video_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/frag_green_hands_video_iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_default_record"/>
+
+        <com.pili.pldroid.player.widget.PLVideoTextureView
+            android:id="@+id/frag_green_hands_video_texture_view"
+            android:layout_centerInParent="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
