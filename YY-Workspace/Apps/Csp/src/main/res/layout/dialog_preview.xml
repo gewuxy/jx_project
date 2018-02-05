@@ -23,7 +23,7 @@
             android:id="@+id/preview_iv_photo"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:layout_marginTop="68dp"/>
+            android:layout_marginTop="90dp"/>
     </lib.ys.view.CornerView>
 
     <ImageView

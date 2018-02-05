@@ -57,7 +57,6 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
 
     private final int KTheme = 0;
     private final int KSave = 1;
-    private final int KSaveBook = 2;
     private final int KMusic = 10;
 
     private ImageView mIv;

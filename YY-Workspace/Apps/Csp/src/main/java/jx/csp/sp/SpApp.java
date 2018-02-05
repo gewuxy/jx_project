@@ -140,7 +140,7 @@ public class SpApp extends SpBase {
     }
 
     /**
-     * 首次进入首页新手指引显示（与设备绑定）
+     * 首次进入首页新手指引显示
      * @return
      */
     public boolean getGuidelines() {
