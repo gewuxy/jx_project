@@ -9,12 +9,15 @@ import org.json.JSONException;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
 import jx.csp.model.RecordUnusualState;
 import jx.csp.model.RecordUnusualState.TRecordUnusualState;
+import jx.csp.model.editor.Picture;
+import jx.csp.model.editor.Picture.TPicture;
 import jx.csp.model.login.Advert;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
@@ -29,6 +32,7 @@ import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.ys.util.FileUtil;
@@ -71,6 +75,9 @@ public class CommonServ extends ServiceEx {
     @Arg(opt = true)
     String mTitle;
 
+    @Arg(opt = true)
+    ArrayList<String> mPhoto;
+
     @IntDef({
             ReqType.logout,
             ReqType.j_push,
@@ -79,6 +86,7 @@ public class CommonServ extends ServiceEx {
             ReqType.advert,
             ReqType.over_live,
             ReqType.upload_audio,
+            ReqType.upload_photo,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ReqType {
@@ -89,6 +97,7 @@ public class CommonServ extends ServiceEx {
         int advert = 5;
         int over_live = 6;
         int upload_audio = 7;
+        int upload_photo = 8;
     }
 
     @Override
@@ -132,6 +141,13 @@ public class CommonServ extends ServiceEx {
                             .build());
                 } else {
                     YSLog.d(TAG, "上传音频不存在");
+                }
+            }
+            break;
+            case ReqType.upload_photo: {
+                for (int i = 0; i < mPhoto.size(); ++i) {
+                    String photo = mPhoto.get(i);
+                    exeNetworkReq(mType, MeetingAPI.picture(photo.getBytes(), i).build());
                 }
             }
             break;
@@ -215,6 +231,22 @@ public class CommonServ extends ServiceEx {
                     YSLog.d(TAG, "音频上传成功");
                 } else {
                     YSLog.d(TAG, "音频上传失败");
+                    // 上传失败就重试
+                    retryNetworkRequest(id);
+                }
+            }
+            break;
+            case ReqType.upload_photo: {
+                if (r.isSucceed()) {
+                    YSLog.d(TAG, "上传图片成功");
+                    Picture picture = (Picture) r.getData();
+                    int meetId = ConstantsEx.KInvalidValue;
+                    if (picture != null) {
+                        meetId = picture.getInt(TPicture.id);
+                    }
+                    Notifier.inst().notify(NotifyType.update_photo, meetId);
+                } else {
+                    YSLog.d(TAG, "上传图片失败");
                     // 上传失败就重试
                     retryNetworkRequest(id);
                 }

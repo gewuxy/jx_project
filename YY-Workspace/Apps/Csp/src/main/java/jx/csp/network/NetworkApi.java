@@ -389,7 +389,8 @@ public class NetworkApi {
         void editor(int type);
 
         @Post("upload/picture")
-        void picture(int courseId, int file, int sort);
+        void picture(@Query(opt = true) int courseId,
+                     byte[] file, int sort);
 
         /**
          * 完善或修改课件标题，主题，背景音乐
@@ -399,7 +400,9 @@ public class NetworkApi {
          * @param musicId   课件背景音乐id,修改课件时如果没有修改背景音乐，可以不传
          */
         @Post("mini/update")
-        void updateMini(int courseId, String title, int imgId, int musicId);
+        void updateMini(int courseId, String title,
+                        @Query(opt = true) int imgId,
+                        @Query(opt = true) int musicId);
 
         /**
          * 获取新手引导会议

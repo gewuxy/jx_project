@@ -50,6 +50,7 @@ public class SpApp extends SpBase {
         String KGuide = "guide";
         String KAppUpdateTime = "app_update_time";
         String KShowSlideDialog = "show_slide_dialog";
+        String KGuidelines = "guidelines";
     }
 
     @Override
@@ -129,6 +130,21 @@ public class SpApp extends SpBase {
      */
     public boolean getGuideState() {
         return getBoolean(SpAppKey.KGuide, true);
+    }
+
+    /**
+     * 保存已显示新手指引状态
+     */
+    public void saveGuidelines() {
+        save(SpAppKey.KGuidelines, false);
+    }
+
+    /**
+     * 首次进入首页新手指引显示（与设备绑定）
+     * @return
+     */
+    public boolean getGuidelines() {
+        return getBoolean(SpAppKey.KGuidelines, true);
     }
 
     /**

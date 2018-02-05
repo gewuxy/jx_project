@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import inject.annotation.router.Arg;
@@ -23,15 +24,17 @@ import jx.csp.constant.MusicType;
 import jx.csp.dialog.PreviewDialog;
 import jx.csp.model.editor.Editor;
 import jx.csp.model.editor.Editor.TEditor;
-import jx.csp.model.editor.Picture;
-import jx.csp.model.editor.Picture.TPicture;
 import jx.csp.model.editor.Theme;
 import jx.csp.model.editor.Theme.TTheme;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
+import jx.csp.serv.CommonServ.ReqType;
+import jx.csp.serv.CommonServRouter;
+import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -68,19 +71,18 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
     private View mLayoutMusic;//背景音乐layout
     private View mLayoutVideo;//底部按钮为保存和录音
 
-    private int mThemePosition; //主题标识
-    private int mVideoPosition; //保存按钮或继续录音标识
+    private int mThemePosition; //选择主题标识
+    private int mVideoPosition; //保存按钮或继续录音标识，0为保存，1为录音
     private int mImgId; //主题图片id
     private int mMusicId;   //音乐id
     private int mMeetId;    //会议id
-    private String mTitle;  //会议标题
 
     @Arg
     boolean mFlag;  //从哪里进入的标识
     @Arg(opt = true)
     Meet mMeet;
     @Arg(opt = true)
-    String mPictureSort;  //上传的图片
+    ArrayList<String> mPicture;  //上传的图片
 
 
     @Override
@@ -134,6 +136,11 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
         getClickListener();
         getAdapter().setOnAdapterClickListener(this);
 
+        //分享进入的
+        if (mMeet != null) {
+            mMeetId = mMeet.getInt(TMeet.id);
+        }
+
         //获取主题皮肤
         refresh(RefreshWay.embed);
         exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme).build());
@@ -177,11 +184,6 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
                 }
             }
         });
-
-        if (mMeet != null) {
-            mMeetId = mMeet.getInt(TMeet.id);
-        }
-        mTitle = mEt.getText().toString();
     }
 
     @Override
@@ -210,22 +212,21 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
             case R.id.editor_tv_save: {
                 //分享进入的保存按钮
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, mTitle, mImgId, mMusicId).build());
+                exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, getEt()).imgId(mImgId).musicId(mMusicId).build());
                 mVideoPosition = 0;
             }
             break;
             case R.id.editor_tv_save_book: {
                 //新建讲本进入的保存按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSaveBook, MeetingAPI.picture(0, 0, 0).build());
+                CommonServRouter.create(ReqType.upload_photo).photo(mPicture).route(this);
                 mVideoPosition = 0;
             }
             break;
             case R.id.editor_tv_video: {
                 //新建讲本进入的继续录音按钮,创建课件接口
-                // FIXME: 2018/2/2 未完成,暂无图片
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSaveBook, MeetingAPI.picture(0, 0, 0).build());
+                CommonServRouter.create(ReqType.upload_photo).photo(mPicture).route(this);
                 mVideoPosition = 1;
             }
             break;
@@ -259,7 +260,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
                 if (mFlag) {
                     coverUrl = mMeet.getString(TMeet.coverUrl);
                 } else {
-                    coverUrl = mPictureSort;
+                    coverUrl = mPicture.get(0);
                 }
                 PreviewDialog dialog = new PreviewDialog(this, getAdapter().getItem(position).getString(TTheme.imgUrl), coverUrl);
                 dialog.setCanceledOnTouchOutside(false);
@@ -273,10 +274,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KTheme) {
             return JsonParser.ev(resp.getText(), Editor.class);
-        } else if (id == KSaveBook) {
-            return JsonParser.ev(resp.getText(), Picture.class);
-        }
-        {
+        } else {
             return JsonParser.error(resp.getText());
         }
     }
@@ -299,22 +297,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
                     if (mVideoPosition == 0) {
                         finish();
                     } else {
-                        //带图片跳转录音页面
-                        // FIXME: 2018/2/3 未完成
-//                    RecordActivityRouter.create(String.valueOf(mMeetId)).route(this);
+                        //跳转录音页面
+                        RecordActivityRouter.create(String.valueOf(mMeetId)).route(this);
                     }
-                } else {
-                    onNetworkError(id, r.getError());
-                }
-            }
-            break;
-            case KSaveBook: {
-                if (r.isSucceed()) {
-                    Picture picture = (Picture) r.getData();
-                    if (picture != null) {
-                        mMeetId = picture.getInt(TPicture.id);
-                    }
-                    exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, mTitle, mImgId, mMusicId).build());
                 } else {
                     onNetworkError(id, r.getError());
                 }
@@ -333,6 +318,15 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
             } else {
                 goneView(mLayoutVideo);
             }
+        }
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.update_photo) {
+            //获取新建的课件id
+            mMeetId = (int) data;
+            exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, getEt()).imgId(mImgId).musicId(mMusicId).build());
         }
     }
 
@@ -371,5 +365,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapt
         setOnClickListener(R.id.editor_tv_save);
         setOnClickListener(R.id.editor_tv_save_book);
         setOnClickListener(R.id.editor_tv_video);
+    }
+
+    private String getEt() {
+        return mEt.getText().toString();
     }
 }

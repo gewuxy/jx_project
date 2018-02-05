@@ -20,6 +20,7 @@ import jx.csp.R;
 import jx.csp.constant.FiltrateType;
 import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CountdownDialog;
+import jx.csp.dialog.GuideDialog;
 import jx.csp.dialog.UpdateNoticeDialog;
 import jx.csp.model.CheckAppVersion;
 import jx.csp.model.CheckAppVersion.TCheckAppVersion;
@@ -172,6 +173,13 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @Override
     public void setViews() {
         super.setViews();
+
+        if (SpApp.inst().getGuidelines()) {
+            GuideDialog dialog = new GuideDialog(this);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+            SpApp.inst().saveGuidelines();
+        }
 
         setOnClickListener(mMidView);
 
