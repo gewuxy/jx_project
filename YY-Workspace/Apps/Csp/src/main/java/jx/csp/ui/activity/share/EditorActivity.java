@@ -19,7 +19,7 @@ import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
-import jx.csp.adapter.share.ShareEditorAdapter;
+import jx.csp.adapter.share.EditorAdapter;
 import jx.csp.constant.MusicType;
 import jx.csp.dialog.PreviewDialog;
 import jx.csp.model.editor.Editor;
@@ -53,7 +53,7 @@ import lib.ys.util.TextUtil;
  * @since 2018/2/1
  */
 @Route
-public class EditorActivity extends BaseRecyclerActivity<Theme, ShareEditorAdapter> implements OnAdapterClickListener {
+public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> implements OnAdapterClickListener {
 
     private final int KTheme = 0;
     private final int KSave = 1;

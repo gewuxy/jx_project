@@ -6,6 +6,8 @@ import android.view.Gravity;
 import android.view.View;
 
 import jx.csp.R;
+import jx.csp.ui.activity.me.GreenHandsGuideActivityRouter;
+import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
 
 /**
@@ -61,7 +63,20 @@ public class GuideDialog extends BaseDialog {
             }
             break;
             case R.id.guide_watch: {
-
+                if (Util.checkAppCn()) {
+                    GreenHandsGuideActivityRouter.create("1").route(getContext());
+                } else {
+                    GreenHandsGuideActivityRouter.create("2").route(getContext());
+                }
+                Thread thread = new Thread(() -> {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    dismiss();
+                });
+                thread.start();
             }
             break;
         }

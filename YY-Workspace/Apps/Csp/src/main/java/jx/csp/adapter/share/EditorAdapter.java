@@ -15,7 +15,7 @@ import lib.ys.network.image.shape.CornerRenderer;
  * @since 2018/2/1
  */
 
-public class ShareEditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
+public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
 
     @Override
     protected void refreshView(int position, EditorVH holder) {
