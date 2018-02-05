@@ -390,7 +390,7 @@ public class NetworkApi {
 
         @Post("upload/picture")
         void picture(@Query(opt = true) int courseId,
-                     byte[] file, int sort);
+                     String file, int sort);
 
         /**
          * 完善或修改课件标题，主题，背景音乐

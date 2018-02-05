@@ -60,8 +60,10 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
             goneView(mViewEmptyPpt);
             showView(mViewEmptyPhoto);
         }
+        if (getData() == null || mAllMeets == null || mPhotoMeets == null || mPptMeets == null) {
+            return;
+        }
         removeAll();
-        invalidate();
         switch (mFiltrateType) {
             case FiltrateType.ppt: {
                 nativeSetDate(new ArrayList<>(mPptMeets));

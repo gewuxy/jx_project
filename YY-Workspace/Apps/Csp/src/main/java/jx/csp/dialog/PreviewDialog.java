@@ -25,7 +25,11 @@ public class PreviewDialog extends BaseDialog {
         super(context);
 
         mIvTheme.url(theme).load();
-        mIvPhoto.url(photo).load();
+        if (photo.startsWith("http")) {
+            mIvPhoto.url(photo).load();
+        } else {
+            mIvPhoto.storage(photo).load();
+        }
     }
 
     @Override

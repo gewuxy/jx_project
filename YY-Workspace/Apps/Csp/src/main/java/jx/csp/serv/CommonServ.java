@@ -146,8 +146,9 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.upload_photo: {
                 for (int i = 0; i < mPhoto.size(); ++i) {
+                    // FIXME: 2018/2/5 未完成
                     String photo = mPhoto.get(i);
-                    exeNetworkReq(mType, MeetingAPI.picture(photo.getBytes(), i).build());
+                    exeNetworkReq(mType, MeetingAPI.picture(photo, i).build());
                 }
             }
             break;

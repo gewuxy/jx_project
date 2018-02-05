@@ -77,7 +77,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     private int mMeetId;    //会议id
 
     @Arg
-    boolean mFlag;  //从哪里进入的标识
+    boolean mFlag;  //从哪里进入的标识,true为分享,false为新建
     @Arg(opt = true)
     Meet mMeet;
     @Arg(opt = true)
@@ -147,6 +147,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         //设置标题
         if (mFlag) {
             mEt.setText(mMeet.getString(TMeet.title));
+            showView(mIv);
         } else {
             mEt.setText(ConstantsEx.KEmpty);
             mTvSaveBook.setEnabled(false);
