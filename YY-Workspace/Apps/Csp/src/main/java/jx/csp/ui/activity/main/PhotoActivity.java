@@ -1,21 +1,21 @@
 package jx.csp.ui.activity.main;
 
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.adapter.main.PhotoAdapter;
 import jx.csp.constant.Constants;
 import jx.csp.model.main.Photo;
+import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.ys.adapter.MultiAdapterEx;
-import lib.ys.ui.activity.list.RecyclerActivityEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
 
@@ -25,19 +25,14 @@ import lib.ys.util.PhotoUtil;
  * @auther : GuoXuan
  * @since : 2018/2/2
  */
-public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> implements
+@Route
+public class PhotoActivity extends BasePhotoActivity<Photo, PhotoAdapter> implements
         MultiAdapterEx.OnAdapterClickListener {
 
-    public static final int KSelectMax = 9; // 选择的最大数
+    @Arg(opt = true, defaultInt = Constants.KPhotoMax)
+    int mMaxSelect;
+
     private int mSelectNum; // 被选择数
-
-    private TextView mTvPreview;
-    private TextView mTvFinish;
-
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_photo;
-    }
 
     @Override
     public void initData() {
@@ -52,32 +47,22 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
     }
 
     @Override
-    protected RecyclerView.LayoutManager initLayoutManager() {
-        return new GridLayoutManager(PhotoActivity.this, PhotoAdapter.KSpanCount);
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mTvPreview = findView(R.id.photo_tv_preview);
-        mTvFinish = findView(R.id.photo_tv_finish);
-    }
-
-    @Override
     public void setViews() {
         super.setViews();
 
-        setOnAdapterClickListener(this);
-        setOnClickListener(mTvPreview);
-        setOnClickListener(mTvFinish);
-        mTvFinish.setEnabled(false);
+        getRightButton().setEnabled(false);
 
         // FIXME: 待整理
         Util.runOnSubThread(new Runnable() {
             @Override
             public void run() {
-                List<String> photos = PhotoUtil.getPhotos(PhotoActivity.this);
+                List<String> photos = new ArrayList<>();
+                String path = CacheUtil.getUploadCacheDir();
+                File file = new File(path);
+                if (file.exists()) {
+                    addFile(photos, file);
+                }
+                photos.addAll(PhotoUtil.getPhotos(PhotoActivity.this));
                 Util.runOnUIThread(new Runnable() {
                     @Override
                     public void run() {
@@ -91,6 +76,25 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
                 });
             }
         });
+        setLeftText(R.string.preview);
+        setRightText(R.string.finish);
+    }
+
+    private void addFile(List<String> photos, File file) {
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                addFile(photos, f);
+            }
+        } else {
+            if (file.getName().contains("jpg")) {
+                photos.add(file.getAbsolutePath());
+            }
+        }
+    }
+
+    @Override
+    protected int getSpanCount() {
+        return PhotoAdapter.KSpanCount;
     }
 
     @Override
@@ -101,12 +105,12 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
                 boolean select = !getItem(position).getBoolean(Photo.TPhoto.choice, false);
                 if (select) {
                     // 记录前是Max个不做操作
-                    if (mSelectNum == KSelectMax) {
+                    if (mSelectNum == mMaxSelect) {
                         return;
                     }
                     mSelectNum++;
                     // 记录完是Max个盖图层
-                    if (mSelectNum == KSelectMax) {
+                    if (mSelectNum == mMaxSelect) {
                         for (Photo photo : getData()) {
                             if (!photo.getBoolean(Photo.TPhoto.choice, false)) {
                                 photo.put(Photo.TPhoto.cover, true);
@@ -114,7 +118,7 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
                         }
                     }
                 } else {
-                    if (mSelectNum == KSelectMax) {
+                    if (mSelectNum == mMaxSelect) {
                         for (Photo photo : getData()) {
                             photo.put(Photo.TPhoto.cover, false);
                         }
@@ -124,12 +128,6 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
                 getItem(position).put(Photo.TPhoto.choice, select);
                 getItem(position).put(Photo.TPhoto.cover, false);
                 invalidate();
-                // 预览按钮
-                mTvPreview.setSelected(mSelectNum > 0);
-                // 完成按钮
-                String finishText = getString(R.string.finish);
-                mTvFinish.setText(mSelectNum > 0 ? finishText.concat("(").concat(String.valueOf(mSelectNum)).concat(")") : finishText);
-                mTvFinish.setEnabled(mSelectNum > 0);
             }
             break;
         }
@@ -138,14 +136,18 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.photo_tv_preview: {
+            case R.id.photo_tv_bottom_left: {
                 ArrayList<String> photos = getSelectPhoto();
                 if (!photos.isEmpty()) {
-                    PreviewPhotoActivityRouter.create(photos).route(PhotoActivity.this, 0);
+                    PreviewPhotoActivityRouter.create(photos)
+                            .maxSelect(mMaxSelect)
+                            .route(PhotoActivity.this, 0);
                 }
             }
             break;
-            case R.id.photo_tv_finish: {
+            case R.id.photo_tv_bottom_right: {
+                Intent i = new Intent().putExtra(Constants.KData, getSelectPhoto());
+                setResult(RESULT_OK, i);
                 finish();
             }
             break;
@@ -153,20 +155,24 @@ public class PhotoActivity extends RecyclerActivityEx<Photo, PhotoAdapter> imple
     }
 
     @Override
+    public void invalidate() {
+        super.invalidate();
+
+        // 预览按钮
+        getLeftButton().setSelected(mSelectNum > 0);
+        // 完成按钮
+        String finishText = getString(R.string.finish);
+        getRightButton().setText(mSelectNum > 0 ? finishText.concat("(").concat(String.valueOf(mSelectNum)).concat(")") : finishText);
+        getRightButton().setEnabled(mSelectNum > 0);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            finish();
+            getRightButton().performClick();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Intent i = new Intent().putExtra(Constants.KData, getSelectPhoto());
-        setResult(RESULT_OK, i);
     }
 
     public ArrayList<String> getSelectPhoto() {

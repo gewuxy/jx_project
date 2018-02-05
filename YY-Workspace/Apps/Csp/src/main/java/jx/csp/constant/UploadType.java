@@ -6,17 +6,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
+ * 上传照片选择的类型
+ *
  * @auther : GuoXuan
- * @since : 2018/2/1
+ * @since : 2018/2/5
  */
 @IntDef({
-        FiltrateType.all,
-        FiltrateType.ppt,
-        FiltrateType.photo,
+        UploadType.camera,
+        UploadType.photo,
 })
 @Retention(RetentionPolicy.SOURCE)
-public @interface FiltrateType {
-    int all = 0; // 全部
-    int ppt = 1; // PPT
-    int photo = 2; // 照片
+public @interface UploadType {
+    int camera = 0; // 照相机
+    int photo = 1; // 相册
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/choice_photo_divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"/>
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/choice_photo_iv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="156dp"
+            android:layout_below="@id/choice_photo_divider_top"
+            android:layout_marginRight="@dimen/margin"/>
+
+        <View
+            android:id="@+id/choice_photo_divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:layout_below="@id/choice_photo_iv_photo"/>
+
+        <ImageView
+            android:id="@+id/choice_photo_iv_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:padding="5dp"
+            android:src="@drawable/choice_photo_ic_delete"/>
+    </RelativeLayout>
+</LinearLayout>

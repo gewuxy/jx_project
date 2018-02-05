@@ -212,6 +212,10 @@
     <string name="save">保存</string>
     <string name="photo">照片</string>
     <string name="add_meet">新建讲本</string>
+    <string name="make_meet">生成讲本</string>
+    <string name="upload_photo">上传图片</string>
+    <string name="upload_photo_max">最多%d张照片</string>
+    <string name="exit_edit">退出此次编辑？</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

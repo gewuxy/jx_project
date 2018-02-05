@@ -9,6 +9,7 @@ import lib.jx.BaseConstants;
 public interface Constants extends BaseConstants {
 
     int KAccountFrozen = 103;
+    int KPhotoMax = 9; // 照片选择的最大数
 
     String KVideoUrl = "http://139.199.170.178/cspvideo/login_background_video.mp4";
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.ui.frag.main.PreviewPhotoFragRouter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseVpActivity;
@@ -25,6 +26,9 @@ import lib.ys.ui.other.NavBar;
  */
 @Route
 public class PreviewPhotoActivity extends BaseVpActivity implements ViewPager.OnPageChangeListener {
+
+    @Arg(opt = true, defaultInt = Constants.KPhotoMax)
+    int mMaxSelect;
 
     @Arg
     ArrayList<String> mPhotosPath; // 选择的照片
@@ -67,7 +71,7 @@ public class PreviewPhotoActivity extends BaseVpActivity implements ViewPager.On
         mTvGuide.setTextSize(TypedValue.COMPLEX_UNIT_PX, fit(18));
         setOnPageChangeListener(this);
 
-        mTvFinish.setText(getString(R.string.finish) + mPhotosPath.size() + "/" + PhotoActivity.KSelectMax);
+        mTvFinish.setText(getString(R.string.finish) + mPhotosPath.size() + "/" + mMaxSelect);
         setOnClickListener(mTvFinish);
     }
 
