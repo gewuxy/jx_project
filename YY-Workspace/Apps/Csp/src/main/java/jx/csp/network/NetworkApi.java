@@ -17,8 +17,8 @@ import jx.csp.constant.BindId;
  */
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
-        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
-//        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
+//        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
+        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8085/api/"   // 长玲电脑
 //        hostDebuggable = "http://10.0.0.200:8082/api/"   //简亮电脑
@@ -352,7 +352,7 @@ public class NetworkApi {
         void setPassword(String id, String type, String password);
 
         /**
-         *  获取会议密码
+         * 获取会议密码
          *
          * @param id
          */
@@ -416,6 +416,19 @@ public class NetworkApi {
         @Post("mini/update")
         @Retry(count = 5, delay = 1000)
         void update(String courseId,
+                    @Query(opt = true) String title,
+                    @Query(opt = true) int imgId,
+                    @Query(opt = true) int musicId);
+
+        /**
+         * 创建讲本
+         *
+         * @param title
+         * @param imgId
+         * @param musicId
+         */
+        @Post("/mini/update")
+        void create(String courseId,
                     @Query(opt = true) String title,
                     @Query(opt = true) int imgId,
                     @Query(opt = true) int musicId);

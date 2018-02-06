@@ -21,10 +21,10 @@ import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.share.EditorAdapter;
 import jx.csp.constant.Constants;
-import jx.csp.constant.MusicType;
 import jx.csp.model.editor.Editor;
 import jx.csp.model.editor.Editor.TEditor;
 import jx.csp.model.editor.Theme;
+import jx.csp.model.editor.Upload;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
@@ -57,6 +57,8 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
 
     private final int KTheme = 0;
     private final int KSave = 1;
+    private final int KCreate = 2;
+    private final int KUpload = 3;
     private final int KMusic = 10;
 
     private ImageView mIv;
@@ -149,7 +151,6 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             mMeetId = mMeet.getString(TMeet.id);
         }
 
-        //获取主题皮肤
         refresh(RefreshWay.embed);
         exeNetworkReq(KTheme, MeetingAPI.editMeet().build());
 
@@ -221,7 +222,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_save: {
                 //分享进入的保存按钮
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSave, MeetingAPI.update(mMeetId).title(getEt()).imgId(mImgId).musicId(mMusicId).build());
+                // exeNetworkReq(KSave, MeetingAPI.update(mMeetId).title(getEt()).imgId(mImgId).musicId(mMusicId).build());
             }
             break;
             case R.id.editor_tv_save_book:
@@ -267,6 +268,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KTheme) {
             return JsonParser.ev(resp.getText(), Editor.class);
+        }
+        if (id == KUpload) {
+            return JsonParser.ev(resp.getText(), Upload.class);
         } else {
             return JsonParser.error(resp.getText());
         }
@@ -285,16 +289,21 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                     }
                 }
                 break;
-                case KSave: {
+                case KCreate: {
                     stopRefresh();
                     finish();
                 }
                 break;
-                default:
+                case KUpload: {
+                    Upload upload = (Upload) r.getData();
+                    if (upload != null) {
+                        mMeetId = upload.getString(Upload.TUpload.id);
+                    }
                     mUploadList.removeFirst();
                     mUploadState = false;
                     upload();
-                    break;
+                }
+                break;
             }
         } else {
             onNetworkError(id, r.getError());
@@ -316,7 +325,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             return;
         }
 
-        //背景音乐的返回
+        // 背景音乐的返回
         if (data != null) {
             mTvMusicName.setText(data.getStringExtra(Extra.KData));
             long time = Long.parseLong(data.getStringExtra(Extra.KLimit));
@@ -330,9 +339,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     @Override
     public boolean onRetryClick() {
         if (!super.onRetryClick()) {
-            //获取主题皮肤
+            // 获取主题皮肤
             refresh(RefreshWay.embed);
-            exeNetworkReq(KTheme, MeetingAPI.editor().type(MusicType.theme).build());
+            exeNetworkReq(KTheme, MeetingAPI.editMeet().build());
         }
         return true;
     }
@@ -340,12 +349,16 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     private void upload() {
         if (mUploadList.isEmpty()) {
             YSLog.d(TAG, "上传列表为空");
-            stopRefresh();
+            exeNetworkReq(KCreate, MeetingAPI.update(mMeetId)
+                    .title(getEt())
+                    .imgId(mImgId)
+                    .musicId(mMusicId)
+                    .build());
             return;
         }
         if (!mUploadState) {
             YSLog.d(TAG, "开始上传任务");
-            exeNetworkReq(mUploadList.getFirst());
+            exeNetworkReq(KUpload, mUploadList.getFirst());
             mUploadState = true;
         }
     }
