@@ -136,6 +136,7 @@ public class GuideActivity extends BaseVpActivity {
     @Override
     public void onClick(View v) {
         SpApp.inst().saveGuideState();
+        SpApp.inst().setAppOldVersion(SpApp.inst().getCurrentVersion(this));
         if (Profile.inst().isLogin()) {
             // 登录有效(登录过且没有退出)
             LaunchUtil.startActivity(this, MainActivity.class);

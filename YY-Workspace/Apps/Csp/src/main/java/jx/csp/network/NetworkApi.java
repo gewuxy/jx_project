@@ -388,9 +388,9 @@ public class NetworkApi {
         @Get("mini/image/music")
         void editor(int type);
 
-        @Post("upload/picture")
+        @Upload("upload/picture")
         void picture(@Query(opt = true) int courseId,
-                     String file, int sort);
+                     byte[] file, int sort);
 
         /**
          * 完善或修改课件标题，主题，背景音乐

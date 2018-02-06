@@ -1,6 +1,8 @@
 package jx.csp.sp;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +11,7 @@ import jx.csp.App;
 import jx.csp.constant.AppType;
 import jx.csp.constant.LangType;
 import jx.csp.model.login.Advert;
+import lib.ys.YSLog;
 import lib.ys.util.sp.SpBase;
 
 /**
@@ -51,6 +54,7 @@ public class SpApp extends SpBase {
         String KAppUpdateTime = "app_update_time";
         String KShowSlideDialog = "show_slide_dialog";
         String KGuidelines = "guidelines";
+        String KAppVersion = "app_version";
     }
 
     @Override
@@ -126,6 +130,7 @@ public class SpApp extends SpBase {
 
     /**
      * 是否需要显示引导页
+     *
      * @return true 表示要显示   false 表示已经显示过了，不需要再显示
      */
     public boolean getGuideState() {
@@ -141,6 +146,7 @@ public class SpApp extends SpBase {
 
     /**
      * 首次进入首页新手指引显示
+     *
      * @return
      */
     public boolean getGuidelines() {
@@ -183,5 +189,33 @@ public class SpApp extends SpBase {
      */
     public void saveCheckAppVersionTime() {
         save(SpAppKey.KAppUpdateTime, System.currentTimeMillis() - TimeUnit.DAYS.toMillis(2));
+    }
+
+    /**
+     * 获取当前app版本号
+     * @param context
+     * @return
+     */
+    public int getCurrentVersion(Context context) {
+        int version = 0;
+        try {
+            PackageInfo packageInfo = context
+                    .getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            version = packageInfo.versionCode;
+            YSLog.d(TAG, "版本号 = " + version);
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return version;
+    }
+
+    public void setAppOldVersion(int version) {
+        save(SpAppKey.KAppVersion, version);
+    }
+
+    public int getAppOldVersion(){
+        return getInt(SpAppKey.KAppVersion);
     }
 }

@@ -32,7 +32,6 @@ import lib.jx.notify.Notifier;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
-import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.service.ServiceEx;
 import lib.ys.util.FileUtil;
@@ -146,8 +145,7 @@ public class CommonServ extends ServiceEx {
             break;
             case ReqType.upload_photo: {
                 for (int i = 0; i < mPhoto.size(); ++i) {
-                    // FIXME: 2018/2/5 未完成
-                    String photo = mPhoto.get(i);
+                    byte[] photo = mPhoto.get(i).getBytes();
                     exeNetworkReq(mType, MeetingAPI.picture(photo, i).build());
                 }
             }
@@ -159,6 +157,8 @@ public class CommonServ extends ServiceEx {
     public IResult onNetworkResponse(int id, NetworkResp resp) throws JSONException {
         if (id == ReqType.advert) {
             return JsonParser.ev(resp.getText(), Advert.class);
+        } else if (id == ReqType.upload_photo) {
+            return JsonParser.ev(resp.getText(), Picture.class);
         } else {
             return JsonParser.error(resp.getText());
         }
@@ -241,11 +241,9 @@ public class CommonServ extends ServiceEx {
                 if (r.isSucceed()) {
                     YSLog.d(TAG, "上传图片成功");
                     Picture picture = (Picture) r.getData();
-                    int meetId = ConstantsEx.KInvalidValue;
                     if (picture != null) {
-                        meetId = picture.getInt(TPicture.id);
+                        Notifier.inst().notify(NotifyType.update_photo, picture.getInt(TPicture.id));
                     }
-                    Notifier.inst().notify(NotifyType.update_photo, meetId);
                 } else {
                     YSLog.d(TAG, "上传图片失败");
                     // 上传失败就重试

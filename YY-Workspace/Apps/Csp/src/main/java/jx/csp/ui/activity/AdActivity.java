@@ -15,9 +15,9 @@ import jx.csp.model.login.Advert.TAdvert;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
+import jx.csp.ui.activity.main.MainActivity;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ConstantsEx;
@@ -119,10 +119,8 @@ public class AdActivity extends BaseActivity {
     }
 
     public static void afterAd(Context context) {
-        // 先判断是否需要显示引导页 如果不显示则判断跳转到登陆还是首页
-        if (SpApp.inst().getGuideState()) {
-            LaunchUtil.startActivity(context, GuideActivity.class);
-        } else {
+        //判断当前版本号是否等于上一版本号 如果不等于直接显示引导页 getAppOldVersion()新安装为0
+        if (SpApp.inst().getCurrentVersion(context) == SpApp.inst().getAppOldVersion()) {
             if (Profile.inst().isLogin()) {
                 // 登录有效(登录过且没有退出)
                 LaunchUtil.startActivity(context, MainActivity.class);
@@ -134,6 +132,10 @@ public class AdActivity extends BaseActivity {
                     LaunchUtil.startActivity(context, AuthLoginOverseaActivity.class);
                 }
             }
+        } else {
+            //如果是新用户 本地保存的版本号为0 则显示引导页
+            //如果是升级更新后 本地版本号与本地版本号不一致 显示引导页
+            LaunchUtil.startActivity(context, GuideActivity.class);
         }
     }
 }
