@@ -15,9 +15,8 @@ import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.MusicAdapter;
-import jx.csp.constant.MusicType;
-import jx.csp.model.editor.Editor;
-import jx.csp.model.editor.Editor.TEditor;
+import jx.csp.model.BgMusic;
+import jx.csp.model.BgMusic.TBgMusic;
 import jx.csp.model.editor.Music;
 import jx.csp.model.editor.Music.TMusic;
 import jx.csp.network.JsonParser;
@@ -82,7 +81,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
 
         setOnAdapterClickListener(this);
         refresh(RefreshWay.embed);
-        exeNetworkReq(MeetingAPI.editor().type(MusicType.music).showType(1).build());
+        exeNetworkReq(KBgMusicReqId, MeetingAPI.bgMusic().build());
     }
 
     @Override
@@ -102,7 +101,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KBgMusicReqId) {
-            return JsonParser.ev(resp.getText(), Editor.class);
+            return JsonParser.ev(resp.getText(), BgMusic.class);
         } else {
             return JsonParser.error(resp.getText());
         }
@@ -113,30 +112,27 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
         if (id == KBgMusicReqId) {
             if (r.isSucceed()) {
                 setViewState(ViewState.normal);
-                Editor res = (Editor) r.getData();
-                if (res != null) {
-                    mMusicList = res.getList(TEditor.musicList);
-                    if (mMusicList != null && mMusicList.size() > 0) {
-                        setData(mMusicList);
-                        //  下载音频
-                        downloadBgMusic(mMusicList);
-                    }
-                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                        @Override
-                        public void onGlobalLayout() {
-                            if (mMusicId != 0) {
-                                for (int i = 0; i < mMusicList.size(); i++) {
-                                    int musicId = (mMusicList.get(i)).getInt(TMusic.id);
-                                    if (mMusicId == musicId) {
-                                        getAdapter().getCacheVH(i).getIvSelect().setSelected(true);
-                                    }
+                BgMusic bgMusic = (BgMusic) r.getData();
+                mMusicList = bgMusic.getList(TBgMusic.list);
+                if (mMusicList != null && mMusicList.size() > 0) {
+                    setData(mMusicList);
+                    //  下载音频
+                    downloadBgMusic(mMusicList);
+                }
+                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        if (mMusicId != 0) {
+                            for (int i = 0; i < mMusicList.size(); i++) {
+                                int musicId = (mMusicList.get(i)).getInt(TMusic.id);
+                                if (mMusicId == musicId) {
+                                    getAdapter().getCacheVH(i).getIvSelect().setSelected(true);
                                 }
                             }
-                            removeOnGlobalLayoutListener(this);
                         }
-                    });
-
-                }
+                        removeOnGlobalLayoutListener(this);
+                    }
+                });
             } else {
                 setViewState(ViewState.error);
                 onNetworkError(id, r.getError());

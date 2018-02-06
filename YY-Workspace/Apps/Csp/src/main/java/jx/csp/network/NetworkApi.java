@@ -429,6 +429,12 @@ public class NetworkApi {
          */
         @Get("tourist/view")
         void greenHandsGuide(String courseId);
+
+        /**
+         * 获取背景音乐
+         */
+        @Get("theme/music/more")
+        void bgMusic();
     }
 
     @Api("charge")
