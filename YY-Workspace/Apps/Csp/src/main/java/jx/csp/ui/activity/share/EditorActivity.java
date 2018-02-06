@@ -10,7 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import inject.annotation.router.Arg;
@@ -32,6 +34,7 @@ import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
 import lib.network.model.NetworkError;
+import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
@@ -39,6 +42,7 @@ import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 
 /**
@@ -80,9 +84,18 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     @Arg(opt = true)
     ArrayList<String> mPicture;  //上传的图片
 
+    private LinkedList<NetworkReq> mUploadList;  // 上传图片队列
+    private LinkedList<String> mUploadFilePathList; //
+
     @Override
     public void initData() {
-        // do nothing
+        mUploadList = new LinkedList<>();
+        mUploadFilePathList = new LinkedList<>();
+//        if (mPicture != null) {
+//            for (String s : mPicture) {
+//                mUploadFilePathList.addLast(s);
+//            }
+//        }
     }
 
     @Override
@@ -219,7 +232,18 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_save_book: {
                 //新建讲本进入的保存按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-                // FIXME: 上传图片
+                for (int i = 0; i < mPicture.size(); i++) {
+                    String path = mPicture.get(i);
+                    File file = new File(path);
+                    if (file.exists()) {
+                        byte[] bytes = FileUtil.fileToBytes(path);
+                        NetworkReq req = MeetingAPI.picture(bytes, i)
+                                .courseId(mMeetId)
+                                .build();
+                        mUploadList.addLast(req);
+                    }
+
+                }
             }
             break;
             case R.id.editor_tv_video: {
@@ -229,6 +253,10 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             }
             break;
         }
+    }
+
+    private void upload() {
+
     }
 
     @Override
@@ -316,6 +344,8 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         }
         return true;
     }
+
+
 
     private String getEt() {
         return mEt.getText().toString();

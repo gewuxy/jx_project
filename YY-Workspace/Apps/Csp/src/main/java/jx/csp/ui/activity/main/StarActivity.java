@@ -6,27 +6,39 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
+import inject.annotation.network.Descriptor;
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import jx.csp.BuildConfig;
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.constant.AppType;
+import jx.csp.constant.Constants;
+import jx.csp.constant.LangType;
 import jx.csp.contact.StarContract;
 import jx.csp.dialog.CommonDialog;
 import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.BgMusicThemeInfo;
 import jx.csp.model.meeting.BgMusicThemeInfo.TBgMusicThemeInfo;
 import jx.csp.model.meeting.Code;
 import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Live;
 import jx.csp.model.meeting.Live.LiveState;
+import jx.csp.network.NetworkApi;
 import jx.csp.presenter.StarPresenterImpl;
 import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServRouter;
+import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
@@ -42,6 +54,8 @@ import lib.ys.util.TextUtil;
  */
 @Route
 public class StarActivity extends BaseActivity {
+
+    private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
     @Arg
     Meet mMeet;
@@ -59,6 +73,7 @@ public class StarActivity extends BaseActivity {
     private View mLayoutBgMusic;  // 已经选择了的背景音乐的音乐名称/时长
     private ImageView mIvHaveMusic;  // 已经有背景音乐显示的图片
     private TextView mTvBgMusic;
+    private String mPreviewUrl;
 
     private StarContract.P mP;
 
@@ -141,7 +156,7 @@ public class StarActivity extends BaseActivity {
             }
             break;
             case R.id.star_tv_preview: {
-                showToast("preview");
+                CommonWebViewActivityRouter.create(mPreviewUrl).route(this);
             }
             break;
             case R.id.star_tv_add_theme: {
@@ -215,6 +230,36 @@ public class StarActivity extends BaseActivity {
         setOnClickListener(R.id.star_tv_preview);
         setOnClickListener(R.id.star_tv_add_theme);
         setOnClickListener(R.id.star_tv_add_music);
+    }
+
+    private void getShareUrl() {
+        // 拼接加密字符串
+        LangType type = SpApp.inst().getLangType(); // 系统语言
+        YSLog.d(TAG, "app app_type = " + type);
+        // 简体中文和繁体中文字符串资源要分别放到res/values-zh-rCN和res/values-zh-rTW下
+        @AppType int appType;  // 国内版 国外版
+        if (Util.checkAppCn()) {
+            appType = AppType.inland;
+        } else {
+            appType = AppType.overseas;
+        }
+
+        StringBuilder paramBuffer = new StringBuilder();
+        paramBuffer.append("id=")
+                .append(mMeet.getString(TMeet.id))
+                .append("&_local=")
+                .append(type.define())
+                .append("&abroad=")
+                .append(appType);
+        Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
+        String http = BuildConfig.DEBUG_NETWORK ? des.hostDebuggable() : des.host();
+        try {
+            mPreviewUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, paramBuffer.toString()), Constants.KEncoding_utf8);
+            YSLog.d(TAG, "PreviewUrl = " + mPreviewUrl);
+        } catch (UnsupportedEncodingException e) {
+            YSLog.e(TAG, "shareSignature", e);
+            mPreviewUrl = http + "meeting/share?signature=";
+        }
     }
 
     /**

@@ -396,7 +396,7 @@ public class NetworkApi {
                     @Query(opt = true) String courseId);
 
         @Upload("upload/picture")
-        void picture(@Query(opt = true) int courseId,
+        void picture(@Query(opt = true) String courseId,
                      byte[] file, int sort);
 
         /**
