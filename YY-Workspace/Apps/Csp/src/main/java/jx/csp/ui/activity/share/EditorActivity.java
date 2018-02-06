@@ -29,7 +29,7 @@ import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.main.SelectBgMusicActivity;
+import jx.csp.ui.activity.main.SelectBgMusicActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
@@ -134,10 +134,10 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     public void setViews() {
         super.setViews();
 
-        setOnClickListener(mLayoutMusic);
         setOnClickListener(mTvMusicName);
         setOnClickListener(mTvMusicTime);
 
+        setOnClickListener(R.id.editor_select_music);
         setOnClickListener(R.id.editor_tv_save);
         setOnClickListener(R.id.editor_tv_save_book);
         setOnClickListener(R.id.editor_tv_video);
@@ -151,7 +151,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
 
         //获取主题皮肤
         refresh(RefreshWay.embed);
-        exeNetworkReq(KTheme, MeetingAPI.editor().type(MusicType.theme).build());
+        exeNetworkReq(KTheme, MeetingAPI.editMeet().build());
 
         //设置标题
         if (mIsShare) {
@@ -215,7 +215,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             }
             break;
             case R.id.editor_select_music: {
-                startActivityForResult(SelectBgMusicActivity.class, KMusic);
+                SelectBgMusicActivityRouter.create(mMeetId).route(this, KMusic);
             }
             break;
             case R.id.editor_tv_save: {
@@ -340,6 +340,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     private void upload() {
         if (mUploadList.isEmpty()) {
             YSLog.d(TAG, "上传列表为空");
+            stopRefresh();
             return;
         }
         if (!mUploadState) {

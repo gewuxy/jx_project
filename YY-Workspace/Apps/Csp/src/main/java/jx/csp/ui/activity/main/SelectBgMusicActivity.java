@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.MusicAdapter;
 import jx.csp.model.BgMusic;
-import jx.csp.model.BgMusic.TBgMusic;
 import jx.csp.model.editor.Music;
 import jx.csp.model.editor.Music.TMusic;
 import jx.csp.network.JsonParser;
@@ -41,7 +39,6 @@ import lib.ys.ui.other.NavBar;
  * @author CaiXiang
  * @since 2018/2/6
  */
-
 @Route
 public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter> implements OnAdapterClickListener {
 
@@ -59,7 +56,6 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     private List<Music> mMusicList;
     private boolean mDownloadState = false;
     private MediaPlayer mMediaPlayer;
-    private int mPauseProgress = 0;  // 暂停时的位置
     private int mPlayPos = -1;
     private int mSelectPos = -1;
 
@@ -89,10 +85,14 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
         switch (v.getId()) {
             case R.id.music_iv_play_state: {
                 play(position);
+                mPlayPos = position;
             }
             break;
             case R.id.music_iv_select: {
-                select(position);
+                mSelectPos = position;
+                Music item = getItem(position);
+                refresh(RefreshWay.dialog);
+                exeNetworkReq(KSelectReqId, MeetingAPI.selectBgMusic(mCourseId, item.getString(TMusic.id)).build());
             }
             break;
         }
@@ -112,39 +112,46 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
         if (id == KBgMusicReqId) {
             if (r.isSucceed()) {
                 setViewState(ViewState.normal);
-                BgMusic bgMusic = (BgMusic) r.getData();
-                mMusicList = bgMusic.getList(TBgMusic.list);
-                if (mMusicList != null && mMusicList.size() > 0) {
-                    setData(mMusicList);
-                    //  下载音频
-                    downloadBgMusic(mMusicList);
-                }
-                addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                    @Override
-                    public void onGlobalLayout() {
-                        if (mMusicId != 0) {
-                            for (int i = 0; i < mMusicList.size(); i++) {
-                                int musicId = (mMusicList.get(i)).getInt(TMusic.id);
-                                if (mMusicId == musicId) {
-                                    getAdapter().getCacheVH(i).getIvSelect().setSelected(true);
+                BgMusic res = (BgMusic) r.getData();
+                if (res != null) {
+                    mMusicList = res.getList(BgMusic.TBgMusic.list);
+                    if (mMusicList != null && mMusicList.size() > 0) {
+                        setData(mMusicList);
+                        //  下载音频
+                        downloadBgMusic(mMusicList);
+                    }
+                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            if (mMusicId != 0) {
+                                for (int i = 0; i < mMusicList.size(); i++) {
+                                    int musicId = (mMusicList.get(i)).getInt(TMusic.id);
+                                    if (mMusicId == musicId) {
+                                        getItem(i).put(TMusic.select, true);
+                                        invalidate(i);
+                                    }
                                 }
                             }
+                            removeOnGlobalLayoutListener(this);
                         }
-                        removeOnGlobalLayoutListener(this);
-                    }
-                });
+                    });
+                }
             } else {
                 setViewState(ViewState.error);
                 onNetworkError(id, r.getError());
             }
         } else if (id == KSelectReqId) {
-            Music item = getItem(mSelectPos);
-            Intent intent = new Intent()
-                    .putExtra(Extra.KData, item.getString(TMusic.name))
-                    .putExtra(Extra.KLimit, item.getString(TMusic.duration))
-                    .putExtra(Extra.KId, item.getString(TMusic.id));
-            setResult(RESULT_OK, intent);
-            finish();
+            if (r.isSucceed()) {
+                Music item = getItem(mSelectPos);
+                Intent intent = new Intent()
+                        .putExtra(Extra.KData, item.getString(TMusic.name))
+                        .putExtra(Extra.KLimit, item.getString(TMusic.duration))
+                        .putExtra(Extra.KId, item.getString(TMusic.id));
+                setResult(RESULT_OK, intent);
+                finish();
+            } else {
+                onNetworkError(id, r.getError());
+            }
         } else {
             mDownloadList.removeFirst();
             mMusicIdList.removeFirst();
@@ -173,59 +180,45 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     private void play(int position) {
         Music item = getItem(position);
         File file = new File(CacheUtil.getBgMusicFilePath(item.getString(TMusic.id)));
-        if (!file.exists()) {
+        if (mMediaPlayer == null || !file.exists()) {
             showToast(R.string.play_fail);
             return;
         }
 
-        if (mPlayPos != -1 && mPlayPos != position) {
-            if (getAdapter().getCacheVH(mPlayPos).getIvPlayState() != null) {
-                getAdapter().getCacheVH(mPlayPos).getIvPlayState().setSelected(false);
+        if (position != mPlayPos) {
+            try {
+                if (mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.stop();
+                }
+                mMediaPlayer.reset();
+                mMediaPlayer.setDataSource(file.getAbsolutePath());
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+                mMediaPlayer.setOnCompletionListener(mp -> {
+                    getItem(position).put(TMusic.play, false);
+                    invalidate(position);
+                });
+            } catch (Exception e) {
+                showToast(R.string.play_fail);
             }
-            if (mMediaPlayer.isPlaying()) {
-                mMediaPlayer.stop();
-                mPauseProgress = 0;
-            }
-        }
-
-        boolean state = (getAdapter().getCacheVH(position).getIvPlayState()).isSelected();
-        if (state) {
-            if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
-                mPauseProgress = mMediaPlayer.getCurrentPosition();
-                mMediaPlayer.pause();
-            }
-            getAdapter().getCacheVH(position).getIvPlayState().setSelected(false);
         } else {
-            if (mPauseProgress == 0) {
+            boolean play = getItem(position).getBoolean(TMusic.play);
+            if (play) {
                 try {
-                    mMediaPlayer.reset();
-                    mMediaPlayer.setDataSource(file.getAbsolutePath());
-                    mMediaPlayer.prepare();
                     mMediaPlayer.start();
-                    getAdapter().getCacheVH(position).getIvPlayState().setSelected(true);
-                    mPlayPos = position;
-                    mPauseProgress = 0;
-                    mMediaPlayer.setOnCompletionListener(mp -> {
-                        mPauseProgress = 0;
-                        getAdapter().getCacheVH(position).getIvPlayState().setSelected(false);
-                    });
-                } catch (IOException e) {
+                } catch (Exception e) {
                     showToast(R.string.play_fail);
                 }
             } else {
-                mPlayPos = position;
-                mMediaPlayer.seekTo(mPauseProgress);
-                mMediaPlayer.start();
-                getAdapter().getCacheVH(position).getIvPlayState().setSelected(true);
+                if (mMediaPlayer.isPlaying()) {
+                    try {
+                        mMediaPlayer.pause();
+                    } catch (Exception e) {
+                        mMediaPlayer.reset();
+                    }
+                }
             }
         }
-    }
-
-    private void select(int position) {
-        mSelectPos = position;
-        getAdapter().getCacheVH(position).getIvSelect().setSelected(true);
-        Music item = getItem(position);
-        exeNetworkReq(KSelectReqId, MeetingAPI.selectBgMusic(mCourseId, item.getString(TMusic.id)).build());
     }
 
     private void downloadBgMusic(List<Music> list) {

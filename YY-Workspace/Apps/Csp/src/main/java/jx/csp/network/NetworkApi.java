@@ -384,6 +384,12 @@ public class NetworkApi {
         void code(String courseId);
 
         /**
+         * 进入编辑讲本
+         */
+        @Get("edit")
+        void editMeet(@Query(opt = true) String courseId);
+
+        /**
          * 获取主题和背景音乐
          *
          * @param type     不传或者传0时，获取主题，传1获取背景音乐

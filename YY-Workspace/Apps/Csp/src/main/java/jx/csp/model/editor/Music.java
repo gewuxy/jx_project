@@ -8,15 +8,16 @@ import lib.ys.model.EVal;
  * @since 2018/2/1
  */
 
-public class Music extends EVal<TMusic>{
+public class Music extends EVal<TMusic> {
 
     public enum TMusic {
-        id,     //背景音乐id
-        name,   //背景音乐名称
-        duration,   //背景音乐时长
-        size,       //背景音乐大小
-        url,        //背景音乐地址
+        id, // 背景音乐id
+        name, // 背景音乐名称
+        duration, // 背景音乐时长
+        size, // 背景音乐大小
+        url,  // 背景音乐地址
 
-        select, //本地字段,播放按钮的选择
+        play, // 播放暂停
+        select, // 本地字段,播放按钮的选择
     }
 }
