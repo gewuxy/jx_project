@@ -197,7 +197,7 @@
     <string name="start_comment">星评</string>
     <string name="finish">完成</string>
     <string name="start_all_time">讲本总时长</string>
-    <string name="data_matrix_grade">使用微信扫码还可以评分哟～</string>
+    <string name="data_matrix_grade">扫码可对该讲本进行评分</string>
     <string name="spread_your_insights">Spread your insights!</string>
     <string name="reb_finish">录播完成</string>
     <string name="live_finish">直播完成</string>
@@ -220,6 +220,8 @@
     <string name="to_set_camera">去设置里面打开相机就可以拍照啦！</string>
     <string name="to_set">去设置</string>
     <string name="open">开启</string>
+    <string name="add_theme">添加主题</string>
+    <string name="add_music">添加音乐</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

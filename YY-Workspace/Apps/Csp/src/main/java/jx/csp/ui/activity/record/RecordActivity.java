@@ -25,6 +25,7 @@ import jx.csp.model.RecordUnusualState;
 import jx.csp.model.RecordUnusualState.TRecordUnusualState;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.BgMusicThemeInfo;
 import jx.csp.model.meeting.Course;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Course.TCourse;
@@ -84,6 +85,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     private boolean mCanContinueRecord = false;  // 能否续录
     private boolean mContinueRecord = false;  // 是否在续录
+    private BgMusicThemeInfo mBgMusicThemeInfo;
 
     @Override
     public void initData() {
@@ -149,7 +151,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 totalTime += mRecordTimeArray.get(i);
             }
             mShareAndStarArg.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
-            StarActivityRouter.create(mShareAndStarArg).route(RecordActivity.this);
+            StarActivityRouter.create(mShareAndStarArg)
+                    .bgMusicThemeInfo(mBgMusicThemeInfo)
+                    .route(RecordActivity.this);
             mStarBar.restoration();
             finish();
         });
@@ -545,6 +549,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
             mShareAndStarArg.put(TMeet.password, course.getString(TCourse.password));
             YSLog.d(TAG, "观看密码 = " + course.getString(TCourse.password));
+            mBgMusicThemeInfo = joinMeeting.get(TJoinMeeting.theme);
 
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 

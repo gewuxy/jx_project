@@ -82,6 +82,15 @@ public class GreenHandsVideoFrag extends BaseFrag {
                 .load();
     }
 
+    @Override
+    protected void onInvisible() {
+        if (mTextureView != null && mTextureView.isPlaying()) {
+            mTextureView.stopPlayback();
+            showView(mIv);
+            goneView(mTextureView);
+        }
+    }
+
     public void startPlay() {
         goneView(mIv);
         showView(mTextureView);

@@ -7,6 +7,7 @@ import jx.csp.R;
 import jx.csp.adapter.VH.MusicVH;
 import jx.csp.model.editor.Music;
 import jx.csp.model.editor.Music.TMusic;
+import jx.csp.util.Util;
 import lib.ys.adapter.AdapterEx;
 
 /**
@@ -27,7 +28,7 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
     protected void refreshView(int position, MusicVH holder) {
         Music item = getItem(position);
         holder.getTvName().setText(item.getString(TMusic.name));
-        holder.getTvTime().setText(item.getString(TMusic.duration));
+        holder.getTvTime().setText(Util.getSpecialTimeFormat(item.getLong(TMusic.duration), "'", "''"));
 
         View playState = holder.getIvPlayState();
         playState.setSelected(item.getBoolean(TMusic.select));
@@ -49,13 +50,15 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
             }
             break;
             case R.id.music_iv_select: {
+                ImageView iv = getCacheVH(position).getIvSelect();
+                boolean selected = iv.isSelected();
                 if (mListener != null) {
                     mListener.onSelect(position);
+                    iv.setSelected(!selected);
                 }
             }
             break;
         }
-
     }
 
     public void setListener(OnPlayStateListener l) {

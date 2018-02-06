@@ -240,6 +240,15 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mPlayState) {
+            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+                pausePlayAudio();
+            } else {
+                GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(getCurrPosition());
+                frag.stopPlay();
+            }
+        }
+
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
@@ -296,17 +305,23 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
             }
             invalidate();
             // 一进来自动播放
-            if (getItem(0) instanceof RecordImgFrag) {
-                mIvState.setSelected(true);
-                startPlayAudio(mPauseProgress);
-                startAnim();
-            } else {
-                GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(getCurrPosition());
-                mIvState.setSelected(true);
-                mPlayState = true;
-                frag.startPlay();
-                startAnim();
-            }
+            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (getItem(0) instanceof RecordImgFrag) {
+                        mIvState.setSelected(true);
+                        startPlayAudio(mPauseProgress);
+                        startAnim();
+                    } else {
+                        GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(getCurrPosition());
+                        mIvState.setSelected(true);
+                        mPlayState = true;
+                        frag.startPlay();
+                        startAnim();
+                    }
+                    removeOnGlobalLayoutListener(this);
+                }
+            });
         } else {
             super.onNetworkSuccess(id, r);
         }

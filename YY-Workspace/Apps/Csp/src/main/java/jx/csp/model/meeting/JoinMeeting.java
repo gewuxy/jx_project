@@ -21,6 +21,9 @@ public class JoinMeeting extends EVal<TJoinMeeting> {
         @Bind(Record.class)
         record, // 录播信息
 
+        @Bind(BgMusicThemeInfo.class)
+        theme, // 讲本皮肤和背景音乐对象 未设置则为null
+
         wsUrl, // 直播或者同步ws地址
         serverTime, // 服务器当前时间
     }

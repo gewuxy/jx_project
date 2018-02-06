@@ -1,8 +1,6 @@
-package jx.csp.ui.activity.share;
+package jx.csp.ui.activity.main;
 
 import android.content.Intent;
-
-import java.util.List;
 
 import jx.csp.Extra;
 import jx.csp.R;
@@ -16,33 +14,30 @@ import jx.csp.model.editor.Music.TMusic;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.Util;
-import lib.jx.ui.activity.base.BaseSRListActivity;
+import lib.jx.ui.activity.base.BaseListActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 
 /**
- * 背景音乐
+ * 添加背景音乐页面
  *
- * @auther HuoXuYu
- * @since 2018/2/3
+ * @author CaiXiang
+ * @since 2018/2/6
  */
 
-public class MusicActivity extends BaseSRListActivity<Music, MusicAdapter> implements OnPlayStateListener {
+public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter> implements OnPlayStateListener {
 
     @Override
     public void initData() {
+
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.editor_music, this);
-    }
-
-    @Override
-    public void getDataFromNet() {
-        exeNetworkReq(MeetingAPI.editor(MusicType.music).build());
-
+        Util.addBackIcon(bar, R.string.add_music, this);
     }
 
     @Override
@@ -50,25 +45,26 @@ public class MusicActivity extends BaseSRListActivity<Music, MusicAdapter> imple
         super.setViews();
 
         getAdapter().setListener(this);
+        refresh(RefreshWay.embed);
+        exeNetworkReq(MeetingAPI.editor(MusicType.music, 1).build());
     }
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
-        super.onNetworkResponse(id, resp);
         return JsonParser.ev(resp.getText(), Editor.class);
     }
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        super.onNetworkSuccess(id, r);
 
         if (r.isSucceed()) {
-            Editor editor = (Editor) r.getData();
-            if (editor != null) {
-                List<Music> list = editor.getList(TEditor.musicList);
-                setData(list);
+            setViewState(ViewState.normal);
+            Editor res = (Editor) r.getData();
+            if (res != null) {
+                setData(res.getList(TEditor.musicList));
             }
         } else {
+            setViewState(ViewState.error);
             onNetworkError(id, r.getError());
         }
     }
@@ -89,5 +85,4 @@ public class MusicActivity extends BaseSRListActivity<Music, MusicAdapter> imple
         setResult(RESULT_OK, intent);
         finish();
     }
-
 }

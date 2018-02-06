@@ -383,10 +383,11 @@ public class NetworkApi {
         /**
          * 获取主题和背景音乐
          *
-         * @param type 不传或者传0时，获取主题，传1获取背景音乐
+         * @param type  不传或者传0时，获取主题，传1获取背景音乐
+         * @param showType  不传或者传0时，获取推荐的列表，传1获取更多的列表
          */
         @Get("mini/image/music")
-        void editor(int type);
+        void editor(int type, int showType);
 
         @Upload("upload/picture")
         void picture(@Query(opt = true) int courseId,
@@ -400,6 +401,7 @@ public class NetworkApi {
          * @param musicId   课件背景音乐id,修改课件时如果没有修改背景音乐，可以不传
          */
         @Post("mini/update")
+        @Retry(count = 5, delay = 1000)
         void updateMini(int courseId, String title,
                         @Query(opt = true) int imgId,
                         @Query(opt = true) int musicId);

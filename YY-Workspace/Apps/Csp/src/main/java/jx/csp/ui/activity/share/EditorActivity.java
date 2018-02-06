@@ -32,6 +32,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
+import jx.csp.ui.activity.main.SelectBgMusicActivity;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
@@ -142,7 +143,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
 
         //获取主题皮肤
         refresh(RefreshWay.embed);
-        exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme).build());
+        exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme, 0).build());
 
         //设置标题
         if (mFlag) {
@@ -206,7 +207,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             }
             break;
             case R.id.editor_select_music: {
-                startActivityForResult(MusicActivity.class, KMusic);
+                startActivityForResult(SelectBgMusicActivity.class, KMusic);
             }
             break;
             case R.id.editor_tv_save: {
@@ -352,7 +353,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         if (!super.onRetryClick()) {
             //获取主题皮肤
             refresh(RefreshWay.embed);
-            exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme).build());
+            exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme, 0).build());
         }
         return true;
     }

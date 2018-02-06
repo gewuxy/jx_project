@@ -15,6 +15,7 @@ public interface StarContract {
 
         void onNetworkSuccess(Code c);
 
+        void deleteBgMusicSuccess();
     }
 
     interface P extends IContract.Presenter<V> {
@@ -22,5 +23,7 @@ public interface StarContract {
         void setPlayState();
 
         void getDataFromNet();
+
+        void deleteBgMusic();
     }
 }

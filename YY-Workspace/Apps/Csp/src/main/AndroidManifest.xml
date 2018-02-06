@@ -57,9 +57,6 @@
             android:name=".ui.activity.share.EditorActivity"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.activity.share.MusicActivity"
-            android:screenOrientation="portrait"/>
 
         <!-- 登录 -->
         <activity
@@ -117,6 +114,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.main.StarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.main.SelectBgMusicActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 个人中心 -->
