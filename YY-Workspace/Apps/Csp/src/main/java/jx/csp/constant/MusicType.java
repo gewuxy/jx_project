@@ -15,6 +15,6 @@ import java.lang.annotation.RetentionPolicy;
 })
 @Retention(RetentionPolicy.SOURCE)
 public @interface MusicType {
-    int theme = 0;  //获取主题
-    int music = 1;  //获取背景音乐
+    int theme = 0;  // 获取主题
+    int music = 1;  // 获取背景音乐
 }

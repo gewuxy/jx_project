@@ -35,27 +35,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:gravity="center_vertical"
-            android:text="@string/editor_select_theme"
-            android:textColor="@color/text_333"
-            android:textSize="@dimen/margin"/>
-
-        <View
-            style="@style/divider.form.match"
-            android:layout_height="2dp"/>
-
-        <lib.ys.view.recycler.WrapRecyclerView
-            android:id="@+id/scrollable_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="12dp"
-            android:layout_marginLeft="@dimen/margin"
-            android:layout_marginRight="@dimen/margin"
-            android:background="@color/transparent"/>
+        <include layout="@layout/layout_theme_choice"/>
     </LinearLayout>
 
     <RelativeLayout
@@ -127,9 +107,9 @@
         <ImageView
             android:id="@+id/editor_music_clean"
             style="@style/iv.form.clean"
-            android:visibility="visible"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:visibility="visible"/>
     </RelativeLayout>
 
 </LinearLayout>

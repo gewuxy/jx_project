@@ -1,13 +1,13 @@
 package jx.csp.dialog;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 
 import jx.csp.R;
 import lib.jx.dialog.BaseDialog;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.util.TextUtil;
 
 /**
  * 编辑页面的预览
@@ -24,11 +24,15 @@ public class PreviewDialog extends BaseDialog {
     public PreviewDialog(Context context, String theme, String photo) {
         super(context);
 
-        mIvTheme.url(theme).load();
-        if (photo.startsWith("http")) {
-            mIvPhoto.url(photo).load();
-        } else {
-            mIvPhoto.storage(photo).load();
+        if (TextUtil.isNotEmpty(theme)) {
+            mIvTheme.url(theme).load();
+        }
+        if (TextUtil.isNotEmpty(photo)) {
+            if (photo.startsWith("http")) {
+                mIvPhoto.url(photo).load();
+            } else {
+                mIvPhoto.storage(photo).load();
+            }
         }
     }
 
@@ -36,7 +40,6 @@ public class PreviewDialog extends BaseDialog {
     public void initData() {
     }
 
-    @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.dialog_preview;

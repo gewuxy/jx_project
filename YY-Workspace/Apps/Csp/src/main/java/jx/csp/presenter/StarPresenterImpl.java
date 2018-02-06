@@ -43,7 +43,7 @@ public class StarPresenterImpl extends BasePresenterImpl<StarContract.V> impleme
 
     @Override
     public void deleteBgMusic() {
-        exeNetworkReq(KDeleteBgMusicReqId, MeetingAPI.updateMini(mMeet.getInt(TMeet.id), mMeet.getString(TMeet.title)).build());
+        exeNetworkReq(KDeleteBgMusicReqId, MeetingAPI.update(mMeet.getString(TMeet.id)).build());
     }
 
     @Override
