@@ -9,16 +9,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.adapter.main.ChoicePhotoAdapter;
 import jx.csp.constant.Constants;
-import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.main.photo.ChoiceCamera;
 import jx.csp.model.main.photo.ChoicePhoto;
 import jx.csp.model.main.photo.IUpload;
 import jx.csp.ui.activity.share.EditorActivityRouter;
 import jx.csp.util.CacheUtil;
+import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.ys.fitter.Fitter;
 import lib.ys.model.FileSuffix;
@@ -33,7 +35,11 @@ import lib.ys.util.permission.PermissionResult;
  * @auther : GuoXuan
  * @since : 2018/1/31
  */
+@Route
 public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoAdapter> {
+
+    @Arg(opt = true)
+    ArrayList<String> mPaths;
 
     private final int KPerPhoto = 0;
     private final int KPerCamera = 1;
@@ -68,6 +74,15 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         ItemTouchHelper helper = new ItemTouchHelper(new HelperImpl());
         helper.attachToRecyclerView(getScrollableView());
 
+        if (mPaths != null && !mPaths.isEmpty()) {
+            ChoicePhoto photo;
+            for (String path : mPaths) {
+                photo = new ChoicePhoto();
+                photo.put(ChoicePhoto.TChoicePhoto.path, path);
+                addItem(photo);
+            }
+            photoChange(mPaths.size());
+        }
         addItem(new ChoiceCamera());
     }
 
@@ -144,17 +159,26 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         super.invalidate();
 
         int size = getPhotoSize();
+        photoChange(size);
+    }
+
+    @Override
+    public void onBackPressed() {
+        exitDialog();
+    }
+
+    /**
+     * 选择图片后的改变
+     *
+     * @param size 选择的图片大小
+     */
+    private void photoChange(int size) {
         getRightButton().setEnabled(size > 0);
         if (size > 0) {
             getLeftButton().setText(getString(R.string.upload_photo) + "(" + size + "/" + Constants.KPhotoMax + ")");
         } else {
             setLeftText(R.string.upload_photo);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        exitDialog();
     }
 
     /**
@@ -175,6 +199,9 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         return num;
     }
 
+    /**
+     * 退出提示
+     */
     private void exitDialog() {
         CommonDialog2 d = new CommonDialog2(ChoicePhotoActivity.this);
         d.setHint(R.string.exit_edit);
@@ -194,11 +221,7 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    CommonDialog1 d = new CommonDialog1(ChoicePhotoActivity.this);
-                    d.setContent(R.string.to_set_camera);
-                    d.addButton(R.string.cancel, R.color.text_404356, null);
-                    d.addButton(R.string.open, R.color.text_333, l -> Util.toSetting());
-                    d.show();
+                    UISetter.cameraNoPermission(ChoicePhotoActivity.this);
                 }
                 break;
             }
@@ -210,11 +233,7 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                 break;
                 case PermissionResult.denied:
                 case PermissionResult.never_ask: {
-                    CommonDialog1 d = new CommonDialog1(ChoicePhotoActivity.this);
-                    d.setContent(R.string.to_set_photo);
-                    d.addButton(R.string.cancel, R.color.text_404356, null);
-                    d.addButton(R.string.to_set, R.color.text_333, l -> Util.toSetting());
-                    d.show();
+                    UISetter.photoNoPermission(ChoicePhotoActivity.this);
                 }
                 break;
             }
@@ -253,6 +272,9 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         }
     }
 
+    /**
+     * RecyclerView拖拽的实现
+     */
     private class HelperImpl extends ItemTouchHelper.Callback {
 
         private RecyclerView.ViewHolder lastDragViewHolder;

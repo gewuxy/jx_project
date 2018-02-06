@@ -51,6 +51,16 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
     private List<Meet> mPhotoMeets;
     private List<Meet> mPptMeets;
 
+    private OnMeetListener mListener;
+
+    public interface OnMeetListener {
+        void addMeet();
+    }
+
+    public void setOnMeetListener(OnMeetListener listener) {
+        mListener = listener;
+    }
+
     public void setFiltrateType(@FiltrateType int type) {
         mFiltrateType = type;
         if (mFiltrateType == FiltrateType.ppt) {
@@ -100,6 +110,7 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
         setDividerHeight(0);
         setOnAdapterClickListener(this);
         getAdapter().setLongClickListener(this);
+        setOnClickListener(R.id.main_empty_iv);
     }
 
     @Override
@@ -153,6 +164,18 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
             break;
             case R.id.meet_item_iv_live: {
                 mPresenter.onLiveClick(item);
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.main_empty_iv: {
+                if (mListener != null) {
+                    mListener.addMeet();
+                }
             }
             break;
         }

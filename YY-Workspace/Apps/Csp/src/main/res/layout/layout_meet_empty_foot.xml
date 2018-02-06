@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin"
             android:layout_marginRight="@dimen/margin"
-            app:corner_foreground="@drawable/item_foreground_selector"
             app:corner_radius="10dp">
 
             <RelativeLayout
@@ -48,11 +47,11 @@
 
                 <ImageView
                     android:id="@+id/main_empty_iv"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/item_selector"
-                    android:padding="5dp"
+                    android:background="@drawable/nav_bar_selector"
+                    android:padding="10dp"
                     android:src="@drawable/main_ic_add"/>
 
                 <TextView
@@ -60,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/main_empty_iv"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/add_meet"
                     android:textColor="@color/text_9699a2"
                     android:textSize="14dp"/>

@@ -4,6 +4,7 @@ import android.view.View;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetVH;
+import jx.csp.constant.FiltrateType;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
@@ -54,6 +55,12 @@ public class MeetAdapter extends AdapterEx<Meet, MeetVH> {
                 return true;
             }
         });
+
+        if (item.getType() == FiltrateType.ppt) {
+            showView(holder.getIvPpt());
+        } else {
+            goneView(holder.getIvPpt());
+        }
 
         switch (item.getInt(TMeet.playType)) {
             case CourseType.reb: {

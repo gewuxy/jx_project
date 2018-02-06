@@ -6,7 +6,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import jx.csp.R;
-import lib.ys.adapter.VH.RecyclerViewHolderEx;
 import lib.ys.adapter.VH.ViewHolderEx;
 import lib.ys.network.image.NetworkImageView;
 
@@ -47,6 +46,10 @@ public class MeetVH extends ViewHolderEx {
 
     public ImageView getIvLive() {
         return getView(R.id.meet_item_iv_live);
+    }
+
+    public ImageView getIvPpt() {
+        return getView(R.id.meet_item_iv_ppt);
     }
 
     public ImageView getIvShare() {

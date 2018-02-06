@@ -13,11 +13,14 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jx.csp.Extra;
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.constant.FiltrateType;
+import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CountdownDialog;
 import jx.csp.dialog.GuideDialog;
@@ -50,6 +53,8 @@ import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.ui.frag.main.MeetCardFrag;
 import jx.csp.ui.frag.main.MeetFrag;
 import jx.csp.ui.frag.main.MeetListFrag;
+import jx.csp.util.CacheUtil;
+import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import jx.csp.view.ArcMenu;
 import jx.csp.view.ArcMenu.Status;
@@ -63,10 +68,13 @@ import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.impl.SingletonImpl;
+import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.PhotoUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 首页
@@ -75,14 +83,29 @@ import lib.ys.util.permission.PermissionResult;
  * @since 2017/9/30
  */
 
-public class MainActivity extends BaseVpActivity implements OnLiveNotify {
+public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMenu.OnMenuItemClickListener {
 
-    private final int KCameraPermissionCode = 10;
-    private final int KUpdateProfileReqId = 1;
-    private final int KCheckAppVersionReqId = 2;
-    private final int KJoinRecordCheckReqId = 3;
-    private final int KPageGrid = 0;
-    private final int KPageVp = 1;
+    /**
+     * 页面切换
+     */
+    private final int KPageCard = 0;
+    private final int KPageList = 1;
+    /**
+     * 权限申请
+     */
+    private final int KPerCameraScan = 10;
+    private final int KPerCameraAdd = 11;
+    private final int KPerPhoto = 12;
+    /**
+     * 网络请求
+     */
+    private final int KUpdateProfileReqId = 21;
+    private final int KCheckAppVersionReqId = 22;
+    private final int KJoinRecordCheckReqId = 23;
+    /**
+     * 其他
+     */
+    private final int KReqCamera = 31;
 
     private View mMidView;
     private TextView mTvTitle;
@@ -100,11 +123,24 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @FiltrateType
     public int mFiltrateType;
 
+    private String mPhotoPath;
+
     @Override
     public void initData() {
         mCardFrag = new MeetCardFrag();
+        mCardFrag.setOnMeetListener(() -> {
+            if (mArcMenu != null) {
+                onClick(1);
+            }
+        });
         add(mCardFrag);
+
         mListFrag = new MeetListFrag();
+        mListFrag.setOnMeetListener(() -> {
+            if (mArcMenu != null) {
+                onClick(1);
+            }
+        });
         add(mListFrag);
 
         mFiltrateType = FiltrateType.all;
@@ -139,21 +175,21 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         //添加右边布局
         ViewGroup group = bar.addViewRight(R.drawable.main_shift_selector, v -> {
-            boolean flag = getCurrPosition() == KPageGrid;
+            boolean flag = getCurrPosition() == KPageCard;
             if (!flag) {
                 // 列表
                 mIvShift.setSelected(false);
-                setCurrPosition(KPageGrid, false);
+                setCurrPosition(KPageCard, false);
                 mCardFrag.setAllMeets(mListFrag.getAllMeets());
                 mCardFrag.setFiltrateType(mFiltrateType);
-                SpUser.inst().saveMainPage(KPageGrid);
+                SpUser.inst().saveMainPage(KPageCard);
             } else {
                 // 卡片
                 mIvShift.setSelected(true);
-                setCurrPosition(KPageVp, false);
+                setCurrPosition(KPageList, false);
                 mListFrag.setAllMeets(mCardFrag.getAllMeets());
                 mListFrag.setFiltrateType(mFiltrateType);
-                SpUser.inst().saveMainPage(KPageVp);
+                SpUser.inst().saveMainPage(KPageList);
             }
         });
         mIvShift = Util.getBarView(group, ImageView.class);
@@ -238,24 +274,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
         });
 
         mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
-        mArcMenu.setmOnMenuItemClickListener((view, pos) -> {
-            switch (pos) {
-                case 0: {
-                    showToast("0");
-                }
-                break;
-                case 1: {
-                    showToast("1");
-                }
-                break;
-                case 2: {
-                    if (checkPermission(KCameraPermissionCode, Permission.camera)) {
-                        startActivity(ScanActivity.class);
-                    }
-                }
-                break;
-            }
-        });
+        mArcMenu.setmOnMenuItemClickListener(this);
         mArcMenu.setStatusChange(status -> {
             if (status == Status.OPEN) {
                 mVibrator.vibrate(new long[]{0, 50}, -1);
@@ -285,13 +304,63 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     }
 
     @Override
+    public void onClick(int pos) {
+        // 点击菜单
+        switch (pos) {
+            case 0: {
+                if (mMidView != null) {
+                    mMidView.performClick();
+                }
+            }
+            break;
+            case 1: {
+                final BottomDialog dialog = new BottomDialog(MainActivity.this, position -> {
+
+                    switch (position) {
+                        case 0: {
+                            if (checkPermission(KPerCameraAdd, Permission.camera)) {
+                                mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
+                                PhotoUtil.fromCamera(MainActivity.this, mPhotoPath, KReqCamera);
+                            }
+                        }
+                        break;
+                        case 1: {
+                            if (checkPermission(KPerPhoto, Permission.storage)) {
+                                PhotoActivityRouter.create()
+                                        .fromMain(true)
+                                        .maxSelect(Constants.KPhotoMax)
+                                        .route(MainActivity.this);
+                            }
+                        }
+                        break;
+                    }
+                });
+
+                dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(R.color.text_333));
+                dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(R.color.text_333));
+                dialog.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
+                dialog.show();
+            }
+            break;
+            case 2: {
+                if (checkPermission(KPerCameraScan, Permission.camera)) {
+                    startActivity(ScanActivity.class);
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KUpdateProfileReqId) {
             return JsonParser.ev(resp.getText(), Profile.class);
         } else if (id == KJoinRecordCheckReqId) {
             return JsonParser.ev(resp.getText(), Scan.class);
-        } else {
+        } else if (id == KCheckAppVersionReqId) {
             return JsonParser.ev(resp.getText(), CheckAppVersion.class);
+        } else {
+            return JsonParser.error(resp.getText());
         }
     }
 
@@ -406,6 +475,20 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == KReqCamera) {
+            ArrayList<String> p = new ArrayList<>();
+            p.add(mPhotoPath);
+            ChoicePhotoActivityRouter.create().paths(p).route(MainActivity.this);
+        }
+    }
+
+    @Override
     public void onLiveNotify(@LiveNotifyType int type, Object data) {
         if (!activityTop()) {
             return;
@@ -495,11 +578,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
             case NotifyType.meet_num: {
-                boolean state = getCurrPosition() == KPageVp;
-                if (state) {
-                    // 数据来源于网格的,不重复刷新状态
-                    return;
-                }
                 int num = (int) data;
                 VipPackage p = Profile.inst().get(TProfile.cspPackage);
                 if (p != null) {
@@ -544,20 +622,46 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     @Override
     public void onPermissionResult(int code, @PermissionResult int result) {
-        switch (result) {
-            case PermissionResult.granted: {
-                if (code == KCameraPermissionCode) {
+        if (code == KPerCameraAdd) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
+                    PhotoUtil.fromCamera(MainActivity.this, mPhotoPath, KReqCamera);
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    UISetter.cameraNoPermission(MainActivity.this);
+                }
+                break;
+            }
+        } else if (code == KPerPhoto) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    PhotoActivityRouter.create()
+                            .fromMain(true)
+                            .maxSelect(Constants.KPhotoMax)
+                            .route(MainActivity.this);
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    UISetter.photoNoPermission(MainActivity.this);
+                }
+                break;
+            }
+        } else if (code == KPerCameraScan) {
+            switch (result) {
+                case PermissionResult.granted: {
                     startActivity(ScanActivity.class);
                 }
-            }
-            break;
-            case PermissionResult.denied:
-            case PermissionResult.never_ask: {
-                if (code == KCameraPermissionCode) {
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
                     showToast(getString(R.string.user_photo_permission));
                 }
+                break;
             }
-            break;
         }
     }
 }

@@ -1,6 +1,7 @@
 package jx.csp.util;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.text.method.NumberKeyListener;
 import android.view.View;
@@ -25,12 +26,13 @@ public class UISetter {
     /**
      * 设置密码的输入范围格式
      *
-     * @param et
+     * @param et EditText
      */
     public static void setPwdRange(EditText et) {
 
         et.setKeyListener(new NumberKeyListener() {
 
+            @NonNull
             @Override
             protected char[] getAcceptedChars() {
                 String chars = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM-×÷＝%√°′″{}()[].|*/#~,:;?\"‖&*@\\^,$–…'=+!><.-—_";
@@ -74,8 +76,8 @@ public class UISetter {
     /**
      * 删除会议
      *
-     * @param courseId
-     * @param context
+     * @param courseId courseId
+     * @param context  context
      */
     public static void showDeleteMeet(String courseId, Context context) {
         CommonDialog2 d = new CommonDialog2(context);
@@ -86,6 +88,32 @@ public class UISetter {
                         .courseId(courseId)
                         .route(context)
         );
+        d.show();
+    }
+
+    /**
+     * 相册没有权限
+     *
+     * @param context context
+     */
+    public static void photoNoPermission(Context context) {
+        CommonDialog1 d = new CommonDialog1(context);
+        d.setContent(R.string.to_set_photo);
+        d.addButton(R.string.cancel, R.color.text_404356, null);
+        d.addButton(R.string.to_set, R.color.text_333, l -> Util.toSetting());
+        d.show();
+    }
+
+    /**
+     * 拍照没有权限
+     *
+     * @param context context
+     */
+    public static void cameraNoPermission(Context context) {
+        CommonDialog1 d = new CommonDialog1(context);
+        d.setContent(R.string.to_set_camera);
+        d.addButton(R.string.cancel, R.color.text_404356, null);
+        d.addButton(R.string.open, R.color.text_333, l -> Util.toSetting());
         d.show();
     }
 }

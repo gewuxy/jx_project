@@ -63,7 +63,7 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
     private OnMenuItemClickListener mOnMenuItemClickListener;
 
     public interface OnMenuItemClickListener {
-        void onClick(View view, int pos);
+        void onClick(int pos);
     }
 
     public ArcMenu(Context context) {
@@ -338,7 +338,7 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
             final int index = i + 1;
             childView.setOnClickListener(v -> {
                 if (mOnMenuItemClickListener != null) {
-                    mOnMenuItemClickListener.onClick(childView, index - 1);
+                    mOnMenuItemClickListener.onClick(index - 1);
                     menuItemAnim(index - 1);
                     changeStatus();
                 }

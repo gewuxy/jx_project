@@ -1,7 +1,5 @@
 package jx.csp.adapter.main;
 
-import android.widget.ImageView;
-
 import jx.csp.R;
 import jx.csp.adapter.VH.main.MeetVH;
 import jx.csp.model.main.Meet;

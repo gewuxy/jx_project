@@ -32,6 +32,9 @@ public class PhotoActivity extends BasePhotoActivity<Photo, PhotoAdapter> implem
     @Arg(opt = true, defaultInt = Constants.KPhotoMax)
     int mMaxSelect;
 
+    @Arg(opt = true)
+    boolean mFromMain;
+
     private int mSelectNum; // 被选择数
 
     @Override
@@ -146,9 +149,14 @@ public class PhotoActivity extends BasePhotoActivity<Photo, PhotoAdapter> implem
             }
             break;
             case R.id.photo_tv_bottom_right: {
-                Intent i = new Intent().putExtra(Constants.KData, getSelectPhoto());
-                setResult(RESULT_OK, i);
-                finish();
+                if (mFromMain) {
+                    ChoicePhotoActivityRouter.create().paths(getSelectPhoto()).route(PhotoActivity.this);
+                    finish();
+                } else {
+                    Intent i = new Intent().putExtra(Constants.KData, getSelectPhoto());
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
             }
             break;
         }
