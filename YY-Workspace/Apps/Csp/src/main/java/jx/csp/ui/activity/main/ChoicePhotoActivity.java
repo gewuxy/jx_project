@@ -1,14 +1,18 @@
 package jx.csp.ui.activity.main;
 
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import jx.csp.R;
 import jx.csp.adapter.main.ChoicePhotoAdapter;
 import jx.csp.constant.Constants;
+import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.main.photo.ChoiceCamera;
 import jx.csp.model.main.photo.ChoicePhoto;
@@ -20,6 +24,8 @@ import lib.ys.fitter.Fitter;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
+import lib.ys.util.permission.Permission;
+import lib.ys.util.permission.PermissionResult;
 
 /**
  * 选择照片(新建讲本)界面
@@ -29,8 +35,11 @@ import lib.ys.util.PhotoUtil;
  */
 public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoAdapter> {
 
-    private final int KCamera = 100;
-    private final int KPhoto = 101;
+    private final int KPerPhoto = 0;
+    private final int KPerCamera = 1;
+
+    private final int KReqCamera = 100;
+    private final int KReqPhoto = 101;
 
     private String mPhotoPath;
 
@@ -56,6 +65,9 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                 getScrollableView().getRight(),
                 getScrollableView().getBottom());
 
+        ItemTouchHelper helper = new ItemTouchHelper(new HelperImpl());
+        helper.attachToRecyclerView(getScrollableView());
+
         addItem(new ChoiceCamera());
     }
 
@@ -73,8 +85,10 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
             }
             break;
             case R.id.choice_photo_layout_add_camera: {
-                mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
-                PhotoUtil.fromCamera(ChoicePhotoActivity.this, mPhotoPath, KCamera);
+                if (checkPermission(KPerCamera, Permission.camera)) {
+                    mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
+                    PhotoUtil.fromCamera(ChoicePhotoActivity.this, mPhotoPath, KReqCamera);
+                }
             }
             break;
         }
@@ -84,13 +98,15 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.photo_tv_bottom_left: {
-                int canSelect = Constants.KPhotoMax - getPhotoSize();
-                if (canSelect > 0) {
-                    PhotoActivityRouter.create()
-                            .maxSelect(canSelect)
-                            .route(ChoicePhotoActivity.this, KPhoto);
-                } else {
-                    showToast(String.format(getString(R.string.upload_photo_max), Constants.KPhotoMax));
+                if (checkPermission(KPerPhoto, Permission.storage)) {
+                    int canSelect = Constants.KPhotoMax - getPhotoSize();
+                    if (canSelect > 0) {
+                        PhotoActivityRouter.create()
+                                .maxSelect(canSelect)
+                                .route(ChoicePhotoActivity.this, KReqPhoto);
+                    } else {
+                        showToast(String.format(getString(R.string.upload_photo_max), Constants.KPhotoMax));
+                    }
                 }
             }
             break;
@@ -159,15 +175,50 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         return num;
     }
 
-    /**
-     * 退出编辑的提示
-     */
     private void exitDialog() {
         CommonDialog2 d = new CommonDialog2(ChoicePhotoActivity.this);
         d.setHint(R.string.exit_edit);
         d.addButton(R.string.cancel, R.color.text_404356, null);
         d.addButton(R.string.confirm, R.color.text_333, l -> finish());
         d.show();
+    }
+
+    @Override
+    public void onPermissionResult(int code, int result) {
+        if (code == KPerCamera) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
+                    PhotoUtil.fromCamera(ChoicePhotoActivity.this, mPhotoPath, KReqCamera);
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    CommonDialog1 d = new CommonDialog1(ChoicePhotoActivity.this);
+                    d.setContent(R.string.to_set_camera);
+                    d.addButton(R.string.cancel, R.color.text_404356, null);
+                    d.addButton(R.string.open, R.color.text_333, l -> Util.toSetting());
+                    d.show();
+                }
+                break;
+            }
+        } else if (code == KPerPhoto) {
+            switch (result) {
+                case PermissionResult.granted: {
+                    getLeftButton().performClick();
+                }
+                break;
+                case PermissionResult.denied:
+                case PermissionResult.never_ask: {
+                    CommonDialog1 d = new CommonDialog1(ChoicePhotoActivity.this);
+                    d.setContent(R.string.to_set_photo);
+                    d.addButton(R.string.cancel, R.color.text_404356, null);
+                    d.addButton(R.string.to_set, R.color.text_333, l -> Util.toSetting());
+                    d.show();
+                }
+                break;
+            }
+        }
     }
 
     @Override
@@ -178,7 +229,7 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
             return;
         }
 
-        if (requestCode == KPhoto && data != null) {
+        if (requestCode == KReqPhoto && data != null) {
             Serializable serializable = data.getSerializableExtra(Constants.KData);
             if (serializable instanceof ArrayList) {
                 ArrayList<String> photos = (ArrayList<String>) serializable;
@@ -194,7 +245,7 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                 invalidate();
             }
         }
-        if (requestCode == KCamera) {
+        if (requestCode == KReqCamera) {
             ChoicePhoto photo = new ChoicePhoto();
             photo.put(ChoicePhoto.TChoicePhoto.path, mPhotoPath);
             addItem(photo);
@@ -202,4 +253,66 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
         }
     }
 
+    private class HelperImpl extends ItemTouchHelper.Callback {
+
+        private RecyclerView.ViewHolder lastDragViewHolder;
+
+        @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+            super.onSelectedChanged(viewHolder, actionState);
+
+            // 当前控件的处理
+            if (viewHolder != null && actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                // ACTION_STATE_DRAG 拖拽,选中
+                lastDragViewHolder = viewHolder;
+                viewHolder.itemView.setAlpha(0.6f);
+                viewHolder.itemView.setAlpha(0.6f);
+            }
+            // 上一个控件的处理
+            if (lastDragViewHolder != null && actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+                // ACTION_STATE_IDLE 松开
+                lastDragViewHolder.itemView.setAlpha(1);
+                lastDragViewHolder.itemView.setAlpha(1);
+                lastDragViewHolder = null;
+            }
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int position = viewHolder.getAdapterPosition();
+            if (position == getCount() - 1) {
+                // 不拖动
+                return 0;
+            }
+            return makeMovementFlags(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.UP | ItemTouchHelper.DOWN);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int currentPosition = viewHolder.getAdapterPosition(); // 拖动ViewHolder的position
+            int targetPosition = target.getAdapterPosition(); // 目标ViewHolder的position
+            if (targetPosition == getCount() - 1) {
+                // false表示不交换
+                return false;
+            }
+            // 分别把中间所有的item的位置重新交换
+            if (currentPosition < targetPosition) {
+                for (int i = currentPosition; i < targetPosition; i++) {
+                    Collections.swap(getData(), i, i + 1);
+                }
+            } else {
+                for (int i = currentPosition; i > targetPosition; i--) {
+                    Collections.swap(getData(), i, i - 1);
+                }
+            }
+            getAdapter().notifyItemMoved(currentPosition, targetPosition);
+            // true表示交换
+            return true;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+    }
 }

@@ -1,8 +1,11 @@
 package jx.csp.util;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.StringRes;
 import android.util.Base64;
 import android.view.View;
@@ -26,8 +29,10 @@ import jx.csp.constant.Constants;
 import jx.csp.constant.MetaValue;
 import lib.jx.util.BaseUtil;
 import lib.network.Network;
+import lib.ys.ConstantsEx;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.DeviceUtil;
+import lib.ys.util.LaunchUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
@@ -236,6 +241,23 @@ public class Util extends BaseUtil {
             }
         }).start();
         return map[0];
+    }
+
+    public static void toSetting() {
+        try {
+            // 应用详情页面
+            Intent i = new Intent();
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setAction(ConstantsEx.KSystemSetting);
+            Uri uri = Uri.fromParts(ConstantsEx.KPackage, App.getContext().getPackageName(), null);
+            i.setData(uri);
+            LaunchUtil.startActivity(i);
+        } catch (Exception e) {
+            // 设置页面
+            Intent i = new Intent(Settings.ACTION_SETTINGS);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            LaunchUtil.startActivity(i);
+        }
     }
 
 }

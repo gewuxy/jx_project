@@ -4,15 +4,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
@@ -26,7 +22,6 @@ import java.io.File;
 import java.util.List;
 
 import inject.annotation.router.Arg;
-import jx.csp.App;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
 import jx.csp.dialog.CommonDialog1;
@@ -53,7 +48,6 @@ import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseVpActivity;
-import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
@@ -400,21 +394,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         dialog.addBlackButton(R.string.return_home, v -> finish());
         dialog.addBlackButton(R.string.to_open_permission, v -> {
             mIsSet = true;
-            try {
-                // 应用详情页面
-                Intent i = new Intent();
-                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                i.setAction(ConstantsEx.KSystemSetting);
-                Uri uri = Uri.fromParts(ConstantsEx.KPackage, App.getContext().getPackageName(), null);
-                i.setData(uri);
-                App.getContext().startActivity(i);
-            } catch (Exception e) {
-                // 设置页面
-                Log.e(TAG, Log.getStackTraceString(e));
-                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                App.getContext().startActivity(intent);
-            }
+            Util.toSetting();
         });
         dialog.setCancelable(false);
         dialog.show();

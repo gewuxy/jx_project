@@ -216,6 +216,10 @@
     <string name="upload_photo">上傳圖片</string>
     <string name="upload_photo_max">最多%d張照片</string>
     <string name="exit_edit">退出此次編輯？</string>
+    <string name="to_set_photo">請您設置允許會講訪問您的照片->設置->隱私->照片</string>
+    <string name="to_set_camera">去設置裏面打開相機就可以拍照啦！</string>
+    <string name="to_set">去設置</string>
+    <string name="open">開啓</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>
