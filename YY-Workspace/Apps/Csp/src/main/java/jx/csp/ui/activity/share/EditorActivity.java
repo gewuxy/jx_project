@@ -38,6 +38,7 @@ import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ConstantsEx;
+import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
@@ -85,17 +86,11 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     ArrayList<String> mPicture;  //上传的图片
 
     private LinkedList<NetworkReq> mUploadList;  // 上传图片队列
-    private LinkedList<String> mUploadFilePathList; //
+    private boolean mUploadState = false; // 是否在上传
 
     @Override
     public void initData() {
         mUploadList = new LinkedList<>();
-        mUploadFilePathList = new LinkedList<>();
-//        if (mPicture != null) {
-//            for (String s : mPicture) {
-//                mUploadFilePathList.addLast(s);
-//            }
-//        }
     }
 
     @Override
@@ -229,9 +224,11 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                 exeNetworkReq(KSave, MeetingAPI.update(mMeetId).title(getEt()).imgId(mImgId).musicId(mMusicId).build());
             }
             break;
-            case R.id.editor_tv_save_book: {
-                //新建讲本进入的保存按钮,创建课件接口
+            case R.id.editor_tv_save_book:
+            case R.id.editor_tv_video: {
+                //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(RefreshWay.dialog);
+
                 for (int i = 0; i < mPicture.size(); i++) {
                     String path = mPicture.get(i);
                     File file = new File(path);
@@ -242,21 +239,11 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                                 .build();
                         mUploadList.addLast(req);
                     }
-
                 }
-            }
-            break;
-            case R.id.editor_tv_video: {
-                //新建讲本进入的继续录音按钮,创建课件接口
-                refresh(RefreshWay.dialog);
-                // FIXME: 上传图片
+                upload();
             }
             break;
         }
-    }
-
-    private void upload() {
-
     }
 
     @Override
@@ -303,6 +290,11 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                     finish();
                 }
                 break;
+                default:
+                    mUploadList.removeFirst();
+                    mUploadState = false;
+                    upload();
+                    break;
             }
         } else {
             onNetworkError(id, r.getError());
@@ -345,7 +337,17 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         return true;
     }
 
-
+    private void upload() {
+        if (mUploadList.isEmpty()) {
+            YSLog.d(TAG, "上传列表为空");
+            return;
+        }
+        if (!mUploadState) {
+            YSLog.d(TAG, "开始上传任务");
+            exeNetworkReq(mUploadList.getFirst());
+            mUploadState = true;
+        }
+    }
 
     private String getEt() {
         return mEt.getText().toString();
