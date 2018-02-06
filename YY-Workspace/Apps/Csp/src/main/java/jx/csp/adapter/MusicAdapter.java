@@ -1,7 +1,6 @@
 package jx.csp.adapter;
 
 import android.view.View;
-import android.widget.ImageView;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.MusicVH;
@@ -16,8 +15,6 @@ import lib.ys.adapter.AdapterEx;
  */
 
 public class MusicAdapter extends AdapterEx<Music, MusicVH> {
-
-    private OnPlayStateListener mListener;
 
     @Override
     public int getConvertViewResId() {
@@ -35,38 +32,5 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
 
         setOnViewClickListener(position, playState);
         setOnViewClickListener(position, holder.getIvSelect());
-    }
-
-    @Override
-    protected void onViewClick(int position, View v) {
-        switch (v.getId()) {
-            case R.id.music_iv_play_state: {
-                ImageView iv = getCacheVH(position).getIvPlayState();
-                boolean selected = iv.isSelected();
-                if (mListener != null) {
-                    mListener.onPlayState(position, !selected);
-                    iv.setSelected(!selected);
-                }
-            }
-            break;
-            case R.id.music_iv_select: {
-                ImageView iv = getCacheVH(position).getIvSelect();
-                boolean selected = iv.isSelected();
-                if (mListener != null) {
-                    mListener.onSelect(position);
-                    iv.setSelected(!selected);
-                }
-            }
-            break;
-        }
-    }
-
-    public void setListener(OnPlayStateListener l) {
-        mListener = l;
-    }
-
-    public interface OnPlayStateListener {
-        void onPlayState(int position, boolean isSelected);
-        void onSelect(int position);
     }
 }

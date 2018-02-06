@@ -183,6 +183,7 @@ public class StarActivity extends BaseActivity {
         if (data != null) {
             long time = Long.parseLong(data.getStringExtra(Extra.KLimit));
             showView(mLayoutBgMusic);
+            showView(mIvHaveMusic);
             mTvBgMusic.setText(data.getStringExtra(Extra.KData) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
             setOnClickListener(R.id.star_iv_close_bg_music_layout);
         }
@@ -300,6 +301,7 @@ public class StarActivity extends BaseActivity {
         @Override
         public void deleteBgMusicSuccess() {
             goneView(mLayoutBgMusic);
+            goneView(mIvHaveMusic);
         }
 
         @Override

@@ -18,6 +18,7 @@ public class CacheUtil extends CacheUtilEx {
     private static final String KAudioCacheDef = KHomeDir + "audio/";
     private static final String KVideoCacheDef = KHomeDir + "video/";
     private static final String KApkCacheDef = KHomeDir + "apk/";
+    private static final String KBgMusicCacheDef = KHomeDir + "bgMusic/";
 
     private static final String KVideoFileNameLogin = "login";
 
@@ -26,6 +27,7 @@ public class CacheUtil extends CacheUtilEx {
     private static String mAudioCacheDir;
     private static String mVideoCacheDir;
     private static String mApkCacheDir;
+    private static String mBgMusicCacheDir;
 
     static {
         init(KHomeDir);
@@ -35,6 +37,7 @@ public class CacheUtil extends CacheUtilEx {
         mAudioCacheDir = makeDir(KAudioCacheDef);
         mVideoCacheDir = makeDir(KVideoCacheDef);
         mApkCacheDir = makeDir(KApkCacheDef);
+        mBgMusicCacheDir = makeDir(KBgMusicCacheDef);
     }
 
     public static String getBmpCacheDir() {
@@ -55,6 +58,10 @@ public class CacheUtil extends CacheUtilEx {
 
     public static String getApkCacheDir() {
         return mApkCacheDir;
+    }
+
+    public static String getBgMusicCacheDir() {
+        return mBgMusicCacheDir;
     }
 
     public static String createAudioFile(String courseId, int pageId) {
@@ -82,6 +89,10 @@ public class CacheUtil extends CacheUtilEx {
         } else {
             return (folder.listFiles())[0].getAbsolutePath();
         }
+    }
+
+    public static String getBgMusicFilePath(String id) {
+        return mBgMusicCacheDir + File.separator + id + FileSuffix.mp3;
     }
 
     public static String getVideoLoginFileName() {

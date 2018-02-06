@@ -351,6 +351,7 @@ public class NetworkApi {
 
         /**
          *  获取会议密码
+         *
          * @param id
          */
         @Get("get/password")
@@ -405,6 +406,16 @@ public class NetworkApi {
         void updateMini(int courseId, String title,
                         @Query(opt = true) int imgId,
                         @Query(opt = true) int musicId);
+
+        /**
+         * 选择背景音乐
+         *
+         * @param courseId
+         * @param musicId  0代表删除 其他代表背景音乐id
+         */
+        @Post("mini/update")
+        @Retry(count = 5, delay = 1000)
+        void selectBgMusic(String courseId, String musicId);
 
         /**
          * 获取新手指引会议

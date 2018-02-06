@@ -239,20 +239,20 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (mPlayState) {
-            if (getItem(getCurrPosition()) instanceof RecordImgFrag) {
+            Fragment f = getItem(getCurrPosition());
+            if (f instanceof RecordImgFrag) {
                 pausePlayAudio();
             } else {
                 GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(getCurrPosition());
                 frag.stopPlay();
             }
         }
-
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
+        super.onDestroy();
     }
 
     @Override
