@@ -82,7 +82,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
 
         setOnAdapterClickListener(this);
         refresh(RefreshWay.embed);
-        exeNetworkReq(KBgMusicReqId, MeetingAPI.editor(MusicType.music, 1).build());
+        exeNetworkReq(MeetingAPI.editor().type(MusicType.music).showType(1).build());
     }
 
     @Override
