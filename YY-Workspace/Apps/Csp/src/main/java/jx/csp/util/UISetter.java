@@ -11,6 +11,7 @@ import android.widget.TextView;
 import jx.csp.R;
 import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CommonDialog2;
+import jx.csp.dialog.PreviewDialog;
 import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import lib.ys.ui.other.NavBar;
@@ -116,4 +117,18 @@ public class UISetter {
         d.addButton(R.string.open, R.color.text_333, l -> Util.toSetting());
         d.show();
     }
+
+    /**
+     * 预览主题
+     *
+     * @param c     Context
+     * @param theme 主题
+     * @param photo 图片
+     */
+    public static void previewTheme(Context c, String theme, String photo) {
+        PreviewDialog dialog = new PreviewDialog(c, theme, photo);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
 }

@@ -1,8 +1,6 @@
 package jx.csp.ui.activity.share;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.text.Editable;
@@ -20,22 +18,18 @@ import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.share.EditorAdapter;
+import jx.csp.constant.Constants;
 import jx.csp.constant.MusicType;
-import jx.csp.dialog.PreviewDialog;
 import jx.csp.model.editor.Editor;
 import jx.csp.model.editor.Editor.TEditor;
 import jx.csp.model.editor.Theme;
-import jx.csp.model.editor.Theme.TTheme;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.serv.CommonServ.ReqType;
-import jx.csp.serv.CommonServRouter;
 import jx.csp.ui.activity.main.SelectBgMusicActivity;
-import jx.csp.ui.activity.record.RecordActivityRouter;
+import jx.csp.util.UISetter;
 import jx.csp.util.Util;
-import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -68,39 +62,37 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     private TextView mTvMusicName;
     private TextView mTvMusicTime;
 
-    private View mLayoutMusic;//背景音乐layout
-    private View mLayoutVideo;//底部按钮为保存和录音
+    private View mLayoutMusic; // 背景音乐layout
 
-    private int mThemePosition; //选择主题标识
-    private int mVideoPosition; //保存按钮或继续录音标识，0为保存，1为录音
-    private int mImgId; //主题图片id
-    private int mMusicId;   //音乐id
-    private int mMeetId;    //会议id
+    private int mImgId; // 主题图片id
+    private int mMusicId;   // 音乐id
+    private String mMeetId;    // 会议id
 
     @Arg
-    boolean mFlag;  //从哪里进入的标识,true为分享,false为新建
+    boolean mIsShare;  //从哪里进入的标识,true为分享,false为新建
+
     @Arg(opt = true)
     Meet mMeet;
+
+    @Arg(opt = true)
+    String mPreviewUrl; // 预览的图片
+
     @Arg(opt = true)
     ArrayList<String> mPicture;  //上传的图片
 
-
     @Override
     public void initData() {
-        mThemePosition = ConstantsEx.KInvalidValue;
-        mVideoPosition = ConstantsEx.KInvalidValue;
+        // do nothing
     }
 
-    @NonNull
     @Override
     public int getContentViewId() {
         return R.layout.activity_editor;
     }
 
-    @Nullable
     @Override
     public int getContentFooterViewId() {
-        if (mFlag) {
+        if (mIsShare) {
             return R.layout.layout_editor_footer;
         } else {
             return R.layout.layout_editor_footer_video;
@@ -115,6 +107,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     @Override
     public void findViews() {
         super.findViews();
+
         mEt = findView(R.id.editor_et);
         mIv = findView(R.id.form_iv_clean);
 
@@ -127,26 +120,33 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         mTvSave = findView(R.id.editor_tv_save);
         mTvSaveBook = findView(R.id.editor_tv_save_book);
         mTvVideo = findView(R.id.editor_tv_video);
-        mLayoutVideo = findView(R.id.editor_footer_layout);
     }
 
     @Override
     public void setViews() {
         super.setViews();
-        getClickListener();
-        getAdapter().setOnAdapterClickListener(this);
+
+        setOnClickListener(mLayoutMusic);
+        setOnClickListener(mTvMusicName);
+        setOnClickListener(mTvMusicTime);
+
+        setOnClickListener(R.id.editor_tv_save);
+        setOnClickListener(R.id.editor_tv_save_book);
+        setOnClickListener(R.id.editor_tv_video);
+
+        setOnAdapterClickListener(this);
 
         //分享进入的
         if (mMeet != null) {
-            mMeetId = mMeet.getInt(TMeet.id);
+            mMeetId = mMeet.getString(TMeet.id);
         }
 
         //获取主题皮肤
         refresh(RefreshWay.embed);
-        exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme, 0).build());
+        exeNetworkReq(KTheme, MeetingAPI.editor().type(MusicType.theme).build());
 
         //设置标题
-        if (mFlag) {
+        if (mIsShare) {
             mEt.setText(mMeet.getString(TMeet.title));
             showView(mIv);
         } else {
@@ -168,7 +168,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             public void afterTextChanged(Editable s) {
                 if (mEt.hasFocus() && TextUtil.isNotEmpty(s)) {
                     showView(mIv);
-                    if (mFlag) {
+                    if (mIsShare) {
                         mTvSave.setEnabled(true);
                     } else {
                         mTvSaveBook.setEnabled(true);
@@ -176,7 +176,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                     }
                 } else {
                     hideView(mIv);
-                    if (mFlag) {
+                    if (mIsShare) {
                         mTvSave.setEnabled(false);
                     } else {
                         mTvSaveBook.setEnabled(false);
@@ -213,22 +213,19 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_save: {
                 //分享进入的保存按钮
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, getEt()).imgId(mImgId).musicId(mMusicId).build());
-                mVideoPosition = 0;
+                exeNetworkReq(KSave, MeetingAPI.update(mMeetId).title(getEt()).imgId(mImgId).musicId(mMusicId).build());
             }
             break;
             case R.id.editor_tv_save_book: {
                 //新建讲本进入的保存按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-                CommonServRouter.create(ReqType.upload_photo).photo(mPicture).route(this);
-                mVideoPosition = 0;
+                // FIXME: 上传图片
             }
             break;
             case R.id.editor_tv_video: {
                 //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-                CommonServRouter.create(ReqType.upload_photo).photo(mPicture).route(this);
-                mVideoPosition = 1;
+                // FIXME: 上传图片
             }
             break;
         }
@@ -238,34 +235,14 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     public void onAdapterClick(int position, View v) {
         switch (v.getId()) {
             case R.id.editor_theme_layout: {
-                if (mThemePosition != position) {
-                    if (mThemePosition != ConstantsEx.KInvalidValue) {
-                        //再次点击取消
-                        getItem(mThemePosition).put(TTheme.select, false);
-                        mImgId = 0;
-                    }
-                    getItem(position).put(TTheme.select, true);
-                    mThemePosition = position;
-                    mImgId = getItem(position).getInt(TTheme.id);
-                } else {
-                    boolean select = getItem(position).getBoolean(TTheme.select);
-                    getItem(position).put(TTheme.select, !select);
-                    mImgId = 0;
-                }
-                invalidate();
+                boolean select = getItem(position).getBoolean(Theme.TTheme.select);
+                mImgId = select ? getItem(position).getInt(Theme.TTheme.id) : Constants.KInvalidValue;
             }
             break;
             case R.id.editor_preview_tv_item: {
-                //预览主题皮肤
-                String coverUrl;
-                if (mFlag) {
-                    coverUrl = mMeet.getString(TMeet.coverUrl);
-                } else {
-                    coverUrl = mPicture.get(0);
-                }
-                PreviewDialog dialog = new PreviewDialog(this, getAdapter().getItem(position).getString(TTheme.imgUrl), coverUrl);
-                dialog.setCanceledOnTouchOutside(false);
-                dialog.show();
+                // 预览主题皮肤
+                String theme = getItem(position).getString(Theme.TTheme.imgUrl);
+                UISetter.previewTheme(this, theme, mPreviewUrl);
             }
             break;
         }
@@ -282,52 +259,34 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
 
     @Override
     public void onNetworkSuccess(int id, IResult r) {
-        stopRefresh();
-        switch (id) {
-            case KTheme: {
-                setViewState(ViewState.normal);
-                Editor editor = (Editor) r.getData();
-                if (editor != null) {
-                    List<Theme> list = editor.getList(TEditor.imageList);
-                    setData(list);
-                }
-            }
-            break;
-            case KSave: {
-                if (r.isSucceed()) {
-                    if (mVideoPosition == 0) {
-                        finish();
-                    } else {
-                        //跳转录音页面
-                        RecordActivityRouter.create(String.valueOf(mMeetId)).route(this);
+        if (r.isSucceed()) {
+            switch (id) {
+                case KTheme: {
+                    setViewState(ViewState.normal);
+                    Editor editor = (Editor) r.getData();
+                    if (editor != null) {
+                        List<Theme> list = editor.getList(TEditor.imageList);
+                        setData(list);
                     }
-                } else {
-                    onNetworkError(id, r.getError());
                 }
+                break;
+                case KSave: {
+                    stopRefresh();
+                    finish();
+                }
+                break;
             }
-            break;
+        } else {
+            onNetworkError(id, r.getError());
         }
     }
 
     @Override
     public void onNetworkError(int id, NetworkError error) {
         super.onNetworkError(id, error);
+
         if (id == KTheme) {
             setViewState(ViewState.error);
-            if (mFlag) {
-                goneView(mTvSave);
-            } else {
-                goneView(mLayoutVideo);
-            }
-        }
-    }
-
-    @Override
-    public void onNotify(int type, Object data) {
-        if (type == NotifyType.update_photo) {
-            //获取新建的课件id
-            mMeetId = (int) data;
-            exeNetworkReq(KSave, MeetingAPI.updateMini(mMeetId, getEt()).imgId(mImgId).musicId(mMusicId).build());
         }
     }
 
@@ -353,19 +312,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         if (!super.onRetryClick()) {
             //获取主题皮肤
             refresh(RefreshWay.embed);
-            exeNetworkReq(KTheme, MeetingAPI.editor(MusicType.theme, 0).build());
+            exeNetworkReq(KTheme, MeetingAPI.editor().type(MusicType.theme).build());
         }
         return true;
-    }
-
-    private void getClickListener() {
-        setOnClickListener(R.id.form_iv_clean);
-        setOnClickListener(R.id.editor_music_clean);
-
-        setOnClickListener(R.id.editor_select_music);
-        setOnClickListener(R.id.editor_tv_save);
-        setOnClickListener(R.id.editor_tv_save_book);
-        setOnClickListener(R.id.editor_tv_video);
     }
 
     private String getEt() {

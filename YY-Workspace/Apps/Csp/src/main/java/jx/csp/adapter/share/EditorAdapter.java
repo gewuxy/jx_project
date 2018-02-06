@@ -5,8 +5,10 @@ import android.widget.TextView;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.share.EditorVH;
+import jx.csp.constant.Constants;
 import jx.csp.model.editor.Theme;
 import jx.csp.model.editor.Theme.TTheme;
+import lib.ys.ConstantsEx;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.network.image.shape.CornerRenderer;
 
@@ -16,6 +18,13 @@ import lib.ys.network.image.shape.CornerRenderer;
  */
 
 public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
+
+    private int mLastPosition;
+
+    @Override
+    protected void initView(int position, EditorVH holder, int itemType) {
+        mLastPosition = Constants.KInvalidValue;
+    }
 
     @Override
     protected void refreshView(int position, EditorVH holder) {
@@ -45,4 +54,20 @@ public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
         return R.layout.layout_editor_theme_item;
     }
 
+    @Override
+    protected void onViewClick(int position, View v) {
+        if (mLastPosition != position) {
+            if (mLastPosition != ConstantsEx.KInvalidValue) {
+                //再次点击取消
+                getItem(mLastPosition).put(Theme.TTheme.select, false);
+                invalidate(mLastPosition);
+            }
+            getItem(position).put(Theme.TTheme.select, true);
+            mLastPosition = position;
+        } else {
+            boolean select = !getItem(position).getBoolean(Theme.TTheme.select);
+            getItem(position).put(Theme.TTheme.select, select);
+        }
+        invalidate(position);
+    }
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:gravity="center_vertical"
+            android:text="@string/editor_select_theme"
+            android:textColor="@color/text_333"
+            android:textSize="@dimen/margin"/>
+
+        <View
+            style="@style/divider"
+            android:layout_height="2dp"
+            android:background="@color/divider"/>
+
+        <lib.ys.view.recycler.WrapRecyclerView
+            android:id="@+id/scrollable_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:background="@color/transparent"/>
+    </LinearLayout>
+
+</LinearLayout>
