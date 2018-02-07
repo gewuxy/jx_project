@@ -1,20 +1,25 @@
 package jx.csp.ui.activity.edit;
 
-import android.support.v7.widget.LinearLayoutManager;
+import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import jx.csp.Extra;
 import jx.csp.R;
-import jx.csp.adapter.share.EditorAdapter;
-import jx.csp.constant.MusicType;
-import jx.csp.model.editor.Editor;
+import jx.csp.adapter.ThemeAdapter;
+import jx.csp.model.editor.AllTheme;
+import jx.csp.model.editor.AllTheme.TAllTheme;
 import jx.csp.model.editor.Theme;
+import jx.csp.model.editor.Theme.TTheme;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor;
+import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
@@ -33,23 +38,27 @@ import lib.ys.ui.other.NavBar;
  * @since : 2018/2/6
  */
 @Route
-public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapter> implements
+public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapter> implements
         MultiAdapterEx.OnAdapterClickListener {
 
     private final int KEditor = 1;
     private final int KSave = 2;
-
     private final int KClearInfo = 0; // 清空
 
-    private int mImgId; //主题图片id
-
-    @Arg
+    @Arg()
     String mMeetId; // meetId
 
     @Arg
     String mPreviewUrl; // 预览上的图片
 
+    @Arg(opt = true)
+    int mThemeId; // 主题图片id
+
+    @Arg(opt = true)
+    boolean mSave;  // true 表示保存时不请求网络，直接带参数返回
+
     private View mLayoutSave;
+    private int mSelectPos = -1;  // 选择的位置
 
     @Override
     public int getContentViewId() {
@@ -58,7 +67,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
 
     @Override
     public void initData() {
-        mImgId = KClearInfo;
+        mThemeId = KClearInfo;
     }
 
     @Override
@@ -79,7 +88,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
 
         // 获取主题皮肤
         refresh(AppConfig.RefreshWay.embed);
-        getDataFromNet();
+        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.theme().build());
         setOnAdapterClickListener(this);
         setOnClickListener(mLayoutSave);
         mLayoutSave.setEnabled(false);
@@ -87,15 +96,50 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
 
     @Override
     protected RecyclerView.LayoutManager initLayoutManager() {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        GridLayoutManager manager = new GridLayoutManager(this, 4);
         return manager;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.editor_tv_save: {
+                if (mSave) {
+                    if (mSelectPos != -1) {
+                        forResult(getItem(mSelectPos));
+                    }
+                } else {
+                    refresh(AppConfig.RefreshWay.dialog);
+                    exeNetworkReq(KSave, MeetingAPI.selectTheme(mMeetId, mThemeId).build());
+                }
+            }
+            break;
+        }
+    }
+
+    @Override
+    public void onAdapterClick(int position, View v) {
+        switch (v.getId()) {
+            case R.id.editor_theme_layout: {
+                boolean select = getItem(position).getBoolean(Theme.TTheme.select);
+                mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : KClearInfo;
+                mLayoutSave.setEnabled(mThemeId != KClearInfo);
+                mSelectPos = position;
+            }
+            break;
+            case R.id.editor_preview_tv_item: {
+                // 预览主题皮肤
+                String theme = getItem(position).getString(Theme.TTheme.imgUrl);
+                UISetter.previewTheme(this, theme, mPreviewUrl);
+            }
+            break;
+        }
     }
 
     @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KEditor) {
-            return JsonParser.ev(resp.getText(), Editor.class);
+            return JsonParser.ev(resp.getText(), AllTheme.class);
         } else {
             return JsonParser.error(resp.getText());
         }
@@ -107,10 +151,25 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
             switch (id) {
                 case KEditor: {
                     setViewState(DecorViewEx.ViewState.normal);
-                    Editor editor = (Editor) r.getData();
-                    if (editor != null) {
-                        List<Theme> list = editor.getList(Editor.TEditor.imageList);
+                    AllTheme theme = (AllTheme) r.getData();
+                    if (theme != null) {
+                        List<Theme> list = theme.getList(TAllTheme.list);
                         setData(list);
+                        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+                            @Override
+                            public void onGlobalLayout() {
+                                if (mThemeId != 0) {
+                                    for (int i = 0; i < list.size(); i++) {
+                                        if (mThemeId == list.get(i).getInt(TTheme.id)) {
+                                            getItem(i).put(TTheme.select, true);
+                                            invalidate();
+                                        }
+                                    }
+                                }
+                                removeOnGlobalLayoutListener(this);
+                            }
+                        });
                     }
                 }
                 break;
@@ -143,39 +202,12 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.editor_tv_save: {
-                //分享进入的保存按钮
-                refresh(AppConfig.RefreshWay.dialog);
-                exeNetworkReq(KSave, NetworkApiDescriptor.MeetingAPI.update(mMeetId).imgId(mImgId).build());
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void onAdapterClick(int position, View v) {
-        switch (v.getId()) {
-            case R.id.editor_theme_layout: {
-                boolean select = getItem(position).getBoolean(Theme.TTheme.select);
-                mImgId = select ? getItem(position).getInt(Theme.TTheme.id) : KClearInfo;
-                mLayoutSave.setEnabled(mImgId != KClearInfo);
-            }
-            break;
-            case R.id.editor_preview_tv_item: {
-                // 预览主题皮肤
-                String theme = getItem(position).getString(Theme.TTheme.imgUrl);
-                UISetter.previewTheme(this, theme, mPreviewUrl);
-            }
-            break;
-        }
-    }
-
-    @Override
-    public void getDataFromNet() {
-        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.editMeet().courseId(mMeetId).build());
+    private void forResult(Theme item) {
+        Intent intent = new Intent()
+                .putExtra(Extra.KData, item.getString(TTheme.name))
+                .putExtra(Extra.KId, item.getString(TTheme.id));
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

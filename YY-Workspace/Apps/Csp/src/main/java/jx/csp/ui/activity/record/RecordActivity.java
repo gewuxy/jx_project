@@ -86,6 +86,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
     private boolean mCanContinueRecord = false;  // 能否续录
     private boolean mContinueRecord = false;  // 是否在续录
     private BgMusicThemeInfo mBgMusicThemeInfo;
+    private boolean mShowRecordTimeRemind = true; // 是否显示每张最长10提示  一个会议只提示一次 录制过了的会议就不提示了
 
     @Override
     public void initData() {
@@ -203,9 +204,9 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 dialog.addButton(R.string.cancel, R.color.text_404356, null);
                 dialog.addBlackButton(R.string.affirm, v -> {
                     stopPlayOperation();
-                    showView(mTvRemind);
-                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
-                    mTvRemind.setText(R.string.record_time_remind);
+//                    showView(mTvRemind);
+//                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+//                    mTvRemind.setText(R.string.record_time_remind);
                     mTvRecordTime.setText("00:00");
                     mRecordTimeArray.put(getCurrPosition(), 0);
                     mTvRecordState.setText(R.string.record);
@@ -323,9 +324,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             File folder = new File(basePath);
             File[] files = folder.listFiles();
             if (files.length == 0) {
-                showView(mTvRemind);
-                mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
-                mTvRemind.setText(R.string.record_time_remind);
+                if (mShowRecordTimeRemind) {
+                    showView(mTvRemind);
+                    mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
+                    mTvRemind.setText(R.string.record_time_remind);
+                }
                 mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
                 mIvAudition.setClickable(false);
                 mIvRecordState.setImageResource(R.drawable.animation_record);
@@ -518,6 +521,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 if (TextUtil.isNotEmpty(courseDetail.getString(TCourseDetail.duration))) {
                     int duration = courseDetail.getInt(TCourseDetail.duration);
                     mRecordTimeArray.put(i, duration);
+                    mShowRecordTimeRemind = false;
                 } else {
                     mRecordTimeArray.put(i, 0);
                 }
@@ -635,6 +639,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             }
             hideView(mTvRemind);
             mRecordState = true;
+            mShowRecordTimeRemind = false;
             setRecordTime(0);
             mAnimationRecord.selectDrawable(1);
             showView(mIvRecordStateAlpha);

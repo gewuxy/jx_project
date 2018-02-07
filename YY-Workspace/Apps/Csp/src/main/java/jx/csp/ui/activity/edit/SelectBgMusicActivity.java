@@ -14,7 +14,7 @@ import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.MusicAdapter;
-import jx.csp.model.BgMusic;
+import jx.csp.model.editor.BgMusic;
 import jx.csp.model.editor.Music;
 import jx.csp.model.editor.Music.TMusic;
 import jx.csp.network.JsonParser;
@@ -126,6 +126,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
                         downloadBgMusic(mMusicList);
                     }
                     addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
                         @Override
                         public void onGlobalLayout() {
                             if (mMusicId != 0) {

@@ -1,7 +1,6 @@
-package jx.csp.model;
+package jx.csp.model.editor;
 
-import jx.csp.model.BgMusic.TBgMusic;
-import jx.csp.model.editor.Music;
+import jx.csp.model.editor.BgMusic.TBgMusic;
 import lib.ys.model.EVal;
 
 /**

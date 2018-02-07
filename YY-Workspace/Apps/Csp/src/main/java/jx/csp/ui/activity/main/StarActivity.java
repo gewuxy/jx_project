@@ -58,6 +58,7 @@ import lib.ys.util.TextUtil;
 public class StarActivity extends BaseActivity {
 
     private final String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
+    private final int KRequestCode = 100;
 
     @Arg
     Meet mMeet;
@@ -163,7 +164,17 @@ public class StarActivity extends BaseActivity {
             }
             break;
             case R.id.star_tv_add_theme: {
-                ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl)).route(this);
+                if (mBgMusicThemeInfo != null) {
+                    if (TextUtil.isEmpty(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.imgUrl))) {
+                        ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl)).route(this);
+                    } else {
+                        ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl))
+                                .themeId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.id))
+                                .route(this);
+                    }
+                } else {
+                    ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl)).route(this);
+                }
             }
             break;
             case R.id.star_tv_add_music: {
@@ -171,17 +182,17 @@ public class StarActivity extends BaseActivity {
                     if (TextUtil.isEmpty(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.musicId))) {
                         SelectBgMusicActivityRouter.create()
                                 .courseId(mMeet.getString(TMeet.id))
-                                .route(this, 0);
+                                .route(this, KRequestCode);
                     } else {
                         SelectBgMusicActivityRouter.create()
                                 .courseId(mMeet.getString(TMeet.id))
                                 .musicId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.musicId))
-                                .route(this, 0);
+                                .route(this, KRequestCode);
                     }
                 } else {
                     SelectBgMusicActivityRouter.create()
                             .courseId(mMeet.getString(TMeet.id))
-                            .route(this, 0);
+                            .route(this, KRequestCode);
                 }
             }
             break;
@@ -213,7 +224,7 @@ public class StarActivity extends BaseActivity {
             return;
         }
         // 返回的背景音乐信息
-        if (data != null) {
+        if (requestCode != KRequestCode && data != null) {
             long time = Long.parseLong(data.getStringExtra(Extra.KLimit));
             showView(mLayoutBgMusic);
             showView(mIvHaveMusic);

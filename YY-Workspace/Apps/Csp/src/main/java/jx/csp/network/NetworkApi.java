@@ -17,7 +17,8 @@ import jx.csp.constant.BindId;
  */
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
-        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
+//        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
+        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/"
 //        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8085/api/"   // 长玲电脑
@@ -444,16 +445,31 @@ public class NetworkApi {
         void selectBgMusic(String courseId, String musicId);
 
         /**
+         * 选择主题
+         *
+         * @param courseId
+         * @param imgId  	值为0表示删除
+         */
+        @Post("update/img")
+        void selectTheme(String courseId, int imgId);
+
+        /**
          * 获取新手指引会议
          */
         @Get("tourist/view")
         void greenHandsGuide(String courseId);
 
         /**
-         * 获取背景音乐
+         * 获取全部背景音乐
          */
         @Get("theme/music/more")
         void bgMusic();
+
+        /**
+         * 获取全部的主题
+         */
+        @Get("theme/image/more")
+        void theme();
     }
 
     @Api("charge")

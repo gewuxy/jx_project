@@ -43,6 +43,7 @@ public class RecordImgFrag extends BaseFrag {
 
     private float mCrown; // 图片的宽高比
     private int mIvHeight;  // 图片高度
+    private int mIvWidth;  // 图片宽度
 
     @Override
     public void initData() {
@@ -73,18 +74,32 @@ public class RecordImgFrag extends BaseFrag {
                     public void onImageSet(ImageInfo info) {
                         int height = info.getHeight();
                         int width = info.getWidth();
-                        mCrown = (width * 1.0f) / height;
-                        mIvHeight = (int) (332 / mCrown);
-                        if (mIvHeight > 246) {
+                        YSLog.d(TAG, "ppt width = " + width + "ppt height = " + height);
+                        if (width > height) {
+                            mIvWidth = 332;
+                            mCrown = (width * 1.0f) / height;
+                            mIvHeight = (int) (mIvWidth / mCrown);
+                            YSLog.d(TAG, "换算后的 height = " + mIvHeight);
+                            if (mIvHeight > 246) {
+                                mIvHeight = 246;
+                            }
+                        } else {
                             mIvHeight = 246;
+                            mCrown = (height * 1.0f) / width;
+                            mIvWidth = (int) (mIvHeight / mCrown);
+                            YSLog.d(TAG, "换算后的 width = " + mIvWidth);
+                            if (mIvWidth > 332) {
+                                mIvHeight = 332;
+                            }
                         }
                         LayoutParams params = (LayoutParams) mIv.getLayoutParams();
+                        params.width = fit(mIvWidth);
                         params.height = fit(mIvHeight);
                         mIv.setLayoutParams(params);
                         goneView(mIvBg);
                     }
                 })
-                .resize(fit(332), fit(mIvHeight))
+                .resize(fit(mIvWidth), fit(mIvHeight))
                 .load();
         // 判断是否上传过音频，如果上传过再判断音频文件是否还存在，不存在就下载，下载下来的是mp3文件,下载完成显示播放按钮
         if (TextUtil.isNotEmpty(mAudioUrl)) {
