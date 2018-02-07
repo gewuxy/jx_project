@@ -1,115 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
-    android:orientation="vertical">
-
-    <View style="@style/divider.form.large"/>
+    android:background="@color/app_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/white"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/editor_et"
-            style="@style/et.common"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:hint="@string/editor_title_hint"/>
-
-        <ImageView
-            style="@style/iv.form.clean"
-            android:layout_gravity="center"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="232dp"
-        android:layout_marginTop="@dimen/margin"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_theme_choice"/>
+        <View style="@style/divider.form.large"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@color/white"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editor_et_title"
+                style="@style/et.common"
+                android:layout_gravity="center"
+                android:layout_marginLeft="4dp"
+                android:hint="@string/editor_title_hint"/>
+
+            <ImageView
+                android:id="@+id/editor_iv_clean"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/margin"
+                android:background="@drawable/nav_bar_selector"
+                android:padding="10dp"
+                android:src="@drawable/ic_default_clear"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="232dp"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include layout="@layout/layout_theme_choice"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/edit_layout_music_more"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="@dimen/margin"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin"
+                android:text="@string/editor_select_music"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/margin"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="34dp"
+                android:text="@string/more"
+                android:textColor="@color/text_9699a2"
+                android:textSize="@dimen/margin"/>
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/margin"
+                android:src="@drawable/form_ic_arrow_right"/>
+
+        </RelativeLayout>
+
+        <View style="@style/divider.form.match"/>
+
+        <RelativeLayout
+            android:id="@+id/editor_music_layout"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:background="@color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/editor_music_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin"
+                android:text="这里放选择后的音乐"
+                android:textColor="@color/text_333"
+                android:textSize="@dimen/margin"/>
+
+            <TextView
+                android:id="@+id/editor_music_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="11dp"
+                android:layout_toRightOf="@+id/editor_music_name"
+                android:text="00''00''"
+                android:textColor="@color/text_9699a2"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/editor_music_clean"
+                style="@style/iv.form.clean"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/editor_select_music"
+    <LinearLayout
+        android:id="@+id/editor_layout_footer"
         android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginTop="@dimen/margin"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:text="@string/editor_select_music"
-            android:textColor="@color/text_333"
-            android:textSize="@dimen/margin"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="34dp"
-            android:text="@string/editor_music_more"
-            android:textColor="@color/text_9699a2"
-            android:textSize="@dimen/margin"/>
-
-        <ImageView
-            android:layout_width="14dp"
-            android:layout_height="14dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/margin"
-            android:src="@drawable/form_ic_arrow_right"/>
-
-    </RelativeLayout>
-
-    <View style="@style/divider.form.match"/>
-
-    <RelativeLayout
-        android:id="@+id/editor_music_layout"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:background="@color/white"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/editor_music_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin"
-            android:text="这里放选择后的音乐"
-            android:textColor="@color/text_333"
-            android:textSize="@dimen/margin"/>
-
-        <TextView
-            android:id="@+id/editor_music_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="11dp"
-            android:layout_toRightOf="@+id/editor_music_name"
-            android:text="00''00''"
-            android:textColor="@color/text_9699a2"
-            android:textStyle="bold"/>
-
-        <ImageView
-            android:id="@+id/editor_music_clean"
-            style="@style/iv.form.clean"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:visibility="visible"/>
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>

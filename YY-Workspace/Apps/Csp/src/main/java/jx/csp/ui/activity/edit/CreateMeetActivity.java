@@ -1,6 +1,6 @@
 package jx.csp.ui.activity.edit;
 
-import android.view.View;
+import android.support.annotation.CallSuper;
 import android.widget.TextView;
 
 import java.io.File;
@@ -9,21 +9,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.model.editor.Editor;
 import jx.csp.model.editor.Theme;
 import jx.csp.model.editor.Upload;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
-import jx.csp.util.Util;
-import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
 import lib.ys.config.AppConfig;
 import lib.ys.ui.decor.DecorViewEx;
-import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 
 /**
@@ -32,11 +31,11 @@ import lib.ys.util.FileUtil;
  * @auther : GuoXuan
  * @since : 2018/2/7
  */
-public class CreateMeetActivity extends EditorActivity {
+@Route
+public class CreateMeetActivity extends BaseEditActivity {
 
-    private final int KTheme = 0;
-    private final int KCreate = 2;
-    private final int KUpload = 3;
+    private final int KCreate = 11;
+    private final int KUpload = 12;
 
     private TextView mTvCreate;
     private TextView mTvRecord;
@@ -52,29 +51,17 @@ public class CreateMeetActivity extends EditorActivity {
 
     @Override
     public void initData() {
+        super.initData();
+
         mUploadList = new LinkedList<>();
     }
 
-    @Override
-    public int getContentViewId() {
-        return R.layout.activity_editor;
-    }
-
-    @Override
-    public int getContentFooterViewId() {
-        return R.layout.layout_editor_footer_video;
-    }
-
-    @Override
-    public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, R.string.editor, this);
-    }
-
+    @CallSuper
     @Override
     public void findViews() {
         super.findViews();
 
-        mTvCreate = findView(R.id.editor_tv_save_book);
+        mTvCreate = findView(R.id.editor_tv_save);
         mTvRecord = findView(R.id.editor_tv_record);
     }
 
@@ -90,28 +77,6 @@ public class CreateMeetActivity extends EditorActivity {
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.editor_tv_save_book:
-            case R.id.editor_tv_record: {
-                //新建讲本进入的继续录音按钮,创建课件接口
-                refresh(AppConfig.RefreshWay.dialog);
-
-                String path = mPicture.get(0);
-                File file = new File(path);
-                if (file.exists()) {
-                    byte[] bytes = FileUtil.fileToBytes(path);
-                    NetworkReq req = NetworkApiDescriptor.MeetingAPI.picture(bytes, 0)
-                            .build();
-                    mUploadList.addLast(req);
-                }
-                upload();
-            }
-            break;
-        }
-    }
-
-    @Override
     public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
         if (id == KUpload) {
             return JsonParser.ev(resp.getText(), Upload.class);
@@ -124,7 +89,7 @@ public class CreateMeetActivity extends EditorActivity {
     public void onNetworkSuccess(int id, IResult r) {
         if (r.isSucceed()) {
             switch (id) {
-                case KTheme: {
+                case KReqTheme: {
                     setViewState(DecorViewEx.ViewState.normal);
                     Editor editor = (Editor) r.getData();
                     if (editor != null) {
@@ -166,26 +131,46 @@ public class CreateMeetActivity extends EditorActivity {
         } else {
             onNetworkError(id, r.getError());
         }
-
     }
 
     @Override
-    public void onNetworkError(int id, NetworkError error) {
-        super.onNetworkError(id, error);
+    protected int getFooterId() {
+        return R.layout.layout_editor_footer_create;
+    }
 
-        if (id == KTheme) {
-            setViewState(DecorViewEx.ViewState.error);
+    @Override
+    protected void onClick(int id) {
+        switch (id) {
+            case R.id.editor_tv_save:
+            case R.id.editor_tv_record: {
+                //新建讲本进入的继续录音按钮,创建课件接口
+                refresh(AppConfig.RefreshWay.dialog);
+
+                String path = mPicture.get(0);
+                File file = new File(path);
+                if (file.exists()) {
+                    byte[] bytes = FileUtil.fileToBytes(path);
+                    NetworkReq req = NetworkApiDescriptor.MeetingAPI.picture(bytes, 0)
+                            .build();
+                    mUploadList.addLast(req);
+                }
+                upload();
+            }
+            break;
         }
+    }
+
+    @Override
+    protected void titleState(boolean notEmpty) {
+        mTvCreate.setEnabled(notEmpty);
+        mTvRecord.setEnabled(notEmpty);
     }
 
     private void upload() {
         if (mUploadList.isEmpty()) {
             YSLog.d(TAG, "上传列表为空");
-            exeNetworkReq(KCreate, NetworkApiDescriptor.MeetingAPI.update(mMeetId)
-                    .title(getTitleText())
-//                    .imgId(mImgId)
-//                    .musicId(mMusicId)
-                    .build());
+            exeNetworkReq(KCreate,
+                    NetFactory.update(mMeetId, getTitleText(), mThemeId, mMusicId));
             return;
         }
         if (!mUploadState) {

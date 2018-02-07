@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.util.List;
 
@@ -13,6 +12,7 @@ import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.ThemeAdapter;
+import jx.csp.constant.Constants;
 import jx.csp.model.editor.AllTheme;
 import jx.csp.model.editor.AllTheme.TAllTheme;
 import jx.csp.model.editor.Theme;
@@ -43,7 +43,6 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
 
     private final int KEditor = 1;
     private final int KSave = 2;
-    private final int KClearInfo = 0; // 清空
 
     @Arg()
     String mMeetId; // meetId
@@ -67,7 +66,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
 
     @Override
     public void initData() {
-        mThemeId = KClearInfo;
+        // do thing
     }
 
     @Override
@@ -88,16 +87,20 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
 
         // 获取主题皮肤
         refresh(AppConfig.RefreshWay.embed);
-        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.theme().build());
+        getDataFromNet();
         setOnAdapterClickListener(this);
         setOnClickListener(mLayoutSave);
         mLayoutSave.setEnabled(false);
     }
 
     @Override
+    public void getDataFromNet() {
+        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.theme().build());
+    }
+
+    @Override
     protected RecyclerView.LayoutManager initLayoutManager() {
-        GridLayoutManager manager = new GridLayoutManager(this, 4);
-        return manager;
+        return new GridLayoutManager(this, 4);
     }
 
     @Override
@@ -122,8 +125,8 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
         switch (v.getId()) {
             case R.id.editor_theme_layout: {
                 boolean select = getItem(position).getBoolean(Theme.TTheme.select);
-                mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : KClearInfo;
-                mLayoutSave.setEnabled(mThemeId != KClearInfo);
+                mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : Constants.KInvalidValue;
+                mLayoutSave.setEnabled(mThemeId != Constants.KInvalidValue);
                 mSelectPos = position;
             }
             break;
@@ -154,22 +157,16 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
                     AllTheme theme = (AllTheme) r.getData();
                     if (theme != null) {
                         List<Theme> list = theme.getList(TAllTheme.list);
-                        setData(list);
-                        addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                            @Override
-                            public void onGlobalLayout() {
-                                if (mThemeId != 0) {
-                                    for (int i = 0; i < list.size(); i++) {
-                                        if (mThemeId == list.get(i).getInt(TTheme.id)) {
-                                            getItem(i).put(TTheme.select, true);
-                                            invalidate();
-                                        }
-                                    }
+                        if (mThemeId != Constants.KInvalidValue && list != null && list.size() > 0) {
+                            for (Theme t : list) {
+                                if (mThemeId == t.getInt(TTheme.id)) {
+                                    t.put(TTheme.select, true);
+                                    mLayoutSave.setEnabled(true);
+                                    break;
                                 }
-                                removeOnGlobalLayoutListener(this);
                             }
-                        });
+                        }
+                        setData(list);
                     }
                 }
                 break;
@@ -204,7 +201,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
 
     private void forResult(Theme item) {
         Intent intent = new Intent()
-                .putExtra(Extra.KData, item.getString(TTheme.name))
+                .putExtra(Extra.KData, item.getString(TTheme.imgName))
                 .putExtra(Extra.KId, item.getString(TTheme.id));
         setResult(RESULT_OK, intent);
         finish();

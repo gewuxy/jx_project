@@ -275,6 +275,9 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
                 if (data instanceof String) {
                     String str = (String) data;
                     YSLog.d(TAG, str + "删除接收通知");
+                    if (mAllMeets == null) {
+                        return;
+                    }
                     for (Meet meet : mAllMeets) {
                         if (Integer.valueOf(str) == meet.getInt(TMeet.id)) {
                             mAllMeets.remove(meet);
@@ -289,6 +292,9 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
             case NotifyType.over_live: {
                 if (data instanceof String) {
                     String id = (String) data;
+                    if (mAllMeets == null) {
+                        return;
+                    }
                     for (Meet meet : mAllMeets) {
                         if (meet.getString(TMeet.id).equals(id)) {
                             meet.put(TMeet.liveState, Live.LiveState.end);
@@ -304,6 +310,9 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
             case NotifyType.start_live: {
                 if (data instanceof String) {
                     String id = (String) data;
+                    if (mAllMeets == null) {
+                        return;
+                    }
                     for (Meet meet : mAllMeets) {
                         if (meet.getString(TMeet.id).equals(id)) {
                             meet.put(TMeet.liveState, Live.LiveState.live);
@@ -320,6 +329,9 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
                     Meet m = (Meet) data;
                     String id = m.getString(TMeet.id);
                     String time = m.getString(TMeet.playTime);
+                    if (mAllMeets == null) {
+                        return;
+                    }
                     for (Meet meet : mAllMeets) {
                         if (meet.getString(TMeet.id).equals(id)) {
                             meet.put(TMeet.playTime, time);

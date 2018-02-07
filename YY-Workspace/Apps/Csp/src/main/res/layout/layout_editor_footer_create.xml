@@ -9,13 +9,12 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/editor_footer_layout"
         android:layout_width="match_parent"
         android:layout_height="46dp"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/editor_tv_save_book"
+            android:id="@+id/editor_tv_save"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

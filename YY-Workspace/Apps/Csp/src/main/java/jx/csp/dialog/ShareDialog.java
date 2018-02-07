@@ -29,7 +29,7 @@ import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.network.NetworkApi;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.edit.EditorActivityRouter;
+import jx.csp.ui.activity.edit.EditMeetActivityRouter;
 import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
 import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
@@ -67,7 +67,7 @@ public class ShareDialog extends BaseDialog {
     //剪切板管理工具
     private ClipboardManager mClipboardManager;
 
-    public ShareDialog(Context context, Meet meet){
+    public ShareDialog(Context context, Meet meet) {
         this(context, meet, true);
     }
 
@@ -374,7 +374,9 @@ public class ShareDialog extends BaseDialog {
                 }
                 break;
                 case ShareType.editor: {
-                    EditorActivityRouter.create(true).meet(mMeet).route(getContext());
+                    EditMeetActivityRouter.create(mCourseId)
+                            .previewUrl(mMeet.getString(TMeet.coverUrl))
+                            .route(getContext());
                     dismiss();
                 }
                 break;

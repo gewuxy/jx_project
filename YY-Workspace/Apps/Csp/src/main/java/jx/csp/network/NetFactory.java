@@ -47,7 +47,7 @@ public class NetFactory {
                 .header(getBaseHeader());
         builder.param("courseId", courseId);
         if (TextUtil.isNotEmpty(title)) {
-            builder.param("courseId", courseId);
+            builder.param("title", title);
         }
         if (imgId != Constants.KInvalidValue) {
             builder.param("imgId", imgId);

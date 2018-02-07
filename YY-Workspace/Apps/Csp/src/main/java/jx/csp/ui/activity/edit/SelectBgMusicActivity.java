@@ -251,8 +251,8 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     private void forResult(Music item) {
         Intent intent = new Intent()
                 .putExtra(Extra.KData, item.getString(TMusic.name))
-                .putExtra(Extra.KLimit, item.getString(TMusic.duration))
-                .putExtra(Extra.KId, item.getString(TMusic.id));
+                .putExtra(Extra.KLimit, item.getInt(TMusic.duration))
+                .putExtra(Extra.KId, item.getInt(TMusic.id));
         setResult(RESULT_OK, intent);
         finish();
     }

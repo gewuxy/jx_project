@@ -18,7 +18,7 @@ import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.main.photo.ChoiceCamera;
 import jx.csp.model.main.photo.ChoicePhoto;
 import jx.csp.model.main.photo.IUpload;
-import jx.csp.ui.activity.edit.EditorActivityRouter;
+import jx.csp.ui.activity.edit.CreateMeetActivityRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -135,8 +135,9 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                         paths.add(c.getString(ChoicePhoto.TChoicePhoto.path));
                     }
                 }
-                EditorActivityRouter.create(false)
+                CreateMeetActivityRouter.create()
                         .picture(paths)
+                        .previewUrl(paths.get(0))
                         .route(ChoicePhotoActivity.this);
             }
             break;

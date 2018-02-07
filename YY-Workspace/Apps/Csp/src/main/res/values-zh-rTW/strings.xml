@@ -365,7 +365,7 @@
     <string name="editor_title_hint">請輸入標題</string>
     <string name="editor_select_theme">選擇主題(非必選)</string>
     <string name="editor_select_music">背景音樂(非必選)</string>
-    <string name="editor_music_more">更多</string>
+    <string name="more">更多</string>
     <string name="editor_music">添加音樂</string>
     <string name="editor_save_book">保存講本</string>
     <string name="editor_video">繼續錄音</string>

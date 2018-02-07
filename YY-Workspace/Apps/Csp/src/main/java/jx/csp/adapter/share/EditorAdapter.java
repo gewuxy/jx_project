@@ -19,11 +19,13 @@ import lib.ys.network.image.shape.CornerRenderer;
 
 public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
 
-    private int mLastPosition;
+    private int mLastPosition = Constants.KInvalidValue;
 
     @Override
     protected void initView(int position, EditorVH holder, int itemType) {
-        mLastPosition = Constants.KInvalidValue;
+        if (getItem(position).getBoolean(TTheme.select)) {
+            mLastPosition = position;
+        }
     }
 
     @Override
@@ -56,18 +58,23 @@ public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
 
     @Override
     protected void onViewClick(int position, View v) {
-        if (mLastPosition != position) {
-            if (mLastPosition != ConstantsEx.KInvalidValue) {
-                //再次点击取消
-                getItem(mLastPosition).put(Theme.TTheme.select, false);
-                invalidate(mLastPosition);
+        switch (v.getId()) {
+            case R.id.editor_theme_layout: {
+                if (mLastPosition != position) {
+                    if (mLastPosition != ConstantsEx.KInvalidValue) {
+                        //再次点击取消
+                        getItem(mLastPosition).put(Theme.TTheme.select, false);
+                        invalidate(mLastPosition);
+                    }
+                    getItem(position).put(Theme.TTheme.select, true);
+                    mLastPosition = position;
+                } else {
+                    boolean select = !getItem(position).getBoolean(Theme.TTheme.select);
+                    getItem(position).put(Theme.TTheme.select, select);
+                }
+                invalidate(position);
             }
-            getItem(position).put(Theme.TTheme.select, true);
-            mLastPosition = position;
-        } else {
-            boolean select = !getItem(position).getBoolean(Theme.TTheme.select);
-            getItem(position).put(Theme.TTheme.select, select);
+            break;
         }
-        invalidate(position);
     }
 }
