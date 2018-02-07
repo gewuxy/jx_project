@@ -1,11 +1,13 @@
 package jx.csp.ui.frag.main;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.ImageView;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
+import lib.jx.notify.Notifier;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.ui.other.NavBar;
@@ -48,6 +50,16 @@ public class PreviewPhotoFrag extends BaseFrag {
     @Override
     public void setViews() {
         mIv.storage(mPath).load();
+        setOnClickListener(mIv);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.preview_photo_iv: {
+                notify(Notifier.NotifyType.finish_preview);
+            }
+            break;
+        }
+    }
 }

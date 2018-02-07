@@ -1,6 +1,7 @@
 package jx.csp.ui.activity.edit;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.View;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -18,6 +20,7 @@ import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.main.photo.ChoiceCamera;
 import jx.csp.model.main.photo.ChoicePhoto;
 import jx.csp.model.main.photo.IUpload;
+import jx.csp.ui.frag.main.PreviewChoicePhotoFrag;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -28,6 +31,7 @@ import lib.ys.ui.other.NavBar;
 import lib.ys.util.PhotoUtil;
 import lib.ys.util.permission.Permission;
 import lib.ys.util.permission.PermissionResult;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * 选择照片(新建讲本)界面
@@ -48,6 +52,8 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
     private final int KReqPhoto = 101;
 
     private String mPhotoPath;
+    private View mPreview;
+    private PreviewChoicePhotoFrag mPreviewFrag;
 
     @Override
     public void initNavBar(NavBar bar) {
@@ -106,6 +112,23 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
                 }
             }
             break;
+            case R.id.choice_photo_iv_photo: {
+                List<String> paths = getPaths();
+                if (paths.isEmpty()) {
+                    return;
+                }
+                if (mPreview == null) {
+                    mPreview = inflate(R.layout.layout_choice_photo_preview);
+                    mPreviewFrag = findFragment(R.id.choice_photo_preview_frag);
+                    getWindow().addContentView(mPreview, LayoutUtil.getViewGroupParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT));
+                } else {
+                    showView(mPreview);
+                }
+
+                mPreviewFrag.setPhotos(paths);
+                mPreviewFrag.setCurrPosition(position, false);
+            }
+            break;
         }
     }
 
@@ -126,14 +149,7 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
             }
             break;
             case R.id.photo_tv_bottom_right: {
-                ArrayList<String> paths = new ArrayList<>();
-                ChoicePhoto c;
-                for (IUpload upload : getData()) {
-                    if (upload instanceof ChoicePhoto) {
-                        c = (ChoicePhoto) upload;
-                        paths.add(c.getString(ChoicePhoto.TChoicePhoto.path));
-                    }
-                }
+                ArrayList<String> paths = getPaths();
                 CreateMeetActivityRouter.create()
                         .picture(paths)
                         .previewUrl(paths.get(0))
@@ -141,6 +157,19 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
             }
             break;
         }
+    }
+
+    @NonNull
+    private ArrayList<String> getPaths() {
+        ArrayList<String> paths = new ArrayList<>();
+        ChoicePhoto c;
+        for (IUpload upload : getData()) {
+            if (upload instanceof ChoicePhoto) {
+                c = (ChoicePhoto) upload;
+                paths.add(c.getString(ChoicePhoto.TChoicePhoto.path));
+            }
+        }
+        return paths;
     }
 
     @Override
@@ -165,7 +194,11 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
 
     @Override
     public void onBackPressed() {
-        exitDialog();
+        if (mPreview != null && mPreview.getVisibility() == View.VISIBLE) {
+            goneView(mPreview);
+        } else {
+            exitDialog();
+        }
     }
 
     /**
@@ -277,6 +310,10 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
     public void onNotify(int type, Object data) {
         if (type == NotifyType.finish_editor_meet) {
             finish();
+        } else if (type == NotifyType.finish_preview) {
+            if (mPreview != null) {
+                goneView(mPreview);
+            }
         }
     }
 

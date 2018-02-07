@@ -33,6 +33,7 @@ public class ChoicePhotoAdapter extends MultiRecyclerAdapterEx<IUpload, ChoicePh
                     .load();
 
             setOnViewClickListener(position, holder.getIvDelete());
+            setOnViewClickListener(position, holder.getIvPhoto());
         } else {
             setOnViewClickListener(position, holder.getLayoutAdd());
         }

@@ -66,6 +66,7 @@ public class Notifier extends NotifierEx<OnNotify> {
 
             NotifyType.finish_editor_meet,
             NotifyType.main_refresh,
+            NotifyType.finish_preview,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -231,6 +232,7 @@ public class Notifier extends NotifierEx<OnNotify> {
          */
         int finish_editor_meet = 60;
         int main_refresh = 61;
+        int finish_preview = 62;
     }
 
     public interface OnNotify {
