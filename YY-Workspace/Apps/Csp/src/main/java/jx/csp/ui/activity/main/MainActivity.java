@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +62,6 @@ import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
 import jx.csp.view.ArcMenu;
-import jx.csp.view.ArcMenu.Status;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
@@ -126,6 +128,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
     public int mFiltrateType;
 
     private String mPhotoPath;
+    private MediaPlayer mMediaPlayer;
 
     @Override
     public void initData() {
@@ -146,6 +149,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
         add(mListFrag);
 
         mFiltrateType = FiltrateType.all;
+        mMediaPlayer = new MediaPlayer();
     }
 
     @Override
@@ -276,10 +280,19 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
         });
 
         mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
+
         mArcMenu.setmOnMenuItemClickListener(this);
         mArcMenu.setStatusChange(status -> {
-            if (status == Status.OPEN) {
-                mVibrator.vibrate(new long[]{0, 50}, -1);
+            mVibrator.vibrate(new long[]{0, 50}, -1);
+            try {
+                AssetFileDescriptor afd = getAssets().openFd("main.mp3");
+                mMediaPlayer.reset();
+                mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                //同步准备
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
+            } catch (IOException e) {
+                YSLog.d(TAG, "msg = " + e.getMessage());
             }
         });
     }
@@ -629,6 +642,9 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
 
         LiveNotifier.inst().remove(this);
         SingletonImpl.inst().freeAll();
+        mMediaPlayer.release();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
     }
 
     @Override

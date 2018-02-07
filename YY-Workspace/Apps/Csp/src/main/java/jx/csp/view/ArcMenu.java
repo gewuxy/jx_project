@@ -250,7 +250,7 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
         if (mButton == null) {
             mButton = getChildAt(0);
         }
-        toggleMenu(300);
+        toggleMenu(250);
     }
 
     public void toggleMenu(int durationMillis) {
@@ -349,9 +349,9 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
 
     public void rotateView(Status mCurrentStatus) {
         if (mCurrentStatus == Status.OPEN) {
-            rotateView(mButton, 45f, 0f, 300);
+            rotateView(mButton, 45f, 0f, 250);
         } else {
-            rotateView(mButton, 0f, 45f, 300);
+            rotateView(mButton, 0f, 45f, 250);
         }
     }
 
@@ -381,9 +381,9 @@ public class ArcMenu extends ViewGroup implements OnClickListener {
         for (int i = 0; i < getChildCount() - 1; i++) {
             View childView = getChildAt(i + 1);
             if (i == item) {
-                childView.startAnimation(scaleBigAnim(300));
+                childView.startAnimation(scaleBigAnim(250));
             } else {
-                childView.startAnimation(scaleSmallAnim(300));
+                childView.startAnimation(scaleSmallAnim(250));
             }
             childView.setClickable(false);
             childView.setFocusable(false);
