@@ -79,7 +79,7 @@
 
                 <ImageView
                     android:id="@+id/meet_item_iv_ppt"
-                    android:layout_width="27dp"
+                    android:layout_width="11dp"
                     android:layout_height="12dp"
                     android:layout_marginBottom="11dp"
                     android:layout_alignParentBottom="true"
