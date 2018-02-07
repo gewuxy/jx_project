@@ -1,4 +1,4 @@
-package jx.csp.ui.activity;
+package jx.csp.ui.activity.edit;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;

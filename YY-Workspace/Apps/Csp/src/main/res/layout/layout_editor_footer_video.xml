@@ -26,7 +26,7 @@
             android:textSize="@dimen/margin"/>
 
         <TextView
-            android:id="@+id/editor_tv_video"
+            android:id="@+id/editor_tv_record"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

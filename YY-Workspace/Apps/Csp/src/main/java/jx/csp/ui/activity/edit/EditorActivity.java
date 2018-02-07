@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.share;
+package jx.csp.ui.activity.edit;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,7 +30,6 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
-import jx.csp.ui.activity.main.SelectBgMusicActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -133,7 +132,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         //footer的id
         mTvSave = findView(R.id.editor_tv_save);
         mTvSaveBook = findView(R.id.editor_tv_save_book);
-        mTvVideo = findView(R.id.editor_tv_video);
+        mTvVideo = findView(R.id.editor_tv_record);
     }
 
     @Override
@@ -146,7 +145,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         setOnClickListener(R.id.editor_select_music);
         setOnClickListener(R.id.editor_tv_save);
         setOnClickListener(R.id.editor_tv_save_book);
-        setOnClickListener(R.id.editor_tv_video);
+        setOnClickListener(R.id.editor_tv_record);
 
         setOnAdapterClickListener(this);
 
@@ -224,14 +223,14 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_save: {
                 //分享进入的保存按钮
                 refresh(RefreshWay.dialog);
-                exeNetworkReq(KSave, NetFactory.update(mMeetId, getEt(), mImgId, mMusicId));
+                exeNetworkReq(KSave, NetFactory.update(mMeetId, getTitleText(), mImgId, mMusicId));
             }
             break;
             case R.id.editor_tv_save_book:
-            case R.id.editor_tv_video: {
+            case R.id.editor_tv_record: {
                 //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-                if (v.getId() == R.id.editor_tv_video) {
+                if (v.getId() == R.id.editor_tv_record) {
                     mToRecord = true;
                 }
                 String path = mPicture.get(0);
@@ -394,7 +393,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         if (mUploadList.isEmpty()) {
             YSLog.d(TAG, "上传列表为空");
             exeNetworkReq(KCreate, MeetingAPI.update(mMeetId)
-                    .title(getEt())
+                    .title(getTitleText())
                     .imgId(mImgId)
                     .musicId(mMusicId)
                     .build());
@@ -407,7 +406,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         }
     }
 
-    private String getEt() {
-        return mEt.getText().toString();
+    protected String getTitleText() {
+        return mEt.getText().toString().trim();
     }
 }

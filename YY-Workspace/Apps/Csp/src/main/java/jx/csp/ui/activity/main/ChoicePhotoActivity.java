@@ -18,7 +18,7 @@ import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.main.photo.ChoiceCamera;
 import jx.csp.model.main.photo.ChoicePhoto;
 import jx.csp.model.main.photo.IUpload;
-import jx.csp.ui.activity.share.EditorActivityRouter;
+import jx.csp.ui.activity.edit.EditorActivityRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;

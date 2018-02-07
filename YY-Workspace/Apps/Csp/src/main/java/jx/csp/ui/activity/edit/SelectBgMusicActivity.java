@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.activity.edit;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
