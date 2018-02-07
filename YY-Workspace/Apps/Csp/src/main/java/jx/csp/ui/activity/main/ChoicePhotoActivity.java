@@ -22,6 +22,7 @@ import jx.csp.ui.activity.share.EditorActivityRouter;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.ys.fitter.Fitter;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.other.NavBar;
@@ -269,6 +270,13 @@ public class ChoicePhotoActivity extends BasePhotoActivity<IUpload, ChoicePhotoA
             photo.put(ChoicePhoto.TChoicePhoto.path, mPhotoPath);
             addItem(photo);
             invalidate();
+        }
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.finish_editor_meet) {
+            finish();
         }
     }
 

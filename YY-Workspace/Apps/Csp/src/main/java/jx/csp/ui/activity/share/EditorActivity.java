@@ -31,8 +31,10 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.activity.main.SelectBgMusicActivityRouter;
+import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
@@ -90,6 +92,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
     private LinkedList<NetworkReq> mUploadList;  // 上传图片队列
     private boolean mUploadState = false; // 是否在上传
     private boolean mUploadFirstSuccess = false;
+    private boolean mToRecord = false; // 是否跳转到录音页面
 
     @Override
     public void initData() {
@@ -228,7 +231,9 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_video: {
                 //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(RefreshWay.dialog);
-
+                if (v.getId() == R.id.editor_tv_video) {
+                    mToRecord = true;
+                }
                 String path = mPicture.get(0);
                 File file = new File(path);
                 if (file.exists()) {
@@ -311,6 +316,10 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                 break;
                 case KCreate: {
                     stopRefresh();
+                    if (mToRecord) {
+                        RecordActivityRouter.create(mMeetId).route(this);
+                    }
+                    notify(NotifyType.finish_editor_meet);
                     finish();
                 }
                 break;

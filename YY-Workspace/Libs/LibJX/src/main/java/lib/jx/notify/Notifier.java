@@ -63,6 +63,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.login_video,
             NotifyType.meet_num,
             NotifyType.total_time,
+
+            NotifyType.finish_editor_meet,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -223,6 +225,10 @@ public class Notifier extends NotifierEx<OnNotify> {
 
         int total_time = 52;
 
+        /**
+         * 结束PPT编辑页面
+         */
+        int finish_editor_meet = 60;
     }
 
     public interface OnNotify {
