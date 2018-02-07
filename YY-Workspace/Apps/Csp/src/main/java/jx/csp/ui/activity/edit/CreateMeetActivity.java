@@ -17,6 +17,8 @@ import jx.csp.model.editor.Upload;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
+import jx.csp.ui.activity.record.RecordActivityRouter;
+import lib.jx.notify.Notifier;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -46,13 +48,17 @@ public class CreateMeetActivity extends BaseEditActivity {
     ArrayList<String> mPicture;  //上传的图片
 
     private LinkedList<NetworkReq> mUploadList;  // 上传图片队列
-    private boolean mUploadState = false; // 是否在上传
-    private boolean mUploadFirstSuccess = false;
+    private boolean mUploadState; // 是否在上传
+    private boolean mUploadFirstSuccess;
+    private boolean mSave;
 
     @Override
     public void initData() {
         super.initData();
 
+        mUploadState = false; // 是否在上传
+        mUploadFirstSuccess = false;
+        mSave = false;
         mUploadList = new LinkedList<>();
     }
 
@@ -100,6 +106,11 @@ public class CreateMeetActivity extends BaseEditActivity {
                 break;
                 case KCreate: {
                     stopRefresh();
+                    notify(Notifier.NotifyType.finish_editor_meet);
+                    notify(Notifier.NotifyType.main_refresh);
+                    if (!mSave) {
+                        RecordActivityRouter.create(mMeetId).route(this);
+                    }
                     finish();
                 }
                 break;
@@ -113,7 +124,7 @@ public class CreateMeetActivity extends BaseEditActivity {
                                 File file = new File(path);
                                 if (file.exists()) {
                                     byte[] bytes = FileUtil.fileToBytes(path);
-                                    NetworkReq req = NetworkApiDescriptor.MeetingAPI.picture(bytes, 0)
+                                    NetworkReq req = NetworkApiDescriptor.MeetingAPI.picture(bytes, i)
                                             .courseId(mMeetId)
                                             .build();
                                     mUploadList.addLast(req);
@@ -141,7 +152,10 @@ public class CreateMeetActivity extends BaseEditActivity {
     @Override
     protected void onClick(int id) {
         switch (id) {
-            case R.id.editor_tv_save:
+            case R.id.editor_tv_save: {
+                mSave = true;
+            }
+            // 不加break,回去的地方不一样
             case R.id.editor_tv_record: {
                 //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(AppConfig.RefreshWay.dialog);

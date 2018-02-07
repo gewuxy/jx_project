@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.activity.edit;
 
 import android.support.annotation.StringRes;
 import android.support.v7.widget.GridLayoutManager;

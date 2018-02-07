@@ -12,6 +12,7 @@ import jx.csp.model.editor.Editor;
 import jx.csp.model.editor.Theme;
 import jx.csp.model.main.Meet;
 import jx.csp.network.NetFactory;
+import lib.jx.notify.Notifier;
 import lib.network.model.interfaces.IResult;
 import lib.ys.config.AppConfig;
 import lib.ys.ui.decor.DecorViewEx;
@@ -119,6 +120,8 @@ public class EditMeetActivity extends BaseEditActivity {
                 break;
                 case KSave: {
                     stopRefresh();
+                    notify(Notifier.NotifyType.finish_editor_meet);
+                    notify(Notifier.NotifyType.main_refresh);
                     finish();
                 }
                 break;

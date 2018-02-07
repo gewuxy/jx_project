@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.activity.edit;
 
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;

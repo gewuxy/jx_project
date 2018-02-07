@@ -65,6 +65,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.total_time,
 
             NotifyType.finish_editor_meet,
+            NotifyType.main_refresh,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -229,6 +230,7 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 结束PPT编辑页面
          */
         int finish_editor_meet = 60;
+        int main_refresh = 61;
     }
 
     public interface OnNotify {

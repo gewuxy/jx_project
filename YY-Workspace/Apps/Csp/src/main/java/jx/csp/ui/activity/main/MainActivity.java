@@ -46,6 +46,8 @@ import jx.csp.serv.DownloadApkServ;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
+import jx.csp.ui.activity.edit.ChoicePhotoActivityRouter;
+import jx.csp.ui.activity.edit.PhotoActivityRouter;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
 import jx.csp.ui.activity.me.MeActivity;
@@ -584,6 +586,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
                     p.put(TPackage.hiddenMeetCount, num);
                 }
                 pastHint(p);
+            }
+            break;
+            case NotifyType.main_refresh: {
+                if (mCardFrag != null) {
+                    mCardFrag.swipeRefresh();
+                }
+                if (mListFrag != null) {
+                    mListFrag.swipeRefresh();
+                }
             }
             break;
         }

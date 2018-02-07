@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.edit;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
@@ -24,6 +25,7 @@ import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier;
 import lib.jx.ui.activity.base.BaseRecyclerActivity;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -218,6 +220,17 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
                 }
             }
             invalidate();
+        }
+    }
+
+    @SuppressLint("SwitchIntDef")
+    @Override
+    public void onNotify(int type, Object data) {
+        switch (type) {
+            case Notifier.NotifyType.finish_editor_meet: {
+                finish();
+            }
+            break;
         }
     }
 

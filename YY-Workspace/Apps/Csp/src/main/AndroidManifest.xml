@@ -107,13 +107,13 @@
 
         <!-- 首页 -->
         <activity
-            android:name=".ui.activity.main.ChoicePhotoActivity"
+            android:name=".ui.activity.edit.ChoicePhotoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.PhotoActivity"
+            android:name=".ui.activity.edit.PhotoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.PreviewPhotoActivity"
+            android:name=".ui.activity.edit.PreviewPhotoActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.main.MainActivity"
