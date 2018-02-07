@@ -224,7 +224,7 @@ public class StarActivity extends BaseActivity {
             return;
         }
         // 返回的背景音乐信息
-        if (requestCode != KRequestCode && data != null) {
+        if (requestCode == KRequestCode && data != null) {
             long time = Long.parseLong(data.getStringExtra(Extra.KLimit));
             showView(mLayoutBgMusic);
             showView(mIvHaveMusic);
