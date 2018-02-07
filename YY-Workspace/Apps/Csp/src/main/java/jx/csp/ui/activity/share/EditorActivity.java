@@ -215,7 +215,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             }
             break;
             case R.id.editor_select_music: {
-                SelectBgMusicActivityRouter.create(mMeetId).route(this, KMusic);
+                SelectBgMusicActivityRouter.create().route(this, KMusic);
             }
             break;
             case R.id.editor_tv_save: {

@@ -156,7 +156,9 @@ public class StarActivity extends BaseActivity {
             }
             break;
             case R.id.star_tv_preview: {
-                CommonWebViewActivityRouter.create(getPreviewUrl()).route(this);
+                CommonWebViewActivityRouter.create(getPreviewUrl())
+                        .name(getString(R.string.preview))
+                        .route(this);
             }
             break;
             case R.id.star_tv_add_theme: {
@@ -166,12 +168,19 @@ public class StarActivity extends BaseActivity {
             case R.id.star_tv_add_music: {
                 if (mBgMusicThemeInfo != null) {
                     if (TextUtil.isEmpty(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.musicId))) {
-                        SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).route(this, 0);
+                        SelectBgMusicActivityRouter.create()
+                                .courseId(mMeet.getString(TMeet.id))
+                                .route(this, 0);
                     } else {
-                        SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).musicId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.musicId)).route(this, 0);
+                        SelectBgMusicActivityRouter.create()
+                                .courseId(mMeet.getString(TMeet.id))
+                                .musicId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.musicId))
+                                .route(this, 0);
                     }
                 } else {
-                    SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).route(this, 0);
+                    SelectBgMusicActivityRouter.create()
+                            .courseId(mMeet.getString(TMeet.id))
+                            .route(this, 0);
                 }
             }
             break;

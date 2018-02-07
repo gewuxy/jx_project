@@ -32,6 +32,7 @@ import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.model.FileSuffix;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 
 /**
  * 添加背景音乐页面
@@ -45,7 +46,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     private final int KBgMusicReqId = 1000;
     private final int KSelectReqId = 1001;
 
-    @Arg
+    @Arg(opt = true)
     String mCourseId;
 
     @Arg(opt = true)
@@ -91,8 +92,12 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
             case R.id.music_iv_select: {
                 mSelectPos = position;
                 Music item = getItem(position);
-                refresh(RefreshWay.dialog);
-                exeNetworkReq(KSelectReqId, MeetingAPI.selectBgMusic(mCourseId, item.getString(TMusic.id)).build());
+                if (TextUtil.isEmpty(mCourseId)) {
+                    forResult(item);
+                } else {
+                    refresh(RefreshWay.dialog);
+                    exeNetworkReq(KSelectReqId, MeetingAPI.selectBgMusic(mCourseId, item.getString(TMusic.id)).build());
+                }
             }
             break;
         }
@@ -142,13 +147,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
             }
         } else if (id == KSelectReqId) {
             if (r.isSucceed()) {
-                Music item = getItem(mSelectPos);
-                Intent intent = new Intent()
-                        .putExtra(Extra.KData, item.getString(TMusic.name))
-                        .putExtra(Extra.KLimit, item.getString(TMusic.duration))
-                        .putExtra(Extra.KId, item.getString(TMusic.id));
-                setResult(RESULT_OK, intent);
-                finish();
+                forResult(getItem(mSelectPos));
             } else {
                 onNetworkError(id, r.getError());
             }
@@ -246,5 +245,14 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
             mDownloadState = true;
             exeNetworkReq(mMusicIdList.getFirst(), mDownloadList.getFirst());
         }
+    }
+
+    private void forResult(Music item) {
+        Intent intent = new Intent()
+                .putExtra(Extra.KData, item.getString(TMusic.name))
+                .putExtra(Extra.KLimit, item.getString(TMusic.duration))
+                .putExtra(Extra.KId, item.getString(TMusic.id));
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
