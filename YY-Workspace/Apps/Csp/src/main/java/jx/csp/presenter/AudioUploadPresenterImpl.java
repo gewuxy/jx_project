@@ -103,8 +103,13 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
             mUploadState = false;
             upload();
         } else {
-            // 上传失败就重试
-            retryNetworkRequest(id);
+            // 如果code = 401 就不再重试
+            if (r.getCode() == 401) {
+                super.onNetworkError(id, r.getError());
+            } else {
+                // 上传失败就重试
+                retryNetworkRequest(id);
+            }
         }
     }
 }
