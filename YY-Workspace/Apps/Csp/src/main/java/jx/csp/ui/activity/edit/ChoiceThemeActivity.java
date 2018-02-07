@@ -202,7 +202,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
     private void forResult(Theme item) {
         Intent intent = new Intent()
                 .putExtra(Extra.KData, item.getString(TTheme.imgName))
-                .putExtra(Extra.KId, item.getString(TTheme.id));
+                .putExtra(Extra.KId, item.getInt(TTheme.id));
         setResult(RESULT_OK, intent);
         finish();
     }
