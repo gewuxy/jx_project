@@ -152,7 +152,7 @@
     <string name="share_fail">分享失败</string>
     <string name="share_cancel">分享取消</string>
     <string name="share_title">会讲 | %s</string>
-    <string name="share_text">用会讲，做有声PPT，随讲随录随分享</string>
+    <string name="share_text">我在用会讲，给图片/PPT加上了自己的声音。</string>
     <string name="ensure_delete">确认删除？</string>
     <string name="wx_check_app">您尚未安装微信客户端</string>
     <string name="whatsapp_check_app">您尚未安装whatsapp客户端</string>
@@ -222,6 +222,7 @@
     <string name="open">开启</string>
     <string name="add_theme">添加主题</string>
     <string name="add_music">添加音乐</string>
+    <string name="add">添加</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>

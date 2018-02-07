@@ -235,10 +235,20 @@ public class RecordPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void onDestroy() {
-        mMediaRecorder = null;
-        mMediaPlayer = null;
+        super.onDestroy();
+        mHandler.removeMessages(KMsgWhatPlayProgress);
+        mHandler.removeMessages(KMsgWhatAmplitude);
         if (mCountDown != null) {
             mCountDown.recycle();
+        }
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+        }
+        if (mMediaRecorder != null) {
+            mMediaRecorder.release();
+            mMediaRecorder = null;
         }
     }
 

@@ -230,6 +230,7 @@ public class StarActivity extends BaseActivity {
             showView(mIvHaveMusic);
             mTvBgMusic.setText(data.getStringExtra(Extra.KData) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
             setOnClickListener(R.id.star_iv_close_bg_music_layout);
+            mBgMusicThemeInfo.put(TBgMusicThemeInfo.musicId, data.getStringExtra(Extra.KId));
         }
     }
 
@@ -370,6 +371,7 @@ public class StarActivity extends BaseActivity {
                             .courseId(mMeet.getString(Meet.TMeet.id))
                             .route(StarActivity.this);
                 }
+                goneView(mTvLive);
                 starState(false);
             }
         }
@@ -378,6 +380,7 @@ public class StarActivity extends BaseActivity {
         public void deleteBgMusicSuccess() {
             goneView(mLayoutBgMusic);
             goneView(mIvHaveMusic);
+            mBgMusicThemeInfo.put(TBgMusicThemeInfo.musicId, 0);
         }
 
         @Override

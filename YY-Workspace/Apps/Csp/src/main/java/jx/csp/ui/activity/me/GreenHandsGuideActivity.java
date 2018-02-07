@@ -152,6 +152,9 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                         startPlayAudio(mPauseProgress);
                     } else {
                         GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(position);
+                        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                            mMediaPlayer.stop();
+                        }
                         frag.startPlay();
                     }
                 }

@@ -27,18 +27,19 @@
             android:background="@color/divider"/>
 
         <lib.ys.view.recycler.WrapRecyclerView
+            android:layout_marginTop="8dp"
             android:id="@+id/scrollable_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"/>
 
-        <TextView
-            android:id="@+id/editor_tv_save"
-            style="@style/tv.common"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="30dp"
-            android:text="@string/save"/>
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/editor_tv_save"
+        style="@style/tv.common"
+        android:text="@string/add"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="12dp"/>
 
 </RelativeLayout>
