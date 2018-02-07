@@ -8,13 +8,17 @@ import lib.ys.model.EVal;
  * @since 2018/2/1
  */
 
-public class Theme extends EVal<TTheme>{
+public class Theme extends EVal<TTheme> {
 
     public enum TTheme {
         id,         // 主题id
         imgName,    //主题名称
         imgSize,    //主题大小
         imgUrl,     //主题地址
+        musicId,
+        courseId,
+        name,
+        duration,
 
         select,
     }

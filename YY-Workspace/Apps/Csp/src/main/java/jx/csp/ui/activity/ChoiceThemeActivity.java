@@ -175,7 +175,7 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, EditorAdapt
 
     @Override
     public void getDataFromNet() {
-        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.editor().type(MusicType.theme).build());
+        exeNetworkReq(KEditor, NetworkApiDescriptor.MeetingAPI.editMeet().courseId(mMeetId).build());
     }
 
 }

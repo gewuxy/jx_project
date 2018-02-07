@@ -1,6 +1,7 @@
 package jx.csp.model.editor;
 
 import jx.csp.model.editor.Editor.TEditor;
+import jx.csp.model.main.Meet;
 import lib.ys.model.EVal;
 
 /**
@@ -14,6 +15,9 @@ public class Editor extends EVal<TEditor> {
 
     public enum TEditor {
 
+        @Bind(value = Meet.class)
+        course,
+
         /**
          * 主题列表
          */
@@ -25,5 +29,8 @@ public class Editor extends EVal<TEditor> {
          */
         @Bind(asList = Music.class)
         musicList,
+
+        @Bind(value = Theme.class)
+        theme,
     }
 }

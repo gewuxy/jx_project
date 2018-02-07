@@ -28,6 +28,7 @@ import jx.csp.model.editor.Upload;
 import jx.csp.model.main.Meet;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.network.JsonParser;
+import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import jx.csp.ui.activity.main.SelectBgMusicActivityRouter;
 import jx.csp.util.UISetter;
@@ -37,7 +38,6 @@ import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
-import lib.ys.ConstantsEx;
 import lib.ys.YSLog;
 import lib.ys.adapter.MultiAdapterEx.OnAdapterClickListener;
 import lib.ys.config.AppConfig.RefreshWay;
@@ -153,14 +153,12 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         }
 
         refresh(RefreshWay.embed);
-        exeNetworkReq(KTheme, MeetingAPI.editMeet().build());
+        exeNetworkReq(KTheme, MeetingAPI.editMeet().courseId(mMeetId).build());
 
         //设置标题
         if (mIsShare) {
-            mEt.setText(mMeet.getString(TMeet.title));
             showView(mIv);
         } else {
-            mEt.setText(ConstantsEx.KEmpty);
             mTvSaveBook.setEnabled(false);
             mTvVideo.setEnabled(false);
         }
@@ -213,7 +211,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             break;
             case R.id.editor_music_clean: {
                 goneView(mLayoutMusic);
-                mMusicId = 0;
+                mMusicId = Constants.KInvalidValue;
             }
             break;
             case R.id.editor_select_music: {
@@ -223,7 +221,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
             case R.id.editor_tv_save: {
                 //分享进入的保存按钮
                 refresh(RefreshWay.dialog);
-                // exeNetworkReq(KSave, MeetingAPI.update(mMeetId).title(getEt()).imgId(mImgId).musicId(mMusicId).build());
+                exeNetworkReq(KSave, NetFactory.update(mMeetId, getEt(), mImgId, mMusicId));
             }
             break;
             case R.id.editor_tv_save_book:
@@ -284,6 +282,30 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                     if (editor != null) {
                         List<Theme> list = editor.getList(TEditor.imageList);
                         setData(list);
+                        Meet m = editor.get(TEditor.course);
+                        if (m != null) {
+                            String title = m.getString(TMeet.title);
+                            mEt.setText(title);
+                            boolean enabled = TextUtil.isNotEmpty(title);
+                            if (mIsShare) {
+                                mTvSave.setEnabled(enabled);
+                            } else {
+                                mTvSaveBook.setEnabled(enabled);
+                                mTvVideo.setEnabled(enabled);
+                            }
+                        }
+                        Theme t = editor.get(TEditor.theme);
+                        if (t != null) {
+                            mMusicId = t.getInt(Theme.TTheme.musicId);
+                            mImgId = t.getInt(Theme.TTheme.imgUrl);
+                            mMeetId = t.getString(Theme.TTheme.courseId);
+                            String name = t.getString(Theme.TTheme.name);
+                            if (TextUtil.isNotEmpty(name)) {
+                                showView(mLayoutMusic);
+                                mTvMusicName.setText(name);
+                                mTvMusicName.setText(Util.getSpecialTimeFormat(t.getLong(Theme.TTheme.duration), "'", "''"));
+                            }
+                        }
                     }
                 }
                 break;
@@ -320,6 +342,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         } else {
             onNetworkError(id, r.getError());
         }
+
     }
 
     @Override
@@ -353,7 +376,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
         if (!super.onRetryClick()) {
             // 获取主题皮肤
             refresh(RefreshWay.embed);
-            exeNetworkReq(KTheme, MeetingAPI.editMeet().build());
+            exeNetworkReq(KTheme, MeetingAPI.editMeet().courseId(mMeetId).build());
         }
         return true;
     }

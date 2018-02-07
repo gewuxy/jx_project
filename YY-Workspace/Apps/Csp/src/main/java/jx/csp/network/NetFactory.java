@@ -1,5 +1,6 @@
 package jx.csp.network;
 
+import jx.csp.constant.Constants;
 import jx.csp.model.Profile;
 import jx.csp.model.Profile.TProfile;
 import jx.csp.sp.SpApp;
@@ -8,6 +9,7 @@ import lib.network.model.NetworkReq.Builder;
 import lib.network.model.pair.Pairs;
 import lib.ys.util.DeviceUtil;
 import lib.ys.util.PackageUtil;
+import lib.ys.util.TextUtil;
 
 /**
  * @author CaiXiang
@@ -18,13 +20,42 @@ public class NetFactory {
     /**
      * 获取post请求
      *
-     * @param url
-     * @return
+     * @param url url
+     * @return Builder
      */
     public static Builder newPost(String url) {
         return NetworkReq.newBuilder(UrlUtil.getBaseUrl() + url)
                 .post()
                 .header(getBaseHeader());
+    }
+
+    /**
+     * 会议信息更改
+     *
+     * @param courseId courseId
+     * @param title    title
+     * @param imgId    imgId
+     * @param musicId  musicId
+     * @return NetworkReq
+     */
+    public static NetworkReq update(String courseId,
+                                    String title,
+                                    int imgId,
+                                    int musicId) {
+        Builder builder = NetworkReq.newBuilder(UrlUtil.getBaseUrl() + "/meeting/mini/update")
+                .post()
+                .header(getBaseHeader());
+        builder.param("courseId", courseId);
+        if (TextUtil.isNotEmpty(title)) {
+            builder.param("courseId", courseId);
+        }
+        if (imgId != Constants.KInvalidValue) {
+            builder.param("imgId", imgId);
+        }
+        if (musicId != Constants.KInvalidValue) {
+            builder.param("musicId", musicId);
+        }
+        return builder.build();
     }
 
     public interface CommonParam {
