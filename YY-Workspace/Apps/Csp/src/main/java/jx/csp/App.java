@@ -9,8 +9,6 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
-import com.squareup.leakcanary.LeakCanary;
-
 import java.util.Locale;
 
 import jx.csp.constant.AppType;
@@ -158,8 +156,6 @@ public class App extends BaseApp {
         SpApp.inst().setAppType(appType);
         DownloadServRouter.create(DownReqType.login_video, Constants.KVideoUrl, CacheUtil.getVideoLoginFileName())
                 .route(this);
-
-        LeakCanary.install(this);
     }
 
     @NonNull
