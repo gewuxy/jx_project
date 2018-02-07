@@ -89,6 +89,7 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
 
     private LinkedList<NetworkReq> mUploadList;  // 上传图片队列
     private boolean mUploadState = false; // 是否在上传
+    private boolean mUploadFirstSuccess = false;
 
     @Override
     public void initData() {
@@ -230,16 +231,13 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                 //新建讲本进入的继续录音按钮,创建课件接口
                 refresh(RefreshWay.dialog);
 
-                for (int i = 0; i < mPicture.size(); i++) {
-                    String path = mPicture.get(i);
-                    File file = new File(path);
-                    if (file.exists()) {
-                        byte[] bytes = FileUtil.fileToBytes(path);
-                        NetworkReq req = MeetingAPI.picture(bytes, i)
-                                .courseId(mMeetId)
-                                .build();
-                        mUploadList.addLast(req);
-                    }
+                String path = mPicture.get(0);
+                File file = new File(path);
+                if (file.exists()) {
+                    byte[] bytes = FileUtil.fileToBytes(path);
+                    NetworkReq req = MeetingAPI.picture(bytes, 0)
+                            .build();
+                    mUploadList.addLast(req);
                 }
                 upload();
             }
@@ -298,6 +296,20 @@ public class EditorActivity extends BaseRecyclerActivity<Theme, EditorAdapter> i
                     Upload upload = (Upload) r.getData();
                     if (upload != null) {
                         mMeetId = upload.getString(Upload.TUpload.id);
+                        if (!mUploadFirstSuccess) {
+                            for (int i = 1; i < mPicture.size(); i++) {
+                                String path = mPicture.get(i);
+                                File file = new File(path);
+                                if (file.exists()) {
+                                    byte[] bytes = FileUtil.fileToBytes(path);
+                                    NetworkReq req = MeetingAPI.picture(bytes, 0)
+                                            .courseId(mMeetId)
+                                            .build();
+                                    mUploadList.addLast(req);
+                                }
+                            }
+                            mUploadFirstSuccess = true;
+                        }
                     }
                     mUploadList.removeFirst();
                     mUploadState = false;

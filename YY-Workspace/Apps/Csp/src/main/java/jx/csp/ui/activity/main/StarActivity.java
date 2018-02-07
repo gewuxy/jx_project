@@ -35,6 +35,7 @@ import jx.csp.presenter.StarPresenterImpl;
 import jx.csp.serv.CommonServ;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.sp.SpApp;
+import jx.csp.ui.activity.ChoiceThemeActivityRouter;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseActivity;
@@ -73,7 +74,6 @@ public class StarActivity extends BaseActivity {
     private View mLayoutBgMusic;  // 已经选择了的背景音乐的音乐名称/时长
     private ImageView mIvHaveMusic;  // 已经有背景音乐显示的图片
     private TextView mTvBgMusic;
-    private String mPreviewUrl;
 
     private StarContract.P mP;
 
@@ -133,8 +133,8 @@ public class StarActivity extends BaseActivity {
             long time = mBgMusicThemeInfo.getLong(TBgMusicThemeInfo.duration);
             showView(mLayoutBgMusic);
             showView(mIvHaveMusic);
-            mTvBgMusic.setText(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.name) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
             setOnClickListener(R.id.star_iv_close_bg_music_layout);
+            mTvBgMusic.setText(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.name) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
         }
     }
 
@@ -156,15 +156,23 @@ public class StarActivity extends BaseActivity {
             }
             break;
             case R.id.star_tv_preview: {
-                CommonWebViewActivityRouter.create(mPreviewUrl).route(this);
+                CommonWebViewActivityRouter.create(getPreviewUrl()).route(this);
             }
             break;
             case R.id.star_tv_add_theme: {
-                showToast("theme");
+                ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl)).route(this);
             }
             break;
             case R.id.star_tv_add_music: {
-                startActivityForResult(SelectBgMusicActivity.class, 0);
+                if (mBgMusicThemeInfo != null) {
+                    if (TextUtil.isEmpty(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.musicId))) {
+                        SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).route(this, 0);
+                    } else {
+                        SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).musicId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.musicId)).route(this, 0);
+                    }
+                } else {
+                    SelectBgMusicActivityRouter.create(mMeet.getString(TMeet.id)).route(this, 0);
+                }
             }
             break;
             case R.id.star_iv_close_bg_music_layout: {
@@ -232,7 +240,8 @@ public class StarActivity extends BaseActivity {
         setOnClickListener(R.id.star_tv_add_music);
     }
 
-    private void getShareUrl() {
+    private String getPreviewUrl() {
+        String previewUrl;
         // 拼接加密字符串
         LangType type = SpApp.inst().getLangType(); // 系统语言
         YSLog.d(TAG, "app app_type = " + type);
@@ -254,12 +263,13 @@ public class StarActivity extends BaseActivity {
         Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
         String http = BuildConfig.DEBUG_NETWORK ? des.hostDebuggable() : des.host();
         try {
-            mPreviewUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, paramBuffer.toString()), Constants.KEncoding_utf8);
-            YSLog.d(TAG, "PreviewUrl = " + mPreviewUrl);
+            previewUrl = http + "meeting/share?signature=" + URLEncoder.encode(Util.encode(KDesKey, paramBuffer.toString()), Constants.KEncoding_utf8);
+            YSLog.d(TAG, "PreviewUrl = " + previewUrl);
         } catch (UnsupportedEncodingException e) {
             YSLog.e(TAG, "shareSignature", e);
-            mPreviewUrl = http + "meeting/share?signature=";
+            previewUrl = http + "meeting/share?signature=";
         }
+        return previewUrl;
     }
 
     /**

@@ -21,7 +21,7 @@ import lib.ys.ui.decor.DecorViewEx;
 public class StarPresenterImpl extends BasePresenterImpl<StarContract.V> implements StarContract.P {
 
     private final int KCodeReqId = 0;
-    private final int KDeleteBgMusicReqId = 0;
+    private final int KDeleteBgMusicReqId = 1;
     private Meet mMeet;
 
     public StarPresenterImpl(StarContract.V v, Meet meet) {
@@ -67,7 +67,7 @@ public class StarPresenterImpl extends BasePresenterImpl<StarContract.V> impleme
             } else {
                 onNetworkError(id, r.getError());
             }
-        } else {
+        } else if (id == KDeleteBgMusicReqId) {
             if (r.isSucceed()) {
                 getView().deleteBgMusicSuccess();
             } else {

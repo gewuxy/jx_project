@@ -17,6 +17,7 @@ public class BgMusicThemeInfo extends EVal<TBgMusicThemeInfo> {
         imgUrl,  //	背景图地址
         name,   // 背景音名称
         url,  // 背景音地址
+        musicId,
         duration,  // 背景音时长
     }
 }
