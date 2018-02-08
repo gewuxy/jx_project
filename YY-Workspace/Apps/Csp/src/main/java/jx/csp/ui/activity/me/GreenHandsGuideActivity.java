@@ -331,6 +331,12 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
     }
 
     @Override
+    public void finish() {
+        setResult(RESULT_OK);
+        super.finish();
+    }
+
+    @Override
     public void videoPlayCompletion() {
         if ((getCurrPosition() + KOne) == mCourseDetailList.size()) {
             mPlayState = false;

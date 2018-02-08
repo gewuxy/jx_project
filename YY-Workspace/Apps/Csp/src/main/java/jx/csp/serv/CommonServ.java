@@ -9,15 +9,12 @@ import org.json.JSONException;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.model.Profile;
 import jx.csp.model.RecordUnusualState;
 import jx.csp.model.RecordUnusualState.TRecordUnusualState;
-import jx.csp.model.editor.Picture;
-import jx.csp.model.editor.Picture.TPicture;
 import jx.csp.model.login.Advert;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
@@ -73,9 +70,6 @@ public class CommonServ extends ServiceEx {
 
     @Arg(opt = true)
     String mTitle;
-
-    @Arg(opt = true)
-    ArrayList<String> mPhoto;
 
     @IntDef({
             ReqType.logout,

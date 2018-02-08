@@ -5,8 +5,6 @@ import android.view.Gravity;
 import android.view.View;
 
 import jx.csp.R;
-import jx.csp.ui.activity.me.GreenHandsGuideActivityRouter;
-import jx.csp.util.Util;
 import lib.jx.dialog.BaseDialog;
 
 /**
@@ -17,6 +15,8 @@ import lib.jx.dialog.BaseDialog;
  */
 
 public class GuideDialog extends BaseDialog {
+
+    private OnDialogWatchListener mListener;
 
     public GuideDialog(Context context) {
         super(context);
@@ -43,12 +43,6 @@ public class GuideDialog extends BaseDialog {
         setOnClickListener(R.id.guide_watch);
 
         setGravity(Gravity.CENTER);
-
-        setOnDismissListener(dialog -> {
-            FunctionGuideDialog d = new FunctionGuideDialog(getContext());
-            d.setCancelable(false);
-            d.show();
-        });
     }
 
     @Override
@@ -60,15 +54,18 @@ public class GuideDialog extends BaseDialog {
             }
             break;
             case R.id.guide_watch: {
-                Util.runOnUIThread(this::dismiss, 500);
-
-                if (Util.checkAppCn()) {
-                    GreenHandsGuideActivityRouter.create("1").route(getContext());
-                } else {
-                    GreenHandsGuideActivityRouter.create("2").route(getContext());
-                }
+                mListener.startActForResult();
+                dismiss();
             }
             break;
         }
+    }
+
+    public void setWatchListener(OnDialogWatchListener l) {
+        mListener = l;
+    }
+
+    public interface OnDialogWatchListener {
+        void startActForResult();
     }
 }

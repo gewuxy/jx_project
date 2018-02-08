@@ -26,6 +26,7 @@ import jx.csp.constant.FiltrateType;
 import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog1;
 import jx.csp.dialog.CountdownDialog;
+import jx.csp.dialog.FunctionGuideDialog;
 import jx.csp.dialog.GuideDialog;
 import jx.csp.dialog.UpdateNoticeDialog;
 import jx.csp.model.CheckAppVersion;
@@ -53,6 +54,7 @@ import jx.csp.ui.activity.edit.ChoicePhotoActivityRouter;
 import jx.csp.ui.activity.edit.PhotoActivityRouter;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
+import jx.csp.ui.activity.me.GreenHandsGuideActivityRouter;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import jx.csp.ui.frag.main.MeetCardFrag;
@@ -110,6 +112,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
      * 其他
      */
     private final int KReqCamera = 31;
+    private final int KGuideCode = 100;//功能指引
 
     private View mMidView;
     private TextView mTvTitle;
@@ -219,6 +222,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
         if (SpApp.inst().getGuidelines()) {
             GuideDialog dialog = new GuideDialog(this);
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setWatchListener(() -> {
+                if (Util.checkAppCn()) {
+                    GreenHandsGuideActivityRouter.create("1").route(this, KGuideCode);
+                } else {
+                    GreenHandsGuideActivityRouter.create("2").route(this, KGuideCode);
+                }
+                dialog.dismiss();
+            });
             dialog.show();
             SpApp.inst().saveGuidelines();
         }
@@ -500,6 +511,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
             ArrayList<String> p = new ArrayList<>();
             p.add(mPhotoPath);
             ChoicePhotoActivityRouter.create().paths(p).route(MainActivity.this);
+        } else if (requestCode == KGuideCode) {
+            FunctionGuideDialog d = new FunctionGuideDialog(this);
+            d.setCancelable(false);
+            d.show();
         }
     }
 

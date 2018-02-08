@@ -17,8 +17,8 @@ import jx.csp.constant.BindId;
  */
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
-//        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
-        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/" // 轩哥电脑
+        hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
+//        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/" // 轩哥电脑
 //        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
 )
 public class NetworkApi {
