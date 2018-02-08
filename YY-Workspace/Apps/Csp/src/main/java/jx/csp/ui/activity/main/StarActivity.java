@@ -101,7 +101,7 @@ public class StarActivity extends BaseActivity {
         });
         boolean start = mMeet.getBoolean(Meet.TMeet.starRateFlag);
         bar.addTextViewMid(start ? R.string.start_comment : R.string.finish);
-        bar.addViewRight(R.drawable.green_hands_guide_ic_share, v -> {
+        bar.addViewRight(R.drawable.share_ic_share, v -> {
             ShareDialog d = new ShareDialog(StarActivity.this, mMeet);
             d.show();
         });

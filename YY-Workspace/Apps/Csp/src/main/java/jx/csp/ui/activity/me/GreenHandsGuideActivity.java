@@ -123,7 +123,7 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
         mTvCurrentPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_current_page);
         mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
         bar.addViewMid(view);
-        bar.addViewRight(R.drawable.green_hands_guide_ic_share, v -> {
+        bar.addViewRight(R.drawable.share_ic_share, v -> {
             if (mShareArg != null) {
                 ShareDialog dialog = new ShareDialog(this, mShareArg, false);
                 dialog.show();

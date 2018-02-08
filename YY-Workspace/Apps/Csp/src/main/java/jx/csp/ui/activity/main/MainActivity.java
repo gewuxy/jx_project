@@ -320,7 +320,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
                     mTvTitle.setText(R.string.photo);
                 } else {
                     mFiltrateType = FiltrateType.all;
-                    mTvTitle.setText(R.string.app_name);
+                    mTvTitle.setText(R.string.main_title);
                 }
                 mCardFrag.setFiltrateType(mFiltrateType);
                 mListFrag.setFiltrateType(mFiltrateType);

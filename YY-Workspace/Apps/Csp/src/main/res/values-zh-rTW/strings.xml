@@ -160,6 +160,7 @@
     <string name="affirm_copy">確認複製</string>
 
     <!--首页-->
+    <string name="main_title">講本</string>
     <string name="overdue_reminder">已隱藏%d個講本，請在WEB端登錄查看</string>
     <string name="will_reminder">還有%d天到期</string>
     <string name="living">直播進行中...</string>
