@@ -10,7 +10,6 @@
         android:id="@+id/editor_theme_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="6dp"
         android:background="@color/transparent">
 
@@ -30,7 +29,7 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="64dp"
+            android:layout_marginLeft="66dp"
             android:src="@drawable/editor_theme_iv_selector"/>
     </RelativeLayout>
 
@@ -38,7 +37,7 @@
         android:id="@+id/editor_preview_tv_item"
         android:layout_width="56dp"
         android:layout_height="20dp"
-        android:layout_marginLeft="17dp"
+        android:layout_marginLeft="11dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/common_btn_selector_black"
         android:gravity="center"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.text.Editable;
@@ -121,8 +122,7 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
 
     @Override
     protected LayoutManager initLayoutManager() {
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager manager = new GridLayoutManager(this, 4);
         return manager;
     }
 
