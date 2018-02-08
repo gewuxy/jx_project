@@ -19,6 +19,7 @@ import lib.ys.adapter.AdapterEx;
 public class MusicAdapter extends AdapterEx<Music, MusicVH> {
 
     private int mLastPlayPos = Constants.KInvalidValue;
+    private int mSelectPos = Constants.KInvalidValue;
 
     @Override
     public int getConvertViewResId() {
@@ -59,6 +60,17 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
             }
             break;
             case R.id.music_iv_select: {
+                if (mSelectPos == position) {
+                    boolean select = !getItem(position).getBoolean(TMusic.select, false);
+                    getItem(position).put(TMusic.select, select);
+                } else {
+                    if (mSelectPos != Constants.KInvalidValue) {
+                        getItem(mSelectPos).put(TMusic.select, false);
+                        invalidate(mSelectPos);
+                    }
+                    mSelectPos =position;
+                    getItem(mSelectPos).put(TMusic.select, true);
+                }
                 getItem(position).put(TMusic.select, true);
                 invalidate(position);
             }
