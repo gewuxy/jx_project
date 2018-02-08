@@ -172,7 +172,11 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
                 break;
                 case KSave: {
                     stopRefresh();
-                    finish();
+                    if (mSelectPos != -1) {
+                        forResult(getItem(mSelectPos));
+                    } else {
+                        finish();
+                    }
                 }
                 break;
             }

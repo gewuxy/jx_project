@@ -22,6 +22,13 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
     private int mSelectPos = Constants.KInvalidValue;
 
     @Override
+    protected void initView(int position, MusicVH holder) {
+        if (getItem(position).getBoolean(TMusic.select)) {
+            mSelectPos = position;
+        }
+    }
+
+    @Override
     public int getConvertViewResId() {
         return R.layout.layout_music_select;
     }
@@ -68,7 +75,7 @@ public class MusicAdapter extends AdapterEx<Music, MusicVH> {
                         getItem(mSelectPos).put(TMusic.select, false);
                         invalidate(mSelectPos);
                     }
-                    mSelectPos =position;
+                    mSelectPos = position;
                     getItem(mSelectPos).put(TMusic.select, true);
                 }
                 getItem(position).put(TMusic.select, true);

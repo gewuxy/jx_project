@@ -19,8 +19,6 @@ import jx.csp.model.Profile;
 import jx.csp.network.NetFactory;
 import jx.csp.network.NetworkApiDescriptor;
 import jx.csp.network.UrlUtil;
-import jx.csp.serv.DownloadServ.DownReqType;
-import jx.csp.serv.DownloadServRouter;
 import jx.csp.sp.SpApp;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
@@ -83,7 +81,7 @@ public class App extends BaseApp {
                 .connectTimeout(KTimeout)
                 .readTimeout(KTimeout)
                 .writeTimeout(KTimeout)
-                .headersMaker(() -> NetFactory.getBaseHeader())
+                .headersMaker(NetFactory::getBaseHeader)
                 .timeoutToast(getString(R.string.connect_timeout))
                 .disconnectToast(getString(R.string.network_disabled))
                 .cacheDir(CacheUtil.getUploadCacheDir())
@@ -154,16 +152,16 @@ public class App extends BaseApp {
             appType = AppType.overseas;
         }
         SpApp.inst().setAppType(appType);
-        DownloadServRouter.create(DownReqType.login_video, Constants.KVideoUrl, CacheUtil.getVideoLoginFileName())
-                .route(this);
     }
 
+    /**
+     * {@link Locale#CHINESE}
+     */
     @NonNull
     private LangType getLangType() {
         Locale l = Locale.getDefault();
         LangType langType = LangType.cn_simplified;
         String language = l.getLanguage();
-        /** {@link Locale#CHINESE}*/
         final String zh = "zh";
         if (zh.equals(language)) {
             String script = ConstantsEx.KEmpty;

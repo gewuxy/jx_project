@@ -41,7 +41,7 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.sp.SpApp;
-import jx.csp.ui.activity.main.StarActivityRouter;
+import jx.csp.ui.activity.main.RebStarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
@@ -152,7 +152,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                 totalTime += mRecordTimeArray.get(i);
             }
             mShareAndStarArg.put(TMeet.playTime, Util.getSpecialTimeFormat(totalTime, "'", "''"));
-            StarActivityRouter.create(mShareAndStarArg)
+            RebStarActivityRouter.create(mShareAndStarArg)
                     .bgMusicThemeInfo(mBgMusicThemeInfo)
                     .route(RecordActivity.this);
             mStarBar.restoration();

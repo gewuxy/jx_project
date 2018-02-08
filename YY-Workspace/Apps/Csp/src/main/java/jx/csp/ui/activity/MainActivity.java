@@ -1,4 +1,4 @@
-package jx.csp.ui.activity.main;
+package jx.csp.ui.activity;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -54,6 +54,7 @@ import jx.csp.ui.activity.edit.ChoicePhotoActivityRouter;
 import jx.csp.ui.activity.edit.PhotoActivityRouter;
 import jx.csp.ui.activity.login.auth.AuthLoginActivity;
 import jx.csp.ui.activity.login.auth.AuthLoginOverseaActivity;
+import jx.csp.ui.activity.main.ScanActivity;
 import jx.csp.ui.activity.me.GreenHandsGuideActivityRouter;
 import jx.csp.ui.activity.me.MeActivity;
 import jx.csp.ui.activity.record.RecordActivityRouter;

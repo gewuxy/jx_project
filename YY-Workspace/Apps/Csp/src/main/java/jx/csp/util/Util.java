@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.security.Key;
 
 import javax.crypto.Cipher;
@@ -23,10 +24,16 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
+import inject.annotation.network.Descriptor;
 import jx.csp.App;
+import jx.csp.BuildConfig;
 import jx.csp.R;
+import jx.csp.constant.AppType;
 import jx.csp.constant.Constants;
+import jx.csp.constant.LangType;
 import jx.csp.constant.MetaValue;
+import jx.csp.network.NetworkApi;
+import jx.csp.sp.SpApp;
 import lib.jx.util.BaseUtil;
 import lib.network.Network;
 import lib.ys.ConstantsEx;
@@ -36,6 +43,7 @@ import lib.ys.util.LaunchUtil;
 import lib.ys.util.PackageUtil;
 import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
+import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
 
 /**
@@ -133,7 +141,7 @@ public class Util extends BaseUtil {
     /**
      * 得到指定格式的时间字符串
      *
-     * @param l  单位 秒
+     * @param l       单位 秒
      * @param mFormat 分后面的字符
      * @param sFormat 秒后面的字符
      * @return
@@ -257,6 +265,39 @@ public class Util extends BaseUtil {
             Intent i = new Intent(Settings.ACTION_SETTINGS);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             LaunchUtil.startActivity(i);
+        }
+    }
+
+    /**
+     * 分享的url加密处理
+     */
+    public static String getShareUrl(String courseId) {
+        Descriptor des = NetworkApi.class.getAnnotation(Descriptor.class);
+        String baseUrl = (BuildConfig.DEBUG_NETWORK ? des.hostDebuggable() : des.host()) + "meeting/share?signature=";
+        if (TextUtil.isEmpty(courseId)) {
+            return baseUrl;
+        }
+        LangType type = SpApp.inst().getLangType(); // 系统语言
+        @AppType int appType;  // 版本
+        if (Util.checkAppCn()) {
+            appType = AppType.inland;
+        } else {
+            appType = AppType.overseas;
+        }
+        // 拼接参数
+        StringBuilder paramBuffer = new StringBuilder()
+                .append("id=")
+                .append(courseId)
+                .append("&_local=")
+                .append(type.define())
+                .append("&abroad=")
+                .append(appType);
+        try {
+            // 参数加密
+            String encode = Util.encode(Constants.KDesKey, paramBuffer.toString());
+            return baseUrl + URLEncoder.encode(encode, Constants.KEncoding_utf8);
+        } catch (Exception e) {
+            return baseUrl;
         }
     }
 

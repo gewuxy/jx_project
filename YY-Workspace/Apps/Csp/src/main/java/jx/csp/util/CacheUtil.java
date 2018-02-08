@@ -20,8 +20,6 @@ public class CacheUtil extends CacheUtilEx {
     private static final String KApkCacheDef = KHomeDir + "apk/";
     private static final String KBgMusicCacheDef = KHomeDir + "bgMusic/";
 
-    private static final String KVideoFileNameLogin = "login";
-
     private static String mBmpCacheDir;
     private static String mUploadCacheDir;
     private static String mAudioCacheDir;
@@ -95,7 +93,4 @@ public class CacheUtil extends CacheUtilEx {
         return mBgMusicCacheDir + File.separator + id + FileSuffix.mp3;
     }
 
-    public static String getVideoLoginFileName() {
-        return KVideoFileNameLogin + FileSuffix.mp4;
-    }
 }

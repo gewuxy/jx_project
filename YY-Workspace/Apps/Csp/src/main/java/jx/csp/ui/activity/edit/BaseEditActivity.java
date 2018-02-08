@@ -139,7 +139,9 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
             }
             break;
             case R.id.edit_layout_music_more: {
-                SelectBgMusicActivityRouter.create().route(this, KMusic);
+                SelectBgMusicActivityRouter.create()
+                        .musicId(mMusicId)
+                        .route(this, KMusic);
             }
             break;
             case R.id.edit_layout_theme_more: {
@@ -162,7 +164,7 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
             case R.id.editor_theme_layout: {
                 boolean select = getItem(position).getBoolean(Theme.TTheme.select);
                 mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : Constants.KInvalidValue;
-                mTvTheme.setText(getItem(position).getString(Theme.TTheme.imgName));
+                mTvTheme.setText(select ? getItem(position).getString(Theme.TTheme.imgName) : getString(R.string.more));
             }
             break;
             case R.id.editor_preview_tv_item: {
@@ -202,7 +204,7 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
             // 背景音乐返回
             mMusicId = data.getIntExtra(Extra.KId, Constants.KInvalidValue);
             String musicName = data.getStringExtra(Extra.KData);
-            long time = data.getLongExtra(Extra.KLimit, 0);
+            long time = data.getIntExtra(Extra.KLimit, 0);
             setMusic(musicName, time);
         } else if (requestCode == KTheme && data != null) {
             // 主题返回
@@ -212,9 +214,12 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
             }
             mTvTheme.setText(themeName);
             mThemeId = data.getIntExtra(Extra.KId, Constants.KInvalidValue);
-            for (Theme theme : getData()) {
+            Theme theme;
+            for (int i = 0; i < getData().size(); i++) {
+                theme = getData().get(i);
                 if (theme.getInt(Theme.TTheme.id) == mThemeId) {
                     theme.put(Theme.TTheme.select, true);
+                    getAdapter().setLastPosition(i);
                 } else {
                     theme.put(Theme.TTheme.select, false);
                 }

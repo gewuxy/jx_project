@@ -34,7 +34,7 @@ import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.LiveAudioPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.main.StarActivityRouter;
+import jx.csp.ui.activity.main.LiveStarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
@@ -584,7 +584,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 }
             }
             if (toStar) {
-                StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
+                LiveStarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
             }
             finish();
         }

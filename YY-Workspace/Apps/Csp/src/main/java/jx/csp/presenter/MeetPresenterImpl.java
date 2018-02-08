@@ -33,7 +33,7 @@ import jx.csp.serv.CommonServ.ReqType;
 import jx.csp.serv.CommonServRouter;
 import jx.csp.serv.WebSocketServRouter;
 import jx.csp.ui.activity.livevideo.LiveVideoActivityRouter;
-import jx.csp.ui.activity.main.StarActivityRouter;
+import jx.csp.ui.activity.main.LiveStarActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.jx.contract.BasePresenterImpl;
@@ -334,9 +334,10 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                 d.show();
             }
             break;
+            case Live.LiveState.to_end:
             case Live.LiveState.end:
             case Live.LiveState.star: {
-                StarActivityRouter.create(item).route(mContext);
+                LiveStarActivityRouter.create(item).route(mContext);
             }
             break;
         }
@@ -352,7 +353,7 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
         dialog.setHint(R.string.start_start_hint);
         dialog.addBlackButton(R.string.cancel_over, null);
         dialog.addBlackButton(R.string.over, v1 ->
-                StarActivityRouter.create(item)
+                LiveStarActivityRouter.create(item)
                         .route(mContext));
         dialog.show();
     }
