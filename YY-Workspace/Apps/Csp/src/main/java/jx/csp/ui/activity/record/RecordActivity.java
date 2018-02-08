@@ -7,7 +7,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -557,81 +556,74 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             YSLog.d(TAG, "观看密码 = " + course.getString(TCourse.password));
             mBgMusicThemeInfo = joinMeeting.get(TJoinMeeting.theme);
 
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    // 先判断以前是否有异常退出过，如果异常退出了跳转到异常退出时的页面，否则跳转到以前退出时的页面
-                    if (RecordUnusualState.inst().getUnusualExitState()) {
-                        String pageId = RecordUnusualState.inst().getString(TRecordUnusualState.pageId);
-                        for (int i = 0; i < mCourseDetailList.size(); ++i) {
-                            String id = mCourseDetailList.get(i).getString(TCourseDetail.id);
-                            if (pageId.equals(id)) {
-                                setCurrPosition(i, false);
-                                mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                                mIvAudition.setClickable(true);
+            // 先判断以前是否有异常退出过，如果异常退出了跳转到异常退出时的页面，否则跳转到以前退出时的页面
+            if (RecordUnusualState.inst().getUnusualExitState()) {
+                String pageId = RecordUnusualState.inst().getString(TRecordUnusualState.pageId);
+                for (int i = 0; i < mCourseDetailList.size(); ++i) {
+                    String id = mCourseDetailList.get(i).getString(TCourseDetail.id);
+                    if (pageId.equals(id)) {
+                        setCurrPosition(i, false);
+                        mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                        mIvAudition.setClickable(true);
+                        mIvRecordState.setImageResource(R.drawable.animation_record);
+                        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                        mIvRecordState.setClickable(true);
+                        mTvRecordState.setText(R.string.continue_record);
+                        mIvRerecording.setClickable(true);
+                        mIvRerecording.setSelected(true);
+                        mCanContinueRecord = true;
+                        break;
+                    }
+                }
+                RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
+                RecordUnusualState.inst().saveToSp();
+            } else {
+                Record red = (Record) joinMeeting.getObject(TJoinMeeting.record);
+                if (red != null) {
+                    int page = red.getInt(TRecord.playPage);
+                    YSLog.d(TAG, "上次退出录音时所在页面 page = " + page);
+                    if (page == 0 && mCourseDetailList.size() > 0) {
+                        // 判断第一页是视频还是图片
+                        if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+                            videoState();
+                        } else {
+                            // 判断第一页是否已经录制过
+                            if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
+                                YSLog.d(TAG, "第一页没有录制过");
+                                showView(mTvRemind);
                                 mIvRecordState.setImageResource(R.drawable.animation_record);
                                 mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
                                 mIvRecordState.setClickable(true);
-                                mTvRecordState.setText(R.string.continue_record);
-                                mIvRerecording.setClickable(true);
+                                mIvAudition.setClickable(false);
+                                mIvRerecording.setSelected(false);
+                                mIvRerecording.setClickable(false);
+                            } else {
+                                YSLog.d(TAG, "第一页已经录制过");
+                                mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));
+                                mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                                mIvAudition.setClickable(true);
+                                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                                mIvRecordState.setClickable(false);
                                 mIvRerecording.setSelected(true);
-                                mCanContinueRecord = true;
-                                break;
+                                mIvRerecording.setClickable(true);
                             }
                         }
-                        RecordUnusualState.inst().put(TRecordUnusualState.unusualExit, false);
-                        RecordUnusualState.inst().saveToSp();
-                    } else {
-                        Record record = (Record) joinMeeting.getObject(TJoinMeeting.record);
-                        if (record != null) {
-                            int page = record.getInt(TRecord.playPage);
-                            YSLog.d(TAG, "上次退出录音时所在页面 page = " + page);
-                            if (page == 0 && mCourseDetailList.size() > 0) {
-                                // 判断第一页是视频还是图片
-                                if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
-                                    videoState();
-                                } else {
-                                    // 判断第一页是否已经录制过
-                                    if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
-                                        YSLog.d(TAG, "第一页没有录制过");
-                                        showView(mTvRemind);
-                                        mIvRecordState.setImageResource(R.drawable.animation_record);
-                                        mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-                                        mIvRecordState.setClickable(true);
-                                        mIvAudition.setClickable(false);
-                                        mIvRerecording.setSelected(false);
-                                        mIvRerecording.setClickable(false);
-                                    } else {
-                                        YSLog.d(TAG, "第一页已经录制过");
-                                        mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));
-                                        mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                                        mIvAudition.setClickable(true);
-                                        mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
-                                        mIvRecordState.setClickable(false);
-                                        mIvRerecording.setSelected(true);
-                                        mIvRerecording.setClickable(true);
-                                    }
-                                }
-                            } else if (page > 0 && mCourseDetailList.size() > 0) {
-                                setCurrPosition(page, false);
-                            }
-                        }
+                    } else if (page > 0 && mCourseDetailList.size() > 0) {
+                        setCurrPosition(page, false);
                     }
-                    if (mStarState) {
-                        mStarBar.setText(getString(R.string.start_star));
-                        mStarBar.setThumb(R.drawable.record_ic_have_star);
-                    } else {
-                        mStarBar.setText(getString(R.string.slide_end));
-                        mStarBar.setThumb(R.drawable.record_ic_no_star);
-                    }
-                    if (mCourseDetailList.size() == 1) {
-                        showView(mStarBar);
-                        showView(mTvLastPageRemind);
-                    }
-                    removeOnGlobalLayoutListener(this);
                 }
-            });
+            }
+            if (mStarState) {
+                mStarBar.setText(getString(R.string.start_star));
+                mStarBar.setThumb(R.drawable.record_ic_have_star);
+            } else {
+                mStarBar.setText(getString(R.string.slide_end));
+                mStarBar.setThumb(R.drawable.record_ic_no_star);
+            }
+            if (mCourseDetailList.size() == 1) {
+                showView(mStarBar);
+                showView(mTvLastPageRemind);
+            }
         }
 
         @Override
