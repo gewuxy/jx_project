@@ -50,6 +50,7 @@ abstract public class BasePhotoActivity<T, A extends IAdapter<T>> extends BaseRe
     public void setViews() {
         super.setViews();
 
+        getDecorView().setBackgroundResource(R.color.text_f2f2f4);
         setOnClickListener(mTvLeft);
         setOnClickListener(mTvRight);
 
