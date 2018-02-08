@@ -339,7 +339,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     @Override
     public void onNotify(int type, Object data) {
-        if (type == NotifyType.delete_meeting_success) {
+        if (type == NotifyType.delete_meeting_success || type == NotifyType.finish_record_or_live) {
             finish();
         }
     }

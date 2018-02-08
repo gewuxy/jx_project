@@ -328,6 +328,8 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     showView(mTvRemind);
                     mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
                     mTvRemind.setText(R.string.record_time_remind);
+                } else {
+                    hideView(mTvRemind);
                 }
                 mIvAudition.setImageResource(R.drawable.record_ic_can_not_audition);
                 mIvAudition.setClickable(false);

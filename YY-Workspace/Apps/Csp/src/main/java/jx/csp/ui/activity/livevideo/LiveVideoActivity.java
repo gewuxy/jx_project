@@ -26,6 +26,7 @@ import jx.csp.util.Util;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
 import lib.jx.notify.LiveNotifier.OnLiveNotify;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
 import lib.jx.util.CountDown;
 import lib.jx.util.CountDown.OnCountDownListener;
@@ -249,6 +250,16 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
                 }
                 break;
             }
+        }
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.finish_record_or_live) {
+            if (mLiveState) {
+                mP.stopLive();
+            }
+            finish();
         }
     }
 

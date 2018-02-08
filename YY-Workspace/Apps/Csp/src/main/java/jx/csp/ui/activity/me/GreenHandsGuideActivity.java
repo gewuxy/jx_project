@@ -1,6 +1,9 @@
 package jx.csp.ui.activity.me;
 
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.SparseArray;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
@@ -60,6 +64,8 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
     private final int KVpSize = 3; // Vp缓存的数量
     private final int KDuration = 300; // 动画时长
     private final float KVpScale = 0.038f; // vp的缩放比例
+    private final int KAudioPlayProMsgWhat = 0;
+    private final int KVideoPlayProMsgWhat = 1;
 
     private TextView mTvCurrentPage;
     private TextView mTvTotalPage;
@@ -79,6 +85,28 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
 
     @Arg
     String mCourseId;  // 课程id
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == KAudioPlayProMsgWhat) {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                    int time = (int) ((mMediaPlayer.getDuration() - mMediaPlayer.getCurrentPosition())/ TimeUnit.SECONDS.toMillis(1));
+                    mTvTime.setText(Util.getSpecialTimeFormat(time, ":", ""));
+                    mHandler.sendEmptyMessageDelayed(KAudioPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
+                }
+            } else if (msg.what == KVideoPlayProMsgWhat) {
+                Fragment f = getItem(getCurrPosition());
+                if (f instanceof GreenHandsVideoFrag) {
+                    int time = ((GreenHandsVideoFrag) f).getPlayPos();
+                    mTvTime.setText(Util.getSpecialTimeFormat(time, ":", ""));
+                    mHandler.sendEmptyMessageDelayed(KVideoPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
+                }
+            }
+        }
+    };
 
     @Override
     public void initData() {
@@ -153,9 +181,11 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                     } else {
                         GreenHandsVideoFrag frag = (GreenHandsVideoFrag) getItem(position);
                         if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                            mHandler.removeMessages(KAudioPlayProMsgWhat);
                             mMediaPlayer.stop();
                         }
                         frag.startPlay();
+                        mHandler.sendEmptyMessageDelayed(KVideoPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
                     }
                 }
             }
@@ -229,9 +259,11 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
             if (mPlayState) {
                 mIvState.setSelected(false);
                 mPlayState = false;
+                mHandler.removeMessages(KVideoPlayProMsgWhat);
                 frag.stopPlay();
                 stopAnim();
             } else {
+                mHandler.sendEmptyMessageDelayed(KVideoPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
                 mIvState.setSelected(true);
                 mPlayState = true;
                 frag.startPlay();
@@ -242,6 +274,8 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
 
     @Override
     protected void onDestroy() {
+        mHandler.removeMessages(KAudioPlayProMsgWhat);
+        mHandler.removeMessages(KVideoPlayProMsgWhat);
         if (mPlayState) {
             Fragment f = getItem(getCurrPosition());
             if (f instanceof RecordImgFrag) {
@@ -320,6 +354,7 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                         mIvState.setSelected(true);
                         mPlayState = true;
                         frag.startPlay();
+                        mHandler.sendEmptyMessageDelayed(KVideoPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
                         startAnim();
                     }
                     removeOnGlobalLayoutListener(this);
@@ -347,6 +382,12 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
         }
     }
 
+    @Override
+    public void videoTime(int time) {
+        mRecordTimeArray.put(getCurrPosition(), time);
+        mTvTime.setText(Util.getSpecialTimeFormat(time, ":", ""));
+    }
+
     private void startPlayAudio(int progress) {
         File soundFile = new File(CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id)));
         if (!soundFile.exists()) {
@@ -362,7 +403,10 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                 mMediaPlayer.start();
                 mPlayState = true;
                 mPauseProgress = 0;
+                mTvTime.setText(Util.getSpecialTimeFormat(mMediaPlayer.getDuration()/TimeUnit.SECONDS.toMillis(1), ":", ""));
+                mHandler.sendEmptyMessageDelayed(KAudioPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
                 mMediaPlayer.setOnCompletionListener(mp -> {
+                    mHandler.removeMessages(KAudioPlayProMsgWhat);
                     mPauseProgress = 0;
                     if ((getCurrPosition() + KOne) == mCourseDetailList.size()) {
                         mPlayState = false;
@@ -376,6 +420,7 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                 showToast(R.string.play_fail);
             }
         } else {
+            mHandler.sendEmptyMessageDelayed(KAudioPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));
             mMediaPlayer.seekTo(progress);
             mMediaPlayer.start();
             mPlayState = true;
@@ -383,6 +428,7 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
     }
 
     private void pausePlayAudio() {
+        mHandler.removeMessages(KAudioPlayProMsgWhat);
         mPlayState = false;
         if (mMediaPlayer != null) {
             if (mMediaPlayer.isPlaying()) {

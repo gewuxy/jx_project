@@ -11,6 +11,8 @@ import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.MeetingAPI;
 import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -105,6 +107,7 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
         } else {
             // 如果code = 401 就不再重试
             if (r.getCode() == 401) {
+                Notifier.inst().notify(NotifyType.finish_record_or_live);
                 super.onNetworkError(id, r.getError());
             } else {
                 // 上传失败就重试

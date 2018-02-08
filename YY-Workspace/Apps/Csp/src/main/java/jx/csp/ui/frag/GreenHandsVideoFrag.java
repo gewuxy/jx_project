@@ -7,6 +7,8 @@ import android.widget.RelativeLayout;
 import com.pili.pldroid.player.AVOptions;
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
+import java.util.concurrent.TimeUnit;
+
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
 import jx.csp.R;
@@ -91,6 +93,17 @@ public class GreenHandsVideoFrag extends BaseFrag {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mTextureView != null && mTextureView.isPlaying()) {
+            mTextureView.stopPlayback();
+            showView(mIv);
+            goneView(mTextureView);
+            mTextureView.releaseSurfactexture();
+        }
+    }
+
     public void startPlay() {
         goneView(mIv);
         showView(mTextureView);
@@ -103,6 +116,11 @@ public class GreenHandsVideoFrag extends BaseFrag {
             mTextureView.stopPlayback();
             mPlayListener.videoPlayCompletion();
         });
+        mPlayListener.videoTime((int) (mTextureView.getDuration()/ TimeUnit.SECONDS.toMillis(1)));
+    }
+
+    public int getPlayPos() {
+        return (int) ((mTextureView.getDuration() - mTextureView.getCurrentPosition())/TimeUnit.SECONDS.toMillis(1));
     }
 
     public void stopPlay() {
@@ -111,6 +129,7 @@ public class GreenHandsVideoFrag extends BaseFrag {
 
     public interface videoPlayListener {
         void videoPlayCompletion();
+        void videoTime(int time); // 单位秒
     }
 
     public void setVideoPlayListener(videoPlayListener l) {

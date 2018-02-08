@@ -18,8 +18,12 @@ import jx.csp.constant.BindId;
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
         hostDebuggable = "http://medcn.synology.me:8886/csp/api/"
-//        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/" // 轩哥电脑
+//        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/"
 //        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
+//        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
+//        hostDebuggable = "http://10.0.0.252:8085/api/"   // 长玲电脑
+//        hostDebuggable = "http://10.0.0.200:8082/api/"   //简亮电脑
+//        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 )
 public class NetworkApi {
 
@@ -444,7 +448,7 @@ public class NetworkApi {
          * 选择主题
          *
          * @param courseId
-         * @param imgId    值为0表示删除
+         * @param imgId  	值为0表示删除
          */
         @Post("update/img")
         void selectTheme(String courseId, int imgId);

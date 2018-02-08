@@ -67,6 +67,8 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.finish_editor_meet,
             NotifyType.main_refresh,
             NotifyType.finish_preview,
+
+            NotifyType.finish_record_or_live,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -233,6 +235,11 @@ public class Notifier extends NotifierEx<OnNotify> {
         int finish_editor_meet = 60;
         int main_refresh = 61;
         int finish_preview = 62;
+
+        /**
+         * 结束直播录播页面
+         */
+        int finish_record_or_live = 70;
     }
 
     public interface OnNotify {
