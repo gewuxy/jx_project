@@ -154,7 +154,7 @@ public class RebStarActivity extends BaseStarActivity {
             if (mBgMusicThemeInfo == null) {
                 mBgMusicThemeInfo = new BgMusicThemeInfo();
             }
-            mBgMusicThemeInfo.put(TBgMusicThemeInfo.id, data.getIntExtra(Extra.KId, Constants.KInvalidValue));
+            mBgMusicThemeInfo.put(TBgMusicThemeInfo.imageId, data.getIntExtra(Extra.KId, Constants.KInvalidValue));
         }
     }
 
