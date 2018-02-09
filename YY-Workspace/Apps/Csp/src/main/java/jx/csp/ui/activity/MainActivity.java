@@ -142,19 +142,11 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
     @Override
     public void initData() {
         mCardFrag = new MeetCardFrag();
-        mCardFrag.setOnMeetListener(() -> {
-            if (mIvKind != null) {
-                mIvKind.performClick();
-            }
-        });
+        mCardFrag.setOnMeetListener(() -> newMeetDialog());
         add(mCardFrag);
 
         mListFrag = new MeetListFrag();
-        mListFrag.setOnMeetListener(() -> {
-            if (mIvKind != null) {
-                mIvKind.performClick();
-            }
-        });
+        mListFrag.setOnMeetListener(() -> newMeetDialog());
         add(mListFrag);
 
         mFiltrateType = FiltrateType.all;
@@ -358,32 +350,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mIvNew.startAnimation(scaleBigAnim(KAnimTime));
                 mIvKind.startAnimation(scaleSmallAnim(KAnimTime));
                 mIvScan.startAnimation(scaleSmallAnim(KAnimTime));
-                final BottomDialog dialog = new BottomDialog(MainActivity.this, position -> {
-
-                    switch (position) {
-                        case 0: {
-                            if (checkPermission(KPerCameraAdd, Permission.camera)) {
-                                mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
-                                PhotoUtil.fromCamera(MainActivity.this, mPhotoPath, KReqCamera);
-                            }
-                        }
-                        break;
-                        case 1: {
-                            if (checkPermission(KPerPhoto, Permission.storage)) {
-                                PhotoActivityRouter.create()
-                                        .fromMain(true)
-                                        .maxSelect(Constants.KPhotoMax)
-                                        .route(MainActivity.this);
-                            }
-                        }
-                        break;
-                    }
-                });
-
-                dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(R.color.text_333));
-                dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(R.color.text_333));
-                dialog.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
-                dialog.show();
+                newMeetDialog();
             }
             break;
             case R.id.menu_iv_scan: {
@@ -398,6 +365,35 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
             }
             break;
         }
+    }
+
+    private void newMeetDialog() {
+        final BottomDialog dialog = new BottomDialog(MainActivity.this, position -> {
+
+            switch (position) {
+                case 0: {
+                    if (checkPermission(KPerCameraAdd, Permission.camera)) {
+                        mPhotoPath = CacheUtil.getUploadCacheDir() + "photo" + System.currentTimeMillis() + FileSuffix.jpg;
+                        PhotoUtil.fromCamera(MainActivity.this, mPhotoPath, KReqCamera);
+                    }
+                }
+                break;
+                case 1: {
+                    if (checkPermission(KPerPhoto, Permission.storage)) {
+                        PhotoActivityRouter.create()
+                                .fromMain(true)
+                                .maxSelect(Constants.KPhotoMax)
+                                .route(MainActivity.this);
+                    }
+                }
+                break;
+            }
+        });
+
+        dialog.addItem(getString(R.string.my_message_take_photo), ResLoader.getColor(R.color.text_333));
+        dialog.addItem(getString(R.string.my_message_from_album_select), ResLoader.getColor(R.color.text_333));
+        dialog.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
+        dialog.show();
     }
 
     @Override
@@ -760,6 +756,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
      * 按钮的旋转动画
      *
      * @param view
+     *
      * @param fromDegrees
      * @param toDegrees
      * @param durationMillis
