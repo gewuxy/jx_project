@@ -116,14 +116,17 @@
             android:name=".ui.activity.edit.PreviewPhotoActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.main.ScanActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.main.StarActivity"
+            android:name=".ui.activity.main.RebStarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.main.LiveStarActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.edit.SelectBgMusicActivity"
@@ -223,7 +226,6 @@
 
         <!-- service -->
         <service android:name=".serv.CommonServ"/>
-        <service android:name=".serv.DownloadServ"/>
         <service android:name=".serv.WebSocketServ"/>
         <service android:name=".serv.DownloadApkServ"/>
 

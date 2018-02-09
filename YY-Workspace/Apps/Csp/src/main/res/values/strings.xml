@@ -206,6 +206,10 @@
     <string name="live_start">立即直播</string>
     <string name="live_start_hint">点“立即直播”后将立即开始直播。</string>
     <string name="live_end">结束直播</string>
+    <string name="end_live">直播结束</string>
+    <string name="live_end_after">直播将在%s后结束</string>
+    <string name="meet_time">演讲时长&#160;%s&#160;分钟</string>
+    <string name="live_default_finish">10分钟</string>
     <string name="live_end_hint">结束后将停止星评操作</string>
     <string name="start_start_hint">启动星评将停止直播，是否确认？</string>
     <string name="home_continue_record">继续录制</string>

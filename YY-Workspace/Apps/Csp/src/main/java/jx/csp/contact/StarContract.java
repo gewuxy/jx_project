@@ -1,7 +1,7 @@
 package jx.csp.contact;
 
-import jx.csp.model.meeting.Code;
 import lib.jx.contract.IContract;
+import lib.network.model.interfaces.IResult;
 
 /**
  * @auther : GuoXuan
@@ -9,21 +9,15 @@ import lib.jx.contract.IContract;
  */
 public interface StarContract {
 
+    int KReqStar = 0;
+
     interface V extends IContract.View {
 
-        void setReb(boolean reb);
-
-        void onNetworkSuccess(Code c);
-
-        void deleteBgMusicSuccess();
+        void onNetworkSuccess(int id, IResult r);
     }
 
-    interface P extends IContract.Presenter<V> {
+    interface P<T extends V> extends IContract.Presenter<T> {
 
-        void setPlayState();
-
-        void getDataFromNet();
-
-        void deleteBgMusic();
+        void getDataFromNet(int netType);
     }
 }

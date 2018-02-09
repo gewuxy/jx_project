@@ -20,7 +20,7 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.login.BaseLoginActivity;
-import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.MainActivity;
 import jx.csp.util.Util;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;

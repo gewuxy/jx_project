@@ -3,7 +3,6 @@ package jx.csp.ui.activity.edit;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -14,6 +13,7 @@ import inject.annotation.router.Route;
 import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.adapter.MusicAdapter;
+import jx.csp.constant.Constants;
 import jx.csp.model.editor.BgMusic;
 import jx.csp.model.editor.Music;
 import jx.csp.model.editor.Music.TMusic;
@@ -49,7 +49,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     @Arg(opt = true)
     String mCourseId;
 
-    @Arg(opt = true)
+    @Arg(opt = true, defaultInt = Constants.KInvalidValue)
     int mMusicId;
 
     private LinkedList<NetworkReq> mDownloadList;  // 下载音频队列
@@ -122,26 +122,18 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
                 if (res != null) {
                     mMusicList = res.getList(BgMusic.TBgMusic.list);
                     if (mMusicList != null && mMusicList.size() > 0) {
+                        if (mMusicId != Constants.KInvalidValue) {
+                            for (Music music : mMusicList) {
+                                int musicId = music.getInt(TMusic.id);
+                                if (mMusicId == musicId) {
+                                    music.put(TMusic.select, true);
+                                }
+                            }
+                        }
                         setData(mMusicList);
                         //  下载音频
                         downloadBgMusic(mMusicList);
                     }
-                    addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                        @Override
-                        public void onGlobalLayout() {
-                            if (mMusicId != 0) {
-                                for (int i = 0; i < mMusicList.size(); i++) {
-                                    int musicId = (mMusicList.get(i)).getInt(TMusic.id);
-                                    if (mMusicId == musicId) {
-                                        getItem(i).put(TMusic.select, true);
-                                        invalidate(i);
-                                    }
-                                }
-                            }
-                            removeOnGlobalLayoutListener(this);
-                        }
-                    });
                 }
             } else {
                 setViewState(ViewState.error);
@@ -149,6 +141,7 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
             }
         } else if (id == KSelectReqId) {
             if (r.isSucceed()) {
+                stopRefresh();
                 forResult(getItem(mSelectPos));
             } else {
                 onNetworkError(id, r.getError());

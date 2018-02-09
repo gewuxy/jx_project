@@ -6,64 +6,7 @@
     android:background="@color/app_nav_bar_bg"
     android:orientation="vertical">
 
-    <!-- 会将制作 -->
-    <RelativeLayout
-        android:id="@+id/star_layout_meet_default"
-        android:layout_width="152dp"
-        android:layout_height="117dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/start_default_ic_data_matrix"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="9dp"
-            android:text="@string/spread_your_insights"
-            android:textColor="@color/text_787c86"
-            android:textSize="14dp"/>
-    </RelativeLayout>
-
-    <!-- 二维码 -->
-    <LinearLayout
-        android:id="@+id/star_layout_data_matrix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="90dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="142dp"
-            android:layout_height="142dp"
-            android:background="@drawable/bg_iv_data_matrix"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <lib.ys.network.image.NetworkImageView
-                android:id="@+id/star_iv_data_matrix"
-                android:layout_width="128dp"
-                android:layout_height="128dp"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/data_matrix_grade"
-            android:textColor="@color/text_9699a2"
-            android:textSize="12dp"/>
-
-    </LinearLayout>
+    <include layout="@layout/layout_star_content"/>
 
     <!-- 讲本时长 -->
     <LinearLayout
@@ -81,7 +24,7 @@
             android:textSize="14dp"/>
 
         <TextView
-            android:id="@+id/star_tv_all_time"
+            android:id="@+id/star_tv_finish_all_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -93,20 +36,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/star_tv_live_end"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="65dp"
-        android:layout_marginLeft="65dp"
-        android:layout_marginRight="65dp"
-        android:background="@drawable/bg_btn_live_end_selector"
-        android:gravity="center"
-        android:text="@string/live_end"
-        android:textColor="@color/bg_tv_live_end_selector"
-        android:visibility="gone"/>
-
     <!-- 预览 添加主题 添加音乐 -->
     <LinearLayout
         android:id="@+id/star_layout_preview_theme_music"
@@ -115,8 +44,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="96dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/star_tv_preview"
@@ -192,11 +120,11 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="44dp"
         android:layout_marginRight="60dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:background="@drawable/star_ic_bg_music"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:visibility="gone">
 
         <TextView

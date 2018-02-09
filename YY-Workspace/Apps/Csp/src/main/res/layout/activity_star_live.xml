@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_nav_bar_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_star_content"/>
+
+    <!-- 按结束按钮后 -->
+    <LinearLayout
+        android:id="@+id/star_layout_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/star_tv_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_above="@+id/star_layout_all_time"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/record_ic_time_remind_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin"
+            android:paddingRight="@dimen/margin"
+            android:text="@string/live_end"
+            android:textColor="@color/text_787c86"
+            android:textSize="12dp"/>
+
+        <LinearLayout
+            android:id="@id/star_layout_all_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/star_tv_finish_time_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_all_time"
+                android:textColor="@color/text_787c86"/>
+
+            <TextView
+                android:id="@+id/star_tv_finish_all_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="00'00''"
+                android:textColor="@color/text_787c86"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 显示结束按钮 -->
+    <LinearLayout
+        android:id="@+id/star_layout_to_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="65dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_all_time"
+                android:textColor="@color/text_787c86"/>
+
+            <TextView
+                android:id="@+id/star_tv_to_finish_all_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="00'00''"
+                android:textColor="@color/text_787c86"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/star_tv_live_end"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginRight="65dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_btn_live_end_selector"
+            android:gravity="center"
+            android:text="@string/live_end"
+            android:textColor="@color/bg_tv_live_end_selector"/>
+    </LinearLayout>
+
+</RelativeLayout>

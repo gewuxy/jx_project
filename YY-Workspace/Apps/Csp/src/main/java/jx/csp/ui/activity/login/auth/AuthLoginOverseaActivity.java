@@ -7,7 +7,7 @@ import jx.csp.R;
 import jx.csp.constant.BindId;
 import jx.csp.model.Profile;
 import jx.csp.sp.SpUser;
-import jx.csp.ui.activity.main.MainActivity;
+import jx.csp.ui.activity.MainActivity;
 import jx.csp.ui.activity.login.YaYaAuthorizeActivity;
 import jx.csp.ui.activity.login.email.EmailLoginActivity;
 import lib.network.model.interfaces.IResult;

@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.TextView;
 
 import java.io.File;
@@ -34,7 +33,7 @@ import jx.csp.model.meeting.Live.TLive;
 import jx.csp.model.meeting.WebSocketMsg.WsOrderType;
 import jx.csp.presenter.LiveAudioPresenterImpl;
 import jx.csp.serv.WebSocketServRouter;
-import jx.csp.ui.activity.main.StarActivityRouter;
+import jx.csp.ui.activity.main.LiveStarActivityRouter;
 import jx.csp.ui.frag.record.RecordImgFrag;
 import jx.csp.ui.frag.record.RecordImgFragRouter;
 import jx.csp.ui.frag.record.RecordVideoFragRouter;
@@ -491,28 +490,21 @@ public class LiveAudioActivity extends BaseRecordActivity {
             }
 
             // 先判断以前是否直播过，直播过的话要跳到对应的页面
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    Live live = (Live) joinMeeting.getObject(TJoinMeeting.live);
-                    int page = live.getInt(TLive.livePage);
-                    if (page > 0) {
-                        setCurrPosition(page, false);
-                    }
-                    if (mStarState) {
-                        mStarBar.setText(getString(R.string.start_star));
-                        mStarBar.setThumb(R.drawable.record_ic_have_star);
-                    } else {
-                        mStarBar.setText(getString(R.string.slide_end));
-                        mStarBar.setThumb(R.drawable.record_ic_no_star);
-                    }
-                    if (mCourseDetailList.size() == 1) {
-                        showView(mStarBar);
-                    }
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
+            Live lv = (Live) joinMeeting.getObject(TJoinMeeting.live);
+            int page = lv.getInt(TLive.livePage);
+            if (page > 0) {
+                setCurrPosition(page, false);
+            }
+            if (mStarState) {
+                mStarBar.setText(getString(R.string.start_star));
+                mStarBar.setThumb(R.drawable.record_ic_have_star);
+            } else {
+                mStarBar.setText(getString(R.string.slide_end));
+                mStarBar.setThumb(R.drawable.record_ic_no_star);
+            }
+            if (mCourseDetailList.size() == 1) {
+                showView(mStarBar);
+            }
             invalidate();
         }
 
@@ -584,7 +576,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                 }
             }
             if (toStar) {
-                StarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
+                LiveStarActivityRouter.create(mShareAndStarArg).route(LiveAudioActivity.this);
             }
             finish();
         }

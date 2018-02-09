@@ -77,4 +77,9 @@ public class EditorAdapter extends RecyclerAdapterEx<Theme, EditorVH> {
             break;
         }
     }
+
+    public void setLastPosition(int lastPosition) {
+        mLastPosition = lastPosition;
+    }
+
 }

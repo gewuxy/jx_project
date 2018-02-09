@@ -8,10 +8,10 @@ import lib.jx.BaseConstants;
  */
 public interface Constants extends BaseConstants {
 
-    int KAccountFrozen = 103;
+    int KAccountFrozen = 103; // 冻结账号的返回码
     int KPhotoMax = 9; // 照片选择的最大数
 
-    String KVideoUrl = "http://139.199.170.178/cspvideo/login_background_video.mp4";
+    String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 
     interface PageConstants {
         int KPage = 1;  // 起始页页数

@@ -297,7 +297,7 @@ public class MeetFrag<A extends MeetAdapter> extends BaseSRListFrag<Meet, A> imp
                     }
                     for (Meet meet : mAllMeets) {
                         if (meet.getString(TMeet.id).equals(id)) {
-                            meet.put(TMeet.liveState, Live.LiveState.end);
+                            meet.put(TMeet.liveState, Live.LiveState.to_end);
                             meet.put(TMeet.playState, Record.PlayState.end);
                             changeAll(mAllMeets);
                             setFiltrateType(mFiltrateType);
