@@ -122,6 +122,12 @@ public class EditMeetActivity extends BaseEditActivity {
                     stopRefresh();
                     notify(Notifier.NotifyType.finish_editor_meet);
                     notify(Notifier.NotifyType.main_refresh);
+                    Theme theme = new Theme();
+                    theme.put(Theme.TTheme.imageId, mThemeId);
+                    theme.put(Theme.TTheme.musicId, mMusicId);
+                    theme.put(Theme.TTheme.name, mMusicName);
+                    theme.put(Theme.TTheme.duration, mMusicTime);
+                    notify(Notifier.NotifyType.theme_refresh, theme);
                     finish();
                 }
                 break;

@@ -15,13 +15,13 @@
         android:layout_marginBottom="24dp">
 
         <ImageView
-            android:id="@+id/main_iv_kind"
+            android:id="@+id/menu_iv_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="43dp"
             android:layout_marginLeft="75dp"
-            android:src="@drawable/main_ic_kind"
+            android:src="@drawable/menu_ic_switch"
             android:visibility="invisible"/>
 
         <ImageView
@@ -31,11 +31,11 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="95dp"
-            android:src="@drawable/main_ic_new"
+            android:src="@drawable/menu_ic_new"
             android:visibility="invisible"/>
 
         <ImageView
-            android:id="@+id/main_iv_scan"
+            android:id="@+id/menu_iv_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -46,12 +46,12 @@
             android:visibility="invisible"/>
 
         <ImageView
-            android:id="@+id/main_iv_plus"
+            android:id="@+id/menu_iv_plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
-            android:src="@drawable/main_ic_plus"/>
+            android:src="@drawable/menu_ic_plus"/>
 
     </RelativeLayout>
 

@@ -2,54 +2,33 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ImageView
+        android:id="@+id/menu_iv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="24dp">
+        android:src="@drawable/menu_ic_new"/>
+    <ImageView
+        android:layout_toLeftOf="@id/menu_iv_new"
+        android:id="@+id/menu_iv_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/menu_ic_switch"/>
 
-        <ImageView
-            android:id="@+id/main_iv_kind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="43dp"
-            android:src="@drawable/main_ic_kind"
-            android:visibility="invisible"/>
+    <ImageView
+        android:id="@+id/menu_iv_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/main_ic_scan"/>
 
-        <ImageView
-            android:id="@+id/main_iv_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="95dp"
-            android:src="@drawable/main_ic_new"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/main_iv_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="75dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="43dp"
-            android:src="@drawable/main_ic_scan"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/main_iv_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/main_ic_plus"/>
-
-    </RelativeLayout>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/menu_iv_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/menu_ic_plus"/>
 
 </RelativeLayout>

@@ -67,6 +67,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.finish_editor_meet,
             NotifyType.main_refresh,
             NotifyType.finish_preview,
+            NotifyType.theme_refresh,
 
             NotifyType.finish_record_or_live,
     })
@@ -235,6 +236,7 @@ public class Notifier extends NotifierEx<OnNotify> {
         int finish_editor_meet = 60;
         int main_refresh = 61;
         int finish_preview = 62;
+        int theme_refresh = 63;
 
         /**
          * 结束直播录播页面

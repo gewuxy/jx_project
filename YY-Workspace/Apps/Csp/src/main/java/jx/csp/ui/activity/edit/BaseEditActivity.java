@@ -49,8 +49,8 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
         TextWatcher, View.OnFocusChangeListener {
 
     protected final int KReqTheme = 0;
-    private final int KTheme = 10;
-    private final int KMusic = 11;
+    protected final int KTheme = 10;
+    protected final int KMusic = 11;
 
     private ImageView mIvClean;
     private EditText mEtTitle;
@@ -63,6 +63,8 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
     protected int mThemeId; // 主题图片id
     protected int mMusicId;   // 音乐id
     protected String mMeetId;    // 会议id
+    protected String mMusicName;
+    protected long mMusicTime;
 
     @Arg(opt = true)
     String mPreviewUrl; // 预览的图片
@@ -203,9 +205,9 @@ abstract public class BaseEditActivity extends BaseRecyclerActivity<Theme, Edito
         if (requestCode == KMusic && data != null) {
             // 背景音乐返回
             mMusicId = data.getIntExtra(Extra.KId, Constants.KInvalidValue);
-            String musicName = data.getStringExtra(Extra.KData);
-            long time = data.getIntExtra(Extra.KLimit, 0);
-            setMusic(musicName, time);
+            mMusicName = data.getStringExtra(Extra.KData);
+            mMusicTime = data.getIntExtra(Extra.KLimit, 0);
+            setMusic(mMusicName, mMusicTime);
         } else if (requestCode == KTheme && data != null) {
             // 主题返回
             String themeName = data.getStringExtra(Extra.KData);

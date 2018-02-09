@@ -74,7 +74,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:layout_marginBottom="99dp"
-            android:src="@drawable/main_ic_new"/>
+            android:src="@drawable/menu_ic_new"/>
     </RelativeLayout>
 
     <RelativeLayout

@@ -71,7 +71,6 @@ import jx.csp.ui.frag.main.MeetListFrag;
 import jx.csp.util.CacheUtil;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
-import jx.csp.view.ArcMenu;
 import lib.jg.jpush.SpJPush;
 import lib.jx.notify.LiveNotifier;
 import lib.jx.notify.LiveNotifier.LiveNotifyType;
@@ -220,10 +219,10 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
         mTvPast = findView(R.id.main_tv_past);
 
-        mIvPlus = findView(R.id.main_iv_plus);
-        mIvKind = findView(R.id.main_iv_kind);
+        mIvPlus = findView(R.id.menu_iv_plus);
+        mIvKind = findView(R.id.menu_iv_switch);
         mIvNew = findView(R.id.main_iv_new);
-        mIvScan = findView(R.id.main_iv_scan);
+        mIvScan = findView(R.id.menu_iv_scan);
         setOnClickListener(mIvPlus);
         setOnClickListener(mIvKind);
         setOnClickListener(mIvNew);
@@ -326,7 +325,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 mListFrag.setFiltrateType(mFiltrateType);
             }
             break;
-            case R.id.main_iv_plus: {
+            case R.id.menu_iv_plus: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
                 mVibrator.vibrate(new long[]{0, 50}, -1);
@@ -342,7 +341,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 }
             }
             break;
-            case R.id.main_iv_kind: {
+            case R.id.menu_iv_switch: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
                 mIvKind.startAnimation(scaleBigAnim(KAnimTime));
@@ -387,7 +386,7 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify {
                 dialog.show();
             }
             break;
-            case R.id.main_iv_scan: {
+            case R.id.menu_iv_scan: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
                 mIvScan.startAnimation(scaleBigAnim(KAnimTime));

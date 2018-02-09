@@ -52,10 +52,10 @@ public class TestMainUIActivity extends BaseActivity {
 
     @Override
     public void findViews() {
-        mIvPlus = findView(R.id.main_iv_plus);
-        mIvKind = findView(R.id.main_iv_kind);
+        mIvPlus = findView(R.id.menu_iv_plus);
+        mIvKind = findView(R.id.menu_iv_switch);
         mIvNew = findView(R.id.main_iv_new);
-        mIvScan = findView(R.id.main_iv_scan);
+        mIvScan = findView(R.id.menu_iv_scan);
     }
 
     @Override
@@ -69,12 +69,12 @@ public class TestMainUIActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.main_iv_plus: {
+            case R.id.menu_iv_plus: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
             }
             break;
-            case R.id.main_iv_kind: {
+            case R.id.menu_iv_switch: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
                 mIvKind.startAnimation(scaleBigAnim(KAnimTime));
@@ -90,7 +90,7 @@ public class TestMainUIActivity extends BaseActivity {
                 mIvScan.startAnimation(scaleSmallAnim(KAnimTime));
             }
             break;
-            case R.id.main_iv_scan: {
+            case R.id.menu_iv_scan: {
                 mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
                 rotateView(mCurrentStatus);
                 mIvScan.startAnimation(scaleBigAnim(KAnimTime));

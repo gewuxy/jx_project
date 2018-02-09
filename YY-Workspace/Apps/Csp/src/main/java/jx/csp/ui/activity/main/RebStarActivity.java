@@ -11,6 +11,7 @@ import jx.csp.Extra;
 import jx.csp.R;
 import jx.csp.constant.Constants;
 import jx.csp.contact.StarContract;
+import jx.csp.model.editor.Theme;
 import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.BgMusicThemeInfo;
 import jx.csp.model.meeting.BgMusicThemeInfo.TBgMusicThemeInfo;
@@ -20,6 +21,7 @@ import jx.csp.ui.activity.CommonWebViewActivityRouter;
 import jx.csp.ui.activity.edit.ChoiceThemeActivityRouter;
 import jx.csp.ui.activity.edit.SelectBgMusicActivityRouter;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier;
 import lib.network.model.interfaces.IResult;
 import lib.ys.ui.decor.DecorViewEx;
 import lib.ys.util.TextUtil;
@@ -82,13 +84,13 @@ public class RebStarActivity extends BaseStarActivity {
         setOnClickListener(R.id.star_tv_preview);
         setOnClickListener(R.id.star_tv_add_theme);
         setOnClickListener(R.id.star_tv_add_music);
+        setOnClickListener(R.id.star_iv_close_bg_music_layout);
 
         // 判断是否已经有背景音乐
         if (mBgMusicThemeInfo != null && TextUtil.isNotEmpty(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.name))) {
             long time = mBgMusicThemeInfo.getLong(TBgMusicThemeInfo.duration);
             showView(mLayoutBgMusic);
             showView(mIvHaveMusic);
-            setOnClickListener(R.id.star_iv_close_bg_music_layout);
             mTvBgMusic.setText(mBgMusicThemeInfo.getString(TBgMusicThemeInfo.name) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
         }
     }
@@ -145,7 +147,6 @@ public class RebStarActivity extends BaseStarActivity {
             showView(mLayoutBgMusic);
             showView(mIvHaveMusic);
             mTvBgMusic.setText(data.getStringExtra(Extra.KData) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
-            setOnClickListener(R.id.star_iv_close_bg_music_layout);
             if (mBgMusicThemeInfo == null) {
                 mBgMusicThemeInfo = new BgMusicThemeInfo();
             }
@@ -155,6 +156,28 @@ public class RebStarActivity extends BaseStarActivity {
                 mBgMusicThemeInfo = new BgMusicThemeInfo();
             }
             mBgMusicThemeInfo.put(TBgMusicThemeInfo.imageId, data.getIntExtra(Extra.KId, Constants.KInvalidValue));
+        }
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == Notifier.NotifyType.theme_refresh && data != null) {
+            Theme t = (Theme) data;
+            if (mBgMusicThemeInfo == null) {
+                mBgMusicThemeInfo = new BgMusicThemeInfo();
+            }
+            int musicId = t.getInt(Theme.TTheme.musicId);
+            if (musicId == Constants.KInvalidValue) {
+                goneView(mLayoutBgMusic);
+                goneView(mIvHaveMusic);
+            } else {
+                int time = t.getInt(Theme.TTheme.duration, 0);
+                mTvBgMusic.setText(t.getString(Theme.TTheme.name) + " " + Util.getSpecialTimeFormat(time, "'", "''"));
+                showView(mLayoutBgMusic);
+                showView(mIvHaveMusic);
+            }
+            mBgMusicThemeInfo.put(TBgMusicThemeInfo.musicId, musicId);
+            mBgMusicThemeInfo.put(TBgMusicThemeInfo.imageId, t.getInt(Theme.TTheme.imageId));
         }
     }
 
