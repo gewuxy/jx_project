@@ -12,6 +12,13 @@ import android.os.Vibrator;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -90,7 +97,7 @@ import lib.ys.util.res.ResLoader;
  * @since 2017/9/30
  */
 
-public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMenu.OnMenuItemClickListener {
+public class MainActivity extends BaseVpActivity implements OnLiveNotify {
 
     /**
      * 页面切换
@@ -120,7 +127,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
     private TextView mTvExpireRemind; // 会员到期提醒
     private ImageView mIvShift;
     private TextView mTvPast;
-    private ArcMenu mArcMenu;
 
     private MeetCardFrag mCardFrag;
     private MeetListFrag mListFrag;
@@ -138,16 +144,16 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
     public void initData() {
         mCardFrag = new MeetCardFrag();
         mCardFrag.setOnMeetListener(() -> {
-            if (mArcMenu != null) {
-                onClick(1);
+            if (mIvKind != null) {
+                mIvKind.performClick();
             }
         });
         add(mCardFrag);
 
         mListFrag = new MeetListFrag();
         mListFrag.setOnMeetListener(() -> {
-            if (mArcMenu != null) {
-                onClick(1);
+            if (mIvKind != null) {
+                mIvKind.performClick();
             }
         });
         add(mListFrag);
@@ -213,7 +219,15 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
         super.findViews();
 
         mTvPast = findView(R.id.main_tv_past);
-        mArcMenu = findView(R.id.arc_menu);
+
+        mIvPlus = findView(R.id.main_iv_plus);
+        mIvKind = findView(R.id.main_iv_kind);
+        mIvNew = findView(R.id.main_iv_new);
+        mIvScan = findView(R.id.main_iv_scan);
+        setOnClickListener(mIvPlus);
+        setOnClickListener(mIvKind);
+        setOnClickListener(mIvNew);
+        setOnClickListener(mIvScan);
     }
 
     @Override
@@ -292,21 +306,6 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
         });
 
         mVibrator = (Vibrator) getApplication().getSystemService(Service.VIBRATOR_SERVICE);
-
-        mArcMenu.setmOnMenuItemClickListener(this);
-        mArcMenu.setStatusChange(status -> {
-            mVibrator.vibrate(new long[]{0, 50}, -1);
-            try {
-                AssetFileDescriptor afd = getAssets().openFd("main.mp3");
-                mMediaPlayer.reset();
-                mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                //同步准备
-                mMediaPlayer.prepare();
-                mMediaPlayer.start();
-            } catch (IOException e) {
-                YSLog.d(TAG, "msg = " + e.getMessage());
-            }
-        });
     }
 
     @Override
@@ -327,20 +326,39 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
                 mListFrag.setFiltrateType(mFiltrateType);
             }
             break;
-        }
-    }
-
-    @Override
-    public void onClick(int pos) {
-        // 点击菜单
-        switch (pos) {
-            case 0: {
+            case R.id.main_iv_plus: {
+                mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
+                rotateView(mCurrentStatus);
+                mVibrator.vibrate(new long[]{0, 50}, -1);
+                try {
+                    AssetFileDescriptor afd = getAssets().openFd("main.mp3");
+                    mMediaPlayer.reset();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    //同步准备
+                    mMediaPlayer.prepare();
+                    mMediaPlayer.start();
+                } catch (IOException e) {
+                    YSLog.d(TAG, "msg = " + e.getMessage());
+                }
+            }
+            break;
+            case R.id.main_iv_kind: {
+                mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
+                rotateView(mCurrentStatus);
+                mIvKind.startAnimation(scaleBigAnim(KAnimTime));
+                mIvNew.startAnimation(scaleSmallAnim(KAnimTime));
+                mIvScan.startAnimation(scaleSmallAnim(KAnimTime));
                 if (mMidView != null) {
                     mMidView.performClick();
                 }
             }
             break;
-            case 1: {
+            case R.id.main_iv_new: {
+                mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
+                rotateView(mCurrentStatus);
+                mIvNew.startAnimation(scaleBigAnim(KAnimTime));
+                mIvKind.startAnimation(scaleSmallAnim(KAnimTime));
+                mIvScan.startAnimation(scaleSmallAnim(KAnimTime));
                 final BottomDialog dialog = new BottomDialog(MainActivity.this, position -> {
 
                     switch (position) {
@@ -369,7 +387,12 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
                 dialog.show();
             }
             break;
-            case 2: {
+            case R.id.main_iv_scan: {
+                mCurrentStatus = (mCurrentStatus == Status.CLOSE ? Status.OPEN : Status.CLOSE);
+                rotateView(mCurrentStatus);
+                mIvScan.startAnimation(scaleBigAnim(KAnimTime));
+                mIvKind.startAnimation(scaleSmallAnim(KAnimTime));
+                mIvNew.startAnimation(scaleSmallAnim(KAnimTime));
                 if (checkPermission(KPerCameraScan, Permission.camera)) {
                     startActivity(ScanActivity.class);
                 }
@@ -706,5 +729,115 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, ArcMen
                 break;
             }
         }
+    }
+
+    public enum Status {
+        OPEN, CLOSE
+    }
+
+    private ImageView mIvPlus;
+    private ImageView mIvKind;
+    private ImageView mIvNew;
+    private ImageView mIvScan;
+
+    private Status mCurrentStatus = Status.CLOSE;
+    private final int KAnimTime = 250;
+
+    public void rotateView(Status mCurrentStatus) {
+        if (mCurrentStatus == Status.OPEN) {
+            rotateView(mIvPlus, 0f, 45f, KAnimTime);
+            childAnimSet(mIvKind);
+            childAnimSet(mIvNew);
+            childAnimSet(mIvScan);
+        } else {
+            rotateView(mIvPlus, 45f, 0f, KAnimTime);
+            childAnimSet(mIvKind);
+            childAnimSet(mIvNew);
+            childAnimSet(mIvScan);
+        }
+    }
+
+    /**
+     * 按钮的旋转动画
+     *
+     * @param view
+     * @param fromDegrees
+     * @param toDegrees
+     * @param durationMillis
+     */
+    private void rotateView(View view, float fromDegrees, float toDegrees, int durationMillis) {
+        RotateAnimation rotate = new RotateAnimation(fromDegrees, toDegrees,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(durationMillis);
+        rotate.setFillAfter(true);
+        rotate.setInterpolator(new DecelerateInterpolator());
+        view.startAnimation(rotate);
+    }
+
+    private void childAnimSet(View view) {
+        showView(view);
+        AnimationSet animSet = new AnimationSet(true);
+        Animation transAnim = null;
+        if (mCurrentStatus == Status.OPEN) {
+            // to open
+            float fromX = mIvPlus.getX() + mIvPlus.getWidth() / 2 - view.getWidth() / 2 - view.getX();
+            float fromY = mIvPlus.getY() + mIvPlus.getHeight() / 2 - view.getHeight() / 2 - view.getY();
+            transAnim = new TranslateAnimation(fromX, 0, fromY, 0);
+            view.setClickable(true);
+        } else {
+            // to close
+            float toX = mIvPlus.getX() + mIvPlus.getWidth() / 2 - view.getWidth() / 2 - view.getX();
+            float toY = mIvPlus.getY() + mIvPlus.getHeight() / 2 - view.getHeight() / 2 - view.getY();
+            transAnim = new TranslateAnimation(0, toX, 0, toY);
+            view.setClickable(false);
+        }
+
+        transAnim.setFillAfter(true);
+        transAnim.setDuration(KAnimTime);
+        transAnim.setAnimationListener(new Animation.AnimationListener() {
+            public void onAnimationStart(Animation animation) {
+            }
+
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            public void onAnimationEnd(Animation animation) {
+                if (mCurrentStatus == Status.CLOSE) {
+                    hideView(view);
+                }
+            }
+        });
+        RotateAnimation rotateAnim = new RotateAnimation(0, 1080, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotateAnim.setDuration(KAnimTime);
+        rotateAnim.setFillAfter(true);
+        animSet.addAnimation(rotateAnim);
+        animSet.addAnimation(transAnim);
+        view.startAnimation(animSet);
+    }
+
+    /**
+     * 放大，透明度降低
+     */
+    private Animation scaleBigAnim(int durationMillis) {
+        AnimationSet animationset = new AnimationSet(true);
+        Animation anim = new ScaleAnimation(1.0f, 1.5f, 1.0f, 1.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        Animation alphaAnimation = new AlphaAnimation(1, 0);
+        animationset.addAnimation(anim);
+        animationset.addAnimation(alphaAnimation);
+        animationset.setDuration(durationMillis);
+        animationset.setFillAfter(true);
+        return animationset;
+    }
+
+    /**
+     * 缩小消失
+     */
+    private Animation scaleSmallAnim(int durationMillis) {
+        Animation anim = new ScaleAnimation(1.0f, 0f, 1.0f, 0f,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setDuration(durationMillis);
+        anim.setFillAfter(true);
+        return anim;
     }
 }

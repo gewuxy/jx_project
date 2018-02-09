@@ -3,47 +3,57 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <include layout="@layout/layout_viewpager"/>
 
-    <jx.csp.view.ArcMenu
-        android:id="@+id/arc_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        view:position="center_bottom"
-        view:radius="100dp"
-        view:fromDegrees = "220"
-        view:toDegrees = "320">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp">
 
         <ImageView
-            android:id="@+id/arc_btn"
+            android:id="@+id/main_iv_kind"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="43dp"
+            android:layout_marginLeft="75dp"
+            android:src="@drawable/main_ic_kind"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/main_iv_new"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="95dp"
+            android:src="@drawable/main_ic_new"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/main_iv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="43dp"
+            android:layout_marginRight="75dp"
+            android:src="@drawable/main_ic_scan"
+            android:visibility="invisible"/>
+
+        <ImageView
+            android:id="@+id/main_iv_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:src="@drawable/main_ic_plus"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/main_ic_kind"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/main_ic_new"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/main_ic_scan"/>
-
-    </jx.csp.view.ArcMenu>
+    </RelativeLayout>
 
     <!-- 过期提醒 -->
     <TextView
