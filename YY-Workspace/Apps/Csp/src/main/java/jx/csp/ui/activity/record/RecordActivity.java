@@ -572,6 +572,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                         mIvRerecording.setClickable(true);
                         mIvRerecording.setSelected(true);
                         mCanContinueRecord = true;
+                        hideView(mTvRemind);
                         break;
                     }
                 }
@@ -583,6 +584,11 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                     int page = red.getInt(TRecord.playPage);
                     YSLog.d(TAG, "上次退出录音时所在页面 page = " + page);
                     if (page == 0 && mCourseDetailList.size() > 0) {
+                        if (mShowRecordTimeRemind) {
+                            showView(mTvRemind);
+                        } else {
+                            hideView(mTvRemind);
+                        }
                         // 判断第一页是视频还是图片
                         if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
                             videoState();
@@ -590,7 +596,6 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                             // 判断第一页是否已经录制过
                             if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
                                 YSLog.d(TAG, "第一页没有录制过");
-                                showView(mTvRemind);
                                 mIvRecordState.setImageResource(R.drawable.animation_record);
                                 mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
                                 mIvRecordState.setClickable(true);
