@@ -105,7 +105,7 @@ public class RebStarActivity extends BaseStarActivity {
             case R.id.star_tv_add_theme: {
                 if (mBgMusicThemeInfo != null) {
                     ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl))
-                            .themeId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.id))
+                            .themeId(mBgMusicThemeInfo.getInt(TBgMusicThemeInfo.imageId))
                             .route(this, KTheme);
                 } else {
                     ChoiceThemeActivityRouter.create(mMeet.getString(TMeet.id), mMeet.getString(TMeet.coverUrl))

@@ -195,8 +195,8 @@ public class LiveStarActivity extends BaseStarActivity {
                     } else {
                         mTime = 0;
                     }
-                    setState(mMeet.getInt(TMeet.liveState));
                     mExpireDate = c.getLong(Code.TCode.expireDate);
+                    setState(mMeet.getInt(TMeet.liveState));
 
                     // 星评二维码
                     boolean startStatus = c.getBoolean(Code.TCode.starStatus);
