@@ -376,6 +376,6 @@
     <string name="editor_save_book">保存講本</string>
     <string name="editor_video">繼續錄音</string>
 
-    <string name="guide_title">【新手指引】你好，會講</string>
+    <string name="guide_title">【新手指引】</string>
     <string name="guide_watch">點擊觀看</string>
 </resources>
