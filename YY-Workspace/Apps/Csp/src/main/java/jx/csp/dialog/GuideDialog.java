@@ -51,6 +51,9 @@ public class GuideDialog extends BaseDialog {
             case R.id.guide_cancel: {
                 setCancelable(false);
                 dismiss();
+
+                FunctionGuideDialog dialog = new FunctionGuideDialog(getContext());
+                dialog.show();
             }
             break;
             case R.id.guide_watch: {
