@@ -125,4 +125,10 @@ abstract public class BaseMyMessageActivity extends BaseActivity {
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }
