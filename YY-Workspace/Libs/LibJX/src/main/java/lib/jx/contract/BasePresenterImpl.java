@@ -105,7 +105,9 @@ abstract public class BasePresenterImpl<V extends IContract.View> implements
 
     @Override
     public void onDestroy() {
-        mNetworkImpl.onDestroy();
-        mNetworkImpl = null;
+        if(mNetworkImpl != null){
+            mNetworkImpl.onDestroy();
+            mNetworkImpl = null;
+        }
     }
 }
