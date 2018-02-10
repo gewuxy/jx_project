@@ -201,4 +201,10 @@ public class VipManageActivity extends BaseRecyclerActivity<VipPermission, VipPe
             VipManageActivity.this.setViewState(state);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }
