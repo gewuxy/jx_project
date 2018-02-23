@@ -468,7 +468,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
 
     @Override
     public void havePermissionState() {
-        initPhoneCallingListener();
+        registerPhoneReceiver();
     }
 
     private void videoState() {
@@ -590,32 +590,13 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                             hideView(mTvRemind);
                         }
                         // 判断第一页是视频还是图片
-                        if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
-                            videoState();
-                        } else {
-                            // 判断第一页是否已经录制过
-                            if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
-                                YSLog.d(TAG, "第一页没有录制过");
-                                mIvRecordState.setImageResource(R.drawable.animation_record);
-                                mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
-                                mIvRecordState.setClickable(true);
-                                mIvAudition.setClickable(false);
-                                mIvRerecording.setSelected(false);
-                                mIvRerecording.setClickable(false);
-                            } else {
-                                YSLog.d(TAG, "第一页已经录制过");
-                                mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));
-                                mIvAudition.setImageResource(R.drawable.record_ic_audition);
-                                mIvAudition.setClickable(true);
-                                mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
-                                mIvRecordState.setClickable(false);
-                                mIvRerecording.setSelected(true);
-                                mIvRerecording.setClickable(true);
-                            }
-                        }
+                        judgeVideoOrImg();
                     } else if (page > 0 && mCourseDetailList.size() > 0) {
                         setCurrPosition(page, false);
                     }
+                } else {
+                    // 判断第一页是视频还是图片
+                    judgeVideoOrImg();
                 }
             }
             if (mStarState) {
@@ -628,6 +609,33 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             if (mCourseDetailList.size() == 1) {
                 showView(mStarBar);
                 showView(mTvLastPageRemind);
+            }
+        }
+
+        // 判断第一页是视频还是ppt
+        private void judgeVideoOrImg() {
+            if (TextUtil.isNotEmpty(mCourseDetailList.get(0).getString(TCourseDetail.videoUrl))) {
+                videoState();
+            } else {
+                // 判断第一页是否已经录制过
+                if (TextUtil.isEmpty(mCourseDetailList.get(0).getString(TCourseDetail.audioUrl))) {
+                    YSLog.d(TAG, "第一页没有录制过");
+                    mIvRecordState.setImageResource(R.drawable.animation_record);
+                    mAnimationRecord = (AnimationDrawable) mIvRecordState.getDrawable();
+                    mIvRecordState.setClickable(true);
+                    mIvAudition.setClickable(false);
+                    mIvRerecording.setSelected(false);
+                    mIvRerecording.setClickable(false);
+                } else {
+                    YSLog.d(TAG, "第一页已经录制过");
+                    mTvRecordTime.setText(TimeFormatter.second(mRecordTimeArray.get(0), TimeFormat.from_m));
+                    mIvAudition.setImageResource(R.drawable.record_ic_audition);
+                    mIvAudition.setClickable(true);
+                    mIvRecordState.setImageResource(R.drawable.record_ic_can_not_record);
+                    mIvRecordState.setClickable(false);
+                    mIvRerecording.setSelected(true);
+                    mIvRerecording.setClickable(true);
+                }
             }
         }
 

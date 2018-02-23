@@ -2,13 +2,10 @@ package jx.csp.ui.activity.record;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.Service;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
@@ -51,6 +48,8 @@ import lib.jx.ui.activity.base.BaseVpActivity;
 import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
+import lib.ys.receiver.PhoneReceiver;
+import lib.ys.receiver.PhoneReceiver.PhoneListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.FileUtil;
 import lib.ys.util.permission.Permission;
@@ -66,7 +65,8 @@ import lib.ys.util.permission.PermissionResult;
 abstract public class BaseRecordActivity extends BaseVpActivity implements
         OnLiveNotify,
         OnConnectListener,
-        AudioUploadContract.V {
+        AudioUploadContract.V,
+        PhoneListener {
 
     private final int KMicroPermissionCode = 10;
     protected final int KOne = 1;
@@ -99,7 +99,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     protected List<CourseDetail> mCourseDetailList;
     protected AudioUploadPresenterImpl mAudioUploadPresenter;
-    protected PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
+    protected PhoneReceiver mPhoneReceiver = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
     private ScaleTransformer mTransformer;
 
@@ -313,10 +313,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 注销电话监听
-        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
-        mPhoneStateListener = null;
+
         LiveNotifier.inst().remove(this);
         WebSocketServRouter.stop(this);
         YSLog.d(TAG, "base record activity WebSocketServRouter.stop");
@@ -327,9 +324,13 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
                     .overType(0)
                     .route(this);
         }
-        // 注销服务
+        // 注销网络监听
         if (mConnectionReceiver != null) {
             mConnectionReceiver.unRegister();
+        }
+        // 注销电话监听
+        if (mPhoneReceiver != null) {
+            mPhoneReceiver.unRegister();
         }
     }
 
@@ -363,28 +364,23 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         }
     }
 
-    public void initPhoneCallingListener() {
-        mPhoneStateListener = new PhoneStateListener() {
+    @Override
+    public void callStateRinging() {
+        onCallRinging();
+    }
 
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                super.onCallStateChanged(state, incomingNumber);
-                switch (state) {
-                    case TelephonyManager.CALL_STATE_IDLE:
-                        YSLog.d(TAG, "call state idle " + state);
-                        break;
-                    case TelephonyManager.CALL_STATE_RINGING:
-                        YSLog.d(TAG, "call state ringing " + state);
-                        onCallRinging();
-                        break;
-                    case TelephonyManager.CALL_STATE_OFFHOOK:
-                        YSLog.d(TAG, "call state off hook " + state);
-                        break;
-                }
-            }
-        };
-        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+    @Override
+    public void callStateIdle() {
+    }
+
+    @Override
+    public void callStateOffHook() {
+    }
+
+    protected void registerPhoneReceiver() {
+        mPhoneReceiver = new PhoneReceiver(this);
+        mPhoneReceiver.setPhoneListener(this);
+        mPhoneReceiver.register();
     }
 
     protected void noRecordPermissionDialog() {

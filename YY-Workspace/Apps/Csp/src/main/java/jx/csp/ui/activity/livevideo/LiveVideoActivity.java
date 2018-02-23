@@ -1,9 +1,6 @@
 package jx.csp.ui.activity.livevideo;
 
-import android.app.Service;
 import android.support.annotation.NonNull;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +32,8 @@ import lib.ys.YSLog;
 import lib.ys.receiver.ConnectionReceiver;
 import lib.ys.receiver.ConnectionReceiver.OnConnectListener;
 import lib.ys.receiver.ConnectionReceiver.TConnType;
+import lib.ys.receiver.PhoneReceiver;
+import lib.ys.receiver.PhoneReceiver.PhoneListener;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TimeFormatter;
 import lib.ys.util.TimeFormatter.TimeFormat;
@@ -49,7 +48,7 @@ import lib.ys.util.res.ResLoader;
  * @since 2017/9/20
  */
 @Route
-public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnConnectListener {
+public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnConnectListener, PhoneListener {
 
     private final int KPermissionCode = 10;
 
@@ -82,7 +81,7 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
     private boolean mLiveState = false;  // 直播状态  true 直播中 false 未开始
     private boolean mIsFlowInsufficient = false; // 流量是否不足 同时出现时间不足和流量不足的情况优先显示流量不足的提示；但在时间耗尽，流量还有的情况依旧结束直播
     private boolean mIsShowRemainingTimeTv = false; // 倒计时或者流量不足提示是否显示
-    private PhoneStateListener mPhoneStateListener = null;  // 电话状态监听
+    protected PhoneReceiver mPhoneReceiver = null;  // 电话状态监听
     private ConnectionReceiver mConnectionReceiver;
     private boolean mSendAcceptOrReject = false;  // 是否已经发送过同意或拒绝被踢指令
     private int mLiveTime = 0;  // 直播的时间
@@ -227,9 +226,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         LiveNotifier.inst().remove(this);
 
         // 注销电话监听
-        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_NONE);
-        mPhoneStateListener = null;
+        if (mPhoneReceiver != null) {
+            mPhoneReceiver.unRegister();
+        }
 
         mP.onDestroy();
 
@@ -329,7 +328,9 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
 
     private void havePermissionState() {
         mP.initLive(this, mTextureView);
-        initPhoneCallingListener();
+        mPhoneReceiver = new PhoneReceiver(this);
+        mPhoneReceiver.setPhoneListener(this);
+        mPhoneReceiver.register();
         hideView(mTvNoCameraPermission);
         showView(mTvStart);
         mIvLive.setClickable(true);
@@ -340,32 +341,6 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         showView(mTvNoCameraPermission);
         mIvLive.setClickable(false);
         mTvState.setText(R.string.no_start);
-    }
-
-    public void initPhoneCallingListener() {
-        mPhoneStateListener = new PhoneStateListener() {
-
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                super.onCallStateChanged(state, incomingNumber);
-                switch (state) {
-                    case TelephonyManager.CALL_STATE_IDLE:
-                        YSLog.d(TAG, "call state idle " + state);
-                        break;
-                    case TelephonyManager.CALL_STATE_RINGING:
-                        YSLog.d(TAG, "call state ringing " + state);
-                        break;
-                    case TelephonyManager.CALL_STATE_OFFHOOK:
-                        YSLog.d(TAG, "call state off hook " + state);
-                        if (mLiveState) {
-                            mP.stopLive();
-                        }
-                        break;
-                }
-            }
-        };
-        TelephonyManager tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-        tm.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
     private void switchLiveDevice() {
@@ -428,6 +403,23 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
         msg.put(TWebSocketMsg.order, type);
         msg.put(TWebSocketMsg.orderFrom, WsOrderFrom.app);
         LiveNotifier.inst().notify(LiveNotifyType.send_msg, msg.toJson());
+    }
+
+    @Override
+    public void callStateRinging() {
+        if (mLiveState) {
+            mP.stopLive();
+        }
+    }
+
+    @Override
+    public void callStateIdle() {
+
+    }
+
+    @Override
+    public void callStateOffHook() {
+
     }
 
     private class View implements LiveVideoContract.V {

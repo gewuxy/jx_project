@@ -379,7 +379,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
 
     @Override
     public void havePermissionState() {
-        initPhoneCallingListener();
+        registerPhoneReceiver();
         mIvRecordState.setClickable(true);
     }
 
