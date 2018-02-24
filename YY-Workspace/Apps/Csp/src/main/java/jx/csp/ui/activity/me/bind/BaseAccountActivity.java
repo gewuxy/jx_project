@@ -220,4 +220,10 @@ abstract public class BaseAccountActivity extends BaseFormActivity {
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

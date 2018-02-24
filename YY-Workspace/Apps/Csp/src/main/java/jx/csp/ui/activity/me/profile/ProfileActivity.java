@@ -150,6 +150,7 @@ public class ProfileActivity extends BaseFormActivity {
     protected void onDestroy() {
         super.onDestroy();
         mView.onDestroy();
+        mPresenter.onDestroy();
     }
 
     private class ProfileViewImpl implements ProfileContract.V {

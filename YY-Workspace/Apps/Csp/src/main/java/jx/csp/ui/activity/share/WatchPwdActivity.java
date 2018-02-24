@@ -184,4 +184,10 @@ public class WatchPwdActivity extends BaseActivity {
             WatchPwdActivity.this.setViewState(state);
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

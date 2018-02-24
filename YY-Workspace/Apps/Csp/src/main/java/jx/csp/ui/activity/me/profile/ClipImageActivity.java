@@ -61,4 +61,10 @@ public class ClipImageActivity extends BaseClipImageActivity {
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

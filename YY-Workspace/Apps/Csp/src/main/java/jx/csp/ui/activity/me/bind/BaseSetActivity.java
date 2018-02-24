@@ -160,4 +160,10 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
         public void setViewState(int state) {
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

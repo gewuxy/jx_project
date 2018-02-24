@@ -161,4 +161,10 @@ public class SettingsActivity extends BaseFormActivity {
         public void setViewState(int state) {
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

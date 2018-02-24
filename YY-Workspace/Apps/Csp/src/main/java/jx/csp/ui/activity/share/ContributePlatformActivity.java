@@ -125,4 +125,10 @@ public class ContributePlatformActivity extends BaseSRListActivity<Platform, Pla
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }

@@ -261,6 +261,7 @@ public class FlowRateManageActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         PayAction.stopPayPalService(this);
+        mPresenter.onDestroy();
     }
 
     private class FlowRateViewImpl implements FlowRateContract.V {
