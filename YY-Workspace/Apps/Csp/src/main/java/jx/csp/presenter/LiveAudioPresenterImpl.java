@@ -247,6 +247,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mCountDown != null) {
             mCountDown.recycle();
         }

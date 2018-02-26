@@ -392,6 +392,9 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
         File soundFile = new File(CacheUtil.getExistAudioFilePath(mCourseId, mCourseDetailList.get(getCurrPosition()).getInt(TCourseDetail.id)));
         if (!soundFile.exists()) {
             showToast(R.string.play_fail);
+            mPlayState = false;
+            mIvState.setSelected(false);
+            stopAnim();
             return;
         }
         if (progress == 0) {
@@ -418,6 +421,9 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                 });
             } catch (IOException e) {
                 showToast(R.string.play_fail);
+                mPlayState = false;
+                mIvState.setSelected(false);
+                stopAnim();
             }
         } else {
             mHandler.sendEmptyMessageDelayed(KAudioPlayProMsgWhat, TimeUnit.SECONDS.toMillis(1));

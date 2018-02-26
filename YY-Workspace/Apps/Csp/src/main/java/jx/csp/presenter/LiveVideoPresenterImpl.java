@@ -94,6 +94,7 @@ public class LiveVideoPresenterImpl extends BasePresenterImpl<V> implements
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         PushManager.inst().finishPush();
     }
 
