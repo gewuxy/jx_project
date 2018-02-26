@@ -146,4 +146,10 @@ public class BindPhoneActivity extends BaseSetActivity {
 
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
+    }
 }
