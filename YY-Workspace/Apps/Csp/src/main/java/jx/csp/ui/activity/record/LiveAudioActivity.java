@@ -442,6 +442,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
                             .route());
                 }
             }
+            invalidate();
             mAudioUploadPresenter.setCourseDetailIdArray(courseDetailIdArray);
 
             // 链接websocket
@@ -505,7 +506,6 @@ public class LiveAudioActivity extends BaseRecordActivity {
             if (mCourseDetailList.size() == 1) {
                 showView(mStarBar);
             }
-            invalidate();
         }
 
         @Override
