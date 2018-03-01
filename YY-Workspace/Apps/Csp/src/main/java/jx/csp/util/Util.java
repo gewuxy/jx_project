@@ -149,7 +149,7 @@ public class Util extends BaseUtil {
     public static String getSpecialTimeFormat(long l, String mFormat, String sFormat) {
         int m = (int) (l / 60);
         int s = (int) (l % 60);
-        StringBuffer sb = new StringBuffer()
+        StringBuilder sb = new StringBuilder()
                 .append(m <= 9 ? "0" : "")
                 .append(m)
                 .append(mFormat)

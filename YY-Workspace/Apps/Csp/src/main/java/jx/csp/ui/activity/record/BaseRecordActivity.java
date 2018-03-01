@@ -332,6 +332,7 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         if (mPhoneReceiver != null) {
             mPhoneReceiver.unRegister();
         }
+        mAudioUploadPresenter.onDestroy();
     }
 
     @Override

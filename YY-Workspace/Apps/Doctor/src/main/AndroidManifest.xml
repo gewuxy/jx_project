@@ -166,6 +166,9 @@
         <activity
             android:name=".ui.activity.meeting.SignActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.meeting.OverviewActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- search -->
         <activity

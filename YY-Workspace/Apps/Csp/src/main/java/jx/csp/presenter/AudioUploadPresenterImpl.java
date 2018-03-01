@@ -115,4 +115,11 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        if (mUploadList.isEmpty()) {
+            super.onDestroy();
+        }
+    }
 }
