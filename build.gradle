@@ -117,9 +117,6 @@ buildscript {
                     baidu     : ':Android:Libs:LibBD',
                     um        : ':Android:Libs:LibUM',
             ],
-            debug       : [
-                    leakcanary: "com.squareup.leakcanary:leakcanary-android:1.5.1"
-            ],
     ]
 
     ext.kotlin_version = versions.kotlin

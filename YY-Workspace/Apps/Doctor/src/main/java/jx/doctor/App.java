@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.HashMap;
 
@@ -104,6 +105,10 @@ public class App extends BaseApp {
     protected void init() {
         // log
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
+
+        if (BuildConfig.DEBUG_NETWORK) {
+            LeakCanary.install(this);
+        }
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
         NetworkApiDescriptor.setDebuggable(BuildConfig.DEBUG_NETWORK);

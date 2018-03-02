@@ -289,8 +289,8 @@ dependencies {
     /**
      * leakcanary
      */
-        debugCompile deps.debug.leakcanary
-//        releaseCompile deps.release.leakcanary
+    debugCompile deps.square.leakcanary.debug
+    releaseCompile deps.square.leakcanary.release
     /**
      * dex
      */

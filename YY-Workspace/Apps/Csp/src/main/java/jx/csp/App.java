@@ -9,6 +9,8 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.multidex.MultiDex;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.util.Locale;
 
 import jx.csp.constant.AppType;
@@ -126,6 +128,10 @@ public class App extends BaseApp {
     protected void init() {
         // log
         YSLog.setDebugState(BuildConfig.DEBUG_LOG);
+
+        if (BuildConfig.DEBUG_NETWORK) {
+            LeakCanary.install(this);
+        }
 
         UrlUtil.setDebug(BuildConfig.DEBUG_NETWORK);
         NetworkApiDescriptor.setDebuggable(BuildConfig.DEBUG_NETWORK);

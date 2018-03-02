@@ -113,10 +113,10 @@ android {
                     sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "ws://",
-                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
-                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
-                    splash_ic: "splash_bg",
-                    login_icon: "ic_launcher_login",
+                    jpush_appkey  : "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key : "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic     : "splash_bg",
+                    login_icon    : "ic_launcher_login",
             ]
         }
         flavors_alpha {
@@ -129,10 +129,10 @@ android {
                     sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "ws://",
-                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
-                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
-                    splash_ic: "splash_bg",
-                    login_icon: "ic_launcher_login",
+                    jpush_appkey  : "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key : "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic     : "splash_bg",
+                    login_icon    : "ic_launcher_login",
             ]
         }
         flavors_release {
@@ -145,26 +145,26 @@ android {
                     sina_appkey   : "\\506754622",
                     sina_appsecret: "67433aa2cb41b6aa0acdce30c8f27069",
                     comment_socket: "wss://",
-                    jpush_appkey: "88391aa0f118d8646d1fb6e3",
-                    baidu_api_key: "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
-                    splash_ic: "splash_bg",
-                    login_icon: "ic_launcher_login",
+                    jpush_appkey  : "88391aa0f118d8646d1fb6e3",
+                    baidu_api_key : "Gjn1PrlT8qKGLmp88kecOs14WQ8r66OP",
+                    splash_ic     : "splash_bg",
+                    login_icon    : "ic_launcher_login",
             ]
         }
         c_mairui {
             manifestPlaceholders = [
-                    app_name: "麦瑞会展",
-                    app_icon: "ic_launcher_mairui",
-                    master_id: "\\957425",
+                    app_name      : "麦瑞会展",
+                    app_icon      : "ic_launcher_mairui",
+                    master_id     : "\\957425",
                     wx_id         : "wxe346153ebb3a3e50",
                     wx_secret     : "1bf1940b53f12f2ef7558417e0ec007b",
                     sina_appkey   : "\\3179393566",
                     sina_appsecret: "1762cee0b80988e7719126b32f9ed46e",
                     comment_socket: "wss://",
-                    jpush_appkey: "948085aa03fc30293fec9fff",
-                    baidu_api_key: "D10a8VG2lvyNG2uvozDSXNhiaGWGaNfg",
-                    splash_ic: "splash_bg_mairui",
-                    login_icon: "login_ic_mairui",
+                    jpush_appkey  : "948085aa03fc30293fec9fff",
+                    baidu_api_key : "D10a8VG2lvyNG2uvozDSXNhiaGWGaNfg",
+                    splash_ic     : "splash_bg_mairui",
+                    login_icon    : "login_ic_mairui",
             ]
             applicationIdSuffix ".mairui"
         }
@@ -223,8 +223,8 @@ dependencies {
     /**
      * leakcanary
      */
-    //    debugCompile deps.debug.leakcanary
-    //    releaseCompile deps.release.leakcanary
+    debugCompile deps.square.leakcanary.debug
+    releaseCompile deps.square.leakcanary.release
     implementation deps.support.dex
     annotationProcessor project(deps.ys.compiler)
     implementation project(':Android:Libs:LibBD')
