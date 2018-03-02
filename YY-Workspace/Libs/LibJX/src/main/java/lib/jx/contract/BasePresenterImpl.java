@@ -1,5 +1,7 @@
 package lib.jx.contract;
 
+import android.support.annotation.CallSuper;
+
 import lib.jx.network.BaseJsonParser;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
@@ -103,9 +105,10 @@ abstract public class BasePresenterImpl<V extends IContract.View> implements
         return false;
     }
 
+    @CallSuper
     @Override
     public void onDestroy() {
-        if(mNetworkImpl != null){
+        if (mNetworkImpl != null) {
             mNetworkImpl.onDestroy();
             mNetworkImpl = null;
         }
