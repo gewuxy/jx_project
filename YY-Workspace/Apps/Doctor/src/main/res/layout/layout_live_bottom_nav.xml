@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_width="38dp"
+        android:layout_width="57dp"
         android:layout_height="38dp"
         android:clipChildren="false">
 
@@ -20,7 +20,14 @@
         <TextView
             android:id="@id/play_nav_tv_comment"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_comment_num"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_marginLeft="29dp"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="8dp"/>
 
     </RelativeLayout>
 
@@ -28,7 +35,7 @@
         android:id="@id/play_nav_iv_control"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="32dp"
         android:src="@drawable/live_select_control"/>
 
     <ImageView

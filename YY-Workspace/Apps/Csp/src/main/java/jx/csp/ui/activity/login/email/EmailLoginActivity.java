@@ -19,8 +19,8 @@ import jx.csp.network.UrlUtil;
 import jx.csp.sp.SpApp;
 import jx.csp.sp.SpUser;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
-import jx.csp.ui.activity.login.BaseLoginActivity;
 import jx.csp.ui.activity.MainActivity;
+import jx.csp.ui.activity.login.BaseLoginActivity;
 import jx.csp.util.Util;
 import lib.jx.network.BaseJsonParser.ErrorCode;
 import lib.jx.notify.Notifier.NotifyType;
@@ -129,7 +129,7 @@ public class EmailLoginActivity extends BaseLoginActivity {
                 String agreement;
                 if (Util.checkAppCn()) {
                     agreement = getString(R.string.service_agreement);
-                }else {
+                } else {
                     agreement = getString(R.string.service_agreement_oversea);
                 }
                 CommonWebViewActivityRouter.create(UrlUtil.getUrlDisclaimer()).name(agreement)
