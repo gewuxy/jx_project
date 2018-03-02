@@ -4,43 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@id/play_layout_frag_ppt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/meet_play_ppt"
+        android:layout_marginTop="121dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@id/play_layout_frag_ppt"
+        <fragment
+            android:id="@id/play_frag_ppt"
+            android:name="jx.doctor.ui.frag.meeting.PPTRebFrag"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/meet_play_ppt"
-            android:layout_marginTop="44dp"
-            android:orientation="vertical">
-
-            <fragment
-                android:id="@id/play_frag_ppt"
-                android:name="jx.doctor.ui.frag.meeting.PPTRebFrag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/live_layout_live"
-            android:layout_width="@dimen/meet_play_live_w"
-            android:layout_height="@dimen/meet_play_live_h"
-            android:layout_below="@id/play_layout_frag_ppt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp"
-            android:orientation="vertical">
-
-            <fragment
-                android:id="@+id/live_frag_live"
-                android:name="jx.doctor.ui.frag.meeting.PPTLiveFrag"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0"/>
-        </LinearLayout>
-    </RelativeLayout>
-
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <!-- 竖屏布局 -->
     <LinearLayout
         android:id="@id/play_layout_portrait"
@@ -51,6 +27,48 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="44dp"/>
+
+        <LinearLayout
+            android:id="@+id/ppt_live_layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:background="@color/text_006ebd"/>
+
+                <TextView
+                    android:id="@+id/ppt_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:includeFontPadding="false"
+                    android:text="0人在线"
+                    android:textColor="@color/text_006ebd"
+                    android:textSize="15dp"/>
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/ppt_live_tv_online"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="2dp"
+                android:text="0人在线"
+                android:textColor="@color/text_888"
+                android:textSize="10dp"/>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -95,13 +113,13 @@
 
         </RelativeLayout>
 
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/meet_play_live_h"
-            android:layout_marginBottom="27dp"
-            android:layout_marginTop="26dp"/>
+            android:layout_height="match_parent"
+            android:gravity="center">
 
-        <include layout="@layout/layout_live_bottom_nav"/>
+            <include layout="@layout/layout_live_bottom_nav"/>
+        </RelativeLayout>
 
     </LinearLayout>
 

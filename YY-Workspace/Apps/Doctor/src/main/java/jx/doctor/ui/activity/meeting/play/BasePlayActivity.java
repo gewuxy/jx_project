@@ -4,27 +4,27 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import inject.annotation.router.Arg;
+import jx.doctor.R;
+import jx.doctor.ui.activity.meeting.play.contract.BasePlayContract;
+import jx.doctor.util.Util;
+import lib.jx.contract.IContract;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
 import lib.ys.ui.other.NavBar;
-import lib.jx.contract.IContract;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseActivity;
-import jx.doctor.R;
-import jx.doctor.ui.activity.meeting.play.contract.BasePlayContract;
-import jx.doctor.util.Util;
 
 /**
  * @auther : GuoXuan
@@ -33,6 +33,12 @@ import jx.doctor.util.Util;
 
 abstract public class BasePlayActivity<V extends BasePlayContract.View, P extends IContract.Presenter<V>> extends BaseActivity {
 
+    @Arg(opt = true)
+    String mUnitNum; // 单位号
+
+    @Arg(opt = true)
+    String mTitle; // 标题
+
     @Arg
     String mMeetId; // 会议ID
 
@@ -40,10 +46,10 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     String mModuleId; // 模块ID
 
     private ImageView mIvControlL; // nav bar 右上角的按钮
+    private TextView mNavBarMid;
 
     // 底部按钮
     private TextView mTvComment;
-    private TextView mTvOnlineNum;
     private ImageView mIvControlP;
     private TextView mTvAll;
     private TextView mTvCur;
@@ -65,10 +71,8 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         return mP;
     }
 
-    @NonNull
-    @Override
-    public int getContentViewId() {
-        return R.layout.layout_play_bottom_nav;
+    protected ImageView getNavBarControl() {
+        return mIvControlL;
     }
 
     @CallSuper
@@ -80,25 +84,22 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         mP = getP();
     }
 
+    @CallSuper
     @Override
-    public final void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> nativePortrait());
+    public void initNavBar(NavBar bar) {
+        bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> onBackPressed());
 
+        mNavBarMid = bar.addTextViewMid(mUnitNum);
         if (mV.getNavBarLandscape()) {
             ViewGroup view = bar.addViewRight(R.drawable.play_audio_selector, v -> mIvControlP.performClick());
             mIvControlL = Util.getBarView(view, ImageView.class);
         }
-
-        bar.setBackgroundColor(Color.BLACK);
-        bar.setBackgroundAlpha(127);
-        goneView(bar);
     }
 
     @CallSuper
     @Override
     public void findViews() {
         mTvComment = findView(R.id.play_nav_tv_comment);
-        mTvOnlineNum = findView(R.id.play_nav_tv_online_num);
         mIvControlP = findView(R.id.play_nav_iv_control);
 
         mTvCur = findView(R.id.play_tv_current);
@@ -108,16 +109,36 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     @CallSuper
     @Override
     public void setViews() {
-        setOnClickListener(R.id.play_nav_iv_back);
         setOnClickListener(R.id.play_nav_iv_comment);
         setOnClickListener(R.id.play_nav_iv_control);
-        setOnClickListener(R.id.play_nav_tv_online_num);
         setOnClickListener(R.id.play_nav_iv_landscape);
 
-        setOnClickListener(R.id.play_iv_left);
-        setOnClickListener(R.id.play_iv_right);
+//        setOnClickListener(R.id.play_iv_left);
+//        setOnClickListener(R.id.play_iv_right);
 
-        mIvControlP.setImageResource(mV.getControlResId());
+//        mIvControlP.setImageResource(mV.getControlResId());
+
+        addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @Override
+            public void onGlobalLayout() {
+                if (orientationLandscape()) {
+                    setNavBarL();
+                }
+                removeOnGlobalLayoutListener(this);
+            }
+
+        });
+    }
+
+    protected void setNavBarL() {
+        getNavBar().setBackgroundColor(Color.BLACK);
+        getNavBar().setBackgroundAlpha(127);
+    }
+
+    protected void setNavBarP() {
+        getNavBar().setBackgroundResource(R.color.app_nav_bar_bg);
+        getNavBar().setBackgroundAlpha(255);
     }
 
     @Override
@@ -128,10 +149,6 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     @Override
     public final void onClick(View v) {
         switch (v.getId()) {
-            case R.id.play_nav_iv_back: {
-                finish();
-            }
-            break;
             case R.id.play_nav_iv_comment: {
                 CommentActivityRouter.create(mMeetId).route(this);
             }
@@ -143,18 +160,18 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
             case R.id.play_nav_iv_landscape: {
                 // 切换横屏
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                showView(getNavBar());
+                mNavBarMid.setText(mTitle);
                 mV.landscape();
             }
             break;
-            case R.id.play_iv_left: {
-                mV.toLeft();
-            }
-            break;
-            case R.id.play_iv_right: {
-                mV.toRight();
-            }
-            break;
+//            case R.id.play_iv_left: {
+//                mV.toLeft();
+//            }
+//            break;
+//            case R.id.play_iv_right: {
+//                mV.toRight();
+//            }
+//            break;
             default: {
                 onClick(v.getId());
             }
@@ -189,7 +206,8 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
 
     private void nativePortrait() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        goneView(getNavBar());
+        mNavBarMid.setText(mUnitNum);
+        setNavBarP();
         mV.portrait();
     }
 
@@ -226,24 +244,28 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     }
 
     protected void setTextComment(int num) {
-        mTvComment.setText(num <= 0 ? "评论" : String.valueOf(num));
+        //mTvComment.setText(num <= 0 ? "评论" : String.valueOf(num));
     }
 
     protected void setTextCur(int position) {
-        mTvCur.setText(String.valueOf(position));
+        mTvCur.setText(fitNumber(position));
     }
 
     protected void setTextAll(int size) {
-        mTvAll.setText(String.valueOf(size));
+        mTvAll.setText(fitNumber(size));
     }
 
-    protected void setTextOnline(int people) {
-        mTvOnlineNum.setText(String.valueOf(people));
-    }
-
-    protected void setTextTitle(CharSequence s) {
-        getNavBar().addTextViewMid(s);
-        goneView(getNavBar());
+    @NonNull
+    private StringBuffer fitNumber(int number) {
+        StringBuffer position = new StringBuffer();
+        if (number < 10) {
+            position.append("00").append(number);
+        } else if (number < 100) {
+            position.append("0").append(number);
+        } else {
+            position.append(number);
+        }
+        return position;
     }
 
     @NonNull

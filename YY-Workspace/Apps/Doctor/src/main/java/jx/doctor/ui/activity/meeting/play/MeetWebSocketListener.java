@@ -72,7 +72,7 @@ abstract public class MeetWebSocketListener extends WebSocketListener {
             } else if (order == OrderType.online) {
                 UtilEx.runOnUIThread(() -> online(o.optInt(KOnline)));
             } else if (order == OrderType.start) {
-                UtilEx.runOnUIThread(() -> startPull());
+                UtilEx.runOnUIThread(this::startPull);
             }
         } catch (JSONException e) {
             YSLog.d(TAG, "onMessage:" + e.getMessage());

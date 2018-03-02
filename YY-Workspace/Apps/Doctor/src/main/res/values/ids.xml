@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="play_tv_current" type="id"/>
+    <item name="play_tv_all" type="id"/>
+    <item name="play_nav_tv_comment" type="id"/>
+    <item name="play_nav_iv_comment" type="id"/>
+    <item name="play_nav_iv_control" type="id"/>
+    <item name="play_nav_iv_landscape" type="id"/>
+    <item name="play_layout_portrait" type="id"/>
+    <item name="play_frag_ppt" type="id"/>
+    <item name="play_layout_frag_ppt" type="id"/>
+</resources>

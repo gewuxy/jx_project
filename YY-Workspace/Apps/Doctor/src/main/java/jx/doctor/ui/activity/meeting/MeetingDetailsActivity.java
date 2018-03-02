@@ -15,20 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.model.MapList;
-import lib.ys.network.image.NetworkImageView;
-import lib.ys.network.image.shape.CircleRenderer;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.ys.util.TimeFormatter;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.activity.base.BaseActivity;
 import jx.doctor.Extra.FileFrom;
 import jx.doctor.R;
 import jx.doctor.dialog.ShareDialog;
@@ -59,6 +45,20 @@ import jx.doctor.util.Util;
 import jx.doctor.view.CircleProgressView;
 import jx.doctor.view.meet.MaterialView;
 import jx.doctor.view.meet.ModuleLayout;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseActivity;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.model.MapList;
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.shape.CircleRenderer;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.ys.util.TimeFormatter;
 
 /**
  * 会议详情界面
@@ -93,7 +93,6 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     // 单位号介绍
     private NetworkImageView mIvNumber; // 单位号图标
     private TextView mTvUnitNum; // 单位号
-
 
     // 主讲者
     private NetworkImageView mIvGP; // 头像
@@ -466,6 +465,7 @@ public class MeetingDetailsActivity extends BaseActivity implements OnFuncListen
     protected void onDestroy() {
         super.onDestroy();
 
+        mModuleLayout.onDestroy();
         // 开启服务提交会议学习时间
         if (mMeetTime > 0) {
             CommonServRouter.create()

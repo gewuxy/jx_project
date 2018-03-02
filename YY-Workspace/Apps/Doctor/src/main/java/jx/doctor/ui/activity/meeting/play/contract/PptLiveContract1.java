@@ -7,9 +7,9 @@ import jx.doctor.model.meet.ppt.Course;
  * @since : 2017/10/30
  */
 
-public interface PptLiveContract {
+public interface PptLiveContract1 {
 
-    interface View extends BasePptContract.View {
+    interface View extends BasePptContract1.View {
 
         void addCourse(Course course);
 
@@ -21,7 +21,7 @@ public interface PptLiveContract {
         void setTextOnline(int onlineNum);
     }
 
-    interface Presenter extends BasePptContract.Presenter<View> {
+    interface Presenter extends BasePptContract1.Presenter<View> {
 
     }
 

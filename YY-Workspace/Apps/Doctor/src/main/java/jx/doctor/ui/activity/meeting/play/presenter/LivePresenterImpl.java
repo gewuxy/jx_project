@@ -6,13 +6,6 @@ import android.os.Message;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.util.TextUtil;
-import lib.jx.contract.BasePresenterImpl;
-import okhttp3.WebSocket;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.TCourse;
 import jx.doctor.model.meet.ppt.CourseInfo;
@@ -24,7 +17,13 @@ import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 import jx.doctor.ui.activity.meeting.play.MeetWebSocketListener;
 import jx.doctor.ui.activity.meeting.play.contract.LiveContract;
 import jx.doctor.util.NetPlayer;
-import jx.doctor.util.Time;
+import lib.jx.contract.BasePresenterImpl;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.util.TextUtil;
+import okhttp3.WebSocket;
 
 /**
  * @auther : GuoXuan
@@ -64,6 +63,11 @@ public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> impl
     public void starCount() {
         mHandler.removeMessages(0);
         mHandler.sendEmptyMessageDelayed(0, TimeUnit.SECONDS.toMillis(3));
+    }
+
+    @Override
+    public void stopCount() {
+        mHandler.removeMessages(0);
     }
 
     @Override
@@ -113,8 +117,6 @@ public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> impl
     @Override
     public void onPreparedSuccess(long allMillisecond) {
         mAllMillisecond = allMillisecond;
-        getView().getPptFrag().mediaVisibility(true);
-        getView().getPptFrag().animation(true);
     }
 
     @Override
@@ -124,17 +126,15 @@ public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> impl
 
     @Override
     public void onProgress(long currMilliseconds, int progress) {
-        getView().getPptFrag().setTextMedia(Time.getTime(mAllMillisecond - currMilliseconds));
+//        getView().getPptFrag().setTextMedia(Time.getTime(mAllMillisecond - currMilliseconds));
     }
 
     @Override
     public void onPlayState(boolean state) {
-        getView().getPptFrag().animation(state);
     }
 
     @Override
     public void onCompletion() {
-        getView().getPptFrag().animation(false);
         getView().nextItem();
     }
 
@@ -145,7 +145,6 @@ public class LivePresenterImpl extends BasePresenterImpl<LiveContract.View> impl
         MeetWebSocketListener.close(mWebSocket);
         mHandler.removeCallbacksAndMessages(null);
         NetPlayer.inst().recycle();
-
     }
 
     public class WebSocketImpl extends MeetWebSocketListener {

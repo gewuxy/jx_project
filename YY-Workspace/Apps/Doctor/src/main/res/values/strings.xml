@@ -175,6 +175,7 @@
 
     <string name="course_first">这是第一页喔</string>
     <string name="course_last">已是最后一页</string>
+    <string name="online_num">%d人在线</string>
 
     <!--通知-->
     <string name="notice">通知</string>

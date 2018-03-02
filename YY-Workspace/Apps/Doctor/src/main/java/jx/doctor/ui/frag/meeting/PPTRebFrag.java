@@ -1,15 +1,11 @@
 package jx.doctor.ui.frag.meeting;
 
-import android.content.res.Configuration;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -20,10 +16,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Route;
-import lib.ys.ConstantsEx;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.jx.ui.frag.base.BaseVPFrag;
 import jx.doctor.R;
 import jx.doctor.model.meet.Submit;
 import jx.doctor.model.meet.Submit.TSubmit;
@@ -45,6 +37,10 @@ import jx.doctor.ui.frag.meeting.course.VideoCourseFrag;
 import jx.doctor.ui.frag.meeting.course.VideoCourseFragRouter;
 import jx.doctor.util.NetPlayer;
 import jx.doctor.util.Util;
+import lib.jx.ui.frag.base.BaseVPFrag;
+import lib.ys.ConstantsEx;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
 
 /**
  * PPT部分
@@ -69,9 +65,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
 
     private View mLayoutNew;
     private TextView mTvNew;
-    private View mLayoutMedia;
-    private ImageView mIvMedia;
-    private TextView mTvMedia;
     private View mLayoutL;
 
     private Handler mHandler;
@@ -131,9 +124,9 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mLayoutNew = findView(R.id.ppt_layout);
         mTvNew = findView(R.id.ppt_tv_num);
 
-        mLayoutMedia = findView(R.id.ppt_layout_media);
-        mIvMedia = findView(R.id.ppt_iv_media);
-        mTvMedia = findView(R.id.ppt_tv_media);
+//        mLayoutMedia = findView(R.id.ppt_layout_media);
+//        mIvMedia = findView(R.id.ppt_iv_media);
+//        mTvMedia = findView(R.id.ppt_tv_media);
         mLayoutL = findView(R.id.ppt_layout_landscape);
     }
 
@@ -161,11 +154,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         saveStudyTime();
 
         mLastPosition = position;
-
-        mediaVisibility(false);
-        mTvMedia.setText("加载中");
-
-//        NetworkImageView.clearMemoryCache(getContext());
     }
 
     @Override
@@ -278,6 +266,11 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         super.setCurrPosition(position);
     }
 
+    @Override
+    public void setCurrPosition(int position, boolean smoothScroll) {
+        super.setCurrPosition(position, smoothScroll);
+    }
+
     public void offsetPosition(int offset, String content) {
         int position = getCurrPosition() + offset;
         if (position >= 0 && position <= getCount() - 1) {
@@ -318,7 +311,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         String url = frag.getUrl();
         if (TextUtil.isEmpty(url)) {
             // FIXME: 什么时候显示录音中
-            setTextMedia("录音中");
         } else {
             if (url.equals(mUrl) && NetPlayer.inst().isPlaying()) {
                 return;
@@ -337,12 +329,12 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mUrl = ConstantsEx.KEmpty;
     }
 
-    public boolean startVolume() {
-        return NetPlayer.inst().openVolume();
+    public void startVolume() {
+        NetPlayer.inst().openVolume();
     }
 
-    public boolean closeVolume() {
-        return NetPlayer.inst().closeVolume();
+    public void closeVolume() {
+        NetPlayer.inst().closeVolume();
     }
 
     /**
@@ -358,7 +350,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
                 return; // 未初始化成功
             }
             submit = getItem(mLastPosition).getSubmit();
-            mSubmits.put(Integer.valueOf(mLastPosition), submit);
+            mSubmits.put(mLastPosition, submit);
         }
         long studyTime = submit.getLong(TSubmit.usedtime, 0);
         long curTime = System.currentTimeMillis();
@@ -385,9 +377,11 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             ja.put(s.toJsonObject());
             if (submit == null) {
                 submit = new Submit();
-                submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
-                submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
-                submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
+                if (mPPT!=null) {
+                    submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
+                    submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
+                    submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
+                }
             }
         }
         if (submit != null) {
@@ -400,30 +394,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
     public void setTextNew(CharSequence c) {
         mTvNew.setText(c);
         newVisibility(true);
-    }
-
-    public void setTextMedia(CharSequence c) {
-        mTvMedia.setText(c);
-        mediaVisibility(true);
-    }
-
-    public void animation(boolean state) {
-        if (state) {
-            // 开启音频的时候需要显示(暂停不干涉)
-            mediaVisibility(true);
-        }
-        Drawable drawable = mIvMedia.getDrawable();
-        if (drawable instanceof AnimationDrawable) {
-            AnimationDrawable animation = (AnimationDrawable) drawable;
-            if (state == animation.isRunning()) {
-                return;
-            }
-            if (state) {
-                animation.start();
-            } else {
-                animation.stop();
-            }
-        }
     }
 
     /**
@@ -440,16 +410,6 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
         mHandler.removeMessages(Integer.MAX_VALUE);
         viewVisibility(mLayoutNew, visibility);
         mHandler.sendEmptyMessageDelayed(Integer.MAX_VALUE, TimeUnit.SECONDS.toMillis(5));
-    }
-
-    /**
-     * 右下角音频动画
-     */
-    public void mediaVisibility(boolean visibility) {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT || !visibility) {
-            // 竖屏或者需要隐藏的时候
-            viewVisibility(mLayoutMedia, visibility);
-        }
     }
 
     private void viewVisibility(View v, boolean visibility) {

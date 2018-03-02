@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 横屏布局 -->
+    <LinearLayout
+        android:id="@id/play_layout_frag_ppt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/meet_play_ppt"
+        android:layout_marginTop="101dp"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@id/play_frag_ppt"
+            android:name="jx.doctor.ui.frag.meeting.PPTRebFrag"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <!-- 竖屏布局 -->
+    <LinearLayout
+        android:id="@id/play_layout_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="44dp"/>
+
+        <RelativeLayout
+            android:id="@+id/ppt_live_layout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="57dp">
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:background="@color/text_006ebd"/>
+
+            <TextView
+                android:id="@+id/ppt_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="14dp"
+                android:includeFontPadding="false"
+                android:text="0人在线"
+                android:textColor="@color/text_006ebd"
+                android:textSize="15dp"/>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/meet_play_ppt"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@id/play_tv_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" / "
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@id/play_tv_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000"
+                android:textColor="@color/text_666"
+                android:textSize="15dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:clipChildren="false">
+
+                <ImageView
+                    android:id="@id/play_nav_iv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/meet_play_ic_comment"/>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@id/play_nav_iv_control"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_marginLeft="41dp"
+                android:src="@drawable/reb_select_control"/>
+
+            <ImageView
+                android:id="@id/play_nav_iv_landscape"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="41dp"
+                android:src="@drawable/meet_play_ic_to_landscape"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ppt_reb_layout_media_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="48dp"
+            android:clipChildren="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <SeekBar
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:max="100"
+                android:maxHeight="2dp"
+                android:minHeight="2dp"
+                android:progressDrawable="@drawable/bg_seek_bar_record"
+                android:thumb="@drawable/record_seek_bar_thumb"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="#9baec8"
+                android:textSize="10dp"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+

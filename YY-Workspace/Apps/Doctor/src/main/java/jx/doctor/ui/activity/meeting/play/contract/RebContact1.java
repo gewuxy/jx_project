@@ -7,17 +7,13 @@ import android.content.Context;
  * @since : 2017/11/17
  */
 
-public interface RebContact {
+public interface RebContact1 {
 
-    interface View extends BasePptContract.View {
+    interface View extends BasePptContract1.View {
 
     }
 
-    interface Presenter extends BasePptContract.Presenter<View> {
-
-        void start(int index);
-
-        void stop();
+    interface Presenter extends BasePptContract1.Presenter<View> {
 
         void toOverview(Context context, String title, int code);
     }

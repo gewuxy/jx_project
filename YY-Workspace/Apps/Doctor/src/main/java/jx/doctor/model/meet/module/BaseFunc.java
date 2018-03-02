@@ -5,17 +5,6 @@ import android.support.annotation.DrawableRes;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkReq;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.network.model.interfaces.OnNetworkListener;
-import lib.ys.AppEx;
-import lib.ys.ui.interfaces.impl.NetworkOpt;
-import lib.ys.util.LaunchUtil;
-import lib.ys.util.TextUtil;
-import lib.jx.notify.Notifier;
-import lib.jx.notify.Notifier.NotifyType;
 import jx.doctor.App;
 import jx.doctor.R;
 import jx.doctor.dialog.HintDialogMain;
@@ -31,6 +20,17 @@ import jx.doctor.ui.activity.me.profile.ModifyTextActivityRouter;
 import jx.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import jx.doctor.util.Util;
 import jx.doctor.view.meet.ModuleView;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkReq;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.network.model.interfaces.OnNetworkListener;
+import lib.ys.AppEx;
+import lib.ys.ui.interfaces.impl.NetworkOpt;
+import lib.ys.util.LaunchUtil;
+import lib.ys.util.TextUtil;
 
 /**
  * @auther yuansui
@@ -293,6 +293,13 @@ abstract public class BaseFunc implements OnNetworkListener, OnClickListener {
     public void onNetworkError(int id, NetworkError error) {
         if (mListener != null) {
             mListener.onFuncNormal();
+        }
+    }
+
+    public void onDestroy() {
+        if (mNetwork != null) {
+            mNetwork.onDestroy();
+            mNetwork = null;
         }
     }
 

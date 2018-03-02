@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import inject.annotation.router.Route;
-import jx.doctor.BuildConfig;
 import jx.doctor.R;
 import lib.jx.ui.frag.base.BaseFrag;
 import lib.live.LiveListener;
@@ -96,12 +95,12 @@ public class PPTLiveFrag extends BaseFrag {
         // do nothing
     }
 
-    public boolean setPlayUrl(String playUrl) {
+    public void setPlayUrl(String playUrl) {
         if (TextUtil.isEmpty(playUrl)) {
-            return false;
+            return;
         }
         mPlayUrl = playUrl;
-        return startPullStream();
+        startPullStream();
     }
 
     public boolean startPullStream() {

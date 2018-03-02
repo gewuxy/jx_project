@@ -1,6 +1,5 @@
 package jx.doctor.ui.frag;
 
-import android.os.Bundle;
 import android.view.View;
 
 import org.json.JSONException;
@@ -8,14 +7,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import lib.network.model.NetworkError;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.ui.other.NavBar;
-import lib.jx.network.Result;
-import lib.jx.notify.Notifier.NotifyType;
-import lib.jx.ui.frag.base.BaseSRListFrag;
 import jx.doctor.R;
 import jx.doctor.adapter.home.HomeAdapter;
 import jx.doctor.adapter.home.HomeUnitNumAdapter.onAttentionListener;
@@ -36,6 +27,14 @@ import jx.doctor.ui.activity.me.unitnum.UnitNumDetailActivity.AttentionUnitNum;
 import jx.doctor.ui.activity.search.SearchActivity;
 import jx.doctor.view.BadgeView;
 import jx.doctor.view.BannerView;
+import lib.jx.network.Result;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.frag.base.BaseSRListFrag;
+import lib.network.model.NetworkError;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.other.NavBar;
 
 /**
  * 首页
@@ -331,6 +330,15 @@ public class HomeFrag extends BaseSRListFrag<IHome, HomeAdapter> implements onAt
 
         if (mBannerView != null) {
             mBannerView.onPause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mBannerView != null) {
+            mBannerView.onDestroy();
         }
     }
 

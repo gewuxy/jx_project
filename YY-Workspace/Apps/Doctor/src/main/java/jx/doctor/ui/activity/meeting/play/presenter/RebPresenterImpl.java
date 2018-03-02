@@ -1,5 +1,10 @@
 package jx.doctor.ui.activity.meeting.play.presenter;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+
+import jx.doctor.ui.activity.meeting.OverviewActivityRouter;
 import jx.doctor.ui.activity.meeting.play.contract.RebContact;
 
 /**
@@ -32,6 +37,11 @@ public class RebPresenterImpl extends BasePptPresenterImpl<RebContact.View> impl
         removeMessages();
         stopMedia();
         getView().onPlayState(auto);
+    }
+
+    @Override
+    public void toOverview(Context context, String title, int code) {
+        OverviewActivityRouter.create(title, new ArrayList<>(mCourses)).route(context, code);
     }
 
     @Override

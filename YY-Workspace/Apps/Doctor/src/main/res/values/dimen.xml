@@ -23,7 +23,8 @@
     <dimen name="bind_margin">40dp</dimen>
 
     <!-- 会议 -->
-    <dimen name="meet_play_ppt">237dp</dimen>
-    <dimen name="meet_play_live">229dp</dimen>
+    <dimen name="meet_play_ppt">270dp</dimen>
+    <dimen name="meet_play_live_w">261dp</dimen>
+    <dimen name="meet_play_live_h">167dp</dimen>
 
 </resources>

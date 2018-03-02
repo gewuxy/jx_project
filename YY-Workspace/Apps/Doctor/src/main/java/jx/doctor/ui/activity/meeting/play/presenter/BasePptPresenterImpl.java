@@ -7,12 +7,6 @@ import android.support.annotation.CallSuper;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.jx.contract.BasePresenterImpl;
-import lib.jx.util.CountDown;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.CourseType;
 import jx.doctor.model.meet.ppt.Course.TCourse;
@@ -24,6 +18,12 @@ import jx.doctor.network.JsonParser;
 import jx.doctor.ui.activity.meeting.play.contract.BasePptContract;
 import jx.doctor.util.NetPlayer;
 import jx.doctor.util.Time;
+import lib.jx.contract.BasePresenterImpl;
+import lib.jx.util.CountDown;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
 
 /**
  * @auther : GuoXuan
@@ -126,7 +126,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
         c.put(TCourse.time, "音频"); // 清空时间
         c.put(TCourse.select, false); // 上一个取消选择
         c.put(TCourse.play, false); // 上一个取消播放
-        getView().invalidate(mPosition);
 
         mPosition = position;
         NetPlayer.inst().stop();
@@ -152,7 +151,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
         }
 
         course.put(TCourse.select, true); // 选中
-        getView().invalidate(mPosition);
     }
 
     protected void removeMessages() {
@@ -165,7 +163,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
         NetPlayer.inst().stop();
         if (mCourses != null) {
             mCourses.get(mPosition).put(TCourse.play, false);
-            getView().invalidate(mPosition);
         }
     }
 
@@ -177,12 +174,17 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
         } else {
             course.put(TCourse.play, true);
         }
-        getView().invalidate(index);
     }
 
     @Override
     public void starCount() {
         mCountDown.start(KDuration);
+    }
+
+    @Override
+    public void stopCount() {
+        mCountDown.stop();
+        getView().finishCount();
     }
 
     @Override
@@ -203,7 +205,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
         Course course = mCourses.get(mPosition);
         course.put(TCourse.play, true); // 播放
         course.put(TCourse.time, Time.getTime(mAllMillisecond));
-        getView().invalidate(mPosition);
     }
 
     @Override
@@ -216,7 +217,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
     public void onProgress(long currMilliseconds, int progress) {
         Course course = mCourses.get(mPosition);
         course.put(TCourse.time, Time.getTime(mAllMillisecond - currMilliseconds));
-        getView().invalidate(mPosition);
     }
 
     @Override
@@ -228,7 +228,6 @@ public class BasePptPresenterImpl<V extends BasePptContract.View> extends BasePr
     @Override
     public void onCompletion() {
         mCourses.get(mPosition).put(TCourse.play, false);
-        getView().invalidate(mPosition);
         getView().setNextItem();
     }
 

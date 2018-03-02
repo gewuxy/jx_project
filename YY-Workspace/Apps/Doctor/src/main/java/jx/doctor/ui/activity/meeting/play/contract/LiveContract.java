@@ -39,6 +39,8 @@ public interface LiveContract {
 
         void starCount();
 
+        void stopCount();
+
         void mediaStop();
     }
 }

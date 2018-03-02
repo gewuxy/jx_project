@@ -1,7 +1,5 @@
 package jx.doctor.ui.activity.meeting.play.contract;
 
-import android.support.annotation.DrawableRes;
-
 import lib.jx.contract.IContract;
 
 /**
@@ -39,12 +37,6 @@ public interface BasePlayContract {
         void toggle();
 
         /**
-         * 控制按钮的选择器
-         */
-        @DrawableRes
-        int getControlResId();
-
-        /**
          * 横屏时操作
          */
         void showLandscapeView();
@@ -53,6 +45,10 @@ public interface BasePlayContract {
          * 横屏右上角按钮
          */
         boolean getNavBarLandscape();
+    }
+
+    interface Presenter<V extends BasePlayContract.View> extends IContract.Presenter<V> {
+
     }
 
 }

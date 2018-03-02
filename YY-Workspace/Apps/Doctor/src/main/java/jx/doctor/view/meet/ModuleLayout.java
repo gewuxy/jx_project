@@ -9,10 +9,6 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import lib.ys.fitter.Fitter;
-import lib.ys.model.MapList;
-import lib.ys.util.UIUtil;
-import lib.ys.util.view.LayoutUtil;
 import jx.doctor.R;
 import jx.doctor.model.meet.MeetDetail;
 import jx.doctor.model.meet.MeetDetail.TMeetDetail;
@@ -20,6 +16,10 @@ import jx.doctor.model.meet.module.BaseFunc;
 import jx.doctor.model.meet.module.Module;
 import jx.doctor.model.meet.module.Module.ModuleType;
 import jx.doctor.model.meet.module.Module.TModule;
+import lib.ys.fitter.Fitter;
+import lib.ys.model.MapList;
+import lib.ys.util.UIUtil;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * 会议底下的模块
@@ -93,6 +93,16 @@ public class ModuleLayout extends LinearLayout {
             type = m.getInt(TModule.functionId);
             mFuncs.getByKey(type).setEnabled(true);
             mFuncs.getByKey(type).setId(m.getString(TModule.id));
+        }
+    }
+
+    public void onDestroy() {
+        if (mFuncs != null) {
+            for (BaseFunc func : mFuncs) {
+                func.onDestroy();
+            }
+            mFuncs.clear();
+            mFuncs = null;
         }
     }
 

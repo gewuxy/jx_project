@@ -1,26 +1,18 @@
 package jx.doctor.ui.activity.meeting.play;
 
+import android.support.annotation.CallSuper;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import java.util.List;
 
-import lib.ys.ConstantsEx;
-import lib.ys.adapter.recycler.OnRecyclerItemClickListener;
-import lib.ys.adapter.recycler.RecyclerAdapterEx;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.network.image.NetworkImageView;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.util.res.ResLoader;
-import lib.ys.util.view.LayoutUtil;
+import jx.doctor.App;
 import jx.doctor.R;
-import jx.doctor.adapter.meeting.PptBreviaryAdapter;
 import jx.doctor.model.meet.ppt.Course;
-import jx.doctor.model.meet.ppt.CourseInfo;
-import jx.doctor.model.meet.ppt.CourseInfo.TCourseInfo;
 import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.model.meet.ppt.PPT.TPPT;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
@@ -28,8 +20,12 @@ import jx.doctor.ui.activity.meeting.play.contract.BasePptContract;
 import jx.doctor.ui.frag.meeting.PPTRebFrag;
 import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import jx.doctor.ui.frag.meeting.course.VideoCourseFrag;
-import jx.doctor.view.discretescrollview.DiscreteScrollView;
-import jx.doctor.view.discretescrollview.ScaleTransformer;
+import lib.ys.ConstantsEx;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.network.image.NetworkImageView;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.util.res.ResLoader;
+import lib.ys.util.view.LayoutUtil;
 
 /**
  * 观看会议(录播 / PPT直播)
@@ -43,34 +39,26 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
     private View mLayoutFrag;
     private PPTRebFrag mFragReb;
 
-    private DiscreteScrollView mRv;
-
     private LayoutParams mParamP;
     private LayoutParams mParamL;
+
+    private TextView mTvTitle;
 
     public PPTRebFrag getFragPpt() {
         return mFragReb;
     }
 
-    public DiscreteScrollView getRv() {
-        return mRv;
-    }
-
+    @CallSuper
     @Override
-    public final int getContentViewId() {
-        return R.layout.activity_ppt;
-    }
-
-    @Override
-    public final void findViews() {
+    public void findViews() {
         super.findViews();
 
-        mFragReb = findFragment(R.id.ppt_frag_ppt);
-        mLayoutFrag = findView(R.id.ppt_layout_ppt);
-
-        mRv = findView(R.id.ppt_rv);
+        mFragReb = findFragment(R.id.play_frag_ppt);
+//        mLayoutFrag = findView(R.id.ppt_layout_ppt);
+        mTvTitle = findView(R.id.ppt_tv_title);
     }
 
+    @CallSuper
     @Override
     public void setViews() {
         super.setViews();
@@ -79,6 +67,7 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         getP().exeNetworkReq(MeetAPI.toCourse(mMeetId, mModuleId).build());
 
         mFragReb.addOnPageChangeListener(this);
+        mTvTitle.setText(mTitle);
     }
 
     @Override
@@ -91,7 +80,6 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         NetworkImageView.clearMemoryCache(BasePptActivity.this);
 
         setTextCur(position + 1);
-        mRv.smoothScrollToPosition(position);
     }
 
     @Override
@@ -126,26 +114,29 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
 
         @Override
         public void portrait() {
-            mFragReb.landscapeVisibility(false);
-            BasePptActivity.this.showView(R.id.ppt_layout_p);
+            BasePptActivity.this.showView(R.id.play_layout_portrait);
 
             if (mParamP == null) {
                 mParamP = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, (int) ResLoader.getDimension(R.dimen.meet_play_ppt));
+                mParamP.topMargin = fit(App.NavBarVal.KHeightDp) + findView(R.id.ppt_live_layout_title).getMeasuredHeight();
             }
             mLayoutFrag.setLayoutParams(mParamP);
-            getV().finishCount();
+            mFragReb.landscapeVisibility(false);
+            getP().stopCount();
+            showView(getNavBar());
+            setNavBarP();
         }
 
         @Override
         public void landscape() {
-            mFragReb.landscapeVisibility(true);
-            BasePptActivity.this.goneView(R.id.ppt_layout_p);
+            BasePptActivity.this.goneView(R.id.play_layout_portrait);
 
             if (mParamL == null) {
                 mParamL = LayoutUtil.getRelativeParams(LayoutUtil.MATCH_PARENT, LayoutUtil.MATCH_PARENT);
             }
             mLayoutFrag.setLayoutParams(mParamL);
             showLandscapeView();
+            setNavBarL();
         }
 
         @Override
@@ -178,29 +169,6 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
             mFragReb.addCourses();
 
             setTextComment(ppt.getInt(TPPT.count));
-            CourseInfo courseInfo = ppt.get(TPPT.course);
-            setTextTitle(courseInfo.getString(TCourseInfo.title));
-
-            PptBreviaryAdapter adapter = new PptBreviaryAdapter();
-            adapter.setData(courses);
-            adapter.setOnItemClickListener(new OnRecyclerItemClickListener() {
-
-                @Override
-                public void onItemClick(View v, int position) {
-                    if (position == mFragReb.getCurrPosition()) {
-                        getP().playMedia(position);
-                    } else {
-                        mFragReb.setCurrPosition(position);
-                    }
-                }
-
-            });
-            mRv.setAdapter(adapter);
-            mRv.setSlideOnFling(true);
-            mRv.setItemTransitionTimeMillis(150);
-            mRv.setItemTransformer(new ScaleTransformer.Builder()
-                    .setMinScale(0.8f)
-                    .build());
 
             setTextAll(courses.size());
             setTextCur(1);
@@ -222,25 +190,14 @@ abstract public class BasePptActivity<V extends BasePptContract.View, P extends 
         }
 
         @Override
-        public void invalidate(int position) {
-            RecyclerAdapterEx p = (RecyclerAdapterEx) mRv.getAdapter();
-            p.invalidate(position);
-        }
-
-        @Override
         public void setNextItem() {
             mFragReb.offsetPosition(1, ConstantsEx.KEmpty);
         }
 
         @Override
         public void finishCount() {
-            BasePptActivity.this.goneView(getNavBar());
+            goneView(getNavBar());
             mFragReb.landscapeVisibility(false);
-        }
-
-        @Override
-        public void setTextOnline(int onlineNum) {
-            BasePptActivity.this.setTextOnline(onlineNum);
         }
 
     }

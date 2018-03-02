@@ -4,10 +4,10 @@ import com.pili.pldroid.player.widget.PLVideoTextureView;
 
 import java.util.List;
 
-import lib.ys.ui.interfaces.opt.ICommonOpt;
-import lib.jx.contract.IContract;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.PPT;
+import lib.jx.contract.IContract;
+import lib.ys.ui.interfaces.opt.ICommonOpt;
 
 /**
  * @auther : GuoXuan
@@ -32,11 +32,6 @@ public interface BasePptContract {
         PLVideoTextureView getTextureView();
 
         /**
-         * 刷新某一条的数据
-         */
-        void invalidate(int position);
-
-        /**
          * 下一页
          */
         void setNextItem();
@@ -45,11 +40,6 @@ public interface BasePptContract {
          * 计时结束(横屏)
          */
         void finishCount();
-
-        /**
-         * 更新在线人数
-         */
-        void setTextOnline(int onlineNum);
     }
 
     interface Presenter<V extends View> extends IContract.Presenter<V> {
@@ -73,6 +63,11 @@ public interface BasePptContract {
          * 开始计时
          */
         void starCount();
+
+        /**
+         * 停止计时
+         */
+        void stopCount();
 
         /**
          * 图片3秒下一页

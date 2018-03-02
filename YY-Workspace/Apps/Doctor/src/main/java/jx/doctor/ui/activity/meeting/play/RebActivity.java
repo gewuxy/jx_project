@@ -1,15 +1,19 @@
 package jx.doctor.ui.activity.meeting.play;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import java.util.List;
 
 import inject.annotation.router.Route;
+import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.ui.activity.meeting.play.contract.RebContact;
 import jx.doctor.ui.activity.meeting.play.presenter.RebPresenterImpl;
+import lib.ys.ui.other.NavBar;
 
 /**
  * 录播界面
@@ -20,18 +24,28 @@ import jx.doctor.ui.activity.meeting.play.presenter.RebPresenterImpl;
 @Route
 public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Presenter> {
 
-    @Override
-    public void setViews() {
-        super.setViews();
+    private final int KCodeReq = 10;
 
-        goneView(R.id.play_layout_online);
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_ppt_reb;
     }
 
+    @Override
+    public void initNavBar(NavBar bar) {
+        super.initNavBar(bar);
+
+        bar.addViewRight(R.drawable.nav_bar_ic_preview, l ->
+                getP().toOverview(this, mUnitNum, KCodeReq));
+    }
+
+    @NonNull
     @Override
     protected RebContact.View createV() {
         return new RebViewImpl();
     }
 
+    @NonNull
     @Override
     protected RebContact.Presenter createP(RebContact.View view) {
         return new RebPresenterImpl(view);
@@ -51,16 +65,21 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         getP().stop();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == KCodeReq && resultCode == RESULT_OK && data != null) {
+            int index = data.getIntExtra(Extra.KData, 0);
+            getFragPpt().setCurrPosition(index, false);
+        }
+    }
+
     private class RebViewImpl extends BasePptViewImpl implements RebContact.View {
 
         @Override
         public boolean getNavBarLandscape() {
             return false;
-        }
-
-        @Override
-        public int getControlResId() {
-            return R.drawable.reb_select_control;
         }
 
         @Override

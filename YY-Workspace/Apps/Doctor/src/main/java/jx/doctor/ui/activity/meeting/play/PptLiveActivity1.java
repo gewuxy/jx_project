@@ -1,20 +1,23 @@
 package jx.doctor.ui.activity.meeting.play;
 
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import inject.annotation.router.Route;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.TCourse;
 import jx.doctor.model.meet.ppt.PPT;
-import jx.doctor.ui.activity.meeting.play.contract.PptLiveContract;
-import jx.doctor.ui.activity.meeting.play.presenter.PptLivePresenterImpl;
+import jx.doctor.ui.activity.meeting.play.contract.PptLiveContract1;
+import jx.doctor.ui.activity.meeting.play.presenter.PptLivePresenterImpl1;
 import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
+import jx.doctor.util.Util;
 import lib.ys.YSLog;
+import lib.ys.ui.other.NavBar;
 
 /**
  * ppt直播(无视频)
@@ -23,25 +26,35 @@ import lib.ys.YSLog;
  * @since : 2017/10/27
  */
 @Route
-public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLiveContract.Presenter> {
+public class PptLiveActivity1 extends BasePptActivity1<PptLiveContract1.View, PptLiveContract1.Presenter> {
 
     private TextView mTvOnline;
+    private View mIvControlL;
+
+    @NonNull
+    @Override
+    protected PptLiveContract1.View createV() {
+        return new PptLiveViewImpl();
+    }
+
+    @NonNull
+    @Override
+    protected PptLiveContract1.Presenter createP(PptLiveContract1.View view) {
+        return new PptLivePresenterImpl1(view);
+    }
 
     @Override
     public int getContentViewId() {
         return R.layout.activity_ppt_live;
     }
 
-    @NonNull
     @Override
-    protected PptLiveContract.View createV() {
-        return new PptLiveViewImpl();
-    }
+    public void initNavBar(NavBar bar) {
+        super.initNavBar(bar);
 
-    @NonNull
-    @Override
-    protected PptLiveContract.Presenter createP(PptLiveContract.View view) {
-        return new PptLivePresenterImpl(view);
+        ViewGroup view = bar.addViewRight(R.drawable.play_audio_selector, v -> mIvControl.performClick());
+        mIvControlL = Util.getBarView(view, ImageView.class);
+        goneView(mIvControlL);
     }
 
     @Override
@@ -55,59 +68,53 @@ public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLi
     public void setViews() {
         super.setViews();
 
-        goneView(getNavBarControl());
-        getV().setTextOnline(0);
+        mV.setTextOnline(0);
     }
 
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
-        getP().playMedia(position);
-        if (position == getFragPpt().getCount() - 1) {
-            getFragPpt().newVisibility(false);
+        mP.playMedia(position);
+        if (position == mFragPpt.getCount() - 1) {
+            mFragPpt.newVisibility(false);
         }
     }
 
-    private class PptLiveViewImpl extends BasePptViewImpl implements PptLiveContract.View {
+    private class PptLiveViewImpl extends BasePptViewImpl implements PptLiveContract1.View {
 
         @Override
-        public boolean getNavBarLandscape() {
-            return true;
+        public void onPlayState(boolean state) {
+            super.onPlayState(state);
+
+            mIvControlL.setSelected(state);
         }
 
         @Override
         public void portrait() {
             super.portrait();
 
-            goneView(getNavBarControl());
+            goneView(mIvControlL);
         }
 
         @Override
         public void landscape() {
             super.landscape();
 
-            showView(getNavBarControl());
+            showView(mIvControlL);
         }
 
         @Override
-        public void portraitInit(PPT ppt, List<Course> courses) {
-            super.portraitInit(ppt, courses);
-            onPlayState(true); // 非静音
+        public void onNetworkSuccess(PPT ppt) {
+            super.onNetworkSuccess(ppt);
 
-            addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    getFragPpt().setToLastPosition();
-                    removeOnGlobalLayoutListener(this);
-                }
-            });
+            mFragPpt.setToLastPosition();
         }
 
         @Override
         public void addCourse(Course course) {
-            int position = getFragPpt().getCount() - 1;
-            BaseCourseFrag f = getFragPpt().getItem(position);
+            int position = mFragPpt.getCount() - 1;
+            BaseCourseFrag f = mFragPpt.getItem(position);
             if (f == null) {
                 return;
             }
@@ -118,31 +125,31 @@ public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLi
             boolean temp = c.getBoolean(TCourse.temp);
             if (temp) {
                 YSLog.d(TAG, "addCourse : update");
-                int cur = getFragPpt().getCurrPosition();
-                getFragPpt().removeCourse(c);
-                getFragPpt().addCourse(course);
+                int cur = mFragPpt.getCurrPosition();
+                mFragPpt.removeCourse(c);
+                mFragPpt.addCourse(course);
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                     @Override
                     public void onGlobalLayout() {
-                        getFragPpt().setCurrPosition(cur);
+                        mFragPpt.setCurrPosition(cur);
                         removeOnGlobalLayoutListener(this);
                     }
 
                 });
             } else {
                 YSLog.d(TAG, "addCourse : add");
-                getFragPpt().addCourse(course);
+                mFragPpt.addCourse(course);
                 addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                     @Override
                     public void onGlobalLayout() {
-                        int count = getFragPpt().getCount();
-                        if (count != getFragPpt().getCurrPosition()) {
+                        int count = mFragPpt.getCount();
+                        if (count != mFragPpt.getCurrPosition()) {
                             // 不在最新页提示新的一页完成
-                            getFragPpt().setTextNew(String.valueOf(count));
+                            mFragPpt.setTextNew(String.valueOf(count));
                         }
-                        setTextAll(count);
+                        mTvAll.setText(fitNumber(count));
                         removeOnGlobalLayoutListener(this);
                     }
 
@@ -161,7 +168,14 @@ public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLi
         @Override
         public void refresh(Course course) {
             // 播放音频
-            getFragPpt().startPlay();
+            mFragPpt.startPlay();
+        }
+
+        @Override
+        public void landscapeIntercept() {
+            super.landscapeIntercept();
+
+            mFragPpt.landscapeVisibility(true);
         }
     }
 }

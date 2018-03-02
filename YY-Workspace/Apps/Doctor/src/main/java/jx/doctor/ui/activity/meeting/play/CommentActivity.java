@@ -1,6 +1,5 @@
 package jx.doctor.ui.activity.meeting.play;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,20 +13,6 @@ import java.util.concurrent.TimeUnit;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
-import lib.network.model.NetworkError;
-import lib.network.model.NetworkResp;
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
-import lib.ys.ui.decor.DecorViewEx.ViewState;
-import lib.ys.ui.other.NavBar;
-import lib.ys.util.TextUtil;
-import lib.ys.util.view.ViewUtil;
-import lib.jx.ui.activity.base.BaseListActivity;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
-import okio.ByteString;
 import jx.doctor.R;
 import jx.doctor.adapter.meeting.CommentAdapter;
 import jx.doctor.model.meet.Comment;
@@ -38,6 +23,20 @@ import jx.doctor.network.JsonParser;
 import jx.doctor.network.NetFactory;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 import jx.doctor.util.Util;
+import lib.jx.ui.activity.base.BaseListActivity;
+import lib.network.model.NetworkError;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.config.AppConfig.RefreshWay;
+import lib.ys.ui.decor.DecorViewEx.ViewState;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.TextUtil;
+import lib.ys.util.view.ViewUtil;
+import okhttp3.Response;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
+import okio.ByteString;
 
 /**
  * 会议评论界面
@@ -60,11 +59,12 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
     private EditText mEtSend;
     private WebSocket mWebSocket;
     private boolean mSuccess; // WebSocket连接成功
-
+    private CommentListener mListener;
 
     @Override
     public void initData() {
         mSuccess = false; // 没连接默认失败
+        mListener = new CommentListener();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
          * @deprecated 这版本没有下拉加载以前数据
          */
         exeNetworkReq(MeetAPI.commentHistories(mMeetId, 100, 1).build());
-        mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
+        mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), mListener);
     }
 
     @Override
@@ -249,7 +249,7 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
         @Override
         public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-            YSLog.d(TAG, "onFailure:");
+            YSLog.d(TAG, "onFailure:" + t.getMessage());
             // 2S秒后重连
             if (isFinishing()) {
                 return;
@@ -261,7 +261,7 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
                 }
 
                 // 没退出继续重连
-                mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), new CommentListener());
+                mWebSocket = exeWebSocketReq(NetFactory.commentIM(mMeetId), mListener);
             }, TimeUnit.SECONDS.toMillis(2));
 
         }

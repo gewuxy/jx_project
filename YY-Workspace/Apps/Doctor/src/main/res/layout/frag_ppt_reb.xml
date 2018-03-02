@@ -25,38 +25,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ppt_layout_media"
-        android:layout_width="wrap_content"
-        android:layout_height="18dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/margin"
-        android:layout_marginRight="@dimen/margin"
-        android:background="@drawable/bg_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="7dp"
-        android:paddingRight="7dp"
-        android:visibility="gone">
-
-        <ImageView
-            android:id="@+id/ppt_iv_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/animation_audio"/>
-
-        <TextView
-            android:id="@+id/ppt_tv_media"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:includeFontPadding="false"
-            android:text="录音中"
-            android:textColor="@color/text_fff"
-            android:textSize="7dp"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/ppt_layout"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
@@ -95,25 +63,23 @@
 
         <ImageView
             android:id="@+id/ppt_iv_left_landscape"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/margin"
             android:background="@drawable/btn_selector_oval"
-            android:padding="5dp"
-            android:src="@drawable/meet_play_ic_left_l"/>
+            android:src="@drawable/meet_play_ic_left"/>
 
         <ImageView
             android:id="@+id/ppt_iv_right_landscape"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="@dimen/margin"
             android:background="@drawable/btn_selector_oval"
-            android:padding="5dp"
-            android:src="@drawable/meet_play_ic_right_l"/>
+            android:src="@drawable/meet_play_ic_right"/>
 
     </RelativeLayout>
 </RelativeLayout>
