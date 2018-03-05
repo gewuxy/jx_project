@@ -1,9 +1,7 @@
 package jx.doctor.ui.activity.meeting.play.presenter;
 
-import lib.network.model.interfaces.IResult;
-import lib.ys.YSLog;
-import lib.ys.util.TextUtil;
-import okhttp3.WebSocket;
+import java.util.List;
+
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.Course.TCourse;
 import jx.doctor.model.meet.ppt.PPT.TPPT;
@@ -11,21 +9,21 @@ import jx.doctor.network.NetFactory;
 import jx.doctor.ui.activity.meeting.play.MeetWebSocketListener;
 import jx.doctor.ui.activity.meeting.play.contract.PptLiveContract;
 import jx.doctor.util.NetPlayer;
+import lib.network.model.interfaces.IResult;
+import lib.ys.YSLog;
+import lib.ys.util.TextUtil;
+import okhttp3.WebSocket;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/9/26
  */
-public class PptLivePresenterImpl extends BasePptPresenterImpl<PptLiveContract.View> implements PptLiveContract.Presenter {
+public class PptLivePresenterImpl extends BasePlayPresenterImpl<PptLiveContract.View> implements PptLiveContract.Presenter {
 
     private WebSocket mWebSocket;
 
-    private boolean mPlay; // 播放声音
-
     public PptLivePresenterImpl(PptLiveContract.View view) {
         super(view);
-
-        mPlay = true;
     }
 
     @Override
@@ -48,11 +46,10 @@ public class PptLivePresenterImpl extends BasePptPresenterImpl<PptLiveContract.V
         super.toggle(index);
 
         if (mPlay) {
-            mPlay = NetPlayer.inst().closeVolume();
+            NetPlayer.inst().openVolume();
         } else {
-            mPlay = NetPlayer.inst().openVolume();
+            NetPlayer.inst().closeVolume();
         }
-        getView().onPlayState(mPlay);
     }
 
     @Override
@@ -73,10 +70,11 @@ public class PptLivePresenterImpl extends BasePptPresenterImpl<PptLiveContract.V
         public void onMessage(int order, int index, Course course) {
             if (order == OrderType.live) {
                 // 直播(音频)
-                if (mCourses == null || index > mCourses.size() - 1) {
+                List<Course> courses = getCourses();
+                if (courses == null || index > courses.size() - 1) {
                     return;
                 }
-                Course c = mCourses.get(index);
+                Course c = courses.get(index);
                 c.put(TCourse.audioUrl, course.getString(TCourse.audioUrl));
                 c.put(TCourse.imgUrl, course.getString(TCourse.imgUrl));
                 c.put(TCourse.temp, false); // 已经换了

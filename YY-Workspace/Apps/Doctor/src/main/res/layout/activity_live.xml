@@ -57,6 +57,43 @@
             android:layout_height="@dimen/meet_play_ppt">
 
             <LinearLayout
+                android:id="@+id/live_layout_title"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginRight="19dp"
+                android:layout_marginTop="36dp"
+                android:background="@drawable/play_live_bg_title"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="20dp"
+                    android:background="@color/text_006ebd"/>
+
+                <TextView
+                    android:id="@+id/live_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="13dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/text_fff"
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/live_iv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="13dp"
+                    android:src="@drawable/meeting_ic_live_title"/>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

@@ -5,22 +5,27 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.view.MotionEvent;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import inject.annotation.router.Arg;
 import jx.doctor.R;
+import jx.doctor.model.meet.ppt.Course;
+import jx.doctor.model.meet.ppt.CourseInfo;
+import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.ui.activity.meeting.play.contract.BasePlayContract;
-import jx.doctor.util.Util;
-import lib.jx.contract.IContract;
+import jx.doctor.ui.frag.meeting.PPTRebFrag;
+import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
+import jx.doctor.ui.frag.meeting.course.VideoCourseFrag;
 import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.ys.ConstantsEx;
+import lib.ys.config.AppConfig;
 import lib.ys.ui.decor.DecorViewEx.TNavBarState;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.interfaces.opt.ICommonOpt;
@@ -30,8 +35,9 @@ import lib.ys.ui.other.NavBar;
  * @auther : GuoXuan
  * @since : 2017/9/25
  */
-
-abstract public class BasePlayActivity<V extends BasePlayContract.View, P extends IContract.Presenter<V>> extends BaseActivity {
+abstract public class BasePlayActivity<V extends BasePlayContract.View, P extends BasePlayContract.Presenter<V>>
+        extends BaseActivity
+        implements ViewPager.OnPageChangeListener {
 
     @Arg(opt = true)
     String mUnitNum; // 单位号
@@ -45,43 +51,33 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     @Arg
     String mModuleId; // 模块ID
 
-    private ImageView mIvControlL; // nav bar 右上角的按钮
-    private TextView mNavBarMid;
+    private TextView mNavBarMid; // 标题
+
+    private View mLayoutPortrait;
 
     // 底部按钮
+    private ImageView mIvComment;
+    protected ImageView mIvControl;
+    private ImageView mIvLandscape;
+
     private TextView mTvComment;
-    private ImageView mIvControlP;
-    private TextView mTvAll;
+    protected TextView mTvAll;
     private TextView mTvCur;
 
-    private V mV;
-    private P mP;
+    protected View mLayoutFrag;
+    protected PPTRebFrag mFragPpt;
 
-    protected V getV() {
-        if (mV == null) {
-            mV = createV();
-        }
-        return mV;
-    }
-
-    protected P getP() {
-        if (mP == null) {
-            mP = createP(getV());
-        }
-        return mP;
-    }
-
-    protected ImageView getNavBarControl() {
-        return mIvControlL;
-    }
+    protected V mV;
+    protected P mP;
 
     @CallSuper
     @Override
     public void initData() {
         notify(NotifyType.study_start);
 
-        mV = getV();
-        mP = getP();
+        mV = createV();
+        mP = createP(mV);
+        mP.setData(mMeetId, mModuleId);
     }
 
     @CallSuper
@@ -90,55 +86,35 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         bar.addViewLeft(R.drawable.nav_bar_ic_back, v -> onBackPressed());
 
         mNavBarMid = bar.addTextViewMid(mUnitNum);
-        if (mV.getNavBarLandscape()) {
-            ViewGroup view = bar.addViewRight(R.drawable.play_audio_selector, v -> mIvControlP.performClick());
-            mIvControlL = Util.getBarView(view, ImageView.class);
-        }
     }
 
     @CallSuper
     @Override
     public void findViews() {
+        mLayoutPortrait = findView(R.id.play_layout_portrait);
+        mIvComment = findView(R.id.play_nav_iv_comment);
+        mIvControl = findView(R.id.play_nav_iv_control);
+        mIvLandscape = findView(R.id.play_nav_iv_landscape);
         mTvComment = findView(R.id.play_nav_tv_comment);
-        mIvControlP = findView(R.id.play_nav_iv_control);
-
         mTvCur = findView(R.id.play_tv_current);
         mTvAll = findView(R.id.play_tv_all);
+        mLayoutFrag = findView(R.id.play_layout_frag_ppt);
+        mFragPpt = findFragment(R.id.play_frag_ppt);
     }
 
     @CallSuper
     @Override
     public void setViews() {
-        setOnClickListener(R.id.play_nav_iv_comment);
-        setOnClickListener(R.id.play_nav_iv_control);
-        setOnClickListener(R.id.play_nav_iv_landscape);
+        setOnClickListener(mIvComment);
+        setOnClickListener(mIvControl);
+        setOnClickListener(mIvLandscape);
+        setOnClickListener(mLayoutFrag);
 
-//        setOnClickListener(R.id.play_iv_left);
-//        setOnClickListener(R.id.play_iv_right);
+        mFragPpt.addOnPageChangeListener(this);
+        mFragPpt.setFragClickListener(() -> mV.landscapeIntercept());
 
-//        mIvControlP.setImageResource(mV.getControlResId());
-
-        addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @Override
-            public void onGlobalLayout() {
-                if (orientationLandscape()) {
-                    setNavBarL();
-                }
-                removeOnGlobalLayoutListener(this);
-            }
-
-        });
-    }
-
-    protected void setNavBarL() {
-        getNavBar().setBackgroundColor(Color.BLACK);
-        getNavBar().setBackgroundAlpha(127);
-    }
-
-    protected void setNavBarP() {
-        getNavBar().setBackgroundResource(R.color.app_nav_bar_bg);
-        getNavBar().setBackgroundAlpha(255);
+        refresh(AppConfig.RefreshWay.embed);
+        mP.getDataFromNet();
     }
 
     @Override
@@ -147,14 +123,23 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     }
 
     @Override
-    public final void onClick(View v) {
+    public boolean onRetryClick() {
+        if (!super.onRetryClick()) {
+            refresh(AppConfig.RefreshWay.embed);
+            mP.getDataFromNet();
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_nav_iv_comment: {
                 CommentActivityRouter.create(mMeetId).route(this);
             }
             break;
             case R.id.play_nav_iv_control: {
-                mV.toggle();
+                mP.toggle(mFragPpt.getCurrPosition());
             }
             break;
             case R.id.play_nav_iv_landscape: {
@@ -164,36 +149,42 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
                 mV.landscape();
             }
             break;
-//            case R.id.play_iv_left: {
-//                mV.toLeft();
-//            }
-//            break;
-//            case R.id.play_iv_right: {
-//                mV.toRight();
-//            }
-//            break;
-            default: {
-                onClick(v.getId());
-            }
-            break;
         }
     }
 
     @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        // do nothing
+    }
+
+    @CallSuper
+    @Override
+    public void onPageSelected(int position) {
+        mTvCur.setText(fitNumber(position + 1));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        // do nothing
+    }
+
+    @Override
     public final void onBackPressed() {
-        if (orientationLandscape()) {
-            nativePortrait();
+        if (orientation()) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            mNavBarMid.setText(mUnitNum);
+            setBarPortrait();
+            mV.portrait();
         } else {
             super.onBackPressed();
         }
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (orientationLandscape()) {
-            mV.showLandscapeView();
-        }
-        return super.onInterceptTouchEvent(ev);
+    protected void onPause() {
+        super.onPause();
+
+        mP.stopMedia();
     }
 
     @Override
@@ -202,61 +193,35 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
 
         // 保持调用顺序
         super.onDestroy();
-    }
 
-    private void nativePortrait() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mNavBarMid.setText(mUnitNum);
-        setNavBarP();
-        mV.portrait();
+        mP.onDestroy();
     }
 
     /**
-     * 点击事件
+     * NavBar竖屏设置
+     */
+    protected void setBarPortrait() {
+        getNavBar().setBackgroundResource(R.color.app_nav_bar_bg);
+        getNavBar().setBackgroundAlpha(255);
+    }
+
+    /**
+     * 屏幕方向
      *
-     * @param id View的id{@link View#getId()}
+     * @return true 横屏 , false 竖屏
      */
-    protected void onClick(int id) {
-        // do nothing
-    }
-
-    protected void setPlayState(boolean state) {
-        mIvControlP.setSelected(state);
-        if (mIvControlL != null) {
-            // 录播横屏没有按钮
-            mIvControlL.setSelected(state);
-        }
-    }
-
-    /**
-     * 屏幕方向是否为横屏
-     */
-    protected boolean orientationLandscape() {
+    protected boolean orientation() {
         return getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
-    protected void goneView(@IdRes int resId) {
-        goneView(findView(resId));
-    }
-
-    protected void showView(@IdRes int resId) {
-        showView(findView(resId));
-    }
-
-    protected void setTextComment(int num) {
-        //mTvComment.setText(num <= 0 ? "评论" : String.valueOf(num));
-    }
-
-    protected void setTextCur(int position) {
-        mTvCur.setText(fitNumber(position));
-    }
-
-    protected void setTextAll(int size) {
-        mTvAll.setText(fitNumber(size));
-    }
-
+    /**
+     * 修正页码
+     *
+     * @param number 页面
+     * @return 形如XXX(001, 010, 100)
+     */
     @NonNull
-    private StringBuffer fitNumber(int number) {
+    protected StringBuffer fitNumber(int number) {
         StringBuffer position = new StringBuffer();
         if (number < 10) {
             position.append("00").append(number);
@@ -268,6 +233,15 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         return position;
     }
 
+    /**
+     * 计时准备
+     */
+    protected void countStart() {
+        mP.startCount();
+        showView(getNavBar());
+        mFragPpt.landscapeVisibility(true);
+    }
+
     @NonNull
     abstract protected V createV();
 
@@ -277,7 +251,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     /**
      * BaseView暂时没有extends ICommonOpt(项目框架)
      */
-    protected class BaseViewImpl implements IContract.View, ICommonOpt {
+    abstract protected class BasePlayViewImpl implements BasePlayContract.View, ICommonOpt {
 
         @Override
         public void showView(View v) {
@@ -327,6 +301,85 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         @Override
         public void setViewState(@ViewState int state) {
             BasePlayActivity.this.setViewState(state);
+        }
+
+        @CallSuper
+        @Override
+        public void onNetworkSuccess(PPT ppt) {
+            setViewState(ViewState.normal);
+            if (ppt != null) {
+                CourseInfo courseInfo = ppt.get(PPT.TPPT.course);
+                if (courseInfo != null) {
+                    List<Course> courses = courseInfo.getList(CourseInfo.TCourseInfo.details);
+                    if (courses != null) {
+                        mTvAll.setText(fitNumber(courses.size()));
+                        mTvCur.setText(fitNumber(1));
+                    }
+                }
+                int num = ppt.getInt(PPT.TPPT.count);
+                if (num <= 0) {
+                    goneView(mTvComment);
+                } else if (num < 1000) {
+                    mTvComment.setText(String.valueOf(num));
+                } else {
+                    mTvComment.setText("999+");
+                }
+                mFragPpt.setPPT(ppt);
+                mFragPpt.addCourses();
+                onPlayState(true);
+            }
+        }
+
+        @CallSuper
+        @Override
+        public void portrait() {
+            countStart();
+            setBarPortrait();
+            showView(mLayoutPortrait);
+        }
+
+        @CallSuper
+        @Override
+        public void landscape() {
+            countStart();
+            getNavBar().setBackgroundColor(Color.BLACK);
+            getNavBar().setBackgroundAlpha(127);
+            goneView(mLayoutPortrait);
+        }
+
+        @CallSuper
+        @Override
+        public void landscapeIntercept() {
+            countStart();
+            showView(getNavBar());
+        }
+
+        @CallSuper
+        @Override
+        public void countFinish() {
+            if (orientation()) {
+                goneView(getNavBar());
+            }
+            mFragPpt.landscapeVisibility(false);
+        }
+
+        @Override
+        public void onPlayState(boolean state) {
+            mIvControl.setSelected(state);
+        }
+
+        @Override
+        public void setNextItem() {
+            mFragPpt.offsetPosition(1, ConstantsEx.KEmpty);
+        }
+
+        @Override
+        public void setLiveVideo() {
+            BaseCourseFrag f = mFragPpt.getItem(mFragPpt.getCurrPosition());
+            if (f instanceof VideoCourseFrag) {
+                VideoCourseFrag item = (VideoCourseFrag) f;
+                mP.setLiveMedia(item.getTextureView());
+            }
         }
     }
 

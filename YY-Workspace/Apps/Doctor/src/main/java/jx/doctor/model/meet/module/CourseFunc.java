@@ -6,9 +6,9 @@ import android.view.View;
 
 import java.util.List;
 
-import jx.doctor.ui.activity.meeting.play.LiveActivity1Router;
-import jx.doctor.ui.activity.meeting.play.PptLiveActivity1Router;
-import jx.doctor.ui.activity.meeting.play.RebActivity1Router;
+import jx.doctor.ui.activity.meeting.play.LiveActivityRouter;
+import jx.doctor.ui.activity.meeting.play.PptLiveActivityRouter;
+import jx.doctor.ui.activity.meeting.play.RebActivityRouter;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -25,9 +25,6 @@ import jx.doctor.model.meet.ppt.PPT.TPPT;
 import jx.doctor.model.meet.module.Module.ModuleType;
 import jx.doctor.network.JsonParser;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
-import jx.doctor.ui.activity.meeting.play.LiveActivityRouter;
-import jx.doctor.ui.activity.meeting.play.PptLiveActivityRouter;
-import jx.doctor.ui.activity.meeting.play.RebActivityRouter;
 
 /**
  * 微课模块
@@ -96,7 +93,7 @@ public class CourseFunc extends BaseFunc {
                 long server = ppt.getLong(TPPT.serverTime);
                 switch (getDetail().getInt(TMeetDetail.playType, 0)) {
                     case BroadcastType.reb: {
-                        RebActivity1Router.create(getMeetId(), getModuleId())
+                        RebActivityRouter.create(getMeetId(), getModuleId())
                                 .title(getDetail().getString(TMeetDetail.meetName))
                                 .unitNum(getDetail().getString(TMeetDetail.organizer))
                                 .route(getContext());
@@ -104,12 +101,12 @@ public class CourseFunc extends BaseFunc {
                     break;
                     case BroadcastType.live_ppt: {
                         if (server > end) {
-                            RebActivity1Router.create(getMeetId(), getModuleId())
+                            RebActivityRouter.create(getMeetId(), getModuleId())
                                     .title(getDetail().getString(TMeetDetail.meetName))
                                     .unitNum(getDetail().getString(TMeetDetail.organizer))
                                     .route(getContext());
                         } else {
-                            PptLiveActivity1Router.create(getMeetId(), getModuleId())
+                            PptLiveActivityRouter.create(getMeetId(), getModuleId())
                                     .title(getDetail().getString(TMeetDetail.meetName))
                                     .unitNum(getDetail().getString(TMeetDetail.organizer))
                                     .route(getContext());
@@ -118,12 +115,12 @@ public class CourseFunc extends BaseFunc {
                     break;
                     case BroadcastType.live: {
                         if (server > end) {
-                            RebActivity1Router.create(getMeetId(), getModuleId())
+                            RebActivityRouter.create(getMeetId(), getModuleId())
                                     .title(getDetail().getString(TMeetDetail.meetName))
                                     .unitNum(getDetail().getString(TMeetDetail.organizer))
                                     .route(getContext());
                         } else {
-                            LiveActivity1Router.create(getMeetId(), getModuleId())
+                            LiveActivityRouter.create(getMeetId(), getModuleId())
                                     .title(getDetail().getString(TMeetDetail.meetName))
                                     .unitNum(getDetail().getString(TMeetDetail.organizer))
                                     .route(getContext());

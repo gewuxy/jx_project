@@ -13,6 +13,11 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.doctor.App;
+import jx.doctor.Constants;
+import jx.doctor.network.NetworkApiDescriptor.CommonAPI;
+import lib.jx.util.CountDown;
+import lib.jx.util.CountDown.OnCountDownListener;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkReq;
 import lib.network.model.NetworkResp;
@@ -24,10 +29,6 @@ import lib.ys.model.MapList;
 import lib.ys.ui.interfaces.impl.NetworkOpt;
 import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
-import lib.jx.util.CountDown;
-import lib.jx.util.CountDown.OnCountDownListener;
-import jx.doctor.App;
-import jx.doctor.network.NetworkApiDescriptor.CommonAPI;
 
 /**
  * 自带下载功能的播放器(音频和视频的多媒体暂时不一样)
@@ -408,11 +409,39 @@ public class NetPlayer implements
         if (msec < 0 || msec > mAllTime) {
             return;
         }
-        mCountDown.start(KTime);
+        if (isPlaying()) {
+            mCountDown.start(KTime);
+        }
         if (mType == PlayType.audio) {
             mAudioPlay.seekTo(msec);
         } else {
             mVideoPlay.seekTo(msec);
+        }
+    }
+
+    /**
+     * 拖拽
+     *
+     * @param progress 进度
+     */
+    public void setProgressPlay(int progress) {
+        if (progress < 0 || progress > KMaxProgress) {
+            return;
+        }
+        int msec = (int) (progress * mAllTime / KMaxProgress);
+        seekTo(msec);
+    }
+
+    /**
+     * 设置
+     *
+     * @param progress 进度
+     */
+    public void setProgress(int progress) {
+        if (progress < 0 || progress > KMaxProgress) {
+            mProgress = Constants.KInvalidValue;
+        } else {
+            mProgress = progress;
         }
     }
 

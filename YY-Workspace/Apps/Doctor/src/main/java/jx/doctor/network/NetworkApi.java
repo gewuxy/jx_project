@@ -19,7 +19,7 @@ import jx.doctor.ui.frag.data.BaseDataUnitsFrag.DataType;
  */
 @Descriptor(
         host = "https://app.medyaya.cn/api/",
-        hostDebuggable = "https://app.medyaya.cn/api/"
+        hostDebuggable = "http://medcn.synology.me:8886/app/api/"
 //        hostDebuggable = "http://10.0.0.234:80/api/" // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8083/api/" // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8082/api/" // 长玲电脑

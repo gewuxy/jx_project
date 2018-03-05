@@ -1,5 +1,8 @@
 package jx.doctor.ui.activity.meeting.play.contract;
 
+import com.pili.pldroid.player.widget.PLVideoTextureView;
+
+import jx.doctor.model.meet.ppt.PPT;
 import lib.jx.contract.IContract;
 
 /**
@@ -12,14 +15,9 @@ public interface BasePlayContract {
     interface View extends IContract.View {
 
         /**
-         * 上一页
+         * 网络请求成功
          */
-        void toLeft();
-
-        /**
-         * 下一页
-         */
-        void toRight();
+        void onNetworkSuccess(PPT ppt);
 
         /**
          * 竖屏
@@ -32,23 +30,74 @@ public interface BasePlayContract {
         void landscape();
 
         /**
-         * 点击控制按钮
+         * 横屏拦截(操作)
          */
-        void toggle();
+        void landscapeIntercept();
 
         /**
-         * 横屏时操作
+         * 默认显示结束
          */
-        void showLandscapeView();
+        void countFinish();
 
         /**
-         * 横屏右上角按钮
+         * 播放状态
          */
-        boolean getNavBarLandscape();
+        void onPlayState(boolean state);
+
+        /**
+         * 下一页(自动)
+         */
+        void setNextItem();
+
+        /**
+         * 设置直播画面
+         */
+        void setLiveVideo();
     }
 
     interface Presenter<V extends BasePlayContract.View> extends IContract.Presenter<V> {
 
+        void setData(String meetId, String moduleId);
+
+        /**
+         * 发起网络请求
+         */
+        void getDataFromNet();
+
+        /**
+         * 开始计时
+         */
+        void startCount();
+
+        /**
+         * 停止计时
+         */
+        void stopCount();
+
+        /**
+         * 点击控制按钮
+         */
+        void toggle(int index);
+
+        /**
+         * 播放
+         */
+        void playMedia(int position);
+
+        /**
+         * 暂停
+         */
+        void stopMedia();
+
+        /**
+         * 图片3秒下一页
+         */
+        void imgNext();
+
+        /**
+         * 设置直播内容
+         */
+        void setLiveMedia(PLVideoTextureView textureView);
     }
 
 }

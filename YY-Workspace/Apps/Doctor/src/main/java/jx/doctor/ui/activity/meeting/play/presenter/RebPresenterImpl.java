@@ -4,68 +4,74 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import jx.doctor.Constants;
 import jx.doctor.ui.activity.meeting.OverviewActivityRouter;
 import jx.doctor.ui.activity.meeting.play.contract.RebContact;
+import jx.doctor.util.NetPlayer;
+import jx.doctor.util.Time;
 
 /**
  * @auther : GuoXuan
  * @since : 2017/11/17
  */
-public class RebPresenterImpl extends BasePptPresenterImpl<RebContact.View> implements RebContact.Presenter {
+public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> implements RebContact.Presenter {
 
-    private boolean auto;
+    private int mPosition;
+    private int mProgress;
 
     public RebPresenterImpl(RebContact.View view) {
         super(view);
 
-        auto = true;
+        mPosition = Constants.KInvalidValue;
+        mProgress = Constants.KInvalidValue;
     }
 
     @Override
-    public void start(int index) {
-        auto = true;
+    public void playMedia(int position) {
+        super.playMedia(position);
 
-        // 重新开启音频(开启ppt)
-        playMedia(index);
-        getView().onPlayState(auto);
-    }
-
-    @Override
-    public void stop() {
-        auto = false;
-
-        removeMessages();
-        stopMedia();
-        getView().onPlayState(auto);
-    }
-
-    @Override
-    public void toOverview(Context context, String title, int code) {
-        OverviewActivityRouter.create(title, new ArrayList<>(mCourses)).route(context, code);
+        if (mPosition == position) {
+            // 同一个
+            if (mProgress > 0) {
+                NetPlayer.inst().setProgress(mProgress);
+            }
+        } else {
+            mPosition = position;
+            mProgress = 0;
+        }
     }
 
     @Override
     public void toggle(int index) {
         super.toggle(index);
 
-        if (auto) {
-            stop();
+        if (mPlay) {
+            playMedia(index);
         } else {
-            start(index);
+            stopMedia();
         }
     }
 
     @Override
-    public void playMedia(int position) {
-        if (auto) {
-            super.playMedia(position);
-        }
+    protected void playProgress(String time, int progress) {
+        mProgress = progress;
+        getView().playProgress(time, progress);
     }
 
     @Override
-    public void onPreparedSuccess(long allMillisecond) {
-        super.onPreparedSuccess(allMillisecond);
-
-        getView().onPlayState(true);
+    public void toOverview(Context context, String title, int code) {
+        OverviewActivityRouter.create(title, new ArrayList<>(getCourses())).route(context, code);
     }
+
+    @Override
+    public void changeTime(int progress) {
+        if (progress < 0) {
+            progress = 0;
+        } else if (progress > NetPlayer.KMaxProgress) {
+            progress = NetPlayer.KMaxProgress;
+        }
+        String time = Time.getTime((NetPlayer.KMaxProgress - progress) * mMediaTime);
+        getView().setTime(time);
+    }
+
 }

@@ -10,16 +10,16 @@ import android.content.Context;
 public interface RebContact {
 
     interface View extends BasePptContract.View {
+        void playProgress(String time, int progress);
 
+        void setTime(String time);
     }
 
     interface Presenter extends BasePptContract.Presenter<View> {
 
-        void start(int index);
-
-        void stop();
-
         void toOverview(Context context, String title, int code);
+
+        void changeTime(int progress);
     }
 
 }

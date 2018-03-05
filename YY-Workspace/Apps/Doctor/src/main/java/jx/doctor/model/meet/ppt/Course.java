@@ -25,14 +25,6 @@ public class Course extends EVal<TCourse> {
         sort, // 微课明细序号
         videoUrl, // 微课视频明细路径
         temp, // 是否临时
-
-        /******************
-         * 以下是自定义字段
-         */
-
-        play, // 是否在播放
-        select, // 是否选中
-        time, // 播放时间
     }
 
     @IntDef({

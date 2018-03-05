@@ -2,9 +2,10 @@ package jx.doctor.ui.activity.meeting.play;
 
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -23,12 +24,10 @@ import jx.doctor.model.meet.ppt.PPT.TPPT;
 import jx.doctor.ui.activity.meeting.play.contract.LiveContract;
 import jx.doctor.ui.activity.meeting.play.presenter.LivePresenterImpl;
 import jx.doctor.ui.frag.meeting.PPTLiveFrag;
-import jx.doctor.ui.frag.meeting.PPTRebFrag;
 import jx.doctor.ui.frag.meeting.course.BaseCourseFrag;
 import jx.doctor.util.LandscapeSwitch;
-import jx.doctor.util.NetPlayer;
+import jx.doctor.util.Util;
 import lib.ys.YSLog;
-import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.ui.decor.DecorViewEx.ViewState;
 import lib.ys.ui.other.NavBar;
 
@@ -60,19 +59,16 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
     private int[] mLocationLive; // 直播竖屏位置信息
 
     private LandscapeSwitch mLandscapeSwitch; // 横屏管理
+    private PPTLiveFrag mFragLive;
 
     private View mViewLive;
-    private View mViewPpt;
-
+    private View mIvControlL;
+    private TextView mTvTitle;
     private TextView mTvOnline;
-
-    private PPTLiveFrag mFragLive;
-    private PPTRebFrag mFragPpt;
+    private ImageView mIvTitle;
 
     @PlayType
     private int mPlayType; // 播放ppt还是播放直播
-
-    private boolean mPlay; // 是否在播放声音
 
     @Override
     public int getContentViewId() {
@@ -84,13 +80,9 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         super.initNavBar(bar);
 
         mTvOnline = bar.addTextViewRight(String.format(getString(R.string.online_num), 0), null);
-    }
-
-    @Override
-    public void initData() {
-        super.initData();
-
-        mPlay = false;
+        ViewGroup view = bar.addViewRight(R.drawable.play_audio_selector, v -> mIvControl.performClick());
+        mIvControlL = Util.getBarView(view, ImageView.class);
+        goneView(mIvControlL);
     }
 
     @Override
@@ -99,8 +91,10 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
 
         mViewLive = findView(R.id.live_layout_live);
         mFragLive = findFragment(R.id.live_frag_live);
-        mViewPpt = findView(R.id.play_layout_frag_ppt);
         mFragPpt = findFragment(R.id.play_frag_ppt);
+
+        mTvTitle = findView(R.id.live_tv_title);
+        mIvTitle = findView(R.id.live_iv_title);
     }
 
     @Override
@@ -108,11 +102,12 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         super.setViews();
 
         setOnClickListener(mViewLive);
-        setOnClickListener(mViewPpt);
+        setOnClickListener(mLayoutFrag);
+        setOnClickListener(R.id.live_layout_title);
 
-        mLandscapeSwitch = new LandscapeSwitch(mViewPpt, mViewLive);
+        mLandscapeSwitch = new LandscapeSwitch(mLayoutFrag, mViewLive);
         mViewLive.setOnTouchListener(mLandscapeSwitch);
-        mViewPpt.setOnTouchListener(mLandscapeSwitch);
+        mLayoutFrag.setOnTouchListener(mLandscapeSwitch);
         mLandscapeSwitch.setListener(v -> {
             if (v.getId() == R.id.play_layout_frag_ppt) {
                 mFragPpt.setDispatch(true);
@@ -123,54 +118,37 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
             }
         });
 
-        goneView(getNavBarControl());
-
-        mParamPpt = (LayoutParams) mViewPpt.getLayoutParams();
+        mParamPpt = (LayoutParams) mLayoutFrag.getLayoutParams();
         mParamLive = (LayoutParams) mViewLive.getLayoutParams();
 
-        mLocationPpt = LandscapeSwitch.getLocation(mViewPpt);
+        mLocationPpt = LandscapeSwitch.getLocation(mLayoutFrag);
         mLocationLive = LandscapeSwitch.getLocation(mViewLive);
-
-        refresh(RefreshWay.embed);
-        getP().getDataFromNet(mMeetId, mModuleId);
 
         mFragPpt.setFragClickListener(this::playPpt);
 
-        mFragPpt.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mTvTitle.setText(mTitle);
+    }
 
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // do nothing
+    @Override
+    public void onPageSelected(int position) {
+        super.onPageSelected(position);
+
+        if (position == mFragPpt.getCount() - 1) {
+            mFragPpt.newVisibility(false);
+        }
+        if (mPlayType == PlayType.ppt) {
+            if (mIvControl.isSelected()) {
+                // 在播放ppt
+                mFragPpt.startPlay();
             }
-
-            @Override
-            public void onPageSelected(int position) {
-                NetPlayer.inst().stop();
-                if (position == mFragPpt.getCount() - 1) {
-                    mFragPpt.newVisibility(false);
-                }
-                if (mPlayType == PlayType.ppt) {
-                    if (mPlay) {
-                        // 在播放ppt
-                        mFragPpt.startPlay();
-                    }
-                } else {
-                }
-                setTextCur(position + 1);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                // do nothing
-            }
-
-        });
+        } else {
+        }
     }
 
     @NonNull
     @Override
     protected LiveContract.View createV() {
-        return new LiveViewImpl();
+        return new LiveViewImpl1();
     }
 
     @NonNull
@@ -179,20 +157,12 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         return new LivePresenterImpl(view);
     }
 
-    @Override
-    public boolean onRetryClick() {
-        if (!super.onRetryClick()) {
-            refresh(RefreshWay.embed);
-            getP().getDataFromNet(mMeetId, mModuleId);
-        }
-        return true;
-    }
-
     /**
      * 播放ppt
      */
     private void playPpt() {
-        if (mPlayType == PlayType.ppt || !mPlay) {
+        countStart();
+        if (mPlayType == PlayType.ppt || !mIvControl.isSelected()) {
             // 播放ppt状态
             return;
         }
@@ -203,16 +173,31 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         mFragPpt.startPlay();
     }
 
-    /**
-     * 播放直播
-     */
     @Override
-    protected void onClick(int id) {
-        switch (id) {
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.play_nav_iv_control: {
+                if (mIvControl.isSelected()) {
+                    // 打开声音
+                    mFragPpt.startVolume();
+                    mFragLive.startAudio();
+                } else {
+                    // 关闭声音
+                    mFragPpt.closeVolume();
+                    mFragLive.closeAudio();
+                }
+            }
+            break;
             case R.id.live_layout_live: {
                 mFragPpt.landscapeVisibility(false);
                 mFragPpt.setToLastPosition();
-                if (mPlayType == PlayType.live || !mPlay) {
+                if (orientation()) {
+                    showView(getNavBar());
+                    mP.startCount();
+                }
+                if (mPlayType == PlayType.live || !mIvControl.isSelected()) {
                     // 直播状态
                     return;
                 }
@@ -223,9 +208,13 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
                 mFragLive.startAudio();
             }
             break;
-            case R.id.play_layout_frag_ppt: {
-                if (orientationLandscape()) {
-                    mFragPpt.landscapeVisibility(true);
+            case R.id.live_layout_title: {
+                if (mIvTitle.getVisibility() == View.VISIBLE) {
+                    goneView(mIvTitle);
+                    showView(mTvTitle);
+                } else {
+                    showView(mIvTitle);
+                    goneView(mTvTitle);
                 }
             }
             break;
@@ -245,55 +234,33 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         super.onPause();
 
         mFragLive.stopPullStream();
-        getP().mediaStop();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        getP().onDestroy();
-    }
-
-    private class LiveViewImpl extends BaseViewImpl implements LiveContract.View {
-
-        @Override
-        public void toLeft() {
-            mFragPpt.offsetPosition(-1, getString(R.string.course_first));
-        }
-
-        @Override
-        public void toRight() {
-            mFragPpt.offsetPosition(1, getString(R.string.course_last));
-        }
-
-        @Override
-        public boolean getNavBarLandscape() {
-            return true;
-        }
+    private class LiveViewImpl1 extends BasePlayViewImpl implements LiveContract.View {
 
         @Override
         public void portrait() {
-            mViewPpt.setLayoutParams(mParamPpt);
+            super.portrait();
+
+            mLayoutFrag.setLayoutParams(mParamPpt);
             mViewLive.setLayoutParams(mParamLive);
 
-            mViewPpt.setX(mLocationPpt[0]);
-            mViewPpt.setY(mLocationPpt[1]);
+            mLayoutFrag.setX(mLocationPpt[0]);
+            mLayoutFrag.setY(mLocationPpt[1]);
             mViewLive.setX(mLocationLive[0]);
             mViewLive.setY(mLocationLive[1]);
-            mFragPpt.setDispatch(false);
 
+            mFragPpt.setDispatch(false);
             mLandscapeSwitch.setDispatch(false);
-            LiveActivity.this.showView(R.id.play_layout_portrait);
 
             showView(mTvOnline);
-            goneView(getNavBarControl());
-            setNavBarP();
-            getP().stopCount();
+            goneView(mIvControlL);
         }
 
         @Override
         public void landscape() {
+            super.landscape();
+
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
                 @Override
@@ -311,60 +278,24 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
             mFragPpt.refreshCurrentItem();
 
             mLandscapeSwitch.setDispatch(true);
-            LiveActivity.this.goneView(R.id.play_layout_portrait);
-            showLandscapeView();
 
             goneView(mTvOnline);
-            showView(getNavBarControl());
-            setNavBarL();
+            showView(mIvControlL);
         }
 
         @Override
-        public void toggle() {
-            if (mPlay) {
-                // 播放中(全部停掉)
-                mFragPpt.closeVolume();
-                mFragLive.closeAudio();
-            } else {
-                // 没有播放中
-                mFragPpt.startVolume();
-                mFragLive.startAudio();
-            }
-            mPlay = !mPlay;
-            setPlayState(mPlay);
-        }
+        public void onNetworkSuccess(PPT ppt) {
+            super.onNetworkSuccess(ppt);
 
-        @Override
-        public void showLandscapeView() {
-            getP().starCount();
-            showView(getNavBar());
-            if (mPlayType == PlayType.ppt) {
-                mFragPpt.landscapeVisibility(true);
-            }
-        }
-
-        @Override
-        public void initView(PPT ppt) {
             if (ppt == null) {
-                setViewState(ViewState.error);
                 return;
             }
-            setViewState(ViewState.normal);
-
-            setTextComment(ppt.getInt(TPPT.count));
 
             String pullUrl = ppt.getString(TPPT.pullUrl);
             mFragLive.setPlayUrl(pullUrl);
             mPlayType = PlayType.live;
 
-            mPlay = true;
-            setPlayState(true);
-
-            mFragPpt.setPPT(ppt);
-            mFragPpt.addCourses();
-
             CourseInfo courseInfo = ppt.get(TPPT.course);
-
             if (courseInfo == null) {
                 setViewState(ViewState.error);
                 return;
@@ -376,8 +307,6 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
                 return;
             }
             int size = courses.size();
-            setTextCur(size);
-            setTextAll(size);
             addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
@@ -421,14 +350,13 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
 
                     @Override
                     public void onGlobalLayout() {
-                        int count = getPptFrag().getCount();
-                        setTextAll(count);
-                        if (count != getPptFrag().getCurrPosition()) {
+                        int count = mFragPpt.getCount();
+                        if (count != mFragPpt.getCurrPosition()) {
                             // 不在最新页提示新的一页
                             if (mPlayType == PlayType.live) {
                                 mFragPpt.setToLastPosition();
                             } else {
-                                getPptFrag().setTextNew(String.valueOf(count));
+                                mFragPpt.setTextNew(String.valueOf(count));
                             }
                         }
                         removeOnGlobalLayoutListener(this);
@@ -442,24 +370,20 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         public void refresh(Course course) {
             // 推了音频过来
             if (mPlayType == PlayType.ppt) {
-                getPptFrag().startPlay();
+                mFragPpt.startPlay();
             }
-        }
-
-        @Override
-        public void finishCount() {
-            LiveActivity.this.goneView(getNavBar());
-            mFragPpt.landscapeVisibility(false);
-        }
-
-        @Override
-        public PPTRebFrag getPptFrag() {
-            return mFragPpt;
         }
 
         @Override
         public void startPull() {
             mFragLive.startPullStream();
+        }
+
+        @Override
+        public void onPlayState(boolean state) {
+            super.onPlayState(state);
+
+            mIvControlL.setSelected(state);
         }
 
         @Override
@@ -473,9 +397,10 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
         @Override
         public void nextItem() {
             if (mPlayType == PlayType.ppt) {
-                getPptFrag().offsetPosition(1, "");
+                mFragPpt.offsetPosition(1, "");
             }
         }
+
     }
 
 }

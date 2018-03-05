@@ -97,7 +97,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="38dp"
+                android:layout_width="57dp"
                 android:layout_height="38dp"
                 android:clipChildren="false">
 
@@ -107,13 +107,25 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/meet_play_ic_comment"/>
 
+                <TextView
+                    android:id="@id/play_nav_tv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_comment_num"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:layout_marginLeft="29dp"
+                    android:text="0"
+                    android:textColor="@color/white"
+                    android:textSize="8dp"/>
+
             </RelativeLayout>
 
             <ImageView
                 android:id="@id/play_nav_iv_control"
                 android:layout_width="78dp"
                 android:layout_height="78dp"
-                android:layout_marginLeft="41dp"
+                android:layout_marginLeft="23dp"
                 android:src="@drawable/reb_select_control"/>
 
             <ImageView
@@ -137,6 +149,7 @@
             android:orientation="horizontal">
 
             <SeekBar
+                android:id="@+id/ppt_reb_sb_media"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -147,6 +160,7 @@
                 android:thumb="@drawable/record_seek_bar_thumb"/>
 
             <TextView
+                android:id="@+id/ppt_reb_tv_media"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00:00"

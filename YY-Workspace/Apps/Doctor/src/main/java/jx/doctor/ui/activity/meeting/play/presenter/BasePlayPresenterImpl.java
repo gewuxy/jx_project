@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.CallSuper;
 
+import com.pili.pldroid.player.widget.PLVideoTextureView;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -12,7 +14,7 @@ import jx.doctor.model.meet.ppt.CourseInfo;
 import jx.doctor.model.meet.ppt.PPT;
 import jx.doctor.network.JsonParser;
 import jx.doctor.network.NetworkApiDescriptor;
-import jx.doctor.ui.activity.meeting.play.contract.BasePlayContract1;
+import jx.doctor.ui.activity.meeting.play.contract.BasePlayContract;
 import jx.doctor.util.NetPlayer;
 import jx.doctor.util.Time;
 import lib.jx.contract.BasePresenterImpl;
@@ -26,8 +28,8 @@ import lib.ys.ui.decor.DecorViewEx;
  * @auther : GuoXuan
  * @since : 2018/3/1
  */
-abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> extends BasePresenterImpl<V> implements
-        BasePlayContract1.Presenter<V> {
+abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> extends BasePresenterImpl<V> implements
+        BasePlayContract.Presenter<V> {
 
     private final int KWhatPlay = 0;
     private final int KWhatNext = 1;
@@ -43,7 +45,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
 
     private int mPosition; // 上一个position
 
-    private long mMediaTime;
+    protected long mMediaTime;
 
     protected boolean mPlay; // playState
 
@@ -135,15 +137,17 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
         mHandler.removeMessages(KWhatNext);
         mPlay = false;
         NetPlayer.inst().stop();
-        if (getCourses() != null && mPosition != ConstantsEx.KInvalidValue) {
-            getCourses().get(mPosition).put(Course.TCourse.play, false);
-        }
     }
 
     @Override
     public void imgNext() {
         mHandler.removeMessages(KWhatNext);
         mHandler.sendEmptyMessageDelayed(KWhatNext, TimeUnit.SECONDS.toMillis(KDuration));
+    }
+
+    @Override
+    public void setLiveMedia(PLVideoTextureView textureView) {
+        NetPlayer.inst().setVideo(textureView);
     }
 
     @Override
@@ -154,16 +158,14 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
         NetPlayer.inst().recycle();
     }
 
+    protected void playProgress(String time, int progress) {
+        // do nothing
+    }
+
     private void nativePlay(int position) {
         List<Course> courses = getCourses();
         if (courses == null || position >= courses.size() || position < 0) {
             return;
-        }
-        if (mPosition != ConstantsEx.KInvalidValue) {
-            Course c = courses.get(mPosition);
-            c.put(Course.TCourse.time, "音频"); // 清空时间
-            c.put(Course.TCourse.select, false); // 上一个取消选择
-            c.put(Course.TCourse.play, false); // 上一个取消播放
         }
 
         mPosition = position;
@@ -183,13 +185,11 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
             break;
             case Course.CourseType.video: {
                 String url = course.getString(Course.TCourse.videoUrl);
-                NetPlayer.inst().setVideo(getView().getTextureView());
+                getView().setLiveVideo();
                 NetPlayer.inst().prepare(mPpt.getString(PPT.TPPT.meetId), url);
             }
             break;
         }
-
-        course.put(Course.TCourse.select, true); // 选中
     }
 
     private class HandlerImpl implements Handler.Callback {
@@ -227,15 +227,6 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
         @Override
         public void onPreparedSuccess(long allMillisecond) {
             mMediaTime = allMillisecond;
-            if (getCourses() == null) {
-                return;
-            }
-            if (mPosition != ConstantsEx.KInvalidValue) {
-                Course course = getCourses().get(mPosition);
-                course.put(Course.TCourse.play, true); // 播放
-                course.put(Course.TCourse.time, Time.getTime(mMediaTime));
-            }
-//            getView().onPlayState(true);
         }
 
         @Override
@@ -246,12 +237,9 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
         @CallSuper
         @Override
         public void onProgress(long currMilliseconds, int progress) {
-            if (getCourses() == null) {
-                return;
-            }
             if (mPosition != ConstantsEx.KInvalidValue) {
-                Course course = getCourses().get(mPosition);
-                course.put(Course.TCourse.time, Time.getTime(mMediaTime - currMilliseconds));
+                String time = Time.getTime(mMediaTime - currMilliseconds);
+                playProgress(time, progress);
             }
         }
 
@@ -263,12 +251,6 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract1.View> ex
         @CallSuper
         @Override
         public void onCompletion() {
-            if (getCourses() == null) {
-                return;
-            }
-            if (mPosition != ConstantsEx.KInvalidValue) {
-                getCourses().get(mPosition).put(Course.TCourse.play, false);
-            }
             getView().setNextItem();
         }
     }
