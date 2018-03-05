@@ -4,11 +4,11 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-import jx.doctor.Constants;
 import jx.doctor.ui.activity.meeting.OverviewActivityRouter;
 import jx.doctor.ui.activity.meeting.play.contract.RebContact;
 import jx.doctor.util.NetPlayer;
 import jx.doctor.util.Time;
+import lib.ys.util.UtilEx;
 
 /**
  * @auther : GuoXuan
@@ -16,29 +16,30 @@ import jx.doctor.util.Time;
  */
 public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> implements RebContact.Presenter {
 
-    private int mPosition;
     private int mProgress;
 
     public RebPresenterImpl(RebContact.View view) {
         super(view);
-
-        mPosition = Constants.KInvalidValue;
-        mProgress = Constants.KInvalidValue;
     }
 
     @Override
-    public void playMedia(int position) {
-        super.playMedia(position);
-
-        if (mPosition == position) {
+    protected void nativePlay(int position) {
+        boolean b = mPosition == position;
+        super.nativePlay(position);
+        if (b && mProgress != 0) {
             // 同一个
-            if (mProgress > 0) {
-                NetPlayer.inst().setProgress(mProgress);
-            }
-        } else {
-            mPosition = position;
-            mProgress = 0;
+            UtilEx.runOnUIThread(() -> {
+                NetPlayer.inst().seekTo((int) (mProgress * mMediaTime / NetPlayer.KMaxProgress));
+                mProgress = 0;
+            }, 100);
         }
+    }
+
+    @Override
+    public void stopMedia() {
+        super.stopMedia();
+
+        getView().recordProgress();
     }
 
     @Override
@@ -54,7 +55,6 @@ public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> imp
 
     @Override
     protected void playProgress(String time, int progress) {
-        mProgress = progress;
         getView().playProgress(time, progress);
     }
 
@@ -70,8 +70,14 @@ public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> imp
         } else if (progress > NetPlayer.KMaxProgress) {
             progress = NetPlayer.KMaxProgress;
         }
-        String time = Time.getTime((NetPlayer.KMaxProgress - progress) * mMediaTime);
+        mProgress = progress;
+        String time = Time.getTime((NetPlayer.KMaxProgress - progress) * mMediaTime / NetPlayer.KMaxProgress);
         getView().setTime(time);
+    }
+
+    @Override
+    public void setProgress(int progress) {
+        mProgress = progress;
     }
 
 }

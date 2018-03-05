@@ -38,11 +38,14 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
 
     private boolean mScroll;
 
+    private boolean mCompletion;
+
     @Override
     public void initData() {
         super.initData();
 
         mScroll = false;
+        mCompletion = false;
     }
 
     @Override
@@ -95,6 +98,21 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.play_nav_iv_control: {
+                if (mFragPpt.getCurrPosition() == mFragPpt.getCount() - 1 && mCompletion) {
+                    mP.setProgress(0);
+                    mCompletion = true;
+                }
+            }
+            break;
+        }
+    }
+
     @NonNull
     @Override
     protected RebContact.View createV() {
@@ -108,12 +126,25 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        mV.onPlayState(false);
+    }
+
+    @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
 
         mP.playMedia(position);
         mediaTime(position);
         mSbMedia.setProgress(0);
+        if (!mIvControl.isSelected()) {
+            mIvControl.setSelected(true);
+        }
+        if (position == mFragPpt.getCount() - 1 && mFragPpt.getItem(position) instanceof PicCourseFrag) {
+            mV.onPlayState(false);
+        }
     }
 
     @Override
@@ -162,13 +193,6 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         }
 
         @Override
-        public void landscapeIntercept() {
-            super.landscapeIntercept();
-
-            mFragPpt.landscapeVisibility(true);
-        }
-
-        @Override
         public void playProgress(String time, int progress) {
             mSbMedia.setProgress(progress);
             mTvMedia.setText(time);
@@ -180,6 +204,20 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         @Override
         public void setTime(String time) {
             mTvMedia.setText(time);
+        }
+
+        @Override
+        public void recordProgress() {
+            mP.setProgress(mSbMedia.getProgress());
+        }
+
+        @Override
+        public void setNextItem() {
+            super.setNextItem();
+
+            mP.setProgress(0);
+            mCompletion = true;
+            mP.stopMedia();
         }
     }
 

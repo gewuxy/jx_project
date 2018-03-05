@@ -377,7 +377,7 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
             ja.put(s.toJsonObject());
             if (submit == null) {
                 submit = new Submit();
-                if (mPPT!=null) {
+                if (mPPT != null) {
                     submit.put(TSubmit.meetId, mPPT.getString(TPPT.meetId));
                     submit.put(TSubmit.moduleId, mPPT.getString(TPPT.moduleId));
                     submit.put(TSubmit.courseId, mPPT.getString(TPPT.courseId));
@@ -401,6 +401,10 @@ public class PPTRebFrag extends BaseVPFrag implements OnPageChangeListener, OnFr
      */
     public void landscapeVisibility(boolean visibility) {
         viewVisibility(mLayoutL, visibility);
+    }
+
+    public int landscapeVisibility() {
+        return mLayoutL.getVisibility();
     }
 
     /**

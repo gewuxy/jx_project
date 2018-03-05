@@ -161,7 +161,11 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
      * 播放ppt
      */
     private void playPpt() {
-        countStart();
+        if (mFragPpt.landscapeVisibility() == View.VISIBLE) {
+            mFragPpt.landscapeVisibility(false);
+        } else {
+            countStart();
+        }
         if (mPlayType == PlayType.ppt || !mIvControl.isSelected()) {
             // 播放ppt状态
             return;
@@ -194,8 +198,12 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
                 mFragPpt.landscapeVisibility(false);
                 mFragPpt.setToLastPosition();
                 if (orientation()) {
-                    showView(getNavBar());
-                    mP.startCount();
+                    if (getNavBar().getVisibility() == View.VISIBLE) {
+                        showView(getNavBar());
+                        mP.startCount();
+                    } else {
+                        goneView(getNavBar());
+                    }
                 }
                 if (mPlayType == PlayType.live || !mIvControl.isSelected()) {
                     // 直播状态
@@ -359,6 +367,7 @@ public class LiveActivity extends BasePlayActivity<LiveContract.View, LiveContra
                                 mFragPpt.setTextNew(String.valueOf(count));
                             }
                         }
+                        mTvAll.setText(fitNumber(count));
                         removeOnGlobalLayoutListener(this);
                     }
 

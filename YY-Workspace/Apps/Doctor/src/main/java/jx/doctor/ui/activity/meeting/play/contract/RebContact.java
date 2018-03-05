@@ -13,6 +13,8 @@ public interface RebContact {
         void playProgress(String time, int progress);
 
         void setTime(String time);
+
+        void recordProgress();
     }
 
     interface Presenter extends BasePptContract.Presenter<View> {
@@ -20,6 +22,8 @@ public interface RebContact {
         void toOverview(Context context, String title, int code);
 
         void changeTime(int progress);
+
+        void setProgress(int progress);
     }
 
 }

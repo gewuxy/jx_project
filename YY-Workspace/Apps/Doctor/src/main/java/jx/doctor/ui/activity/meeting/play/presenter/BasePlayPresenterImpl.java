@@ -43,7 +43,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
     private String mMeetId;
     private String mModuleId;
 
-    private int mPosition; // 上一个position
+    protected int mPosition; // 上一个position
 
     protected long mMediaTime;
 
@@ -128,7 +128,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         Message message = Message.obtain();
         message.obj = position;
         message.what = KWhatPlay;
-        mHandler.sendMessageDelayed(message, 300);
+        mHandler.sendMessageDelayed(message,300);
     }
 
     @Override
@@ -162,7 +162,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         // do nothing
     }
 
-    private void nativePlay(int position) {
+    protected void nativePlay(int position) {
         List<Course> courses = getCourses();
         if (courses == null || position >= courses.size() || position < 0) {
             return;

@@ -70,6 +70,7 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.theme_refresh,
 
             NotifyType.finish_record_or_live,
+            NotifyType.comment_num,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -242,6 +243,7 @@ public class Notifier extends NotifierEx<OnNotify> {
          * 结束直播录播页面
          */
         int finish_record_or_live = 70;
+        int comment_num = 71;
     }
 
     public interface OnNotify {

@@ -51,7 +51,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="14dp"
+                    android:layout_marginRight="13dp"
+                    android:ellipsize="end"
                     android:includeFontPadding="false"
+                    android:singleLine="true"
                     android:text="0人在线"
                     android:textColor="@color/text_006ebd"
                     android:textSize="15dp"/>

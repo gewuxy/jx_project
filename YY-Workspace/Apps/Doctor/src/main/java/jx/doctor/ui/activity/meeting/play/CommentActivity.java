@@ -23,6 +23,7 @@ import jx.doctor.network.JsonParser;
 import jx.doctor.network.NetFactory;
 import jx.doctor.network.NetworkApiDescriptor.MeetAPI;
 import jx.doctor.util.Util;
+import lib.jx.notify.Notifier;
 import lib.jx.ui.activity.base.BaseListActivity;
 import lib.network.model.NetworkError;
 import lib.network.model.NetworkResp;
@@ -54,6 +55,9 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
 
     @Arg
     String mMeetId;
+
+    @Arg(opt = true, defaultInt = 0)
+    int num;
 
     private TextView mTvSend;
     private EditText mEtSend;
@@ -223,6 +227,8 @@ public class CommentActivity extends BaseListActivity<Comment, CommentAdapter> {
         @Override
         public void onMessage(WebSocket webSocket, String text) {
             YSLog.d(TAG, "onMessage:String" + text);
+            num++;
+            CommentActivity.this.notify(Notifier.NotifyType.comment_num, num);
             runOnUIThread(() -> {
                 // 添加发送的数据
                 addItem(toComment(text));

@@ -170,12 +170,5 @@ public class PptLiveActivity extends BasePptActivity<PptLiveContract.View, PptLi
             // 播放音频
             mFragPpt.startPlay();
         }
-
-        @Override
-        public void landscapeIntercept() {
-            super.landscapeIntercept();
-
-            mFragPpt.landscapeVisibility(true);
-        }
     }
 }

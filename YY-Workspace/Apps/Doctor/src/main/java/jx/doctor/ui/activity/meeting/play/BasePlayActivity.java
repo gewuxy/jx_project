@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import inject.annotation.router.Arg;
+import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.CourseInfo;
@@ -38,6 +39,8 @@ import lib.ys.ui.other.NavBar;
 abstract public class BasePlayActivity<V extends BasePlayContract.View, P extends BasePlayContract.Presenter<V>>
         extends BaseActivity
         implements ViewPager.OnPageChangeListener {
+
+    private final int KCodeReq = 100;
 
     @Arg(opt = true)
     String mUnitNum; // 单位号
@@ -69,6 +72,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
 
     protected V mV;
     protected P mP;
+    private int mNum; // 评论数
 
     @CallSuper
     @Override
@@ -77,6 +81,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
 
         mV = createV();
         mP = createP(mV);
+        mNum = 0;
         mP.setData(mMeetId, mModuleId);
     }
 
@@ -135,7 +140,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.play_nav_iv_comment: {
-                CommentActivityRouter.create(mMeetId).route(this);
+                CommentActivityRouter.create(mMeetId).num(mNum).route(this, KCodeReq);
             }
             break;
             case R.id.play_nav_iv_control: {
@@ -197,6 +202,14 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         mP.onDestroy();
     }
 
+    @Override
+    public void onNotify(int type, Object data) {
+        if (type == NotifyType.comment_num) {
+            mNum = (int) data;
+            setComment();
+        }
+    }
+
     /**
      * NavBar竖屏设置
      */
@@ -240,6 +253,16 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         mP.startCount();
         showView(getNavBar());
         mFragPpt.landscapeVisibility(true);
+    }
+
+    private void setComment() {
+        if (mNum <= 0) {
+            goneView(mTvComment);
+        } else if (mNum < 1000) {
+            mTvComment.setText(String.valueOf(mNum));
+        } else {
+            mTvComment.setText("999+");
+        }
     }
 
     @NonNull
@@ -316,14 +339,8 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
                         mTvCur.setText(fitNumber(1));
                     }
                 }
-                int num = ppt.getInt(PPT.TPPT.count);
-                if (num <= 0) {
-                    goneView(mTvComment);
-                } else if (num < 1000) {
-                    mTvComment.setText(String.valueOf(num));
-                } else {
-                    mTvComment.setText("999+");
-                }
+                mNum = ppt.getInt(PPT.TPPT.count);
+                setComment();
                 mFragPpt.setPPT(ppt);
                 mFragPpt.addCourses();
                 onPlayState(true);
@@ -350,8 +367,12 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
         @CallSuper
         @Override
         public void landscapeIntercept() {
-            countStart();
-            showView(getNavBar());
+            if (mFragPpt.landscapeVisibility() == View.VISIBLE) {
+                countFinish();
+            } else {
+                countStart();
+                showView(getNavBar());
+            }
         }
 
         @CallSuper

@@ -170,7 +170,7 @@ public class NetPlayer implements
     @Override
     public void onCountDown(long remainCount) {
         YSLog.d(TAG, "onCountDown:" + remainCount);
-        if (remainCount == 0) {
+        if (remainCount == 0 && isPlaying()) {
             // 倒数结束
             mCountDown.start(KTime);
             YSLog.d(TAG, "onCountDown:重新开始");
@@ -329,15 +329,15 @@ public class NetPlayer implements
      * 内部播放
      */
     private void nativePlay() {
-        if (mProgress != ConstantsEx.KInvalidValue) {
-            seekTo((int) (mProgress * mAllTime / NetPlayer.KMaxProgress));
-            mProgress = ConstantsEx.KInvalidValue;
-        }
         mCountDown.start(KTime);
         if (mType == PlayType.audio) {
             mAudioPlay.start();
         } else {
             mVideoPlay.start();
+        }
+        if (mProgress != ConstantsEx.KInvalidValue) {
+            seekTo((int) (mProgress * mAllTime / NetPlayer.KMaxProgress));
+            mProgress = ConstantsEx.KInvalidValue;
         }
         if (mListener != null) {
             mListener.onPlayState(true);
@@ -429,7 +429,9 @@ public class NetPlayer implements
             return;
         }
         int msec = (int) (progress * mAllTime / KMaxProgress);
-        seekTo(msec);
+        if (isPlaying()) {
+            seekTo(msec);
+        }
     }
 
     /**
