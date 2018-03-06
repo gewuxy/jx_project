@@ -128,7 +128,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         Message message = Message.obtain();
         message.obj = position;
         message.what = KWhatPlay;
-        mHandler.sendMessageDelayed(message,300);
+        mHandler.sendMessageDelayed(message, 300);
     }
 
     @Override
@@ -159,6 +159,10 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
     }
 
     protected void playProgress(String time, int progress) {
+        // do nothing
+    }
+
+    protected void completion() {
         // do nothing
     }
 
@@ -238,6 +242,10 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         @Override
         public void onProgress(long currMilliseconds, int progress) {
             if (mPosition != ConstantsEx.KInvalidValue) {
+                List<Course> courses = getCourses();
+                if (courses != null) {
+                    courses.get(mPosition).put(Course.TCourse.progress, progress);
+                }
                 String time = Time.getTime(mMediaTime - currMilliseconds);
                 playProgress(time, progress);
             }
@@ -251,7 +259,12 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         @CallSuper
         @Override
         public void onCompletion() {
+            List<Course> courses = getCourses();
+            if (courses != null) {
+                courses.get(mPosition).put(Course.TCourse.progress, 100);
+            }
             getView().setNextItem();
+            completion();
         }
     }
 }

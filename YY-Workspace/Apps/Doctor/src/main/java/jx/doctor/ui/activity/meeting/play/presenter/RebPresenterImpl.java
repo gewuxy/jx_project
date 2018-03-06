@@ -59,6 +59,11 @@ public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> imp
     }
 
     @Override
+    protected void completion() {
+        getView().completion();
+    }
+
+    @Override
     public void toOverview(Context context, String title, int code) {
         OverviewActivityRouter.create(title, new ArrayList<>(getCourses())).route(context, code);
     }

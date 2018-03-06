@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#eef0f2">
 
     <!-- 横屏布局 -->
     <LinearLayout
@@ -73,14 +74,14 @@
                 android:layout_height="wrap_content"
                 android:text="000"
                 android:textColor="@color/text_666"
-                android:textSize="15dp"/>
+                android:textSize="12dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" / "
                 android:textColor="@color/text_666"
-                android:textSize="15dp"/>
+                android:textSize="12dp"/>
 
             <TextView
                 android:id="@id/play_tv_all"
@@ -88,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="000"
                 android:textColor="@color/text_666"
-                android:textSize="15dp"/>
+                android:textSize="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -113,10 +114,12 @@
                     android:id="@id/play_nav_tv_comment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="29dp"
                     android:background="@drawable/bg_comment_num"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"
-                    android:layout_marginLeft="29dp"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
                     android:text="0"
                     android:textColor="@color/white"
                     android:textSize="8dp"/>
@@ -145,7 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="36dp"
             android:layout_marginRight="36dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="45dp"
             android:clipChildren="false"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -159,7 +162,7 @@
                 android:maxHeight="2dp"
                 android:minHeight="2dp"
                 android:progressDrawable="@drawable/bg_seek_bar_record"
-                android:thumb="@drawable/record_seek_bar_thumb"/>
+                android:thumb="@drawable/record_ic_seek_bar_thumb"/>
 
             <TextView
                 android:id="@+id/ppt_reb_tv_media"

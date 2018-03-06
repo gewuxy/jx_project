@@ -1,7 +1,6 @@
 package jx.doctor.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import jx.doctor.ui.activity.user.login.LoginActivity;
 import lib.jx.test.BaseTestActivity;
@@ -25,6 +24,8 @@ public class TestActivity extends BaseTestActivity {
         add("登陆", new Intent(this, LoginActivity.class));
         add("", view -> {});
         add("广告", AdActivity.class);
+        add("", view -> {});
+        add("", view -> {});
     }
 
 }

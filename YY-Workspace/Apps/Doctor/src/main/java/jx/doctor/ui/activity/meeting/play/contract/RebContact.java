@@ -15,6 +15,8 @@ public interface RebContact {
         void setTime(String time);
 
         void recordProgress();
+
+        void completion();
     }
 
     interface Presenter extends BasePptContract.Presenter<View> {

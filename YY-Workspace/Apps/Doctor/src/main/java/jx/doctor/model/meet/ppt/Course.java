@@ -5,9 +5,9 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import jx.doctor.model.meet.ppt.Course.TCourse;
 import lib.ys.model.EVal;
 import lib.ys.util.TextUtil;
-import jx.doctor.model.meet.ppt.Course.TCourse;
 
 /**
  * 微课具体明细信息
@@ -25,6 +25,12 @@ public class Course extends EVal<TCourse> {
         sort, // 微课明细序号
         videoUrl, // 微课视频明细路径
         temp, // 是否临时
+
+        /******************
+         * 以下是自定义字段
+         */
+
+        progress, // 播放进度
     }
 
     @IntDef({

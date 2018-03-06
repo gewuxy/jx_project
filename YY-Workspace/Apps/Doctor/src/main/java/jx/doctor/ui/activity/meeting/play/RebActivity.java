@@ -106,7 +106,7 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
             case R.id.play_nav_iv_control: {
                 if (mFragPpt.getCurrPosition() == mFragPpt.getCount() - 1 && mCompletion) {
                     mP.setProgress(0);
-                    mCompletion = true;
+                    mCompletion = false;
                 }
             }
             break;
@@ -196,7 +196,9 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         public void playProgress(String time, int progress) {
             mSbMedia.setProgress(progress);
             mTvMedia.setText(time);
-            if (progress == NetPlayer.KMaxProgress && mFragPpt.getCurrPosition() == mFragPpt.getCount() - 1) {
+            int currPosition = mFragPpt.getCurrPosition();
+            if (progress == NetPlayer.KMaxProgress && currPosition == mFragPpt.getCount() - 1
+                    && mFragPpt.getItem(currPosition) instanceof PicCourseFrag) {
                 mV.onPlayState(false);
             }
         }
@@ -212,15 +214,13 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         }
 
         @Override
-        public void setNextItem() {
-            super.setNextItem();
-
-            mP.setProgress(0);
-            mCompletion = true;
+        public void completion() {
             int currPosition = mFragPpt.getCurrPosition();
             if (currPosition == mFragPpt.getCount() - 1 && !(mFragPpt.getItem(currPosition) instanceof PicCourseFrag)) {
-                mP.stopMedia();
+                onPlayState(false);
             }
+            mP.setProgress(0);
+            mCompletion = true;
         }
     }
 
