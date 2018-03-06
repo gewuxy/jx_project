@@ -16,6 +16,7 @@ public class CourseDetail extends EVal<TCourseDetail> {
         duration, // 音频时间长度 单位秒
         audioUrl,
         imgUrl,
-        videoUrl
+        videoUrl,
+        modified, // 音频是否修改
     }
 }

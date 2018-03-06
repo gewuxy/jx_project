@@ -19,6 +19,7 @@ import lib.ys.network.image.NetworkImageListener;
 import lib.ys.network.image.NetworkImageView;
 import lib.ys.network.image.shape.CornerRenderer;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.FileUtil;
 import lib.ys.util.TextUtil;
 
 /**
@@ -40,6 +41,9 @@ public class RecordImgFrag extends BaseFrag {
 
     @Arg(opt = true)
     String mAudioUrl;
+
+    @Arg(opt = true)
+    boolean mModified;  // 是否需要重新下载音频
 
     private float mCrown; // 图片的宽高比
     private int mIvHeight;  // 图片高度
@@ -120,13 +124,18 @@ public class RecordImgFrag extends BaseFrag {
                 f_amr = new File(amrFilePath);
                 f_mp3 = new File(mp3FilePath);
             }
+            String filePath = mp3FilePath.substring(0, mAudioFilePath.lastIndexOf(File.separator));
+            String fileName = mp3FilePath.substring(mAudioFilePath.lastIndexOf(File.separator) + 1);
             if (f_amr.exists() || f_mp3.exists()) {
-                YSLog.d(TAG, "audio already upload");
+                YSLog.d(TAG, "audio already download");
+                if (mModified) {
+                    YSLog.d(TAG, "audio change, download again");
+                    // 先删除原来的文件
+                    FileUtil.delFile(f_amr);
+                    exeNetworkReq(MeetingAPI.downloadAudio(filePath, fileName, mAudioUrl).build());
+                }
             } else {
-                String filePath = mp3FilePath.substring(0, mAudioFilePath.lastIndexOf(File.separator));
-                String fileName = mp3FilePath.substring(mAudioFilePath.lastIndexOf(File.separator) + 1);
-                YSLog.d(TAG, "download file path = " + mp3FilePath);
-                YSLog.d(TAG, "现在下载MP3文件 " + fileName);
+                YSLog.d(TAG, "download mp3 file, file path = " + mp3FilePath);
                 exeNetworkReq(MeetingAPI.downloadAudio(filePath, fileName, mAudioUrl).build());
             }
         }

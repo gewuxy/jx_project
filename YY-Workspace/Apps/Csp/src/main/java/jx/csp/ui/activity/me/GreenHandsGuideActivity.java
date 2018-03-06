@@ -322,6 +322,7 @@ public class GreenHandsGuideActivity extends BaseVpActivity implements videoPlay
                                 .create(courseDetail.getString(TCourseDetail.imgUrl))
                                 .audioFilePath(CacheUtil.getExistAudioFilePath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                                 .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
+                                .modified(courseDetail.getBoolean(TCourseDetail.modified))
                                 .route();
                         add(frag);
                     } else {

@@ -322,7 +322,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
             String basePath = CacheUtil.getAudioCacheDir() + mCourseId + File.separator + mCourseDetailList.get(position).getInt(TCourseDetail.id);
             File folder = new File(basePath);
             File[] files = folder.listFiles();
-            if (files.length == 0) {
+            if (files.length == 0 && TextUtil.isEmpty(mCourseDetailList.get(position).getString(TCourseDetail.audioUrl))) {
                 if (mShowRecordTimeRemind) {
                     showView(mTvRemind);
                     mTvRemind.setTextColor(ResLoader.getColor(R.color.text_787c86));
@@ -512,6 +512,7 @@ public class RecordActivity extends BaseRecordActivity implements onGestureViewL
                             .create(courseDetail.getString(TCourseDetail.imgUrl))
                             .audioFilePath(CacheUtil.getExistAudioFilePath(mCourseId, courseDetail.getInt(TCourseDetail.id)))
                             .audioUrl(courseDetail.getString(TCourseDetail.audioUrl))
+                            .modified(courseDetail.getBoolean(TCourseDetail.modified))
                             .route();
                     add(frag);
                 } else {
