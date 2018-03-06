@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import inject.annotation.router.Arg;
-import jx.doctor.Extra;
 import jx.doctor.R;
 import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.model.meet.ppt.CourseInfo;
@@ -260,8 +259,10 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
             goneView(mTvComment);
         } else if (mNum < 1000) {
             mTvComment.setText(String.valueOf(mNum));
+            showView(mTvComment);
         } else {
             mTvComment.setText("999+");
+            showView(mTvComment);
         }
     }
 
@@ -339,7 +340,7 @@ abstract public class BasePlayActivity<V extends BasePlayContract.View, P extend
                         mTvCur.setText(fitNumber(1));
                     }
                 }
-                mNum = ppt.getInt(PPT.TPPT.count);
+                mNum = ppt.getInt(PPT.TPPT.count, 0);
                 setComment();
                 mFragPpt.setPPT(ppt);
                 mFragPpt.addCourses();

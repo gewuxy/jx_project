@@ -9,6 +9,9 @@ import java.util.List;
 
 import inject.annotation.router.Arg;
 import inject.annotation.router.Route;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import jx.csp.R;
 import jx.csp.adapter.main.PhotoAdapter;
 import jx.csp.constant.Constants;
@@ -54,31 +57,26 @@ public class PhotoActivity extends BasePhotoActivity<Photo, PhotoAdapter> implem
         super.setViews();
 
         getRightButton().setEnabled(false);
-
-        // FIXME: 待整理
-        Util.runOnSubThread(new Runnable() {
-            @Override
-            public void run() {
-                List<String> photos = new ArrayList<>();
-                String path = CacheUtil.getUploadCacheDir();
-                File file = new File(path);
-                if (file.exists()) {
-                    addFile(photos, file);
-                }
-                photos.addAll(PhotoUtil.getPhotos(PhotoActivity.this));
-                Util.runOnUIThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (String photo : photos) {
-                            Photo p = new Photo();
-                            p.put(Photo.TPhoto.path, photo);
-                            addItem(p);
-                        }
-                        invalidate();
-                    }
-                });
+        Observable.fromCallable(() -> {
+            List<String> photos = new ArrayList<>();
+            String path = CacheUtil.getUploadCacheDir();
+            File file = new File(path);
+            if (file.exists()) {
+                addFile(photos, file);
             }
-        });
+            photos.addAll(PhotoUtil.getPhotos(PhotoActivity.this));
+            return photos;
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(photos -> {
+                    for (String photo : photos) {
+                        Photo p = new Photo();
+                        p.put(Photo.TPhoto.path, photo);
+                        addItem(p);
+                    }
+                    invalidate();
+                });
         setLeftText(R.string.preview);
         setRightText(R.string.finish);
     }

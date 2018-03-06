@@ -217,7 +217,10 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
 
             mP.setProgress(0);
             mCompletion = true;
-            mP.stopMedia();
+            int currPosition = mFragPpt.getCurrPosition();
+            if (currPosition == mFragPpt.getCount() - 1 && !(mFragPpt.getItem(currPosition) instanceof PicCourseFrag)) {
+                mP.stopMedia();
+            }
         }
     }
 
