@@ -38,14 +38,11 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
 
     private boolean mScroll;
 
-    private boolean mCompletion;
-
     @Override
     public void initData() {
         super.initData();
 
         mScroll = false;
-        mCompletion = false;
     }
 
     @Override
@@ -96,21 +93,6 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
             }
 
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-
-        switch (v.getId()) {
-            case R.id.play_nav_iv_control: {
-                if (mFragPpt.getCurrPosition() == mFragPpt.getCount() - 1 && mCompletion) {
-                    mP.setProgress(0);
-                    mCompletion = false;
-                }
-            }
-            break;
-        }
     }
 
     @NonNull
@@ -194,13 +176,10 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
 
         @Override
         public void playProgress(String time, int progress) {
-            mSbMedia.setProgress(progress);
-            mTvMedia.setText(time);
-            int currPosition = mFragPpt.getCurrPosition();
-            if (progress == NetPlayer.KMaxProgress && currPosition == mFragPpt.getCount() - 1
-                    && mFragPpt.getItem(currPosition) instanceof PicCourseFrag) {
-                mV.onPlayState(false);
+            if (progress == 0 || mSbMedia.getProgress() < progress) {
+                mSbMedia.setProgress(progress);
             }
+            mTvMedia.setText(time);
         }
 
         @Override
@@ -209,18 +188,11 @@ public class RebActivity extends BasePptActivity<RebContact.View, RebContact.Pre
         }
 
         @Override
-        public void recordProgress() {
-            mP.setProgress(mSbMedia.getProgress());
-        }
-
-        @Override
         public void completion() {
             int currPosition = mFragPpt.getCurrPosition();
-            if (currPosition == mFragPpt.getCount() - 1 && !(mFragPpt.getItem(currPosition) instanceof PicCourseFrag)) {
+            if (currPosition == mFragPpt.getCount() - 1 /*&& !(mFragPpt.getItem(currPosition) instanceof PicCourseFrag)*/) {
                 onPlayState(false);
             }
-            mP.setProgress(0);
-            mCompletion = true;
         }
     }
 

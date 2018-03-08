@@ -3,12 +3,14 @@ package jx.doctor.ui.activity.meeting.play.presenter;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import jx.doctor.Constants;
+import jx.doctor.model.meet.ppt.Course;
 import jx.doctor.ui.activity.meeting.OverviewActivityRouter;
 import jx.doctor.ui.activity.meeting.play.contract.RebContact;
 import jx.doctor.util.NetPlayer;
 import jx.doctor.util.Time;
-import lib.ys.util.UtilEx;
 
 /**
  * @auther : GuoXuan
@@ -16,30 +18,20 @@ import lib.ys.util.UtilEx;
  */
 public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> implements RebContact.Presenter {
 
-    private int mProgress;
+    private int mLastPosition = Constants.KInvalidValue;
 
     public RebPresenterImpl(RebContact.View view) {
         super(view);
     }
 
     @Override
-    protected void nativePlay(int position) {
-        boolean b = mPosition == position;
-        super.nativePlay(position);
-        if (b && mProgress != 0) {
-            // 同一个
-            UtilEx.runOnUIThread(() -> {
-                NetPlayer.inst().seekTo((int) (mProgress * mMediaTime / NetPlayer.KMaxProgress));
-                mProgress = 0;
-            }, 100);
+    public void playMedia(int position) {
+        super.playMedia(position);
+
+        if (mLastPosition != Constants.KInvalidValue && mLastPosition != mPosition) {
+            setProgress(mLastPosition, 0);
+            mLastPosition = position;
         }
-    }
-
-    @Override
-    public void stopMedia() {
-        super.stopMedia();
-
-        getView().recordProgress();
     }
 
     @Override
@@ -54,13 +46,46 @@ public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> imp
     }
 
     @Override
+    protected void onMediaPrepared() {
+        int progress = getProgress(mPosition);
+        if (progress == 100) {
+            progress = 0;
+        }
+        NetPlayer.inst().seekTo((int) (progress * mMediaTime / NetPlayer.KMaxProgress));
+    }
+
+    @Override
     protected void playProgress(String time, int progress) {
+        setProgress(mPosition, progress);
         getView().playProgress(time, progress);
     }
 
     @Override
     protected void completion() {
+        setProgress(mPosition, NetPlayer.KMaxProgress);
         getView().completion();
+        mPlay = false;
+    }
+
+    private void setProgress(int index, int progress) {
+        List<Course> courses = getCourses();
+        if (courses != null && mPosition != Constants.KInvalidValue) {
+            Course course = courses.get(index);
+            if (course != null) {
+                course.put(Course.TCourse.progress, progress);
+            }
+        }
+    }
+
+    private int getProgress(int index) {
+        List<Course> courses = getCourses();
+        if (courses != null && mPosition != Constants.KInvalidValue) {
+            Course course = courses.get(index);
+            if (course != null) {
+                return course.getInt(Course.TCourse.progress, 0);
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -75,14 +100,9 @@ public class RebPresenterImpl extends BasePlayPresenterImpl<RebContact.View> imp
         } else if (progress > NetPlayer.KMaxProgress) {
             progress = NetPlayer.KMaxProgress;
         }
-        mProgress = progress;
+        setProgress(mPosition, progress);
         String time = Time.getTime((NetPlayer.KMaxProgress - progress) * mMediaTime / NetPlayer.KMaxProgress);
         getView().setTime(time);
-    }
-
-    @Override
-    public void setProgress(int progress) {
-        mProgress = progress;
     }
 
 }

@@ -18,16 +18,15 @@ public class UrlUtil {
     private static void init() {
         if (mIsDebug) {
             // 测试线
-            mBaseHost = "medcn.synology.me:8886/app/";
+            mBaseHost = "www.medcn.cn/app/";
 //            mBaseHost = "10.0.0.234:80/api/"; // 礼平电脑
 //            mBaseHost = "10.0.0.250:8081/api/"; // 轩哥电脑
 //            mBaseHost = "10.0.0.252:8082/api/"; // 长玲电脑
-            mHostName = "http://" + mBaseHost;
         } else {
             // 正式线
             mBaseHost = "app.medyaya.cn/";
-            mHostName = "https://" + mBaseHost;
         }
+        mHostName = "https://" + mBaseHost;
 
         mBase = mHostName + "api/";
         mBaseHost += "api/";

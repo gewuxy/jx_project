@@ -14,8 +14,6 @@ public interface RebContact {
 
         void setTime(String time);
 
-        void recordProgress();
-
         void completion();
     }
 
@@ -24,8 +22,6 @@ public interface RebContact {
         void toOverview(Context context, String title, int code);
 
         void changeTime(int progress);
-
-        void setProgress(int progress);
     }
 
 }

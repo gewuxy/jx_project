@@ -158,6 +158,10 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         NetPlayer.inst().recycle();
     }
 
+    protected void onMediaPrepared() {
+        // do nothing
+    }
+
     protected void playProgress(String time, int progress) {
         // do nothing
     }
@@ -231,6 +235,7 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         @Override
         public void onPreparedSuccess(long allMillisecond) {
             mMediaTime = allMillisecond;
+            onMediaPrepared();
         }
 
         @Override
@@ -242,10 +247,6 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         @Override
         public void onProgress(long currMilliseconds, int progress) {
             if (mPosition != ConstantsEx.KInvalidValue) {
-                List<Course> courses = getCourses();
-                if (courses != null) {
-                    courses.get(mPosition).put(Course.TCourse.progress, progress);
-                }
                 String time = Time.getTime(mMediaTime - currMilliseconds);
                 playProgress(time, progress);
             }
@@ -259,12 +260,8 @@ abstract public class BasePlayPresenterImpl<V extends BasePlayContract.View> ext
         @CallSuper
         @Override
         public void onCompletion() {
-            List<Course> courses = getCourses();
-            if (courses != null) {
-                courses.get(mPosition).put(Course.TCourse.progress, 100);
-            }
-            getView().setNextItem();
             completion();
+            getView().setNextItem();
         }
     }
 }
