@@ -230,7 +230,7 @@
         <service android:name=".serv.DownloadApkServ"/>
 
         <activity
-            android:name=".ui.activity.TestMainUIActivity"
+            android:name=".ui.activity.TestUIActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 极光推送 -->

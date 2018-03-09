@@ -7,53 +7,10 @@
 
     <include layout="@layout/layout_viewpager"/>
 
-    <RelativeLayout
+    <jx.csp.view.MainMenu
+        android:id="@+id/layout_main_menu"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="24dp">
-
-        <ImageView
-            android:id="@+id/menu_iv_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="43dp"
-            android:layout_marginLeft="75dp"
-            android:src="@drawable/menu_ic_switch"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/main_iv_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="95dp"
-            android:src="@drawable/menu_ic_new"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/menu_iv_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="43dp"
-            android:layout_marginRight="75dp"
-            android:src="@drawable/main_ic_scan"
-            android:visibility="invisible"/>
-
-        <ImageView
-            android:id="@+id/menu_iv_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/menu_ic_plus"/>
-
-    </RelativeLayout>
+        android:layout_height="match_parent"/>
 
     <!-- 过期提醒 -->
     <TextView
