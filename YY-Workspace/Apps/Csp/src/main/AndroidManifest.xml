@@ -208,6 +208,9 @@
             android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".kotlin.ui.WalletActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".app.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"
+        android:paddingLeft="@dimen/margin"
+        android:paddingRight="@dimen/margin"
+        android:paddingTop="12dp">
+
+        <!-- ¥ -->
+        <TextView
+            android:id="@+id/wallet_item_child_tv_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="¥"
+            android:textColor="@color/text_404356"
+            android:textSize="16dp"/>
+
+        <!-- 金额 -->
+        <TextView
+            android:id="@+id/wallet_item_child_tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@id/wallet_item_child_tv_currency"
+            android:text="200"
+            android:textColor="@color/text_9699a2"
+            android:textSize="24dp"/>
+
+        <!-- 时间 -->
+        <TextView
+            android:id="@+id/wallet_item_child_tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:text="2017-02-31  22:34"
+            android:textColor="@color/text_9699a2"
+            android:textSize="10dp"/>
+
+        <!-- 单位号 -->
+        <TextView
+            android:id="@+id/wallet_item_child_tv_organizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wallet_item_child_tv_currency"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="228dp"
+            android:layout_marginTop="9dp"
+            android:singleLine="true"
+            android:text="宁德卫计委宁德卫计委宁德卫计委宁德卫计委"
+            android:textColor="@color/text_404356"
+            android:textSize="13dp"/>
+
+        <!-- 标题 -->
+        <LinearLayout
+            android:id="@+id/wallet_item_child_layout_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/wallet_item_child_tv_organizer"
+            android:layout_marginLeft="106dp"
+            android:orientation="horizontal">
+
+            <!-- 添加的《 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="《"
+                android:textColor="@color/text_383b4c"
+                android:textSize="13dp"/>
+
+            <!-- 内容 -->
+            <TextView
+                android:id="@+id/wallet_item_child_tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="经验分享对绘本故欢乐时反到刻经验分享对绘本故欢乐时反到刻"
+                android:textColor="@color/text_383b4c"
+                android:textSize="13dp"/>
+
+            <!-- 添加的》 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="》"
+                android:textColor="@color/text_383b4c"
+                android:textSize="13dp"/>
+
+        </LinearLayout>
+
+        <!-- 内容 -->
+        <TextView
+            android:id="@+id/wallet_item_child_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/wallet_item_child_tv_organizer"
+            android:layout_below="@id/wallet_item_child_layout_title"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:text="企业提现 审核中"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

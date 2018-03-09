@@ -239,6 +239,14 @@
     <string name="person_center_help_and_feedback">幫助與反饋</string>
     <string name="person_center_guide">新手指引</string>
 
+    <!-- 钱包 -->
+    <string name="my_wallet">我的錢包</string>
+    <string name="tax_explain">繳稅說明</string>
+    <string name="tax_explain_extract">企業取款: 提供完稅發票\n個人取款: 完成所得稅申報\n參考: </string>
+    <string name="taw_law1">《中華人民共和國個人</string>
+    <string name="taw_law2">所得稅法》</string>
+    <string name="wallet_empty">暫無交易記錄</string>
+
     <!--新手指引-->
     <string name="join_green_hands_guide">進入新手指引</string>
 

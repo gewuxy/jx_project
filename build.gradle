@@ -18,7 +18,7 @@ buildscript {
             java          : JavaVersion.VERSION_1_8,
             supportLibrary: '26+',
 
-            kotlin        : '1.2.21',
+            kotlin        : '1.2.30',
     ]
 
     ext.configs = [
