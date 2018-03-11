@@ -211,6 +211,9 @@
             android:name=".kotlin.ui.WalletActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".kotlin.ui.ExtractSelectActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".app.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"

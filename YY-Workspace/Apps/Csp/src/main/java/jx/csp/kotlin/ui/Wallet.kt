@@ -2,15 +2,14 @@ package jx.csp.kotlin.ui
 
 import android.content.Context
 import android.view.View
+import android.widget.ExpandableListView
 import android.widget.FrameLayout
 import android.widget.TextView
 import jx.csp.R
 import jx.csp.constant.Constants
 import jx.csp.kotlin.KotlinUtil
 import jx.csp.util.Util
-import lib.jx.network.Result
 import lib.jx.ui.activity.base.BaseSRGroupListActivity
-import lib.network.model.NetworkResp
 import lib.network.model.interfaces.IResult
 import lib.ys.adapter.GroupAdapterEx
 import lib.ys.adapter.VH.ViewHolderEx
@@ -35,9 +34,7 @@ class TaxPopup(context: Context) : PopupWindowEx(context) {
     var tVTax1: TextView? = null
     var tVTax2: TextView? = null
 
-    override fun getContentViewId(): Int {
-        return R.layout.popup_wallet_tax
-    }
+    override fun getContentViewId(): Int = R.layout.popup_wallet_tax
 
     override fun findViews() {
         layout = findView(R.id.popup_wallet_tax_layout)
@@ -50,6 +47,7 @@ class TaxPopup(context: Context) : PopupWindowEx(context) {
         tVTax2?.setOnClickListener(this)
         tVTax2?.setOnClickListener(this)
         setTouchOutsideDismissEnabled(true)
+        setBackground(null)
     }
 
     override fun onClick(v: View?) {
@@ -58,6 +56,7 @@ class TaxPopup(context: Context) : PopupWindowEx(context) {
             R.id.wallet_tv_taw_law2 -> {
                 if (TextUtil.isNotEmpty(url)) {
                     KotlinUtil.startWebActivity(url)
+                    dismiss()
                 }
             }
             R.id.popup_wallet_tax_layout -> {
@@ -66,13 +65,9 @@ class TaxPopup(context: Context) : PopupWindowEx(context) {
         }
     }
 
-    override fun getWindowWidth(): Int {
-        return MATCH_PARENT
-    }
+    override fun getWindowWidth(): Int = MATCH_PARENT
 
-    override fun getWindowHeight(): Int {
-        return WRAP_CONTENT
-    }
+    override fun getWindowHeight(): Int = WRAP_CONTENT
 
 }
 
@@ -82,7 +77,10 @@ class GroupWallet : GroupEx<Wallet>() {
 
 class Wallet : EVal<Wallet.TWallet>() {
     enum class TWallet {
-
+        alpha, // 首字母
+        headimg, // 单位号头像
+        id, // 单位号id
+        nickname, // 单位号昵称
     }
 }
 
@@ -104,17 +102,13 @@ class WalletVH(itemView: View) : ViewHolderEx(itemView) {
 
 class WalletAdapter : GroupAdapterEx<GroupWallet, Wallet, WalletVH>() {
 
-    override fun getGroupConvertViewResId(): Int {
-        return R.layout.layout_wallet_item_group
-    }
+    override fun getGroupConvertViewResId(): Int = R.layout.layout_wallet_item_group
 
     override fun refreshGroupView(groupPosition: Int, isExpanded: Boolean, holder: WalletVH?) {
         holder?.getGroupTv()?.text = getGroup(groupPosition)?.tag
     }
 
-    override fun getChildConvertViewResId(): Int {
-        return R.layout.layout_wallet_item_child
-    }
+    override fun getChildConvertViewResId(): Int = R.layout.layout_wallet_item_child
 
     override fun refreshChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, holder: WalletVH?) {
     }
@@ -137,23 +131,34 @@ class WalletActivity : BaseSRGroupListActivity<GroupWallet, Wallet, WalletAdapte
         })
     }
 
+    override fun setViews() {
+        super.setViews()
+
+        setRefreshEnabled(false)
+    }
+
     override fun getDataFromNet() {
         exeNetworkReq(KotlinUtil.get())
     }
 
     override fun parseNetworkResponse(id: Int, text: String?): IResult<GroupWallet> {
-        return super.parseNetworkResponse(id, "{\n" +
-                "                                                            \"code\": \"0\",\n" +
-                "                                                            \"data\": {}}")
+        return KotlinUtil.groupIndex("{\"code\":\"0\",\"data\":[{\"alpha\":\"A\",\"headimg\":\"\",\"id\":620993,\"nickname\":\"安庆市立医院实习、进修培训平台\"},{\"alpha\":\"A\",\"headimg\":\"https://www.medcn.cn/file/headimg/17062316273505837613.jpg\",\"id\":620995,\"nickname\":\"安庆市立医院住院医师规范化培训学员平台\"},{\"alpha\":\"F\",\"headimg\":\"\",\"id\":625207,\"nickname\":\"福建省福州儿童医院医师培训\"},{\"alpha\":\"F\",\"headimg\":\"\",\"id\":933760,\"nickname\":\"福建省福州儿童医院规范化培训\"},{\"alpha\":\"G\",\"headimg\":\"https://www.medcn.cn/file/headimg/17062316273517281990.jpg\",\"id\":928349,\"nickname\":\"广州CDC死因与肿瘤监测科\"},{\"alpha\":\"Y\",\"headimg\":\"https://www.medcn.cn/file/headimg/1498814382638.jpg\",\"id\":1200007,\"nickname\":\"YaYa测试\"}]}"
+                , GroupWallet::class.java, Wallet.TWallet.alpha)
     }
 
-    override fun getContentHeaderViewId(): Int {
-        return R.layout.layout_wallet_header
+    override fun onDataSetChanged() {
+        super.onDataSetChanged()
+
+        expandAllGroup()
     }
 
-    override fun getEmptyText(): String {
-        return getString(R.string.wallet_empty)
-    }
+    override fun createHeaderView(): View? = inflate(R.layout.layout_wallet_header)
+
+    override fun createFooterView(): View? = inflate(R.layout.layout_footer_no_more)
+
+    override fun onGroupClick(parent: ExpandableListView?, v: View?, groupPosition: Int, id: Long): Boolean = true
+
+    override fun getEmptyText(): String = getString(R.string.wallet_empty)
 
     override fun onDestroy() {
         super.onDestroy()

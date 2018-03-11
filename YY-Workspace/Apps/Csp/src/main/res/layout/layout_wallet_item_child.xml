@@ -7,6 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:paddingBottom="15dp"
         android:paddingLeft="@dimen/margin"
         android:paddingRight="@dimen/margin"
