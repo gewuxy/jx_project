@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="16dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:text="@string/unit_num"
+        android:textSize="13dp"
+        android:textColor="@color/text_9699a2"/>
+
+    <View
+        style="@style/divider.form.match"
+        android:background="@color/color_db"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/layout_scrollable_list"/>
+
+        <LinearLayout
+            android:id="@+id/search_unit_num_empty_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="101dp"
+                android:layout_height="92dp"
+                android:layout_marginTop="142dp"
+                android:layout_marginLeft="138dp"
+                android:src="@drawable/main_ic_empty"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="124dp"
+                android:layout_marginTop="17dp"
+                android:text="@string/no_search_result"
+                android:textColor="@color/text_c6c5cb"
+                android:textSize="14dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

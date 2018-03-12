@@ -54,6 +54,8 @@
 
     <!-- 1.3.0 -->
     <color name="text_383b4c">#383b4c</color>
+    <color name="text_81c101">#81c101</color>
+    <color name="text_9699a2_alpha20">#339699a2</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>

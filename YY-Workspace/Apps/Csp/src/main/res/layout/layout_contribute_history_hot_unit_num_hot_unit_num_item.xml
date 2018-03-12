@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/item_selector"
+        android:orientation="horizontal">
+        
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/contribute_history_hot_unit_num_hot_unit_num_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:id="@+id/contribute_history_hot_unit_num_hot_unit_num_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="测试单位号"
+            android:textSize="16dp"
+            android:textColor="@color/text_333"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider.form.match"
+        android:background="@color/color_db"/>
+
+</LinearLayout>

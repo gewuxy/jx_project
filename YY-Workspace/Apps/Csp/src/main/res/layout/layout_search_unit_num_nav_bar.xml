@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="266dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_tv_search_unit_num">
+
+        <EditText
+            android:id="@+id/search_unit_num_et"
+            android:layout_width="266dp"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:background="@null"
+            android:paddingLeft="16dp"
+            android:singleLine="true"
+            android:maxLength="28"
+            android:hint="@string/search_unit_num"
+            android:textColorHint="@color/text_9699a2"
+            android:textSize="14dp"
+            android:textColor="@color/text_9699a2"/>
+
+        <ImageView
+            android:id="@+id/search_unit_num_iv_clear"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/default_ic_close"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/search_unit_num_tv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="@string/search"
+        android:textSize="14dp"
+        android:textColor="@color/text_ace400"/>
+
+</LinearLayout>

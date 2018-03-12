@@ -219,6 +219,22 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <!-- 投稿 -->
+        <activity
+            android:name=".ui.activity.contribution.SelectPlatformActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.contribution.ContributeHistoryHotUnitNumActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.contribution.SearchUnitNumActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity
+            android:name=".ui.activity.contribution.ContributeActivity"
+            android:screenOrientation="portrait"/>
+
         <!--钉钉分享回调-->
         <activity
             android:name=".app.ddshare.DDShareActivity"

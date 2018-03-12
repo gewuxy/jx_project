@@ -404,5 +404,12 @@
     <string name="no_search_result">暫無更多搜索結果</string>
     <string name="already_contribution">已投%d</string>
     <string name="search">搜索</string>
+    <string name="immediately_contribute">立即投稿</string>
+    <string name="change">更換</string>
+    <string name="remuneration">稿酬</string>
+    <string name="free_use">免費使用</string>
+    <string name="contact_way">聯繫方式</string>
+    <string name="no_mast_input">(非必填)</string>
+    <string name="free_contribute">免費投稿</string>
 
 </resources>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/select_platform_item_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"/>
+
+        <TextView
+            android:id="@+id/select_platform_item_tv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="12dp"
+            android:singleLine="true"
+            android:text="test"
+            android:textSize="16dp"
+            android:textColor="@color/text_333"/>
+
+        <TextView
+            android:id="@+id/select_platform_item_tv_contribution"
+            android:layout_width="58dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/bg_tv_select_platform_contribution"
+            android:gravity="center"
+            android:text="@string/contribute"
+            android:textSize="13dp"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/divider.form.match"
+        android:background="@color/color_db"/>
+
+</LinearLayout>

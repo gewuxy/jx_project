@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="104dp"
+        android:layout_height="118dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/item_selector">
+
+        <lib.ys.network.image.NetworkImageView
+            android:id="@+id/contribute_history_hot_unit_num_history_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <TextView
+            android:id="@+id/contribute_history_hot_unit_num_history_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:singleLine="true"
+            android:text="测试单位号"
+            android:textSize="12dp"
+            android:textColor="@color/text_9699a2"/>
+
+        <TextView
+            android:id="@+id/contribute_history_hot_unit_num_history_tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="已投1"
+            android:textSize="10dp"
+            android:textColor="@color/text_404356"/>
+
+    </LinearLayout>
+
+</LinearLayout>

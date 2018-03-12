@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="266dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_tv_search_unit_num"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="@string/search_unit_num"
+        android:textSize="14dp"
+        android:textColor="@color/text_9699a2"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:text="@string/search"
+        android:textSize="14dp"
+        android:textColor="@color/text_ace400"/>
+
+</LinearLayout>

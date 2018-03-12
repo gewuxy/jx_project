@@ -100,6 +100,7 @@ public class LiveAudioPresenterImpl extends BasePresenterImpl<V> implements
                 break;
                 case KStartLiveMsgWhat: {
                     YSLog.d(TAG, "点击开始后，收到延时3秒指令 请求服务器发送同步指令");
+                    mLastSyncOrderState = true;
                     Bundle bundle = msg.getData();
                     exeNetworkReq(KStartLiveReqId, MeetingAPI.start(bundle.getString("courseId"),
                             bundle.getString("videoUrl"),
