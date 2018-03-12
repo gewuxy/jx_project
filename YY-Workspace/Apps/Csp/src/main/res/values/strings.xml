@@ -248,6 +248,8 @@
     <string name="wallet_empty">暂无交易记录</string>
     <string name="account_balance">账户余额（元）</string>
     <string name="wallet_extract">提现</string>
+    <string name="extract_detail">提现详情</string>
+    <string name="extract_extracted">已提现</string>
     <string name="footer_no_more">暂无更多信息</string>
     <string name="select">选择</string>
     <string name="select_all">全选</string>
