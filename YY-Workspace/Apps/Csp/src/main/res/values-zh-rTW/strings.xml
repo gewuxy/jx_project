@@ -391,4 +391,16 @@
 
     <string name="guide_title">【新手指引】</string>
     <string name="guide_watch">點擊觀看</string>
+
+    <!-- 投稿 -->
+    <string name="select_platform">選擇平台</string>
+    <string name="no_new_contribution">暫無新的投稿</string>
+    <string name="hot_unit_num">熱門單位號</string>
+    <string name="yishi_unit_num">YaYa醫師單位號</string>
+    <string name="search_unit_num">搜索單位號</string>
+    <string name="unit_num">單位號</string>
+    <string name="no_search_result">暫無更多搜索結果</string>
+    <string name="already_contribution">已投%d</string>
+    <string name="search">搜索</string>
+
 </resources>
