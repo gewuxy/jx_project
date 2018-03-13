@@ -96,19 +96,7 @@ public class Profile extends EVal<TProfile> implements ISingleton {
         return ConstantsEx.KEmpty;
     }
 
-    public String getUserName() {
-        String name = TextUtil.isNotEmpty(getString(TProfile.nickName)) ? getString(TProfile.nickName) : getString(TProfile.userName);
-        if (TextUtil.isEmpty(name)) {
-            name = "noUserName";
-        }
-        return name;
-    }
-
-    public String getUserId() {
-        String userId = TextUtil.isNotEmpty(getString(TProfile.uid)) ? getString(TProfile.uid) : getString(TProfile.id);
-        if (TextUtil.isEmpty(userId)) {
-            userId = String.valueOf(System.currentTimeMillis());
-        }
-        return userId;
+    public String getContactWay() {
+        return TextUtil.isNotEmpty(getString(TProfile.mobile)) ? getString(TProfile.mobile) : getString(TProfile.email);
     }
 }

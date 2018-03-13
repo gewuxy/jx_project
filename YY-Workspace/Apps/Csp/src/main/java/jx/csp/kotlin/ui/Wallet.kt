@@ -284,12 +284,12 @@ class WalletActivity : BaseSRGroupListActivity<GroupWallet, Wallet, WalletAdapte
     override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
         val child = getChild(groupPosition, childPosition)
         if (child?.getInt(Wallet.TWallet.state) == RoyaltyType.get_royalty) {
-            startActivity(ExtractDetailNewActivity::class.java)
+            //startActivity(ExtractDetailNewActivity::class.java)
         } else {
             if (child?.getInt(Wallet.TWallet.orderType) == ExtractType.company) {
-                startActivity(ExtractDetailCompanyActivity::class.java)
+                //startActivity(ExtractDetailCompanyActivity::class.java)
             } else {
-                startActivity(ExtractDetailPersonActivity::class.java)
+                //startActivity(ExtractDetailPersonActivity::class.java)
             }
         }
         return super.onChildClick(parent, v, groupPosition, childPosition, id)

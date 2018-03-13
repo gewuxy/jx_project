@@ -7,6 +7,7 @@ import jx.csp.adapter.VH.contribution.ContributeHistoryHotUnitNumVH;
 import jx.csp.adapter.VH.contribution.HotUnitNumVH;
 import jx.csp.model.contribution.ContributeHistories;
 import jx.csp.model.contribution.HotUnitNum;
+import jx.csp.model.contribution.HotUnitNum.THotUnitNum;
 import jx.csp.model.contribution.IContributeHistoryHotUnitNum;
 import jx.csp.model.contribution.IContributeHistoryHotUnitNum.ContributeHistoryHotUnitNumType;
 import jx.csp.model.contribution.ListTitle;
@@ -51,8 +52,10 @@ public class ContributeHistoryHotUnitNumAdapter extends MultiAdapterEx<IContribu
                 HotUnitNum item = (HotUnitNum) getItem(position);
 
                 HotUnitNumVH hotUnitNumVH = holder.getHotUnitNumVH();
+                hotUnitNumVH.getTv().setText(item.getString(THotUnitNum.acceptName));
                 hotUnitNumVH.getIv()
                         .placeHolder(R.drawable.ic_default_unit_num)
+                        .url(item.getString(THotUnitNum.headimg))
                         .renderer(new CircleRenderer())
                         .load();
             }

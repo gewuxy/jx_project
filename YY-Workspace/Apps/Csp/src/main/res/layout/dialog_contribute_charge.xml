@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/contribute_charge_tv_charge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="@string/charge"
+            android:textSize="16dp"
+            android:textColor="@color/text_404356"/>
+
+        <TextView
+            android:id="@+id/contribute_charge_tv_rmb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:text="¥"
+            android:textSize="16dp"
+            android:textColor="@color/text_404356"/>
+
+        <TextView
+            android:id="@+id/contribute_charge_tv_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="12dp"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:text="0"
+            android:textSize="16dp"
+            android:textColor="@color/text_404356"/>
+        
+        <CheckBox
+            android:id="@+id/contribute_charge_cb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="12dp"
+            android:padding="2dp"
+            android:button="@drawable/contribute_charge_selector"/>
+
+        <TextView
+            android:id="@+id/contribute_charge_tv_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/free_contribute"
+            android:textSize="16dp"
+            android:textColor="@color/text_404356"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height_1px"
+        android:background="@color/app_bg"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="186dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_1"
+                    style="@style/tv.number"
+                    android:text="1"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_2"
+                    style="@style/tv.number"
+                    android:text="2"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_3"
+                    style="@style/tv.number"
+                    android:text="3"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height_1px"
+                android:background="@color/app_bg"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_4"
+                    style="@style/tv.number"
+                    android:text="4"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_5"
+                    style="@style/tv.number"
+                    android:text="5"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_6"
+                    style="@style/tv.number"
+                    android:text="6"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height_1px"
+                android:background="@color/app_bg"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_7"
+                    style="@style/tv.number"
+                    android:text="7"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_8"
+                    style="@style/tv.number"
+                    android:text="8"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_9"
+                    style="@style/tv.number"
+                    android:text="9"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height_1px"
+                android:background="@color/app_bg"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_0"
+                    style="@style/tv.number"
+                    android:text="0"/>
+
+                <View
+                    android:layout_width="@dimen/divider_height_1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/app_bg"/>
+
+                <TextView
+                    android:id="@+id/contribute_charge_tv_back"
+                    style="@style/tv.number"
+                    android:textSize="16dp"
+                    android:text="@string/back"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/divider_height_1px"
+            android:layout_height="match_parent"
+            android:background="@color/app_bg"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/contribute_charge_tv_clear"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/item_selector"
+                android:text="X"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/divider_height_1px"
+                android:background="@color/app_bg"/>
+
+            <TextView
+                android:id="@+id/contribute_charge_tv_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:background="@drawable/item_selector"
+                android:textSize="16dp"
+                android:textColor="@color/text_404356"
+                android:text="@string/confirm"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

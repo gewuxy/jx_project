@@ -423,6 +423,10 @@
     <string name="free_use">免費使用</string>
     <string name="contact_way">聯繫方式</string>
     <string name="no_mast_input">(非必填)</string>
+    <string name="charge">收費</string>
     <string name="free_contribute">免費投稿</string>
+    <string name="back">返回</string>
+    <string name="money">%d 元</string>
+    <string name="please_perfection">請完善</string>
 
 </resources>

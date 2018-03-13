@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="已投1"
+            android:text="已投0"
             android:textSize="10dp"
             android:textColor="@color/text_404356"/>
 

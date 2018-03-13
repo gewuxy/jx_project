@@ -45,7 +45,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="268dp"
         android:layout_marginTop="16dp"
         android:background="@color/white"
         android:orientation="vertical">
@@ -110,56 +110,67 @@
 
         </android.support.v7.widget.CardView>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/divider_height_1px"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
             android:background="@color/app_bg"/>
-
-        <LinearLayout
-            android:id="@+id/contribute_layout_remuneration"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:text="@string/remuneration"
-                android:textSize="16dp"
-                android:textColor="@color/text_333"/>
-
-            <TextView
-                android:id="@+id/contribute_tv_remuneration"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="16dp"
-                android:gravity="right"
-                android:text="@string/free_use"
-                android:textSize="16dp"
-                android:textColor="@color/text_9699a2"/>
-            
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginRight="16dp"
-                android:padding="2dp"
-                android:src="@drawable/form_ic_arrow_right"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/contribute_layout_remuneration"
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="@string/remuneration"
+            android:textSize="16dp"
+            android:textColor="@color/text_333"/>
+
+        <TextView
+            android:id="@+id/contribute_tv_remuneration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/free_use"
+            android:textColor="@color/text_9699a2"
+            android:textSize="16dp"/>
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginRight="16dp"
+            android:padding="2dp"
+            android:src="@drawable/form_ic_arrow_right"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/contribute_large_divider"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
         android:gravity="center_vertical"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -175,7 +186,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="12dp"
             android:text="@string/no_mast_input"
             android:textSize="16dp"
             android:textColor="@color/text_9699a2"/>
@@ -186,10 +197,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="6dp"
             android:singleLine="true"
-            android:inputType="number"
             android:gravity="right"
+            android:layout_marginRight="16dp"
+            android:hint="@string/please_perfection"
             android:textSize="16dp"
             android:textColor="@color/text_9699a2"/>
 
@@ -197,11 +209,10 @@
             android:id="@+id/contribute_iv_clear_contact_way"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:padding="4dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="16dp"
+            android:padding="2dp"
+            android:layout_marginRight="14dp"
             android:src="@drawable/default_ic_close"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
     </LinearLayout>
 

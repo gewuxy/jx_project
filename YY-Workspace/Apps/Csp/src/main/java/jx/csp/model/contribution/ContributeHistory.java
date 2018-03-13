@@ -16,7 +16,11 @@ public class ContributeHistory extends EVal<TContributeHistory> implements ICont
     }
 
     public enum TContributeHistory {
-        id,
-        name,
+        acceptId,  // 单位号id
+        acceptName,  // 单位号名称
+        acceptCount,  // 投稿次数
+        headimg,  //  	单位号头像
+        sign,  //
+        type,  //  数据类型  0: 投稿历史 1: 热门单位号
     }
 }
