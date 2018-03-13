@@ -4,44 +4,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="206dp"
-        android:background="#3b3e46"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="31dp"
-            android:text="@string/account_balance"
-            android:textColor="@color/text_9699a2"
-            android:textSize="14dp"/>
-
-        <TextView
-            android:id="@+id/wallet_header_tv_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="220"
-            android:textColor="@color/text_9699a2"
-            android:textSize="38dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/wallet_header_tv_extract"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
-            android:background="@drawable/wallet_extract_selector"
-            android:paddingBottom="7dp"
-            android:paddingLeft="52dp"
-            android:paddingRight="52dp"
-            android:paddingTop="7dp"
-            android:text="@string/wallet_extract"
-            android:textSize="16dp"/>
-
-    </LinearLayout>
 
 </FrameLayout>

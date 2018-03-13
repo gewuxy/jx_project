@@ -3,10 +3,13 @@ package jx.csp.kotlin.ui
 import android.view.View
 import android.widget.TextView
 import jx.csp.R
+import jx.csp.kotlin.KotlinUtil
 import jx.csp.util.Util
-import lib.jx.ui.activity.base.BaseSRRecyclerActivity
-import lib.ys.adapter.VH.RecyclerViewHolderEx
-import lib.ys.adapter.recycler.MultiRecyclerAdapterEx
+import lib.jx.ui.activity.base.BaseSRListActivity
+import lib.network.model.NetworkResp
+import lib.network.model.interfaces.IResult
+import lib.ys.adapter.AdapterEx
+import lib.ys.adapter.VH.ViewHolderEx
 import lib.ys.model.EVal
 import lib.ys.ui.other.NavBar
 
@@ -22,19 +25,30 @@ class ExtractSelect : EVal<ExtractSelect.TExtractSelect>() {
     }
 }
 
-class ExtractSelectVH(itemView: View) : RecyclerViewHolderEx(itemView) {
+open class ExtractSelectVH(itemView: View) : ViewHolderEx(itemView) {
+    fun getTvCurrency(): TextView = findView(R.id.royalty_item_tv_currency)
+
+    fun getTvMoney(): TextView = findView(R.id.royalty_item_tv_money)
+
+    fun getTvTime(): TextView = findView(R.id.royalty_item_tv_time)
+
+    fun getTvOrganizer(): TextView = findView(R.id.royalty_item_tv_organizer)
+
+    fun getTvTitle(): TextView = findView(R.id.royalty_item_tv_title)
+
+    fun getTvContent(): TextView = findView(R.id.royalty_item_tv_content)
 
 }
 
-class ExtractSelectAdapter : MultiRecyclerAdapterEx<ExtractSelect, ExtractSelectVH>() {
-    override fun getConvertViewResId(itemType: Int): Int = R.layout.layout_extract_select_item
+class ExtractSelectAdapter : AdapterEx<ExtractSelect, ExtractSelectVH>() {
+    override fun getConvertViewResId(): Int = R.layout.layout_extract_select_item
 
-    override fun refreshView(position: Int, holder: ExtractSelectVH?, itemType: Int) {
+    override fun refreshView(position: Int, holder: ExtractSelectVH?) {
     }
 
 }
 
-class ExtractSelectActivity : BaseSRRecyclerActivity<ExtractSelect, ExtractSelectAdapter>() {
+class ExtractSelectActivity : BaseSRListActivity<ExtractSelect, ExtractSelectAdapter>() {
     var tvExtract: TextView? = null
 
     override fun initData() {
@@ -46,6 +60,7 @@ class ExtractSelectActivity : BaseSRRecyclerActivity<ExtractSelect, ExtractSelec
     }
 
     override fun getDataFromNet() {
+        exeNetworkReq(KotlinUtil.getExtractSelect(offset, limit))
     }
 
     override fun findViews() {

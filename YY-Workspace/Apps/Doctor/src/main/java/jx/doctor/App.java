@@ -8,14 +8,14 @@ import android.support.multidex.MultiDex;
 import com.baidu.mapapi.SDKInitializer;
 import com.squareup.leakcanary.LeakCanary;
 
-import java.util.HashMap;
-
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.moments.WechatMoments;
+import jx.doctor.Constants.PageConstants;
+import jx.doctor.network.NetFactory;
+import jx.doctor.network.NetworkApiDescriptor;
+import jx.doctor.network.UrlUtil;
+import jx.doctor.util.CacheUtil;
 import lib.jg.JAnalyticsStats;
 import lib.jg.JG;
+import lib.jx.BaseApp;
 import lib.network.NetworkConfig;
 import lib.platform.Platform;
 import lib.ys.YSLog;
@@ -26,13 +26,6 @@ import lib.ys.config.ListConfig.PageDownType;
 import lib.ys.config.ListConfigBuilder;
 import lib.ys.config.NavBarConfig;
 import lib.ys.stats.Stats;
-import lib.ys.util.PackageUtil;
-import lib.jx.BaseApp;
-import jx.doctor.Constants.PageConstants;
-import jx.doctor.network.NetFactory;
-import jx.doctor.network.NetworkApiDescriptor;
-import jx.doctor.network.UrlUtil;
-import jx.doctor.util.CacheUtil;
 
 /**
  * @author yuansui
@@ -128,13 +121,6 @@ public class App extends BaseApp {
         JG.init(this, BuildConfig.DEBUG_LOG);
         Stats.init(new JAnalyticsStats(), BuildConfig.DEBUG_LOG);
 
-        if (BuildConfig.DEBUG_LOG) {
-//            LeakCanary.install(this);
-        }
-
-//        setMobWeChat();
-//        setMobWeChatMoments();
-//        setMobWeibo();
     }
 
     @Override
@@ -148,38 +134,4 @@ public class App extends BaseApp {
         MultiDex.install(this);
     }
 
-    protected void setMobWeibo() {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("Id", "1");
-        hashMap.put("SortId", "1");
-        hashMap.put("AppKey", PackageUtil.getMetaValue("SINA_KEY"));
-        hashMap.put("AppSecret", PackageUtil.getMetaValue("SINA_SECRET"));
-        hashMap.put("RedirectUrl", "http://www.sharesdk.cn");
-        hashMap.put("ShareByAppClient", "true");
-        hashMap.put("Enable", "true");
-        hashMap.put("ShareByWebApi", "false");
-        ShareSDK.setPlatformDevInfo(SinaWeibo.NAME, hashMap);
-    }
-
-    protected void setMobWeChat() {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("Id", "2");
-        hashMap.put("SortId", "2");
-        hashMap.put("AppId", PackageUtil.getMetaValue("WX_ID"));
-        hashMap.put("AppSecret", PackageUtil.getMetaValue("WX_SECRET"));
-        hashMap.put("BypassApproval", "false");
-        hashMap.put("Enable", "true");
-        ShareSDK.setPlatformDevInfo(Wechat.NAME, hashMap);
-    }
-
-    protected void setMobWeChatMoments() {
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("Id", "3");
-        hashMap.put("SortId", "");
-        hashMap.put("AppId", PackageUtil.getMetaValue("WX_ID"));
-        hashMap.put("AppSecret", PackageUtil.getMetaValue("WX_SECRET"));
-        hashMap.put("BypassApproval", "false");
-        hashMap.put("Enable", "true");
-        ShareSDK.setPlatformDevInfo(WechatMoments.NAME, hashMap);
-    }
 }

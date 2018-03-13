@@ -214,6 +214,15 @@
             android:name=".kotlin.ui.ExtractSelectActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".kotlin.ui.ExtractDetailNewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".kotlin.ui.ExtractDetailPersonActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".kotlin.ui.ExtractDetailCompanyActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".app.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"

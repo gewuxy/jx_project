@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="220"
-            android:textColor="@color/text_9699a2"
+            android:textColor="@color/wallet_money_tv_selector"
             android:textSize="38dp"
             android:textStyle="bold"/>
 
@@ -34,12 +34,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="33dp"
-            android:background="@drawable/wallet_extract_selector"
+            android:background="@drawable/wallet_extract_bg_selector"
             android:paddingBottom="7dp"
             android:paddingLeft="52dp"
             android:paddingRight="52dp"
             android:paddingTop="7dp"
             android:text="@string/wallet_extract"
+            android:textColor="@color/wallet_extract_tv_selector"
             android:textSize="16dp"/>
 
     </LinearLayout>
