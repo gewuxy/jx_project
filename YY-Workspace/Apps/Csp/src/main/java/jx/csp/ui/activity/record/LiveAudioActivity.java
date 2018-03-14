@@ -462,6 +462,7 @@ public class LiveAudioActivity extends BaseRecordActivity {
             YSLog.d(TAG, " liveState = " + live.getInt(TLive.liveState));
             mShareAndStarArg.put(TMeet.starRateFlag, mStarState);
             mShareAndStarArg.put(TMeet.password, ((Course) joinMeeting.getObject(TJoinMeeting.course)).getString(TCourse.password));
+            mShareAndStarArg.put(TMeet.startTime, live.getInt(TLive.startTime));
 
             long serverTime = joinMeeting.getLong(TJoinMeeting.serverTime);
             long startTime;

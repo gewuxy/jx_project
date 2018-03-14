@@ -71,6 +71,8 @@ public class Notifier extends NotifierEx<OnNotify> {
 
             NotifyType.finish_record_or_live,
             NotifyType.comment_num,
+
+            NotifyType.finish_contribute,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -244,6 +246,11 @@ public class Notifier extends NotifierEx<OnNotify> {
          */
         int finish_record_or_live = 70;
         int comment_num = 71;
+
+        /**
+         * 结束投稿相关页面
+         */
+        int finish_contribute = 80;
     }
 
     public interface OnNotify {

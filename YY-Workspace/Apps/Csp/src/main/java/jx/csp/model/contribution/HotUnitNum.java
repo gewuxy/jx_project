@@ -16,6 +16,7 @@ public class HotUnitNum extends EVal<THotUnitNum> implements IContributeHistoryH
     }
 
     public enum THotUnitNum {
+        platformId,  // 平台id
         acceptId,  // 单位号id
         acceptName,  // 单位号名称
         acceptCount,  // 投稿次数

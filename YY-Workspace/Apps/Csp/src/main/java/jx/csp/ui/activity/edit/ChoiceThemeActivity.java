@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -56,7 +57,6 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
     @Arg(opt = true)
     boolean mSave;  // true 表示保存时不请求网络，直接带参数返回
 
-    private View mLayoutSave;
     private int mSelectPos = -1;  // 选择的位置
 
     @Override
@@ -72,13 +72,18 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, R.string.add_theme, this);
-    }
-
-    @Override
-    public void findViews() {
-        super.findViews();
-
-        mLayoutSave = findView(R.id.editor_tv_save);
+        TextView tv = bar.addTextViewRight(R.string.save, R.color.text_ace400, v -> {
+            if (mSave) {
+                if (mSelectPos != -1) {
+                    forResult(getItem(mSelectPos));
+                }
+                finish();
+            } else {
+                refresh(AppConfig.RefreshWay.dialog);
+                exeNetworkReq(KSave, MeetingAPI.selectTheme(mMeetId, mThemeId).build());
+            }
+        });
+        Util.setTextViewBackground(tv);
     }
 
     @Override
@@ -89,8 +94,6 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
         refresh(AppConfig.RefreshWay.embed);
         getDataFromNet();
         setOnAdapterClickListener(this);
-        setOnClickListener(mLayoutSave);
-        mLayoutSave.setEnabled(false);
     }
 
     @Override
@@ -104,30 +107,16 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.editor_tv_save: {
-                if (mSave) {
-                    if (mSelectPos != -1) {
-                        forResult(getItem(mSelectPos));
-                    }
-                } else {
-                    refresh(AppConfig.RefreshWay.dialog);
-                    exeNetworkReq(KSave, MeetingAPI.selectTheme(mMeetId, mThemeId).build());
-                }
-            }
-            break;
-        }
-    }
-
-    @Override
     public void onAdapterClick(int position, View v) {
         switch (v.getId()) {
             case R.id.editor_theme_layout: {
                 boolean select = getItem(position).getBoolean(Theme.TTheme.select);
-                mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : Constants.KInvalidValue;
-                mLayoutSave.setEnabled(mThemeId != Constants.KInvalidValue);
-                mSelectPos = position;
+                mThemeId = select ? getItem(position).getInt(Theme.TTheme.id) : 0;
+                if (select) {
+                    mSelectPos = position;
+                } else {
+                    mSelectPos = -1;
+                }
             }
             break;
             case R.id.editor_preview_tv_item: {
@@ -161,7 +150,6 @@ public class ChoiceThemeActivity extends BaseRecyclerActivity<Theme, ThemeAdapte
                             for (Theme t : list) {
                                 if (mThemeId == t.getInt(TTheme.id)) {
                                     t.put(TTheme.select, true);
-                                    mLayoutSave.setEnabled(true);
                                     break;
                                 }
                             }

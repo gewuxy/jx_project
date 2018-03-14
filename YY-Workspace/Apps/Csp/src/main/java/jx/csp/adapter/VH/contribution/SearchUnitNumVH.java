@@ -19,6 +19,10 @@ public class SearchUnitNumVH extends ViewHolderEx {
         super(convertView);
     }
 
+    public View getItemLayout() {
+        return getView(R.id.search_unit_num_layout);
+    }
+
     public NetworkImageView getIv() {
         return getView(R.id.search_unit_num_iv);
     }

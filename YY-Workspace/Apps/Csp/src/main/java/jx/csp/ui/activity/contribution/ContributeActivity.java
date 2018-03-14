@@ -9,15 +9,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.constant.AppType;
 import jx.csp.dialog.ContributeChargeDialog;
 import jx.csp.model.Profile;
+import jx.csp.model.contribution.UnitNum;
+import jx.csp.model.contribution.UnitNum.TUnitNum;
+import jx.csp.model.main.Meet;
+import jx.csp.model.main.Meet.TMeet;
+import jx.csp.model.meeting.Course.CourseType;
+import jx.csp.network.JsonParser;
+import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.sp.SpApp;
+import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseActivity;
+import lib.network.model.NetworkResp;
+import lib.network.model.interfaces.IResult;
+import lib.ys.config.AppConfig.RefreshWay;
 import lib.ys.network.image.NetworkImageView;
+import lib.ys.network.image.shape.CircleRenderer;
 import lib.ys.ui.other.NavBar;
 import lib.ys.util.TextUtil;
+import lib.ys.util.TimeFormatter;
+import lib.ys.util.TimeFormatter.TimeFormat;
 
 /**
  * 立即投稿
@@ -25,9 +42,16 @@ import lib.ys.util.TextUtil;
  * @author CaiXiang
  * @since 2018/3/12
  */
-
+@Route
 public class ContributeActivity extends BaseActivity {
 
+    @Arg
+    Meet mMeet;
+
+    @Arg
+    UnitNum mUnitNum;
+
+    private TextView mTvContribute;
     private NetworkImageView mIvUnitNum;
     private TextView mTvUnitNumName;
     private NetworkImageView mIvCover;
@@ -40,7 +64,7 @@ public class ContributeActivity extends BaseActivity {
     private EditText mEtContactWay;
     private ImageView mIvClear;
 
-    private int mCharge;
+    private int mCharge = 0;
 
     @Override
     public void initData() {
@@ -55,8 +79,26 @@ public class ContributeActivity extends BaseActivity {
 
     @Override
     public void initNavBar(NavBar bar) {
-        bar.addViewLeft(R.drawable.default_ic_close, v -> showToast("close"));
-        bar.addTextViewRight(R.string.immediately_contribute, R.color.text_ace400, v -> showToast("contribute"));
+        bar.addViewLeft(R.drawable.default_ic_close, v -> {
+            notify(NotifyType.finish_contribute);
+            finish();
+        });
+        mTvContribute = bar.addTextViewRight(R.string.immediately_contribute, R.color.text_ace400, v -> {
+            String str = mEtContactWay.getText().toString();
+            refresh(RefreshWay.dialog);
+            if (SpApp.inst().getAppType() == AppType.inland) {
+                exeNetworkReq(DeliveryAPI.immediatelyContribute(mUnitNum.getInt(TUnitNum.unitNumId),
+                        mMeet.getInt(TMeet.id), mUnitNum.getInt(TUnitNum.id))
+                        .contact(str)
+                        .build());
+            } else {
+                exeNetworkReq(DeliveryAPI.immediatelyContribute(mUnitNum.getInt(TUnitNum.unitNumId),
+                        mMeet.getInt(TMeet.id), mUnitNum.getInt(TUnitNum.id))
+                        .contact(str)
+                        .remuneration(mCharge)
+                        .build());
+            }
+        });
     }
 
     @Override
@@ -77,10 +119,37 @@ public class ContributeActivity extends BaseActivity {
     @Override
     public void setViews() {
 
+        Util.setTextViewBackground(mTvContribute);
+
         if (SpApp.inst().getAppType() == AppType.overseas) {
             goneView(mLayoutDivider);
             goneView(mLayoutRemuneration);
         }
+
+        mIvUnitNum.placeHolder(R.drawable.ic_default_unit_num)
+                .url(mUnitNum.getString(TUnitNum.imgUrl))
+                .renderer(new CircleRenderer())
+                .load();
+        mTvUnitNumName.setText(mUnitNum.getString(TUnitNum.platformName));
+        setOnClickListener(R.id.contribute_tv_change);
+
+        mIvCover.placeHolder(R.drawable.ic_default_contribute_cover)
+                .url(mMeet.getString(TMeet.coverUrl))
+                .load();
+        mTvMeetName.setText(mMeet.getString(TMeet.title));
+        if (mMeet.getInt(TMeet.playType) == CourseType.reb) {
+            String time = mMeet.getString(TMeet.playTime);
+            if (TextUtil.isEmpty(time)) {
+                time = Util.getSpecialTimeFormat(0, "'", "\"");
+            }
+            mTvTime.setText(time);
+            mTvMeetType.setText(R.string.recorded);
+        } else {
+            mTvTime.setText(TimeFormatter.milli(mMeet.getLong(TMeet.startTime), TimeFormat.form_MM_dd_24));
+            mTvMeetType.setText(R.string.solive);
+        }
+
+        setOnClickListener(mLayoutRemuneration);
 
         String contact_way = Profile.inst().getContactWay();
         if (TextUtil.isNotEmpty(contact_way)) {
@@ -88,14 +157,11 @@ public class ContributeActivity extends BaseActivity {
             mEtContactWay.setSelection(contact_way.length());
             showView(mIvClear);
         }
-
-        mIvUnitNum.placeHolder(R.drawable.ic_default_unit_num).load();
-        mIvCover.placeHolder(R.drawable.ic_default_contribute_cover).load();
         mEtContactWay.addTextChangedListener(new TextWatcher() {
-            
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+
             }
 
             @Override
@@ -112,8 +178,6 @@ public class ContributeActivity extends BaseActivity {
 
             }
         });
-        setOnClickListener(R.id.contribute_tv_change);
-        setOnClickListener(mLayoutRemuneration);
         setOnClickListener(mIvClear);
     }
 
@@ -143,9 +207,26 @@ public class ContributeActivity extends BaseActivity {
             }
             break;
             case R.id.contribute_tv_change: {
-                showToast("change");
+                finish();
             }
             break;
+        }
+    }
+
+    @Override
+    public IResult onNetworkResponse(int id, NetworkResp resp) throws Exception {
+        return JsonParser.error(resp.getText());
+    }
+
+    @Override
+    public void onNetworkSuccess(int id, IResult r) {
+        stopRefresh();
+        if (r.isSucceed()) {
+            showToast(R.string.contribute_platform_succeed);
+            notify(NotifyType.finish_contribute);
+            finish();
+        } else {
+            showToast(R.string.contribute_fail);
         }
     }
 }

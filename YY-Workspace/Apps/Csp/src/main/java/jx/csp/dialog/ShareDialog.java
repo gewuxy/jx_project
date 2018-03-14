@@ -20,8 +20,8 @@ import jx.csp.model.main.Meet.TMeet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.Live.LiveState;
 import jx.csp.ui.activity.CommonWebViewActivityRouter;
+import jx.csp.ui.activity.contribution.SelectPlatformActivityRouter;
 import jx.csp.ui.activity.edit.EditMeetActivityRouter;
-import jx.csp.ui.activity.share.ContributePlatformActivityRouter;
 import jx.csp.ui.activity.share.WatchPwdActivityRouter;
 import jx.csp.util.UISetter;
 import jx.csp.util.Util;
@@ -211,7 +211,8 @@ public class ShareDialog extends BaseDialog {
             }
             if (type == ShareType.contribute) {
                 if (adapter.getItem(position).isClick()) {
-                    ContributePlatformActivityRouter.create(mCourseId).route(getContext());
+                    //ContributePlatformActivityRouter.create(mCourseId).route(getContext());
+                    SelectPlatformActivityRouter.create(mMeet).route(getContext());
                 }
             } else {
                 switch (type) {
@@ -275,6 +276,7 @@ public class ShareDialog extends BaseDialog {
                     Platform.share(t, param, listener);
                 }
             }
+            dismiss();
         });
     }
 
@@ -325,17 +327,16 @@ public class ShareDialog extends BaseDialog {
                 break;
                 case ShareType.delete: {
                     UISetter.showDeleteMeet(mCourseId, getContext());
-                    dismiss();
                 }
                 break;
                 case ShareType.editor: {
                     EditMeetActivityRouter.create(mCourseId)
                             .previewUrl(mMeet.getString(TMeet.coverUrl))
                             .route(getContext());
-                    dismiss();
                 }
                 break;
             }
+            dismiss();
         });
     }
 

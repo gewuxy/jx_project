@@ -1,6 +1,7 @@
 package jx.csp.adapter.contribution;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import jx.csp.R;
 import jx.csp.adapter.VH.contribution.ContributeHistoryHotUnitNumVH;
@@ -12,6 +13,10 @@ import jx.csp.model.contribution.IContributeHistoryHotUnitNum;
 import jx.csp.model.contribution.IContributeHistoryHotUnitNum.ContributeHistoryHotUnitNumType;
 import jx.csp.model.contribution.ListTitle;
 import jx.csp.model.contribution.ListTitle.TListTitle;
+import jx.csp.model.contribution.UnitNum;
+import jx.csp.model.contribution.UnitNum.TUnitNum;
+import jx.csp.model.main.Meet;
+import jx.csp.ui.activity.contribution.ContributeActivityRouter;
 import lib.ys.adapter.MultiAdapterEx;
 import lib.ys.network.image.shape.CircleRenderer;
 
@@ -22,6 +27,7 @@ import lib.ys.network.image.shape.CircleRenderer;
 
 public class ContributeHistoryHotUnitNumAdapter extends MultiAdapterEx<IContributeHistoryHotUnitNum, ContributeHistoryHotUnitNumVH> {
 
+    private Meet mMeet;
     private ContributeHistoryAdapter mContributeHistoryAdapter;
 
     @Override
@@ -45,6 +51,7 @@ public class ContributeHistoryHotUnitNumAdapter extends MultiAdapterEx<IContribu
             break;
             case ContributeHistoryHotUnitNumType.contribution_history: {
                 ContributeHistories list = (ContributeHistories) getItem(position);
+                mContributeHistoryAdapter.setMeetData(mMeet);
                 mContributeHistoryAdapter.setData(list.getData());
             }
             break;
@@ -58,6 +65,7 @@ public class ContributeHistoryHotUnitNumAdapter extends MultiAdapterEx<IContribu
                         .url(item.getString(THotUnitNum.headimg))
                         .renderer(new CircleRenderer())
                         .load();
+                setOnViewClickListener(position, hotUnitNumVH.getItemLayout());
             }
             break;
         }
@@ -99,5 +107,22 @@ public class ContributeHistoryHotUnitNumAdapter extends MultiAdapterEx<IContribu
     @Override
     public int getViewTypeCount() {
         return ContributeHistoryHotUnitNumType.class.getDeclaredFields().length;
+    }
+
+    @Override
+    protected void onViewClick(int position, View v) {
+        HotUnitNum item = (HotUnitNum) getItem(position);
+        if (item.getType() == ContributeHistoryHotUnitNumType.hot_unit_num) {
+            UnitNum unitNum = new UnitNum();
+            unitNum.put(TUnitNum.id, 1); // 平台id  目前只有YaYa医师单位号 是 1
+            unitNum.put(TUnitNum.unitNumId, item.getInt(THotUnitNum.acceptId));
+            unitNum.put(TUnitNum.platformName, item.getString(THotUnitNum.acceptName));
+            unitNum.put(TUnitNum.imgUrl, item.getString(THotUnitNum.headimg));
+            ContributeActivityRouter.create(mMeet, unitNum).route(getContext());
+        }
+    }
+
+    public void setMeetData(Meet meet) {
+        mMeet = meet;
     }
 }

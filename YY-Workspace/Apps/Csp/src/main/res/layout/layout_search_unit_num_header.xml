@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/unit_num"
+        android:textSize="13dp"
+        android:textColor="@color/text_9699a2"/>
+
+    <View
+        style="@style/divider.form.match"
+        android:background="@color/color_db"/>
+
+</LinearLayout>

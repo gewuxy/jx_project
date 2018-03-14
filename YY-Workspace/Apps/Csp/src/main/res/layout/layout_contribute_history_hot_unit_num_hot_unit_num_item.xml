@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/contribute_history_hot_unit_num_hot_unit_num_layout"
         android:layout_width="match_parent"
         android:layout_height="68dp"
         android:gravity="center_vertical"
@@ -28,9 +29,5 @@
             android:textColor="@color/text_333"/>
 
     </LinearLayout>
-
-    <View
-        style="@style/divider.form.match"
-        android:background="@color/color_db"/>
 
 </LinearLayout>

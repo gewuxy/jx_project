@@ -21,9 +21,11 @@ import jx.csp.model.contribution.ListTitle;
 import jx.csp.model.contribution.ListTitle.TListTitle;
 import jx.csp.model.contribution.SelectPlatform;
 import jx.csp.model.contribution.SelectPlatform.TSelectPlatform;
+import jx.csp.model.main.Meet;
 import jx.csp.network.JsonParser;
 import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.util.Util;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.jx.ui.activity.base.BaseListActivity;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
@@ -43,25 +45,27 @@ import lib.ys.util.res.ResLoader;
 public class ContributeHistoryHotUnitNumActivity extends BaseListActivity<IContributeHistoryHotUnitNum, ContributeHistoryHotUnitNumAdapter> {
 
     @Arg
+    Meet mMeet;
+
+    @Arg
     SelectPlatform mPlatform;
 
     @Override
     public void initData() {
-
     }
 
     @Override
     public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, this);
         View view = inflate(R.layout.layout_contribute_history_hot_unit_num_nav_bar);
-        bar.addViewLeft(view, v -> showToast("nav bar"));
+        bar.addViewLeft(view, v -> SearchUnitNumActivityRouter.create(mMeet).route(this));
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setDividerHeight(0);
+        getAdapter().setMeetData(mMeet);
         refresh(RefreshWay.embed);
         exeNetworkReq(DeliveryAPI.contributeHotUnitNum().build());
     }
@@ -74,8 +78,9 @@ public class ContributeHistoryHotUnitNumActivity extends BaseListActivity<IContr
     @Override
     public void onNetworkSuccess(int id, IResult r) {
         stopRefresh();
-        setViewState(ViewState.normal);
+
         if (r.isSucceed()) {
+            setViewState(ViewState.normal);
             List<HotUnitNum> list = r.getList();
 
             List<IContributeHistoryHotUnitNum> data = new ArrayList<>();
@@ -117,6 +122,25 @@ public class ContributeHistoryHotUnitNumActivity extends BaseListActivity<IContr
             data.addAll(hotList);
 
             addAll(data);
+        } else {
+            setViewState(ViewState.error);
+        }
+    }
+
+    @Override
+    public boolean onRetryClick() {
+        super.onRetryClick();
+
+        refresh(RefreshWay.embed);
+        exeNetworkReq(DeliveryAPI.contributeHotUnitNum().build());
+
+        return false;
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if ( type == NotifyType.finish_contribute) {
+            finish();
         }
     }
 }

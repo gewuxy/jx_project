@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 通用 -->
+    <item android:state_enabled="false">
+        <shape>
+            <gradient
+                android:angle="0"
+                android:endColor="@color/btn_bg_green_disabled2"
+                android:startColor="@color/btn_bg_green_disabled"/>
+            <corners android:radius="6dp"/>
+        </shape>
+    </item>
+
+    <item android:state_enabled="true">
+        <ripple android:color="@color/btn_bg_green_focus">
+            <item>
+                <shape>
+                    <gradient
+                        android:angle="0"
+                        android:startColor="@color/btn_bg_green_left"
+                        android:centerColor="@color/btn_bg_green_mid"
+                        android:endColor="@color/btn_bg_green_right"/>
+                    <corners android:radius="6dp"/>
+                </shape>
+            </item>
+        </ripple>
+    </item>
+
+</selector>

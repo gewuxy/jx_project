@@ -2,7 +2,6 @@ package jx.csp.contact;
 
 import android.content.Context;
 
-import jx.csp.ui.activity.me.SettingsActivity.RelatedId;
 import lib.jx.contract.IContract;
 
 /**
@@ -13,13 +12,6 @@ import lib.jx.contract.IContract;
 public interface SettingsContract {
 
     interface V extends IContract.View {
-
-        /**
-         * 清除缓存Dialog
-         */
-        void clearCacheDialog(@RelatedId int id, int resId, String... folderPath);
-
-        void refreshItem(@RelatedId int id);
 
         /**
          * 退出登录Dialog
@@ -35,18 +27,6 @@ public interface SettingsContract {
          * 修改密码
          */
         void changePassWord();
-
-        /**
-         * 清除缓存
-         */
-        void clearCache(@RelatedId int id, String... folderPath);
-
-        /**
-         * 获取路径下的文件大小
-         *
-         * @param path
-         */
-        String getFolderSize(String... path);
 
         /**
          * 启动登出服务

@@ -9,15 +9,13 @@ import java.lang.annotation.RetentionPolicy;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.contact.SettingsContract;
-import jx.csp.dialog.BottomDialog;
 import jx.csp.dialog.CommonDialog2;
 import jx.csp.model.form.Form;
 import jx.csp.presenter.SettingsPresenterImpl;
-import jx.csp.util.CacheUtil;
 import jx.csp.util.Util;
 import lib.jx.ui.activity.base.BaseFormActivity;
+import lib.ys.action.IntentAction;
 import lib.ys.ui.other.NavBar;
-import lib.ys.util.res.ResLoader;
 
 /**
  * 设置
@@ -32,15 +30,21 @@ public class SettingsActivity extends BaseFormActivity {
     private SettingsContract.V mView;
 
     @IntDef({
+            RelatedId.multi_language,
             RelatedId.change_password,
-            RelatedId.clear_img_cache,
-            RelatedId.clear_sound_cache,
+            RelatedId.clear_cache,
+            RelatedId.feedback,
+            RelatedId.about_csp,
+            RelatedId.operating_guide,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface RelatedId {
+        int multi_language = 0;
         int change_password = 1;
-        int clear_img_cache = 2;
-        int clear_sound_cache = 3;
+        int clear_cache = 2;
+        int feedback = 3;
+        int about_csp = 4;
+        int operating_guide = 5;
     }
 
     @Override
@@ -52,22 +56,31 @@ public class SettingsActivity extends BaseFormActivity {
 
         addItem(Form.create(FormType.divider_large));
         addItem(Form.create(FormType.text)
-                .related(RelatedId.change_password)
-                .name(R.string.setting_change_pwd));
+                .related(RelatedId.multi_language)
+                .name(R.string.multi_language));
 
         addItem(Form.create(FormType.divider_large));
-        addItem(Form.create(FormType.text_clear_cache)
-                .related(RelatedId.clear_img_cache)
-                .name(R.string.setting_clear_img_cache)
-                .text(mPresenter.getFolderSize(CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir()))
-                .textColor(ResLoader.getColor(R.color.text_af)));
-
+        addItem(Form.create(FormType.text)
+                .related(RelatedId.change_password)
+                .name(R.string.setting_change_pwd));
         addItem(Form.create(FormType.divider_margin));
-        addItem(Form.create(FormType.text_clear_cache)
-                .related(RelatedId.clear_sound_cache)
-                .name(R.string.setting_clear_sound_cache)
-                .text(mPresenter.getFolderSize(CacheUtil.getAudioCacheDir()))
-                .textColor(ResLoader.getColor(R.color.text_af)));
+        addItem(Form.create(FormType.text)
+                .related(RelatedId.clear_cache)
+                .name(R.string.clear_cache));
+
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
+                .related(RelatedId.feedback)
+                .name(R.string.help_and_feedback_opinion_feedback));
+        addItem(Form.create(FormType.divider_margin));
+        addItem(Form.create(FormType.text)
+                .related(RelatedId.about_csp)
+                .name(R.string.about_csp));
+
+        addItem(Form.create(FormType.divider_large));
+        addItem(Form.create(FormType.text)
+                .related(RelatedId.operating_guide)
+                .name(R.string.operating_guide));
     }
 
     @Override
@@ -100,41 +113,38 @@ public class SettingsActivity extends BaseFormActivity {
     protected void onFormItemClick(View v, int position) {
         @RelatedId int relatedId = getItem(position).getRelated();
         switch (relatedId) {
+            case RelatedId.multi_language: {
+                showToast("0");
+            }
+            break;
             case RelatedId.change_password: {
                 mPresenter.changePassWord();
             }
             break;
-            case RelatedId.clear_img_cache: {
-                mView.clearCacheDialog(RelatedId.clear_img_cache, R.string.setting_clear_img_cache, CacheUtil.getBmpCacheDir(), CacheUtil.getUploadCacheDir());
+            case RelatedId.clear_cache: {
+                startActivity(ClearCacheActivity.class);
             }
             break;
-            case RelatedId.clear_sound_cache: {
-                mView.clearCacheDialog(RelatedId.clear_sound_cache, R.string.setting_clear_sound_cache, CacheUtil.getAudioCacheDir());
+            case RelatedId.feedback: {
+                IntentAction.mail()
+                        .address("app@medcn.cn")
+                        .subject(R.string.help_and_feedback_email_subject)
+                        .alert("没有邮件类应用")
+                        .launch();
+            }
+            break;
+            case RelatedId.about_csp: {
+                showToast("3");
+            }
+            break;
+            case RelatedId.operating_guide: {
+                showToast("4");
             }
             break;
         }
     }
 
     private class SettingsViewImpl implements SettingsContract.V {
-
-        @Override
-        public void clearCacheDialog(int id, int resId, String... folderPath) {
-            BottomDialog d = new BottomDialog(SettingsActivity.this, position -> {
-                if (position == 0) {
-                    mPresenter.clearCache(id, folderPath);
-                }
-            });
-            d.addItem(getString(resId), ResLoader.getColor(R.color.text_333));
-            d.addItem(getString(R.string.cancel), ResLoader.getColor(R.color.text_333));
-            d.show();
-        }
-
-
-        @Override
-        public void refreshItem(int id) {
-            getRelatedItem(id).text("0M");
-            refreshRelatedItem(id);
-        }
 
         @Override
         public void logoutDialog() {

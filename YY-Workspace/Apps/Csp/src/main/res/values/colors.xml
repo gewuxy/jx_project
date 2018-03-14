@@ -80,9 +80,17 @@
     <color name="btn_bg_black_below">#363A47</color>
 
     <color name="btn_bg_black_focus">#80202432</color>
-    <color name="btn_bg_black_focus2">#507b7790</color>
     <color name="btn_bg_black_disabled">#50202432</color>
     <color name="btn_bg_black_disabled2">#507b7790</color>
+
+    <!--按钮上中下颜色-->
+    <color name="btn_bg_green_left">#9bce00</color>
+    <color name="btn_bg_green_mid">#9bce00</color>
+    <color name="btn_bg_green_right">#81c101</color>
+
+    <color name="btn_bg_green_focus">#77BA16</color>
+    <color name="btn_bg_green_disabled">#81c101</color>
+    <color name="btn_bg_green_disabled2">#99cc00</color>
 
     <!-- 新手指引的按钮颜色-->
     <color name="btn_bg_purple_above">#7b7790</color>

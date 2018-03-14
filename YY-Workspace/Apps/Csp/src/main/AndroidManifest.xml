@@ -146,9 +146,6 @@
             android:name=".ui.activity.me.bind.AccountManageEnActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.activity.share.ContributePlatformActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".ui.activity.me.contribute.ContributeHistoryActivity"
             android:screenOrientation="portrait"/>
         <activity
@@ -163,6 +160,9 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.activity.me.VipManageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.me.ClearCacheActivity"
             android:screenOrientation="portrait"/>
 
         <!-- 设置 -->

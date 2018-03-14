@@ -37,6 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="16dp"
+            android:padding="3dp"
+            android:background="@drawable/item_selector"
             android:text="@string/change"
             android:textSize="16dp"
             android:textColor="@color/text_9699a2"/>
@@ -186,7 +188,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="5dp"
             android:text="@string/no_mast_input"
             android:textSize="16dp"
             android:textColor="@color/text_9699a2"/>

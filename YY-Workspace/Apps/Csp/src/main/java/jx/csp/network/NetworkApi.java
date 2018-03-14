@@ -17,11 +17,11 @@ import jx.csp.constant.BindId;
  */
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
-//        hostDebuggable = "https://www.medcn.cn/csp/api/"
+        hostDebuggable = "https://www.medcn.cn/csp/api/"
 //        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/"
 //        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
-        hostDebuggable = "http://10.0.0.252:8083/api/"   // 长玲电脑
+//        hostDebuggable = "http://10.0.0.252:8083/api/"   // 长玲电脑
 //        hostDebuggable = "http://10.0.0.200:8082/api/"   //简亮电脑
 //        hostDebuggable = "https://www.medcn.com/" // yaya 医师授权登录
 )
@@ -218,10 +218,34 @@ public class NetworkApi {
         void platform();
 
         /**
-         * 投稿热门单位号
+         * 投稿热门单位号和投稿历史
          */
         @Get("hot/unit")
         void contributeHotUnitNum();
+
+        /**
+         * 立即投稿
+         * @param acceptId  要投稿的单位号ID
+         * @param sourceId  投稿的课件ID
+         * @param platformId  平台id
+         * @param remuneration  稿费
+         * @param contact  	联系方式
+         */
+        @Post("push/unit")
+        void immediatelyContribute(int acceptId,
+                                   int sourceId,
+                                   int platformId,
+                                   @Query(opt = true) int remuneration,
+                                   @Query(opt = true) String contact);
+
+        /**
+         * 搜索单位号
+         * @param keyWord
+         * @param pageNum
+         * @param pageSize
+         */
+        @Post("search/unit")
+        void searchUnitNum(String keyWord, int pageNum, int pageSize);
     }
 
     /**

@@ -167,7 +167,7 @@
     <string name="playing">錄播進行中...</string>
     <string name="click_continue">點擊繼續</string>
     <string name="scan">掃一掃</string>
-    <string name="aim_at_the_code">請對準二維碼，耐心等待</string>
+    <string name="aim_at_the_code">請掃描Web端講本二維碼</string>
     <string name="fail_to_identify">請掃取會講二維碼</string>
     <string name="ready">請到網頁添加講本</string>
     <string name="copy_success">複製成功</string>
@@ -285,8 +285,8 @@
 
     <!-- 设置 -->
     <string name="setting">設置</string>
-    <string name="setting_clear_img_cache">清理圖片緩存</string>
-    <string name="setting_clear_sound_cache">清理音頻緩存</string>
+    <string name="setting_clear_img_cache">清理圖片</string>
+    <string name="setting_clear_sound_cache">清理音頻</string>
     <string name="setting_clear">清除</string>
     <string name="setting_exit_current_account">退出當前賬號</string>
     <string name="setting_exit_account">退出登錄</string>
@@ -306,6 +306,13 @@
     <string name="setting_bind_email_succeed">發送成功</string>
     <string name="setting_bind_text">需要先綁定郵箱才能修改密碼</string>
     <string name="setting_certification_text">郵件已發送，請查收</string>
+
+    <string name="clear_cache">清理缓存</string>
+    <string name="multi_language">多語言</string>
+    <string name="about_csp">關於會講</string>
+    <string name="operating_guide">使用指南</string>
+    <string name="img_cache_space">圖片所佔空間</string>
+    <string name="audio_cache_space">音頻所佔空間</string>
 
     <!-- 账号管理 -->
     <string name="account_manage">賬號管理</string>
@@ -346,6 +353,7 @@
     <string name="contribute_not_submit_records_footer">暫無投稿記錄</string>
     <string name="page_num">%s頁</string>
     <string name="solive">直播</string>
+    <string name="contribute_fail">投稿失敗</string>
 
     <!-- 流量支付 -->
     <string name="flow_rate_manage">流量管理</string>

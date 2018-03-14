@@ -76,7 +76,6 @@ public class SelectBgMusicActivity extends BaseListActivity<Music, MusicAdapter>
     public void setViews() {
         super.setViews();
 
-        setDividerHeight(0);
         setOnAdapterClickListener(this);
         refresh(RefreshWay.embed);
         exeNetworkReq(KBgMusicReqId, MeetingAPI.bgMusic().build());

@@ -53,8 +53,4 @@
             android:src="@drawable/music_iv_state"/>
     </LinearLayout>
 
-    <View
-        style="@style/divider.form.match"
-        android:background="@color/color_db"/>
-
 </LinearLayout>

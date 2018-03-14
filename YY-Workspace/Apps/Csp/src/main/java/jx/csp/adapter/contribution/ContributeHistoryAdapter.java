@@ -1,10 +1,15 @@
 package jx.csp.adapter.contribution;
 
+import android.view.View;
+
 import jx.csp.R;
 import jx.csp.adapter.VH.contribution.ContributeHistoryVH;
 import jx.csp.model.contribution.ContributeHistory;
 import jx.csp.model.contribution.ContributeHistory.TContributeHistory;
-import lib.ys.YSLog;
+import jx.csp.model.contribution.UnitNum;
+import jx.csp.model.contribution.UnitNum.TUnitNum;
+import jx.csp.model.main.Meet;
+import jx.csp.ui.activity.contribution.ContributeActivityRouter;
 import lib.ys.adapter.recycler.RecyclerAdapterEx;
 import lib.ys.network.image.shape.CircleRenderer;
 import lib.ys.util.res.ResLoader;
@@ -16,6 +21,8 @@ import lib.ys.util.res.ResLoader;
 
 public class ContributeHistoryAdapter extends RecyclerAdapterEx<ContributeHistory, ContributeHistoryVH> {
 
+    private Meet mMeet;
+
     @Override
     protected void refreshView(int position, ContributeHistoryVH holder) {
         ContributeHistory item = getItem(position);
@@ -25,13 +32,28 @@ public class ContributeHistoryAdapter extends RecyclerAdapterEx<ContributeHistor
                 .url(item.getString(TContributeHistory.headimg))
                 .renderer(new CircleRenderer())
                 .load();
-        YSLog.d(TAG, "tttttt" + item.getString(TContributeHistory.acceptName));
         holder.getTvName().setText(item.getString(TContributeHistory.acceptName));
         holder.getTvNum().setText(String.format(ResLoader.getString(R.string.already_contribution), item.getInt(TContributeHistory.acceptCount)));
+        setOnViewClickListener(position, holder.getItemLayout());
     }
 
     @Override
     protected int getConvertViewResId() {
         return R.layout.layout_contribute_history_hot_unit_num_history_item;
+    }
+
+    @Override
+    protected void onViewClick(int position, View v) {
+        ContributeHistory item = getItem(position);
+        UnitNum unitNum = new UnitNum();
+        unitNum.put(TUnitNum.id, 1); // 平台id  目前只有YaYa医师单位号 是 1
+        unitNum.put(TUnitNum.unitNumId, item.getInt(TContributeHistory.acceptId));
+        unitNum.put(TUnitNum.platformName, item.getString(TContributeHistory.acceptName));
+        unitNum.put(TUnitNum.imgUrl, item.getString(TContributeHistory.headimg));
+        ContributeActivityRouter.create(mMeet, unitNum).route(getContext());
+    }
+
+    public void setMeetData(Meet meet) {
+        mMeet = meet;
     }
 }

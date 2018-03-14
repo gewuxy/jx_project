@@ -14,5 +14,6 @@ public class SelectPlatform extends EVal<TSelectPlatform> {
         id,  // 平台 id
         platformName,  // 平台名称
         imgUrl,  // 头像地址
+        unitId,	 // 单位号id
     }
 }

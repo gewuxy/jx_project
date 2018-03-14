@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="328dp"
+        android:layout_height="188dp"
+        android:layout_marginTop="15dp"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/img_cache_space"
+                android:textSize="16dp"
+                android:textColor="@color/text_9699a2"/>
+
+            <TextView
+                android:id="@+id/clear_cache_tv_img_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="0M"
+                android:textSize="32dp"
+                android:textColor="@color/text_404356"/>
+
+            <TextView
+                android:id="@+id/clear_cache_tv_clear_img"
+                android:layout_width="160dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:background="@drawable/clear_cache_btn_selector"
+                android:text="@string/setting_clear_img_cache"
+                android:textSize="16dp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="328dp"
+        android:layout_height="188dp"
+        android:layout_marginTop="15dp"
+        app:cardElevation="2dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/audio_cache_space"
+                android:textSize="16dp"
+                android:textColor="@color/text_9699a2"/>
+
+            <TextView
+                android:id="@+id/clear_cache_tv_audio_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"
+                android:text="0M"
+                android:textSize="32dp"
+                android:textColor="@color/text_404356"/>
+
+            <TextView
+                android:id="@+id/clear_cache_tv_clear_audio"
+                android:layout_width="160dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:background="@drawable/clear_cache_btn_selector"
+                android:text="@string/setting_clear_sound_cache"
+                android:textSize="16dp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

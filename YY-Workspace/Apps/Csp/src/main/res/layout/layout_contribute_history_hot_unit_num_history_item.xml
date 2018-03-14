@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/contribute_history_hot_unit_num_history_layout"
         android:layout_width="104dp"
         android:layout_height="118dp"
         android:gravity="center"

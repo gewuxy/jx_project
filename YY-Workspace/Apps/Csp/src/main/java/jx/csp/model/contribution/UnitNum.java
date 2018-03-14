@@ -11,9 +11,9 @@ import lib.ys.model.EVal;
 public class UnitNum extends EVal<TUnitNum> {
 
     public enum TUnitNum {
-        id,
-        name,
-
-        search, // 搜索的关键字
+        id,  // 平台 id
+        platformName,  // 平台名称
+        imgUrl,  // 头像地址
+        unitNumId,  // 单位号 id
     }
 }

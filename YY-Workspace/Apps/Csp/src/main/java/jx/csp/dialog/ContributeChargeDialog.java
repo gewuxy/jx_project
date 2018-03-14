@@ -96,6 +96,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(1);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_2: {
@@ -104,6 +107,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(2);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_3: {
@@ -112,6 +118,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(3);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_4: {
@@ -120,6 +129,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(4);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_5: {
@@ -128,6 +140,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(5);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_6: {
@@ -136,6 +151,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(6);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_7: {
@@ -144,6 +162,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(7);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_8: {
@@ -152,6 +173,9 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(8);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_9: {
@@ -160,12 +184,18 @@ public class ContributeChargeDialog extends BaseDialog {
                 }
                 sb.append(9);
                 mTvMoney.setText(sb.toString());
+                if (mCb.isChecked()) {
+                    mCb.setChecked(false);
+                }
             }
             break;
             case R.id.contribute_charge_tv_0: {
                 if (!mTvMoney.getText().toString().equals("0")) {
                     sb.append(0);
                     mTvMoney.setText(sb.toString());
+                    if (mCb.isChecked()) {
+                        mCb.setChecked(false);
+                    }
                 }
             }
             break;

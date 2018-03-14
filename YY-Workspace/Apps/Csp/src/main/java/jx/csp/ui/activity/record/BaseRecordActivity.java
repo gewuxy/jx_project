@@ -22,7 +22,6 @@ import inject.annotation.router.Arg;
 import jx.csp.R;
 import jx.csp.contact.AudioUploadContract;
 import jx.csp.dialog.CommonDialog1;
-import jx.csp.dialog.ShareDialog;
 import jx.csp.model.main.Meet;
 import jx.csp.model.meeting.Course.CourseType;
 import jx.csp.model.meeting.CourseDetail;
@@ -147,12 +146,6 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
         mTvCurrentPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_current_page);
         mTvTotalPage = view.findViewById(R.id.layout_base_record_nav_bar_tv_total_page);
         bar.addViewMid(view);
-        bar.addViewRight(R.drawable.share_ic_share, v -> {
-            if (mShareAndStarArg != null) {
-                ShareDialog dialog = new ShareDialog(this, mShareAndStarArg);
-                dialog.show();
-            }
-        });
         Util.addDivider(bar);
     }
 

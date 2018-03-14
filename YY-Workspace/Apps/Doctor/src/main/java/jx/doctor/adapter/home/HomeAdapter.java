@@ -109,9 +109,9 @@ public class HomeAdapter extends MultiAdapterEx<IHome, HomeVH> {
                             break;
                         } else {
                             // 确保size一致
-                            TextView name = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResDefType.id));
+                            TextView name = holder.getConvertView().findViewById(ResLoader.getIdentifier(KName + index, ResDefType.id));
                             names.add(name);
-                            TextView title = (TextView) holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResDefType.id));
+                            TextView title = holder.getConvertView().findViewById(ResLoader.getIdentifier(KTitle + index, ResDefType.id));
                             titles.add(title);
                             View v = holder.getConvertView().findViewById(layoutId);
                             layouts.add(v);

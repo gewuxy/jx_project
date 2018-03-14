@@ -18,6 +18,10 @@ public class ContributeHistoryVH extends RecyclerViewHolderEx {
         super(itemView);
     }
 
+    public View getItemLayout() {
+        return getView(R.id.contribute_history_hot_unit_num_history_layout);
+    }
+
     public NetworkImageView getIv() {
         return getView(R.id.contribute_history_hot_unit_num_history_iv);
     }

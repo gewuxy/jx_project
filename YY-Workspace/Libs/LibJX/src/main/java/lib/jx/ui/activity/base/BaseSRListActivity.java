@@ -2,6 +2,7 @@ package lib.jx.ui.activity.base;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import lib.jx.notify.Notifier.OnNotify;
 abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRListActivityEx<T, A> implements OnNotify {
 
     private TextView mTvEmpty;
+    private ImageView mIvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,12 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
 
         // 不想影响子类的findView重写
         mTvEmpty = findView(R.id.empty_footer_tv);
+        mIvEmpty = findView(R.id.empty_footer_iv);
         if (mTvEmpty != null) {
             mTvEmpty.setText(getEmptyText());
+        }
+        if (mIvEmpty != null) {
+            mIvEmpty.setImageResource(getEmptyImg());
         }
     }
 
@@ -67,5 +73,9 @@ abstract public class BaseSRListActivity<T, A extends IAdapter<T>> extends SRLis
 
     protected String getEmptyText() {
         return "暂时没有相关内容";
+    }
+
+    protected int getEmptyImg() {
+        return R.drawable.ic_empty;
     }
 }

@@ -94,6 +94,4 @@ public class HomeUnitNumAdapter extends RecyclerAdapterEx<RecUnitNum, HomeUnitNu
         TextView tv = getCacheVH(pos).getTvAttention();
         UISetter.setAttention(tv, attention);
     }
-
-
 }

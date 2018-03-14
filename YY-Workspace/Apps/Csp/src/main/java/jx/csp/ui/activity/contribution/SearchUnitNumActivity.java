@@ -1,5 +1,6 @@
 package jx.csp.ui.activity.contribution;
 
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -7,13 +8,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import inject.annotation.router.Arg;
+import inject.annotation.router.Route;
 import jx.csp.R;
 import jx.csp.adapter.contribution.SearchUnitNumAdapter;
-import jx.csp.model.contribution.UnitNum;
-import jx.csp.model.contribution.UnitNum.TUnitNum;
+import jx.csp.model.contribution.HotUnitNum;
+import jx.csp.model.main.Meet;
+import jx.csp.network.NetworkApiDescriptor.DeliveryAPI;
 import jx.csp.util.Util;
-import lib.jx.ui.activity.base.BaseListActivity;
+import lib.jx.notify.Notifier.NotifyType;
+import lib.jx.ui.activity.base.BaseSRListActivity;
 import lib.ys.ui.other.NavBar;
+import lib.ys.util.KeyboardUtil;
+import lib.ys.util.TextUtil;
 
 /**
  * 搜索投稿单位号
@@ -21,22 +28,22 @@ import lib.ys.ui.other.NavBar;
  * @author CaiXiang
  * @since 2018/3/9
  */
+@Route
+public class SearchUnitNumActivity extends BaseSRListActivity<HotUnitNum, SearchUnitNumAdapter> {
 
-public class SearchUnitNumActivity extends BaseListActivity<UnitNum, SearchUnitNumAdapter> {
+    @Arg
+    Meet mMeet;
+
+    private boolean mGetDataFromNet = false;  // 是否执行网络请求  没有点击搜索不执行
 
     private EditText mEtSearch;
     private ImageView mIvClear;
     private TextView mTvSearch;
-    private View mEmptyView;
+    private TextView mTvFooter;
 
     @Override
     public void initData() {
-        for (int i = 0; i < 8; ++i) {
-            UnitNum unitNum = new UnitNum();
-            unitNum.put(TUnitNum.name, "YaYa医师测试单位号");
-            unitNum.put(TUnitNum.search, "单位");
-            addItem(unitNum);
-        }
+
     }
 
     @Override
@@ -49,23 +56,33 @@ public class SearchUnitNumActivity extends BaseListActivity<UnitNum, SearchUnitN
         bar.addViewLeft(view, null);
     }
 
+    @Nullable
     @Override
-    public int getContentViewId() {
-        return R.layout.activity_search_unit_num;
+    public View createHeaderView() {
+        return inflate(R.layout.layout_search_unit_num_header);
+    }
+
+    @Nullable
+    @Override
+    public View createFooterView() {
+        return inflate(R.layout.layout_footer_no_more);
     }
 
     @Override
     public void findViews() {
         super.findViews();
 
-        mEmptyView = findView(R.id.search_unit_num_empty_layout);
+        mTvFooter = findView(R.id.footer_no_more_tv);
     }
 
     @Override
     public void setViews() {
         super.setViews();
 
-        setDividerHeight(0);
+        Util.setTextViewBackground(mTvSearch);
+        setRefreshEnabled(false);
+        mTvFooter.setText(R.string.no_search_result);
+        getAdapter().setMeetData(mMeet);
         mEtSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -91,6 +108,19 @@ public class SearchUnitNumActivity extends BaseListActivity<UnitNum, SearchUnitN
     }
 
     @Override
+    public boolean enableInitRefresh() {
+        return false;
+    }
+
+    @Override
+    public void getDataFromNet() {
+        if (mGetDataFromNet) {
+            String key = mEtSearch.getText().toString();
+            exeNetworkReq(DeliveryAPI.searchUnitNum(key, getOffset(), getLimit()).build());
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.search_unit_num_iv_clear: {
@@ -98,9 +128,35 @@ public class SearchUnitNumActivity extends BaseListActivity<UnitNum, SearchUnitN
             }
             break;
             case R.id.search_unit_num_tv_search: {
-                showToast("search");
+                String key = mEtSearch.getText().toString();
+                if (TextUtil.isNotEmpty(key)) {
+                    mGetDataFromNet = true;
+                    getAdapter().setKeyWord(key);
+                    if (KeyboardUtil.isActive()) {
+                        // 键盘显示就隐藏
+                        KeyboardUtil.hideFromView(mEtSearch);
+                    }
+                    getDataFromNet();
+                }
             }
             break;
+        }
+    }
+
+    @Override
+    protected String getEmptyText() {
+        return getString(R.string.no_search_result);
+    }
+
+    @Override
+    protected int getEmptyImg() {
+        return R.drawable.main_ic_empty;
+    }
+
+    @Override
+    public void onNotify(int type, Object data) {
+        if ( type == NotifyType.finish_contribute) {
+            finish();
         }
     }
 }

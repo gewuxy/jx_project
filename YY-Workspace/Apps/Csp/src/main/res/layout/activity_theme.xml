@@ -35,11 +35,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/editor_tv_save"
-        style="@style/tv.common"
-        android:text="@string/add"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"/>
-
 </RelativeLayout>

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/search_unit_num_layout"
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:gravity="center_vertical"
@@ -37,16 +38,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="已投12"
+                android:text="已投0"
                 android:textSize="12dp"
                 android:textColor="@color/text_9699a2"/>
             
         </LinearLayout>
 
     </LinearLayout>
-
-    <View
-        style="@style/divider.form.match"
-        android:background="@color/color_db"/>
 
 </LinearLayout>

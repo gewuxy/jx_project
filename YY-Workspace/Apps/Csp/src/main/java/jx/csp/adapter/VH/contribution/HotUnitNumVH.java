@@ -23,6 +23,10 @@ public class HotUnitNumVH extends ViewHolderEx {
         return getView(R.id.contribute_history_hot_unit_num_hot_unit_num_iv);
     }
 
+    public View getItemLayout() {
+        return getView(R.id.contribute_history_hot_unit_num_hot_unit_num_layout);
+    }
+
     public TextView getTv() {
         return getView(R.id.contribute_history_hot_unit_num_hot_unit_num_tv_name);
     }

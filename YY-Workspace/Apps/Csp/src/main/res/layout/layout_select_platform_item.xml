@@ -42,8 +42,4 @@
 
     </LinearLayout>
 
-    <View
-        style="@style/divider.form.match"
-        android:background="@color/color_db"/>
-
 </LinearLayout>

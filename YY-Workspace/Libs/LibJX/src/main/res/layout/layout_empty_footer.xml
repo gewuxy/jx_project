@@ -7,10 +7,11 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/empty_footer_iv"
         android:layout_width="127dp"
         android:layout_height="62dp"
         android:layout_marginTop="160dp"
-        android:src="@mipmap/ic_empty"/>
+        android:src="@drawable/ic_empty"/>
 
     <TextView
         android:id="@+id/empty_footer_tv"
