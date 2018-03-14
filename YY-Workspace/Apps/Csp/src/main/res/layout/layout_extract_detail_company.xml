@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/margin"
+    android:paddingRight="@dimen/margin">
+
+    <TextView
+        android:id="@+id/extract_detail_company_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:singleLine="true"
+        android:text="经验分产品运营绘本故事欢时经验分产品运营绘本故事欢时"
+        android:textColor="@color/text_404356"
+        android:textSize="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/text_f2f2f4"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/extract_detail_company_info"
+        android:textColor="@color/text_9699a2"
+        android:textSize="14dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_company_name"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_company_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="中科科技有限公司"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_bank_of_deposit"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_bank_of_deposit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="珠江新城工商支行"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_bank_account"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_bank_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="8888 8888 8888 8888"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/text_f2f2f4"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_invoice_type"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_invoice_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="纸质发票"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_courier_company"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_courier_company"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="顺丰快递"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/extract_detail_courier_number"
+            android:textColor="@color/text_404356"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:id="@+id/extract_detail_company_tv_courier_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin"
+            android:gravity="end"
+            android:singleLine="true"
+            android:text="N8888888888888"
+            android:textColor="@color/text_9699a2"
+            android:textSize="14dp"/>
+    </LinearLayout>
+</LinearLayout>

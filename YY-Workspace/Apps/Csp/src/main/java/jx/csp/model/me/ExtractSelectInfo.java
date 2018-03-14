@@ -4,16 +4,13 @@ import jx.csp.kotlin.ui.Royalty;
 import lib.ys.model.EVal;
 
 /**
- * 钱包信息
- *
  * @auther : GuoXuan
- * @since : 2018/3/12
+ * @since : 2018/3/13
  */
-public class WalletInfo extends EVal<WalletInfo.TWalletInfo> {
-    public enum TWalletInfo {
-        cash, // 余额
+public class ExtractSelectInfo extends EVal<ExtractSelectInfo.TExtractSelectInfo> {
 
-        serveTime,
+    public enum TExtractSelectInfo {
+        severTime,
 
         @Bind(asList = Royalty.class)
         list,

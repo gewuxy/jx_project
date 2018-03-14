@@ -4,13 +4,19 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.StringRes;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +51,7 @@ import lib.ys.util.ReflectUtil;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
 import lib.ys.util.view.LayoutUtil;
+import lib.ys.util.view.ViewUtil;
 
 /**
  * @author CaiXiang
@@ -74,6 +81,35 @@ public class Util extends BaseUtil {
     public static void addDivider(NavBar n) {
         View d = View.inflate(n.getContext(), R.layout.layout_nav_bar_divider, null);
         n.addView(d, LayoutUtil.getViewGroupParams(LayoutUtil.MATCH_PARENT, LayoutUtil.WRAP_CONTENT));
+    }
+
+    public static void setTextViewBackground(TextView tv) {
+        if (tv == null) {
+            return;
+        }
+        ViewGroup.LayoutParams params = tv.getLayoutParams();
+        if (params == null) {
+            return;
+        }
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        tv.setLayoutParams(params);
+        tv.setGravity(Gravity.CENTER);
+        // 设置点击背景色
+        if (NavBar.getConfig().getFocusBgColorRes() != 0) {
+            StateListDrawable sd = new StateListDrawable();
+
+            Drawable dNormal = new ColorDrawable(Color.TRANSPARENT);
+            Drawable dPressed = new ColorDrawable(NavBar.getConfig().getFocusBgColorRes());
+
+            int pressed = android.R.attr.state_pressed;
+
+            sd.addState(new int[]{pressed}, dPressed);
+            sd.addState(new int[]{-pressed}, dNormal);
+
+            ViewUtil.setBackground(tv, sd);
+        } else if (NavBar.getConfig().getFocusBgDrawableRes() != 0) {
+            tv.setBackgroundResource(NavBar.getConfig().getFocusBgDrawableRes());
+        }
     }
 
     /**

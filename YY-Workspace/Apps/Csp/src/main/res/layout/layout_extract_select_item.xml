@@ -2,7 +2,29 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:id="@+id/extract_select_item_layout"
+    android:background="@drawable/item_selector"
+    android:orientation="horizontal"
+    android:paddingBottom="15dp"
+    android:paddingLeft="@dimen/margin"
+    android:paddingRight="@dimen/margin"
+    android:paddingTop="12dp">
 
+    <ImageView
+        android:id="@+id/extract_select_item_iv"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/extract_select_selector"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp">
+
+        <include
+            layout="@layout/layout_royalty_item"/>
+    </FrameLayout>
 
 </FrameLayout>

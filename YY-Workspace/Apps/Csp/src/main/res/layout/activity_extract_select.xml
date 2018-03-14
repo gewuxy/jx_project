@@ -13,25 +13,26 @@
 
         <ImageView
             android:id="@+id/extract_select_iv_select_all"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_marginLeft="@dimen/margin"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginLeft="11dp"
+            android:padding="5dp"
             android:src="@drawable/extract_select_selector"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="7dp"
             android:text="@string/select_all"
             android:textColor="@color/text_9699a2"
             android:textSize="12dp"/>
     </LinearLayout>
 
     <lib.ys.view.swipeRefresh.SRListLayout
-        android:layout_below="@id/extract_select_layout"
         android:id="@id/layout_scrollable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/extract_select_layout"
         android:background="@drawable/transparent"
         android:divider="@drawable/divider"
         android:dividerHeight="@dimen/divider_height_1px"
