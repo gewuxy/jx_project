@@ -208,19 +208,22 @@
             android:name=".ui.activity.me.profile.ClipImageActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".kotlin.ui.WalletActivity"
+            android:name=".ui.WalletActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".kotlin.ui.ExtractSelectActivity"
+            android:name=".ui.ExtractSelectActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".kotlin.ui.ExtractDetailNewActivity"
+            android:name=".ui.ExtractDetailNewActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".kotlin.ui.ExtractDetailPersonActivity"
+            android:name=".ui.ExtractDetailPersonActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".kotlin.ui.ExtractDetailCompanyActivity"
+            android:name=".ui.ExtractDetailCompanyActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.ExtractActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".app.wxapi.WXEntryActivity"
