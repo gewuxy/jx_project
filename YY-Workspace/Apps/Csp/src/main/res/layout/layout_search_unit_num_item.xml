@@ -20,15 +20,17 @@
             android:layout_marginLeft="16dp"/>
         
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/search_unit_num_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:text="测试单位号"
                 android:textSize="16dp"
                 android:textColor="@color/text_333"/>

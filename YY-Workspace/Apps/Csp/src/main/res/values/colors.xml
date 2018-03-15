@@ -57,6 +57,7 @@
     <color name="text_50ace400">#50ace400</color>
     <color name="text_81c101">#81c101</color>
     <color name="text_9699a2_alpha20">#339699a2</color>
+    <color name="text_ace400_alpha40">#66ace400</color>
 
     <!-- 其他颜色 -->
     <color name="color_db">#dbdbdb</color>

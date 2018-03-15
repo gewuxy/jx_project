@@ -595,6 +595,14 @@ public class MainActivity extends BaseVpActivity implements OnLiveNotify, MainMe
                 }
             }
             break;
+            case NotifyType.course_already_delete_main: {
+                CommonDialog1 dialog = new CommonDialog1(this);
+                dialog.setTitle(R.string.course_already_delete);
+                dialog.setContent(R.string.please_edit_other_course);
+                dialog.addBlackButton(R.string.ok);
+                dialog.show();
+            }
+            break;
         }
     }
 

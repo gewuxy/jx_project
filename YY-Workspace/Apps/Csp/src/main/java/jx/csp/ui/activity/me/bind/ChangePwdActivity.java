@@ -1,11 +1,15 @@
 package jx.csp.ui.activity.me.bind;
 
 import android.text.Editable;
+import android.widget.TextView;
 
 import io.reactivex.annotations.NonNull;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
+import jx.csp.util.Util;
+import lib.ys.ui.other.NavBar;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 修改密码
@@ -18,6 +22,8 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     private final int KLengthMax = 24; // 密码最大长度
     private final int KLengthMin = 6; // 密码最小长度
+
+    private TextView mTvChange;
 
     @Override
     public void initData() {
@@ -43,6 +49,22 @@ public class ChangePwdActivity extends BaseSetActivity {
     }
 
     @Override
+    public void initNavBar(NavBar bar) {
+        super.initNavBar(bar);
+
+        mTvChange = bar.addTextViewRight(R.string.setting_confirm_change, R.color.text_ace400_alpha40, v -> doSet());
+        mTvChange.setClickable(false);
+        Util.setTextViewBackground(mTvChange);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+
+        goneView(mTvSet);
+    }
+
+    @Override
     protected CharSequence getNavBarText() {
         return getString(R.string.setting_change_pwd);
     }
@@ -60,7 +82,13 @@ public class ChangePwdActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(checkPwd(getOldPwd()) && checkPwd(getNewPwd()));
+        if (checkPwd(getOldPwd()) && checkPwd(getNewPwd())) {
+            mTvChange.setClickable(true);
+            mTvChange.setTextColor(ResLoader.getColor(R.color.text_ace400));
+        } else {
+            mTvChange.setClickable(false);
+            mTvChange.setTextColor(ResLoader.getColor(R.color.text_ace400_alpha40));
+        }
     }
 
     @NonNull

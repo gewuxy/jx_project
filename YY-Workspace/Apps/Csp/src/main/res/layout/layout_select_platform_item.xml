@@ -38,7 +38,8 @@
             android:background="@drawable/bg_tv_select_platform_contribution"
             android:gravity="center"
             android:text="@string/contribute"
-            android:textSize="13dp"/>
+            android:textSize="13dp"
+            android:textColor="@color/text_9699a2"/>
 
     </LinearLayout>
 

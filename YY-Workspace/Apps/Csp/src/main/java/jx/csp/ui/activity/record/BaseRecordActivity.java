@@ -334,8 +334,14 @@ abstract public class BaseRecordActivity extends BaseVpActivity implements
 
     @Override
     public void onNotify(int type, Object data) {
-        if (type == NotifyType.delete_meeting_success || type == NotifyType.finish_record_or_live) {
+        if (type == NotifyType.delete_meeting_success) {
             finish();
+        } else if (type == NotifyType.course_already_delete_record) {
+            CommonDialog1 dialog = new CommonDialog1(this);
+            dialog.setContent(R.string.record_course_delete);
+            dialog.addBlackButton(R.string.confirm_back, v -> finish());
+            dialog.setCancelable(false);
+            dialog.show();
         }
     }
 

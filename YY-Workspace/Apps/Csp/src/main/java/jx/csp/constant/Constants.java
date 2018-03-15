@@ -10,6 +10,7 @@ public interface Constants extends BaseConstants {
 
     int KAccountFrozen = 103; // 冻结账号的返回码
     int KPhotoMax = 9; // 照片选择的最大数
+    int KCourseDelete = 401;  // 讲本被删除的返回码
 
     String KDesKey = "2b3e2d604fab436eb7171de397aee892"; // DES秘钥
 

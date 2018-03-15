@@ -2,13 +2,17 @@ package jx.csp.ui.activity.me.bind;
 
 import android.text.Editable;
 import android.text.InputFilter;
+import android.widget.TextView;
 
 import io.reactivex.annotations.NonNull;
 import jx.csp.R;
 import jx.csp.constant.FormType;
 import jx.csp.model.form.Form;
+import jx.csp.util.Util;
+import lib.ys.ui.other.NavBar;
 import lib.ys.util.RegexUtil;
 import lib.ys.util.TextUtil;
+import lib.ys.util.res.ResLoader;
 
 /**
  * 认证邮箱
@@ -18,6 +22,8 @@ import lib.ys.util.TextUtil;
  */
 
 public class BindEmailActivity extends BaseSetActivity {
+
+    private TextView mTvVerify;
 
     @Override
     public void initData() {
@@ -50,6 +56,21 @@ public class BindEmailActivity extends BaseSetActivity {
     }
 
     @Override
+    public void initNavBar(NavBar bar) {
+        super.initNavBar(bar);
+
+        mTvVerify = bar.addTextViewRight(R.string.verify_login, R.color.text_ace400_alpha40, v -> doSet());
+        mTvVerify.setClickable(false);
+        Util.setTextViewBackground(mTvVerify);
+    }
+
+    @Override
+    public void setViews() {
+        super.setViews();
+        goneView(mTvSet);
+    }
+
+    @Override
     protected CharSequence getNavBarText() {
         return getString(R.string.setting_bind_email);
     }
@@ -67,7 +88,13 @@ public class BindEmailActivity extends BaseSetActivity {
 
     @Override
     public void afterTextChanged(Editable s) {
-        setChanged(RegexUtil.isEmail(getEmail()) && checkPwd(getPwd()));
+        if (RegexUtil.isEmail(getEmail()) && checkPwd(getPwd())) {
+            mTvVerify.setClickable(true);
+            mTvVerify.setTextColor(ResLoader.getColor(R.color.text_ace400));
+        } else {
+            mTvVerify.setClickable(false);
+            mTvVerify.setTextColor(ResLoader.getColor(R.color.text_ace400_alpha40));
+        }
     }
 
     @NonNull

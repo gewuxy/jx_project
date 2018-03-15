@@ -29,7 +29,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     private final int KLengthMax = 24; // 密码最大长度
     private final int KLengthMin = 6; // 密码最小长度
 
-    private TextView mTvSet;
+    protected TextView mTvSet;
 
     public SetBindContract.P mPresenter;
     public SetBindContract.V mView;
@@ -72,7 +72,7 @@ abstract public class BaseSetActivity extends BaseFormActivity implements TextWa
     }
 
     @Override
-    public final void initNavBar(NavBar bar) {
+    public void initNavBar(NavBar bar) {
         Util.addBackIcon(bar, getNavBarText(), this);
     }
 

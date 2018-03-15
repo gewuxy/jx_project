@@ -204,6 +204,7 @@
             android:gravity="right"
             android:layout_marginRight="16dp"
             android:hint="@string/please_perfection"
+            android:textColorHint="@color/text_9699a2"
             android:textSize="16dp"
             android:textColor="@color/text_9699a2"/>
 

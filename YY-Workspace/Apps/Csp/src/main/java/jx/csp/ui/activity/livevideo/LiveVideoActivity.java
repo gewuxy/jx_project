@@ -254,11 +254,10 @@ public class LiveVideoActivity extends BaseActivity implements OnLiveNotify, OnC
 
     @Override
     public void onNotify(int type, Object data) {
-        if (type == NotifyType.finish_record_or_live) {
+        if (type == NotifyType.course_already_delete_record) {
             if (mLiveState) {
                 mP.stopLive();
             }
-            finish();
         }
     }
 

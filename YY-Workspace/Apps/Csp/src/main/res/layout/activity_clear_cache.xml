@@ -8,9 +8,11 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="188dp"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:cardElevation="2dp"
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/white">
@@ -54,9 +56,11 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:layout_width="328dp"
+        android:layout_width="match_parent"
         android:layout_height="188dp"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:cardElevation="2dp"
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="@color/white">

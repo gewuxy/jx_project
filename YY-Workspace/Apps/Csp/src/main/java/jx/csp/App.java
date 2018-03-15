@@ -223,7 +223,7 @@ public class App extends BaseApp {
     }
 
     /**
-     * 账号冻结
+     * 账号冻结 讲本被删除
      */
     public static class AccountFrozen implements onInterceptNetListener {
 

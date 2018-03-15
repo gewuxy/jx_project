@@ -72,6 +72,8 @@
     <string name="slide_end">滑動結束</string>
     <string name="start_star">開啟星評</string>
     <string name="record_last_page_remind">結束錄製後可以添加配樂、選擇主題和預覽哦</string>
+    <string name="record_course_delete">該講本已刪除，點確認將返回首頁</string>
+    <string name="confirm_back">確認返回</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳過</string>
@@ -92,7 +94,7 @@
     <string name="to_register">我要註冊</string>
     <string name="forget_pwd">忘記密碼</string>
     <string name="input_pwd">輸入密碼</string>
-    <string name="input_login_pwd">輸入登錄密碼</string>
+    <string name="input_login_pwd">密碼</string>
     <string name="input_phone_number">輸入手機號</string>
     <string name="input_captcha">輸入驗證碼</string>
     <string name="captcha">驗證碼</string>
@@ -228,6 +230,8 @@
     <string name="add_theme">添加主題</string>
     <string name="add_music">添加音樂</string>
     <string name="add">添加</string>
+    <string name="course_already_delete">該講本已刪除</string>
+    <string name="please_edit_other_course">請嘗試編輯其他講本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">個人中心</string>
@@ -305,13 +309,15 @@
     <string name="setting_old_pwd">輸入舊密碼</string>
     <string name="setting_new_pwd">輸入新密碼</string>
     <string name="setting_change_pwd_succeed">密碼修改成功</string>
+    <string name="verify_login">驗證登錄</string>
     <!-- 设置 绑定邮箱-->
     <string name="setting_bind_email">綁定郵箱</string>
-    <string name="setting_input_email_address">輸入郵箱</string>
-    <string name="setting_change_email_address">更換郵箱</string>
+    <string name="setting_input_email_address">郵箱地址</string>
+    <string name="setting_change_email_address">返回修改密碼</string>
     <string name="setting_bind_email_succeed">發送成功</string>
-    <string name="setting_bind_text">需要先綁定郵箱才能修改密碼</string>
-    <string name="setting_certification_text">郵件已發送，請查收</string>
+    <string name="setting_bind_text">未綁定郵箱地址</string>
+    <string name="setting_certification_text">認證鏈接已發送，請查收郵件</string>
+    <string name="go_bind">去綁定</string>
 
     <string name="clear_cache">清理缓存</string>
     <string name="multi_language">多語言</string>
@@ -399,6 +405,7 @@
     <string name="vip_manage_advanced_version">高級版</string>
     <string name="vip_manage_profession_version">專業版</string>
     <string name="vip_manage_app_name">讲</string>
+    <string name="take_photo_upload">拍照上傳</string>
 
     <!-- 观看密码 -->
     <string name="watch_setting_watch_pwd">觀看密碼</string>

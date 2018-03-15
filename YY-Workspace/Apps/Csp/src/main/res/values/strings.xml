@@ -72,6 +72,8 @@
     <string name="slide_end">滑动结束</string>
     <string name="start_star">开启星评</string>
     <string name="record_last_page_remind">结束录制后可以添加配乐、选择主题和预览哦</string>
+    <string name="record_course_delete">该讲本已删除，点确认将返回首页</string>
+    <string name="confirm_back">确认返回</string>
 
     <!-- 广告页 -->
     <string name="adv_skip">跳过</string>
@@ -92,7 +94,7 @@
     <string name="to_register">我要注册</string>
     <string name="forget_pwd">忘记密码</string>
     <string name="input_pwd">输入密码</string>
-    <string name="input_login_pwd">输入登录密码</string>
+    <string name="input_login_pwd">密码</string>
     <string name="input_phone_number">输入手机号</string>
     <string name="input_captcha">输入验证码</string>
     <string name="captcha">验证码</string>
@@ -228,6 +230,8 @@
     <string name="add_theme">添加主题</string>
     <string name="add_music">添加音乐</string>
     <string name="add">添加</string>
+    <string name="course_already_delete">该讲本已删除</string>
+    <string name="please_edit_other_course">请尝试编辑其他讲本</string>
 
     <!-- 个人中心 -->
     <string name="person_center">个人中心</string>
@@ -305,13 +309,15 @@
     <string name="setting_old_pwd">输入旧密码</string>
     <string name="setting_new_pwd">输入新密码</string>
     <string name="setting_change_pwd_succeed">密码修改成功</string>
+    <string name="verify_login">验证登录</string>
     <!-- 设置 绑定邮箱-->
     <string name="setting_bind_email">绑定邮箱</string>
-    <string name="setting_input_email_address">输入邮箱</string>
-    <string name="setting_change_email_address">更换邮箱</string>
+    <string name="setting_input_email_address">邮箱地址</string>
+    <string name="setting_change_email_address">返回修改密码</string>
     <string name="setting_bind_email_succeed">发送成功</string>
-    <string name="setting_bind_text">需要先绑定邮箱才能修改密码</string>
-    <string name="setting_certification_text">邮件已发送，请查收</string>
+    <string name="setting_bind_text">未绑定邮箱地址</string>
+    <string name="setting_certification_text">认证链接已发送，请查收邮件</string>
+    <string name="go_bind">去绑定</string>
 
     <string name="clear_cache">清理缓存</string>
     <string name="multi_language">多语言</string>
@@ -382,7 +388,7 @@
     <string name="help_and_feedback_email_subject">CSPMeeting--意见反馈</string>
 
     <!-- 会员管理 -->
-    <string name="vip_manage_meeting_num">会议数量</string>
+    <string name="vip_manage_meeting_num">讲本数量</string>
     <string name="vip_manage_validity">有效期</string>
     <string name="vip_manage_permission">你的权益</string>
     <string name="vip_manage_record">投屏录播</string>
@@ -399,6 +405,7 @@
     <string name="vip_manage_advanced_version">高级版</string>
     <string name="vip_manage_profession_version">专业版</string>
     <string name="vip_manage_app_name">讲</string>
+    <string name="take_photo_upload">拍照上传</string>
 
     <!-- 观看密码 -->
     <string name="watch_setting_watch_pwd">观看密码</string>

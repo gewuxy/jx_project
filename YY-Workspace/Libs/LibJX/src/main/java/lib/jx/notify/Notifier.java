@@ -69,10 +69,12 @@ public class Notifier extends NotifierEx<OnNotify> {
             NotifyType.finish_preview,
             NotifyType.theme_refresh,
 
-            NotifyType.finish_record_or_live,
             NotifyType.comment_num,
 
             NotifyType.finish_contribute,
+
+            NotifyType.course_already_delete_record,
+            NotifyType.course_already_delete_main,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface NotifyType {
@@ -227,30 +229,35 @@ public class Notifier extends NotifierEx<OnNotify> {
          */
         int start_live = 38;
 
-        int login_video = 50;
+        int login_video = 39;
 
-        int meet_num = 51;
+        int meet_num = 40;
 
-        int total_time = 52;
+        int total_time = 41;
 
         /**
          * 结束PPT编辑页面
          */
-        int finish_editor_meet = 60;
-        int main_refresh = 61;
-        int finish_preview = 62;
-        int theme_refresh = 63;
+        int finish_editor_meet = 50;
+        int main_refresh = 51;
+        int finish_preview = 52;
+        int theme_refresh = 53;
 
-        /**
-         * 结束直播录播页面
-         */
-        int finish_record_or_live = 70;
-        int comment_num = 71;
+        int comment_num = 54;
 
         /**
          * 结束投稿相关页面
          */
-        int finish_contribute = 80;
+        int finish_contribute = 58;
+
+        /**
+         * 会议已经删除 针对音频直播、录播页面
+         */
+        int course_already_delete_record = 60;
+        /**
+         * 会议已经删除 针对首页
+         */
+        int course_already_delete_main = 61;
     }
 
     public interface OnNotify {

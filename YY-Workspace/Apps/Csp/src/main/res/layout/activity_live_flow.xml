@@ -105,6 +105,7 @@
     <TextView
         android:id="@+id/flow_rate_tv_pay"
         style="@style/tv.common"
+        android:background="@drawable/live_flow_tv_select"
         android:layout_marginTop="60dp"
         android:enabled="true"
         android:text="@string/flow_rate_pay"/>

@@ -12,6 +12,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import jx.csp.App;
 import jx.csp.R;
+import jx.csp.constant.Constants;
 import jx.csp.contact.MeetContract;
 import jx.csp.contact.MeetContract.V;
 import jx.csp.dialog.BtnVerticalDialog;
@@ -37,6 +38,8 @@ import jx.csp.ui.activity.main.LiveStarActivityRouter;
 import jx.csp.ui.activity.record.LiveAudioActivityRouter;
 import jx.csp.ui.activity.record.RecordActivityRouter;
 import lib.jx.contract.BasePresenterImpl;
+import lib.jx.notify.Notifier;
+import lib.jx.notify.Notifier.NotifyType;
 import lib.network.model.NetworkResp;
 import lib.network.model.interfaces.IResult;
 import lib.ys.YSLog;
@@ -188,7 +191,11 @@ public class MeetPresenterImpl extends BasePresenterImpl<MeetContract.V> impleme
                         joinPpt(false);
                     }
                 } else {
-                    onNetworkError(id, r.getError());
+                    if (r.getCode() == Constants.KCourseDelete) {
+                        Notifier.inst().notify(NotifyType.course_already_delete_main);
+                    } else {
+                        onNetworkError(id, r.getError());
+                    }
                 }
             }
             break;

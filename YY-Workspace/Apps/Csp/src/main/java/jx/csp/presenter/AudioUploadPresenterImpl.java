@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import java.io.File;
 import java.util.LinkedList;
 
+import jx.csp.constant.Constants;
 import jx.csp.contact.AudioUploadContract;
 import jx.csp.contact.AudioUploadContract.V;
 import jx.csp.model.meeting.Course.CourseType;
@@ -106,9 +107,8 @@ public class AudioUploadPresenterImpl extends BasePresenterImpl<V> implements Au
             upload();
         } else {
             // 如果code = 401 就不再重试
-            if (r.getCode() == 401) {
-                Notifier.inst().notify(NotifyType.finish_record_or_live);
-                super.onNetworkError(id, r.getError());
+            if (r.getCode() == Constants.KCourseDelete) {
+                Notifier.inst().notify(NotifyType.course_already_delete_record);
             } else {
                 // 上传失败就重试
                 retryNetworkRequest(id);
