@@ -43,6 +43,7 @@
                 android:textSize="14dp"/>
 
             <LinearLayout
+                android:id="@+id/extract_detail_layout_extract_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/extract_detail_tv_money"
@@ -57,13 +58,40 @@
                     android:layout_width="6dp"
                     android:layout_height="6dp"
                     android:layout_marginRight="9dp"
-                    android:background="@drawable/extract_detail_oval"/>
+                    android:background="@drawable/extract_detail_oval"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/extract_detail_tv_extract_state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="收稿单位已向您支付稿酬"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/extract_detail_layout_invoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/extract_detail_ic_invoice"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/extract_detail_invoice_info"
+                    android:textColor="@color/text_404356"
+                    android:textSize="12dp"/>
 
             </LinearLayout>
         </RelativeLayout>

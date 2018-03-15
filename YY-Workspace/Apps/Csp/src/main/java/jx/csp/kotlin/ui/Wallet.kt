@@ -1,16 +1,20 @@
 package jx.csp.kotlin.ui
 
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.FrameLayout
 import android.widget.TextView
+import jx.csp.Extra
 import jx.csp.R
 import jx.csp.constant.Constants
 import jx.csp.constant.ExtractType
 import jx.csp.constant.RoyaltyType
 import jx.csp.kotlin.KotlinUtil
+import jx.csp.kotlin.ui.Royalty.TRoyalty
 import jx.csp.model.me.WalletInfo
+import jx.csp.model.me.WalletInfo.TWalletInfo
 import jx.csp.network.JsonParser
 import jx.csp.util.Util
 import kotlinx.android.synthetic.main.layout_wallet_header.*
@@ -24,6 +28,7 @@ import lib.ys.ui.other.NavBar
 import lib.ys.ui.other.PopupWindowEx
 import lib.ys.util.TextUtil
 import lib.ys.util.TimeFormatter
+import java.util.*
 
 /**
  * 我的钱包
@@ -162,18 +167,18 @@ class WalletActivity : BaseSRGroupListActivity<GroupWallet, Royalty, WalletAdapt
 
         mapList = MapList()
 
-        val info = r.data as WalletInfo
-        money = info.getInt(WalletInfo.TWalletInfo.cash)
-        severTime = info.getLong(WalletInfo.TWalletInfo.serveTime, System.currentTimeMillis())
+        val info = r.data as? WalletInfo
+        money = info?.getInt(TWalletInfo.cash) ?: 0
+        severTime = info?.getLong(TWalletInfo.serveTime, System.currentTimeMillis()) ?: 0
         adapter.severTime = severTime
-        val ws = info.getList<List<Royalty>>(WalletInfo.TWalletInfo.list)
+        val ws = info?.getList<List<Royalty>>(TWalletInfo.list) ?: ArrayList()
         if (ws.isEmpty()) {
             retResult.setData(mapList)
             return retResult
         }
 
         for (w in ws) {
-            val tag = month(w.getLong(Royalty.TRoyalty.createTime, 0))
+            val tag = month(w.getLong(TRoyalty.createTime, 0))
             var g: GroupWallet? = allData.getByKey(tag)
             if (g == null) {
                 g = mapList.getByKey(tag)
@@ -222,15 +227,18 @@ class WalletActivity : BaseSRGroupListActivity<GroupWallet, Royalty, WalletAdapt
 
     override fun onChildClick(parent: ExpandableListView?, v: View?, groupPosition: Int, childPosition: Int, id: Long): Boolean {
         val child = getChild(groupPosition, childPosition)
-        if (child?.getInt(Royalty.TRoyalty.state) == RoyaltyType.get_royalty) {
-            startActivity(ExtractDetailNewActivity::class.java)
+        val i = Intent(this, if (child?.getInt(TRoyalty.state) == RoyaltyType.get_royalty) {
+            ExtractDetailNewActivity::class.java
         } else {
-            if (child?.getInt(Royalty.TRoyalty.orderType) == ExtractType.company) {
-                startActivity(ExtractDetailCompanyActivity::class.java)
+            if (child?.getInt(TRoyalty.orderType) == ExtractType.company) {
+                ExtractDetailCompanyActivity::class.java
             } else {
-                startActivity(ExtractDetailPersonActivity::class.java)
+                ExtractDetailPersonActivity::class.java
             }
-        }
+        }).putExtra(Extra.KId, child.getString(TRoyalty.id))
+                .putExtra(Extra.KState, child.getInt(TRoyalty.state))
+                .putExtra(Extra.KData, child)
+        startActivity(i)
         return super.onChildClick(parent, v, groupPosition, childPosition, id)
     }
 

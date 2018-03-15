@@ -25,6 +25,13 @@ public class KotlinUtil {
         return NetworkApiDescriptor.WalletAPI.extractSelect(pageNum, pageSize).build();
     }
 
+    public static NetworkReq getExtractDetail(String id) {
+        return NetworkApiDescriptor.WalletAPI.detail(id).build();
+    }
+
+    /**
+     * kotlin的格式化和多语言没找到合适的方法
+     */
     public static String format(String format, Object... args) {
         return String.format(format, args);
     }

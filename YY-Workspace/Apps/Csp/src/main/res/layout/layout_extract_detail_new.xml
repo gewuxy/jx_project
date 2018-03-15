@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/margin">
 
     <TextView
+        android:id="@+id/extract_detail_new_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"

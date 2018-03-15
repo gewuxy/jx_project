@@ -263,6 +263,12 @@
     <string name="extract_detail_company_name">名稱</string>
     <string name="extract_detail_bank_of_deposit">開戶銀行</string>
     <string name="extract_detail_bank_account">銀行賬號</string>
+    <string name="extract_detail_invoice_info">企業開票信息</string>
+    <string name="extract_detail_invoice_type">發票類型</string>
+    <string name="extract_detail_invoice_electronic">電子發票</string>
+    <string name="extract_detail_invoice_paper">紙質發票</string>
+    <string name="extract_detail_courier_company">快遞公司</string>
+    <string name="extract_detail_courier_number">快遞單號</string>
     <string name="footer_no_more">暫無更多資訊</string>
     <string name="select">選擇</string>
     <string name="select_all">全選</string>

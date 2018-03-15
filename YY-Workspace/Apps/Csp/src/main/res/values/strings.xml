@@ -263,7 +263,10 @@
     <string name="extract_detail_company_name">名称</string>
     <string name="extract_detail_bank_of_deposit">开户银行</string>
     <string name="extract_detail_bank_account">银行账号</string>
+    <string name="extract_detail_invoice_info">企业开票信息</string>
     <string name="extract_detail_invoice_type">发票类型</string>
+    <string name="extract_detail_invoice_electronic">电子发票</string>
+    <string name="extract_detail_invoice_paper">纸质发票</string>
     <string name="extract_detail_courier_company">快递公司</string>
     <string name="extract_detail_courier_number">快递单号</string>
     <string name="footer_no_more">暂无更多信息</string>

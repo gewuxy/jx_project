@@ -4,4 +4,5 @@ public interface Extra {
     String KData = "data";
     String KLimit = "limit";
     String KId = "id";
+    String KState = "state";
 }

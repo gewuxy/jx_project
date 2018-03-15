@@ -1,8 +1,10 @@
 package jx.csp.kotlin
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.support.annotation.ColorRes
-import android.text.ClipboardManager
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import lib.ys.util.res.ResLoader
 
@@ -13,10 +15,18 @@ import lib.ys.util.res.ResLoader
  */
 
 fun String.copyToBoard(context: Context) {
-    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.text = this
+    val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+    cm?.text = this
 }
 
 fun TextView.setTextColorRes(@ColorRes resId: Int) {
     setTextColor(ResLoader.getColor(resId))
+}
+
+fun View.topMargin(top: Int) {
+    when (layoutParams) {
+        is ViewGroup.MarginLayoutParams -> {
+            (layoutParams as ViewGroup.MarginLayoutParams).topMargin = top
+        }
+    }
 }

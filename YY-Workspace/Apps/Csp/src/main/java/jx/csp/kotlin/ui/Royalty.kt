@@ -8,6 +8,7 @@ import jx.csp.constant.ExtractType
 import jx.csp.constant.RoyaltyType
 import jx.csp.kotlin.KotlinUtil
 import jx.csp.kotlin.setTextColorRes
+import jx.csp.kotlin.ui.Royalty.TRoyalty
 import lib.ys.adapter.VH.ViewHolderEx
 import lib.ys.model.EVal
 import lib.ys.util.TimeFormatter
@@ -58,14 +59,14 @@ class Royalty : EVal<Royalty.TRoyalty>() {
 }
 
 fun royaltyVHSet(holder: RoyaltyVH?, royalty: Royalty, severTime: Long) {
-    holder?.getTvMoney()?.text = royalty.getString(Royalty.TRoyalty.money)
-    val createTime = royalty.getLong(Royalty.TRoyalty.createTime, 0)
+    holder?.getTvMoney()?.text = royalty.getString(TRoyalty.money)
+    val createTime = royalty.getLong(TRoyalty.createTime, 0)
     holder?.getTvTime()?.text =
             format(createTime, severTime, "MM-dd HH:mm", TimeFormatter.TimeFormat.from_y_to_m_24)
-    holder?.getTvOrganizer()?.text = royalty.getString(Royalty.TRoyalty.acceptName)
-    holder?.getTvTitle()?.text = royalty.getString(Royalty.TRoyalty.courseName)
+    holder?.getTvOrganizer()?.text = royalty.getString(TRoyalty.acceptName)
+    holder?.getTvTitle()?.text = royalty.getString(TRoyalty.courseName)
 
-    when (royalty.getInt(Royalty.TRoyalty.state, 0)) {
+    when (royalty.getInt(TRoyalty.state, 0)) {
         RoyaltyType.get_royalty -> {
             holder?.getTvMoney()?.isEnabled = true
             holder?.getTvCurrency()?.isEnabled = true
@@ -88,10 +89,10 @@ fun royaltyVHSet(holder: RoyaltyVH?, royalty: Royalty, severTime: Long) {
             holder?.getTvMoney()?.isEnabled = false
             holder?.getTvCurrency()?.isEnabled = false
             holder?.getTvContent()?.setTextColorRes(R.color.text_9699a2)
-            val arrivalTime = royalty.getLong(Royalty.TRoyalty.arrivalTime, 0)
+            val arrivalTime = royalty.getLong(TRoyalty.arrivalTime, 0)
             val time = format(arrivalTime, severTime, "MM-dd", TimeFormatter.TimeFormat.simple_ymd)
             holder?.getTvContent()?.text = KotlinUtil.format(App.ct().getString(R.string.wallet_state_succeed),
-                    time, royalty.getInt(Royalty.TRoyalty.arrivalMoney))
+                    time, royalty.getInt(TRoyalty.arrivalMoney))
         }
     }
 }

@@ -138,6 +138,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/extract_detail_company_layout_courier_company"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
@@ -163,6 +165,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/extract_detail_company_layout_courier_number"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"

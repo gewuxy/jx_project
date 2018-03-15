@@ -63,7 +63,9 @@ class ExtractSelectActivity : BaseSRListActivity<Royalty, ExtractSelectAdapter>(
 
     override fun initNavBar(bar: NavBar?) {
         Util.addBackIcon(bar, R.string.select, this)
-        tvExtract = bar?.addTextViewRight(R.string.wallet_extract, R.color.extract_nav_bar_tv_selector, { showToast("sdsds") })
+        tvExtract = bar?.addTextViewRight(R.string.wallet_extract, R.color.extract_nav_bar_tv_selector, {
+            // todo
+        })
         tvExtract?.isEnabled = false
         Util.setTextViewBackground(tvExtract)
     }
