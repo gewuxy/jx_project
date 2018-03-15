@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import jx.csp.R;
 import lib.jx.dialog.BaseDialog;
+import lib.ys.util.TextUtil;
 import lib.ys.util.res.ResLoader;
 
 /**
@@ -68,7 +69,7 @@ public class ContributeChargeDialog extends BaseDialog {
         setOnClickListener(R.id.contribute_charge_tv_9);
         setOnClickListener(R.id.contribute_charge_tv_0);
         setOnClickListener(R.id.contribute_charge_tv_back);
-        setOnClickListener(R.id.contribute_charge_tv_clear);
+        setOnClickListener(R.id.contribute_charge_layout_clear);
         setOnClickListener(R.id.contribute_charge_tv_confirm);
         mCb.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -204,7 +205,7 @@ public class ContributeChargeDialog extends BaseDialog {
                 dismiss();
             }
             break;
-            case R.id.contribute_charge_tv_clear: {
+            case R.id.contribute_charge_layout_clear: {
                 if (mTvMoney.getText().toString().length() != 0) {
                     String str = sb.toString();
                     mTvMoney.setText(str.substring(0, str.length() - 1));
@@ -241,7 +242,11 @@ public class ContributeChargeDialog extends BaseDialog {
             if (mCb.isChecked()) {
                 mCharge = 0;
             } else {
-                mCharge = Integer.valueOf(mTvMoney.getText().toString());
+                if (TextUtil.isNotEmpty(mTvMoney.getText().toString())) {
+                    mCharge = Integer.valueOf(mTvMoney.getText().toString());
+                } else {
+                    mCharge = 0;
+                }
             }
         }
         return mCharge;

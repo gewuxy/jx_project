@@ -239,14 +239,20 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/contribute_charge_tv_clear"
+            <LinearLayout
+                android:id="@+id/contribute_charge_layout_clear"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="@drawable/item_selector"
-                android:text="X"/>
+                android:background="@drawable/item_selector">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/contribute_ic_clear"/>
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"

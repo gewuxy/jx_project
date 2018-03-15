@@ -11,7 +11,6 @@ import jx.csp.R;
 import jx.csp.adapter.contribution.ContributeHistoryHotUnitNumAdapter;
 import jx.csp.model.contribution.ContributeHistories;
 import jx.csp.model.contribution.ContributeHistory;
-import jx.csp.model.contribution.ContributeHistory.TContributeHistory;
 import jx.csp.model.contribution.ContributeHistoryEmpty;
 import jx.csp.model.contribution.HotUnitNum;
 import jx.csp.model.contribution.HotUnitNum.THotUnitNum;
@@ -89,10 +88,10 @@ public class ContributeHistoryHotUnitNumActivity extends BaseListActivity<IContr
             for (HotUnitNum hotUnitNum : list) {
                 if (hotUnitNum.getInt(THotUnitNum.type) == 0) {
                     ContributeHistory item = new ContributeHistory();
-                    item.put(TContributeHistory.headimg, hotUnitNum.getString(THotUnitNum.headimg));
-                    item.put(TContributeHistory.acceptName, hotUnitNum.getString(THotUnitNum.acceptName));
-                    item.put(TContributeHistory.acceptCount, hotUnitNum.getInt(THotUnitNum.acceptCount));
-                    item.put(TContributeHistory.acceptId, hotUnitNum.getInt(THotUnitNum.acceptId));
+                    item.put(THotUnitNum.headimg, hotUnitNum.getString(THotUnitNum.headimg));
+                    item.put(THotUnitNum.acceptName, hotUnitNum.getString(THotUnitNum.acceptName));
+                    item.put(THotUnitNum.acceptCount, hotUnitNum.getInt(THotUnitNum.acceptCount));
+                    item.put(THotUnitNum.acceptId, hotUnitNum.getInt(THotUnitNum.acceptId));
                     historyList.add(item);
                 } else {
                     hotList.add(hotUnitNum);

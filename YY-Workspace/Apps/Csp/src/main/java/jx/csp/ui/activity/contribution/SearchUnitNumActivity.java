@@ -34,12 +34,12 @@ public class SearchUnitNumActivity extends BaseSRListActivity<HotUnitNum, Search
     @Arg
     Meet mMeet;
 
-    private boolean mGetDataFromNet = false;  // 是否执行网络请求  没有点击搜索不执行
-
     private EditText mEtSearch;
     private ImageView mIvClear;
     private TextView mTvSearch;
     private TextView mTvFooter;
+
+    private boolean mSearch = false;
 
     @Override
     public void initData() {
@@ -114,8 +114,10 @@ public class SearchUnitNumActivity extends BaseSRListActivity<HotUnitNum, Search
 
     @Override
     public void getDataFromNet() {
-        if (mGetDataFromNet) {
-            String key = mEtSearch.getText().toString();
+        String key = mEtSearch.getText().toString();
+        if (mSearch) {
+            exeNetworkReq(DeliveryAPI.searchUnitNum(key, 0, getLimit()).build());
+        } else {
             exeNetworkReq(DeliveryAPI.searchUnitNum(key, getOffset(), getLimit()).build());
         }
     }
@@ -130,7 +132,7 @@ public class SearchUnitNumActivity extends BaseSRListActivity<HotUnitNum, Search
             case R.id.search_unit_num_tv_search: {
                 String key = mEtSearch.getText().toString();
                 if (TextUtil.isNotEmpty(key)) {
-                    mGetDataFromNet = true;
+                    mSearch = true;
                     getAdapter().setKeyWord(key);
                     if (KeyboardUtil.isActive()) {
                         // 键盘显示就隐藏
@@ -155,7 +157,7 @@ public class SearchUnitNumActivity extends BaseSRListActivity<HotUnitNum, Search
 
     @Override
     public void onNotify(int type, Object data) {
-        if ( type == NotifyType.finish_contribute) {
+        if (type == NotifyType.finish_contribute) {
             finish();
         }
     }

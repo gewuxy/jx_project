@@ -165,7 +165,7 @@ public class MeActivity extends BaseFormActivity {
             }
             break;
             case RelatedId.flow: {
-                startActivity(FlowRateManageActivity.class);
+                startActivity(LiveFlowActivity.class);
             }
             break;
             case RelatedId.account: {

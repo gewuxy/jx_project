@@ -17,7 +17,8 @@ public class PaymentAdapter extends RecyclerAdapterEx<Payment, PaymentVH>{
     protected void refreshView(int position, PaymentVH holder) {
         Payment item = getItem(position);
         holder.getIvPayment().setImageResource(item.getInt(TPayment.image));
-        holder.getItemView().setSelected(item.getBoolean(TPayment.select));
+        holder.getItemSelectView().setSelected(item.getBoolean(TPayment.select));
+        holder.getItemLayout().setSelected(item.getBoolean(TPayment.select));
         setOnViewClickListener(position, holder.getItemLayout());
     }
 

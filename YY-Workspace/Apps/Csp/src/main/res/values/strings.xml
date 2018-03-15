@@ -362,7 +362,7 @@
     <string name="contribute_fail">投稿失败</string>
 
     <!-- 流量支付 -->
-    <string name="flow_rate_manage">流量管理</string>
+    <string name="live_flow">直播流量</string>
     <string name="flow_rate_pay">确认支付</string>
     <string name="flow_rate_pay_success">支付成功</string>
     <string name="flow_rate_pay_fail">支付失败</string>
@@ -371,7 +371,6 @@
     <string name="flow_rate_unit_en">美元</string>
     <string name="flow_rate_currency_en">美元支付</string>
     <string name="flow_rate_currency_cny">人民币支付</string>
-    <string name="flow_rate_payment">支付方式</string>
     <string name="flow_rate_price">售价</string>
 
     <!-- 帮助与反馈-->

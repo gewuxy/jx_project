@@ -5,26 +5,35 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/flow_rate_layout_payment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/flow_rate_layout_payment"
+            android:layout_width="104dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/payment_selector"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/flow_rate_iv_payment"
+                android:layout_width="86dp"
+                android:layout_height="22dp"
+                android:src="@drawable/live_flow_ic_alipay"/>
+
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/flow_rate_iv_payment"
-            android:layout_width="93dp"
-            android:layout_height="27dp"
-            android:src="@drawable/flow_rate_ic_alipay"/>
+            android:id="@+id/live_flow_iv_select_state"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/editor_theme_iv_selector"/>
 
-        <View
-            android:id="@+id/flow_rate_underline"
-            android:layout_width="70dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/flow_rate_selector"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

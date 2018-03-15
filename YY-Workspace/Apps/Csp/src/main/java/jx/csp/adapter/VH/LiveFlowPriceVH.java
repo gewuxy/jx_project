@@ -11,27 +11,27 @@ import lib.ys.adapter.VH.RecyclerViewHolderEx;
  * @since 2017/12/13
  */
 
-public class FlowRateVH extends RecyclerViewHolderEx{
+public class LiveFlowPriceVH extends RecyclerViewHolderEx{
 
-    public FlowRateVH(View itemView) {
+    public LiveFlowPriceVH(View itemView) {
         super(itemView);
     }
 
     public View getItemLayout(){
-        return getView(R.id.flow_rate_layout_price);
+        return getView(R.id.live_flow_layout_price);
     }
 
     public TextView getTvFlow(){
-        return getView(R.id.flow_rate_tv_flow);
+        return getView(R.id.live_flow_tv_flow);
     }
 
     public TextView getTvPrice(){
-        return getView(R.id.flow_rate_tv_price);
+        return getView(R.id.live_flow_tv_price);
     }
 
     public TextView getTvPriceText(){
-        return getView(R.id.flow_rate_tv_price_text);
+        return getView(R.id.live_flow_tv_price_text);
     }
 
-    public TextView getTvCurrency() {return getView(R.id.flow_rate_tv_currency);}
+    public TextView getTvCurrency() {return getView(R.id.live_flow_tv_currency);}
 }

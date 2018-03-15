@@ -11,13 +11,13 @@ import java.util.List;
 
 import jx.csp.BuildConfig;
 import jx.csp.R;
-import jx.csp.adapter.FlowRateAdapter;
+import jx.csp.adapter.LiveFlowPriceAdapter;
 import jx.csp.adapter.PaymentAdapter;
 import jx.csp.constant.PayType;
 import jx.csp.constant.PriceValue;
 import jx.csp.contact.FlowRateContract;
-import jx.csp.model.FlowRate;
-import jx.csp.model.FlowRate.TFlow;
+import jx.csp.model.LiveFlowPrice;
+import jx.csp.model.LiveFlowPrice.TLiveFlowPrice;
 import jx.csp.model.Payment;
 import jx.csp.model.Payment.TPayment;
 import jx.csp.model.Profile;
@@ -33,13 +33,13 @@ import pay.PayAction;
 import pay.PingPay.PingPayChannel;
 
 /**
- * 流量管理
+ * 直播流量
  *
  * @auther HuoXuYu
  * @since 2017/11/7
  */
 
-public class FlowRateManageActivity extends BaseActivity {
+public class LiveFlowActivity extends BaseActivity {
 
     private final String KSurplusFlowUnit = "G";
     private final int KFlowConversion = 1024;
@@ -59,7 +59,7 @@ public class FlowRateManageActivity extends BaseActivity {
     private RecyclerView mRvPrice;
     private RecyclerView mRvPayment;
 
-    private FlowRateAdapter mFlowRateAdapter;
+    private LiveFlowPriceAdapter mLiveFlowPriceAdapter;
     private PaymentAdapter mPaymentAdapter;
 
     private FlowRateContract.P mPresenter;
@@ -78,29 +78,29 @@ public class FlowRateManageActivity extends BaseActivity {
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_flow_rate_manage;
+        return R.layout.activity_live_flow;
     }
 
     @Override
     public void initNavBar(NavBar bar) {
-        Util.addBackIcon(bar, getString(R.string.flow_rate_manage), this);
+        Util.addBackIcon(bar, getString(R.string.live_flow), this);
     }
 
     @Override
     public void findViews() {
-        mTvSurplus = findView(R.id.flow_rate_tv_surplus);
-        mRvPrice = findView(R.id.flow_rate_rv_price);
-        mRvPayment = findView(R.id.flow_rate_rv_payment);
+        mTvSurplus = findView(R.id.live_flow_tv_surplus);
+        mRvPrice = findView(R.id.live_flow_rv_price);
+        mRvPayment = findView(R.id.live_flow_rv_payment);
 
-        mViewCnyCurrency = findView(R.id.flow_rate_cny_currency);
-        mViewUsdCurrency = findView(R.id.flow_rate_usd_currency);
+        mViewCnyCurrency = findView(R.id.live_flow_cny_currency);
+        mViewUsdCurrency = findView(R.id.live_flow_usd_currency);
     }
 
     @Override
     public void setViews() {
         setOnClickListener(R.id.flow_rate_tv_pay);
-        setOnClickListener(R.id.flow_rate_cny_currency);
-        setOnClickListener(R.id.flow_rate_usd_currency);
+        setOnClickListener(R.id.live_flow_cny_currency);
+        setOnClickListener(R.id.live_flow_usd_currency);
 
         if (Util.checkAppCn()) {
             mViewCnyCurrency.setSelected(true);
@@ -112,11 +112,11 @@ public class FlowRateManageActivity extends BaseActivity {
 
         //售价
         mRvPrice.setLayoutManager(new GridLayoutManager(this, 2));
-        mFlowRateAdapter = new FlowRateAdapter();
+        mLiveFlowPriceAdapter = new LiveFlowPriceAdapter();
         mPricePosition = 2;
-        mFlowRateAdapter.setData(getFlowData());
-        mRvPrice.setAdapter(mFlowRateAdapter);
-        mFlowRateAdapter.setOnAdapterClickListener(new FlowAdApterListener());
+        mLiveFlowPriceAdapter.setData(getFlowData());
+        mRvPrice.setAdapter(mLiveFlowPriceAdapter);
+        mLiveFlowPriceAdapter.setOnAdapterClickListener(new FlowAdApterListener());
 
         //支付方式
         mRvPayment.setLayoutManager(new GridLayoutManager(this, 3));
@@ -129,8 +129,8 @@ public class FlowRateManageActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.flow_rate_cny_currency:
-            case R.id.flow_rate_usd_currency: {
+            case R.id.live_flow_cny_currency:
+            case R.id.live_flow_usd_currency: {
                 if (Util.checkAppCn()) {
                     if (v.getId() == mViewCnyCurrency.getId()) {
                         return;
@@ -145,8 +145,8 @@ public class FlowRateManageActivity extends BaseActivity {
                     mViewUsdCurrency = v;
                 }
 
-                mFlowRateAdapter.setData(getFlowData());
-                mFlowRateAdapter.notifyDataSetChanged();
+                mLiveFlowPriceAdapter.setData(getFlowData());
+                mLiveFlowPriceAdapter.notifyDataSetChanged();
 
                 mPaymentAdapter.setData(getPaymentData());
                 mPaymentAdapter.notifyDataSetChanged();
@@ -154,7 +154,7 @@ public class FlowRateManageActivity extends BaseActivity {
             break;
             case R.id.flow_rate_tv_pay: {
                 int id = mPaymentAdapter.getItem(mPaymentPosition).getInt(TPayment.id);
-                mFlow = mFlowRateAdapter.getItem(mPricePosition).getInt(TFlow.flow);
+                mFlow = mLiveFlowPriceAdapter.getItem(mPricePosition).getInt(TLiveFlowPrice.flow);
 
                 // 1) 请求服务器获取charge
                 refresh(RefreshWay.dialog);
@@ -184,20 +184,20 @@ public class FlowRateManageActivity extends BaseActivity {
     private List<Payment> getPaymentData() {
         List<Payment> list = new ArrayList<>();
         if (Util.checkAppCn()) {
-            if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
-                list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
-                list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
-                list.add(new Payment(PayType.unionpay, R.drawable.flow_rate_ic_unionpay, false));
+            if (mViewCnyCurrency.getId() == R.id.live_flow_cny_currency) {
+                list.add(new Payment(PayType.alipay, R.drawable.live_flow_ic_alipay, true));
+                list.add(new Payment(PayType.wechat, R.drawable.live_flow_ic_wechat, false));
+                list.add(new Payment(PayType.unionpay, R.drawable.live_flow_ic_unionpay, false));
             } else {
-                list.add(new Payment(PayType.paypal, R.drawable.flow_rate_ic_paypal, true));
+                list.add(new Payment(PayType.paypal, R.drawable.live_flow_ic_paypal, true));
             }
         } else {
-            if (mViewUsdCurrency.getId() == R.id.flow_rate_usd_currency) {
-                list.add(new Payment(PayType.paypal, R.drawable.flow_rate_ic_paypal, true));
+            if (mViewUsdCurrency.getId() == R.id.live_flow_usd_currency) {
+                list.add(new Payment(PayType.paypal, R.drawable.live_flow_ic_paypal, true));
             } else {
-                list.add(new Payment(PayType.alipay, R.drawable.flow_rate_ic_alipay, true));
-                list.add(new Payment(PayType.wechat, R.drawable.flow_rate_ic_wechat, false));
-                list.add(new Payment(PayType.unionpay, R.drawable.flow_rate_ic_unionpay, false));
+                list.add(new Payment(PayType.alipay, R.drawable.live_flow_ic_alipay, true));
+                list.add(new Payment(PayType.wechat, R.drawable.live_flow_ic_wechat, false));
+                list.add(new Payment(PayType.unionpay, R.drawable.live_flow_ic_unionpay, false));
             }
         }
         mPaymentPosition = 0;
@@ -208,15 +208,15 @@ public class FlowRateManageActivity extends BaseActivity {
      * 流量选择
      * @return
      */
-    private List<FlowRate> getFlowData() {
+    private List<LiveFlowPrice> getFlowData() {
         if (Util.checkAppCn()) {
-            if (mViewCnyCurrency.getId() == R.id.flow_rate_cny_currency) {
+            if (mViewCnyCurrency.getId() == R.id.live_flow_cny_currency) {
                 return getCnyData();
             } else {
                 return getUsdData();
             }
         } else {
-            if (mViewUsdCurrency.getId() == R.id.flow_rate_usd_currency) {
+            if (mViewUsdCurrency.getId() == R.id.live_flow_usd_currency) {
                 return getUsdData();
             } else {
                 return getCnyData();
@@ -224,30 +224,30 @@ public class FlowRateManageActivity extends BaseActivity {
         }
     }
 
-    private List<FlowRate> getUsdData() {
-        List<FlowRate> list = new ArrayList<>();
-        list.add(new FlowRate(PriceValue.flow1, PriceValue.usdPrice1, getString(R.string.flow_rate_unit_en), false));
-        list.add(new FlowRate(PriceValue.flow2, PriceValue.usdPrice2, getString(R.string.flow_rate_unit_en), false));
-        list.add(new FlowRate(PriceValue.flow3, PriceValue.usdPrice3, getString(R.string.flow_rate_unit_en), false));
-        list.add(new FlowRate(PriceValue.flow4, PriceValue.usdPrice4, getString(R.string.flow_rate_unit_en), false));
+    private List<LiveFlowPrice> getUsdData() {
+        List<LiveFlowPrice> list = new ArrayList<>();
+        list.add(new LiveFlowPrice(PriceValue.flow1, PriceValue.usdPrice1, getString(R.string.flow_rate_unit_en), false));
+        list.add(new LiveFlowPrice(PriceValue.flow2, PriceValue.usdPrice2, getString(R.string.flow_rate_unit_en), false));
+        list.add(new LiveFlowPrice(PriceValue.flow3, PriceValue.usdPrice3, getString(R.string.flow_rate_unit_en), false));
+        list.add(new LiveFlowPrice(PriceValue.flow4, PriceValue.usdPrice4, getString(R.string.flow_rate_unit_en), false));
 
         if (list.size() > mPricePosition && mPricePosition >= 0) {
-            FlowRate flowRate = list.get(mPricePosition);
-            flowRate.put(TFlow.select, true);
+            LiveFlowPrice flowRate = list.get(mPricePosition);
+            flowRate.put(TLiveFlowPrice.select, true);
         }
         return list;
     }
 
-    private List<FlowRate> getCnyData() {
-        List<FlowRate> list = new ArrayList<>();
-        list.add(new FlowRate(PriceValue.flow1, PriceValue.cnyPrice1, getString(R.string.flow_rate_unit), false));
-        list.add(new FlowRate(PriceValue.flow2, PriceValue.cnyPrice2, getString(R.string.flow_rate_unit), false));
-        list.add(new FlowRate(PriceValue.flow3, PriceValue.cnyPrice3, getString(R.string.flow_rate_unit), false));
-        list.add(new FlowRate(PriceValue.flow4, PriceValue.cnyPrice4, getString(R.string.flow_rate_unit), false));
+    private List<LiveFlowPrice> getCnyData() {
+        List<LiveFlowPrice> list = new ArrayList<>();
+        list.add(new LiveFlowPrice(PriceValue.flow1, PriceValue.cnyPrice1, getString(R.string.flow_rate_unit), false));
+        list.add(new LiveFlowPrice(PriceValue.flow2, PriceValue.cnyPrice2, getString(R.string.flow_rate_unit), false));
+        list.add(new LiveFlowPrice(PriceValue.flow3, PriceValue.cnyPrice3, getString(R.string.flow_rate_unit), false));
+        list.add(new LiveFlowPrice(PriceValue.flow4, PriceValue.cnyPrice4, getString(R.string.flow_rate_unit), false));
 
         if (list.size() > mPricePosition && mPricePosition >= 0) {
-            FlowRate flowRate = list.get(mPricePosition);
-            flowRate.put(TFlow.select, true);
+            LiveFlowPrice flowRate = list.get(mPricePosition);
+            flowRate.put(TLiveFlowPrice.select, true);
         }
         return list;
     }
@@ -309,13 +309,13 @@ public class FlowRateManageActivity extends BaseActivity {
                 }
                 break;
             }
-            PayAction.payPalPay(FlowRateManageActivity.this, money, BuildConfig.DEBUG_NETWORK);
+            PayAction.payPalPay(LiveFlowActivity.this, money, BuildConfig.DEBUG_NETWORK);
         }
 
         @Override
         public void setPingPay(String info) {
             mReqCode = KPingReqCode;
-            PayAction.pingPay(FlowRateManageActivity.this, info);
+            PayAction.pingPay(LiveFlowActivity.this, info);
         }
 
         @Override
@@ -350,9 +350,9 @@ public class FlowRateManageActivity extends BaseActivity {
             if (mPricePosition == position) {
                 return;
             }
-            mFlowRateAdapter.getItem(mPricePosition).put(TFlow.select, false);
-            mFlowRateAdapter.getItem(position).put(TFlow.select, true);
-            mFlowRateAdapter.notifyDataSetChanged();
+            mLiveFlowPriceAdapter.getItem(mPricePosition).put(TLiveFlowPrice.select, false);
+            mLiveFlowPriceAdapter.getItem(position).put(TLiveFlowPrice.select, true);
+            mLiveFlowPriceAdapter.notifyDataSetChanged();
             mPricePosition = position;
         }
     }
