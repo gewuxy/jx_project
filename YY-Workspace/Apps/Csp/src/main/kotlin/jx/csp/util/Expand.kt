@@ -1,4 +1,4 @@
-package jx.csp.kotlin
+package jx.csp.util
 
 import android.content.ClipboardManager
 import android.content.Context

@@ -17,9 +17,9 @@ import jx.csp.constant.BindId;
  */
 @Descriptor(
         host = "https://www.cspmeeting.com/api/",
-        hostDebuggable = "https://www.medcn.cn/csp/api/"
+//        hostDebuggable = "https://www.medcn.cn/csp/api/"
 //        hostDebuggable = "https://www.cspmeeting.com/lixuan/api/"
-//        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
+        hostDebuggable = "http://medcn.synology.me:8889/liping/api/"   // 礼平电脑
 //        hostDebuggable = "http://10.0.0.250:8081/api/"   // 轩哥电脑
 //        hostDebuggable = "http://10.0.0.252:8083/api/"   // 长玲电脑
 //        hostDebuggable = "http://10.0.0.200:8082/api/"   //简亮电脑
@@ -593,5 +593,8 @@ public class NetworkApi {
 
         @Get("cash/list")
         void extractSelect(int pageNum, int pageSize);
+
+        @Get("detail")
+        void detail(String id);
     }
 }

@@ -1,12 +1,12 @@
-package jx.csp.kotlin.ui
+package jx.csp.ui
 
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import jx.csp.R
-import jx.csp.kotlin.KotlinUtil
 import jx.csp.model.me.ExtractSelectInfo
 import jx.csp.network.JsonParser
+import jx.csp.util.KotlinUtil
 import jx.csp.util.Util
 import kotlinx.android.synthetic.main.activity_extract_select.*
 import lib.jx.network.Result

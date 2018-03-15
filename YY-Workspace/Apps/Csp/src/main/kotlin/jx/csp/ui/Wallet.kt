@@ -1,4 +1,4 @@
-package jx.csp.kotlin.ui
+package jx.csp.ui
 
 import android.content.Context
 import android.content.Intent
@@ -11,11 +11,11 @@ import jx.csp.R
 import jx.csp.constant.Constants
 import jx.csp.constant.ExtractType
 import jx.csp.constant.RoyaltyType
-import jx.csp.kotlin.KotlinUtil
-import jx.csp.kotlin.ui.Royalty.TRoyalty
 import jx.csp.model.me.WalletInfo
 import jx.csp.model.me.WalletInfo.TWalletInfo
 import jx.csp.network.JsonParser
+import jx.csp.ui.Royalty.TRoyalty
+import jx.csp.util.KotlinUtil
 import jx.csp.util.Util
 import kotlinx.android.synthetic.main.layout_wallet_header.*
 import lib.jx.network.Result

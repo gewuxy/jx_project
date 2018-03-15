@@ -1,4 +1,4 @@
-package jx.csp.kotlin;
+package jx.csp.util;
 
 import jx.csp.App;
 import jx.csp.network.NetworkApiDescriptor;

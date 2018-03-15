@@ -1,4 +1,4 @@
-package jx.csp.kotlin.ui
+package jx.csp.ui
 
 import android.view.View
 import android.widget.TextView
@@ -8,13 +8,13 @@ import jx.csp.R
 import jx.csp.constant.Constants
 import jx.csp.constant.InvoiceType
 import jx.csp.constant.RoyaltyType
-import jx.csp.kotlin.KotlinUtil
-import jx.csp.kotlin.setTextColorRes
-import jx.csp.kotlin.topMargin
-import jx.csp.kotlin.ui.ExtractDetail.TExtractDetail
-import jx.csp.kotlin.ui.Royalty.TRoyalty
 import jx.csp.network.JsonParser
+import jx.csp.ui.ExtractDetail.TExtractDetail
+import jx.csp.ui.Royalty.TRoyalty
+import jx.csp.util.KotlinUtil
 import jx.csp.util.Util
+import jx.csp.util.setTextColorRes
+import jx.csp.util.topMargin
 import kotlinx.android.synthetic.main.activity_extract_detail.*
 import kotlinx.android.synthetic.main.layout_extract_detail_company.*
 import kotlinx.android.synthetic.main.layout_extract_detail_new.*

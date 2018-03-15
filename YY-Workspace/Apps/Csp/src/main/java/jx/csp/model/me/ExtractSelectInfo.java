@@ -1,6 +1,6 @@
 package jx.csp.model.me;
 
-import jx.csp.kotlin.ui.Royalty;
+import jx.csp.ui.Royalty;
 import lib.ys.model.EVal;
 
 /**

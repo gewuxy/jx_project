@@ -1,4 +1,4 @@
-package jx.csp.kotlin.ui
+package jx.csp.ui
 
 import android.view.View
 import android.widget.TextView
@@ -6,9 +6,9 @@ import jx.csp.App
 import jx.csp.R
 import jx.csp.constant.ExtractType
 import jx.csp.constant.RoyaltyType
-import jx.csp.kotlin.KotlinUtil
-import jx.csp.kotlin.setTextColorRes
-import jx.csp.kotlin.ui.Royalty.TRoyalty
+import jx.csp.ui.Royalty.TRoyalty
+import jx.csp.util.KotlinUtil
+import jx.csp.util.setTextColorRes
 import lib.ys.adapter.VH.ViewHolderEx
 import lib.ys.model.EVal
 import lib.ys.util.TimeFormatter
